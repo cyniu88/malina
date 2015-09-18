@@ -99,7 +99,7 @@ void  *main_mpd_cli(void *data )
         thread_data  *my_data;
         my_data = (thread_data*)data;
 
-        int fdstdin = 0;
+        //int fdstdin = 0;
         int run = 1, iport = 6600;
         char *hostname = getenv("MPD_HOST");
         char *port = getenv("MPD_PORT");
@@ -225,6 +225,12 @@ void  *main_mpd_cli(void *data )
                                 }
 
                         }
+   if (!mpd_check_connected(obj))
+    {
+        printf("not connected\n");
+        
+        return 1;
+    }
 //std::cout << " \n\nprzed if \n\n";
                       mpd_status_update(obj);
 //std::cout << " \n\npo if \n\n";
