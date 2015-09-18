@@ -232,7 +232,7 @@ void  *main_mpd_cli(void *data )
                 }while(!usleep(100000) &&  run);
         }
         mpd_free(obj);
-        close(fdstdin);
+       //close(fdstdin);
 
 
 }
