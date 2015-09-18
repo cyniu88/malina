@@ -228,8 +228,8 @@ void  *main_mpd_cli(void *data )
    if (!mpd_check_connected(obj))
     {
         printf("not connected\n");
+        mpd_connect(obj);
         
-        return 1;
     }
 //std::cout << " \n\nprzed if \n\n";
                       mpd_status_update(obj);
