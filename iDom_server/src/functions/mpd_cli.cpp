@@ -111,6 +111,8 @@ void  *main_mpd_cli(void *data )
         std::cout << " adres hosta to " << hostname << std::endl;
         if(!hostname) {
                 hostname = "localhost";
+
+              std::cout << " ip mpd to " <<  my_data->server_settings->MPD_IP << " ! \n";
                 hostname = (char*)my_data->server_settings->MPD_IP.c_str();
         }
         if(port){
@@ -235,9 +237,12 @@ void  *main_mpd_cli(void *data )
                       mpd_status_update(obj);
 //std::cout << " \n\npo if \n\n";
                       //  std::cout << " jestem w while \n";
-                }while(!usleep(100000) &&  !go_while);
+                }while(!usleep(100000) &&  go_while);
         }
         mpd_free(obj);
+            log_file_mutex.mutex_lock();
+            log_file_cout << INFO << " koniec watku klient MPD  "<<   std::endl;
+            log_file_mutex.mutex_unlock();
        //close(fdstdin);
 
 

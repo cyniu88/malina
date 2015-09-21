@@ -3,8 +3,8 @@
 #include <queue>
 #include <iostream>
 #include "../blockQueue/blockqueue.h"
-#include "../iDom_server.h"
-
+//#include "../iDom_server.h"
+extern bool go_while;
 class irda_logic
 {
 private:

@@ -14,8 +14,10 @@
 #include "../blockQueue/blockqueue.h"
 #include "../wiadomosc/wiadomosc.h"
 #include "../functions/functions.h"
-#include "../iDom_server.h"
-
+#include "../logger/logger.hpp"
+//#include "../iDom_server.h"
+extern bool go_while;
+extern Logger log_file_mutex;
 void  *main_mpd_cli(void *data );
 
 #endif // MPD_CLI_H
