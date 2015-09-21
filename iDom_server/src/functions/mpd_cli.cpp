@@ -111,7 +111,7 @@ void  *main_mpd_cli(void *data )
         std::cout << " adres hosta to " << hostname << std::endl;
         if(!hostname) {
                 hostname = "localhost";
-                hostname = (char*)my_data->server_settings->SERVER_IP.c_str();
+                hostname = (char*)my_data->server_settings->MPD_IP.c_str();
         }
         if(port){
                 iport = atoi(port);
