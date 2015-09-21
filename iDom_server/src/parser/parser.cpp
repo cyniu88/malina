@@ -68,6 +68,11 @@ config read_config  ( const char* file_path    )
         {
             v_set.SERVER_IP= v_value;
         }
+        if (variable == "MPD_IP")
+        {
+            v_set.MPD_IP= v_value;
+        }
+       
         if (variable == "BaudRate")
         {
             v_set.BaudRate= v_value;
