@@ -27,6 +27,7 @@ struct config{
     std::string BaudRate;
     std::string PORT;
     std::string SERVER_IP;
+    std::string MPD_IP;
     int ID_server;
     std::vector <addresses_mac> A_MAC;
     int v_delay  ;
