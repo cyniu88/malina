@@ -36,7 +36,7 @@ void master_irda::run()
             //If code = NULL, meaning nothing was returned from LIRC socket,
             //then skip lines below and start while loop again.
             if(code==NULL) {
-                // std::cout << " kontynuuje\n";
+                std::cout << " kontynuuje\n";
                 continue;}
             {
                 //Make sure there is a 400ms gap before detecting button presses.

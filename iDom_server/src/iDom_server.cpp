@@ -106,7 +106,7 @@ void *Server_connectivity_thread(void *przekaz){
     my_data = (thread_data*)przekaz;
 
     pthread_detach( pthread_self () );
-     pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
+
    // std::cout << " przed while  soket " <<my_data->s_v_socket_klienta << std::endl;
 
     C_connection *client = new C_connection( my_data);
@@ -162,7 +162,7 @@ void *main_thread( void * unused)
 
     unsigned int who[2]={FREE, FREE};
     int32_t bufor[ MAX_MSG_LEN ];
-
+pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
 
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;

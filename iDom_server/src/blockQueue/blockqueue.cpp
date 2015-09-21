@@ -29,7 +29,7 @@ temp = _charQ.front();
 _charQ.pop();
 }
 else{
-    pthread_mutex_unlock(&mutex_queue_char);
+  pthread_mutex_unlock(&mutex_queue_char);
 
 return 'a';
 }
