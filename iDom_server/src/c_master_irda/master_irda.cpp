@@ -30,9 +30,13 @@ void master_irda::run()
     {
        // std::cout << " jestem w iflirc_readconfig(NULL,&config,NULL)==0 \n ";
         //Do stuff while LIRC socket is open  0=open  -1=closed.
-        while(lirc_nextcode(&code)==0)
+        while(lirc_nextcode(&code)==0 )
         {
             std::cout << " w while \n";
+            if (go_while==false)
+            {
+                break;  // koncze petle zamykam wątek
+            }
             //If code = NULL, meaning nothing was returned from LIRC socket,
             //then skip lines below and start while loop again.
             if(code==NULL) {

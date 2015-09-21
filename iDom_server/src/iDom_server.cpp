@@ -16,7 +16,7 @@ void *Send_Recieve_rs232_thread (void *przekaz){
      log_file_mutex.mutex_unlock();
      std::cout << "";
 
-    while (1)
+    while (go_while)
     {
         usleep(500);
         pthread_mutex_lock(&C_connection::mutex_who);
@@ -381,7 +381,7 @@ pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
     log_file_cout << INFO << " koniec programu  "<<   std::endl;
     log_file_mutex.mutex_unlock();
 
-    sleep(2);
+    sleep(3);
     //std::cout << " koniec gniazda ma wynik : "<< shutdown( v_socket, SHUT_RDWR );
 
     //    for (int con_counter=0; con_counter< MAX_CONNECTION; ++con_counter)

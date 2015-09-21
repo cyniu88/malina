@@ -3,6 +3,7 @@
 #include <queue>
 #include <iostream>
 #include "../blockQueue/blockqueue.h"
+#include "../iDom_server.h"
 
 class irda_logic
 {

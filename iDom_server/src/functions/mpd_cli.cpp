@@ -235,7 +235,7 @@ void  *main_mpd_cli(void *data )
                       mpd_status_update(obj);
 //std::cout << " \n\npo if \n\n";
                       //  std::cout << " jestem w while \n";
-                }while(!usleep(100000) &&  run);
+                }while(!usleep(100000) &&  !go_while);
         }
         mpd_free(obj);
        //close(fdstdin);

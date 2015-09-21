@@ -14,6 +14,7 @@
 #include "../blockQueue/blockqueue.h"
 #include "../wiadomosc/wiadomosc.h"
 #include "../functions/functions.h"
+#include "../iDom_server.h"
 
 void  *main_mpd_cli(void *data );
 
