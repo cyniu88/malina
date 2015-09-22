@@ -5,6 +5,8 @@
 #include <queue>
 #include <pthread.h>
 #include <iostream>
+#include <wiringPi.h>
+#include "../functions/master_LCD.h"
 #include "../logger/logger.hpp"
 extern Logger log_file_mutex;
 extern char * _logfile;

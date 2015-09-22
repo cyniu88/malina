@@ -11,6 +11,7 @@ irda_logic::irda_logic()
 
 void irda_logic::_add(char X)
 {
+
     if (who=='!')
     {
         if (X!='m')
@@ -51,6 +52,7 @@ void irda_logic::_add(char X)
 
 char irda_logic::_get( )
 {  char temp;
+
 
     if (irda_queue.size() > 0){
         temp = irda_queue.front();
