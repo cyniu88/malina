@@ -328,26 +328,26 @@ char serialib::ReadChar(char *pByte,unsigned int TimeOut_ms)
      \return -2 error while reading the byte
      \return -3 MaxNbBytes is reached
   */
-//int serialib::ReadStringNoTimeOut(char *String,char FinalChar,unsigned int MaxNbBytes)
-//{
-//    unsigned int    NbBytes=0;                                          // Number of bytes read
-//    char            ret;                                                // Returned value from Read
-//    while (NbBytes<MaxNbBytes)                                          // While the buffer is not full
-//    {                                                                   // Read a byte with the restant time
-//        ret=ReadChar(&String[NbBytes]);
-//        if (ret==1)                                                     // If a byte has been read
-//        {
-//            if (String[NbBytes]==FinalChar)                             // Check if it is the final char
-//            {
-//                String  [++NbBytes]=0;                                  // Yes : add the end character 0
-//                return NbBytes;                                         // Return the number of bytes read
-//            }
-//            NbBytes++;                                                  // If not, just increase the number of bytes read
-//        }
-//        if (ret<0) return ret;                                          // Error while reading : return the error number
-//    }
-//    return -3;                                                          // Buffer is full : return -3
-//}
+int serialib::ReadStringNoTimeOut(char *String,char FinalChar,unsigned int MaxNbBytes)
+{
+    unsigned int    NbBytes=0;                                          // Number of bytes read
+    char            ret;                                                // Returned value from Read
+    while (NbBytes<MaxNbBytes)                                          // While the buffer is not full
+    {                                                                   // Read a byte with the restant time
+        ret=ReadChar(&String[NbBytes]);
+        if (ret==1)                                                     // If a byte has been read
+        {
+            if (String[NbBytes]==FinalChar)                             // Check if it is the final char
+            {
+                String  [++NbBytes]=0;                                  // Yes : add the end character 0
+                return NbBytes;                                         // Return the number of bytes read
+            }
+            NbBytes++;                                                  // If not, just increase the number of bytes read
+        }
+        if (ret<0) return ret;                                          // Error while reading : return the error number
+    }
+    return -3;                                                          // Buffer is full : return -3
+}
 
 /*!
      \brief Read a string from the serial device (with timeout)
@@ -361,42 +361,42 @@ char serialib::ReadChar(char *pByte,unsigned int TimeOut_ms)
      \return -2 error while reading the byte
      \return -3 MaxNbBytes is reached
   */
-//int serialib::ReadString(char *String,char FinalChar,unsigned int MaxNbBytes,unsigned int TimeOut_ms)
-//{
-//    if (TimeOut_ms==0)
-//        return ReadStringNoTimeOut(String,FinalChar,MaxNbBytes);
+int serialib::ReadString(char *String,char FinalChar,unsigned int MaxNbBytes,unsigned int TimeOut_ms)
+{
+    if (TimeOut_ms==0)
+        return ReadStringNoTimeOut(String,FinalChar,MaxNbBytes);
 
-//    unsigned int    NbBytes=0;                                          // Number of bytes read
-//    char            ret;                                                // Returned value from Read
-//    TimeOut         Timer;                                              // Timer used for timeout
-//    long int        TimeOutParam;
-//    Timer.InitTimer();                                                  // Initialize the timer
+    unsigned int    NbBytes=0;                                          // Number of bytes read
+    char            ret;                                                // Returned value from Read
+    TimeOut         Timer;                                              // Timer used for timeout
+    long int        TimeOutParam;
+    Timer.InitTimer();                                                  // Initialize the timer
 
-//    while (NbBytes<MaxNbBytes)                                          // While the buffer is not full
-//    {                                                                   // Read a byte with the restant time
-//        TimeOutParam=TimeOut_ms-Timer.ElapsedTime_ms();                 // Compute the TimeOut for the call of ReadChar
-//        if (TimeOutParam>0)                                             // If the parameter is higher than zero
-//        {
-//            ret=ReadChar(&String[NbBytes],TimeOutParam);                // Wait for a byte on the serial link
-//            if (ret==1)                                                 // If a byte has been read
-//            {
+    while (NbBytes<MaxNbBytes)                                          // While the buffer is not full
+    {                                                                   // Read a byte with the restant time
+        TimeOutParam=TimeOut_ms-Timer.ElapsedTime_ms();                 // Compute the TimeOut for the call of ReadChar
+        if (TimeOutParam>0)                                             // If the parameter is higher than zero
+        {
+            ret=ReadChar(&String[NbBytes],TimeOutParam);                // Wait for a byte on the serial link
+            if (ret==1)                                                 // If a byte has been read
+            {
 
-//                if (String[NbBytes]==FinalChar)                         // Check if it is the final char
-//                {
-//                    String  [++NbBytes]=0;                              // Yes : add the end character 0
-//                    return NbBytes;                                     // Return the number of bytes read
-//                }
-//                NbBytes++;                                              // If not, just increase the number of bytes read
-//            }
-//            if (ret<0) return ret;                                      // Error while reading : return the error number
-//        }
-//        if (Timer.ElapsedTime_ms()>TimeOut_ms) {                        // Timeout is reached
-//            String[NbBytes]=0;                                          // Add the end caracter
-//            return 0;                                                   // Return 0
-//        }
-//    }
-//    return -3;                                                          // Buffer is full : return -3
-//}
+                if (String[NbBytes]==FinalChar)                         // Check if it is the final char
+                {
+                    String  [++NbBytes]=0;                              // Yes : add the end character 0
+                    return NbBytes;                                     // Return the number of bytes read
+                }
+                NbBytes++;                                              // If not, just increase the number of bytes read
+            }
+            if (ret<0) return ret;                                      // Error while reading : return the error number
+        }
+        if (Timer.ElapsedTime_ms()>TimeOut_ms) {                        // Timeout is reached
+            String[NbBytes]=0;                                          // Add the end caracter
+            return 0;                                                   // Return 0
+        }
+    }
+    return -3;                                                          // Buffer is full : return -3
+}
 
 
 /*!

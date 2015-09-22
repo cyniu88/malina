@@ -1,6 +1,6 @@
 #include "iDom_server.h"
 
-
+const unsigned int jeden =1;
 
 
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
@@ -15,6 +15,9 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     log_file_cout << "w buforze jest bajtow " << port_arduino.Peek() << std::endl;
      log_file_mutex.mutex_unlock();
      std::cout << "";
+
+     char  buforek[128];
+
 
     while (go_while)
     {
@@ -32,17 +35,41 @@ void *Send_Recieve_rs232_thread (void *przekaz){
                 //   port_arduino.WriteChar(bufor[i]);
              }
 
-            for (int i =0 ; i < MAX_MSG_LEN ; ++i )
-            {
+//            for (int i =0 ; i < MAX_MSG_LEN ; ++i )
+//            {
 
-              //  std::cout <<" " <<
-                data_rs232->pointer.ptr_buf[i]+=1 ;
+//              //  std::cout <<" " <<
+//                data_rs232->pointer.ptr_buf[i]+=1 ;
 
-                //   port_arduino.WriteChar(bufor[i]);
-            }
+//                //   port_arduino.WriteChar(bufor[i]);
+//            }
             //std::cout << "\n";
            // sleep(15);
             //             port_arduino.Write(bufor, MAX_MSG_LEN);
+
+            if (data_rs232->pointer.ptr_buf[0]==109)
+            {
+                port_arduino.WriteString("m8o");
+                port_arduino.ReadString(buforek, 'X',128,5000);
+                std::cout << " w buforku bylo: " << buforek <<std::endl;
+
+            }
+            else if (data_rs232->pointer.ptr_buf[2]==72)
+            {
+                port_arduino.WriteString("w8H");
+                port_arduino.ReadString(buforek, 'X',128,5000);
+                std::cout << " w buforku bylo: " << buforek <<std::endl;
+
+            }
+            else if (data_rs232->pointer.ptr_buf[2]==76)
+            {
+                port_arduino.WriteString("w8L");
+                port_arduino.ReadString(buforek, 'X',128,5000);
+                std::cout << " w buforku bylo: " << buforek <<std::endl;
+            }
+
+
+
 
             //            for (int i =0 ; i < MAX_MSG_LEN ; ++i )
             //            {

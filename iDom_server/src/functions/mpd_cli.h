@@ -11,10 +11,12 @@
 #include <fcntl.h>
 #include <libmpd-1.0/libmpd/libmpd.h>
 #include <libmpd-1.0/libmpd/debug_printf.h>
+#include <wiringPi.h>
 #include "../blockQueue/blockqueue.h"
 #include "../wiadomosc/wiadomosc.h"
 #include "../functions/functions.h"
 #include "../logger/logger.hpp"
+#include "master_LCD.h"
 //#include "../iDom_server.h"
 extern bool go_while;
 extern Logger log_file_mutex;

@@ -136,6 +136,7 @@ void  *main_mpd_cli(void *data )
 
                       if(char_queue._size() > 0)
                         {
+                          digitalWrite(LED7,1);
                             buffer = char_queue._get();
                                 switch(buffer)
                                 {
@@ -224,7 +225,10 @@ void  *main_mpd_cli(void *data )
                                                 break;
                                         default:
                                                 printf("buffer: %c\n", buffer);
+
+
                                 }
+                                digitalWrite(LED7,0);  // gasze sygnal odbioru wiadomosci
 
                         }
    if (!mpd_check_connected(obj))
