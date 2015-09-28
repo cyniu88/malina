@@ -11,7 +11,7 @@ private:
     std::queue <char> irda_queue;
     blockQueue char_queue;
     char who;
-    int led_flag;
+
 
 public:
     irda_logic();
