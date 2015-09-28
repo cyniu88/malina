@@ -25,14 +25,11 @@ void irda_logic::_add(char X)
     else if (who=='m')
     {
         std::cout << "jestem w menu  az wcisne ok lub exit " << X <<std::endl;
-        if (X=='o')
+        if (X=='o' || X=='e')
         {
              who = '!';
         }
-        else if (X=='e')
-        {
-            who = '!';
-        }
+         
          else if (X=='i')
         {
 
