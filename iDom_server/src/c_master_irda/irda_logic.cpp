@@ -4,7 +4,6 @@ irda_logic::irda_logic()
 {
     who='!';
     pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
-    led_flag=OFF;
     digitalWrite(LED7,OFF);
 }
 //irda_logic::who='!';
@@ -27,17 +26,21 @@ void irda_logic::_add(char X)
         std::cout << "jestem w menu  az wcisne ok lub exit " << X <<std::endl;
         if (X=='o' || X=='e')
         {
-             who = '!';
+            who = '!';
         }
-         
-         else if (X=='i')
+
+        else if (X=='i')
         {
 
-            if (led_flag==OFF){
-            digitalWrite(LED7,ON);
-            led_flag=ON;
+           // std::cout << " stan led to " << digitalRead(LED7)<<std::endl;
+            if (digitalRead(LED7)== OFF)
+            {
+                digitalWrite(LED7,ON);
+                led_flag=ON;
             }
-            else if (led_flag==ON){
+
+            else if (digitalRead(LED7)==ON)
+            {
                 digitalWrite(LED7,OFF);
                 led_flag=OFF;
             }
