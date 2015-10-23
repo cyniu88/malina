@@ -36,13 +36,13 @@ void irda_logic::_add(char X)
             if (digitalRead(LED7)== OFF)
             {
                 digitalWrite(LED7,ON);
-                led_flag=ON;
+
             }
 
             else if (digitalRead(LED7)==ON)
             {
                 digitalWrite(LED7,OFF);
-                led_flag=OFF;
+
             }
 
         }
