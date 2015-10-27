@@ -6,8 +6,7 @@ master_irda::master_irda(thread_data *my_data)
 {
     buttonTimer = millis();
     buttonMENU = 0;
-    if (wiringPiSetup () == -1)
-        exit (1) ;
+   
     //Initiate LIRC. Exit on failure
     if(lirc_init("lirc",1)==-1)
         exit(EXIT_FAILURE);
