@@ -22,6 +22,7 @@
 #define ON 1
 #define OFF 0
 
+#define LED7 7
 
 struct s_pointer{
     unsigned int *ptr_who;
