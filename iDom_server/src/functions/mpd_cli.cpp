@@ -70,10 +70,10 @@ void status_changed(MpdObj *mi, ChangedStatusType what)
         if(what&MPD_CST_PLAYLIST)
         {
                 printf(GREEN"Playlist changed2"RESET"\n");
-                mpd_Song *song = mpd_playlist_get_current_song(mi);
+               // mpd_Song *song = mpd_playlist_get_current_song(mi);
 
                    // std::cout <<" SONG: " << song->artist<<" "<< song->title << std::endl;
-                printf(GREEN"aktualnie gramy:"RESET" %s - %s\n", song->artist, song->title);
+                //printf(GREEN"aktualnie gramy:"RESET" %s - %s\n", song->artist, song->title);
         }
         /* not yet implemented signals */
         if(what&MPD_CST_AUDIO){
