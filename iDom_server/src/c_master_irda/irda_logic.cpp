@@ -3,7 +3,7 @@
 irda_logic::irda_logic()
 {
     who='!';
-    pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
+   // pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
     digitalWrite(LED7,OFF);
 }
 //irda_logic::who='!';
