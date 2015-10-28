@@ -22,4 +22,7 @@ extern bool go_while;
 extern Logger log_file_mutex;
 void  *main_mpd_cli(void *data );
 
+
+
+
 #endif // MPD_CLI_H

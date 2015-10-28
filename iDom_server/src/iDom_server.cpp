@@ -11,12 +11,12 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     serialib port_arduino;   // obiekt port rs232
 
     log_file_mutex.mutex_lock();
-    log_file_cout << "otwarcie portu RS232 " << (int)port_arduino.Open(data_rs232->portRS232.c_str(), atoi( data_rs232->BaudRate.c_str()))<<std::endl;
-    log_file_cout << "w buforze jest bajtow " << port_arduino.Peek() << std::endl;
-     log_file_mutex.mutex_unlock();
-     std::cout << "";
+    log_file_cout << INFO <<"otwarcie portu RS232 " << (int)port_arduino.Open(data_rs232->portRS232.c_str(), atoi( data_rs232->BaudRate.c_str()))<<std::endl;
+    log_file_cout << INFO <<"w buforze jest bajtow " << port_arduino.Peek() << std::endl;
+    log_file_mutex.mutex_unlock();
+    std::cout << "";
 
-     char  buforek[128];
+    char  buforek[128];
 
 
     while (go_while)
@@ -33,18 +33,18 @@ void *Send_Recieve_rs232_thread (void *przekaz){
                 //bufor[i]+=1;
                 // data_rs232->pointer.ptr_buf[i]+=1;
                 //   port_arduino.WriteChar(bufor[i]);
-             }
+            }
 
-//            for (int i =0 ; i < MAX_MSG_LEN ; ++i )
-//            {
+            //            for (int i =0 ; i < MAX_MSG_LEN ; ++i )
+            //            {
 
-//              //  std::cout <<" " <<
-//                data_rs232->pointer.ptr_buf[i]+=1 ;
+            //              //  std::cout <<" " <<
+            //                data_rs232->pointer.ptr_buf[i]+=1 ;
 
-//                //   port_arduino.WriteChar(bufor[i]);
-//            }
+            //                //   port_arduino.WriteChar(bufor[i]);
+            //            }
             //std::cout << "\n";
-           // sleep(15);
+            // sleep(15);
             //             port_arduino.Write(bufor, MAX_MSG_LEN);
 
             if (data_rs232->pointer.ptr_buf[0]==109)
@@ -109,7 +109,7 @@ void *f_serv_con_node (void *data){
 
     std::cout<<"koniec  watek master \n";
 
-pthread_exit(NULL);
+    pthread_exit(NULL);
 } //  koniec f_serv_con_node
 /////////////////////  watek do obslugi irda //////////////////////////////
 
@@ -124,7 +124,7 @@ void *f_master_irda (void *data){
 
     std::cout<<"koniec  watek master \n";
 
-pthread_exit(NULL);
+    pthread_exit(NULL);
 } //  koniec master_irda
 ///////////  watek wymiany polaczenia /////////////////////
 
@@ -134,10 +134,10 @@ void *Server_connectivity_thread(void *przekaz){
 
     pthread_detach( pthread_self () );
 
-   // std::cout << " przed while  soket " <<my_data->s_v_socket_klienta << std::endl;
+    // std::cout << " przed while  soket " <<my_data->s_v_socket_klienta << std::endl;
 
     C_connection *client = new C_connection( my_data);
- digitalWrite(LED7,1);
+    digitalWrite(LED7,1);
     while (1)
     {
         if( client->c_recv(0) == -1 )
@@ -165,7 +165,7 @@ void *Server_connectivity_thread(void *przekaz){
             break;
         }
     }
-   digitalWrite(LED7,0);
+    digitalWrite(LED7,0);
     delete client;
     pthread_exit(NULL);
 
@@ -189,9 +189,9 @@ void *main_thread( void * unused)
 
     unsigned int who[2]={FREE, FREE};
     int32_t bufor[ MAX_MSG_LEN ];
-     if (wiringPiSetup () == -1)
+    if (wiringPiSetup () == -1)
         exit (1) ;
-pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
+    pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
 
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
@@ -206,14 +206,16 @@ pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
     log_file_cout << INFO  << "serwer ip \t"<< server_settings.SERVER_IP  <<std::endl;
     log_file_cout << INFO  << "dodatkowe NODY w sieci:\n"  <<std::endl;
 
-//    for (u_int i=0;i<server_settings.A_MAC.size();++i){
-//        std::cout << server_settings.A_MAC[i].name_MAC<<" "<< server_settings.A_MAC[i].MAC<<" " << server_settings.A_MAC[i].option1 <<
-//                     " " << server_settings.A_MAC[i].option2<<
-//                     " " << server_settings.A_MAC[i].option3<<
-//                     " " << server_settings.A_MAC[i].option4<<
-//                     " " << server_settings.A_MAC[i].option5<<
-//                     " " << server_settings.A_MAC[i].option6<<std::endl;
-//    }
+    //    for (u_int i=0;i<server_settings.A_MAC.size();++i){
+    //        std::cout << server_settings.A_MAC[i].name_MAC<<" "<< server_settings.A_MAC[i].MAC<<" " << server_settings.A_MAC[i].option1 <<
+    //                     " " << server_settings.A_MAC[i].option2<<
+    //                     " " << server_settings.A_MAC[i].option3<<
+    //                     " " << server_settings.A_MAC[i].option4<<
+    //                     " " << server_settings.A_MAC[i].option5<<
+    //                     " " << server_settings.A_MAC[i].option6<<std::endl;
+    //    }
+
+
     for (u_int i=0;i<server_settings.AAS.size();++i){
         log_file_cout << INFO << server_settings.AAS[i].id<<" "<< server_settings.AAS[i].SERVER_IP <<std::endl;
     }
@@ -230,6 +232,31 @@ pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
     pthread_create(&rs232_thread_id,NULL,&Send_Recieve_rs232_thread,&data_rs232 );
     log_file_cout << INFO << "-----------------------------------------------"<< std::endl;
     log_file_mutex.mutex_unlock();
+
+
+    /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
+std::cout << " jestem przed mkfifo";
+    int temp;
+   temp = mkfifo("/tmp/cmd",0666);
+   std::cout << " jestem po mkfifo, wynik: " << temp << std::endl;
+   if (temp == 0 )
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "mkfifo - plik stworzony" << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+
+    else if (temp == -1)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "mkfifo - "<<strerror(  errno ) << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+
+    //////////////////////////////////////////////////////////////////////
+
+
+
     int SERVER_PORT = atoi(server_settings.PORT.c_str());
     server_settings.SERVER_IP = conv_dns(server_settings.SERVER_IP);
     const char *SERVER_IP = server_settings.SERVER_IP.c_str();
@@ -237,18 +264,18 @@ pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
     node_data.server_settings=&server_settings;
     node_data.pointer.ptr_buf=bufor;
     node_data.pointer.ptr_who=who;
-// start watku irda
-     pthread_create (&thread_array[4], NULL,&f_master_irda ,&node_data);
-     log_file_mutex.mutex_lock();
-     log_file_cout << INFO << " watek wystartowal polaczenie irda "<< thread_array[4] << std::endl;
-     log_file_mutex.mutex_unlock();
-     pthread_detach( thread_array[4] );
-// start watku  mpd_cli
-     pthread_create (&thread_array[5], NULL,&main_mpd_cli ,&node_data);
-     log_file_mutex.mutex_lock();
-     log_file_cout << INFO << " watek wystartowal klient mpd "<< thread_array[5] << std::endl;
-     log_file_mutex.mutex_unlock();
-     pthread_detach( thread_array[5] );
+    // start watku irda
+    pthread_create (&thread_array[4], NULL,&f_master_irda ,&node_data);
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << " watek wystartowal polaczenie irda "<< thread_array[4] << std::endl;
+    log_file_mutex.mutex_unlock();
+    pthread_detach( thread_array[4] );
+    // start watku  mpd_cli
+    pthread_create (&thread_array[5], NULL,&main_mpd_cli ,&node_data);
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << " watek wystartowal klient mpd "<< thread_array[5] << std::endl;
+    log_file_mutex.mutex_unlock();
+    pthread_detach( thread_array[5] );
 
     if (server_settings.ID_server == 1001){
         std::cout << "startuje noda do polaczen z innym \n";
@@ -298,9 +325,9 @@ pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
     // zgub wkurzający komunikat błędu "address already in use"
     int yes =1;
     if( setsockopt( v_socket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof( int ) ) == - 1 ) {
-            perror( "setsockopt" );
-            exit( 1 );
-        }
+        perror( "setsockopt" );
+        exit( 1 );
+    }
     socklen_t len = sizeof( server );
     if( bind( v_socket,( struct sockaddr * ) & server, len ) < 0 )
     {

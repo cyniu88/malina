@@ -13,14 +13,65 @@ void irda_logic::_add(char X)
 
     if (who=='!')
     {
-        if (X!='m')
+        if (X!='m'&& X!='P')
         {
             char_queue._add(X);
+        }
+
+        else if (X=='P')
+        {
+            who = 'P';
+            char_queue._add('v');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
         }
         else {
             who = 'm';
         }
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////// obsluga projektora
+    else if (who=='P')
+    {
+        //std::cout << "jestem w projektorze  " << std::endl;
+        if ( X=='e')
+        {
+            who = '!';
+         //   std::cout << "koniec sterowania  projektorem" << std::endl;
+        }
+        else if (X=='+')
+        {
+            system("echo -n + > /tmp/cmd");  // podglasniamy
+        }
+        else if (X=='-')
+        {
+            system("echo -n - > /tmp/cmd");  // wyciszamy
+        }
+        else if (X=='o')
+        {
+            system("echo -n p > /tmp/cmd");  //pauza play
+        }
+        else if (X=='v')
+        {
+            system("echo -n q > /tmp/cmd");  // zamykanie omxplayera
+        }
+        else if (X=='b')
+        {
+            system("echo -n $'\x1b\x5b\x43' > /tmp/cmd");  // do przodu
+        }
+        else if (X=='z')
+        {
+            system("echo -n $'\x1b\x5b\x43' > /tmp/cmd");  // do tylu
+
+        }
+        else if (X=='N')
+        {
+            system("echo -n o > /tmp/cmd");  // do przodu
+        }
+        else if (X=='G')
+        {
+            system("echo -n i > /tmp/cmd");  // do tylu
+
+        }
+    }
+  /////////////////////////////////////////////////////////////////////////////////////////////  oblsuga menu
     else if (who=='m')
     {
         std::cout << "jestem w menu  az wcisne ok lub exit " << X <<std::endl;
