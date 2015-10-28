@@ -45,6 +45,8 @@ void master_irda::run()
                 //Make sure there is a 400ms gap before detecting button presses.
                 if (millis() - buttonTimer  > 400 ){
 
+                   digitalWrite(LED7,ON);
+
                     // time out   OK menu
                     if (millis() - buttonTimer  > 30000 && buttonMENU == 1){
                         log_file_mutex.mutex_lock();
@@ -201,6 +203,8 @@ void master_irda::run()
             }
             //Need to free up code before the next loop
             free(code);
+
+          digitalWrite(LED7,OFF);
         }
         //Frees the data structures associated with config.
         lirc_freeconfig(config);
