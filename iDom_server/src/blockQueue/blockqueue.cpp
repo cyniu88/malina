@@ -9,7 +9,7 @@ pthread_mutex_t blockQueue::mutex_queue_char = PTHREAD_MUTEX_INITIALIZER;
 std::queue < char > blockQueue::_charQ;
 void blockQueue::_add(char X)
 {
-    digitalWrite(LED7,1);  // zapalam sygnal odbioru wiadomosci
+    //digitalWrite(LED7,1);  // zapalam sygnal odbioru wiadomosci
 
  pthread_mutex_lock(&mutex_queue_char);
 
@@ -21,7 +21,7 @@ pthread_mutex_unlock(&mutex_queue_char);
 
 char blockQueue::_get( )
 {  char temp;
-    digitalWrite(LED7,0);  // zapalam sygnal odbioru wiadomosci
+  //  digitalWrite(LED7,0);  // zapalam sygnal odbioru wiadomosci
 
 pthread_mutex_lock(&mutex_queue_char);
 
