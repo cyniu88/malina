@@ -1,67 +1,93 @@
-#include <time.h>
- 
 #include <iostream>
- struct alarm {
-        int godzina;
-        int minuta;
-    };
-class budzik
-{   public:
-//	budzik();
-//	~budzik();
-    int set_alarm ();
-    bool watchdog();
-    
-	private:
-	 void get_time();
-    time_t czas;
-    struct tm * ptr;
-    struct alarm _alarm;
-   
- 
+#include <fstream>
+#include <time.h>
+ struct File
+{
+ int h;
+ int m;
+ bool activ;
 };
+class cyniu_alarm
+{
+private:
+File file [7];
+time_t act_time;
+struct tm * act_date;
+public:
 
-   int budzik::set_alarm()
-   {
-    std::cin >>   _alarm.godzina ;
-    std::cin >>  _alarm.minuta;
-        return 0;   
-   }
-    
- bool budzik::watchdog ()
-{
-    get_time();
-    return true;
-}
-void budzik::get_time ()
-{
-    time( & czas );
-    ptr = localtime( & czas );
-    std::cout << "godzina: " << ptr->tm_hour << std::endl;
-        std::cout << "godzina moja : " << _alarm.godzina << std::endl;
-  std::cout << "minuta : " << ptr->tm_min << std::endl;
-  std::cout << "minuta moja  : " << _alarm.minuta << std::endl;
-   std::cout << "dzie " << ptr->tm_wday << std::endl;
-   
-   if ( ptr->tm_hour ==  _alarm.godzina &&  ptr->tm_min ==  _alarm.minuta )
-   {
-       std::cout <<  " !!!!!!!!!!!!!!!!!!!!!  alarm wstawaj " <<std::endl;
-   }
-   
-   
-}
+void set_alarm();
+void write_to_file();
+void read_from_file();
+bool check_alarm();
 
-int main ()
+};
+ bool cyniu_alarm::check_alarm()
+ {
+	time( & act_time );
+    act_date = localtime( & act_time );
+	 
+    std::cout << "dzien tygodnia " << act_date->tm_wday << " godzina " << act_date->tm_hour  <<" minuta " << act_date->tm_min  <<std::endl;
+	if (file[act_date->tm_wday].h == act_date->tm_hour && file[act_date->tm_wday].m == act_date->tm_min && file[act_date->tm_wday].activ == true)
+	{
+	return true;
+	}
+	else
+	{
+	return false;
+	}
+ }
+ void cyniu_alarm::set_alarm()
+ {
+ for (int i=0; i<7; ++i)
 {
-budzik _budzik;
-_budzik.set_alarm();
-_budzik.watchdog();
-for ( int i =0 ; i < 100; ++i )
+std::cout << " podaj godzinie z dnia: " << i<< std::endl;
+ std::cin >> file[i].h >> file[i].m ;
+ std::cout << " Aktywowac? 1 -T 0- N " ;
+ std::cin >> file[i].activ;
+ }
+ write_to_file();
+ }
+ 
+void cyniu_alarm::write_to_file()
 {
-std::cout << " iteracja " << i << std::endl;
-_budzik.watchdog();
-sleep (15);
+  std::ofstream ofs("plik.database", std::ios::binary); // otwieramy plik do zapisu binarnego
+ 
+ ofs.write((char*)(file), sizeof(file)); // zapisujemy dane do pliku
+ 
+std::cout << " sizeof daje: " << sizeof(File) <<std::endl;
+ ofs.close();
 }
-  std::cout << "koniec  " << std::endl;
-return 0;
+ void cyniu_alarm::read_from_file()
+ {
+ std::ifstream ifs("plik.database", std::ios::binary);  
+ ifs.read((char*)file, sizeof(file));
+ std::cout << " fileuje " << std::endl;
+ for (int i=0; i<7; ++i)
+{
+std::cout << " file  z dnia: " << i<< std::endl;
+ std::cout << file[i].h << " godz " << file[i].m << " minut" <<std::endl;
+ }
+ 
+ ifs.close();
+ }
+int main()
+{
+  cyniu_alarm alarm1;
+  int wybor;
+  std::cin >>wybor;
+  if (wybor == 1 )
+  {
+  alarm1.read_from_file();
+ }
+ else if (wybor ==0 )
+ {
+ alarm1.set_alarm();
+ }
+while ( !alarm1.check_alarm())
+{
+std::cout << " nie ma alarmu " << std::endl;
+sleep (60);
+}
+std::cout << " ALARM!!!!" << std::endl;
+ return 0;
 }
