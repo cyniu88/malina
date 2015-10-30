@@ -5,12 +5,14 @@
 #include <cstdio>
 #include <cstring>
 #include <vector>
+#include <stdlib.h>
 #include "files_tree.h"
 
-main( int argc, char ** argv ) {
+int main( int argc, char ** argv ) {
     char choise;
     bool go_while=true;
-    files_tree main_tree( argv[1]);
+	std::string s(argv[1]);
+    files_tree main_tree( s);
     //main_tree.show_list();
     while (go_while) {
         if ( choise =='b'){
@@ -29,13 +31,18 @@ main( int argc, char ** argv ) {
             else if ( choise =='t' &&  main_tree.is_file(i) == true)
             {
                 std::cout << " URUCHAMIAM PLIK! " << std::endl;
+				std::string komenda;
+				 komenda+= "cat ";
+                 komenda+= main_tree.return_path(i);
+				std::cout << " komenda " << komenda << std::endl;
+				system ( komenda.c_str());
                 break;
             }
             else if ( choise =='t' &&  main_tree.is_file(i)== false)
-            {
-                main_tree.enter_dir( i );
+            {  //std::cout << " main return " << main_tree.return_path(i) << std::endl;
+                main_tree.enter_dir( main_tree.return_path(i),i );
 
-                std::cout << " rozmiar vecotra : " << main_tree.get_vector_size() << std::endl;
+                //std::cout << " rozmiar vecotra : " << main_tree.get_vector_size() << std::endl;
                 break;
             }
             else if ( choise =='b')
@@ -62,9 +69,7 @@ while (go_while)
          listujPliki( argv[ 1 ],&movie_database_vector );
     else
          listujPliki( "." ,&movie_database_vector);
-
    std::cout << " teraz wypisze vektor " << movie_database_vector.size() << std::endl;
-
    for( size_t i = 0; i < movie_database_vector.size(); i++ )
    {
         if (movie_database_vector[i].is_file == true ) {
@@ -77,7 +82,6 @@ while (go_while)
            std::cout << "wejsc? " << std::endl;
         std::cin >> choise;
         }
-
         if (choise =='n')
         {
         continue;
@@ -102,9 +106,6 @@ while (go_while)
             break;
           }
    } //end for
-
    } // end while
    return 0;
 } */
-
-
