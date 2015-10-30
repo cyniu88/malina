@@ -1,7 +1,7 @@
 #include "files_tree.h"
 
 
-files_tree::files_tree ( char * path)
+files_tree::files_tree ( std::string path)
 {
     database_path = path;
     get_list( database_path  );
@@ -10,6 +10,11 @@ files_tree::files_tree ( char * path)
 bool files_tree::is_file( int i)
 {
     return movie_database_vector[i].is_file;
+}
+std::string files_tree::return_path( int i)
+{
+    std::cout << " return " << movie_database_vector[i].path <<std::endl;
+    return movie_database_vector[i].path;
 }
 
 void files_tree::get_main_list()
@@ -36,22 +41,24 @@ int files_tree::get_vector_size ()
     return  movie_database_vector.size();
 }
 void files_tree::vector_clear ()
-{        i =0;
+{       
          movie_database_vector.clear();
 }
 
 
-void files_tree::enter_dir(int i)
+void files_tree::enter_dir(std::string path,int i)
 {
+
+ 
     if (movie_database_vector[i].is_file == true ) {
         std::cout << "to nie KATALOG!"<< std::endl;
 
     }
     else {
 
-        //std::cout << "sciezka: " << movie_database_vector[i].path << " i i: " << i << std::endl;
+        std::cout << "sciezka: " << movie_database_vector[i].path << " i i: " << i << std::endl;
         std::cout << " WHODZE W TO!" << std::endl;
-        get_list (movie_database_vector[i].path)  ;
+        get_list (path)  ;
 
     }
 
@@ -73,43 +80,53 @@ void files_tree::show_list(   ) {
 }
 
 
-void files_tree::get_list( char * path  ) {
-
+void files_tree::get_list( std::string path  ) {
+  
     vector_clear();    // czyscimy vector
     char g;
-
-    char  v_path[150] ;
+   std::string  path2 =path;
+   std::string v_path ,tmp_string ;
     std::cout << " SCIEZKA TO " << path << std::endl;
     std::cin >> g;
 
-    if(sciezka = opendir( path ))  {
+    if(sciezka = opendir( path.c_str() ))  {
 
 
         while(( plik = readdir( sciezka ) ) )
         {
-            // cout <<"nazwa:"<< plik->d_name <<  endl;
-            // cout <<"typ: " << (int)plik->d_type << endl;
-
-            if (  (int)plik->d_type == 4 &&   strcmp( plik->d_name, ".." ) && strcmp( plik->d_name, "." )  )
+				path2 =path;
+         
+				std::cout << " SCIEZKA TO " << path << std::endl;
+            if (  static_cast<int>(plik->d_type) == 4 /*&&   strcmp( plik->d_name, ".." ) && strcmp( plik->d_name, "." )*/  )
             {
 
                 temp.is_file=false;
-              //  strcpy(temp.path,sciezka_katalogu);
+             
 
             }
-            else if ( (int)plik->d_type == 8 && strcmp( plik->d_name, ".." ) && strcmp( plik->d_name, "." ))
+           else //if ( (int)plik->d_type == 8 && strcmp( plik->d_name, ".." ) && strcmp( plik->d_name, "." ))
             {
-                temp.is_file=true;
-                //=sciezka_pliku;
-                //strcpy(temp.path,sciezka_pliku);
-            }
-            else
-            {continue;}
-            strcpy(v_path, path);
-            strcat (v_path,"/");
-            strcat (v_path,plik->d_name);
+               temp.is_file=true;
+                 
+           }
+            
+           // strcpy(v_path, path2);
+           // strcat (v_path,"/");
+           // strcat (v_path,plik->d_name);
+		
+		    v_path= path2;
+			
+			v_path+="/";
+		
+			tmp_string.assign(plik->d_name);
+		    v_path+=tmp_string;
+		   temp.path =v_path;
+		   
             std::cout << "wpisuje w strukture " << plik->d_name << std::endl;
-            strcpy(temp.path,v_path);
+           
+			std::cout << "\n";
+			 
+			
             std::cout << "wpisuje w vector " << temp.path << " i jest to " << temp.is_file << std::endl;
             movie_database_vector.push_back(temp);
 
@@ -118,8 +135,7 @@ void files_tree::get_list( char * path  ) {
         closedir( sciezka );
     }
     else
-        printf( "! wywoujc funkcj opendir(%s) pojawi si bd otwarcia strumienia dla danej cieki, moe nie istnieje, lub podano ciek pust\n",  path );
+        std::cout << " wywoujc funkcj opendir(%s) pojawi si bd otwarcia strumienia dla danej cieki, moe nie istnieje, lub podano ciek pust\n"<<  path << std::endl;
 
 }
-
 
