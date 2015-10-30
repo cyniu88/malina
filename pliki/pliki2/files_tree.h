@@ -12,29 +12,30 @@ using namespace std;
 struct movie_database
 {
   bool is_file; // true - file  false - directory
-  char path[150];
+ std::string path;
 };
 
 class files_tree {
 private:
-char * database_path;
+std::string database_path;
 std::vector < movie_database > movie_database_vector;
   size_t i ;    // licznik
     struct dirent * plik;
     DIR * sciezka;
     movie_database temp;
 public:
-files_tree(char* path);
-void get_list(char* path );  // pobiera liste plikow i katalogow  w katalogu glóm
+files_tree(std::string path);
+void get_list(std::string path );  // pobiera liste plikow i katalogow  w katalogu glóm
 void get_main_list ();
 void show_list ();
+std::string return_path (int i);
 int get_vector_size ();
 void list_tree( int i);
 bool is_file(int i);
 //next();
 //back();
 //exit();
-void enter_dir(int i);
+void enter_dir(std::string path,int i);
 void vector_clear();
 };
 
