@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <cstring>
 #include <vector>
+#include <stack>
 using namespace std;
 struct movie_database
 {
@@ -23,6 +24,10 @@ std::vector < movie_database > movie_database_vector;
     struct dirent * plik;
     DIR * sciezka;
     movie_database temp;
+	
+std::stack <std::string> tree_stack;  // kolejka trzyma kolejke katalogow jakie odwiedzilismy  dzieki temu da sie wracac 
+
+
 public:
 files_tree(std::string path);
 void get_list(std::string path );  // pobiera liste plikow i katalogow  w katalogu glóm
@@ -33,9 +38,10 @@ int get_vector_size ();
 void list_tree( int i);
 bool is_file(int i);
 //next();
-//back();
+std::string back_dir();
 //exit();
 void enter_dir(std::string path,int i);
+void enter_dir(std::string path);
 void vector_clear();
 };
 
