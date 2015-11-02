@@ -4,6 +4,7 @@
 files_tree::files_tree ( std::string path)
 {
     database_path = path;
+	tree_stack.push(database_path);
     get_list( database_path  );
 
 }
@@ -58,10 +59,31 @@ void files_tree::enter_dir(std::string path,int i)
 
         std::cout << "sciezka: " << movie_database_vector[i].path << " i i: " << i << std::endl;
         std::cout << " WHODZE W TO!" << std::endl;
+		tree_stack.push(path);
+		 std::cout << " w kolejce jest elementow : "<< tree_stack.size()<< std::endl;
+		 std::cout << " a ostatni to : "<< tree_stack.top()<< std::endl;
         get_list (path)  ;
 
     }
 
+}
+void files_tree::enter_dir(std::string path)
+{	tree_stack.push(path);
+      get_list (path)  ;
+}
+
+std::string files_tree::back_dir()
+{
+		if ( tree_stack.size() >1 ) {
+		tree_stack.pop();
+		std::string path = tree_stack.top();
+		tree_stack.pop();
+        std::cout << "                                           robie back do folderu: " << path << std::endl;
+		 std::cout << " w kolejce jest TERAZ elementow : "<< tree_stack.size()<< std::endl;
+        return path;
+		}
+    
+     return database_path;
 }
 
 void files_tree::show_list(   ) {
@@ -87,7 +109,7 @@ void files_tree::get_list( std::string path  ) {
    std::string  path2 =path;
    std::string v_path ,tmp_string ;
     std::cout << " SCIEZKA TO " << path << std::endl;
-    std::cin >> g;
+    //std::cin >> g;
 
     if(sciezka = opendir( path.c_str() ))  {
 
@@ -96,7 +118,7 @@ void files_tree::get_list( std::string path  ) {
         {
 				path2 =path;
          
-				std::cout << " SCIEZKA TO " << path << std::endl;
+			//	std::cout << " SCIEZKA TO " << path << std::endl;
             if (  static_cast<int>(plik->d_type) == 4 /*&&   strcmp( plik->d_name, ".." ) && strcmp( plik->d_name, "." )*/  )
             {
 
@@ -109,11 +131,7 @@ void files_tree::get_list( std::string path  ) {
                temp.is_file=true;
                  
            }
-            
-           // strcpy(v_path, path2);
-           // strcat (v_path,"/");
-           // strcat (v_path,plik->d_name);
-		
+          
 		    v_path= path2;
 			
 			v_path+="/";
@@ -122,12 +140,12 @@ void files_tree::get_list( std::string path  ) {
 		    v_path+=tmp_string;
 		   temp.path =v_path;
 		   
-            std::cout << "wpisuje w strukture " << plik->d_name << std::endl;
+           // std::cout << "wpisuje w strukture " << plik->d_name << std::endl;
            
-			std::cout << "\n";
+			//std::cout << "\n";
 			 
 			
-            std::cout << "wpisuje w vector " << temp.path << " i jest to " << temp.is_file << std::endl;
+           // std::cout << "wpisuje w vector " << temp.path << " i jest to " << temp.is_file << std::endl;
             movie_database_vector.push_back(temp);
 
         }  // end while
