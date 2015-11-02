@@ -15,9 +15,9 @@ int main( int argc, char ** argv ) {
     files_tree main_tree( s);
     //main_tree.show_list();
     while (go_while) {
-        if ( choise =='b'){
-            main_tree.get_main_list();
-        }
+       //if ( choise =='b'){
+       //     main_tree.get_main_list();
+       // }
         std::cout << " rozmiar vecotra : " << main_tree.get_vector_size() << std::endl;
         for( size_t i = 0; i < main_tree.get_vector_size(); i++ )
         {
@@ -48,6 +48,8 @@ int main( int argc, char ** argv ) {
             else if ( choise =='b')
             {
                 main_tree.vector_clear();
+				main_tree.enter_dir( main_tree.back_dir(  ));   // wola metode enter_dir  bez dopisywania do kolejki 
+				 
                 break;
             }
             else if ( choise =='e')
