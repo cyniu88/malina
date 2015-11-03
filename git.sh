@@ -1,8 +1,9 @@
 #!/bin/sh
-if [ $# != 1 ] ; then
+if [ $# == 0 ] ; then
 echo "podaj nazwe commita!"
 exit
 fi
+echo podano nazwe: $@
 git add .
-git commit -a -m $1
+git commit -a -m $@
 git push
