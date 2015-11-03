@@ -6,7 +6,7 @@
 #include <cstring>
 #include <vector>
 #include <stdlib.h>
-#include "files_tree.h"
+#include "/home/pi/programowanie/iDom_server/src/files_tree/files_tree.h"
 
 int main( int argc, char ** argv ) {
     char choise;
