@@ -5,5 +5,5 @@ exit
 fi
 echo podano nazwe: $@
 git add .
-git commit -a -m $@
+git commit  -m "$@"
 git push

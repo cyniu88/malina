@@ -14,19 +14,28 @@ int main( int argc, char ** argv ) {
 	std::string s(argv[1]);
     files_tree main_tree( s);
     //main_tree.show_list();
+    int i =0;
     while (go_while) {
        //if ( choise =='b'){
        //     main_tree.get_main_list();
        // }
-        std::cout << " rozmiar vecotra : " << main_tree.get_vector_size() << std::endl;
-        for( size_t i = 0; i < main_tree.get_vector_size(); i++ )
-        {
+      //  std::cout << " rozmiar vecotra : " << main_tree.get_vector_size() << std::endl;
+        //for( size_t i = 0; i < main_tree.get_vector_size(); i++ )
+        //{
             main_tree.list_tree( i );
-            std::cout << "iteracja: " << i << std::endl;
+            std::cout << "iteracja!!!!!!!!!!!!!!!!!!!!!!: " << i << " rozmiar vectora : " <<main_tree.get_vector_size() << std::endl;
             std::cin >> choise;
             if (choise =='n')
-            {
+            {   if (i < main_tree.get_vector_size())
+		{
+		i++;
                 continue;
+		}
+		else
+		{
+		i=0;
+		continue;
+		}
             }
             else if ( choise =='t' &&  main_tree.is_file(i) == true)
             {
@@ -36,33 +45,42 @@ int main( int argc, char ** argv ) {
                  komenda+= main_tree.return_path(i);
 				std::cout << " komenda " << komenda << std::endl;
 				system ( komenda.c_str());
-                break;
+		
+                continue;
             }
             else if ( choise =='t' &&  main_tree.is_file(i)== false)
             {  //std::cout << " main return " << main_tree.return_path(i) << std::endl;
                 main_tree.enter_dir( main_tree.return_path(i),i );
 
                 //std::cout << " rozmiar vecotra : " << main_tree.get_vector_size() << std::endl;
-                break;
+             //   break;
+		i=0;
+		continue;
             }
 		else if (choise =='b')
 		{
-		  if ( i >1 )
-			i-=2;
+		  if ( i >0 ){
+		--i;	
+		}
+		else
+		{
+		i=main_tree.get_vector_size();
+		}
+		//i-=2;
 		}
             else if ( choise =='u')
             {
                 main_tree.vector_clear();
 				main_tree.enter_dir( main_tree.back_dir(  ));   // wola metode enter_dir  bez dopisywania do kolejki 
-				 
-                break;
+		i=0;		 
+                continue;
             }
             else if ( choise =='e')
             {
                 go_while=false;
                 break;
             }
-        } //end for
+       // } //end for
     }  // end while
     return 0;
 }
