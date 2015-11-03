@@ -45,7 +45,12 @@ int main( int argc, char ** argv ) {
                 //std::cout << " rozmiar vecotra : " << main_tree.get_vector_size() << std::endl;
                 break;
             }
-            else if ( choise =='b')
+		else if (choise =='b')
+		{
+		  if ( i >1 )
+			i-=2;
+		}
+            else if ( choise =='u')
             {
                 main_tree.vector_clear();
 				main_tree.enter_dir( main_tree.back_dir(  ));   // wola metode enter_dir  bez dopisywania do kolejki 
