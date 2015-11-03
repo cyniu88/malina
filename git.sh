@@ -4,6 +4,8 @@ echo "podaj nazwe commita!"
 exit
 fi
 echo podano nazwe: $@
-git add .
-git commit  -m "$@"
+git add -A
+sleep 1
+git commit -a -m "$@"
+sleep 1
 git push
