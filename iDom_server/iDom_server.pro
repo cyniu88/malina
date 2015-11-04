@@ -13,7 +13,8 @@ SOURCES += src/iDom_server.cpp src/parser/parser.cpp src/serialib/serialib.cpp \
     src/functions/mpd_cli.cpp \
     src/blockQueue/blockqueue.cpp \
     src/c_master_irda/irda_logic.cpp \
-    src/functions/master_LCD.cpp
+    src/functions/master_LCD.cpp \
+    src/files_tree/files_tree.cpp
 
 
 HEADERS += src/parser/parser.hpp src/serialib/serialib.h src/wiadomosc/wiadomosc.h \
@@ -25,4 +26,5 @@ HEADERS += src/parser/parser.hpp src/serialib/serialib.h src/wiadomosc/wiadomosc
     src/functions/mpd_cli.h \
     src/blockQueue/blockqueue.h \
     src/c_master_irda/irda_logic.h \
-    src/functions/master_LCD.h
+    src/functions/master_LCD.h \
+    src/files_tree/files_tree.h

@@ -1,5 +1,6 @@
 #include "irda_logic.h"
 #include "../functions/master_LCD.h"
+files_tree main_tree( "/home/pi/hdd/FTP");
 irda_logic::irda_logic()
 {
     who='!';
@@ -13,15 +14,22 @@ void irda_logic::_add(char X)
 
     if (who=='!')
     {
-        if (X!='m'&& X!='P')
+        if (X!='m'&& X!='P'&& X!='E')
         {
             char_queue._add(X);
         }
 
         else if (X=='P')
         {
-            who = 'P';
-            char_queue._add('v');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
+            //who = 'P';
+           // main_tree.show_list(); //printuje pierwszy element
+
+        }
+        else if (X=='E')
+        {
+            who = 'E';
+           main_tree.show_list(); //printuje pierwszy element
+            //char_queue._add('v');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
         }
         else {
             who = 'm';
@@ -71,7 +79,70 @@ void irda_logic::_add(char X)
 
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////// przegladanie katalogow
+    else if (who=='E')
+    {
+
+        if ( X=='e')
+        {
+            who = '!';  // koniec przegladania katalogow
+
+        }
+        else if (X=='+')
+        {
+            main_tree.next();  // naspteny katalog
+        }
+        else if (X=='-')
+        {
+            main_tree.previous(); //poprzedni katalog
+        }
+        else if (X=='o')
+        {
+              // whodze w katalog lub odtwarzma plik
+
+           if (main_tree.is_file() == false)
+           {
+            main_tree.enter_dir();
+            main_tree.show_list();
+           }
+           else
+           {
+               std::cout << " URUCHAMIAM PLIK! " <<main_tree.show_list() <<std::endl;
+               char_queue._add('v');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
+               std::string command("cat ");
+               command+=main_tree.show_list();
+               std::cout << "\n komenda to "<< command << "\n a wynik jej to: "; //<< system(command.c_str()) << std::endl;
+
+           }
+        }
+        else if (X=='v')
+        {
+           // system("echo -n q > /tmp/cmd");  // zamykanie omxplayera
+        }
+        else if (X=='z')
+        {
+            main_tree.back_dir();
+             ;
+        }
+        else if (X=='b')
+        {
+            //system("echo -n $'\x1b\x5b\x43' > /tmp/cmd");  // do tylu
+
+        }
+        else if (X=='N')
+        {
+           // system("echo -n o > /tmp/cmd");  // do przodu
+        }
+        else if (X=='G')
+        {
+           // system("echo -n i > /tmp/cmd");  // do tylu
+
+        }
+        main_tree.show_list(); // pokaz gdzie jestes po wykonaniu operacji
+    }
   /////////////////////////////////////////////////////////////////////////////////////////////  oblsuga menu
+
     else if (who=='m')
     {
         std::cout << "jestem w menu  az wcisne ok lub exit " << X <<std::endl;

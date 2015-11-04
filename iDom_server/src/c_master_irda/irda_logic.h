@@ -2,7 +2,9 @@
 #define IRDA_LOGIC_H
 #include <queue>
 #include <iostream>
+#include <string.h>
 #include "../blockQueue/blockqueue.h"
+#include "../files_tree/files_tree.h"
 //#include "../iDom_server.h"
 extern bool go_while;
 class irda_logic

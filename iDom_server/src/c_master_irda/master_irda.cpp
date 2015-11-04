@@ -189,6 +189,13 @@ void master_irda::run()
                         irda_queue._add('P');   //idziemy do sterowania projektorem
                         buttonTimer = millis();
                     }
+                    else if(strstr (code,"KEY_EPG")){
+                        log_file_mutex.mutex_lock();
+                        log_file_cout << INFO<< " przegladanie katalogu z filmami" <<  std::endl;
+                        log_file_mutex.mutex_unlock();
+                        irda_queue._add('E');   //idziemy do sterowania projektorem
+                        buttonTimer = millis();
+                    }
                     else if(strstr (code,"KEY_CHANNELUP")){
 
                         irda_queue._add('N');
