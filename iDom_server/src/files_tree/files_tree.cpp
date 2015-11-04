@@ -4,11 +4,13 @@
 files_tree::files_tree ( std::string path)
 {
     database_path = path;
-	tree_stack.push(database_path);
+	//tree_stack.push(database_path);
+	i_stack.push(0);
+	i=0;
     get_list( database_path  );
 
 }
-bool files_tree::is_file( int i)
+bool files_tree::is_file(  )
 {
     return movie_database_vector[i].is_file;
 }
@@ -22,21 +24,31 @@ void files_tree::get_main_list()
 {
     get_list( database_path );
 }
-void files_tree::list_tree( int i)
-{
-    if (!(get_vector_size() > i) ){
-
-        return;
+void files_tree::next(  )
+{   
+      ++i;
+	//std::cout << " dodaje " << i << std::endl;
+    if (get_vector_size() == i ){
+       i=0;
     }
-    if (movie_database_vector[i].is_file == true ) {
-        std::cout << "wypisuje sciezke pliku " << movie_database_vector[i].path << " jest to " << movie_database_vector[i].is_file << std::endl;
-
-    }
-    else {
-        std::cout << "wypisuje sciezke katalogu " << movie_database_vector[i].path<< " jest to " << movie_database_vector[i].is_file << std::endl;
-    }
-
+   	 	std::cout << " iteracja i ma : " << i <<" rozmiar vectora : " << get_vector_size() <<  std::endl;
+     // show_list();
+ 
 }
+
+void files_tree::previous(  )
+{
+    --i;
+	//std::cout << " odejmuje " << i << std::endl;
+	
+	if ( i <0 )
+	{
+       i=get_vector_size()-1;   
+    }
+		std::cout << " iteracja i ma : " << i << " rozmiar vectora : " << get_vector_size() <<std::endl;
+	//show_list();
+}
+
 int files_tree::get_vector_size ()
 {
     return  movie_database_vector.size();
@@ -45,11 +57,20 @@ void files_tree::vector_clear ()
 {       
          movie_database_vector.clear();
 }
+ int files_tree::get_i()
+ { if (i_stack.size() >1 ) {
+	int i = i_stack.top();
+	i_stack.pop();
+	return i;
+	}
+	else
+	return 0;
+ }
 
-
-void files_tree::enter_dir(std::string path,int i)
+void files_tree::enter_dir()
 {
-
+   i_stack.push(i);  // wpisuje na stos  kolejna wersje licznika i 
+    
  
     if (movie_database_vector[i].is_file == true ) {
         std::cout << "to nie KATALOG!"<< std::endl;
@@ -59,20 +80,21 @@ void files_tree::enter_dir(std::string path,int i)
 
         std::cout << "sciezka: " << movie_database_vector[i].path << " i i: " << i << std::endl;
         std::cout << " WHODZE W TO!" << std::endl;
-		tree_stack.push(path);
+		tree_stack.push(movie_database_vector[i].path);
 		 std::cout << " w kolejce jest elementow : "<< tree_stack.size()<< std::endl;
 		 std::cout << " a ostatni to : "<< tree_stack.top()<< std::endl;
-        get_list (path)  ;
-
+        get_list (movie_database_vector[i].path)  ;
+			  i=0;
     }
 
 }
 void files_tree::enter_dir(std::string path)
 {	tree_stack.push(path);
       get_list (path)  ;
+
 }
 
-std::string files_tree::back_dir()
+void files_tree::back_dir()
 {
 		if ( tree_stack.size() >1 ) {
 		tree_stack.pop();
@@ -80,16 +102,24 @@ std::string files_tree::back_dir()
 		tree_stack.pop();
         std::cout << "                                           robie back do folderu: " << path << std::endl;
 		 std::cout << " w kolejce jest TERAZ elementow : "<< tree_stack.size()<< std::endl;
-        return path;
+        tree_stack.push(path);
+			i=get_i();
+			
+			 std::cout << "    III ma teraz : " << i << std::endl;
+		get_list (path)  ;
+		return;
 		}
-    
-     return database_path;
+     	i=get_i();
+		
+			 std::cout << "    III ma teraz : " << i << std::endl;
+    get_list (  database_path);
+	return;
 }
 
-void files_tree::show_list(   ) {
-    for(  size_t i = 0; i < movie_database_vector.size(); i++ )
-    {
-        if (movie_database_vector[i].is_file == true ) {
+std::string files_tree::show_list(     ) 
+{
+     	std::cout << "iteracja!!!!!!!!!!!!!!!!!!!!!!: " << i <<"  rozmiar vectora : " << get_vector_size() << std::endl;
+		 if (movie_database_vector[i].is_file == true ) {
             std::cout << "wypisuje sciezke pliku " << movie_database_vector[i].path << std::endl;
 
         }
@@ -97,15 +127,15 @@ void files_tree::show_list(   ) {
             std::cout << "wypisuje sciezke katalogu " << movie_database_vector[i].path << std::endl;
 
         }
-    }
+		return movie_database_vector[i].path;
 
 }
 
 
 void files_tree::get_list( std::string path  ) {
-  
+    //tree_stack.push(path);
     vector_clear();    // czyscimy vector
-    char g;
+  //  i=0;
    std::string  path2 =path;
    std::string v_path ,tmp_string ;
     std::cout << " SCIEZKA TO " << path << std::endl;
@@ -156,4 +186,3 @@ void files_tree::get_list( std::string path  ) {
         std::cout << " wywoujc funkcj opendir(%s) pojawi si bd otwarcia strumienia dla danej cieki, moe nie istnieje, lub podano ciek pust\n"<<  path << std::endl;
 
 }
-

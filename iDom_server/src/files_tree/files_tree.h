@@ -15,33 +15,36 @@ struct movie_database
   bool is_file; // true - file  false - directory
  std::string path;
 };
+ 
 
 class files_tree {
 private:
 std::string database_path;
 std::vector < movie_database > movie_database_vector;
-  size_t i ;    // licznik
+  int i ;    // licznik
     struct dirent * plik;
     DIR * sciezka;
     movie_database temp;
 	
 std::stack <std::string> tree_stack;  // kolejka trzyma kolejke katalogow jakie odwiedzilismy  dzieki temu da sie wracac 
-
+std::stack <int> i_stack;
 
 public:
 files_tree(std::string path);
 void get_list(std::string path );  // pobiera liste plikow i katalogow  w katalogu glóm
 void get_main_list ();
-void show_list ();
+std::string show_list ( );
+int get_i(); 				//pobgiera i  ze stosu  do cofania sie po katalogach
 std::string return_path (int i);
 int get_vector_size ();
-void list_tree( int i);
-bool is_file(int i);
-//next();
-std::string back_dir();
-//exit();
-void enter_dir(std::string path,int i);
-void enter_dir(std::string path);
+void next( );
+void previous();
+bool is_file( );
+
+void back_dir();
+
+void enter_dir(std::string path );
+void enter_dir();
 void vector_clear();
 };
 

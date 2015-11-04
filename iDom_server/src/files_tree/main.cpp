@@ -6,7 +6,7 @@
 #include <cstring>
 #include <vector>
 #include <stdlib.h>
-#include "/home/pi/programowanie/iDom_server/src/files_tree/files_tree.h"
+#include "files_tree.h"
 
 int main( int argc, char ** argv ) {
     char choise;
@@ -17,7 +17,7 @@ int main( int argc, char ** argv ) {
    
     while (go_while) {
      
-           
+          std::cout<< main_tree.show_list()<<std::endl;
             std::cout << " wybierz " << std::endl;
             std::cin >> choise;
             if (choise =='n')
@@ -33,8 +33,18 @@ int main( int argc, char ** argv ) {
             else if ( choise =='t' )
             {
                 std::cout << " URUCHAMIAM PLIK! " << std::endl;
+				if (main_tree.is_file() == false)
+				{
 				 main_tree.enter_dir();
-		
+				}
+				else
+				{
+					std::cout << " URUCHAMIAM PLIK! " <<main_tree.show_list() <<std::endl;
+					std::string command("cat ");
+					command+=main_tree.show_list();
+					std::cout << "\n komenda to "<< command << "\n a wynik jej to: "<< system(command.c_str()) << std::endl;
+					
+				}
                 continue;
             }
             
