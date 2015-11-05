@@ -1,4 +1,38 @@
+/*mapa klawiszy pilota i znaki im przypisane 
+ KEY_POWER                v
+          KEY_TV                   x
+          KEY_MUTE                 M
+          KEY_1                    1
+          KEY_2                    2
+          KEY_3                    3
+          KEY_4                    4
+          KEY_5                    5
+          KEY_6                    6
+          KEY_7                    7
+          KEY_8                    8
+          KEY_9                    9
+          KEY_0                    0
 
+          KEY_FAVORITES            F
+          KEY_REFRESH              R
+          KEY_INFO                 i
+          KEY_CHANNELUP            N
+          KEY_EPG                  E
+          KEY_EXIT                 e
+          KEY_CHANNELDOWN          G
+          KEY_MENU                 m
+          KEY_UP                   z
+          KEY_OK                   o
+          KEY_DOWN                 b
+          KEY_VOLUMEUP             +
+          KEY_VOLUMEDOWN           -
+          KEY_LANGUAGE             L
+          KEY_AUDIO                c
+          KEY_SUBTITLE             S
+          KEY_SAT                  s
+          KEY_TEXT                 T
+          KEY_RADIO                P
+ */
 #include "master_irda.h"
 #include <time.h>
 #include <wiringPi.h>
@@ -59,7 +93,6 @@ void master_irda::run()
                     //Check to see if the string "KEY_1" appears anywhere within the string 'code'.
 
                     if(strstr (code,"KEY_POWER")){
-                        //printf("MATCH on KEY_POWER\n");
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO<< " wcisnieto POWER" <<  std::endl;
                         log_file_mutex.mutex_unlock();
@@ -75,42 +108,34 @@ void master_irda::run()
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_3")){
-                        //////printf("MATCH on KEY_3\n");
                         irda_queue._add('3');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_4")){
-                        //////printf("MATCH on KEY_3\n");
                         irda_queue._add('4');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_5")){
-                        //////printf("MATCH on KEY_3\n");
                         irda_queue._add('5');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_6")){
-                        //////printf("MATCH on KEY_3\n");
                         irda_queue._add('6');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_7")){
-                        //////printf("MATCH on KEY_3\n");
                         irda_queue._add('7');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_8")){
-                        //////printf("MATCH on KEY_3\n");
                         irda_queue._add('8');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_9")){
-                        //////printf("MATCH on KEY_3\n");
                         irda_queue._add('9');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_0")){
-                        //////printf("MATCH on KEY_3\n");
                         irda_queue._add('0');
                         buttonTimer = millis();
                     }
@@ -138,46 +163,35 @@ void master_irda::run()
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_VOLUMEUP")){
-                        //printf("MATCH on KEY_VOLUMEUP\n");
-                        // system("mpc -h 192.168.1.144 volume +1");
                         irda_queue._add('+');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_VOLUMEDOWN")){
-                        //printf("MATCH on KEY_VOLUMEDOWN\n");
-                        // system("mpc -h 192.168.1.144 volume -1");
                         irda_queue._add('-');
                         buttonTimer = millis();
                     }
                     /////////////////////////////////////////////
 
                     else if(strstr (code,"KEY_DOWN")){
-                        //////printf("MATCH on KEY_DOWN\n");
-                        //system("mpc -h 192.168.1.144 next");
                         irda_queue._add('b');
                         buttonTimer = millis();
                     }
 
                     else if(strstr (code,"KEY_UP")){
-                        //////printf("MATCH on KEY_UP\n");
-                        //system("mpc -h 192.168.1.144 prev");
                         irda_queue._add('z');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_OK")){
-                        //////printf("MATCH on KEY_3\n");
                         irda_queue._add('o');
                         buttonMENU=0;
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_MENU")){
-                        //////printf("MATCH on KEY_3\n");
                         irda_queue._add('m');
                         buttonMENU=1;// wlacz timeout dla menu
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_EXIT")){
-                        //////printf("MATCH on KEY_3\n");
                         irda_queue._add('e');
                         buttonMENU = 0;
                         buttonTimer = millis();
@@ -206,6 +220,34 @@ void master_irda::run()
                         irda_queue._add('G');
                         buttonTimer = millis();
                     }
+		  else if(strstr (code,"KEY_MUTE")){
+                        irda_queue._add('M');
+                        buttonTimer = millis();
+                    }
+		else if(strstr (code,"KEY_FAVORITES")){
+                        irda_queue._add('F');
+                        buttonTimer = millis();
+                    }
+		else if(strstr (code,"KEY_REFRESH")){
+                        irda_queue._add('R');
+                        buttonTimer = millis();
+                    }
+		else if(strstr (code,"KEY_LANGUAGE")){
+                        irda_queue._add('L');
+                        buttonTimer = millis();
+			}
+		else if(strstr (code,"KEY_SUBTITLE")){
+                        irda_queue._add('S');
+                        buttonTimer = millis();
+			}
+		else if(strstr (code,"KEY_SAT")){
+                        irda_queue._add('s');
+                        buttonTimer = millis();
+			}
+		else if(strstr (code,"KEY_TEXT")){
+                        irda_queue._add('T');
+                        buttonTimer = millis();
+			}
                 }
             }
             //Need to free up code before the next loop
