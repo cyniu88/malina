@@ -1,36 +1,36 @@
 /*mapa klawiszy pilota i znaki im przypisane 
-KEY_POWER	P
-KEY_0		0
-KEY_1		1
-KEY_2		2
-KEY_3		3
-KEY_4		4
-KEY_5		5
-KEY_6		6
-KEY_7		7
-KEY_8		8	
-KEY_9		9
-KEY_AUDIO	A
-KEY_CHANNELDOWN	\
-KEY_CHANNELUP	/
-KEY_DOWN	D
-KEY_EPG		E
-KEY_EXIT	e
-KEY_FAVORITES	F
-KEY_INFO	I
-KEY_LANGUAGE	L
-KEY_MENU	M
-KEY_MUTE	m
-KEY_OK		O
-KEY_RADIO	r
-KEY_REFRESH	R
-KEY_SAT		s
-KEY_SUBTITLE	S
-KEY_TEXT	T
-KEY_TV		t
-KEY_UP		U
-KEY_VOLUMEDOWN	-
-KEY_VOLUMEUP	+
+KEY_POWER           P
+KEY_0               0
+KEY_1               1
+KEY_2               2
+KEY_3               3
+KEY_4               4
+KEY_5               5
+KEY_6               6
+KEY_7               7
+KEY_8               8
+KEY_9               9
+KEY_AUDIO       	A
+KEY_CHANNELDOWN     /
+KEY_CHANNELUP       ^
+KEY_DOWN            D
+KEY_EPG             E
+KEY_EXIT            e
+KEY_FAVORITES       F
+KEY_INFO            I
+KEY_LANGUAGE        L
+KEY_MENU        	M
+KEY_MUTE        	m
+KEY_OK              O
+KEY_RADIO           r
+KEY_REFRESH         R
+KEY_SAT             s
+KEY_SUBTITLE        S
+KEY_TEXT            T
+KEY_TV              t
+KEY_UP              U
+KEY_VOLUMEDOWN      -
+KEY_VOLUMEUP        +
 
  */
 #include "master_irda.h"
@@ -40,7 +40,7 @@ master_irda::master_irda(thread_data *my_data)
 {
     buttonTimer = millis();
     buttonMENU = 0;
-   
+
     //Initiate LIRC. Exit on failure
     if(lirc_init("lirc",1)==-1)
         exit(EXIT_FAILURE);
@@ -61,7 +61,7 @@ void master_irda::run()
     //Read the default LIRC config at /etc/lirc/lircd.conf  This is the config for your remote.
     if(lirc_readconfig(NULL,&config,NULL)==0)
     {
-       // std::cout << " jestem w iflirc_readconfig(NULL,&config,NULL)==0 \n ";
+        // std::cout << " jestem w iflirc_readconfig(NULL,&config,NULL)==0 \n ";
         //Do stuff while LIRC socket is open  0=open  -1=closed.
         while(lirc_nextcode(&code)==0 )
         {
@@ -79,7 +79,7 @@ void master_irda::run()
                 //Make sure there is a 400ms gap before detecting button presses.
                 if (millis() - buttonTimer  > 400 ){
 
-                   digitalWrite(LED7,ON);
+                    digitalWrite(LED7,ON);
 
                     // time out   OK menu
                     if (millis() - buttonTimer  > 30000 && buttonMENU == 1){
@@ -212,48 +212,48 @@ void master_irda::run()
                     }
                     else if(strstr (code,"KEY_CHANNELUP")){
 
-                        irda_queue._add('/');
+                        irda_queue._add('^');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_CHANNELDOWN")){
 
-                        irda_queue._add('\');
+                        irda_queue._add('/');
                         buttonTimer = millis();
                     }
-		  else if(strstr (code,"KEY_MUTE")){
+                    else if(strstr (code,"KEY_MUTE")){
                         irda_queue._add('m');
                         buttonTimer = millis();
                     }
-		else if(strstr (code,"KEY_FAVORITES")){
+                    else if(strstr (code,"KEY_FAVORITES")){
                         irda_queue._add('F');
                         buttonTimer = millis();
                     }
-		else if(strstr (code,"KEY_REFRESH")){
+                    else if(strstr (code,"KEY_REFRESH")){
                         irda_queue._add('R');
                         buttonTimer = millis();
                     }
-		else if(strstr (code,"KEY_LANGUAGE")){
+                    else if(strstr (code,"KEY_LANGUAGE")){
                         irda_queue._add('L');
                         buttonTimer = millis();
-			}
-		else if(strstr (code,"KEY_SUBTITLE")){
+                    }
+                    else if(strstr (code,"KEY_SUBTITLE")){
                         irda_queue._add('S');
                         buttonTimer = millis();
-			}
-		else if(strstr (code,"KEY_SAT")){
+                    }
+                    else if(strstr (code,"KEY_SAT")){
                         irda_queue._add('s');
                         buttonTimer = millis();
-			}
-		else if(strstr (code,"KEY_TEXT")){
+                    }
+                    else if(strstr (code,"KEY_TEXT")){
                         irda_queue._add('T');
                         buttonTimer = millis();
-			}
+                    }
                 }
             }
             //Need to free up code before the next loop
             free(code);
 
-          digitalWrite(LED7,OFF);
+            digitalWrite(LED7,OFF);
         }
         //Frees the data structures associated with config.
         lirc_freeconfig(config);
@@ -264,8 +264,8 @@ void master_irda::run()
 
 
     //lirc_deinit() closes the connection to lircd and does some internal clean-up stuff.
-        lirc_deinit();
-   // exit(EXIT_SUCCESS);
+    lirc_deinit();
+    // exit(EXIT_SUCCESS);
 
 
 }

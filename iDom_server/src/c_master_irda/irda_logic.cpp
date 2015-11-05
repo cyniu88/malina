@@ -4,7 +4,7 @@ files_tree main_tree( "/home/pi/hdd/FTP");
 irda_logic::irda_logic()
 {
     who='!';
-   // pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
+    // pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
     digitalWrite(LED7,OFF);
 }
 //irda_logic::who='!';
@@ -14,21 +14,21 @@ void irda_logic::_add(char X)
 
     if (who=='!')
     {
-        if (X!='M'&& X!='P'&& X!='E')
+        if (X!='M'&& X!='r'&& X!='E')
         {
             char_queue._add(X);
         }
 
-        else if (X=='P')
+        else if (X=='r')
         {
-            //who = 'P';
-           // main_tree.show_list(); //printuje pierwszy element
+            who = 'r';
+            // main_tree.show_list(); //printuje pierwszy element
 
         }
         else if (X=='E')
         {
             who = 'E';
-           main_tree.show_list(); //printuje pierwszy element
+            main_tree.show_list(); //printuje pierwszy element
             //char_queue._add('v');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
         }
         else {
@@ -36,13 +36,13 @@ void irda_logic::_add(char X)
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////////////// obsluga projektora
-    else if (who=='P')
+    else if (who=='r')
     {
-        //std::cout << "jestem w projektorze  " << std::endl;
+        std::cout << "jestem w projektorze  " << std::endl;
         if ( X=='e')
         {
             who = '!';
-         //   std::cout << "koniec sterowania  projektorem" << std::endl;
+            //   std::cout << "koniec sterowania  projektorem" << std::endl;
         }
         else if (X=='+')
         {
@@ -99,58 +99,61 @@ void irda_logic::_add(char X)
         }
         else if (X=='O')
         {
-              // whodze w katalog lub odtwarzma plik
+            // whodze w katalog lub odtwarzma plik
 
-           if (main_tree.is_file() == false)
-           {
-            main_tree.enter_dir();
-            main_tree.show_list();
-           }
-           else
-           {
-               std::cout << " URUCHAMIAM PLIK! " <<main_tree.show_list() <<std::endl;
-               char_queue._add('P');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
-               std::string command("cat ");
-               command+=main_tree.show_list();
-               std::cout << "\n komenda to "<< command << "\n a wynik jej to: "; //<< system(command.c_str()) << std::endl;
+            if (main_tree.is_file() == false)
+            {
+                main_tree.enter_dir();
+                main_tree.show_list();
+            }
+            else
+            {
+                std::cout << " URUCHAMIAM PLIK! " <<main_tree.show_list() <<std::endl;
+                char_queue._add('P');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
+                std::string command("cat ");
+                command+=main_tree.show_list();
+                std::cout << "\n komenda to "<< command << "\n a wynik jej to: "; //<< system(command.c_str()) << std::endl;
 
-           }
+            }
         }
         else if (X=='U')
         {
             main_tree.back_dir();
-             ;
-        }
-  /////////////////////////////////////////////////////////////////////////////////////////////  oblsuga menu
-
-    else if (who=='M')
-    {
-        std::cout << "jestem w menu  az wcisne ok lub exit " << X <<std::endl;
-        if (X=='O' || X=='e')
-        {
-            who = '!';
-        }
-
-        else if (X=='I')
-        {
-
-           // std::cout << " stan led to " << digitalRead(LED7)<<std::endl;
-            if (digitalRead(LED7)== OFF)
-            {
-                digitalWrite(LED7,ON);
-
-            }
-
-            else if (digitalRead(LED7)==ON)
-            {
-                digitalWrite(LED7,OFF);
-
-            }
 
         }
-
+        main_tree.show_list();
     }
-}
+        /////////////////////////////////////////////////////////////////////////////////////////////  oblsuga menu
+
+        else if (who=='M')
+        {
+            std::cout << "jestem w menu  az wcisne ok lub exit " << X <<std::endl;
+            if (X=='O' || X=='e')
+            {
+                who = '!';
+            }
+
+            else if (X=='I')
+            {
+
+                // std::cout << " stan led to " << digitalRead(LED7)<<std::endl;
+                if (digitalRead(LED7)== OFF)
+                {
+                    digitalWrite(LED7,ON);
+
+                }
+
+                else if (digitalRead(LED7)==ON)
+                {
+                    digitalWrite(LED7,OFF);
+
+                }
+
+            }
+
+        }
+    }
+
 
 char irda_logic::_get( )
 {  char temp;
