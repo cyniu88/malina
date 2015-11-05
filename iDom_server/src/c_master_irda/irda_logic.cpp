@@ -14,7 +14,7 @@ void irda_logic::_add(char X)
 
     if (who=='!')
     {
-        if (X!='m'&& X!='P'&& X!='E')
+        if (X!='M'&& X!='P'&& X!='E')
         {
             char_queue._add(X);
         }
@@ -32,7 +32,7 @@ void irda_logic::_add(char X)
             //char_queue._add('v');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
         }
         else {
-            who = 'm';
+            who = 'M';
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////////////// obsluga projektora
@@ -97,7 +97,7 @@ void irda_logic::_add(char X)
         {
             main_tree.previous(); //poprzedni katalog
         }
-        else if (X=='o')
+        else if (X=='O')
         {
               // whodze w katalog lub odtwarzma plik
 
@@ -109,49 +109,29 @@ void irda_logic::_add(char X)
            else
            {
                std::cout << " URUCHAMIAM PLIK! " <<main_tree.show_list() <<std::endl;
-               char_queue._add('v');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
+               char_queue._add('P');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
                std::string command("cat ");
                command+=main_tree.show_list();
                std::cout << "\n komenda to "<< command << "\n a wynik jej to: "; //<< system(command.c_str()) << std::endl;
 
            }
         }
-        else if (X=='v')
-        {
-           // system("echo -n q > /tmp/cmd");  // zamykanie omxplayera
-        }
-        else if (X=='z')
+        else if (X=='U')
         {
             main_tree.back_dir();
              ;
         }
-        else if (X=='b')
-        {
-            //system("echo -n $'\x1b\x5b\x43' > /tmp/cmd");  // do tylu
-
-        }
-        else if (X=='N')
-        {
-           // system("echo -n o > /tmp/cmd");  // do przodu
-        }
-        else if (X=='G')
-        {
-           // system("echo -n i > /tmp/cmd");  // do tylu
-
-        }
-        main_tree.show_list(); // pokaz gdzie jestes po wykonaniu operacji
-    }
   /////////////////////////////////////////////////////////////////////////////////////////////  oblsuga menu
 
-    else if (who=='m')
+    else if (who=='M')
     {
         std::cout << "jestem w menu  az wcisne ok lub exit " << X <<std::endl;
-        if (X=='o' || X=='e')
+        if (X=='O' || X=='e')
         {
             who = '!';
         }
 
-        else if (X=='i')
+        else if (X=='I')
         {
 
            // std::cout << " stan led to " << digitalRead(LED7)<<std::endl;

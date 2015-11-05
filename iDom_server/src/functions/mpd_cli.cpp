@@ -149,26 +149,26 @@ void  *main_mpd_cli(void *data )
                                                                     {
                                                                     case '\n':
                                                                         break;
-                                                                    case 'b':
+                                                                    case 'D':
                                                                         mpd_player_next(obj);
                                                                         break;
-                                                                    case 'z':
+                                                                    case 'U':
                                                                         mpd_player_prev(obj);
                                                                         break;
-                                                                    case 'x':
+                                                                    case 't':
                                                                         mpd_player_play(obj);
                                                                         break;
-                                                                    case 'c':
+                                                                    case 'A':
                                                                         mpd_player_pause(obj);
                                                                         break;
-                                                                    case 'v':
+                                                                    case 'P':
                                                                         mpd_player_stop(obj);
                                                                         break;
                                                                     case 'q':
                                                                         run = 0;
                                                                         printf("Quitting....\n");
                                                                         break;
-                                                                    case 'r':
+                                                                    case 'R':
                                                                         mpd_player_set_repeat(obj, !mpd_player_get_repeat(obj));
                                                                         break;
                                                                     case 's':

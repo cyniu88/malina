@@ -1,37 +1,37 @@
 /*mapa klawiszy pilota i znaki im przypisane 
- KEY_POWER                v
-          KEY_TV                   x
-          KEY_MUTE                 M
-          KEY_1                    1
-          KEY_2                    2
-          KEY_3                    3
-          KEY_4                    4
-          KEY_5                    5
-          KEY_6                    6
-          KEY_7                    7
-          KEY_8                    8
-          KEY_9                    9
-          KEY_0                    0
+KEY_POWER	P
+KEY_0		0
+KEY_1		1
+KEY_2		2
+KEY_3		3
+KEY_4		4
+KEY_5		5
+KEY_6		6
+KEY_7		7
+KEY_8		8	
+KEY_9		9
+KEY_AUDIO	A
+KEY_CHANNELDOWN	\
+KEY_CHANNELUP	/
+KEY_DOWN	D
+KEY_EPG		E
+KEY_EXIT	e
+KEY_FAVORITES	F
+KEY_INFO	I
+KEY_LANGUAGE	L
+KEY_MENU	M
+KEY_MUTE	m
+KEY_OK		O
+KEY_RADIO	r
+KEY_REFRESH	R
+KEY_SAT		s
+KEY_SUBTITLE	S
+KEY_TEXT	T
+KEY_TV		t
+KEY_UP		U
+KEY_VOLUMEDOWN	-
+KEY_VOLUMEUP	+
 
-          KEY_FAVORITES            F
-          KEY_REFRESH              R
-          KEY_INFO                 i
-          KEY_CHANNELUP            N
-          KEY_EPG                  E
-          KEY_EXIT                 e
-          KEY_CHANNELDOWN          G
-          KEY_MENU                 m
-          KEY_UP                   z
-          KEY_OK                   o
-          KEY_DOWN                 b
-          KEY_VOLUMEUP             +
-          KEY_VOLUMEDOWN           -
-          KEY_LANGUAGE             L
-          KEY_AUDIO                c
-          KEY_SUBTITLE             S
-          KEY_SAT                  s
-          KEY_TEXT                 T
-          KEY_RADIO                P
  */
 #include "master_irda.h"
 #include <time.h>
@@ -96,7 +96,7 @@ void master_irda::run()
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO<< " wcisnieto POWER" <<  std::endl;
                         log_file_mutex.mutex_unlock();
-                        irda_queue._add('v');
+                        irda_queue._add('P');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_1")){
@@ -144,7 +144,7 @@ void master_irda::run()
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO<< " operacja na diodzie" <<  std::endl;
                         log_file_mutex.mutex_unlock();
-                        irda_queue._add('i');
+                        irda_queue._add('I');
                         buttonTimer = millis();
                     }
                     /////////////////////////////////////////////////
@@ -152,14 +152,14 @@ void master_irda::run()
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO<< " wcisnieto PLAY" <<  std::endl;
                         log_file_mutex.mutex_unlock();
-                        irda_queue._add('x');
+                        irda_queue._add('t');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_AUDIO")){
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO<< " wcisnieto PAUSE" <<  std::endl;
                         log_file_mutex.mutex_unlock();
-                        irda_queue._add('c');
+                        irda_queue._add('A');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_VOLUMEUP")){
@@ -173,21 +173,21 @@ void master_irda::run()
                     /////////////////////////////////////////////
 
                     else if(strstr (code,"KEY_DOWN")){
-                        irda_queue._add('b');
+                        irda_queue._add('D');
                         buttonTimer = millis();
                     }
 
                     else if(strstr (code,"KEY_UP")){
-                        irda_queue._add('z');
+                        irda_queue._add('U');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_OK")){
-                        irda_queue._add('o');
+                        irda_queue._add('O');
                         buttonMENU=0;
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_MENU")){
-                        irda_queue._add('m');
+                        irda_queue._add('M');
                         buttonMENU=1;// wlacz timeout dla menu
                         buttonTimer = millis();
                     }
@@ -200,7 +200,7 @@ void master_irda::run()
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO<< " sterowanie projektorem" <<  std::endl;
                         log_file_mutex.mutex_unlock();
-                        irda_queue._add('P');   //idziemy do sterowania projektorem
+                        irda_queue._add('r');   //idziemy do sterowania projektorem
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_EPG")){
@@ -212,16 +212,16 @@ void master_irda::run()
                     }
                     else if(strstr (code,"KEY_CHANNELUP")){
 
-                        irda_queue._add('N');
+                        irda_queue._add('/');
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_CHANNELDOWN")){
 
-                        irda_queue._add('G');
+                        irda_queue._add('\');
                         buttonTimer = millis();
                     }
 		  else if(strstr (code,"KEY_MUTE")){
-                        irda_queue._add('M');
+                        irda_queue._add('m');
                         buttonTimer = millis();
                     }
 		else if(strstr (code,"KEY_FAVORITES")){
