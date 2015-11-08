@@ -191,6 +191,11 @@ void *main_thread( void * unused)
     int32_t bufor[ MAX_MSG_LEN ];
     if (wiringPiSetup () == -1)
         exit (1) ;
+
+    //WiringPi initalize
+    if (wiringPiSetupSys () == -1)
+        exit (1) ;
+
     pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
 
     log_file_mutex.mutex_lock();

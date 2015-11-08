@@ -68,6 +68,10 @@ config read_config  ( const char* file_path    )
         {
             v_set.SERVER_IP= v_value;
         }
+        if (variable == "MOVIES_DB_PATH")
+        {
+            v_set.MOVIES_DB_PATH= v_value;
+        }
         if (variable == "MPD_IP")
         {
             v_set.MPD_IP= v_value;

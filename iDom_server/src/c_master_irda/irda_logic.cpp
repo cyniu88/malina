@@ -52,28 +52,28 @@ void irda_logic::_add(char X)
         {
             system("echo -n - > /tmp/cmd");  // wyciszamy
         }
-        else if (X=='o')
+        else if (X=='O')
         {
             system("echo -n p > /tmp/cmd");  //pauza play
         }
-        else if (X=='v')
+        else if (X=='P')
         {
             system("echo -n q > /tmp/cmd");  // zamykanie omxplayera
         }
-        else if (X=='b')
+        else if (X=='D')
         {
             system("echo -n $'\x1b\x5b\x43' > /tmp/cmd");  // do przodu
         }
-        else if (X=='z')
+        else if (X=='U')
         {
             system("echo -n $'\x1b\x5b\x43' > /tmp/cmd");  // do tylu
 
         }
-        else if (X=='N')
+        else if (X=='^')
         {
             system("echo -n o > /tmp/cmd");  // do przodu
         }
-        else if (X=='G')
+        else if (X=='/')
         {
             system("echo -n i > /tmp/cmd");  // do tylu
 
