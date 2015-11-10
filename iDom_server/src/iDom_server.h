@@ -24,6 +24,7 @@
 #include <wiringPi.h>
  #include <lirc/lirc_client.h>
 
+
 // MOJE BIBLIOTEKI
 
 #include "serialib/serialib.h"
@@ -35,7 +36,7 @@
 #include "c_master_irda/master_irda.h"
 #include "functions/mpd_cli.h"
 #include "blockQueue/blockqueue.h"
-#include "functions/master_LCD.h"
+
 
 char *  _logfile  = "/tmp/iDom_log.log";
 

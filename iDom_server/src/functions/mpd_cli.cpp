@@ -38,6 +38,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what)
         case MPD_PLAYER_STOP:
             printf("Stopped\n");
             check_title_song_to=false;
+            m_lcd.noBacklight();
             break;
         default:
             break;
@@ -80,11 +81,11 @@ void status_changed(MpdObj *mi, ChangedStatusType what)
             mpd_Song *song = mpd_playlist_get_current_song(mi);
             // std::cout <<" SONG: " << song->artist<<" "<< song->title << std::endl;
             printf(GREEN"aktualnie gramy:"RESET" %s - %s\n", song->artist, song->title);
-            lcdClear(screen);
-           lcdPosition (screen,0,0);
-           lcdCursor(screen,1);
+
            wiad =  song->title;
-           lcdPuts(screen,wiad.c_str() );
+           m_lcd.clear();
+           m_lcd.printstr(wiad.c_str());
+
 
         }
     }
@@ -112,19 +113,7 @@ void  *main_mpd_cli(void *data )
         thread_data  *my_data;
             my_data = (thread_data*)data;
 ////////////////////////////// LCD PART ///////////////////////
-                //LCD initalize
-                screen = lcdInit(2, 16, 4, AF_RS, AF_E, AF_D1, AF_D2, AF_D3, AF_D4, 0, 0, 0, 0);
-
-                //PCF8574 initalize
-                pcf8574Setup(AF_BASE, 0x27);
-
-                //Turning backlight ON
-                pinMode (AF_BL, OUTPUT);
-                digitalWrite (AF_BL, 1);
-
-                //Set LCD into write mode.
-                pinMode (AF_RW, OUTPUT);
-                digitalWrite (AF_RW, 0);
+m_lcd.init(0x27,16,2);
       ///////////////////////////////////////////////////////////////////
                 //int fdstdin = 0;
                 int run = 1, iport = 6600;

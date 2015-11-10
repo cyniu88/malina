@@ -1,58 +1,59 @@
-#include <wiringPi.h>
-
-#include <lcd.h>
-
-#include <pcf8574.h>
-
-using namespace std;
-static int screen;
-
-//define new pins
-#define AF_BASE 100
-
-#define AF_RS   (AF_BASE + 0)
-#define AF_RW   (AF_BASE + 1)
-#define AF_E    (AF_BASE + 2)
-
-#define AF_BL   (AF_BASE + 3)
-
-#define AF_D1   (AF_BASE + 4)
-#define AF_D2   (AF_BASE + 5)
-#define AF_D3   (AF_BASE + 6)
-#define AF_D4   (AF_BASE + 7)
-
-//initalize function for WiringPi, LCD and PCF8574 module.
-void Initalize()
-{
+#include "../arduPi/arduPi.h"
 
 
+#include "../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h"
+#include "../iDom_server/src/LCD_c/lcd_c.h"
+//#include <wiringPi.h>
+int main (){
+
+    LCD_c m_lcd;
+
+    m_lcd.init(0x27,16,2);
+    delay(5000);
+
+    m_lcd.printstr("kinia");
+    delay (5000);
+    m_lcd.noBacklight();
+    return 0;
 }
 
-int main()
+/*
+void setup()
 {
 
-//WiringPi initalize
-wiringPiSetupSys ();
+lcd.init(); // initialize the lcd
 
-//LCD initalize
-screen = lcdInit(2, 16, 4, AF_RS, AF_E, AF_D1, AF_D2, AF_D3, AF_D4, 0, 0, 0, 0);
-
-//PCF8574 initalize
-pcf8574Setup(AF_BASE, 0x27);
-
-//Turning backlight ON
-pinMode (AF_BL, OUTPUT);
-digitalWrite (AF_BL, 1);
-
-//Set LCD into write mode.
-pinMode (AF_RW, OUTPUT);
-digitalWrite (AF_RW, 0);
-
-
-
-//Print function
-lcdClear(screen);
-lcdPosition (screen,0,0);
-lcdPuts(screen, "Hello World!");
-return 0;
+lcd.backlight();
+//lcd.autoscroll();
+//lcd.print(5,0,"CooCox");
+lcd.print("dupa");
+ lcd.setCursor(0,0);
+delay(2000);
+lcd.clear();
+//lcd.showStr(5,0,"I2C LCD for");
+//lcd.showStr(2, 1, "Raspberry Pi");
 }
+
+void loop() {
+   lcd.noBacklight();
+    printf("gasze \n");
+    delay(1000);
+   // lcd.backlight();
+    printf("zapala,\n");
+   //lcd.cursor();
+//lcd.clear();
+
+    lcd.print("testujemy  znaki  dlugie takie bardzo");
+      //delay(1000);
+}
+
+int main() {
+
+setup();
+while(1) {
+
+loop();
+//
+}
+}
+*/

@@ -181,7 +181,7 @@ void SerialPi::print(float f, int precission){
     unistd::write(sd,message,strlen(message));
 }
 
-/* Prints data to the serial port as human-readable ASCII text followed
+/* Prints data to the serial port as human-readable ASCII text folm_LOWed
  * by a carriage retrun character '\r' and a newline character '\n' */
 void SerialPi::println(const char *message){
 	const char *newline="\r\n";
@@ -190,7 +190,7 @@ void SerialPi::println(const char *message){
     unistd::write(sd,msg,strlen(msg));
 }
 
-/* Prints data to the serial port as human-readable ASCII text followed
+/* Prints data to the serial port as human-readable ASCII text folm_LOWed
  * by a carriage retrun character '\r' and a newline character '\n' */
 void SerialPi::println(char message){
 	const char *newline="\r\n";
@@ -199,7 +199,7 @@ void SerialPi::println(char message){
     unistd::write(sd,msg,strlen(msg));
 }
 
-/* Prints data to the serial port as human-readable ASCII text followed
+/* Prints data to the serial port as human-readable ASCII text folm_LOWed
  * by a carriage retrun character '\r' and a newline character '\n' */
 void SerialPi::println(int i, Representation rep){
     char * message;
@@ -226,7 +226,7 @@ void SerialPi::println(int i, Representation rep){
     unistd::write(sd,msg,strlen(msg));
 }
 
-/* Prints data to the serial port as human-readable ASCII text followed
+/* Prints data to the serial port as human-readable ASCII text folm_LOWed
  * by a carriage retrun character '\r' and a newline character '\n' */
 void SerialPi::println(float f, int precission){
     const char *str1="%.";
@@ -1089,15 +1089,15 @@ uint8_t shiftIn(uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order){
 
 	if (order == MSBFIRST)
 		for (i = 7 ; i >= 0 ; --i){
-			digitalWrite (cPin, HIGH);
+            digitalWrite (cPin, m_HIGH);
 			value |= digitalRead (dPin) << i;
-			digitalWrite (cPin, LOW);
+            digitalWrite (cPin, m_LOW);
 		}
 	else
 		for (i = 0 ; i < 8 ; ++i){
-		  digitalWrite (cPin, HIGH);
+          digitalWrite (cPin, m_HIGH);
 		  value |= digitalRead (dPin) << i;
-		  digitalWrite (cPin, LOW);
+          digitalWrite (cPin, m_LOW);
 		}
 
 	return value;
@@ -1109,21 +1109,21 @@ void shiftOut(uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order, uint8_t val)
 	if (order == MSBFIRST)
 		for (i = 7 ; i >= 0 ; --i){	
 			digitalWrite (dPin, val & (1 << i)) ;
-			digitalWrite (cPin, HIGH) ;
-			digitalWrite (cPin, LOW) ;
+            digitalWrite (cPin, m_HIGH) ;
+            digitalWrite (cPin, m_LOW) ;
 		}
 	else
 		for (i = 0 ; i < 8 ; ++i){
 			digitalWrite (dPin, val & (1 << i)) ;
-			digitalWrite (cPin, HIGH) ;
-			digitalWrite (cPin, LOW) ;
+            digitalWrite (cPin, m_HIGH) ;
+            digitalWrite (cPin, m_LOW) ;
 		}
 }
 
 // Configures the specified pin to behave either as an input or an output
-void pinMode(int pin, Pinmode mode){
+void pinMode(int pin, m_Pinmode mode){
 	pin = raspberryPinNumber(pin);
-	if(mode == OUTPUT){
+    if(mode == m_OUTPUT){
 		switch(pin){
 			case 4:  GPFSEL0 &= ~(7 << 12); GPFSEL0 |= (1 << 12); break;
 			case 8:  GPFSEL0 &= ~(7 << 24); GPFSEL0 |= (1 << 24); break;
@@ -1140,7 +1140,7 @@ void pinMode(int pin, Pinmode mode){
 			case 25: GPFSEL2 &= ~(7 << 15); GPFSEL2 |= (1 << 15); break;
 		}
 
-	}else if (mode == INPUT){
+    }else if (mode == m_INPUT){
 		switch(pin){
 			case 4:  GPFSEL0 &= ~(7 << 12); break;
 			case 8:  GPFSEL0 &= ~(7 << 24); break;
@@ -1159,10 +1159,10 @@ void pinMode(int pin, Pinmode mode){
 	}
 }
 
-// Write a HIGH or a LOW value to a digital pin
+// Write a m_HIGH or a m_LOW value to a digital pin
 void digitalWrite(int pin, int value){
 	pin = raspberryPinNumber(pin);
-	if (value == HIGH){
+    if (value == m_HIGH){
 		switch(pin){
 			case  4:GPSET0 =  BIT_4;break;
 			case  8:GPSET0 =  BIT_8;break;
@@ -1178,7 +1178,7 @@ void digitalWrite(int pin, int value){
 			case 24:GPSET0 = BIT_24;break;
 			case 25:GPSET0 = BIT_25;break;
 		}
-	}else if(value == LOW){
+    }else if(value == m_LOW){
 		switch(pin){
 			case  4:GPCLR0 =  BIT_4;break;
 			case  8:GPCLR0 =  BIT_8;break;
@@ -1195,29 +1195,29 @@ void digitalWrite(int pin, int value){
 			case 25:GPCLR0 = BIT_25;break;
 		}
 	}
-    	delayMicroseconds(1);    // Delay to allow any change in state to be reflected in the LEVn, register bit.
+        delayMicroseconds(1);    // Delay to alm_LOW any change in state to be reflected in the LEVn, register bit.
 }
 
 
 
-// Reads the value from a specified digital pin, either HIGH or LOW.
+// Reads the value from a specified digital pin, either m_HIGH or m_LOW.
 int digitalRead(int pin){
-	Digivalue value;
+    m_Digivalue value;
 	pin = raspberryPinNumber(pin);
 	switch(pin){
-		case 4: if(GPLEV0 & BIT_4){value = HIGH;} else{value = LOW;};break;
-		case 8: if(GPLEV0 & BIT_8){value = HIGH;} else{value = LOW;};break;
-		case 9: if(GPLEV0 & BIT_9){value = HIGH;} else{value = LOW;};break;
-		case 10:if(GPLEV0 & BIT_10){value = HIGH;} else{value = LOW;};break;
-		case 11:if(GPLEV0 & BIT_11){value = HIGH;} else{value = LOW;};break;
-		case 17:if(GPLEV0 & BIT_17){value = HIGH;}else{value = LOW;};break;
-		case 18:if(GPLEV0 & BIT_18){value = HIGH;}else{value = LOW;};break;
-		case 21:if(GPLEV0 & BIT_21){value = HIGH;}else{value = LOW;};break;
-		case 27:if(GPLEV0 & BIT_27){value = HIGH;}else{value = LOW;};break;
-		case 22:if(GPLEV0 & BIT_22){value = HIGH;}else{value = LOW;};break;
-		case 23:if(GPLEV0 & BIT_23){value = HIGH;}else{value = LOW;};break;
-		case 24:if(GPLEV0 & BIT_24){value = HIGH;}else{value = LOW;};break;
-		case 25:if(GPLEV0 & BIT_25){value = HIGH;}else{value = LOW;};break;
+        case 4: if(GPLEV0 & BIT_4){value = m_HIGH;} else{value = m_LOW;};break;
+        case 8: if(GPLEV0 & BIT_8){value = m_HIGH;} else{value = m_LOW;};break;
+        case 9: if(GPLEV0 & BIT_9){value = m_HIGH;} else{value = m_LOW;};break;
+        case 10:if(GPLEV0 & BIT_10){value = m_HIGH;} else{value = m_LOW;};break;
+        case 11:if(GPLEV0 & BIT_11){value = m_HIGH;} else{value = m_LOW;};break;
+        case 17:if(GPLEV0 & BIT_17){value = m_HIGH;}else{value = m_LOW;};break;
+        case 18:if(GPLEV0 & BIT_18){value = m_HIGH;}else{value = m_LOW;};break;
+        case 21:if(GPLEV0 & BIT_21){value = m_HIGH;}else{value = m_LOW;};break;
+        case 27:if(GPLEV0 & BIT_27){value = m_HIGH;}else{value = m_LOW;};break;
+        case 22:if(GPLEV0 & BIT_22){value = m_HIGH;}else{value = m_LOW;};break;
+        case 23:if(GPLEV0 & BIT_23){value = m_HIGH;}else{value = m_LOW;};break;
+        case 24:if(GPLEV0 & BIT_24){value = m_HIGH;}else{value = m_LOW;};break;
+        case 25:if(GPLEV0 & BIT_25){value = m_HIGH;}else{value = m_LOW;};break;
 	}
 	return value;
 }
@@ -1258,7 +1258,7 @@ int address;
 	return value;
 }
 
-void attachInterrupt(int p,void (*f)(), Digivalue m){
+void attachInterrupt(int p, void (*f)(), m_Digivalue m){
 	int GPIOPin = raspberryPinNumber(p);
 	pthread_t *threadId = getThreadIdFromPin(p);
 	struct ThreadArg *threadArgs = (ThreadArg *)malloc(sizeof(ThreadArg));
@@ -1289,8 +1289,8 @@ void attachInterrupt(int p,void (*f)(), Digivalue m){
 		exit(1);
 	}else{
 		switch(m){
-			case RISING: fprintf(fp,"rising");break;
-			case FALLING: fprintf(fp,"falling");break;
+            case m_RISING: fprintf(fp,"rising");break;
+            case m_FALLING: fprintf(fp,"falling");break;
 			default: fprintf(fp,"both");break;
 		}
 		
@@ -1441,7 +1441,7 @@ void bcm2835_peri_set_bits(volatile uint32_t* paddr, uint32_t value, uint32_t ma
 }
 
 //
-// Low level convenience functions
+// m_LOW level convenience functions
 //
 
 // Function select

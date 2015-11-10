@@ -5,6 +5,7 @@
 #include <string.h>
 #include "../blockQueue/blockqueue.h"
 #include "../files_tree/files_tree.h"
+#include "../wiadomosc/wiadomosc.h"
 //#include "../iDom_server.h"
 extern bool go_while;
 class irda_logic

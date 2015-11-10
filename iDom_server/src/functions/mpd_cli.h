@@ -16,37 +16,16 @@
 #include "../wiadomosc/wiadomosc.h"
 #include "../functions/functions.h"
 #include "../logger/logger.hpp"
-#include "master_LCD.h"
+#include "../LCD_c/lcd_c.h"
+
 //#include "../iDom_server.h"
 extern bool go_while;
 extern Logger log_file_mutex;
 void  *main_mpd_cli(void *data );
 
 /////////////// LCD
-
-#include <wiringPi.h>
-
-#include <lcd.h>
-
-#include <pcf8574.h>
-
-using namespace std;
-static int screen;
-static std::string wiad = " KINIA";
-
-//define new pins
-#define AF_BASE 100
-
-#define AF_RS   (AF_BASE + 0)
-#define AF_RW   (AF_BASE + 1)
-#define AF_E    (AF_BASE + 2)
-
-#define AF_BL   (AF_BASE + 3)
-
-#define AF_D1   (AF_BASE + 4)
-#define AF_D2   (AF_BASE + 5)
-#define AF_D3   (AF_BASE + 6)
-#define AF_D4   (AF_BASE + 7)
+static LCD_c m_lcd;
+static std::string wiad="null";
 ///////////////////////////////////////////
 
 

@@ -1,7 +1,7 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
-LIBS += -L/usr/local/lib    -lwiringPiDev -lwiringPi -lmpd   -llirc_client -pthread
+LIBS += -L/usr/local/lib    -lwiringPiDev -lwiringPi -lmpd   -llirc_client -pthread  -lrt -lpthread
 
 SOURCES += src/iDom_server.cpp src/parser/parser.cpp src/serialib/serialib.cpp \
  src/c_connection/c_connection.cpp \
@@ -13,8 +13,10 @@ SOURCES += src/iDom_server.cpp src/parser/parser.cpp src/serialib/serialib.cpp \
     src/functions/mpd_cli.cpp \
     src/blockQueue/blockqueue.cpp \
     src/c_master_irda/irda_logic.cpp \
-    src/functions/master_LCD.cpp \
-    src/files_tree/files_tree.cpp
+    src/files_tree/files_tree.cpp \
+    src/LCD_c/lcd_c.cpp \
+    ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.cpp \
+    ../arduPi/arduPi.cpp
 
 
 HEADERS += src/parser/parser.hpp src/serialib/serialib.h src/wiadomosc/wiadomosc.h \
@@ -26,5 +28,7 @@ HEADERS += src/parser/parser.hpp src/serialib/serialib.h src/wiadomosc/wiadomosc
     src/functions/mpd_cli.h \
     src/blockQueue/blockqueue.h \
     src/c_master_irda/irda_logic.h \
-    src/functions/master_LCD.h \
-    src/files_tree/files_tree.h
+    src/files_tree/files_tree.h \
+    src/LCD_c/lcd_c.h \
+    ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h \
+    ../arduPi/arduPi.h

@@ -334,17 +334,17 @@ enum Representation{
 };
 
 typedef enum {
-	INPUT,
-	OUTPUT
-}Pinmode;
+    m_INPUT,
+    m_OUTPUT
+}m_Pinmode;
 
 typedef enum {
-	LOW = 0,
-	HIGH = 1,
-	RISING = 2,
-	FALLING = 3,
-	BOTH = 4
-}Digivalue;
+    m_LOW = 0,
+    m_HIGH = 1,
+    m_RISING = 2,
+    m_FALLING = 3,
+    m_BOTH = 4
+}m_Digivalue;
 
 typedef bool boolean;
 typedef unsigned char byte;
@@ -450,7 +450,7 @@ class SPIPi{
 };
 
 /* Some useful arduino functions */
-void pinMode(int pin, Pinmode mode);
+void pinMode(int pin, m_Pinmode mode);
 void digitalWrite(int pin, int value);
 int digitalRead(int pin);
 int analogRead (int pin);
@@ -458,11 +458,11 @@ void delay(long millis);
 void delayMicroseconds(long micros);
 uint8_t shiftIn  (uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order);
 void shiftOut (uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order, uint8_t val);
-void attachInterrupt(int p,void (*f)(), Digivalue m);
+void attachInterrupt(int p,void (*f)(), m_Digivalue m);
 void detachInterrupt(int p);
 void setup();
 void loop();
-long millis();
+//long millis();
 
 /* Helper functions */
 int getBoardRev();

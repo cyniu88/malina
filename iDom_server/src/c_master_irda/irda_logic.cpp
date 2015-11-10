@@ -1,5 +1,5 @@
 #include "irda_logic.h"
-#include "../functions/master_LCD.h"
+
 files_tree main_tree( "/home/pi/hdd/FTP");
 irda_logic::irda_logic()
 {
