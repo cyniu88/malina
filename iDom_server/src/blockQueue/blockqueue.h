@@ -5,11 +5,11 @@
 #include <queue>
 #include <pthread.h>
 #include <iostream>
-#include <wiringPi.h>
+//#include <wiringPi.h>
 
 #include "../logger/logger.hpp"
-extern Logger log_file_mutex;
-extern char * _logfile;
+//extern Logger log_file_mutex;
+//extern char * _logfile;
 class blockQueue
 {
 public:

@@ -1,7 +1,24 @@
-#include "iDom_server.h"
+//#include "iDom_server..h"
+#include "serialib/serialib.h"              //brak
 
+//#include "wiadomosc/wiadomosc..h"
+//#include "c_connection/c_connection.h"
+#include "functions/functions.h"            // brak
+//#include "logger/logger.hpp"
+ //#include "c_master_irda/master_irda.h"
+//#include "functions/mpd_cli...h"
+//#include "blockQueue/blockqueue..h"
+#include "parser/parser.hpp"
 const unsigned int jeden =1;
+char *  _logfile  = "/tmp/iDom_log.log";
 
+Logger log_file_mutex(_logfile);
+
+char buffer[20];
+
+int max_msg = MAX_MSG_LEN*sizeof(int32_t);
+
+bool go_while = true;
 
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
 void *Send_Recieve_rs232_thread (void *przekaz){
@@ -119,7 +136,7 @@ void *f_master_irda (void *data){
     std::cout<<"start watek irda master 22222222 \n";
     pthread_detach( pthread_self () );
 
-    master_irda irda(my_data);
+     master_irda irda(my_data);
     irda.run();
 
     std::cout<<"koniec  watek master \n";
@@ -196,7 +213,7 @@ void *main_thread( void * unused)
     if (wiringPiSetupSys () == -1)
         exit (1) ;
 
-    pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
+     pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
 
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;

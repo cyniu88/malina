@@ -34,8 +34,7 @@ KEY_VOLUMEUP        +
 
  */
 #include "master_irda.h"
-#include <time.h>
-#include <wiringPi.h>
+
 master_irda::master_irda(thread_data *my_data)
 {
     buttonTimer = millis();
@@ -58,6 +57,7 @@ void master_irda::setup ()
 
 void master_irda::run()
 {
+    c_irda_logic irda_queue;
     //Read the default LIRC config at /etc/lirc/lircd.conf  This is the config for your remote.
     if(lirc_readconfig(NULL,&config,NULL)==0)
     {

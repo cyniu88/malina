@@ -1,15 +1,15 @@
-#include "irda_logic.h"
-
+#include "c_irda_logic.h"
+#include "../iDom_server/src/iDom_server.h"
 files_tree main_tree( "/home/pi/hdd/FTP");
-irda_logic::irda_logic()
+c_irda_logic::c_irda_logic()
 {
     who='!';
     // pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
     digitalWrite(LED7,OFF);
 }
-//irda_logic::who='!';
+//c_irda_logic::who='!';
 
-void irda_logic::_add(char X)
+void c_irda_logic::_add(char X)
 {
 
     if (who=='!')
@@ -155,7 +155,7 @@ void irda_logic::_add(char X)
     }
 
 
-char irda_logic::_get( )
+char c_irda_logic::_get( )
 {  char temp;
 
 
@@ -171,7 +171,7 @@ char irda_logic::_get( )
     return temp;
 }
 
-int irda_logic::_size()
+int c_irda_logic::_size()
 {
     return irda_queue.size();
 }

@@ -3,10 +3,10 @@
 
 #include <iostream>
 #include <stdlib.h>
-#include "../wiadomosc/wiadomosc.h"
+
 std::string conv_dns (std::string temp);
 
-void ChangeEndianness(int32_t * value);
+void ChangeEndianness(int32_t * value, int MAX_MSG_LEN_INT);
 void binary(int val);
 
 #endif // FUNCTIONS_H

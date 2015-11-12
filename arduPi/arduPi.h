@@ -450,7 +450,7 @@ class SPIPi{
 };
 
 /* Some useful arduino functions */
-void pinMode(int pin, m_Pinmode mode);
+void m_pinMode(int pin, m_Pinmode mode);
 void digitalWrite(int pin, int value);
 int digitalRead(int pin);
 int analogRead (int pin);

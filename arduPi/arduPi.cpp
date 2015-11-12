@@ -1121,7 +1121,7 @@ void shiftOut(uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order, uint8_t val)
 }
 
 // Configures the specified pin to behave either as an input or an output
-void pinMode(int pin, m_Pinmode mode){
+void m_pinMode(int pin, m_Pinmode mode){
 	pin = raspberryPinNumber(pin);
     if(mode == m_OUTPUT){
 		switch(pin){

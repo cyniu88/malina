@@ -112,7 +112,7 @@ void C_connection::l_send_log(){
 //            {
 //                std::cout << msg.char_buf[i] ;
 //            }
-            ChangeEndianness(msg.c_bufor_tmp);
+            ChangeEndianness(msg.c_bufor_tmp,MAX_MSG_LEN);
             c_send(0);
             c_recv(0);
         }

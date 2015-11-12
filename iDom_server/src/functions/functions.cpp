@@ -46,7 +46,7 @@ return s_ip;
 }
 
 
-void ChangeEndianness(int32_t * value)
+void ChangeEndianness(int32_t * value,int MAX_MSG_LEN_INT)
 {
     if (__BYTE_ORDER == __BIG_ENDIAN)
     {
@@ -55,7 +55,7 @@ void ChangeEndianness(int32_t * value)
     }
     else if( __BYTE_ORDER == __LITTLE_ENDIAN)
     { //cout << "little-endian" << endl
-        for (int i =0 ; i < MAX_MSG_LEN ; ++i )
+        for (int i =0 ; i < MAX_MSG_LEN_INT ; ++i )
         {
 
             int32_t result = 0;

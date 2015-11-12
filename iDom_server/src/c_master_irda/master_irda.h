@@ -6,14 +6,16 @@
 #include <string.h>
 #include <lirc/lirc_client.h>
 #include <time.h>
-#include "../wiadomosc/wiadomosc.h"
-#include "../functions/functions.h"
-#include "../logger/logger.hpp"
-#include "../blockQueue/blockqueue.h"
-#include "irda_logic.h"
-
-extern Logger log_file_mutex;
-extern char * _logfile;
+//#include "../wiadomosc/wiadomosc.h"
+//#include "../functions/functions.h"
+//#include "../logger/logger.hpp"
+//#include "../blockQueue/blockqueue.h"
+//#include "../c_irda_logic/c_irda_logic.h"
+//#include "../iDom_server/src/iDom_server..h"
+#include "../c_connection/c_connection.h"
+//#include "../iDom_server/src/iDom_server.h"
+//extern Logger log_file_mutex;
+//extern char * _logfile;
 
 class master_irda
 {
@@ -23,8 +25,8 @@ public:
     //Timer for our buttons
     int buttonTimer ;
     int buttonMENU;
-   // blockQueue char_queue;
-    irda_logic irda_queue;
+   //blockQueue char_queue;
+
     char *code;
     master_irda(thread_data  *my_data);
     void setup();

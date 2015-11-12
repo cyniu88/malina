@@ -11,6 +11,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
+#include <vector>
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -22,30 +23,102 @@
 #include <time.h>
 
 #include <wiringPi.h>
- #include <lirc/lirc_client.h>
+ //#include <lirc/lirc_client.h>
 
 
 // MOJE BIBLIOTEKI
-
-#include "serialib/serialib.h"
-#include "parser/parser.hpp"
-#include "wiadomosc/wiadomosc.h"
-#include "c_connection/c_connection.h"
-#include "functions/functions.h"
 #include "logger/logger.hpp"
-#include "c_master_irda/master_irda.h"
-#include "functions/mpd_cli.h"
-#include "blockQueue/blockqueue.h"
 
 
-char *  _logfile  = "/tmp/iDom_log.log";
+#define MAX_MSG_LEN 18
+#define MAX_CONNECTION 10
+#define FREE 1
+#define RS232 11
+#define ok     0
 
-Logger log_file_mutex(_logfile);
+#define log_file_cout  f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na ekran
+#define log_file_mutex f_log
 
-char buffer[20];
+#define ON 1
+#define OFF 0
 
-int max_msg = MAX_MSG_LEN*sizeof(int32_t);
+#define LED7 7
 
-bool go_while = true;
+extern char *  _logfile  ;
 
+extern Logger log_file_mutex;
+
+extern char buffer[20];
+
+extern int max_msg  ;
+
+extern bool go_while  ;
+
+
+struct s_pointer{
+    unsigned int *ptr_who;
+    int32_t *ptr_buf;
+};
+
+
+//struct s_arg{
+//    serialib port_arduino;
+//    struct struktura_wiadomosci s_msg;
+//    union unia_wiadomosci s_unia_msg;
+//    struct struktura_wiadomosci r_msg;
+//    union unia_wiadomosci r_unia_msg;
+//};
+
+struct addresses_mac{
+    std::string name_MAC;
+    std::string MAC;
+    bool state;
+    int option1;
+    int option2;
+    int option3;
+    int option4;
+    int option5;
+    int option6;
+};
+
+struct address_another_servers {
+    int id;
+    std::string SERVER_IP;
+};
+
+struct config{
+    std::string portRS232;
+    std::string BaudRate;
+    std::string PORT;
+    std::string SERVER_IP;
+    std::string MPD_IP;
+    std::string MOVIES_DB_PATH;
+    int ID_server;
+
+    std::vector <addresses_mac> A_MAC;
+    int v_delay  ;
+    std::vector <address_another_servers> AAS;
+
+};
+struct thread_data{
+    int s_client_sock;
+    struct sockaddr_in from;
+    struct config *server_settings;
+    struct s_pointer pointer;
+
+
+};
+
+struct thread_data_rs232{
+
+    std::string portRS232;
+    std::string BaudRate;
+    struct s_pointer pointer;
+
+};
+
+//int parser_bufor ( int32_t bufor_tmp[]);
+/*
+
+*/
 #endif // GLOBAL_H

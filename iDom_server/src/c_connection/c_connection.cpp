@@ -8,11 +8,12 @@ pthread_mutex_t C_connection::mutex_buf = PTHREAD_MUTEX_INITIALIZER;
 
 pthread_mutex_t C_connection::mutex_who = PTHREAD_MUTEX_INITIALIZER;
 // konstruktor
-C_connection::C_connection (thread_data  *my_data)
+C_connection::C_connection (thread_data  *my_data):c_max_msg(MAX_MSG_LEN*sizeof(int32_t)),c_socket(my_data->s_client_sock),
+    c_from(my_data->from)
 {
-    c_max_msg = MAX_MSG_LEN*sizeof(int32_t);
-    c_from= my_data->from;
-    c_socket= my_data->s_client_sock;
+    //c_max_msg = MAX_MSG_LEN*sizeof(int32_t);
+    //c_from= my_data->from;
+   // c_socket= my_data->s_client_sock;
     this -> pointer = &my_data->pointer;
     this -> my_data = my_data;
     log_file_mutex.mutex_lock();
@@ -23,8 +24,7 @@ C_connection::C_connection (thread_data  *my_data)
 C_connection::C_connection (thread_data  *my_data, std::string master)
 {
     c_max_msg = MAX_MSG_LEN*sizeof(int32_t);
-    // c_from= my_data->from;
-    // c_socket= my_data->s_gniazdo_klienta;
+
     this -> pointer = &my_data->pointer;
     this -> my_data = my_data;
     log_file_mutex.mutex_lock();
@@ -43,7 +43,7 @@ C_connection::~C_connection()
 
 int C_connection::c_send(int para)
 {
-    ChangeEndianness(msg.c_bufor_tmp);
+    ChangeEndianness(msg.c_bufor_tmp,MAX_MSG_LEN);
     if(( send( c_socket, msg.char_buf/*c_bufor_tmp*/, c_max_msg, para ) ) <= 0 )
     {
         //perror( "send() ERROR" );
@@ -69,7 +69,7 @@ int C_connection::c_send(std::string command)
 
         }
     }
-    ChangeEndianness(msg.c_bufor_tmp);
+    ChangeEndianness(msg.c_bufor_tmp,MAX_MSG_LEN);
     if(( send( c_socket, msg.char_buf /*c_bufor_tmp*/, c_max_msg, 0 ) ) <= 0 )
     {
         //perror( "send() ERROR" );
@@ -91,7 +91,7 @@ int C_connection::c_recv(int para)
         log_file_mutex.mutex_unlock();
         return -1;
     }
-    ChangeEndianness(msg.c_bufor_tmp);
+    ChangeEndianness(msg.c_bufor_tmp,MAX_MSG_LEN);
 //    for (int i =0 ; i < MAX_MSG_LEN ; ++i)
 //    {
 //        std::cout << " " << msg.c_bufor_tmp[i] << " " ;

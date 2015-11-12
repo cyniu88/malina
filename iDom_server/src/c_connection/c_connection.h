@@ -1,12 +1,16 @@
 #ifndef C_CONNECTION_H
 #define C_CONNECTION_H
-#include "../wiadomosc/wiadomosc.h"
-#include "../functions/functions.h"
-#include "../logger/logger.hpp"
+
+#include "../functions/functions.h"                 // brak
+//#include "../logger/logger.hpp"
+//#include "../iDom_server/src/iDom_server..h"'
+#include "../functions/mpd_cli.h"
+#include "../iDom_server/src/iDom_server.h"
+
 #include <unistd.h>
-//#include "global.h"
- extern Logger log_file_mutex;
- extern char * _logfile;
+
+ //extern Logger log_file_mutex;
+ //extern char * _logfile;
 class C_connection
 {
 

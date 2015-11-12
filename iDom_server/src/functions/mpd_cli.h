@@ -12,20 +12,22 @@
 #include <libmpd-1.0/libmpd/libmpd.h>
 #include <libmpd-1.0/libmpd/debug_printf.h>
 #include <wiringPi.h>
-#include "../blockQueue/blockqueue.h"
-#include "../wiadomosc/wiadomosc.h"
-#include "../functions/functions.h"
-#include "../logger/logger.hpp"
-#include "../LCD_c/lcd_c.h"
+#include "../blockQueue/blockqueue.h"   //brak
+//#include "../wiadomosc/wiadomosc..h"
+//#include "../functions/functions..h"
+//#include "../logger/logger..hpp"
+#include "../c_irda_logic/c_irda_logic.h"
+#include "../LCD_c/lcd_c.h"     //brak
+//#include "../parser/parser..hpp"
 
-//#include "../iDom_server.h"
-extern bool go_while;
-extern Logger log_file_mutex;
+//extern bool go_while;
+//extern Logger log_file_mutex;
 void  *main_mpd_cli(void *data );
 
 /////////////// LCD
-static LCD_c m_lcd;
+
 static std::string wiad="null";
+
 ///////////////////////////////////////////
 
 
