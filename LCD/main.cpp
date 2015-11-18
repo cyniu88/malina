@@ -6,12 +6,12 @@
 //#include <wiringPi.h>
 int main (){
 
-    LCD_c m_lcd;
+    LCD_c m_lcd(0x27,16,2);
 
-    m_lcd.init(0x27,16,2);
+
     delay(5000);
 
-    m_lcd.printstr("kinia");
+   // m_lcd.printstr("kinia");
     delay (5000);
     m_lcd.noBacklight();
     return 0;

@@ -1,13 +1,14 @@
 #include "files_tree.h"
 
 
-files_tree::files_tree ( std::string path)
+files_tree::files_tree (std::string path, LCD_c *mainLCD_PTR)
 {
     database_path = path;
+    mainLCD=mainLCD_PTR;
 	//tree_stack.push(database_path);
 	i_stack.push(0);
 	i=0;
-    get_list( database_path  );
+     get_list( database_path  );
 
 }
 bool files_tree::is_file(  )
@@ -121,12 +122,13 @@ std::string files_tree::show_list(     )
      	std::cout << "iteracja!!!!!!!!!!!!!!!!!!!!!!: " << i <<"  rozmiar vectora : " << get_vector_size() << std::endl;
 		 if (movie_database_vector[i].is_file == true ) {
             std::cout << "wypisuje sciezke pliku " << movie_database_vector[i].path << std::endl;
-
+        mainLCD->printString(0,0,movie_database_vector[i].files_name);
         }
         else {
             std::cout << "wypisuje sciezke katalogu " << movie_database_vector[i].path << std::endl;
-
+            mainLCD->printString(0,0,movie_database_vector[i].files_name+"/");
         }
+
 		return movie_database_vector[i].path;
 
 }
@@ -169,6 +171,7 @@ void files_tree::get_list( std::string path  ) {
 			tmp_string.assign(plik->d_name);
 		    v_path+=tmp_string;
 		   temp.path =v_path;
+           temp.files_name.assign(plik->d_name);
 		   
            // std::cout << "wpisuje w strukture " << plik->d_name << std::endl;
            

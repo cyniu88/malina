@@ -31,6 +31,8 @@ public:
     master_irda(thread_data  *my_data);
     void setup();
     void run();
+private:
+   thread_data  *my_data2;
 };
 
 #endif // MASTER_IRDA_H

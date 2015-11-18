@@ -61,7 +61,8 @@ timeval start_program, end_point;
 //Constructor
 SerialPi::SerialPi(){
 	REV = getBoardRev();
-    serialPort="/dev/ttyAMA0";
+    //serialPort="/dev/ttyAMA0";
+    serialPort="/dev/ttyUSB0";
     timeOut = 1000;
 }
 
@@ -796,7 +797,7 @@ uint8_t WirePi::read_rs(char* regaddr, char* buf, uint32_t len){
     bcm2835_peri_write_nb(control, BCM2835_BSC_C_I2CEN | BCM2835_BSC_C_ST  | BCM2835_BSC_C_READ );
     
     // Wait for write to complete and first byte back.	
-    delayMicroseconds(i2c_byte_wait_us * 3);
+    m_delayMicroseconds(i2c_byte_wait_us * 3);
     
     // wait for transfer to complete
     while (!(bcm2835_peri_read_nb(status) & BCM2835_BSC_S_DONE))
@@ -983,12 +984,12 @@ uint8_t SPIPi::transfer(uint8_t value){
     bcm2835_peri_set_bits(paddr, BCM2835_SPI0_CS_TA, BCM2835_SPI0_CS_TA);
 
     while (!(bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_TXD))
-    delayMicroseconds(10);
+    m_delayMicroseconds(10);
 
     bcm2835_peri_write_nb(fifo, value);
 
     while (!(bcm2835_peri_read_nb(paddr) & BCM2835_SPI0_CS_DONE))
-    delayMicroseconds(10);
+    m_delayMicroseconds(10);
 
     uint32_t ret = bcm2835_peri_read_nb(fifo);
 
@@ -1017,21 +1018,21 @@ void SPIPi::transfernb(char* tbuf, char* rbuf, uint32_t len){
     {
     // Maybe wait for TXD
     while (!(bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_TXD))
-        delayMicroseconds(10);
+        m_delayMicroseconds(10);
 
     // Write to FIFO, no barrier
     bcm2835_peri_write_nb(fifo, tbuf[i]);
 
     // Wait for RXD
     while (!(bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_RXD))
-        delayMicroseconds(10);
+        m_delayMicroseconds(10);
 
     // then read the data byte
     rbuf[i] = bcm2835_peri_read_nb(fifo);
     }
     // Wait for DONE to be set
     while (!(bcm2835_peri_read_nb(paddr) & BCM2835_SPI0_CS_DONE))
-    delayMicroseconds(10);
+    m_delayMicroseconds(10);
 
     // Set TA = 0, and also set the barrier
     bcm2835_peri_set_bits(paddr, 0, BCM2835_SPI0_CS_TA);
@@ -1056,11 +1057,11 @@ void SPIPi::setChipSelectPolarity(uint8_t cs, uint8_t active){
 /********** FUNCTIONS OUTSIDE CLASSES **********/
 
 // Sleep the specified milliseconds
-void delay(long millis){
+void m_delay(long millis){
 	unistd::usleep(millis*1000);
 }
 
-void delayMicroseconds(long micros){
+void m_delayMicroseconds(long micros){
 	if (micros > 100){
 		struct timespec tim, tim2;
 		tim.tv_sec = 0;
@@ -1089,15 +1090,15 @@ uint8_t shiftIn(uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order){
 
 	if (order == MSBFIRST)
 		for (i = 7 ; i >= 0 ; --i){
-            digitalWrite (cPin, m_HIGH);
-			value |= digitalRead (dPin) << i;
-            digitalWrite (cPin, m_LOW);
+            m_digitalWrite (cPin, m_HIGH);
+            value |= m_digitalRead (dPin) << i;
+            m_digitalWrite (cPin, m_LOW);
 		}
 	else
 		for (i = 0 ; i < 8 ; ++i){
-          digitalWrite (cPin, m_HIGH);
-		  value |= digitalRead (dPin) << i;
-          digitalWrite (cPin, m_LOW);
+          m_digitalWrite (cPin, m_HIGH);
+          value |= m_digitalRead (dPin) << i;
+          m_digitalWrite (cPin, m_LOW);
 		}
 
 	return value;
@@ -1108,15 +1109,15 @@ void shiftOut(uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order, uint8_t val)
 
 	if (order == MSBFIRST)
 		for (i = 7 ; i >= 0 ; --i){	
-			digitalWrite (dPin, val & (1 << i)) ;
-            digitalWrite (cPin, m_HIGH) ;
-            digitalWrite (cPin, m_LOW) ;
+            m_digitalWrite (dPin, val & (1 << i)) ;
+            m_digitalWrite (cPin, m_HIGH) ;
+            m_digitalWrite (cPin, m_LOW) ;
 		}
 	else
 		for (i = 0 ; i < 8 ; ++i){
-			digitalWrite (dPin, val & (1 << i)) ;
-            digitalWrite (cPin, m_HIGH) ;
-            digitalWrite (cPin, m_LOW) ;
+            m_digitalWrite (dPin, val & (1 << i)) ;
+            m_digitalWrite (cPin, m_HIGH) ;
+            m_digitalWrite (cPin, m_LOW) ;
 		}
 }
 
@@ -1160,7 +1161,7 @@ void m_pinMode(int pin, m_Pinmode mode){
 }
 
 // Write a m_HIGH or a m_LOW value to a digital pin
-void digitalWrite(int pin, int value){
+void m_digitalWrite(int pin, int value){
 	pin = raspberryPinNumber(pin);
     if (value == m_HIGH){
 		switch(pin){
@@ -1195,13 +1196,13 @@ void digitalWrite(int pin, int value){
 			case 25:GPCLR0 = BIT_25;break;
 		}
 	}
-        delayMicroseconds(1);    // Delay to alm_LOW any change in state to be reflected in the LEVn, register bit.
+        m_delayMicroseconds(1);    // Delay to alm_LOW any change in state to be reflected in the LEVn, register bit.
 }
 
 
 
 // Reads the value from a specified digital pin, either m_HIGH or m_LOW.
-int digitalRead(int pin){
+int m_digitalRead(int pin){
     m_Digivalue value;
 	pin = raspberryPinNumber(pin);
 	switch(pin){
@@ -1277,7 +1278,7 @@ void attachInterrupt(int p, void (*f)(), m_Digivalue m){
 	
 	//The system to create the file /sys/class/gpio/gpio<GPIO number>
 	//So we wait a bit
-	delay(1);
+     m_delay(1);
 	
 	char * interruptFile = NULL;
 	asprintf(&interruptFile, "/sys/class/gpio/gpio%d/edge",GPIOPin);

@@ -451,19 +451,23 @@ class SPIPi{
 
 /* Some useful arduino functions */
 void m_pinMode(int pin, m_Pinmode mode);
-void digitalWrite(int pin, int value);
-int digitalRead(int pin);
-int analogRead (int pin);
-void delay(long millis);
-void delayMicroseconds(long micros);
-uint8_t shiftIn  (uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order);
-void shiftOut (uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order, uint8_t val);
-void attachInterrupt(int p,void (*f)(), m_Digivalue m);
-void detachInterrupt(int p);
-void setup();
-void loop();
+
+int m_analogRead (int pin);
+
+uint8_t m_shiftIn  (uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order);
+void m_shiftOut (uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order, uint8_t val);
+void m_attachInterrupt(int p,void (*f)(), m_Digivalue m);
+void m_detachInterrupt(int p);
+void m_setup();
+void m_loop();
 //long millis();
 
+
+void m_digitalWrite(int pin, int value);
+int m_digitalRead(int pin);
+
+void m_delay(long millis);
+void m_delayMicroseconds(long micros);
 /* Helper functions */
 int getBoardRev();
 uint32_t *mapmem(const char *msg, size_t size, int fd, off_t off);

@@ -1,14 +1,17 @@
 #include "c_irda_logic.h"
 #include "../iDom_server/src/iDom_server.h"
-files_tree main_tree( "/home/pi/hdd/FTP");
-c_irda_logic::c_irda_logic()
+
+
+c_irda_logic::c_irda_logic(thread_data *my_data)
 {
+    //std::cout <<"SCIEZKA TO " << my_data->server_settings->MOVIES_DB_PATH << std::endl;
+    my_data_logic = my_data;
     who='!';
     // pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
     digitalWrite(LED7,OFF);
 }
 //c_irda_logic::who='!';
-
+//c_irda_logic::main_tree("home/pi/hd/FTP");
 void c_irda_logic::_add(char X)
 {
 
@@ -22,14 +25,16 @@ void c_irda_logic::_add(char X)
         else if (X=='r')
         {
             who = 'r';
-            // main_tree.show_list(); //printuje pierwszy element
+            char_queue._add('P'); // projektor wlaczony wiec wylaczam radio
+            usleep(500);
+            digitalWrite(GPIO_SPIK, LOW);
 
         }
         else if (X=='E')
         {
             who = 'E';
-            main_tree.show_list(); //printuje pierwszy element
-            //char_queue._add('v');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
+            my_data_logic->main_tree->show_list(); //printuje pierwszy element
+            //my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
         }
         else {
             who = 'M';
@@ -66,7 +71,7 @@ void c_irda_logic::_add(char X)
         }
         else if (X=='U')
         {
-            system("echo -n $'\x1b\x5b\x43' > /tmp/cmd");  // do tylu
+            system("echo -n $'\x1b\x5b\x44' > /tmp/cmd");  // do tylu
 
         }
         else if (X=='^')
@@ -91,37 +96,40 @@ void c_irda_logic::_add(char X)
         }
         else if (X=='+')
         {
-            main_tree.next();  // naspteny katalog
+            my_data_logic->main_tree->next();  // naspteny katalog
         }
         else if (X=='-')
         {
-            main_tree.previous(); //poprzedni katalog
+            my_data_logic->main_tree->previous(); //poprzedni katalog
         }
         else if (X=='O')
         {
             // whodze w katalog lub odtwarzma plik
 
-            if (main_tree.is_file() == false)
+            if (my_data_logic->main_tree->is_file() == false)
             {
-                main_tree.enter_dir();
-                main_tree.show_list();
+                my_data_logic->main_tree->enter_dir();
+                my_data_logic->main_tree->show_list();
+               // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
             }
             else
             {
-                std::cout << " URUCHAMIAM PLIK! " <<main_tree.show_list() <<std::endl;
+                std::cout << " URUCHAMIAM PLIK! " <<my_data_logic->main_tree->show_list() <<std::endl;
                 char_queue._add('P');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
                 std::string command("cat ");
-                command+=main_tree.show_list();
+                command+=my_data_logic->main_tree->show_list();
                 std::cout << "\n komenda to "<< command << "\n a wynik jej to: "; //<< system(command.c_str()) << std::endl;
 
             }
         }
         else if (X=='U')
         {
-            main_tree.back_dir();
+            my_data_logic->main_tree->back_dir();
 
         }
-        main_tree.show_list();
+        my_data_logic->main_tree->show_list();
+       // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
+
     }
         /////////////////////////////////////////////////////////////////////////////////////////////  oblsuga menu
 

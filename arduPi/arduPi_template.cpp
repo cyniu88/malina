@@ -9,10 +9,10 @@
  * YOUR ARDUINO CODE HERE *
  * ************************/
 
-int main (){
-	setup();
-	while(1){
-		loop();
-	}
-	return (0);
-}
+//int main (){
+//	setup();
+//	while(1){
+//		loop();
+//	}
+//	return (0);
+//}

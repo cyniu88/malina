@@ -1,7 +1,7 @@
 #include "lcd_c.h"
 
 LCD_c::LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows ) : main_lcd (lcd_Addr,lcd_cols,lcd_rows),
-    lcd_state(0),row1("***"),row2("$$$")
+    lcd_state(0),row1("  Dzien dobry!"),row2("  Milego Dnia")
 {
     main_lcd.init();
     main_lcd.noCursor();
@@ -10,6 +10,10 @@ LCD_c::LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows ) : main_lcd (
 void LCD_c::checkState()
 {
     if (lcd_state == 0 || lcd_state == -1)  // -1   blokuje  caly wysetlacz  nie wysetla piosenek
+    {
+        return;
+    }
+    if (lcd_state == 100  )  //    blokuje  caly wysetlacz  nie wysetla piosenek
     {
         return;
     }
@@ -23,12 +27,29 @@ void LCD_c::checkState()
         --lcd_state;
     }
 }
+void LCD_c::set_lcd_STATE (int i)
+{
+    lcd_state = i;
+}
 
 void LCD_c::printSongName (std::string songName){
 
     std::size_t pos = songName.find(" - ");
-    row2 = songName.substr(pos+3);
-    row1 = songName.substr(0,pos);
+
+    row2 = songName.substr(pos+3);  //tytul
+    row1 = songName.substr(0,pos);  //autor
+    if (row1!=row2){
+        if(row1.size()<14)
+        {
+            row1+=" -";   // doda pauze na koncu nazwy autora
+        }
+        else
+        {
+            if (row2.size()<14){
+                row2.insert(0,"- "); // doda pauze  na poczatku utworu  ale  tyko jak bedzie rizu auto i tytul
+            }
+        }
+    }
     if (lcd_state == 0 ){
         song_printstr();
     }
@@ -60,7 +81,7 @@ void LCD_c::clear()
     main_lcd.clear();
 }
 void LCD_c::printVolume (int vol)
-{   std::string tmp ="vol  "  ;
+{   std::string tmp ="   vol  "  ;
     tmp+=intToStr(vol);
     tmp+=" %";
     main_lcd.backlight();

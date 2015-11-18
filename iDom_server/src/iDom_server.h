@@ -23,12 +23,14 @@
 #include <time.h>
 
 #include <wiringPi.h>
+
  //#include <lirc/lirc_client.h>
 
 
 // MOJE BIBLIOTEKI
 #include "logger/logger.hpp"
-
+#include "LCD_c/lcd_c.h"
+#include "files_tree/files_tree.h"
 
 #define MAX_MSG_LEN 18
 #define MAX_CONNECTION 10
@@ -43,6 +45,7 @@
 #define OFF 0
 
 #define LED7 7
+#define GPIO_SPIK 21
 
 extern char *  _logfile  ;
 
@@ -105,9 +108,11 @@ struct thread_data{
     struct sockaddr_in from;
     struct config *server_settings;
     struct s_pointer pointer;
-
+    LCD_c *mainLCD;
+    files_tree *main_tree;
 
 };
+
 
 struct thread_data_rs232{
 

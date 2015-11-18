@@ -1,4 +1,4 @@
-/*mapa klawiszy pilota i znaki im przypisane 
+/*mapa klawiszy pilota i znaki im przypisane
 KEY_POWER           P
 KEY_0               0
 KEY_1               1
@@ -39,6 +39,7 @@ master_irda::master_irda(thread_data *my_data)
 {
     buttonTimer = millis();
     buttonMENU = 0;
+      my_data2 = my_data;
 
     //Initiate LIRC. Exit on failure
     if(lirc_init("lirc",1)==-1)
@@ -57,7 +58,8 @@ void master_irda::setup ()
 
 void master_irda::run()
 {
-    c_irda_logic irda_queue;
+
+    c_irda_logic irda_queue(my_data2);
     //Read the default LIRC config at /etc/lirc/lircd.conf  This is the config for your remote.
     if(lirc_readconfig(NULL,&config,NULL)==0)
     {
@@ -109,6 +111,7 @@ void master_irda::run()
                     }
                     else if(strstr (code,"KEY_3")){
                         irda_queue._add('3');
+                        //my_data2->mainLCD->printString(1,1,"klawisz 3");
                         buttonTimer = millis();
                     }
                     else if(strstr (code,"KEY_4")){

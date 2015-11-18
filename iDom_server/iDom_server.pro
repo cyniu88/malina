@@ -14,8 +14,8 @@ SOURCES += src/iDom_server.cpp src/parser/parser.cpp src/serialib/serialib.cpp \
     src/blockQueue/blockqueue.cpp \
     src/files_tree/files_tree.cpp \
     src/LCD_c/lcd_c.cpp \
-    ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.cpp \
     ../arduPi/arduPi.cpp \
+    ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.cpp \
     src/c_irda_logic/c_irda_logic.cpp
 
 
@@ -29,7 +29,7 @@ HEADERS += src/parser/parser.hpp src/serialib/serialib.h \
     src/blockQueue/blockqueue.h \
     src/files_tree/files_tree.h \
     src/LCD_c/lcd_c.h \
-    ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h \
     ../arduPi/arduPi.h \
+    ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h \
     src/c_irda_logic/c_irda_logic.h \
     src/wiadomosc/wiadomosc.h

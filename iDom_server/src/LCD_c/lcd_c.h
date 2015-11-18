@@ -10,6 +10,7 @@ public:
     LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows);
     static int status;
     void init();
+    void set_lcd_STATE (int i);
     void song_printstr();
     void noBacklight();
     void clear();

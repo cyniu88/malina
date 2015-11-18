@@ -1,4 +1,4 @@
-//#include "iDom_server..h"
+//#include "iDom_server.h"
 #include "serialib/serialib.h"              //brak
 
 //#include "wiadomosc/wiadomosc..h"
@@ -9,6 +9,8 @@
 //#include "functions/mpd_cli...h"
 //#include "blockQueue/blockqueue..h"
 #include "parser/parser.hpp"
+
+#include <wiringPi.h>
 const unsigned int jeden =1;
 char *  _logfile  = "/tmp/iDom_log.log";
 
@@ -33,7 +35,7 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     log_file_mutex.mutex_unlock();
     std::cout << "";
 
-    char  buforek[128];
+
 
 
     while (go_while)
@@ -44,65 +46,10 @@ void *Send_Recieve_rs232_thread (void *przekaz){
         {
             pthread_mutex_lock(&C_connection::mutex_buf);
 
-            //std::cout<<"  mutex rs232 start \n";
-            {
 
-                //bufor[i]+=1;
-                // data_rs232->pointer.ptr_buf[i]+=1;
-                //   port_arduino.WriteChar(bufor[i]);
-            }
-
-            //            for (int i =0 ; i < MAX_MSG_LEN ; ++i )
-            //            {
-
-            //              //  std::cout <<" " <<
-            //                data_rs232->pointer.ptr_buf[i]+=1 ;
-
-            //                //   port_arduino.WriteChar(bufor[i]);
-            //            }
-            //std::cout << "\n";
-            // sleep(15);
-            //             port_arduino.Write(bufor, MAX_MSG_LEN);
-
-            if (data_rs232->pointer.ptr_buf[0]==109)
-            {
-                port_arduino.WriteString("m8o");
-                port_arduino.ReadString(buforek, 'X',128,5000);
-                std::cout << " w buforku bylo: " << buforek <<std::endl;
-
-            }
-            else if (data_rs232->pointer.ptr_buf[2]==72)
-            {
-                port_arduino.WriteString("w8H");
-                port_arduino.ReadString(buforek, 'X',128,5000);
-                std::cout << " w buforku bylo: " << buforek <<std::endl;
-
-            }
-            else if (data_rs232->pointer.ptr_buf[2]==76)
-            {
-                port_arduino.WriteString("w8L");
-                port_arduino.ReadString(buforek, 'X',128,5000);
-                std::cout << " w buforku bylo: " << buforek <<std::endl;
-            }
-
-
-
-
-            //            for (int i =0 ; i < MAX_MSG_LEN ; ++i )
-            //            {
-
-            //                bufor[i]+=0;
-
-            //            }
-            //            //port_arduino.Write(bufor,MAX_MSG_LEN);
-            //            //port_arduino.WriteChar('test');
-
-            //            port_arduino.Read(bufor, MAX_MSG_LEN,500);
-            //std::cout<<"  mutex rs232 koniec \n";
             data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
             data_rs232->pointer.ptr_who[1]= RS232;
-            // who[1]=RS232;
-            //std::cout << " idze do watku " << data_rs232->pointer.ptr_who[0]  << std::endl;
+
             pthread_mutex_unlock(&C_connection::mutex_buf);
         }
         pthread_mutex_unlock(&C_connection::mutex_who);
@@ -155,6 +102,7 @@ void *Server_connectivity_thread(void *przekaz){
 
     C_connection *client = new C_connection( my_data);
     digitalWrite(LED7,1);
+
     while (1)
     {
         if( client->c_recv(0) == -1 )
@@ -205,15 +153,21 @@ void *main_thread( void * unused)
     pthread_t rs232_thread_id;
 
     unsigned int who[2]={FREE, FREE};
+
     int32_t bufor[ MAX_MSG_LEN ];
     if (wiringPiSetup () == -1)
         exit (1) ;
 
     //WiringPi initalize
-    if (wiringPiSetupSys () == -1)
-        exit (1) ;
+    //if (wiringPiSetupSys () == -1)
+     //   exit (1) ;
 
-     pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
+      pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
+      pinMode(GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
+      /////////////////////////////// LCD ///////////////////////////////
+      LCD_c mainLCD(0x27,16,2);
+      //////////////     przegladanie plikow ////////////////////
+      files_tree main_tree( "/home/pi/hdd/FTP", &mainLCD);
 
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
@@ -228,6 +182,7 @@ void *main_thread( void * unused)
     log_file_cout << INFO  << "serwer ip \t"<< server_settings.SERVER_IP  <<std::endl;
     log_file_cout << INFO  << "dodatkowe NODY w sieci:\n"  <<std::endl;
 
+
     //    for (u_int i=0;i<server_settings.A_MAC.size();++i){
     //        std::cout << server_settings.A_MAC[i].name_MAC<<" "<< server_settings.A_MAC[i].MAC<<" " << server_settings.A_MAC[i].option1 <<
     //                     " " << server_settings.A_MAC[i].option2<<
@@ -241,7 +196,7 @@ void *main_thread( void * unused)
     for (u_int i=0;i<server_settings.AAS.size();++i){
         log_file_cout << INFO << server_settings.AAS[i].id<<" "<< server_settings.AAS[i].SERVER_IP <<std::endl;
     }
-
+    log_file_cout << INFO  << "baza z filami \t"<< server_settings.MOVIES_DB_PATH << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
 
     // int go = atoi(  server_settings.BaudRate.c_str());
@@ -286,6 +241,8 @@ std::cout << " jestem przed mkfifo";
     node_data.server_settings=&server_settings;
     node_data.pointer.ptr_buf=bufor;
     node_data.pointer.ptr_who=who;
+    node_data.mainLCD=&mainLCD;
+    node_data.main_tree=&main_tree;
     // start watku irda
     pthread_create (&thread_array[4], NULL,&f_master_irda ,&node_data);
     log_file_mutex.mutex_lock();
