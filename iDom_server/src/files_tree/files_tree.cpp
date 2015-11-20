@@ -1,7 +1,7 @@
 #include "files_tree.h"
 
 
-files_tree::files_tree (std::string path, LCD_c *mainLCD_PTR)
+files_tree::files_tree (std::string path, LCD_c *mainLCD_PTR):w_serial( "[Ss]\\d*[Ee]\\d*")
 {
     database_path = path;
     mainLCD=mainLCD_PTR;
@@ -121,12 +121,26 @@ std::string files_tree::show_list(     )
 {
      	std::cout << "iteracja!!!!!!!!!!!!!!!!!!!!!!: " << i <<"  rozmiar vectora : " << get_vector_size() << std::endl;
 		 if (movie_database_vector[i].is_file == true ) {
-            std::cout << "wypisuje sciezke pliku " << movie_database_vector[i].path << std::endl;
-        mainLCD->printString(0,0,movie_database_vector[i].files_name);
+             std::cout << "wypisuje sciezke pliku " << movie_database_vector[i].path <<" | " <<movie_database_vector[i].files_name.substr(0,16)<< std::endl;
+
+            mainLCD->printString(true,0,0,movie_database_vector[i].files_name.substr(0,16));
+            if( regex_search(movie_database_vector[i].path,result,w_serial) )
+            {
+                mainLCD->printString(false,10,1,movie_database_vector[i].files_name.substr( movie_database_vector[i].files_name.size()-4,movie_database_vector[i].files_name.size()));
+                mainLCD->printString(false, 1,1,result[0]);
+                std::cout << " SERIAL!!!!!!!!!!!!!!!!!!!!!!!!!!1" << result[0] << std::endl;
+            }
+            else
+            {
+                mainLCD->printString(false,10,1,movie_database_vector[i].files_name.substr( movie_database_vector[i].files_name.size()-4,movie_database_vector[i].files_name.size()));
+               std::cout << " NIEEEEEE SERIAL!!!!!!!!!!!!!!!!!!!!!!!!!!1" << std::endl;
+            }
+
+
         }
         else {
             std::cout << "wypisuje sciezke katalogu " << movie_database_vector[i].path << std::endl;
-            mainLCD->printString(0,0,movie_database_vector[i].files_name+"/");
+            mainLCD->printString(true,0,0,movie_database_vector[i].files_name+"/");
         }
 
 		return movie_database_vector[i].path;

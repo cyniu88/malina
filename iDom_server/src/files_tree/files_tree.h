@@ -9,6 +9,7 @@
 #include <cstring>
 #include <vector>
 #include <stack>
+#include <boost/regex.hpp>
 #include "../LCD_c/lcd_c.h"
 using namespace std;
 struct movie_database
@@ -28,7 +29,10 @@ std::vector < movie_database > movie_database_vector;
     struct dirent * plik;
     DIR * sciezka;
     movie_database temp;
-	
+
+    boost::regex w_serial;
+    boost::smatch result;
+
 std::stack <std::string> tree_stack;  // kolejka trzyma kolejke katalogow jakie odwiedzilismy  dzieki temu da sie wracac 
 std::stack <int> i_stack;
 

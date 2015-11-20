@@ -14,7 +14,7 @@ public:
     void song_printstr();
     void noBacklight();
     void clear();
-    void printString(int col, int row, std::string str);
+    void printString(bool clear, int col, int row, std::string str);
     void printVolume (int vol);
     LiquidCrystal_I2C main_lcd ;
     void printSongName (std::string songName);

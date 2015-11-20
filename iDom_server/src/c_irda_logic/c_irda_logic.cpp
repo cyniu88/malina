@@ -34,6 +34,7 @@ void c_irda_logic::_add(char X)
         {
             who = 'E';
             my_data_logic->main_tree->show_list(); //printuje pierwszy element
+            my_data_logic->mainLCD->set_lcd_STATE(102);
             //my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
         }
         else {
@@ -91,6 +92,7 @@ void c_irda_logic::_add(char X)
 
         if ( X=='e')
         {
+            my_data_logic->mainLCD->set_lcd_STATE(6);
             who = '!';  // koniec przegladania katalogow
 
         }

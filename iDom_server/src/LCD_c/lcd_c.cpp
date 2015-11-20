@@ -50,6 +50,10 @@ void LCD_c::printSongName (std::string songName){
             }
         }
     }
+    else
+    {
+        row2="  ";
+    }
     if (lcd_state == 0 ){
         song_printstr();
     }
@@ -64,8 +68,8 @@ void LCD_c::song_printstr(){
     main_lcd.setCursor(0, 1);
     main_lcd.printstr(row2.c_str());
 }
-void LCD_c::printString(int col,int row , std::string str){
-    main_lcd.clear();
+void LCD_c::printString(bool clear,int col,int row , std::string str){
+    if ( clear==true){main_lcd.clear();}
     main_lcd.backlight();
     main_lcd.setCursor(col, row);
     main_lcd.printstr(str.c_str());

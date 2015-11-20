@@ -37,7 +37,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
             break;
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
-            m_lcd->printString(0,1,"     PAUSE");
+            m_lcd->printString(true ,0,1,"     PAUSE");
             break;
         case MPD_PLAYER_STOP:
             printf("Stopped\n");
@@ -87,8 +87,42 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
             mpd_Song *song = mpd_playlist_get_current_song(mi);
             // std::cout <<" SONG: " << song->artist<<" "<< song->title << std::endl;
             printf(GREEN"aktualnie gramy:"RESET" %s - %s\n", song->artist, song->title);
+             printf( " troche o piosenkach\n track %s " ,song->album);
+             printf("\nid %s", song->albumartist);
+             printf ("\nfile %s", song->artist);
+             printf (" \ndata %s\n ",song->composer);
 
-            wiad =  song->title;
+                     printf( " troche o piosenkach\n track %s " ,song->comment);
+                     printf("\ndate %s", song->date);
+                     printf ("\ndisc %s", song->disc);
+                     printf (" \nfile %s\n ",song->file) ;
+
+                     printf( " \n genre %s " ,song->genre);
+                     printf("\nid %i", song->id);
+                     printf ("\nname %s", song->name);
+                     printf (" \nperformer %s\n ",song->performer);
+
+                     printf( "  \n pos %i " ,song->pos);
+                     printf("\ntime  %i", song->time);
+                     printf ("\ntitle %s", song->title);
+                     printf (" \ntrack %s\n ",song->track);
+
+           if (song->name != NULL){
+           wiad =  song->name;
+           m_lcd->printString(true,0,0,wiad);
+            m_lcd->set_lcd_STATE(5);
+           }
+
+
+            if (song->title != NULL){
+            wiad =  song->title;}
+            else
+            {
+                wiad = " brak    nazwy                      -                           ";
+            }
+
+
+
 
             m_lcd->printSongName(wiad);
         }
