@@ -15,10 +15,12 @@ time_t act_time;
 struct tm * act_date;
 public:
 
-void set_alarm();
+void set_alarm(int _day, int _h, int _m, bool _activ);
 void write_to_file();
 void read_from_file();
 bool check_alarm();
+void check_timeout ();
+void set_timeout (int min);
 
 };
  bool cyniu_alarm::check_alarm()
@@ -36,17 +38,16 @@ bool check_alarm();
 	return false;
 	}
  }
- void cyniu_alarm::set_alarm()
+ void cyniu_alarm::set_alarm(int _day, int _h, int _m, bool _activ)
  {
- for (int i=0; i<7; ++i)
-{
+ 
 std::cout << " podaj godzinie z dnia: " << i<< std::endl;
- std::cin >> file[i].h >> file[i].m ;
- std::cout << " Aktywowac? 1 -T 0- N " ;
- std::cin >> file[i].activ;
+  file[_day].h = _h;
+  file[_day].m = _m;
+  file[_day].activ _activ;
  }
- write_to_file();
- }
+  
+ 
  
 void cyniu_alarm::write_to_file()
 {

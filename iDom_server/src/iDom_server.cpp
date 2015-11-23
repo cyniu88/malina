@@ -102,7 +102,9 @@ void *Server_connectivity_thread(void *przekaz){
 
     C_connection *client = new C_connection( my_data);
     digitalWrite(LED7,1);
-
+    // my_data->mainLCD->set_print_song_state(3200);
+    // my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
+     //my_data->mainLCD->printString(false,0,1,"polaczenie aktywne");
     while (1)
     {
         if( client->c_recv(0) == -1 )
@@ -131,6 +133,8 @@ void *Server_connectivity_thread(void *przekaz){
         }
     }
     digitalWrite(LED7,0);
+    //my_data->mainLCD->set_print_song_state(0);
+    //my_data->mainLCD->set_lcd_STATE(2);
     delete client;
     pthread_exit(NULL);
 

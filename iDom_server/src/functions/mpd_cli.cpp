@@ -66,7 +66,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
 
             if (song->name != NULL){
                 wiad =  song->name;
-                m_lcd->printString(true,0,0,wiad);
+                m_lcd->printRadioName(true,0,0,wiad);
                 m_lcd->set_lcd_STATE(5);
             }
 
@@ -92,16 +92,18 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
         case MPD_PLAYER_PLAY:
             printf("Playing\n");
             check_title_song_to=true;
+            m_lcd->play_Y_N=true;
             digitalWrite(GPIO_SPIK, LOW);
             m_lcd->song_printstr();
             break;
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
-            m_lcd->printString(true ,0,1," PAUSE");
+            m_lcd->printString(true ,0,1,"    PAUSE");
             break;
         case MPD_PLAYER_STOP:
             printf("Stopped\n");
             check_title_song_to=false;
+            m_lcd->play_Y_N=false;
             digitalWrite(GPIO_SPIK,HIGH);
             m_lcd->noBacklight();
             break;

@@ -17,6 +17,11 @@ void LCD_c::checkState()
         //std::cout << "stan checkState: " << lcd_state << " ";
         if (lcd_state == 0 || lcd_state == -1)  // -1   blokuje  caly wysetlacz  nie wysetla piosenek
         {
+            if (play_Y_N == false)
+            {
+                noBacklight();     //  jesli nic nie jest wysetlane  print_song_state == 0 i nic nie jest grane
+                                    // play_Y_N == fale  a lcd_state =0   to gas ekran  bo szkoda pradu
+            }
             return;
         }
         if (lcd_state == 100  )  //    blokuje  caly wysetlacz  nie wysetla piosenek
@@ -68,13 +73,13 @@ void LCD_c::printSongName (std::string songName){
         return;
     }
 
-    if (lcd_state == 0 ){
+    if (lcd_state == 0 && play_Y_N==true ){
         song_printstr();
     }
 }
 
 void LCD_c::song_printstr(){
-    if (lcd_state != 0 ){
+    if (lcd_state != 0 || play_Y_N==false ){
        return;
     }
     if (print_song_state!= 0 )
@@ -89,11 +94,20 @@ void LCD_c::song_printstr(){
     main_lcd.setCursor(0, 1);
     main_lcd.printstr(row2.c_str());
 }
-void LCD_c::printString(bool clear,int col,int row , std::string str){
-    if (print_song_state!= 0 )
+void LCD_c::printRadioName(bool clear, int col, int row, std::string st){
+    radioName =st;
+    if (print_song_state!= 0 || play_Y_N == false )
     {
         return;
     }
+    if ( clear==true){main_lcd.clear();}
+    main_lcd.backlight();
+    main_lcd.setCursor(col, row);
+    main_lcd.printstr(radioName.c_str());
+}
+
+void LCD_c::printString(bool clear,int col,int row , std::string str){
+
     if ( clear==true){main_lcd.clear();}
     main_lcd.backlight();
     main_lcd.setCursor(col, row);
@@ -109,6 +123,8 @@ void LCD_c::clear()
 {
     main_lcd.clear();
 }
+
+
 void LCD_c::printVolume (int vol)
 {
     if (print_song_state!= 0 )
