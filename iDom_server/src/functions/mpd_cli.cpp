@@ -87,35 +87,16 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
             mpd_Song *song = mpd_playlist_get_current_song(mi);
             // std::cout <<" SONG: " << song->artist<<" "<< song->title << std::endl;
             printf(GREEN"aktualnie gramy:"RESET" %s - %s\n", song->artist, song->title);
-             printf( " troche o piosenkach\n track %s " ,song->album);
-             printf("\nid %s", song->albumartist);
-             printf ("\nfile %s", song->artist);
-             printf (" \ndata %s\n ",song->composer);
 
-                     printf( " troche o piosenkach\n track %s " ,song->comment);
-                     printf("\ndate %s", song->date);
-                     printf ("\ndisc %s", song->disc);
-                     printf (" \nfile %s\n ",song->file) ;
-
-                     printf( " \n genre %s " ,song->genre);
-                     printf("\nid %i", song->id);
-                     printf ("\nname %s", song->name);
-                     printf (" \nperformer %s\n ",song->performer);
-
-                     printf( "  \n pos %i " ,song->pos);
-                     printf("\ntime  %i", song->time);
-                     printf ("\ntitle %s", song->title);
-                     printf (" \ntrack %s\n ",song->track);
-
-           if (song->name != NULL){
-           wiad =  song->name;
-           m_lcd->printString(true,0,0,wiad);
-            m_lcd->set_lcd_STATE(5);
-           }
+            if (song->name != NULL){
+                wiad =  song->name;
+                m_lcd->printString(true,0,0,wiad);
+                m_lcd->set_lcd_STATE(5);
+            }
 
 
             if (song->title != NULL){
-            wiad =  song->title;}
+                wiad =  song->title;}
             else
             {
                 wiad = " brak    nazwy                      -                           ";
@@ -152,10 +133,10 @@ void  *main_mpd_cli(void *data )
             my_data = (thread_data*)data;
                 ////////////////////////////// LCD PART ///////////////////////
                 // LCD_c m_lcd(0x27,16,2);
-
+            my_data->mainLCD->set_print_song_state(0);
                 ///////////////////////////////////////////////////////////////////
                 //int fdstdin = 0;
-                int run = 1, iport = 6600;
+                int  run , iport = 6600;
                     char *hostname = getenv("MPD_HOST");
                         char *port = getenv("MPD_PORT");
                             char *password = getenv("MPD_PASSWORD");
@@ -296,7 +277,7 @@ void  *main_mpd_cli(void *data )
                                                                 mpd_status_update(obj);
 
 
-                                                               my_data->mainLCD->checkState();
+                                                                my_data->mainLCD->checkState();
                                                                 //m_lcd.checkState();
                                                             }while(!usleep(500000) &&  go_while);
                                                         }

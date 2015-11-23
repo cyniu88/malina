@@ -1,4 +1,4 @@
-//#include "iDom_server.h"
+
 #include "serialib/serialib.h"              //brak
 
 //#include "wiadomosc/wiadomosc..h"
@@ -155,19 +155,11 @@ void *main_thread( void * unused)
     unsigned int who[2]={FREE, FREE};
 
     int32_t bufor[ MAX_MSG_LEN ];
-    if (wiringPiSetup () == -1)
-        exit (1) ;
 
-    //WiringPi initalize
-    //if (wiringPiSetupSys () == -1)
-     //   exit (1) ;
-
-      pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
-      pinMode(GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
-      /////////////////////////////// LCD ///////////////////////////////
-      LCD_c mainLCD(0x27,16,2);
-      //////////////     przegladanie plikow ////////////////////
-      files_tree main_tree( "/home/pi/hdd/FTP", &mainLCD);
+//      std::count << " stdstringma " << server_settings.MOVIES_DB_PATH <<std::endl;
+//      char r;
+//      std::cin >> r ;
+//       files_tree main_tree ( "/home/pi/hdd/FTP",&mainLCD);
 
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
@@ -199,7 +191,20 @@ void *main_thread( void * unused)
     log_file_cout << INFO  << "baza z filami \t"<< server_settings.MOVIES_DB_PATH << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
 
-    // int go = atoi(  server_settings.BaudRate.c_str());
+    if (wiringPiSetup () == -1)
+        exit (1) ;
+
+    //WiringPi initalize
+    //if (wiringPiSetupSys () == -1)
+     //   exit (1) ;
+
+      pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
+      pinMode(GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
+      /////////////////////////////// LCD ///////////////////////////////
+      LCD_c mainLCD(0x27,16,2);
+      //////////////     przegladanie plikow ////////////////////
+      std::cout<<"baza z filami"<< server_settings.MOVIES_DB_PATH << std::endl;
+      files_tree main_tree( server_settings.MOVIES_DB_PATH, &mainLCD);
 
     thread_data_rs232 data_rs232;
     data_rs232.BaudRate=server_settings.BaudRate;

@@ -1,7 +1,7 @@
 #include "files_tree.h"
 
 
-files_tree::files_tree (std::string path, LCD_c *mainLCD_PTR):w_serial( "[Ss]\\d*[Ee]\\d*")
+files_tree::files_tree (std::string path, LCD_c *mainLCD_PTR):w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
 {
     database_path = path;
     mainLCD=mainLCD_PTR;

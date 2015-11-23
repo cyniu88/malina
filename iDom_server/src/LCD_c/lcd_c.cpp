@@ -9,27 +9,39 @@ LCD_c::LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows ) : main_lcd (
 
 void LCD_c::checkState()
 {
-    if (lcd_state == 0 || lcd_state == -1)  // -1   blokuje  caly wysetlacz  nie wysetla piosenek
+    if (print_song_state> 1 )
     {
-        return;
+        --print_song_state;
     }
-    if (lcd_state == 100  )  //    blokuje  caly wysetlacz  nie wysetla piosenek
-    {
-        return;
-    }
-    if (lcd_state == 1 )
-    {
-        --lcd_state;
-        song_printstr();  // wysetli  nazwe piosenki  po zliczeniu countera
-    }
-    else if (lcd_state > 1)
-    {
-        --lcd_state;
+    if (print_song_state == 0 ){
+        //std::cout << "stan checkState: " << lcd_state << " ";
+        if (lcd_state == 0 || lcd_state == -1)  // -1   blokuje  caly wysetlacz  nie wysetla piosenek
+        {
+            return;
+        }
+        if (lcd_state == 100  )  //    blokuje  caly wysetlacz  nie wysetla piosenek
+        {
+            return;
+        }
+        if (lcd_state == 1 )
+        {
+            --lcd_state;
+            song_printstr();  // wysetli  nazwe piosenki  po zliczeniu countera
+        }
+        else if (lcd_state > 1)
+        {
+            --lcd_state;
+        }
     }
 }
 void LCD_c::set_lcd_STATE (int i)
 {
     lcd_state = i;
+}
+
+void LCD_c::set_print_song_state (int i)
+{
+    print_song_state=i;
 }
 
 void LCD_c::printSongName (std::string songName){
@@ -45,7 +57,7 @@ void LCD_c::printSongName (std::string songName){
         }
         else
         {
-            if (row2.size()<14){
+            if (row2.size()<16){
                 row2.insert(0,"- "); // doda pauze  na poczatku utworu  ale  tyko jak bedzie rizu auto i tytul
             }
         }
@@ -53,13 +65,22 @@ void LCD_c::printSongName (std::string songName){
     else
     {
         row2="  ";
+        return;
     }
+
     if (lcd_state == 0 ){
         song_printstr();
     }
 }
 
 void LCD_c::song_printstr(){
+    if (lcd_state != 0 ){
+       return;
+    }
+    if (print_song_state!= 0 )
+    {
+        return;
+    }
     main_lcd.clear();
     main_lcd.backlight();
 
@@ -69,6 +90,10 @@ void LCD_c::song_printstr(){
     main_lcd.printstr(row2.c_str());
 }
 void LCD_c::printString(bool clear,int col,int row , std::string str){
+    if (print_song_state!= 0 )
+    {
+        return;
+    }
     if ( clear==true){main_lcd.clear();}
     main_lcd.backlight();
     main_lcd.setCursor(col, row);
@@ -85,7 +110,12 @@ void LCD_c::clear()
     main_lcd.clear();
 }
 void LCD_c::printVolume (int vol)
-{   std::string tmp ="   vol  "  ;
+{
+    if (print_song_state!= 0 )
+    {
+        return;
+    }
+    std::string tmp ="   vol  "  ;
     tmp+=intToStr(vol);
     tmp+=" %";
     main_lcd.backlight();

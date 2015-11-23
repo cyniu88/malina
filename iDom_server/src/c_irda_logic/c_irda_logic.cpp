@@ -25,16 +25,16 @@ void c_irda_logic::_add(char X)
         else if (X=='r')
         {
             who = 'r';
-            char_queue._add('P'); // projektor wlaczony wiec wylaczam radio
+            char_queue._add('A'); // projektor wlaczony wiec pauzuje radio
             usleep(500);
-            digitalWrite(GPIO_SPIK, LOW);
+            //digitalWrite(GPIO_SPIK, LOW);
 
         }
         else if (X=='E')
         {
             who = 'E';
             my_data_logic->main_tree->show_list(); //printuje pierwszy element
-            my_data_logic->mainLCD->set_lcd_STATE(102);
+            my_data_logic->mainLCD->set_print_song_state(100);
             //my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
         }
         else {
@@ -92,7 +92,7 @@ void c_irda_logic::_add(char X)
 
         if ( X=='e')
         {
-            my_data_logic->mainLCD->set_lcd_STATE(6);
+            my_data_logic->mainLCD->set_print_song_state(0);
             who = '!';  // koniec przegladania katalogow
 
         }

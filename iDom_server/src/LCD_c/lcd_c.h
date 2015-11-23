@@ -11,6 +11,7 @@ public:
     static int status;
     void init();
     void set_lcd_STATE (int i);
+    void set_print_song_state (int i);
     void song_printstr();
     void noBacklight();
     void clear();
@@ -22,6 +23,7 @@ public:
 private:
 std::string intToStr(int n);
 int lcd_state;
+int print_song_state;
 std::string row1;
 std::string row2;
 };

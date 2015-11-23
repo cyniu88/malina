@@ -210,6 +210,7 @@ void master_irda::run()
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO<< " przegladanie katalogu z filmami" <<  std::endl;
                         log_file_mutex.mutex_unlock();
+                        buttonMENU=1;
                         irda_queue._add('E');   //idziemy do sterowania projektorem
                         buttonTimer = millis();
                     }
