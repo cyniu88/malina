@@ -24,31 +24,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
         }
     }
 
-    if(what&MPD_CST_STATE)
-    {
-        printf(GREEN"State:"RESET);
-        switch(mpd_player_get_state(mi))
-        {
-        case MPD_PLAYER_PLAY:
-            printf("Playing\n");
-            check_title_song_to=true;
-            digitalWrite(GPIO_SPIK, LOW);
-            m_lcd->song_printstr();
-            break;
-        case MPD_PLAYER_PAUSE:
-            printf("Paused\n");
-            m_lcd->printString(true ,0,1," PAUSE");
-            break;
-        case MPD_PLAYER_STOP:
-            printf("Stopped\n");
-            check_title_song_to=false;
-            digitalWrite(GPIO_SPIK,HIGH);
-            m_lcd->noBacklight();
-            break;
-        default:
-            break;
-        }
-    }
+   
     if(what&MPD_CST_REPEAT){
         printf(GREEN"Repeat:"RESET" %s\n", mpd_player_get_repeat(mi)? "On":"Off");
     }
@@ -106,6 +82,31 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
 
 
             m_lcd->printSongName(wiad);
+        }
+    }
+     if(what&MPD_CST_STATE)
+    {
+        printf(GREEN"State:"RESET);
+        switch(mpd_player_get_state(mi))
+        {
+        case MPD_PLAYER_PLAY:
+            printf("Playing\n");
+            check_title_song_to=true;
+            digitalWrite(GPIO_SPIK, LOW);
+            m_lcd->song_printstr();
+            break;
+        case MPD_PLAYER_PAUSE:
+            printf("Paused\n");
+            m_lcd->printString(true ,0,1," PAUSE");
+            break;
+        case MPD_PLAYER_STOP:
+            printf("Stopped\n");
+            check_title_song_to=false;
+            digitalWrite(GPIO_SPIK,HIGH);
+            m_lcd->noBacklight();
+            break;
+        default:
+            break;
         }
     }
     /* not yet implemented signals */
