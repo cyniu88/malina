@@ -79,7 +79,7 @@ void LCD_c::printSongName (std::string songName){
 }
 
 void LCD_c::song_printstr(){
-    if (lcd_state != 0 || play_Y_N==false ){
+    if (lcd_state != 0 || play_Y_N==false || row1.size() < 2 && row2.size()<2 ){
        return;
     }
     if (print_song_state!= 0 )

@@ -21,14 +21,20 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     thread_data_rs232 *data_rs232;
 
     data_rs232 = (thread_data_rs232*)przekaz;
-    serialib port_arduino;   // obiekt port rs232
+   // serialib port_arduino;   // obiekt port rs232
+    //Serial.begin(9600);
+    SerialPi serial_ardu(strdup( data_rs232->portRS232.c_str()));
 
+    serial_ardu.begin( atoi( data_rs232->BaudRate.c_str()));
+
+    //serial_ardu.write('A');
+   // serial_ardu.flush();
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO <<"otwarcie portu RS232 " << (int)port_arduino.Open(data_rs232->portRS232.c_str(), atoi( data_rs232->BaudRate.c_str()))<<std::endl;
-    log_file_cout << INFO <<"w buforze jest bajtow " << port_arduino.Peek() << std::endl;
+    log_file_cout << INFO <<"otwarcie portu RS232 " <<  data_rs232->portRS232 << data_rs232->BaudRate<<std::endl;
+    //log_file_cout << INFO <<"w buforze jest bajtow " << port_arduino.Peek() << std::endl;
     log_file_mutex.mutex_unlock();
     std::cout << "";
-
+    char znak ='4';
     while (go_while)
     {
         usleep(500);
@@ -44,6 +50,15 @@ void *Send_Recieve_rs232_thread (void *przekaz){
         }
         pthread_mutex_unlock(&C_connection::mutex_who);
 
+        std::cout << "co wyslac na serial ? " <<std::endl;
+        std::cin >> znak;
+        serial_ardu.write(znak);
+        delay (1000);
+        if (serial_ardu.available() > 0)
+        {
+            znak = serial_ardu.read();
+        }
+        std::cout << " odebralem: " << znak << std::endl;
     }
 
     pthread_exit(NULL);
@@ -146,7 +161,7 @@ void *main_thread( void * unused)
     pthread_t rs232_thread_id;
     unsigned int who[2]={FREE, FREE};
     int32_t bufor[ MAX_MSG_LEN ];
-    files_tree main_tree ( "/home/pi/hdd/FTP",&mainLCD);
+
      
 	///////////////////////////////////////////  zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
@@ -177,7 +192,7 @@ void *main_thread( void * unused)
       /////////////////////////////// LCD ///////////////////////////////
       LCD_c mainLCD(0x27,16,2);
       //////////////     przegladanie plikow ////////////////////
-      
+
       files_tree main_tree( server_settings.MOVIES_DB_PATH, &mainLCD);
      /////////////////////////////////////////////////   wypelniam  struktury przesylane do watkow  ////////////////////////
     thread_data_rs232 data_rs232;

@@ -383,7 +383,7 @@ private:
 
 public:
 
-	SerialPi();
+    SerialPi(char * adres);
 	void begin(int serialSpeed);
 	int available();
 	char read();

@@ -16,14 +16,14 @@ class C_connection
 
 public:
 
-    //C_connection(int _socket, sockaddr_in from, s_pointer _pointer); ;
+
      C_connection(thread_data  *my_data);
      C_connection(thread_data  *my_data, std::string master);
     ~C_connection();
 
       thread_data   *my_data;
     int c_socket;
-    //int32_t c_bufor_tmp[ MAX_MSG_LEN ];
+
     sockaddr_in c_from;
 
     union conv{

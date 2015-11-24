@@ -59,10 +59,11 @@ timeval start_program, end_point;
  ******************/
 
 //Constructor
-SerialPi::SerialPi(){
+SerialPi::SerialPi(char * adres){
 	REV = getBoardRev();
     //serialPort="/dev/ttyAMA0";
-    serialPort="/dev/ttyUSB0";
+    //serialPort="/dev/ttyUSB0";
+    serialPort=adres;
     timeOut = 1000;
 }
 
@@ -1543,6 +1544,6 @@ void * threadFunction(void *args){
 	}
 }
 
-SerialPi Serial = SerialPi();
+//SerialPi Serial = SerialPi();
 WirePi Wire = WirePi();
 SPIPi SPI = SPIPi();
