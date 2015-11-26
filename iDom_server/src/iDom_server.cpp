@@ -49,7 +49,7 @@ void *Send_Recieve_rs232_thread (void *przekaz){
             pthread_mutex_unlock(&C_connection::mutex_buf);
         }
         pthread_mutex_unlock(&C_connection::mutex_who);
-
+/*
         std::cout << "co wyslac na serial ? " <<std::endl;
         std::cin >> znak;
         serial_ardu.write(znak);
@@ -59,7 +59,7 @@ void *Send_Recieve_rs232_thread (void *przekaz){
             znak = serial_ardu.read();
         }
         std::cout << " odebralem: " << znak << std::endl;
-    }
+*/    }
 
     pthread_exit(NULL);
 }

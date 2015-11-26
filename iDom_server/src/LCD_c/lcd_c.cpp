@@ -79,13 +79,19 @@ void LCD_c::printSongName (std::string songName){
 }
 
 void LCD_c::song_printstr(){
-    if (lcd_state != 0 || play_Y_N==false || row1.size() < 2 && row2.size()<2 ){
+    if (lcd_state != 0 || play_Y_N==false ){
        return;
     }
     if (print_song_state!= 0 )
     {
         return;
     }
+    if  (  row1.size() < 3 && row2.size()<3 )
+    {
+        //std::cout << " nie ma na tyle znakow \n";
+        return ;
+    }
+   // std::cout << "row1 ma znakow " << row1.size() << " a row2 ma " << row2.size() <<std::endl;
     main_lcd.clear();
     main_lcd.backlight();
 

@@ -243,7 +243,9 @@ int C_connection::c_analyse()
         l_send_log();
 
     }
-
+     else {
+        c_set_buf(ok);
+    }
     ///// end /////////
 
 
