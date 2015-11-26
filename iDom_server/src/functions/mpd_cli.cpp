@@ -71,12 +71,19 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
             }
 
 
-            if (song->title != NULL){
-                wiad =  song->title;}
+            if (song->title != NULL ){
+                wiad =  song->title;
+               if (wiad.size() < 7 )
+               {
+                   wiad =  song->name;
+                   wiad += " - brak nazwy";
+               }
+
+            }
             else
             {
-                wiad = song->name;
-                wiad += " - ";
+
+                wiad += " - brak nazwy";
             }
 
 
@@ -283,6 +290,9 @@ break;*/
             my_data->mainLCD->checkState();
             //m_lcd.checkState();
         }while(!usleep(500000) &&  go_while);
+        mpd_player_stop(obj);
+        sleep (3);
+
     }
     mpd_free(obj);
     log_file_mutex.mutex_lock();

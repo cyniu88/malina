@@ -121,7 +121,11 @@ void *Server_connectivity_thread(void *przekaz){
         if ( client->c_analyse_exit() == false )
         {
             client->c_send("exit");
-
+            my_data->mainLCD->set_print_song_state(0);
+            my_data->mainLCD->set_lcd_STATE(2);
+            my_data->mainLCD->clear();
+            my_data->mainLCD->noBacklight();
+            sleep (3);
             go_while = false;
             break;
         }
@@ -139,6 +143,7 @@ void *Server_connectivity_thread(void *przekaz){
     digitalWrite(LED7,0);
      my_data->mainLCD->set_print_song_state(0);
      my_data->mainLCD->set_lcd_STATE(2);
+     sleep (3);
     delete client;
     pthread_exit(NULL);
 

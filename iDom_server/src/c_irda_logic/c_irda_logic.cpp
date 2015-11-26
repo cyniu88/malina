@@ -64,7 +64,7 @@ void c_irda_logic::_add(char X)
         }
         else if (X=='P')
         {
-            system("echo -n q > /tmp/cmd");  // zamykanie omxplayera
+            system("echo -n q > /tmp/cmd &");  // zamykanie omxplayera
         }
         else if (X=='D')
         {
@@ -118,10 +118,13 @@ void c_irda_logic::_add(char X)
             {
                 std::cout << " URUCHAMIAM PLIK! " <<my_data_logic->main_tree->show_list() <<std::endl;
                 char_queue._add('P');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
-                std::string command("cat ");
-                command+=my_data_logic->main_tree->show_list();
-                std::cout << "\n komenda to "<< command << "\n a wynik jej to: "; //<< system(command.c_str()) << std::endl;
 
+                std::string command("/home/pi/film.sh  ");
+                command+=my_data_logic->main_tree->show_list();
+                command+= " &";
+                system(command.c_str());
+                std::cout << "\n komenda to\n\n\n\n\n\nn\n\ "<< command << "\n a wynik jej to: "; //<< system(command.c_str()) << std::endl;
+                char_queue._add('A');
             }
         }
         else if (X=='U')

@@ -22,6 +22,17 @@ void LCD_c::checkState()
                 noBacklight();     //  jesli nic nie jest wysetlane  print_song_state == 0 i nic nie jest grane
                                     // play_Y_N == fale  a lcd_state =0   to gas ekran  bo szkoda pradu
             }
+
+
+            if (rePrint == 0 )
+            {
+                printRadioName(true,0,0,radioName);
+                lcd_state=14;
+            }
+            else
+            {
+                --rePrint;
+            }
             return;
         }
         if (lcd_state == 100  )  //    blokuje  caly wysetlacz  nie wysetla piosenek
@@ -65,6 +76,11 @@ void LCD_c::printSongName (std::string songName){
             if (row2.size()<16){
                 row2.insert(0,"- "); // doda pauze  na poczatku utworu  ale  tyko jak bedzie rizu auto i tytul
             }
+            else{
+
+                row1=row1.substr(0,18);
+                row2=row2.substr(0,18);
+            }
         }
     }
     else
@@ -86,11 +102,7 @@ void LCD_c::song_printstr(){
     {
         return;
     }
-    if  (  row1.size() < 3 && row2.size()<3 )
-    {
-        //std::cout << " nie ma na tyle znakow \n";
-        return ;
-    }
+
    // std::cout << "row1 ma znakow " << row1.size() << " a row2 ma " << row2.size() <<std::endl;
     main_lcd.clear();
     main_lcd.backlight();
@@ -102,6 +114,7 @@ void LCD_c::song_printstr(){
 }
 void LCD_c::printRadioName(bool clear, int col, int row, std::string st){
     radioName =st;
+    rePrint=30;
     if (print_song_state!= 0 || play_Y_N == false )
     {
         return;

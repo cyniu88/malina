@@ -27,6 +27,7 @@ private:
 std::string intToStr(int n);
 int lcd_state;
 int print_song_state;
+int rePrint;
 std::string row1;
 std::string row2;
 std::string radioName;
