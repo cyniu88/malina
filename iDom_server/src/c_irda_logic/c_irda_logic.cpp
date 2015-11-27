@@ -10,8 +10,7 @@ c_irda_logic::c_irda_logic(thread_data *my_data)
     // pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
     digitalWrite(LED7,OFF);
 }
-//c_irda_logic::who='!';
-//c_irda_logic::main_tree("home/pi/hd/FTP");
+
 void c_irda_logic::_add(char X)
 {
 
@@ -39,6 +38,8 @@ void c_irda_logic::_add(char X)
         }
         else {
             who = 'M';
+            my_data_logic->main_MENU->show_list();
+            my_data_logic->mainLCD->set_print_song_state(100);
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////////////// obsluga projektora
@@ -140,29 +141,52 @@ void c_irda_logic::_add(char X)
 
         else if (who=='M')
         {
-            std::cout << "jestem w menu  az wcisne ok lub exit " << X <<std::endl;
-            if (X=='O' || X=='e')
+
+        if ( X=='e')
+        {
+            my_data_logic->mainLCD->set_print_song_state(0);
+            who = '!';  // koniec przegladania katalogow
+
+        }
+        else if (X=='+')
+        {
+            my_data_logic->main_MENU->next();  // naspteny katalog
+        }
+        else if (X=='-')
+        {
+            my_data_logic->main_MENU->previous(); //poprzedni katalog
+        }
+        else if (X=='O')
+        {
+            // whodze w katalog lub odtwarzma plik
+
+            if (my_data_logic->main_MENU->is_file() == false)
             {
-                who = '!';
+                my_data_logic->main_MENU->enter_dir();
+                my_data_logic->main_MENU->show_list();
+               // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
             }
-
-            else if (X=='I')
+            else
             {
+                std::cout << " URUCHAMIAM PLIK! " <<my_data_logic->main_MENU->show_list() <<std::endl;
+                char_queue._add('P');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
 
-                // std::cout << " stan led to " << digitalRead(LED7)<<std::endl;
-                if (digitalRead(LED7)== OFF)
-                {
-                    digitalWrite(LED7,ON);
-
-                }
-
-                else if (digitalRead(LED7)==ON)
-                {
-                    digitalWrite(LED7,OFF);
-
-                }
-
+                std::string command("/home/pi/film.sh  ");
+                command+=my_data_logic->main_MENU->show_list();
+                command+= " &";
+                system(command.c_str());
+                std::cout << "\n komenda to\n\n\n\n\n\nn\n\ "<< command << "\n a wynik jej to: "; //<< system(command.c_str()) << std::endl;
+                char_queue._add('A');
             }
+        }
+        else if (X=='U')
+        {
+            my_data_logic->main_MENU->back_dir();
+
+        }
+        my_data_logic->main_MENU->show_list();
+       // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
+
 
         }
     }

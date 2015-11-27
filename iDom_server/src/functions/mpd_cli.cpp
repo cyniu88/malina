@@ -76,14 +76,14 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
                if (wiad.size() < 7 )
                {
                    wiad =  song->name;
-                   wiad += " - brak nazwy";
+                   wiad += " -     brak nazwy                ";
                }
 
             }
             else
             {
 
-                wiad += " - brak nazwy";
+                wiad += " -     brak nazwy      ";
             }
 
 

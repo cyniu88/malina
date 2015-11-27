@@ -31,6 +31,7 @@
 #include "logger/logger.hpp"
 #include "LCD_c/lcd_c.h"
 #include "files_tree/files_tree.h"
+#include "menu_tree/menu_tree.h"
 
 #define MAX_MSG_LEN 18
 #define MAX_CONNECTION 10
@@ -110,6 +111,7 @@ struct thread_data{
     struct s_pointer pointer;
     LCD_c *mainLCD;
     files_tree *main_tree;
+    menu_tree *main_MENU;
 
 };
 

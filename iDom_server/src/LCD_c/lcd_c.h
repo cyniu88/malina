@@ -4,6 +4,7 @@
 #include "../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h"
 #include <iostream>
 #include <string>
+#include <boost/regex.hpp>
 class LCD_c
 {
 public:

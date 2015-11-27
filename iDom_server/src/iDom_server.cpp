@@ -156,7 +156,7 @@ void *main_thread( void * unused)
     time( & czas );
     ptr = localtime( & czas );
     std::string data = asctime( ptr );
-    config server_settings   =  read_config ( "/etc/config/iDom_server"    );;     // strukruta z informacjami z pliku konfigu
+    config server_settings   =  read_config ( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfigu
     struct sockaddr_in server;
     int v_socket;
     int max_msg = MAX_MSG_LEN*sizeof(int32_t);
@@ -199,6 +199,10 @@ void *main_thread( void * unused)
       //////////////     przegladanie plikow ////////////////////
 
       files_tree main_tree( server_settings.MOVIES_DB_PATH, &mainLCD);
+
+      ///////////////////////////////// MENU /////////////////////////////////
+
+      menu_tree main_MENU("/etc/config/iDom_SERVER/MENU", &mainLCD);
      /////////////////////////////////////////////////   wypelniam  struktury przesylane do watkow  ////////////////////////
     thread_data_rs232 data_rs232;
     data_rs232.BaudRate=server_settings.BaudRate;
@@ -238,6 +242,7 @@ void *main_thread( void * unused)
     node_data.pointer.ptr_who=who;
     node_data.mainLCD=&mainLCD;
     node_data.main_tree=&main_tree;
+    node_data.main_MENU=&main_MENU;
     // start watku irda
     pthread_create (&thread_array[4], NULL,&f_master_irda ,&node_data);
     log_file_mutex.mutex_lock();
