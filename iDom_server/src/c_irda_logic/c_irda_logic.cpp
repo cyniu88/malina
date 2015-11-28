@@ -94,6 +94,7 @@ void c_irda_logic::_add(char X)
         if ( X=='e')
         {
             my_data_logic->mainLCD->set_print_song_state(0);
+            my_data_logic->mainLCD->set_lcd_STATE(2);
             who = '!';  // koniec przegladania katalogow
 
         }
@@ -145,6 +146,7 @@ void c_irda_logic::_add(char X)
         if ( X=='e')
         {
             my_data_logic->mainLCD->set_print_song_state(0);
+            my_data_logic->mainLCD->set_lcd_STATE(2);
             who = '!';  // koniec przegladania katalogow
 
         }

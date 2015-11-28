@@ -81,7 +81,7 @@ void menu_tree::enter_dir()
 
         std::cout << "sciezka: " << movie_database_vector[i].path << " i i: " << i << std::endl;
         std::cout << " WHODZE W TO!" << std::endl;
-		tree_stack.push(movie_database_vector[i].path);
+        //tree_stack.push(movie_database_vector[i].path);
 		 std::cout << " w kolejce jest elementow : "<< tree_stack.size()<< std::endl;
 		 std::cout << " a ostatni to : "<< tree_stack.top()<< std::endl;
         get_list (movie_database_vector[i].path)  ;
@@ -90,7 +90,7 @@ void menu_tree::enter_dir()
 
 }
 void menu_tree::enter_dir(std::string path)
-{	tree_stack.push(path);
+{	//tree_stack.push(path);
       get_list (path)  ;
 
 }
@@ -103,7 +103,7 @@ void menu_tree::back_dir()
 		tree_stack.pop();
         std::cout << "                                           robie back do folderu: " << path << std::endl;
 		 std::cout << " w kolejce jest TERAZ elementow : "<< tree_stack.size()<< std::endl;
-        tree_stack.push(path);
+      //  tree_stack.push(path);
 			i=get_i();
 			
 			 std::cout << "    III ma teraz : " << i << std::endl;
@@ -124,32 +124,35 @@ std::string menu_tree::show_list(     )
              std::cout << "wypisuje sciezke pliku " << movie_database_vector[i].path <<" | " <<movie_database_vector[i].files_name.substr(0,16)<< std::endl;
 
             mainLCD->printString(true,0,0,movie_database_vector[i].files_name.substr(0,16));
-            if( regex_search(movie_database_vector[i].path,result,w_serial) )
-            {
-                mainLCD->printString(false,10,1,movie_database_vector[i].files_name.substr( movie_database_vector[i].files_name.size()-4,movie_database_vector[i].files_name.size()));
-                mainLCD->printString(false, 1,1,result[0]);
-                std::cout << " SERIAL!!!!!!!!!!!!!!!!!!!!!!!!!!1" << result[0] << std::endl;
-            }
-            else
-            {
-                mainLCD->printString(false,10,1,movie_database_vector[i].files_name.substr( movie_database_vector[i].files_name.size()-4,movie_database_vector[i].files_name.size()));
-               std::cout << " NIEEEEEE SERIAL!!!!!!!!!!!!!!!!!!!!!!!!!!1" << std::endl;
-            }
+//            if( regex_search(movie_database_vector[i].path,result,w_serial) )
+//            {
+//                mainLCD->printString(false,10,1,movie_database_vector[i].files_name.substr( movie_database_vector[i].files_name.size()-4,movie_database_vector[i].files_name.size()));
+//                mainLCD->printString(false, 1,1,result[0]);
+//                std::cout << " SERIAL!!!!!!!!!!!!!!!!!!!!!!!!!!1" << result[0] << std::endl;
+//            }
+//            else
+//            {
+//                mainLCD->printString(false,10,1,movie_database_vector[i].files_name.substr( movie_database_vector[i].files_name.size()-4,movie_database_vector[i].files_name.size()));
+//               std::cout << " NIEEEEEE SERIAL!!!!!!!!!!!!!!!!!!!!!!!!!!1" << std::endl;
+//            }
 
 
         }
         else {
             std::cout << "wypisuje sciezke katalogu " << movie_database_vector[i].path << std::endl;
-            mainLCD->printString(true,0,0,movie_database_vector[i].files_name+"/");
+            mainLCD->printString(true,0,0,movie_database_vector[i].files_name+" ->");
         }
 
 		return movie_database_vector[i].path;
 
 }
-
+bool comper (const movie_database & a , const movie_database& b);
+//{
+//    return a.files_name < b.files_name ;
+//}
 
 void menu_tree::get_list( std::string path  ) {
-    //tree_stack.push(path);
+    tree_stack.push(path);
     vector_clear();    // czyscimy vector
   //  i=0;
    std::string  path2 =path;
@@ -167,7 +170,8 @@ void menu_tree::get_list( std::string path  ) {
 			//	std::cout << " SCIEZKA TO " << path << std::endl;
             if (  static_cast<int>(plik->d_type) == 4 /*&&   strcmp( plik->d_name, ".." ) && strcmp( plik->d_name, "." )*/  )
             {
-
+                if (!strcmp( plik->d_name, ".." ) || !strcmp( plik->d_name, "." ))
+                {continue;}
                 temp.is_file=false;
              
 
@@ -196,7 +200,7 @@ void menu_tree::get_list( std::string path  ) {
             movie_database_vector.push_back(temp);
 
         }  // end while
-
+        sort(movie_database_vector.begin(),movie_database_vector.end(), comper);
         closedir( sciezka );
     }
     else

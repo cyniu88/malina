@@ -10,6 +10,7 @@
 #include <vector>
 #include <stack>
 #include <boost/regex.hpp>
+#include <algorithm>
 #include "../LCD_c/lcd_c.h"
 using namespace std;
 struct movie_database

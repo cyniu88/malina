@@ -9,6 +9,7 @@
 #include <cstring>
 #include <vector>
 #include <stack>
+#include <algorithm>
 #include <boost/regex.hpp>
 #include "../LCD_c/lcd_c.h"
 #include "../files_tree/files_tree.h"

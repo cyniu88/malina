@@ -1,6 +1,9 @@
 #include "files_tree.h"
 
-
+bool comper (const movie_database & a , const movie_database& b)
+{
+    return a.files_name < b.files_name ;
+}
 files_tree::files_tree (std::string path, LCD_c *mainLCD_PTR):w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
 {
     database_path = path;
@@ -81,7 +84,7 @@ void files_tree::enter_dir()
 
         std::cout << "sciezka: " << movie_database_vector[i].path << " i i: " << i << std::endl;
         std::cout << " WHODZE W TO!" << std::endl;
-		tree_stack.push(movie_database_vector[i].path);
+        //tree_stack.push(movie_database_vector[i].path);
 		 std::cout << " w kolejce jest elementow : "<< tree_stack.size()<< std::endl;
 		 std::cout << " a ostatni to : "<< tree_stack.top()<< std::endl;
         get_list (movie_database_vector[i].path)  ;
@@ -90,7 +93,7 @@ void files_tree::enter_dir()
 
 }
 void files_tree::enter_dir(std::string path)
-{	tree_stack.push(path);
+{	//tree_stack.push(path);
       get_list (path)  ;
 
 }
@@ -103,7 +106,7 @@ void files_tree::back_dir()
 		tree_stack.pop();
         std::cout << "                                           robie back do folderu: " << path << std::endl;
 		 std::cout << " w kolejce jest TERAZ elementow : "<< tree_stack.size()<< std::endl;
-        tree_stack.push(path);
+      //  tree_stack.push(path);
 			i=get_i();
 			
 			 std::cout << "    III ma teraz : " << i << std::endl;
@@ -149,7 +152,7 @@ std::string files_tree::show_list(     )
 
 
 void files_tree::get_list( std::string path  ) {
-    //tree_stack.push(path);
+    tree_stack.push(path);
     vector_clear();    // czyscimy vector
   //  i=0;
    std::string  path2 =path;
@@ -196,7 +199,7 @@ void files_tree::get_list( std::string path  ) {
             movie_database_vector.push_back(temp);
 
         }  // end while
-
+        sort(movie_database_vector.begin(),movie_database_vector.end(), comper);
         closedir( sciezka );
     }
     else
