@@ -194,6 +194,7 @@ void *main_thread( void * unused)
 
       pinMode(LED7, OUTPUT); 		// LED  na wyjscie  GPIO
       pinMode(GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
+      pinMode(BUTTON_PIN, INPUT);   //  gpio pin przycisku
       /////////////////////////////// LCD ///////////////////////////////
       LCD_c mainLCD(0x27,16,2);
       //////////////     przegladanie plikow ////////////////////

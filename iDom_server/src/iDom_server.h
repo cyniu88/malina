@@ -47,6 +47,7 @@
 
 #define LED7 7
 #define GPIO_SPIK 21
+#define BUTTON_PIN 25
 
 extern char *  _logfile  ;
 

@@ -146,7 +146,7 @@ void  *main_mpd_cli(void *data )
     my_data->mainLCD->set_print_song_state(0);
     ///////////////////////////////////////////////////////////////////
     //int fdstdin = 0;
-    int  run , iport = 6600;
+    int  run , iport = 6600, button_counter =0;
     char *hostname = getenv("MPD_HOST");
     char *port = getenv("MPD_PORT");
     char *password = getenv("MPD_PASSWORD");
@@ -288,6 +288,36 @@ break;*/
 
 
             my_data->mainLCD->checkState();
+
+
+
+            if ( digitalRead(BUTTON_PIN) == HIGH )
+            {
+                std::cout << " wcisnieta pin !" << std::endl;
+                if (check_title_song_to == true && button_counter ==10)
+                {
+                    char_queue._add('P');
+                    std::cout << " \n\ngasze !" << std::endl;
+                }
+                else if (check_title_song_to == false && button_counter ==10)
+                {
+                    char_queue._add('t');
+                    std::cout << " \n\n\n zapalam !" << std::endl;
+                }
+                else if (check_title_song_to == false && button_counter ==20)
+                {
+
+                    std::cout << " \n\n\n koniec programu z przyciska !" << std::endl;
+                    go_while = false;
+                }
+
+                std::cout << " \n\n\n licznik guzika wskazuje "<< button_counter << std::endl;
+                ++button_counter;
+            }
+            else button_counter =0;
+
+
+
             //m_lcd.checkState();
         }while(!usleep(500000) &&  go_while);
         mpd_player_stop(obj);
