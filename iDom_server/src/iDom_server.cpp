@@ -9,7 +9,7 @@
 #include "parser/parser.hpp"
 
 #include <wiringPi.h>
-const unsigned int jeden =1;
+const int jeden =1;
 char *  _logfile  = "/tmp/iDom_log.log";
 char buffer[20];
 Logger log_file_mutex(_logfile);
@@ -34,7 +34,7 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     //log_file_cout << INFO <<"w buforze jest bajtow " << port_arduino.Peek() << std::endl;
     log_file_mutex.mutex_unlock();
     std::cout << "";
-    char znak ='4';
+    //char znak ='4';
     while (go_while)
     {
         usleep(500);
@@ -71,9 +71,9 @@ void *f_serv_con_node (void *data){
     std::cout<<"start watek master \n";
     pthread_detach( pthread_self () );
 
-    C_connection master(my_data, "master");
 
-    master.c_start_master();
+
+
 
     std::cout<<"koniec  watek master \n";
 
@@ -113,12 +113,12 @@ void *Server_connectivity_thread(void *przekaz){
     {
         if( client->c_recv(0) == -1 )
         {
-            perror( "recv() ERROR" );
+
             break;
         }
 
-        // ###########################  analia wiadomoscu ####################################//
-        if ( client->c_analyse_exit() == false )
+       // ###########################  analia wiadomoscu ####################################//
+        if ( client->c_analyse() == false )   // stop runing idom_server
         {
             client->c_send("exit");
             my_data->mainLCD->set_print_song_state(0);
@@ -130,7 +130,7 @@ void *Server_connectivity_thread(void *przekaz){
             break;
         }
 
-        client->c_analyse();
+
 
         // ###############################  koniec analizy   wysylanie wyniku do RS232 lub  TCP ########################
 

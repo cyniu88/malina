@@ -294,17 +294,17 @@ break;*/
             if ( digitalRead(BUTTON_PIN) == HIGH )
             {
                 std::cout << " wcisnieta pin !" << std::endl;
-                if (check_title_song_to == true && button_counter ==10)
+                if (check_title_song_to == true && button_counter ==4)
                 {
                     char_queue._add('P');
                     std::cout << " \n\ngasze !" << std::endl;
                 }
-                else if (check_title_song_to == false && button_counter ==10)
+                else if (check_title_song_to == false && button_counter ==4)
                 {
                     char_queue._add('t');
                     std::cout << " \n\n\n zapalam !" << std::endl;
                 }
-                else if (check_title_song_to == false && button_counter ==20)
+                else if (check_title_song_to == false && button_counter ==10)
                 {
 
                     std::cout << " \n\n\n koniec programu z przyciska !" << std::endl;

@@ -8,9 +8,11 @@
 #include "../iDom_server/src/iDom_server.h"
 
 #include <unistd.h>
+#include <boost/foreach.hpp>
+#include <boost/tokenizer.hpp>
 
- //extern Logger log_file_mutex;
- //extern char * _logfile;
+
+#define MAX_buf 256
 class C_connection
 {
 
@@ -18,7 +20,7 @@ public:
 
 
      C_connection(thread_data  *my_data);
-     C_connection(thread_data  *my_data, std::string master);
+
     ~C_connection();
 
       thread_data   *my_data;
@@ -26,12 +28,10 @@ public:
 
     sockaddr_in c_from;
 
-    union conv{
-        int32_t c_bufor_tmp[ MAX_MSG_LEN ];
-        char char_buf[4*MAX_MSG_LEN];
-    } msg;
+    char c_buffer[MAX_buf];
+    std::string c_help;
+    int recv_size;
 
-    int c_max_msg  ;
 
     static pthread_mutex_t mutex_buf ;// = PTHREAD_MUTEX_INITIALIZER;
     static pthread_mutex_t mutex_who ;//= PTHREAD_MUTEX_INITIALIZER;
@@ -39,13 +39,13 @@ public:
 
 
      int c_send(int para);
-     int c_send(std::string command);
+     int c_send(char command[]);
      int c_recv(int para);
  int32_t c_return(int iterator);
     void c_get(int32_t buffor, int i);
     void c_send_recv_RS232 ();
     void c_read_buf (int c_pthread_self);
-    void c_write_buf(int *to);
+    void c_write_buf(char *buf);
     void c_send_recv_MASTER ();
      int c_analyse();
     bool c_analyse_exit();
