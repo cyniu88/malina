@@ -101,10 +101,12 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
             check_title_song_to=true;
             m_lcd->play_Y_N=true;
             digitalWrite(GPIO_SPIK, LOW);
+            m_lcd->set_lcd_STATE(1);
             m_lcd->song_printstr();
             break;
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
+            m_lcd->set_lcd_STATE( -1);
             m_lcd->printString(true ,0,1,"    PAUSE");
             break;
         case MPD_PLAYER_STOP:

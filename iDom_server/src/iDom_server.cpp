@@ -11,7 +11,7 @@
 #include <wiringPi.h>
 const int jeden =1;
 char *  _logfile  = "/tmp/iDom_log.log";
-char buffer[20];
+std::string buffer ;
 Logger log_file_mutex(_logfile);
 int max_msg = MAX_MSG_LEN*sizeof(int32_t);
 bool go_while = true;
@@ -26,15 +26,14 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     SerialPi serial_ardu(strdup( data_rs232->portRS232.c_str()));
 
     serial_ardu.begin( atoi( data_rs232->BaudRate.c_str()));
+    std::string znak;
 
-    //serial_ardu.write('A');
-   // serial_ardu.flush();
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"otwarcie portu RS232 " <<  data_rs232->portRS232 << data_rs232->BaudRate<<std::endl;
     //log_file_cout << INFO <<"w buforze jest bajtow " << port_arduino.Peek() << std::endl;
     log_file_mutex.mutex_unlock();
     std::cout << "";
-    //char znak ='4';
+
     while (go_while)
     {
         usleep(500);
@@ -45,21 +44,25 @@ void *Send_Recieve_rs232_thread (void *przekaz){
 
             data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
             data_rs232->pointer.ptr_who[1]= RS232;
+            serial_ardu.write(buffer.c_str());
+            delay (1000);
+            if (serial_ardu.available() > 0)
+            {
+               buffer.erase();
+                while (serial_ardu.available() > 0){
+
+                    buffer+=serial_ardu.read();
+
+                }
+            }
+            std::cout << " odebralem: " << buffer << std::endl;
 
             pthread_mutex_unlock(&C_connection::mutex_buf);
         }
         pthread_mutex_unlock(&C_connection::mutex_who);
-/*
-        std::cout << "co wyslac na serial ? " <<std::endl;
-        std::cin >> znak;
-        serial_ardu.write(znak);
-        delay (1000);
-        if (serial_ardu.available() > 0)
-        {
-            znak = serial_ardu.read();
-        }
-        std::cout << " odebralem: " << znak << std::endl;
-*/    }
+
+
+    }
 
     pthread_exit(NULL);
 }
@@ -108,7 +111,7 @@ void *Server_connectivity_thread(void *przekaz){
       digitalWrite(LED7,1);
       my_data->mainLCD->set_print_song_state(3200);
       my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
-      my_data->mainLCD->printString(false,0,1,"polaczenie aktywne");
+      my_data->mainLCD->printString(false,0,1,  inet_ntoa( my_data->from.sin_addr)   );
     while (1)
     {
         if( client->c_recv(0) == -1 )

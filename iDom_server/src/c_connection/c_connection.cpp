@@ -121,7 +121,7 @@ int C_connection::c_analyse()
         }
         else if (command [0] == "help")
         {
-            c_write_buf(&c_help[0u]);
+            c_write_buf("\n exit \t- close client \n stop server \t- stop server iDom and close \n RS232 get temperature \t - get temperature from room \n");
             break;
         }
         break;
@@ -136,10 +136,79 @@ int C_connection::c_analyse()
                 return false;
 
             }
+            break;
         }
+
         break;
-      default :
-        c_write_buf("unknow command");
+
+
+    case 3:
+
+        if (command[0]=="RS232")
+        {
+            if (command[1]=="get")
+            {
+                if (command[2]=="temperature"){
+
+                    while (go_while)
+                    {
+                        usleep(500);
+                        pthread_mutex_lock(&C_connection::mutex_who);
+                        if (my_data->pointer.ptr_who[0] == FREE)
+                        {
+                            pthread_mutex_lock(&C_connection::mutex_buf);
+
+
+                            my_data->pointer.ptr_who[0]=RS232;
+                            my_data->pointer.ptr_who[1]= pthread_self();
+                            buffer=command[2];
+
+                            pthread_mutex_unlock(&C_connection::mutex_buf);
+                            pthread_mutex_unlock(&C_connection::mutex_who);
+                            break;
+                        }
+                        pthread_mutex_unlock(&C_connection::mutex_who);
+
+                    }
+
+                    while (go_while)
+                    {
+                        usleep(500);
+                        pthread_mutex_lock(&C_connection::mutex_who);
+                        if (my_data->pointer.ptr_who[0] == pthread_self())
+                        {
+                            pthread_mutex_lock(&C_connection::mutex_buf);
+
+
+                            my_data->pointer.ptr_who[0]=FREE;
+                            my_data->pointer.ptr_who[1]= 0;
+                            //buffer +=" taka temeratura";
+                            c_write_buf(  (char *) buffer.c_str()    );
+
+                            pthread_mutex_unlock(&C_connection::mutex_buf);
+                            pthread_mutex_unlock(&C_connection::mutex_who);
+                            break;
+                        }
+                        pthread_mutex_unlock(&C_connection::mutex_who);
+
+                    }
+
+
+
+                    break;
+                }
+                break;
+            }
+            break;
+        }
+
+
+
+        break;
+
+    default :
+        std::cout << " nic nie przyszlo komenda z dupy " << std::endl;
+        c_write_buf("unknown command");
 
     }
 

@@ -53,7 +53,7 @@ extern char *  _logfile  ;
 
 extern Logger log_file_mutex;
 
-extern char buffer[20];
+ extern std::string buffer;
 
 extern int max_msg  ;
 

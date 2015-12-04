@@ -8,8 +8,9 @@ void C_connection::c_write_buf(char * buf){
     {
         c_buffer[i]=' ';
     }
-    for (unsigned int i =0 ; i< sizeof(buf);++i)
+    for (unsigned int i =0 ; i< strlen( buf);++i)
     {
+
         c_buffer[i]=buf[i];
     }
 
