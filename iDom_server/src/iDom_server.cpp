@@ -45,7 +45,10 @@ void *Send_Recieve_rs232_thread (void *przekaz){
             data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
             data_rs232->pointer.ptr_who[1]= RS232;
             serial_ardu.write(buffer.c_str());
-            delay (1000);
+           // while (serial_ardu.available() < 1)
+            //{
+                 sleep(1);
+            //}
             if (serial_ardu.available() > 0)
             {
                buffer.erase();
@@ -112,6 +115,14 @@ void *Server_connectivity_thread(void *przekaz){
       my_data->mainLCD->set_print_song_state(3200);
       my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
       my_data->mainLCD->printString(false,0,1,  inet_ntoa( my_data->from.sin_addr)   );
+
+
+      log_file_mutex.mutex_lock();
+      log_file_cout << INFO <<"polaczenie z adresu  " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
+      //log_file_cout << INFO <<"w buforze jest bajtow " << port_arduino.Peek() << std::endl;
+      log_file_mutex.mutex_unlock();
+
+
     while (1)
     {
         if( client->c_recv(0) == -1 )
@@ -123,7 +134,7 @@ void *Server_connectivity_thread(void *przekaz){
        // ###########################  analia wiadomoscu ####################################//
         if ( client->c_analyse() == false )   // stop runing idom_server
         {
-            client->c_send("exit");
+            client->c_send("END.\n");
             my_data->mainLCD->set_print_song_state(0);
             my_data->mainLCD->set_lcd_STATE(2);
             my_data->mainLCD->clear();

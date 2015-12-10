@@ -13,7 +13,7 @@ void error_callback(MpdObj *mi,int errorid, char *msg, void *userdata)
     printf(RED"Error "RESET""GREEN"%i:"RESET" '%s'\n", errorid, msg);
 }
 
-void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
+void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
 {
     if(what&MPD_CST_SONGID)
     {
@@ -34,7 +34,8 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
     if(what&MPD_CST_VOLUME){
         printf(GREEN"Volume:"RESET" %03i%%\n",
                mpd_status_get_volume(mi));
-        m_lcd->printVolume(mpd_status_get_volume(mi));
+
+        my_data->mainLCD->printVolume(mpd_status_get_volume(mi));
     }
     if(what&MPD_CST_CROSSFADE){
         printf(GREEN"X-Fade:"RESET" %i sec.\n",
@@ -66,8 +67,63 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
 
             if (song->name != NULL){
                 wiad =  song->name;
-                m_lcd->printRadioName(true,0,0,wiad);
-                m_lcd->set_lcd_STATE(5);
+                my_data->mainLCD->printRadioName(true,0,0,wiad);
+                my_data->mainLCD->set_lcd_STATE(5);
+
+
+
+
+
+              /////////////////////////////////////////////////////////////////////////////////////
+                while (go_while)
+                {
+                    usleep(500);
+                    pthread_mutex_lock(&C_connection::mutex_who);
+                    if (my_data->pointer.ptr_who[0] == FREE)
+                    {
+                        pthread_mutex_lock(&C_connection::mutex_buf);
+
+
+                        my_data->pointer.ptr_who[0]=RS232;
+                        my_data->pointer.ptr_who[1]= pthread_self();
+                        buffer="temperature";
+
+                        pthread_mutex_unlock(&C_connection::mutex_buf);
+                        pthread_mutex_unlock(&C_connection::mutex_who);
+                        break;
+                    }
+                    pthread_mutex_unlock(&C_connection::mutex_who);
+
+                }
+
+                while (go_while)
+                {
+                    usleep(500);
+                    pthread_mutex_lock(&C_connection::mutex_who);
+                    if (my_data->pointer.ptr_who[0] == pthread_self())
+                    {
+                        pthread_mutex_lock(&C_connection::mutex_buf);
+
+
+                        my_data->pointer.ptr_who[0]=FREE;
+                        my_data->pointer.ptr_who[1]= 0;
+                        //buffer +=" taka temeratura";
+                          buffer.erase(buffer.length()-2,buffer.length());
+
+                          buffer.erase(0,buffer.length()-5);
+
+                          buffer.insert(0,"temp. - ");
+                          buffer+=" c";
+                        my_data->mainLCD->printString(false,0,1,buffer);
+
+                        pthread_mutex_unlock(&C_connection::mutex_buf);
+                        pthread_mutex_unlock(&C_connection::mutex_who);
+                        break;
+                    }
+                    pthread_mutex_unlock(&C_connection::mutex_who);
+
+                }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             }
 
 
@@ -88,7 +144,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
 
 
 
-            m_lcd->printSongName(wiad);
+            my_data->mainLCD->printSongName(wiad);
         }
     }
      if(what&MPD_CST_STATE)
@@ -99,22 +155,22 @@ void status_changed(MpdObj *mi, ChangedStatusType what, LCD_c * m_lcd)
         case MPD_PLAYER_PLAY:
             printf("Playing\n");
             check_title_song_to=true;
-            m_lcd->play_Y_N=true;
+            my_data->mainLCD->play_Y_N=true;
             digitalWrite(GPIO_SPIK, LOW);
-            m_lcd->set_lcd_STATE(1);
-            m_lcd->song_printstr();
+            my_data->mainLCD->set_lcd_STATE(1);
+            my_data->mainLCD->song_printstr();
             break;
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
-            m_lcd->set_lcd_STATE( -1);
-            m_lcd->printString(true ,0,1,"    PAUSE");
+            my_data->mainLCD->set_lcd_STATE( -1);
+            my_data->mainLCD->printString(true ,0,1,"    PAUSE");
             break;
         case MPD_PLAYER_STOP:
             printf("Stopped\n");
             check_title_song_to=false;
-            m_lcd->play_Y_N=false;
+            my_data->mainLCD->play_Y_N=false;
             digitalWrite(GPIO_SPIK,HIGH);
-            m_lcd->noBacklight();
+            my_data->mainLCD->noBacklight();
             break;
         default:
             break;
@@ -171,7 +227,7 @@ void  *main_mpd_cli(void *data )
 
     /* Connect signals */
     mpd_signal_connect_error(obj,(ErrorCallback)error_callback, NULL);
-    mpd_signal_connect_status_changed(obj,(StatusChangedCallback)status_changed, my_data->mainLCD);
+    mpd_signal_connect_status_changed(obj,(StatusChangedCallback)status_changed , my_data);
     /* Set timeout */
     mpd_set_connection_timeout(obj, 10);
 

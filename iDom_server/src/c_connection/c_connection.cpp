@@ -36,8 +36,8 @@ C_connection::~C_connection()
 
 int C_connection::c_send(int para)
 {
-    // ChangeEndianness(msg.c_bufor_tmp,MAX_MSG_LEN);
-    if(( send( c_socket, c_buffer , MAX_buf, para ) ) <= 0 )
+    std::cout << " wielkosc bufora "<< strlen(c_buffer) << std::endl;
+    if(( send( c_socket, c_buffer ,strlen(c_buffer), para ) ) <= 0 )
     {
         //perror( "send() ERROR" );
         return -1;
@@ -48,7 +48,7 @@ int C_connection::c_send(int para)
 
 int C_connection::c_send(char command[MAX_buf])
 {
-    c_write_buf("end");
+    c_write_buf(command);
     c_send(0);
     return 0;
 }
@@ -111,20 +111,34 @@ int C_connection::c_analyse()
         if(command[0]=="exit")
         {
             std::cout << " klient sie odlaczyl" << std::endl;
-            c_write_buf("bye");
+            c_write_buf("\nEND.\n");
             break;
         }
         else if (command[0]=="hello")
         {
-            c_write_buf("HI !");
+            c_write_buf("\nHI !\n");
             break;
         }
         else if (command [0] == "help")
         {
-            c_write_buf("\n exit \t- close client \n stop server \t- stop server iDom and close \n RS232 get temperature \t - get temperature from room \n");
+            c_write_buf("\n exit \t- close client \n stop server \t- stop server iDom and close \n RS232 get temperature \t - get temperature from room \nhello - test connection \n");
             break;
         }
+        else if (command [0] == "OK")
+        {
+            c_write_buf("\nEND.\n");
         break;
+        }
+        else if (command [0] == "IP")
+        {
+            c_write_buf(( char*) my_data->server_settings->SERVER_IP.c_str() );
+        break;
+        }
+        else
+        {
+           c_write_buf("\nEND.\n");
+           break;
+        }
     case 2 :
         if(command[0]=="stop")
         {
@@ -132,14 +146,25 @@ int C_connection::c_analyse()
             if (command[1]=="server")
             {
                 std::cout <<"wychodze!!!!";
-                c_send("end");
+                c_send("\nEND.\n");
                 return false;
 
             }
             break;
         }
+        else if (command[0]=="show")
+        {
+            if (command[1]=="log")
+            {
 
-        break;
+                l_send_log();
+            }
+        }
+        else
+        {
+           c_write_buf("\nEND.\n");
+           break;
+        }
 
 
     case 3:
@@ -149,7 +174,7 @@ int C_connection::c_analyse()
             if (command[1]=="get")
             {
                 if (command[2]=="temperature"){
-
+                    std::cout << " szukam temeratury" << std::endl;
                     while (go_while)
                     {
                         usleep(500);
@@ -183,6 +208,7 @@ int C_connection::c_analyse()
                             my_data->pointer.ptr_who[0]=FREE;
                             my_data->pointer.ptr_who[1]= 0;
                             //buffer +=" taka temeratura";
+
                             c_write_buf(  (char *) buffer.c_str()    );
 
                             pthread_mutex_unlock(&C_connection::mutex_buf);
@@ -204,11 +230,15 @@ int C_connection::c_analyse()
 
 
 
-        break;
+        else
+        {
+           c_write_buf("END.\n");
+           break;
+        }
 
     default :
-        std::cout << " nic nie przyszlo komenda z dupy " << std::endl;
-        c_write_buf("unknown command");
+        std::cout << " nic nie przyszlo komenda z dupy " << c_buffer<<std::endl;
+        c_write_buf("unknown command\n");
 
     }
 

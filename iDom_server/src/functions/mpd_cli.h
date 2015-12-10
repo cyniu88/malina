@@ -19,6 +19,7 @@
 #include "../c_irda_logic/c_irda_logic.h"
 #include "../LCD_c/lcd_c.h"     //brak
 //#include "../parser/parser..hpp"
+#include "../c_connection/c_connection.h"
 
 //extern bool go_while;
 //extern Logger log_file_mutex;

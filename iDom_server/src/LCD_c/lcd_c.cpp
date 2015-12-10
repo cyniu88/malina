@@ -15,7 +15,11 @@ void LCD_c::checkState()
     }
     if (print_song_state == 0 ){
         //std::cout << "stan checkState: " << lcd_state << " ";
-        if (lcd_state == 0 || lcd_state == -1)  // -1   blokuje  caly wysetlacz  nie wysetla piosenek
+        if (lcd_state == -1)
+        {
+            return;
+        }
+        if (lcd_state == 0 )
         {
             if (play_Y_N == false)
             {
@@ -151,7 +155,7 @@ void LCD_c::clear()
 
 void LCD_c::printVolume (int vol)
 {
-    if (print_song_state!= 0 )
+    if (print_song_state!= 0 || lcd_state == -1 )
     {
         return;
     }
