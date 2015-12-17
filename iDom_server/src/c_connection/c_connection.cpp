@@ -121,8 +121,8 @@ int C_connection::c_analyse()
         }
         else if (command [0] == "help")
         {
-            c_write_buf("\n exit \t- close client \n stop server \t- stop server iDom and close \n RS232 get temperature \t - get temperature from room \nhello - test connection \n");
-            break;
+            l_send_log("/etc/config/iDom_SERVER/help");
+            //break;
         }
         else if (command [0] == "OK")
         {
@@ -157,7 +157,7 @@ int C_connection::c_analyse()
             if (command[1]=="log")
             {
 
-                l_send_log();
+                l_send_log(_logfile);
             }
         }
         else

@@ -45,7 +45,7 @@
 #define ON 1
 #define OFF 0
 
-#define LED7 7
+#define BUZZER 7
 #define GPIO_SPIK 21
 #define BUTTON_PIN 25
 

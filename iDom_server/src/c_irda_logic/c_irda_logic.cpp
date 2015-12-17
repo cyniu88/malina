@@ -8,7 +8,7 @@ c_irda_logic::c_irda_logic(thread_data *my_data)
     my_data_logic = my_data;
     who='!';
     // pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
-    digitalWrite(LED7,OFF);
+    //digitalWrite(LED7,OFF);
 }
 
 void c_irda_logic::_add(char X)
@@ -119,14 +119,20 @@ void c_irda_logic::_add(char X)
             else
             {
                 std::cout << " URUCHAMIAM PLIK! " <<my_data_logic->main_tree->show_list() <<std::endl;
-                char_queue._add('P');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
+                //char_queue._add('P');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
 
-                std::string command("/home/pi/film.sh  ");
+//                std::string command("/home/pi/film.sh  ");
+//                command+=my_data_logic->main_tree->show_list();
+//                command+= " &";
+//                system(command.c_str());
+                std::string command = "/home/pi/programowanie/PYTON/iDom_movie.py ";
                 command+=my_data_logic->main_tree->show_list();
-                command+= " &";
                 system(command.c_str());
+                std::cout << " WYSTARTOWALEM!!";
+
+                my_data_logic->mainLCD->printString(true,0,0,"odtwarzam film");
                 std::cout << "\n komenda to\n\n\n\n\n\nn\n\ "<< command << "\n a wynik jej to: "; //<< system(command.c_str()) << std::endl;
-                char_queue._add('A');
+                //char_queue._add('A');
             }
         }
         else if (X=='U')

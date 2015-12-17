@@ -25,14 +25,15 @@ void C_connection::c_read_buf(int c_pthread_self)
 
 }
 
-void C_connection::l_send_log(){
+void C_connection::l_send_log(char *path){
 
     std::fstream log_file;
-    log_file.open(_logfile,std::ios::in);
+    log_file.open(path,std::ios::in);
     if( log_file.good() == false )
     {
         c_write_buf(" can not open file !");
         c_send(0);
+        c_recv(0);
         return;
     }
 

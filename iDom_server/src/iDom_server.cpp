@@ -111,7 +111,7 @@ void *Server_connectivity_thread(void *przekaz){
     // std::cout << " przed while  soket " <<my_data->s_v_socket_klienta << std::endl;
 
     C_connection *client = new C_connection( my_data);
-      digitalWrite(LED7,1);
+
       my_data->mainLCD->set_print_song_state(3200);
       my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
       my_data->mainLCD->printString(false,0,1,  inet_ntoa( my_data->from.sin_addr)   );
@@ -154,7 +154,7 @@ void *Server_connectivity_thread(void *przekaz){
             break;
         }
     }
-    digitalWrite(LED7,0);
+
      my_data->mainLCD->set_print_song_state(0);
      my_data->mainLCD->set_lcd_STATE(2);
      sleep (3);
@@ -206,8 +206,10 @@ void *main_thread( void * unused)
 	if (wiringPiSetup () == -1)
         exit (1) ;
 
-      pinMode(LED7, OUTPUT); 		// LED  na wyjscie  GPIO
+      pinMode(BUZZER, OUTPUT); 		// BUZZER  na wyjscie  GPIO
+      digitalWrite(BUZZER,LOW);
       pinMode(GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
+      digitalWrite(GPIO_SPIK,HIGH);
       pinMode(BUTTON_PIN, INPUT);   //  gpio pin przycisku
       /////////////////////////////// LCD ///////////////////////////////
       LCD_c mainLCD(0x27,16,2);
@@ -402,7 +404,7 @@ void *main_thread( void * unused)
                         perror( "send() ERROR" );
                         break;
                     }
-                    shutdown( v_sock_ind, SHUT_RDWR );
+
                     continue;
 
                 }
@@ -411,6 +413,8 @@ void *main_thread( void * unused)
  
         }
     } // while
+   // zamykam gniazdo
+    shutdown( v_sock_ind, SHUT_RDWR );
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << " koniec programu  "<<   std::endl;

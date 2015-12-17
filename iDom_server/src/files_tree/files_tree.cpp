@@ -79,6 +79,7 @@ void files_tree::enter_dir()
     if (movie_database_vector[i].is_file == true ) {
         std::cout << "to nie KATALOG!"<< std::endl;
 
+
     }
     else {
 

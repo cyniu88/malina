@@ -57,7 +57,7 @@ public:
     void c_recv_send_master();
 
      // wysylanie loga
-    void l_send_log();
+    void l_send_log(char * path);
 
 };
 
