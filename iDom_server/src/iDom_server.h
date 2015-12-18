@@ -49,7 +49,7 @@
 #define GPIO_SPIK 21
 #define BUTTON_PIN 25
 
-extern char *  _logfile  ;
+extern std::string  _logfile  ;
 
 extern Logger log_file_mutex;
 

@@ -96,7 +96,7 @@ int C_connection::c_analyse()
     std::string buf(c_buffer);
     std::vector <std::string> command;
 
-    boost::char_separator<char> sep(",:\n ");
+    boost::char_separator<char> sep(",\n ");
     boost::tokenizer< boost::char_separator<char> > tokens(buf, sep);
     BOOST_FOREACH (const string& t, tokens) {
         std::cout << " rozmiar t: " << t.size() << std::endl;
@@ -127,17 +127,17 @@ int C_connection::c_analyse()
         else if (command [0] == "OK")
         {
             c_write_buf("\nEND.\n");
-        break;
+            break;
         }
         else if (command [0] == "IP")
         {
             c_write_buf(( char*) my_data->server_settings->SERVER_IP.c_str() );
-        break;
+            break;
         }
         else
         {
-           c_write_buf("\nEND.\n");
-           break;
+            c_write_buf("\nEND.\n");
+            break;
         }
     case 2 :
         if(command[0]=="stop")
@@ -160,10 +160,11 @@ int C_connection::c_analyse()
                 l_send_log(_logfile);
             }
         }
+
         else
         {
-           c_write_buf("\nEND.\n");
-           break;
+            c_write_buf("\nEND.\n");
+            break;
         }
 
 
@@ -187,7 +188,7 @@ int C_connection::c_analyse()
                             my_data->pointer.ptr_who[0]=RS232;
                             my_data->pointer.ptr_who[1]= pthread_self();
                             buffer=command[2];
-
+                            buffer+=":339;";
                             pthread_mutex_unlock(&C_connection::mutex_buf);
                             pthread_mutex_unlock(&C_connection::mutex_who);
                             break;
@@ -225,6 +226,57 @@ int C_connection::c_analyse()
                 }
                 break;
             }
+
+            else if (command[1]=="send")
+            {
+                while (go_while)
+                {
+                    usleep(500);
+                    pthread_mutex_lock(&C_connection::mutex_who);
+                    if (my_data->pointer.ptr_who[0] == FREE)
+                    {
+                        pthread_mutex_lock(&C_connection::mutex_buf);
+
+
+                        my_data->pointer.ptr_who[0]=RS232;
+                        my_data->pointer.ptr_who[1]= pthread_self();
+                        buffer=command[2];
+
+                        pthread_mutex_unlock(&C_connection::mutex_buf);
+                        pthread_mutex_unlock(&C_connection::mutex_who);
+                        break;
+                    }
+                    pthread_mutex_unlock(&C_connection::mutex_who);
+
+                }
+
+                while (go_while)
+                {
+                    usleep(500);
+                    pthread_mutex_lock(&C_connection::mutex_who);
+                    if (my_data->pointer.ptr_who[0] == pthread_self())
+                    {
+                        pthread_mutex_lock(&C_connection::mutex_buf);
+
+
+                        my_data->pointer.ptr_who[0]=FREE;
+                        my_data->pointer.ptr_who[1]= 0;
+                        //buffer +=" taka temeratura";
+
+                        c_write_buf(  (char *) buffer.c_str()    );
+
+                        pthread_mutex_unlock(&C_connection::mutex_buf);
+                        pthread_mutex_unlock(&C_connection::mutex_who);
+                        break;
+                    }
+                    pthread_mutex_unlock(&C_connection::mutex_who);
+
+                }
+
+
+
+
+            }
             break;
         }
 
@@ -232,8 +284,8 @@ int C_connection::c_analyse()
 
         else
         {
-           c_write_buf("END.\n");
-           break;
+            c_write_buf("END.\n");
+            break;
         }
 
     default :

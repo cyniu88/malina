@@ -10,7 +10,7 @@
 
 #include <wiringPi.h>
 const int jeden =1;
-char *  _logfile  = "/tmp/iDom_log.log";
+std::string  _logfile  = "/tmp/iDom_log.log";
 std::string buffer ;
 Logger log_file_mutex(_logfile);
 int max_msg = MAX_MSG_LEN*sizeof(int32_t);
@@ -44,7 +44,7 @@ void *Send_Recieve_rs232_thread (void *przekaz){
 
             data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
             data_rs232->pointer.ptr_who[1]= RS232;
-            serial_ardu.write(buffer.c_str());
+            serial_ardu.print(buffer.c_str());
            // while (serial_ardu.available() < 1)
             //{
                  sleep(1);
@@ -52,6 +52,8 @@ void *Send_Recieve_rs232_thread (void *przekaz){
             if (serial_ardu.available() > 0)
             {
                buffer.erase();
+
+               std::cout << " jest bffer : " << buffer << std::endl;
                 while (serial_ardu.available() > 0){
 
                     buffer+=serial_ardu.read();
@@ -414,9 +416,12 @@ void *main_thread( void * unused)
         }
     } // while
    // zamykam gniazdo
-    shutdown( v_sock_ind, SHUT_RDWR );
 
-    log_file_mutex.mutex_lock();
+log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "zamykanie gniazda wartosc ind "  << shutdown( v_sock_ind, SHUT_RDWR )<< std::endl;
+    log_file_cout << ERROR << "gniazdo ind  "<<strerror(  errno ) << std::endl;
+ log_file_cout << INFO << "zamykanie gniazda wartosc "  << shutdown( v_socket, SHUT_RDWR )<< std::endl;
+     log_file_cout << ERROR << "gniazdo ind  "<<strerror(  errno ) << std::endl;
     log_file_cout << INFO << " koniec programu  "<<   std::endl;
     log_file_mutex.mutex_unlock();
 
