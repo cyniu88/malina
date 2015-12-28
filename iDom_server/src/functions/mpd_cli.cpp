@@ -86,7 +86,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
 
                         my_data->pointer.ptr_who[0]=RS232;
                         my_data->pointer.ptr_who[1]= pthread_self();
-                        buffer="temperature";
+                        buffer="temperature:123;";
 
                         pthread_mutex_unlock(&C_connection::mutex_buf);
                         pthread_mutex_unlock(&C_connection::mutex_who);

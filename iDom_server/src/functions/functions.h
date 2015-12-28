@@ -8,5 +8,6 @@ std::string conv_dns (std::string temp);
 
 void ChangeEndianness(int32_t * value, int MAX_MSG_LEN_INT);
 void binary(int val);
+std::string intToStr(int n);
 
 #endif // FUNCTIONS_H

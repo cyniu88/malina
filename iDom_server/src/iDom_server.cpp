@@ -45,21 +45,19 @@ void *Send_Recieve_rs232_thread (void *przekaz){
             data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
             data_rs232->pointer.ptr_who[1]= RS232;
             serial_ardu.print(buffer.c_str());
-           // while (serial_ardu.available() < 1)
-            //{
-                 sleep(1);
-            //}
-            if (serial_ardu.available() > 0)
-            {
+
+              sleep(1);
+
+
                buffer.erase();
 
-               std::cout << " jest bffer : " << buffer << std::endl;
-                while (serial_ardu.available() > 0){
+                while (serial_ardu.available() ){
 
                     buffer+=serial_ardu.read();
 
+
                 }
-            }
+
             std::cout << " odebralem: " << buffer << std::endl;
 
             pthread_mutex_unlock(&C_connection::mutex_buf);
@@ -178,7 +176,14 @@ void *main_thread( void * unused)
     int max_msg = MAX_MSG_LEN*sizeof(int32_t);
     //thread_data m_data;
     thread_data node_data; // przekazywanie do watku
-    pthread_t thread_array[MAX_CONNECTION]={0,0,0,0,0,0,0,0,0,0};
+
+
+
+    Thread_array_struc thread_array[MAX_CONNECTION];
+    for (int i =0 ; i< MAX_CONNECTION;++i){
+        thread_array[i].thread_name="empty";
+    }
+
     pthread_t rs232_thread_id;
     unsigned int who[2]={FREE, FREE};
     int32_t bufor[ MAX_MSG_LEN ];
@@ -238,7 +243,7 @@ void *main_thread( void * unused)
    if (temp == 0 )
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "mkfifo - plik stworzony" << std::endl;
+        log_file_cout << INFO << "mkfifo - plik stworzony "<<strerror(  errno ) << std::endl;
         log_file_mutex.mutex_unlock();
     }
     else if (temp == -1)
@@ -262,26 +267,30 @@ void *main_thread( void * unused)
     node_data.mainLCD=&mainLCD;
     node_data.main_tree=&main_tree;
     node_data.main_MENU=&main_MENU;
+    node_data.main_THREAD_arr = &thread_array[0];
     // start watku irda
-    pthread_create (&thread_array[4], NULL,&f_master_irda ,&node_data);
+    pthread_create (&thread_array[4].thread_ID, NULL,&f_master_irda ,&node_data);
+    thread_array[4].thread_name="IRDA";
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " watek wystartowal polaczenie irda "<< thread_array[4] << std::endl;
+    log_file_cout << INFO << " watek wystartowal polaczenie irda "<< thread_array[4].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();
-    pthread_detach( thread_array[4] );
+    pthread_detach( thread_array[4].thread_ID );
     // start watku  mpd_cli
-    pthread_create (&thread_array[5], NULL,&main_mpd_cli ,&node_data);
+    pthread_create (&thread_array[5].thread_ID, NULL,&main_mpd_cli ,&node_data);
+    thread_array[5].thread_name="MPD_client";
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " watek wystartowal klient mpd "<< thread_array[5] << std::endl;
+    log_file_cout << INFO << " watek wystartowal klient mpd "<< thread_array[5].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();
-    pthread_detach( thread_array[5] );
+    pthread_detach( thread_array[5].thread_ID );
 
     if (server_settings.ID_server == 1001){    ///  jesli  id 1001  to wystartuj watek do polaczeni z innym nodem masterem 
       
-        pthread_create (&thread_array[3], NULL,&f_serv_con_node ,&node_data);
+        pthread_create (&thread_array[3].thread_ID, NULL,&f_serv_con_node ,&node_data);
+        thread_array[3].thread_name="node master";
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO << " watek wystartowal dla NODA MASTERA "<< thread_array[3] << std::endl;
+        log_file_cout << INFO << " watek wystartowal dla NODA MASTERA "<< thread_array[3].thread_ID << std::endl;
         log_file_mutex.mutex_unlock();
-        pthread_detach( thread_array[3] );
+        pthread_detach( thread_array[3].thread_ID );
     }
 
     else
@@ -361,7 +370,7 @@ void *main_thread( void * unused)
         ////////////////////////   jest połacznie   wiec wstawiamy je  do nowego watku  i  umieszczamy id watku w tablicy  w pierwszym wolnym miejscy ////////////////////
         for (int con_counter=0; con_counter< MAX_CONNECTION; ++con_counter)
         {
-            if ( thread_array[con_counter]==0 || pthread_kill(thread_array[con_counter], 0) == ESRCH )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
+            if ( thread_array[con_counter].thread_ID==0 || pthread_kill(thread_array[con_counter].thread_ID, 0) == ESRCH )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
 
             {
                 if ( con_counter!=MAX_CONNECTION -1)
@@ -370,13 +379,13 @@ void *main_thread( void * unused)
                     node_data.s_client_sock =v_sock_ind;
                     node_data.from=from;
                     
-                    pthread_create (&thread_array[con_counter], NULL,&Server_connectivity_thread,&node_data);
-
+                    pthread_create (&thread_array[con_counter].thread_ID, NULL,&Server_connectivity_thread,&node_data);
+                    thread_array[con_counter].thread_name = inet_ntoa(node_data.from.sin_addr);
                     log_file_mutex.mutex_lock();
-                    log_file_cout << INFO << " watek wystartowal  "<< thread_array[con_counter] << std::endl;
+                    log_file_cout << INFO << " watek wystartowal  "<< thread_array[con_counter].thread_ID << std::endl;
                     log_file_mutex.mutex_unlock();
 
-                    pthread_detach( thread_array[con_counter] );
+                    pthread_detach( thread_array[con_counter].thread_ID );
                     break;
 
                 }
@@ -384,7 +393,7 @@ void *main_thread( void * unused)
                 {
 
                     log_file_mutex.mutex_lock();
-                    log_file_cout << INFO << " za duzo klientow "<< thread_array[con_counter] << std::endl;
+                    log_file_cout << INFO << " za duzo klientow "<< thread_array[con_counter].thread_ID << std::endl;
                     log_file_mutex.mutex_unlock();
 
                     int32_t bufor_tmp[ MAX_MSG_LEN ];

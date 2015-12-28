@@ -29,6 +29,15 @@ C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_so
 C_connection::~C_connection()
 {
     shutdown( c_socket, SHUT_RDWR );
+    for (int i =0 ; i< MAX_CONNECTION;++i)
+    {
+        if (my_data->main_THREAD_arr[i].thread_ID == pthread_self())
+        {
+            my_data->main_THREAD_arr[i].thread_ID = 0;
+            my_data->main_THREAD_arr[i].thread_name ="empty";
+            break;
+        }
+    }
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< " koniec komunikacji - kasuje obiekt" <<  std::endl;
     log_file_mutex.mutex_unlock();
@@ -147,6 +156,7 @@ int C_connection::c_analyse()
             {
                 std::cout <<"wychodze!!!!";
                 c_send("\nEND.\n");
+
                 return false;
 
             }
@@ -158,7 +168,10 @@ int C_connection::c_analyse()
             {
 
                 l_send_log(_logfile);
+                c_write_buf("\nEND.");
+                break;
             }
+
         }
 
         else
@@ -280,7 +293,38 @@ int C_connection::c_analyse()
             break;
         }
 
+        else if (command[0]=="show")
+        {
+            if (command[1]=="thread")
+            {
+                if (command [2] !="all"){
+                    temporary_str = my_data->main_THREAD_arr[atoi(command[2].c_str())].thread_name;
+                    temporary_str += " ID: ";
+                    temporary_str += intToStr(my_data->main_THREAD_arr[atoi(command[2].c_str())].thread_ID);
+                    c_write_buf( (char*)temporary_str.c_str() );
+                break;
+                }
 
+                else {
+                    for (int i =0 ; i< MAX_CONNECTION;++i)
+                    {
+                        temporary_str = intToStr(i)+"\t";
+                        temporary_str += my_data->main_THREAD_arr[i].thread_name;
+                        temporary_str += "\t ID: ";
+                        temporary_str += intToStr(my_data->main_THREAD_arr[i].thread_ID);
+                        temporary_str += "\n";
+                        c_write_buf( (char*)temporary_str.c_str() );
+                        c_send(0);
+                        c_recv(0);
+
+                    }
+                    c_write_buf("\nEND.");
+
+                    break;
+                }
+            }
+
+        }
 
         else
         {

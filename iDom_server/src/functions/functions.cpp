@@ -77,3 +77,14 @@ void binary(int val)
         if ((i + 1) % 8 == 0)            std::cout << ' ';        std::cout << ((val >> i) % 2);    }    std::cout << std::endl;
 }
 
+std::string intToStr(int n){
+     std::string tmp;
+     if(n < 0) {
+      tmp = "-";
+      n = -n;
+     }
+     if(n > 9)
+      tmp += intToStr(n / 10);
+     tmp += n % 10 + 48;
+     return tmp;
+}

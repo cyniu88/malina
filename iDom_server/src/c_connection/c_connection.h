@@ -59,6 +59,9 @@ public:
      // wysylanie loga
     void l_send_log(string path);
 
+    private:
+    std::string temporary_str;
+
 };
 
 

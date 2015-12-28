@@ -65,7 +65,10 @@ struct s_pointer{
     int32_t *ptr_buf;
 };
 
-
+struct Thread_array_struc {
+    pthread_t  thread_ID;
+    std::string thread_name;
+};
 //struct s_arg{
 //    serialib port_arduino;
 //    struct struktura_wiadomosci s_msg;
@@ -113,6 +116,7 @@ struct thread_data{
     LCD_c *mainLCD;
     files_tree *main_tree;
     menu_tree *main_MENU;
+    Thread_array_struc *main_THREAD_arr;
 
 };
 
