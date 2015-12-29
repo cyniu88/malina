@@ -173,8 +173,7 @@ void *main_thread( void * unused)
     config server_settings   =  read_config ( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfigu
     struct sockaddr_in server;
     int v_socket;
-    int max_msg = MAX_MSG_LEN*sizeof(int32_t);
-    //thread_data m_data;
+
     thread_data node_data; // przekazywanie do watku
 
 
@@ -270,7 +269,7 @@ void *main_thread( void * unused)
     node_data.main_THREAD_arr = &thread_array[0];
     // start watku irda
     pthread_create (&thread_array[4].thread_ID, NULL,&f_master_irda ,&node_data);
-    thread_array[4].thread_name="IRDA";
+    thread_array[4].thread_name="IRDA_master";
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << " watek wystartowal polaczenie irda "<< thread_array[4].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();

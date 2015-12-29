@@ -107,7 +107,7 @@ int C_connection::c_analyse()
 
     boost::char_separator<char> sep(",\n ");
     boost::tokenizer< boost::char_separator<char> > tokens(buf, sep);
-    BOOST_FOREACH (const string& t, tokens) {
+    BOOST_FOREACH (const std::string& t, tokens) {
         std::cout << " rozmiar t: " << t.size() << std::endl;
         command.push_back( t);
     }
