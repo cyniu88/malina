@@ -13,7 +13,7 @@
 std::string  _logfile  = "/tmp/iDom_log.log";
 std::string buffer ;
 Logger log_file_mutex(_logfile);
-int max_msg = MAX_MSG_LEN*sizeof(int32_t);
+//int max_msg = MAX_MSG_LEN*sizeof(int32_t);
 bool go_while = true;
 
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
@@ -46,17 +46,17 @@ void *Send_Recieve_rs232_thread (void *przekaz){
             data_rs232->pointer.ptr_who[1]= RS232;
             serial_ardu.print(buffer.c_str());
 
-
-            while (serial_ardu.available() < 2)
-            {
-                std::cout << "wait for data ";
-            }
-
                buffer.erase();
 
-                while (serial_ardu.available() ){
-
-                    buffer+=serial_ardu.read();
+                while ( go_while){
+                    if (serial_ardu.available()>0){
+                      buffer+=serial_ardu.read();
+                    }
+                    if (buffer[buffer.size()-1] == ';')
+                    {
+                        buffer.erase(buffer.end()-1);
+                        break;
+                    }
 
 
                 }
@@ -164,15 +164,16 @@ void *Server_connectivity_thread(void *przekaz){
     delete client;
     pthread_exit(NULL);
 
-} ////////////  server_connectivity_thread
+}
 
-void *main_thread( void * unused)
+int main()
 {
-    //time_t czas;
-   // struct tm * ptr;
-   // time( & czas );
-   // ptr = localtime( & czas );
-    //std::string data = asctime( ptr );
+    pthread_mutex_init(&C_connection::mutex_buf, NULL);
+    pthread_mutex_init(&C_connection::mutex_who, NULL);
+    pthread_mutex_init(&blockQueue::mutex_queue_char, NULL);
+    pthread_mutex_init(&Logger::mutex_log, NULL);
+    //pthread_t  main_th;
+    //pthread_create (&main_th, NULL,&main_thread,NULL);
     config server_settings   =  read_config ( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfigu
     struct sockaddr_in server;
     int v_socket;
@@ -190,8 +191,8 @@ void *main_thread( void * unused)
     unsigned int who[2]={FREE, FREE};
     //int32_t bufor[ MAX_MSG_LEN ];
 
-     
-	///////////////////////////////////////////  zaczynam wpisy do logu ////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////  zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
     log_file_cout << INFO  << "ID serwera\t"<< server_settings.ID_server << std::endl;
@@ -200,19 +201,19 @@ void *main_thread( void * unused)
     log_file_cout << INFO  << "port TCP \t"<< server_settings.PORT << std::endl;
     log_file_cout << INFO  << "serwer ip \t"<< server_settings.SERVER_IP  <<std::endl;
     log_file_cout << INFO  << "dodatkowe NODY w sieci:\n"  <<std::endl;
- 
+
     for (u_int i=0;i<server_settings.AAS.size();++i){
         log_file_cout << INFO << server_settings.AAS[i].id<<" "<< server_settings.AAS[i].SERVER_IP <<std::endl;
     }
     log_file_cout << INFO  << "baza z filami \t"<< server_settings.MOVIES_DB_PATH << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
-	log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
+    log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
     log_file_mutex.mutex_unlock();
 
     ///////////////////////////////////////////////  koniec logowania do poliku  ///////////////////////////////////////////////////
-    
-	///////////////////////////////////////////////  start wiringPi  //////////////////////////////////////////////
-	if (wiringPiSetup () == -1)
+
+    ///////////////////////////////////////////////  start wiringPi  //////////////////////////////////////////////
+    if (wiringPiSetup () == -1)
         exit (1) ;
 
       pinMode(BUZZER, OUTPUT); 		// BUZZER  na wyjscie  GPIO
@@ -238,10 +239,10 @@ void *main_thread( void * unused)
     pthread_create(&thread_array[2].thread_ID ,NULL,&Send_Recieve_rs232_thread,&data_rs232 );    ///  start watku do komunikacji rs232
    thread_array[2].thread_name="RS232_thread";
     /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
-  
+
     int temp;
     temp = mkfifo("/tmp/cmd",0666);
-     
+
    if (temp == 0 )
     {
         log_file_mutex.mutex_lock();
@@ -285,8 +286,8 @@ void *main_thread( void * unused)
     log_file_mutex.mutex_unlock();
     pthread_detach( thread_array[1].thread_ID );
 
-    if (server_settings.ID_server == 1001){    ///  jesli  id 1001  to wystartuj watek do polaczeni z innym nodem masterem 
-      
+    if (server_settings.ID_server == 1001){    ///  jesli  id 1001  to wystartuj watek do polaczeni z innym nodem masterem
+
         pthread_create (&thread_array[3].thread_ID, NULL,&f_serv_con_node ,&node_data);
         thread_array[3].thread_name="node master";
         log_file_mutex.mutex_lock();
@@ -380,7 +381,7 @@ void *main_thread( void * unused)
 
                     node_data.s_client_sock =v_sock_ind;
                     node_data.from=from;
-                    
+
                     pthread_create (&thread_array[con_counter].thread_ID, NULL,&Server_connectivity_thread,&node_data);
                     thread_array[con_counter].thread_name = inet_ntoa(node_data.from.sin_addr);
                     log_file_mutex.mutex_lock();
@@ -398,21 +399,9 @@ void *main_thread( void * unused)
                     log_file_cout << INFO << " za duzo klientow "<< thread_array[con_counter].thread_ID << std::endl;
                     log_file_mutex.mutex_unlock();
 
-                    int32_t bufor_tmp[ MAX_MSG_LEN ];
 
 
-                    if(( recv( v_sock_ind, bufor_tmp, max_msg, 0 ) ) <= 0 )
-                    {
-                        perror( "recv() ERROR" );
-                        break;
-                    }
-                    for (int i =0 ; i < MAX_MSG_LEN ; ++i )
-                    {
-                        bufor_tmp[i]= -123 ;
-
-                    }
-
-                    if(( send( v_sock_ind, bufor_tmp, max_msg, MSG_DONTWAIT ) ) <= 0 )
+                    if(( send( v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT ) ) <= 0 )
                     {
                         perror( "send() ERROR" );
                         break;
@@ -423,7 +412,7 @@ void *main_thread( void * unused)
                 }
 
             }
- 
+
         }
     } // while
    // zamykam gniazdo
@@ -437,20 +426,9 @@ log_file_mutex.mutex_lock();
     log_file_mutex.mutex_unlock();
 
     sleep(3);
-   
-    pthread_exit(NULL);
-} // threade
 
-int main()
-{
-    pthread_mutex_init(&C_connection::mutex_buf, NULL);
-    pthread_mutex_init(&C_connection::mutex_who, NULL);
-    pthread_mutex_init(&blockQueue::mutex_queue_char, NULL);
-    pthread_mutex_init(&Logger::mutex_log, NULL);
-    pthread_t  main_th;
-    pthread_create (&main_th, NULL,&main_thread,NULL);
 
-    pthread_join(main_th ,NULL);
+    //pthread_join(main_th ,NULL);
     pthread_mutex_destroy(&Logger::mutex_log);
     pthread_mutex_destroy(&C_connection::mutex_buf);
     pthread_mutex_destroy(&C_connection::mutex_who);

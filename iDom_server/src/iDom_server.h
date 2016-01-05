@@ -55,7 +55,7 @@ extern Logger log_file_mutex;
 
  extern std::string buffer;
 
-extern int max_msg  ;
+//extern int max_msg  ;
 
 extern bool go_while  ;
 
