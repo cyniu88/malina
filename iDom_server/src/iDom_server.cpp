@@ -46,8 +46,11 @@ void *Send_Recieve_rs232_thread (void *przekaz){
             data_rs232->pointer.ptr_who[1]= RS232;
             serial_ardu.print(buffer.c_str());
 
-              sleep(1);
 
+            while (serial_ardu.available() < 2)
+            {
+                std::cout << "wait for data ";
+            }
 
                buffer.erase();
 
@@ -183,9 +186,9 @@ void *main_thread( void * unused)
         thread_array[i].thread_name="empty";
     }
 
-    pthread_t rs232_thread_id;
+
     unsigned int who[2]={FREE, FREE};
-    int32_t bufor[ MAX_MSG_LEN ];
+    //int32_t bufor[ MAX_MSG_LEN ];
 
      
 	///////////////////////////////////////////  zaczynam wpisy do logu ////////////////////////////////////////////////////////////
@@ -230,10 +233,10 @@ void *main_thread( void * unused)
     thread_data_rs232 data_rs232;
     data_rs232.BaudRate=server_settings.BaudRate;
     data_rs232.portRS232=server_settings.portRS232;
-    data_rs232.pointer.ptr_buf=bufor;
+    //data_rs232.pointer.ptr_buf=bufor;
     data_rs232.pointer.ptr_who=who;
-    pthread_create(&rs232_thread_id,NULL,&Send_Recieve_rs232_thread,&data_rs232 );    ///  start watku do komunikacji rs232
-   
+    pthread_create(&thread_array[2].thread_ID ,NULL,&Send_Recieve_rs232_thread,&data_rs232 );    ///  start watku do komunikacji rs232
+   thread_array[2].thread_name="RS232_thread";
     /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
   
     int temp;
@@ -261,7 +264,7 @@ void *main_thread( void * unused)
     const char *SERVER_IP = server_settings.SERVER_IP.c_str();
 
     node_data.server_settings=&server_settings;
-    node_data.pointer.ptr_buf=bufor;
+    //node_data.pointer.ptr_buf=bufor;
     node_data.pointer.ptr_who=who;
     node_data.mainLCD=&mainLCD;
     node_data.main_tree=&main_tree;
