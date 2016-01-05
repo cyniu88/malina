@@ -9,7 +9,7 @@
 #include "parser/parser.hpp"
 
 #include <wiringPi.h>
-const int jeden =1;
+
 std::string  _logfile  = "/tmp/iDom_log.log";
 std::string buffer ;
 Logger log_file_mutex(_logfile);
@@ -165,18 +165,18 @@ void *Server_connectivity_thread(void *przekaz){
 
 void *main_thread( void * unused)
 {
-    time_t czas;
-    struct tm * ptr;
-    time( & czas );
-    ptr = localtime( & czas );
-    std::string data = asctime( ptr );
+    //time_t czas;
+   // struct tm * ptr;
+   // time( & czas );
+   // ptr = localtime( & czas );
+    //std::string data = asctime( ptr );
     config server_settings   =  read_config ( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfigu
     struct sockaddr_in server;
     int v_socket;
 
     thread_data node_data; // przekazywanie do watku
 
-
+    time(&node_data.start);
 
     Thread_array_struc thread_array[MAX_CONNECTION];
     for (int i =0 ; i< MAX_CONNECTION;++i){
@@ -268,19 +268,19 @@ void *main_thread( void * unused)
     node_data.main_MENU=&main_MENU;
     node_data.main_THREAD_arr = &thread_array[0];
     // start watku irda
-    pthread_create (&thread_array[4].thread_ID, NULL,&f_master_irda ,&node_data);
-    thread_array[4].thread_name="IRDA_master";
+    pthread_create (&thread_array[0].thread_ID, NULL,&f_master_irda ,&node_data);
+    thread_array[0].thread_name="IRDA_master";
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " watek wystartowal polaczenie irda "<< thread_array[4].thread_ID << std::endl;
+    log_file_cout << INFO << " watek wystartowal polaczenie irda "<< thread_array[0].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();
-    pthread_detach( thread_array[4].thread_ID );
+    pthread_detach( thread_array[0].thread_ID );
     // start watku  mpd_cli
-    pthread_create (&thread_array[5].thread_ID, NULL,&main_mpd_cli ,&node_data);
-    thread_array[5].thread_name="MPD_client";
+    pthread_create (&thread_array[1].thread_ID, NULL,&main_mpd_cli ,&node_data);
+    thread_array[1].thread_name="MPD_client";
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " watek wystartowal klient mpd "<< thread_array[5].thread_ID << std::endl;
+    log_file_cout << INFO << " watek wystartowal klient mpd "<< thread_array[1].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();
-    pthread_detach( thread_array[5].thread_ID );
+    pthread_detach( thread_array[1].thread_ID );
 
     if (server_settings.ID_server == 1001){    ///  jesli  id 1001  to wystartuj watek do polaczeni z innym nodem masterem 
       

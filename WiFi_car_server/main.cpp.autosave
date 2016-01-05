@@ -85,7 +85,6 @@ void analyse ( char c_buffer [256])
     }
 
 
-
 }
 
 /******** DOSTUFF() *********************

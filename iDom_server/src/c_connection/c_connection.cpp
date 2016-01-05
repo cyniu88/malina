@@ -101,12 +101,12 @@ int C_connection::c_recv(int para)
 
 int C_connection::c_analyse()
 {
-
     std::string buf(c_buffer);
     std::vector <std::string> command;
 
     boost::char_separator<char> sep(",\n ");
     boost::tokenizer< boost::char_separator<char> > tokens(buf, sep);
+
     BOOST_FOREACH (const std::string& t, tokens) {
         std::cout << " rozmiar t: " << t.size() << std::endl;
         command.push_back( t);
@@ -141,6 +141,15 @@ int C_connection::c_analyse()
         else if (command [0] == "IP")
         {
             c_write_buf(( char*) my_data->server_settings->SERVER_IP.c_str() );
+            break;
+        }
+        else if (command [0] == "uptime")
+        {
+            time(&my_data->now_time);
+            temporary_str ="uptime: ";
+            temporary_str += boost::lexical_cast<std::string>( difftime(my_data->now_time,my_data->start)    ) + " sek.";
+
+            c_write_buf( (char*) temporary_str.c_str() );
             break;
         }
         else

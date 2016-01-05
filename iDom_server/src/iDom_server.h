@@ -21,7 +21,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <time.h>
-
+#include <boost/lexical_cast.hpp>
 #include <wiringPi.h>
 
  //#include <lirc/lirc_client.h>
@@ -117,6 +117,8 @@ struct thread_data{
     files_tree *main_tree;
     menu_tree *main_MENU;
     Thread_array_struc *main_THREAD_arr;
+    time_t start;
+    time_t now_time;
 
 };
 
