@@ -21,7 +21,7 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     thread_data_rs232 *data_rs232;
 
     data_rs232 = (thread_data_rs232*)przekaz;
-   // serialib port_arduino;   // obiekt port rs232
+    // serialib port_arduino;   // obiekt port rs232
     //Serial.begin(9600);
     SerialPi serial_ardu(strdup( data_rs232->portRS232.c_str()));
 
@@ -46,20 +46,20 @@ void *Send_Recieve_rs232_thread (void *przekaz){
             data_rs232->pointer.ptr_who[1]= RS232;
             serial_ardu.print(buffer.c_str());
 
-               buffer.erase();
+            buffer.erase();
 
-                while ( go_while){
-                    if (serial_ardu.available()>0){
-                      buffer+=serial_ardu.read();
-                    }
-                    if (buffer[buffer.size()-1] == ';')
-                    {
-                        buffer.erase(buffer.end()-1);
-                        break;
-                    }
-
-
+            while ( go_while){
+                if (serial_ardu.available()>0){
+                    buffer+=serial_ardu.read();
                 }
+                if (buffer[buffer.size()-1] == ';')
+                {
+                    buffer.erase(buffer.end()-1);
+                    break;
+                }
+
+
+            }
 
             std::cout << " odebralem: " << buffer << std::endl;
 
@@ -96,7 +96,7 @@ void *f_master_irda (void *data){
     std::cout<<"start watek irda master 22222222 \n";
     pthread_detach( pthread_self () );
 
-     master_irda irda(my_data);
+    master_irda irda(my_data);
     irda.run();
 
     std::cout<<"koniec  watek master \n";
@@ -115,15 +115,15 @@ void *Server_connectivity_thread(void *przekaz){
 
     C_connection *client = new C_connection( my_data);
 
-      my_data->mainLCD->set_print_song_state(3200);
-      my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
-      my_data->mainLCD->printString(false,0,1,  inet_ntoa( my_data->from.sin_addr)   );
+    my_data->mainLCD->set_print_song_state(3200);
+    my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
+    my_data->mainLCD->printString(false,0,1,  inet_ntoa( my_data->from.sin_addr)   );
 
 
-      log_file_mutex.mutex_lock();
-      log_file_cout << INFO <<"polaczenie z adresu  " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
-      //log_file_cout << INFO <<"w buforze jest bajtow " << port_arduino.Peek() << std::endl;
-      log_file_mutex.mutex_unlock();
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO <<"polaczenie z adresu  " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
+    //log_file_cout << INFO <<"w buforze jest bajtow " << port_arduino.Peek() << std::endl;
+    log_file_mutex.mutex_unlock();
 
 
     while (1)
@@ -134,7 +134,7 @@ void *Server_connectivity_thread(void *przekaz){
             break;
         }
 
-       // ###########################  analia wiadomoscu ####################################//
+        // ###########################  analia wiadomoscu ####################################//
         if ( client->c_analyse() == false )   // stop runing idom_server
         {
             client->c_send("END.\n");
@@ -158,9 +158,9 @@ void *Server_connectivity_thread(void *przekaz){
         }
     }
 
-     my_data->mainLCD->set_print_song_state(0);
-     my_data->mainLCD->set_lcd_STATE(2);
-     sleep (3);
+    my_data->mainLCD->set_print_song_state(0);
+    my_data->mainLCD->set_lcd_STATE(2);
+    sleep (3);
     delete client;
     pthread_exit(NULL);
 
@@ -185,6 +185,7 @@ int main()
     Thread_array_struc thread_array[MAX_CONNECTION];
     for (int i =0 ; i< MAX_CONNECTION;++i){
         thread_array[i].thread_name="empty";
+        thread_array[i].thread_ID=0;
     }
 
 
@@ -216,34 +217,34 @@ int main()
     if (wiringPiSetup () == -1)
         exit (1) ;
 
-      pinMode(BUZZER, OUTPUT); 		// BUZZER  na wyjscie  GPIO
-      digitalWrite(BUZZER,LOW);
-      pinMode(GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
-      digitalWrite(GPIO_SPIK,HIGH);
-      pinMode(BUTTON_PIN, INPUT);   //  gpio pin przycisku
-      /////////////////////////////// LCD ///////////////////////////////
-      LCD_c mainLCD(0x27,16,2);
-      //////////////     przegladanie plikow ////////////////////
+    pinMode(BUZZER, OUTPUT); 		// BUZZER  na wyjscie  GPIO
+    digitalWrite(BUZZER,LOW);
+    pinMode(GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
+    digitalWrite(GPIO_SPIK,HIGH);
+    pinMode(BUTTON_PIN, INPUT);   //  gpio pin przycisku
+    /////////////////////////////// LCD ///////////////////////////////
+    LCD_c mainLCD(0x27,16,2);
+    //////////////     przegladanie plikow ////////////////////
 
-      files_tree main_tree( server_settings.MOVIES_DB_PATH, &mainLCD);
+    files_tree main_tree( server_settings.MOVIES_DB_PATH, &mainLCD);
 
-      ///////////////////////////////// MENU /////////////////////////////////
+    ///////////////////////////////// MENU /////////////////////////////////
 
-      menu_tree main_MENU("/etc/config/iDom_SERVER/MENU", &mainLCD);
-     /////////////////////////////////////////////////   wypelniam  struktury przesylane do watkow  ////////////////////////
+    menu_tree main_MENU("/etc/config/iDom_SERVER/MENU", &mainLCD);
+    /////////////////////////////////////////////////   wypelniam  struktury przesylane do watkow  ////////////////////////
     thread_data_rs232 data_rs232;
     data_rs232.BaudRate=server_settings.BaudRate;
     data_rs232.portRS232=server_settings.portRS232;
     //data_rs232.pointer.ptr_buf=bufor;
     data_rs232.pointer.ptr_who=who;
     pthread_create(&thread_array[2].thread_ID ,NULL,&Send_Recieve_rs232_thread,&data_rs232 );    ///  start watku do komunikacji rs232
-   thread_array[2].thread_name="RS232_thread";
+    thread_array[2].thread_name="RS232_thread";
     /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
 
     int temp;
     temp = mkfifo("/tmp/cmd",0666);
 
-   if (temp == 0 )
+    if (temp == 0 )
     {
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "mkfifo - plik stworzony "<<strerror(  errno ) << std::endl;
@@ -415,13 +416,13 @@ int main()
 
         }
     } // while
-   // zamykam gniazdo
+    // zamykam gniazdo
 
-log_file_mutex.mutex_lock();
+    log_file_mutex.mutex_lock();
     log_file_cout << INFO << "zamykanie gniazda wartosc ind "  << shutdown( v_sock_ind, SHUT_RDWR )<< std::endl;
     log_file_cout << ERROR << "gniazdo ind  "<<strerror(  errno ) << std::endl;
- log_file_cout << INFO << "zamykanie gniazda wartosc "  << shutdown( v_socket, SHUT_RDWR )<< std::endl;
-     log_file_cout << ERROR << "gniazdo ind  "<<strerror(  errno ) << std::endl;
+    log_file_cout << INFO << "zamykanie gniazda wartosc "  << shutdown( v_socket, SHUT_RDWR )<< std::endl;
+    log_file_cout << ERROR << "gniazdo ind  "<<strerror(  errno ) << std::endl;
     log_file_cout << INFO << " koniec programu  "<<   std::endl;
     log_file_mutex.mutex_unlock();
 
@@ -436,4 +437,4 @@ log_file_mutex.mutex_lock();
 
     return 0;
 }
- 
+
