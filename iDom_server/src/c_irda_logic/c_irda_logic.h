@@ -11,7 +11,7 @@
 #include "../iDom_server/src/iDom_server.h"
 #include "../blockQueue/blockqueue.h"   // brak
 #include "../files_tree/files_tree.h"   //brak
-
+#include "../c_connection/c_connection.h"
 //#include "../iDom_server/src/iDom_server.h"
 #include <wiringPi.h>
 //extern bool go_while;

@@ -29,7 +29,7 @@ public:
     sockaddr_in c_from;
 
     char c_buffer[MAX_buf];
-    std::string c_help;
+
     int recv_size;
 
 

@@ -126,7 +126,7 @@ void *Server_connectivity_thread(void *przekaz){
     log_file_mutex.mutex_unlock();
 
 
-    while (1)
+    while (go_while)
     {
         if( client->c_recv(0) == -1 )
         {
@@ -137,7 +137,7 @@ void *Server_connectivity_thread(void *przekaz){
         // ###########################  analia wiadomoscu ####################################//
         if ( client->c_analyse() == false )   // stop runing idom_server
         {
-            client->c_send("END.\n");
+            client->c_send("\nEND.\n");
             my_data->mainLCD->set_print_song_state(0);
             my_data->mainLCD->set_lcd_STATE(2);
             my_data->mainLCD->clear();
@@ -184,8 +184,9 @@ int main()
 
     Thread_array_struc thread_array[MAX_CONNECTION];
     for (int i =0 ; i< MAX_CONNECTION;++i){
-        thread_array[i].thread_name="empty";
+        thread_array[i].thread_name="  -empty-  ";
         thread_array[i].thread_ID=0;
+        thread_array[i].thread_socket=0;
     }
 
 
@@ -385,6 +386,7 @@ int main()
 
                     pthread_create (&thread_array[con_counter].thread_ID, NULL,&Server_connectivity_thread,&node_data);
                     thread_array[con_counter].thread_name = inet_ntoa(node_data.from.sin_addr);
+                    thread_array[con_counter].thread_socket=v_sock_ind;
                     log_file_mutex.mutex_lock();
                     log_file_cout << INFO << " watek wystartowal  "<< thread_array[con_counter].thread_ID << std::endl;
                     log_file_mutex.mutex_unlock();

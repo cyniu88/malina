@@ -16,7 +16,7 @@ void c_irda_logic::_add(char X)
 
     if (who=='!')
     {
-        if (X!='M'&& X!='r'&& X!='E')
+        if (X!='M'&& X!='r'&& X!='E' && X!='s')
         {
             char_queue._add(X);
         }
@@ -27,6 +27,16 @@ void c_irda_logic::_add(char X)
             char_queue._add('A'); // projektor wlaczony wiec pauzuje radio
             usleep(500);
             //digitalWrite(GPIO_SPIK, LOW);
+
+        }
+        else if (X=='s')
+        {
+
+            my_data_logic->mainLCD->set_lcd_STATE(10);
+            my_data_logic->mainLCD->printString(true,0,0,"TEMPERATURA :)");
+            my_data_logic->mainLCD->printString(false,0,1,"temp: "+send_to_arduino(my_data_logic,"temperature:2;")+" c");
+            who='!';
+
 
         }
         else if (X=='E')
@@ -129,9 +139,9 @@ void c_irda_logic::_add(char X)
                 command+=my_data_logic->main_tree->show_list();
                 system(command.c_str());
                 std::cout << " WYSTARTOWALEM!!";
-
+                my_data_logic->mainLCD->set_lcd_STATE(100);
                 my_data_logic->mainLCD->printString(true,0,0,"odtwarzam film");
-                std::cout << "\n komenda to\n\n\n\n\n\nn\n\ "<< command << "\n a wynik jej to: "; //<< system(command.c_str()) << std::endl;
+
                 //char_queue._add('A');
             }
         }

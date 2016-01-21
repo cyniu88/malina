@@ -251,7 +251,8 @@ typedef enum
 #define SCK		13
 
 
-static int REV = 0;
+static int REV=0;
+
 
 /// \brief bcm2835SPIBitOrder
 /// Specifies the SPI data bit ordering

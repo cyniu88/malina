@@ -25,7 +25,7 @@ void setup(void)
 
 void loop(void)
 { 
-  if (Serial.available () > 10 )
+  if (Serial.available () > 6 )
   {
     command = Serial.readStringUntil(':');
     //Serial.println(command);
@@ -43,8 +43,18 @@ void loop(void)
   if (command=="temperature")
   {
     sensors.requestTemperatures(); // Send the command to get temperatures
-    Serial.print("Temperatura na Szuwarach: ");
     Serial.println(sensors.getTempCByIndex(0));
+    Serial.print(';');  
+    command="z";
+    valueINT=0;
+     
+  }
+  if (command=="test")
+  {
+     ++valueINT;
+     Serial.print("return:");
+     //sprintf(c,valueINT);
+     Serial.print(String(valueINT));
     Serial.print(';');  
     command="z";
     valueINT=0;
@@ -52,7 +62,7 @@ void loop(void)
   }
   if (command !="z")
   {
-   Serial.print ("unknown RS232 command ");
+   Serial.print ("unknown RS232 command: ");
     Serial.println (command);
     Serial.print(';');
     //delay(2000);

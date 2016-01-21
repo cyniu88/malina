@@ -8,7 +8,7 @@ extern int debug_level;
 
 bool check_title_song_to = false;
 
-void error_callback(MpdObj *mi,int errorid, char *msg, void *userdata)
+void error_callback(int errorid, char *msg)
 {
     printf(RED"Error "RESET""GREEN"%i:"RESET" '%s'\n", errorid, msg);
 }
@@ -24,7 +24,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
         }
     }
 
-   
+
     if(what&MPD_CST_REPEAT){
         printf(GREEN"Repeat:"RESET" %s\n", mpd_player_get_repeat(mi)? "On":"Off");
     }
@@ -70,70 +70,17 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                 my_data->mainLCD->printRadioName(true,0,0,wiad);
                 my_data->mainLCD->set_lcd_STATE(5);
 
-
-
-
-
-              /////////////////////////////////////////////////////////////////////////////////////
-                while (go_while)
-                {
-                    usleep(500);
-                    pthread_mutex_lock(&C_connection::mutex_who);
-                    if (my_data->pointer.ptr_who[0] == FREE)
-                    {
-                        pthread_mutex_lock(&C_connection::mutex_buf);
-
-
-                        my_data->pointer.ptr_who[0]=RS232;
-                        my_data->pointer.ptr_who[1]= pthread_self();
-                        buffer="temperature:123;";
-
-                        pthread_mutex_unlock(&C_connection::mutex_buf);
-                        pthread_mutex_unlock(&C_connection::mutex_who);
-                        break;
-                    }
-                    pthread_mutex_unlock(&C_connection::mutex_who);
-
-                }
-
-                while (go_while)
-                {
-                    usleep(500);
-                    pthread_mutex_lock(&C_connection::mutex_who);
-                    if (my_data->pointer.ptr_who[0] == pthread_self())
-                    {
-                        pthread_mutex_lock(&C_connection::mutex_buf);
-
-
-                        my_data->pointer.ptr_who[0]=FREE;
-                        my_data->pointer.ptr_who[1]= 0;
-                        //buffer +=" taka temeratura";
-                          buffer.erase(buffer.length()-2,buffer.length());
-
-                          buffer.erase(0,buffer.length()-5);
-
-                          buffer.insert(0,"temp. - ");
-                          buffer+=" c";
-                        my_data->mainLCD->printString(false,0,1,buffer);
-
-                        pthread_mutex_unlock(&C_connection::mutex_buf);
-                        pthread_mutex_unlock(&C_connection::mutex_who);
-                        break;
-                    }
-                    pthread_mutex_unlock(&C_connection::mutex_who);
-
-                }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                my_data->mainLCD->printString(false,0,1,"temp: "+send_to_arduino(my_data,"temperature:2;")+" c");
             }
 
 
             if (song->title != NULL ){
                 wiad =  song->title;
-               if (wiad.size() < 7 )
-               {
-                   wiad =  song->name;
-                   wiad += " -     brak nazwy                ";
-               }
+                if (wiad.size() < 7 )
+                {
+                    wiad =  song->name;
+                    wiad += " -     brak nazwy                ";
+                }
 
             }
             else
@@ -147,7 +94,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             my_data->mainLCD->printSongName(wiad);
         }
     }
-     if(what&MPD_CST_STATE)
+    if(what&MPD_CST_STATE)
     {
         printf(GREEN"State:"RESET);
         switch(mpd_player_get_state(mi))
@@ -204,7 +151,7 @@ void  *main_mpd_cli(void *data )
     my_data->mainLCD->set_print_song_state(0);
     ///////////////////////////////////////////////////////////////////
     //int fdstdin = 0;
-    int  run , iport = 6600, button_counter =0;
+    int   iport = 6600, button_counter =0;
     char *hostname = getenv("MPD_HOST");
     char *port = getenv("MPD_PORT");
     char *password = getenv("MPD_PASSWORD");
@@ -214,7 +161,7 @@ void  *main_mpd_cli(void *data )
     /* set correct hostname */
     std::cout << " adres hosta to " << hostname << std::endl;
     if(!hostname) {
-        hostname = "localhost";
+
 
         std::cout << " ip mpd to " <<  my_data->server_settings->MPD_IP << " ! \n";
         hostname = (char*)my_data->server_settings->MPD_IP.c_str();
@@ -262,7 +209,7 @@ void  *main_mpd_cli(void *data )
                     mpd_player_stop(obj);
                     break;
                 case 'q':
-                    run = 0;
+
                     printf("Quitting....\n");
                     break;
                 case 'R':
@@ -389,4 +336,5 @@ break;*/
     //close(fdstdin);
 
 
+return 0;
 }

@@ -68,6 +68,7 @@ struct s_pointer{
 struct Thread_array_struc {
     pthread_t  thread_ID;
     std::string thread_name;
+    int thread_socket;
 };
 //struct s_arg{
 //    serialib port_arduino;
@@ -101,7 +102,7 @@ struct config{
     std::string SERVER_IP;
     std::string MPD_IP;
     std::string MOVIES_DB_PATH;
-    int ID_server;
+    unsigned int ID_server;
 
     std::vector <addresses_mac> A_MAC;
     int v_delay  ;

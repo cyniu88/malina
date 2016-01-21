@@ -88,3 +88,59 @@ std::string intToStr(int n){
      tmp += n % 10 + 48;
      return tmp;
 }
+
+
+
+
+
+
+std::string send_to_arduino (thread_data *my_data_logic, std::string msg){
+
+
+
+    while (go_while)
+    {
+        usleep(500);
+        pthread_mutex_lock(&C_connection::mutex_who);
+        if (my_data_logic->pointer.ptr_who[0] == FREE)
+        {
+            pthread_mutex_lock(&C_connection::mutex_buf);
+
+
+            my_data_logic->pointer.ptr_who[0]=RS232;
+            my_data_logic->pointer.ptr_who[1]= pthread_self();
+            buffer=msg;
+
+            pthread_mutex_unlock(&C_connection::mutex_buf);
+            pthread_mutex_unlock(&C_connection::mutex_who);
+            break;
+        }
+        pthread_mutex_unlock(&C_connection::mutex_who);
+
+    }
+
+    while (go_while)
+    {
+        usleep(500);
+        pthread_mutex_lock(&C_connection::mutex_who);
+        if (my_data_logic->pointer.ptr_who[0] == pthread_self())
+        {
+            pthread_mutex_lock(&C_connection::mutex_buf);
+
+
+            my_data_logic->pointer.ptr_who[0]=FREE;
+            my_data_logic->pointer.ptr_who[1]= 0;
+
+           msg=buffer;
+
+            pthread_mutex_unlock(&C_connection::mutex_buf);
+            pthread_mutex_unlock(&C_connection::mutex_who);
+            break;
+        }
+        pthread_mutex_unlock(&C_connection::mutex_who);
+
+    }
+
+  return msg;
+} //end send_to_arduino
+
