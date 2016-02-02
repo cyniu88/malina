@@ -57,19 +57,13 @@ void *Send_Recieve_rs232_thread (void *przekaz){
                     buffer.erase(buffer.end()-1);
                     break;
                 }
-
-
             }
 
             std::cout << " odebralem: " << buffer << std::endl;
-
             pthread_mutex_unlock(&C_connection::mutex_buf);
         }
         pthread_mutex_unlock(&C_connection::mutex_who);
-
-
     }
-
     pthread_exit(NULL);
 }
 //////////// watek do obslugi polaczeni miiedzy nodami  //////////////
@@ -79,10 +73,6 @@ void *f_serv_con_node (void *data){
     my_data = (thread_data*)data;
     std::cout<<"start watek master \n";
     pthread_detach( pthread_self () );
-
-
-
-
 
     std::cout<<"koniec  watek master \n";
 
@@ -111,8 +101,6 @@ void *Server_connectivity_thread(void *przekaz){
 
     pthread_detach( pthread_self () );
 
-    // std::cout << " przed while  soket " <<my_data->s_v_socket_klienta << std::endl;
-
     C_connection *client = new C_connection( my_data);
 
     my_data->mainLCD->set_print_song_state(3200);
@@ -122,7 +110,6 @@ void *Server_connectivity_thread(void *przekaz){
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"polaczenie z adresu  " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
-    //log_file_cout << INFO <<"w buforze jest bajtow " << port_arduino.Peek() << std::endl;
     log_file_mutex.mutex_unlock();
 
 
@@ -130,7 +117,6 @@ void *Server_connectivity_thread(void *przekaz){
     {
         if( client->c_recv(0) == -1 )
         {
-
             break;
         }
 
@@ -189,11 +175,7 @@ int main()
         thread_array[i].thread_socket=0;
     }
 
-
     unsigned int who[2]={FREE, FREE};
-    //int32_t bufor[ MAX_MSG_LEN ];
-
-
     ///////////////////////////////////////////  zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
@@ -236,10 +218,11 @@ int main()
     thread_data_rs232 data_rs232;
     data_rs232.BaudRate=server_settings.BaudRate;
     data_rs232.portRS232=server_settings.portRS232;
-    //data_rs232.pointer.ptr_buf=bufor;
+
     data_rs232.pointer.ptr_who=who;
     pthread_create(&thread_array[2].thread_ID ,NULL,&Send_Recieve_rs232_thread,&data_rs232 );    ///  start watku do komunikacji rs232
     thread_array[2].thread_name="RS232_thread";
+
     /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
 
     int temp;
@@ -259,8 +242,6 @@ int main()
     }
 
     //////////////////////////////////////////////////////////////////////
-
-
 
     int SERVER_PORT = atoi(server_settings.PORT.c_str());
     server_settings.SERVER_IP = conv_dns(server_settings.SERVER_IP);
@@ -402,8 +383,6 @@ int main()
                     log_file_cout << INFO << " za duzo klientow "<< thread_array[con_counter].thread_ID << std::endl;
                     log_file_mutex.mutex_unlock();
 
-
-
                     if(( send( v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT ) ) <= 0 )
                     {
                         perror( "send() ERROR" );
@@ -411,7 +390,6 @@ int main()
                     }
 
                     continue;
-
                 }
 
             }
@@ -429,7 +407,6 @@ int main()
     log_file_mutex.mutex_unlock();
 
     sleep(3);
-
 
     //pthread_join(main_th ,NULL);
     pthread_mutex_destroy(&Logger::mutex_log);

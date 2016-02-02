@@ -67,12 +67,19 @@ int C_connection::c_recv(int para)
     {
         c_buffer[i]=' ';
     }
+
+    struct timeval tv;
+    tv.tv_sec = 30;
+    tv.tv_usec = 0;
+    setsockopt(c_socket,SOL_SOCKET,SO_RCVTIMEO,(char*)&tv , sizeof(struct timeval));
+
     recv_size = recv( c_socket, c_buffer , MAX_buf, para );
+
     if(recv_size < 0 )
     {
         //perror( "recv() ERROR" );
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << " recv() error" <<   std::endl;
+        log_file_cout << ERROR << " recv() error" << strerror(  errno ) <<   std::endl;
         log_file_mutex.mutex_unlock();
         return -1;
     }
@@ -177,6 +184,14 @@ int C_connection::c_analyse()
 
                 l_send_log(_logfile);
                 c_write_buf("\nEND.");
+                break;
+            }
+            else if (command[1]=="thread")
+            {
+
+                temporary_str = " No ID";
+
+                c_write_buf( (char*)temporary_str.c_str() );
                 break;
             }
 

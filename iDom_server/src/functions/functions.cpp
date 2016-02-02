@@ -20,8 +20,6 @@ int i;
 struct hostent * he;
 struct in_addr ** addr_list;
 std::string s_ip;
-//const char *buf =temp.c_str();
-//scanf( "%99s", buf );
 
 if(( he = gethostbyname( temp.c_str() ) ) == NULL )
 {

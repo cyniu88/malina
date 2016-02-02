@@ -21,6 +21,7 @@ void setup(void)
 
 
   sensors.begin();
+  sensors.setResolution(TEMP_12_BIT);
 }
 
 void loop(void)
@@ -51,6 +52,7 @@ void loop(void)
   }
   if (command=="test")
   {
+     ++valueINT;
      ++valueINT;
      Serial.print("return:");
      //sprintf(c,valueINT);

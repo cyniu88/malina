@@ -26,7 +26,7 @@ void c_irda_logic::_add(char X)
             who = 'r';
             char_queue._add('A'); // projektor wlaczony wiec pauzuje radio
             usleep(500);
-            //digitalWrite(GPIO_SPIK, LOW);
+
 
         }
         else if (X=='s')
@@ -34,7 +34,10 @@ void c_irda_logic::_add(char X)
 
             my_data_logic->mainLCD->set_lcd_STATE(10);
             my_data_logic->mainLCD->printString(true,0,0,"TEMPERATURA :)");
-            my_data_logic->mainLCD->printString(false,0,1,"temp: "+send_to_arduino(my_data_logic,"temperature:2;")+" c");
+            std::string temp_str="";
+            temp_str = send_to_arduino(my_data_logic,"temperature:2;");
+            temp_str.erase(temp_str.size()-2,temp_str.size());
+            my_data_logic->mainLCD->printString(false,0,1,"temp: "+temp_str+" c");
             who='!';
 
 
@@ -129,19 +132,15 @@ void c_irda_logic::_add(char X)
             else
             {
                 std::cout << " URUCHAMIAM PLIK! " <<my_data_logic->main_tree->show_list() <<std::endl;
-                //char_queue._add('P');  // przy wlaczeniu porjektora zatrzymujemy muzyke :)
 
-//                std::string command("/home/pi/film.sh  ");
-//                command+=my_data_logic->main_tree->show_list();
-//                command+= " &";
-//                system(command.c_str());
+
                 std::string command = "/home/pi/programowanie/PYTON/iDom_movie.py ";
                 command+=my_data_logic->main_tree->show_list();
                 system(command.c_str());
                 std::cout << " WYSTARTOWALEM!!";
-                my_data_logic->mainLCD->set_lcd_STATE(100);
+                my_data_logic->mainLCD->set_lcd_STATE(-1);
                 my_data_logic->mainLCD->printString(true,0,0,"odtwarzam film");
-
+                my_data_logic->mainLCD->printString(false,0,1,my_data_logic->main_tree->show_list());
                 //char_queue._add('A');
             }
         }

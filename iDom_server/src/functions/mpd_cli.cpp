@@ -69,8 +69,10 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                 wiad =  song->name;
                 my_data->mainLCD->printRadioName(true,0,0,wiad);
                 my_data->mainLCD->set_lcd_STATE(5);
-
-                my_data->mainLCD->printString(false,0,1,"temp: "+send_to_arduino(my_data,"temperature:2;")+" c");
+                std::string temp_str="";
+                temp_str = send_to_arduino(my_data,"temperature:2;");
+                temp_str.erase(temp_str.size()-2,temp_str.size());
+                my_data->mainLCD->printString(false,0,1,"temp: "+temp_str+" c");
             }
 
 
