@@ -150,7 +150,7 @@ void  *main_mpd_cli(void *data )
     blockQueue char_queue; // kolejka polecen
     thread_data  *my_data;
     my_data = (thread_data*)data;
-    CRON my_CRON(my_data);
+
     ////////////////////////////// LCD PART ///////////////////////
     // LCD_c m_lcd(0x27,16,2);
     my_data->mainLCD->set_print_song_state(0);
@@ -298,8 +298,7 @@ break;*/
 
 
             my_data->mainLCD->checkState();
-/////////////////////////////////////////    CRON part //////////////////////////
-            my_CRON.run();
+
 /////////////////////////////////////////////////////////////////////////////////
 
 

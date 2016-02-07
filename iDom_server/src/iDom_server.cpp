@@ -95,6 +95,20 @@ void *f_master_irda (void *data){
 } //  koniec master_irda
 ///////////  watek wymiany polaczenia /////////////////////
 
+
+/////////////////////  watek CRON //////////////////////////////
+
+void *f_master_CRON (void *data){
+    thread_data  *my_data;
+    my_data = (thread_data*)data;
+
+    pthread_detach( pthread_self () );
+    CRON my_CRON(my_data);
+    my_CRON.run();
+
+    pthread_exit(NULL);
+} //  koniec master_irda
+
 void *Server_connectivity_thread(void *przekaz){
     thread_data  *my_data;
     my_data = (thread_data*)przekaz;
@@ -102,7 +116,7 @@ void *Server_connectivity_thread(void *przekaz){
     pthread_detach( pthread_self () );
 
     C_connection *client = new C_connection( my_data);
-    std::cout << inet_ntoa( my_data->from.sin_addr);
+
     std::string tm = inet_ntoa( my_data->from.sin_addr);
     if ("192.168.1.1" != tm)
     {
@@ -271,15 +285,22 @@ int main()
     log_file_cout << INFO << "watek wystartowal klient mpd "<< thread_array[1].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();
     pthread_detach( thread_array[1].thread_ID );
+    // start watku CRONa
+    pthread_create (&thread_array[3].thread_ID, NULL,&f_master_CRON ,&node_data);
+    thread_array[3].thread_name="CRON_master";
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "watek CRON wystartowal "<< thread_array[3].thread_ID << std::endl;
+    log_file_mutex.mutex_unlock();
+    pthread_detach( thread_array[3].thread_ID );
 
     if (server_settings.ID_server == 1001){    ///  jesli  id 1001  to wystartuj watek do polaczeni z innym nodem masterem
 
-        pthread_create (&thread_array[3].thread_ID, NULL,&f_serv_con_node ,&node_data);
+        pthread_create (&thread_array[4].thread_ID, NULL,&f_serv_con_node ,&node_data);
         thread_array[3].thread_name="node master";
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "watek wystartowal dla NODA MASTERA "<< thread_array[3].thread_ID << std::endl;
+        log_file_cout << INFO << "watek wystartowal dla NODA MASTERA "<< thread_array[4].thread_ID << std::endl;
         log_file_mutex.mutex_unlock();
-        pthread_detach( thread_array[3].thread_ID );
+        pthread_detach( thread_array[4].thread_ID );
     }
 
     else

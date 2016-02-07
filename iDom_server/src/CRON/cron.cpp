@@ -49,20 +49,26 @@ void CRON::run()
 {
     time_t act_time;
     struct tm * act_date;
-    time(&act_time);
 
-    act_date = localtime(&act_time);
-    //std::cout << "dzien tygodnia " << act_date->tm_wday << " godzina " << act_date->tm_hour <<" minuta " << act_date->tm_min <<std::endl;
-    if (act_date->tm_min == 5 || act_date->tm_min == 35 )
-    {
-        if (check_temperature==TRUE){
-            send_temperature_thingSpeak("47XSQ0J9CPJ4BO2O");
-            std::cout << "wysylam temperature" << std::endl;
+    while (go_while) {
+
+        sleep(10);
+        time(&act_time);
+
+        act_date = localtime(&act_time);
+        //std::cout << "dzien tygodnia " << act_date->tm_wday << " godzina " << act_date->tm_hour <<" minuta " << act_date->tm_min <<std::endl;
+        if (act_date->tm_min == 5 || act_date->tm_min == 35 )
+        {
+            if (check_temperature==TRUE){
+                send_temperature_thingSpeak("47XSQ0J9CPJ4BO2O");
+                std::cout << " wysylam temperature" <<std::endl;
+
+            }
+            check_temperature=FALSE;
         }
-        check_temperature=FALSE;
-    }
-    else
-    {
-        check_temperature==TRUE;
+        else
+        {
+            check_temperature=TRUE;
+        }
     }
 }
