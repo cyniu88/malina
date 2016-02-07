@@ -16,7 +16,7 @@ C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_so
     this -> pointer = &my_data->pointer;
     this -> my_data = my_data;
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< " konstruuje nowy obiekt do komunikacj na gniezdzie " << c_socket <<  std::endl;
+    log_file_cout << INFO<< "konstruuje nowy obiekt do komunikacj na gniezdzie " << c_socket <<  std::endl;
     log_file_mutex.mutex_unlock();
 
 }
@@ -38,7 +38,7 @@ C_connection::~C_connection()
         }
     }
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< " koniec komunikacji - kasuje obiekt" <<  std::endl;
+    log_file_cout << INFO<< "koniec komunikacji - kasuje obiekt" <<  std::endl;
     log_file_mutex.mutex_unlock();
 }
 
@@ -69,7 +69,7 @@ int C_connection::c_recv(int para)
     }
 
     struct timeval tv;
-    tv.tv_sec = 30;
+    tv.tv_sec = 90;
     tv.tv_usec = 0;
     setsockopt(c_socket,SOL_SOCKET,SO_RCVTIMEO,(char*)&tv , sizeof(struct timeval));
 
@@ -79,7 +79,7 @@ int C_connection::c_recv(int para)
     {
         //perror( "recv() ERROR" );
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << " recv() error" << strerror(  errno ) <<   std::endl;
+        log_file_cout << ERROR << "recv() error - " << strerror(  errno ) <<   std::endl;
         log_file_mutex.mutex_unlock();
         return -1;
     }
@@ -118,7 +118,7 @@ int C_connection::c_analyse()
         command.push_back( t);
     }
     command.pop_back();  // usowa ostanit wpis smiec
-
+    c_write_buf("unknown command\n");
 
     switch (command.size())
     {
@@ -147,20 +147,22 @@ int C_connection::c_analyse()
         else if (command [0] == "IP")
         {
             c_write_buf(( char*) my_data->server_settings->SERVER_IP.c_str() );
+
             break;
         }
         else if (command [0] == "uptime")
         {
             time(&my_data->now_time);
             temporary_str ="uptime: ";
-            temporary_str += boost::lexical_cast<std::string>( difftime(my_data->now_time,my_data->start)    ) + " sek.";
+            temporary_str +=  sek_to_uptime(difftime(my_data->now_time,my_data->start) );
+            //temporary_str += boost::lexical_cast<std::string>( difftime(my_data->now_time,my_data->start)    ) + " sek.";
 
             c_write_buf( (char*) temporary_str.c_str() );
             break;
         }
         else
         {
-            c_write_buf("\nEND.\n");
+           // c_write_buf("\nEND.\n");
             break;
         }
     case 2 :
@@ -175,7 +177,10 @@ int C_connection::c_analyse()
                 return false;
 
             }
+            else
+            {c_write_buf("stop what? \n");
             break;
+            }
         }
         else if (command[0]=="show")
         {
@@ -183,7 +188,7 @@ int C_connection::c_analyse()
             {
 
                 l_send_log(_logfile);
-                c_write_buf("\nEND.");
+                c_write_buf("\nEND.\n");
                 break;
             }
             else if (command[1]=="thread")
@@ -199,7 +204,7 @@ int C_connection::c_analyse()
 
         else
         {
-            c_write_buf("\nEND.\n");
+           // c_write_buf("\nEND.\n");
             break;
         }
 
@@ -282,7 +287,7 @@ int C_connection::c_analyse()
 
         else
         {
-            c_write_buf("END.\n");
+           // c_write_buf("END.\n");
             break;
         }
 

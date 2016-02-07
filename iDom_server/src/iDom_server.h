@@ -32,6 +32,7 @@
 #include "LCD_c/lcd_c.h"
 #include "files_tree/files_tree.h"
 #include "menu_tree/menu_tree.h"
+//#include "CRON/cron.hpp"
 
 #define MAX_MSG_LEN 18
 #define MAX_CONNECTION 10
@@ -120,6 +121,7 @@ struct thread_data{
     Thread_array_struc *main_THREAD_arr;
     time_t start;
     time_t now_time;
+    //CRON * main_cron;
 
 };
 

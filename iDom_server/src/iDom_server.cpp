@@ -7,7 +7,7 @@
 //#include "functions/mpd_cli...h"
 //#include "blockQueue/blockqueue..h"
 #include "parser/parser.hpp"
-
+//#include"CRON/cron.hpp"
 #include <wiringPi.h>
 
 std::string  _logfile  = "/tmp/iDom_log.log";
@@ -29,7 +29,7 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     std::string znak;
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO <<"otwarcie portu RS232 " <<  data_rs232->portRS232 << data_rs232->BaudRate<<std::endl;
+    log_file_cout << INFO <<"otwarcie portu RS232 " <<  data_rs232->portRS232 << "  " <<data_rs232->BaudRate<<std::endl;
     //log_file_cout << INFO <<"w buforze jest bajtow " << port_arduino.Peek() << std::endl;
     log_file_mutex.mutex_unlock();
     std::cout << "";
@@ -102,11 +102,14 @@ void *Server_connectivity_thread(void *przekaz){
     pthread_detach( pthread_self () );
 
     C_connection *client = new C_connection( my_data);
-
+    std::cout << inet_ntoa( my_data->from.sin_addr);
+    std::string tm = inet_ntoa( my_data->from.sin_addr);
+    if ("192.168.1.1" != tm)
+    {
     my_data->mainLCD->set_print_song_state(3200);
     my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
     my_data->mainLCD->printString(false,0,1,  inet_ntoa( my_data->from.sin_addr)   );
-
+    }
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"polaczenie z adresu  " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
@@ -258,14 +261,14 @@ int main()
     pthread_create (&thread_array[0].thread_ID, NULL,&f_master_irda ,&node_data);
     thread_array[0].thread_name="IRDA_master";
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " watek wystartowal polaczenie irda "<< thread_array[0].thread_ID << std::endl;
+    log_file_cout << INFO << "watek wystartowal polaczenie irda "<< thread_array[0].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();
     pthread_detach( thread_array[0].thread_ID );
     // start watku  mpd_cli
     pthread_create (&thread_array[1].thread_ID, NULL,&main_mpd_cli ,&node_data);
     thread_array[1].thread_name="MPD_client";
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " watek wystartowal klient mpd "<< thread_array[1].thread_ID << std::endl;
+    log_file_cout << INFO << "watek wystartowal klient mpd "<< thread_array[1].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();
     pthread_detach( thread_array[1].thread_ID );
 
@@ -274,7 +277,7 @@ int main()
         pthread_create (&thread_array[3].thread_ID, NULL,&f_serv_con_node ,&node_data);
         thread_array[3].thread_name="node master";
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO << " watek wystartowal dla NODA MASTERA "<< thread_array[3].thread_ID << std::endl;
+        log_file_cout << INFO << "watek wystartowal dla NODA MASTERA "<< thread_array[3].thread_ID << std::endl;
         log_file_mutex.mutex_unlock();
         pthread_detach( thread_array[3].thread_ID );
     }
@@ -369,7 +372,7 @@ int main()
                     thread_array[con_counter].thread_name = inet_ntoa(node_data.from.sin_addr);
                     thread_array[con_counter].thread_socket=v_sock_ind;
                     log_file_mutex.mutex_lock();
-                    log_file_cout << INFO << " watek wystartowal  "<< thread_array[con_counter].thread_ID << std::endl;
+                    log_file_cout << INFO << "watek wystartowal  "<< thread_array[con_counter].thread_ID << std::endl;
                     log_file_mutex.mutex_unlock();
 
                     pthread_detach( thread_array[con_counter].thread_ID );
@@ -380,7 +383,7 @@ int main()
                 {
 
                     log_file_mutex.mutex_lock();
-                    log_file_cout << INFO << " za duzo klientow "<< thread_array[con_counter].thread_ID << std::endl;
+                    log_file_cout << INFO << "za duzo klientow "<< thread_array[con_counter].thread_ID << std::endl;
                     log_file_mutex.mutex_unlock();
 
                     if(( send( v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT ) ) <= 0 )
@@ -403,7 +406,7 @@ int main()
     log_file_cout << ERROR << "gniazdo ind  "<<strerror(  errno ) << std::endl;
     log_file_cout << INFO << "zamykanie gniazda wartosc "  << shutdown( v_socket, SHUT_RDWR )<< std::endl;
     log_file_cout << ERROR << "gniazdo ind  "<<strerror(  errno ) << std::endl;
-    log_file_cout << INFO << " koniec programu  "<<   std::endl;
+    log_file_cout << INFO << "koniec programu  "<<   std::endl;
     log_file_mutex.mutex_unlock();
 
     sleep(3);

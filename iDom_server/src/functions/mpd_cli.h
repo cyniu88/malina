@@ -20,7 +20,7 @@
 #include "../LCD_c/lcd_c.h"     //brak
 //#include "../parser/parser..hpp"
 #include "../c_connection/c_connection.h"
-
+#include"../CRON/cron.hpp"
 //extern bool go_while;
 //extern Logger log_file_mutex;
 void  *main_mpd_cli(void *data );

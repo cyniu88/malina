@@ -1,7 +1,7 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
-LIBS +=   -L/usr/local/lib    -lwiringPiDev -lwiringPi -lmpd   -llirc_client -pthread  -lrt -lpthread -lboost_regex
+LIBS +=   -L/usr/local/lib    -lwiringPiDev -lwiringPi -lmpd   -llirc_client -pthread  -lrt -lpthread -lboost_regex -lcurl
 
 SOURCES += src/iDom_server.cpp src/parser/parser.cpp src/serialib/serialib.cpp \
  src/c_connection/c_connection.cpp \
@@ -17,7 +17,8 @@ SOURCES += src/iDom_server.cpp src/parser/parser.cpp src/serialib/serialib.cpp \
     ../arduPi/arduPi.cpp \
     ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.cpp \
     src/c_irda_logic/c_irda_logic.cpp \
-    src/menu_tree/menu_tree.cpp
+    src/menu_tree/menu_tree.cpp \
+    src/CRON/cron.cpp
 
 
 HEADERS += src/parser/parser.hpp src/serialib/serialib.h \
@@ -34,4 +35,5 @@ HEADERS += src/parser/parser.hpp src/serialib/serialib.h \
     ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h \
     src/c_irda_logic/c_irda_logic.h \
     src/wiadomosc/wiadomosc.h \
-    src/menu_tree/menu_tree.h
+    src/menu_tree/menu_tree.h \
+    src/CRON/cron.hpp
