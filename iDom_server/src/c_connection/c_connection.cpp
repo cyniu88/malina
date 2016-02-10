@@ -137,7 +137,8 @@ int C_connection::c_analyse()
         else if (command [0] == "help")
         {
             l_send_log("/etc/config/iDom_SERVER/help");
-            //break;
+            c_write_buf("\nEND.\n");
+            break;
         }
         else if (command [0] == "OK")
         {
@@ -200,6 +201,16 @@ int C_connection::c_analyse()
                 break;
             }
 
+        }
+        else if (command[0]=="put")
+        {
+            if (command[1]=="temperature")
+            {
+                CRON temp_CRON(my_data);
+                temp_CRON.send_temperature_thingSpeak("47XSQ0J9CPJ4BO2O");
+                c_write_buf("DONE");
+                break;
+            }
         }
 
         else

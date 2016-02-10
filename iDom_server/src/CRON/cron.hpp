@@ -3,6 +3,7 @@
 #include <iostream>
 #include <time.h>
 #include <curl/curl.h>
+#include <string>
 #include"../functions/functions.h"
 
 class CRON
@@ -15,6 +16,9 @@ private:
 
     bool check_temperature;
     thread_data * my_data;
+    static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
+    std::string find_tag (std::string temp);
+    std::string smog( );
 };
 
 #endif // CRON_HPP

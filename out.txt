@@ -1,0 +1,139 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
+	<title>Kraków Smog</title>
+	<meta name="keywords" title="smog, krakow, aplikacja iOS, aplikacja iOS kraków, zanieczyszczenie powietrza, krk" />
+	<meta name="description" content="Pobierz aplikację stanu zanieczyszczenia powietrza w Krakowie i bądż na bieżąco ze smogiem w Krakowie. Pamiętaj, smog szkodzi zdrowiu i może wpłynąć na Twoje samopoczucie. Lepiej wiedzieć kiedy nie przebywać na polu zbyt długo!" />
+	<meta name="author" content="Leftbrain" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 
+	<meta content='yes' name='apple-mobile-web-app-capable'>
+	<link rel="shortcut icon" href="css/icon/favicon.ico" >
+	<link rel="apple-touch-icon" href="css/apple-touch-icon-iphone.png" /> 
+	<link rel="apple-touch-icon" sizes="72x72" href="css/icon/apple-touch-icon-ipad.png" /> 
+	<link rel="apple-touch-icon" sizes="114x114" href="css/icon/apple-touch-icon-iphone4.png" />
+	<link rel="apple-touch-icon" sizes="144x144" href="css/icon/apple-touch-icon-ipad3.png" />
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- jQuery library -->
+	<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script>
+	<script type='text/javascript' src='js/libs/modernizr.js'></script>
+
+	<!--[if IE]>
+	  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+	<!-- Make IE8 and below responsive by adding CSS3 MediaQuery support -->
+	<!--[if lt IE 9]>
+		<script type='text/javascript' src='http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js'></script> 
+	<![endif]-->
+	
+</head>
+<body>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<section id="top" class="afternoon">
+	<div class="wrap">
+		<div class="text">
+			<h1>Kraków Smog</h1>
+			<p>Pobierz aplikację stanu zanieczyszczenia powietrza w Krakowie i bądż na bieżąco ze smogiem w Krakowie. Pamiętaj, smog szkodzi zdrowiu i może wpłynąć na Twoje samopoczucie. Lepiej wiedzieć kiedy nie przebywać na polu zbyt długo!</p>
+			
+		</div>
+		<div class="iphone">
+			<div class="icon"></div>
+			<div class="top-belt">
+				<div class="current_time">9:42</div>
+				<div class="battery_status">45%</div>
+			</div>
+			<div class="clear"></div>
+			<div class="left_side">
+				<h2 class="temp">12<sup>&deg;C</sup></h2>
+				<h3 class="airpressure">1002 hPa</h3>
+				<h4 class="wind">15 km/h</h4> 
+			</div>
+			<div class="right_side">
+				<h2 class="polution">33</h2>
+				<h3 class="unit">μg/m<sup>3</sup></h3>
+				<h4 class="info">dostateczna</h4>
+				<h5 class="norm">norma 50 μg/m<sup>3</sup>
+			</div>
+			
+			<div class="clear"></div>
+			<div class="localisation">
+				<p>Kraków, Centrum</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="fog" style="opacity: 0.3;">
+		<div class="fog3 move3"></div>
+		<div class="fog2 move2"></div>
+		<div class="fog1 move1"></div>
+		<div class="fog0 move0"></div>
+	</div>
+	
+</section>
+<section id="bottom">
+	<div class="wrap">
+		
+	<div class="call-to-action">
+		<a href="https://itunes.apple.com/us/app/krakow-smog/id622275122" class="download-button iphone"><div class="">Pobierz z AppStore</div></a>
+
+		<a href="https://play.google.com/store/apps/details?id=pl.leftbrain.smogkrk" class="download-button android">
+			<div class="">Pobierz z Google Play</div>
+			<span class="new">Już jest</span>
+		</a>
+	</div>	
+		
+	
+	<footer>
+		<p>Handcrafted with <a href="http://www.leftbrain.pl" title="www.leftbrain.pl">love</a></p>
+		<ul>
+			<li>			
+			Polub nas na fejsbuku
+<div class="fb-like" data-href="http://www.facebook.com/krakowsmog" data-send="false" data-layout="button_count" data-width="250" data-show-faces="false"></div>		
+		</li>
+		<li><a href="krakowsmog-presskit.zip" class="link">Pobierz press-kit</a></li>
+		</ul>
+	</footer>
+	</div>
+</section>
+
+  <script>
+    if (document.location.search.match(/type=embed/gi)) {
+      window.parent.postMessage('resize', "*");
+    }
+  </script>
+
+<script src="js/script.js"></script>
+<!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
+	chromium.org/developers/how-tos/chrome-frame-getting-started -->
+<!--[if lt IE 7 ]>
+<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+<script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-39762876-1', 'smog.krakow.pl');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>

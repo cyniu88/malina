@@ -1,33 +1,21 @@
 #include <stdio.h>
 #include <curl/curl.h>
- 
+#include <time.h>
+#include <iostream>
 int main(void)
 {
-  CURL *curl;
-  CURLcode res;
- 
-  /* In windows, this will init the winsock stuff */ 
-  curl_global_init(CURL_GLOBAL_ALL);
- 
-  /* get a curl handle */ 
-  curl = curl_easy_init();
-  if(curl) {
-    /* First set the URL that is about to receive our POST. This URL can
-       just as well be a https:// URL if that is what should receive the
-       data. */ 
-    curl_easy_setopt(curl, CURLOPT_URL, "api.thingspeak.com//update?key=47XSQ0J9CPJ4BO2O&field1=-5.55");
+    time_t act_time;
+    struct tm * act_date;
+    int minuty =0;
+    while (1) {
+    time(&act_time);
 
- 
-    /* Perform the request, res will get the return code */ 
-    res = curl_easy_perform(curl);
-    /* Check for errors */ 
-    if(res != CURLE_OK)
-      fprintf(stderr, "curl_easy_perform() failed: %s\n",
-              curl_easy_strerror(res));
- 
-    /* always cleanup */ 
-    curl_easy_cleanup(curl);
-  }
-  curl_global_cleanup();
+    act_date = localtime(&act_time);
+    std::cout << "dzien tygodnia " << act_date->tm_wday << " godzina " << act_date->tm_hour <<" minuta " << act_date->tm_min <<std::endl;
+    std::cin >>act_date->tm_min;
+    std::cout << "modulo: " << (minuty % 18) << std::endl;
+
+}
+
   return 0;
 }
