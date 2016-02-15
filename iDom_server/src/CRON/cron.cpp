@@ -73,6 +73,11 @@ void CRON::send_temperature_thingSpeak(std::string key)
     addres+="&field1=";
     addres+= send_to_arduino(my_data,"temperature:2;");
     addres.erase(addres.size()-2,addres.size());
+
+    addres.insert(addres.find_last_of(':'),"&field3=");
+
+    addres.erase(addres.find_last_of(':'),1);
+
     addres+="&field2="+smog();
     std::cout << addres << std::endl;
     /* In windows, this will init the winsock stuff */
