@@ -12,13 +12,14 @@ public:
     CRON( thread_data * my_data);
     void run();
     void  send_temperature_thingSpeak(std::string key);
+    std::string smog( );
 private:
 
     bool check_temperature;
     thread_data * my_data;
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
     std::string find_tag (std::string temp);
-    std::string smog( );
+
 };
 
 #endif // CRON_HPP

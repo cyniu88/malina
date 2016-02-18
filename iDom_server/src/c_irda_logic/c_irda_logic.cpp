@@ -16,7 +16,7 @@ void c_irda_logic::_add(char X)
 
     if (who=='!')
     {
-        if (X!='M'&& X!='r'&& X!='E' && X!='s')
+        if (X!='M'&& X!='r'&& X!='E' && X!='s' && X!='c')
         {
             char_queue._add(X);
         }
@@ -29,15 +29,21 @@ void c_irda_logic::_add(char X)
 
 
         }
+
         else if (X=='s')
         {
-
+            CRON temp_cron(my_data_logic);
             my_data_logic->mainLCD->set_lcd_STATE(10);
-            my_data_logic->mainLCD->printString(true,0,0,"TEMPERATURA :)");
+            my_data_logic->mainLCD->printString(true,0,0,"SMOG: "+temp_cron.smog()+" mg/m^3");
             std::string temp_str="";
-            temp_str = send_to_arduino(my_data_logic,"temperature:2;");
+            temp_str = "I:";
+            temp_str += send_to_arduino(my_data_logic,"temperature:2;");
+
+            temp_str.insert(temp_str.find_last_of(':')," O:");
+
+            temp_str.erase(temp_str.find_last_of(':'),1);
             temp_str.erase(temp_str.size()-2,temp_str.size());
-            my_data_logic->mainLCD->printString(false,0,1,"temp: "+temp_str+" c");
+            my_data_logic->mainLCD->printString(false,0,1,temp_str+" c");
             who='!';
 
 
@@ -54,6 +60,73 @@ void c_irda_logic::_add(char X)
             my_data_logic->main_MENU->show_list();
             my_data_logic->mainLCD->set_print_song_state(100);
         }
+    }
+    //////////////////////////////////////  automatyczne wylaczanie muzyki /////////////////////
+
+    else if (who=='c')
+    { my_data_logic->mainLCD->set_print_song_state(100);
+        my_data_logic->mainLCD->printString(true,0,0,intToStr(my_data_logic->sleeper)+" minut");
+        if ( X=='e')
+        {
+            my_data_logic->sleeper=0;
+            my_data_logic->mainLCD->set_print_song_state(0);
+            who = '!';
+            //   std::cout << "koniec sterowania  projektorem" << std::endl;
+        }
+        else if (X=='U')
+        {
+            ++my_data_logic->sleeper;
+             my_data_logic->mainLCD->printString(true,0,0,intToStr(my_data_logic->sleeper)+" minut");
+        }
+        else if (X=='D')
+        {
+            --my_data_logic->sleeper;
+             my_data_logic->mainLCD->printString(true,0,0,intToStr(my_data_logic->sleeper)+" minut");
+        }
+        else if (X=='^')
+        {
+             my_data_logic->sleeper+=10;
+             my_data_logic->mainLCD->printString(true,0,0,intToStr(my_data_logic->sleeper)+" minut");
+        }
+        else if (X=='/')
+        {
+             my_data_logic->sleeper-=10;
+             my_data_logic->mainLCD->printString(true,0,0,intToStr(my_data_logic->sleeper)+" minut");
+
+        }
+        else if (X=='O')
+        {  std::cout << "pauzuje przez :" << my_data_logic->sleeper << std::endl;
+            my_data_logic->sleeper*=60;
+
+            std::cout << "pauzuje przez :" << my_data_logic->sleeper <<"adres" << &my_data_logic->sleeper << std::endl;
+            for (int con_counter=0; con_counter< MAX_CONNECTION; ++con_counter)
+            {
+                if ( my_data_logic->main_THREAD_arr[con_counter].thread_ID==0 || pthread_kill(my_data_logic->main_THREAD_arr[con_counter].thread_ID, 0) == ESRCH )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
+
+                {
+                    if ( con_counter!=MAX_CONNECTION -1)
+                    {
+                           // int sleep_t = my_data_logic->sleeper;
+
+                        pthread_create (&my_data_logic->main_THREAD_arr[con_counter].thread_ID, NULL,&sleeper_mpd,  my_data_logic);
+                        my_data_logic->main_THREAD_arr[con_counter].thread_name="Sleeper  MPD ";
+                        log_file_mutex.mutex_lock();
+                        log_file_cout << INFO << "watek sleeper wystartowal  "<< my_data_logic->main_THREAD_arr[con_counter].thread_ID << std::endl;
+                        log_file_mutex.mutex_unlock();
+                        my_data_logic->mainLCD->printString(true,0,0,"SLEEPer START");
+                        my_data_logic->sleeper=0;
+                        my_data_logic->mainLCD->set_print_song_state(0);
+                        who = '!';
+                        pthread_detach( my_data_logic->main_THREAD_arr[con_counter].thread_ID );
+                        break;
+
+                    }
+                }
+            }
+
+        }
+
+
     }
     ////////////////////////////////////////////////////////////////////////////////////////////// obsluga projektora
     else if (who=='r')
@@ -185,7 +258,11 @@ void c_irda_logic::_add(char X)
             }
             else
             {
-                std::cout << " URUCHAMIAM PLIK! " <<my_data_logic->main_MENU->show_list() <<std::endl;
+                // menu start
+                if (my_data_logic->main_MENU->show_list() == "5.SLEEPer" ){
+                    std::cout << " POBUDKA!!!!" << std::endl;
+                    who='c';
+                }
 
             }
         }

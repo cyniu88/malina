@@ -4,7 +4,7 @@
 
 
 
-
+#include <pthread.h>
 #include <queue>
 #include <iostream>
 #include <string.h>
@@ -12,9 +12,11 @@
 #include "../blockQueue/blockqueue.h"   // brak
 #include "../files_tree/files_tree.h"   //brak
 #include "../c_connection/c_connection.h"
+#include "../functions/functions.h"
 //#include "../iDom_server/src/iDom_server.h"
 #include <wiringPi.h>
 //extern bool go_while;
+
 class c_irda_logic
 {
 private:
@@ -30,6 +32,7 @@ public:
     char _get();
     int  _size();
     void _distribute();
+
 
 };
 

@@ -98,6 +98,7 @@ void *f_master_irda (void *data){
 
 /////////////////////  watek CRON //////////////////////////////
 
+
 void *f_master_CRON (void *data){
     thread_data  *my_data;
     my_data = (thread_data*)data;
@@ -107,8 +108,7 @@ void *f_master_CRON (void *data){
     my_CRON.run();
 
     pthread_exit(NULL);
-} //  koniec master_irda
-
+} //  koniec CRON
 void *Server_connectivity_thread(void *przekaz){
     thread_data  *my_data;
     my_data = (thread_data*)przekaz;
@@ -271,6 +271,7 @@ int main()
     node_data.main_tree=&main_tree;
     node_data.main_MENU=&main_MENU;
     node_data.main_THREAD_arr = &thread_array[0];
+    node_data.sleeper = 0;
     // start watku irda
     pthread_create (&thread_array[0].thread_ID, NULL,&f_master_irda ,&node_data);
     thread_array[0].thread_name="IRDA_master";

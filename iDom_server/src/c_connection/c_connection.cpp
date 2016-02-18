@@ -129,6 +129,14 @@ int C_connection::c_analyse()
             c_write_buf("\nEND.\n");
             break;
         }
+        else if (command[0]=="sleep")
+        {
+            //c_write_buf("dupa");
+            int t = my_data->sleeper;
+            std::string tt ="sleeper ma: "+ intToStr(t);
+            c_write_buf((char *) tt.c_str());
+            break;
+        }
         else if (command[0]=="hello")
         {
             c_write_buf("\nHI !\n");

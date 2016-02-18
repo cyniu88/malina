@@ -13,5 +13,5 @@ void binary(int val);
 std::string intToStr(int n);
 std::string send_to_arduino (thread_data *my_data_logic, std::string msg);
 std::string  sek_to_uptime(long long secy );
-
+void *sleeper_mpd (void *data);
 #endif // FUNCTIONS_H

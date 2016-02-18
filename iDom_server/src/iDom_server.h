@@ -121,6 +121,8 @@ struct thread_data{
     Thread_array_struc *main_THREAD_arr;
     time_t start;
     time_t now_time;
+    int sleeper;
+
     //CRON * main_cron;
 
 };

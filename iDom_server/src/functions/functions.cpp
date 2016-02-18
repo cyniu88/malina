@@ -177,3 +177,34 @@ std::string  sek_to_uptime(long long secy )
    
  return text;
 }
+
+////// watek sleeper
+void *sleeper_mpd (void * data)
+{
+    thread_data *my_data = (thread_data *)data;
+    blockQueue char_queue; // kolejka polecen
+    //std::cout << " a tu dziala ? : " << my_data->main_THREAD_arr[2].thread_name <<std::endl;
+
+   // std::cout << "pauzuje przez :" << my_data->sleeper <<" adres " << &my_data->sleeper << std::endl;
+
+    sleep (my_data->sleeper);
+    char_queue._add('P');
+   for (int i =0 ; i< MAX_CONNECTION;++i)
+    {
+
+        if (my_data->main_THREAD_arr[i].thread_ID == pthread_self())
+        {
+            my_data->main_THREAD_arr[i].thread_ID = 0;
+            my_data->main_THREAD_arr[i].thread_name ="  -empty-  ";
+
+            break;
+        }
+    }
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO<< "koniec  watku SLEEP_MPD" <<  std::endl;
+    log_file_mutex.mutex_unlock();
+
+     pthread_exit(NULL);
+
+
+}
