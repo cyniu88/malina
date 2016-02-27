@@ -95,10 +95,10 @@ void c_irda_logic::_add(char X)
 
         }
         else if (X=='O')
-        {  std::cout << "pauzuje przez :" << my_data_logic->sleeper << std::endl;
+        {
             my_data_logic->sleeper*=60;
 
-            std::cout << "pauzuje przez :" << my_data_logic->sleeper <<"adres" << &my_data_logic->sleeper << std::endl;
+
             for (int con_counter=0; con_counter< MAX_CONNECTION; ++con_counter)
             {
                 if ( my_data_logic->main_THREAD_arr[con_counter].thread_ID==0 || pthread_kill(my_data_logic->main_THREAD_arr[con_counter].thread_ID, 0) == ESRCH )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
@@ -113,7 +113,7 @@ void c_irda_logic::_add(char X)
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO << "watek sleeper wystartowal  "<< my_data_logic->main_THREAD_arr[con_counter].thread_ID << std::endl;
                         log_file_mutex.mutex_unlock();
-                        my_data_logic->mainLCD->printString(true,0,0,"SLEEPer START");
+                        my_data_logic->mainLCD->printString(false,1,0,"SLEEPer START");
                         my_data_logic->sleeper=0;
                         my_data_logic->mainLCD->set_print_song_state(0);
                         who = '!';
@@ -132,8 +132,10 @@ void c_irda_logic::_add(char X)
     else if (who=='r')
     {
         std::cout << "jestem w projektorze  " << std::endl;
+        my_data_logic->mainLCD->set_print_song_state(100);
+        my_data_logic->mainLCD->printString(true,1,0,"  PROJEKTOR");
         if ( X=='e')
-        {
+        {   my_data_logic->mainLCD->set_print_song_state(0);
             who = '!';
             //   std::cout << "koniec sterowania  projektorem" << std::endl;
         }
@@ -147,6 +149,8 @@ void c_irda_logic::_add(char X)
         }
         else if (X=='O')
         {
+            my_data_logic->mainLCD->set_print_song_state(1000);
+            my_data_logic->mainLCD->printString(true,0,0,"ODTWARZAM VIDEO");
             system("echo -n p > /tmp/cmd");  //pauza play
         }
         else if (X=='P')
@@ -214,7 +218,8 @@ void c_irda_logic::_add(char X)
                 my_data_logic->mainLCD->set_lcd_STATE(-1);
                 my_data_logic->mainLCD->printString(true,0,0,"odtwarzam film");
                 my_data_logic->mainLCD->printString(false,0,1,my_data_logic->main_tree->show_list());
-                //char_queue._add('A');
+                who='r';
+                char_queue._add('A');
             }
         }
         else if (X=='U')

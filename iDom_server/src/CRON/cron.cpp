@@ -14,7 +14,7 @@ CRON::CRON(thread_data *my_data)
 std::string CRON::find_tag (std::string temp)
 {
      std::string value="";
-    for (int i = 0; i<temp.size();++i){
+    for (unsigned int i = 0; i<temp.size();++i){
 
         if (temp.at(i) =='>')
         {  int z = i+1;
@@ -54,10 +54,10 @@ std::string CRON::smog( )
     }
     curl_global_cleanup();
     int start = readBuffer.find("<h2 class=\"polution\">");
-    std::cout << " pozycja to:" << start << std::endl;
+    //std::cout << " pozycja to:" << start << std::endl;
     readBuffer = readBuffer.substr(start, 40);
     readBuffer = find_tag(readBuffer);
-std::cout << "ZNALAZLEM! " << readBuffer << std::endl;
+//std::cout << "ZNALAZLEM! " << readBuffer << std::endl;
 
     return readBuffer;
 }
@@ -79,7 +79,7 @@ void CRON::send_temperature_thingSpeak(std::string key)
     addres.erase(addres.find_last_of(':'),1);
 
     addres+="&field2="+smog();
-    std::cout << addres << std::endl;
+   // std::cout << addres << std::endl;
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
 
@@ -122,7 +122,7 @@ void CRON::run()
         {
             if (check_temperature==TRUE){
                 send_temperature_thingSpeak("47XSQ0J9CPJ4BO2O");
-                std::cout << " wysylam temperature" <<std::endl;
+                //std::cout << " wysylam temperature" <<std::endl;
 
             }
             check_temperature=FALSE;
