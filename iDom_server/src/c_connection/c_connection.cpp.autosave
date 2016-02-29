@@ -331,17 +331,6 @@ int C_connection::c_analyse()
     return true;
 }
 
-void C_connection::c_send_recv_MASTER()
-{
 
-
-}
-
-
-
-void C_connection::c_send_recv_RS232()
-{
-
-}
 
 

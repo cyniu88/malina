@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <boost/foreach.hpp>
 #include <boost/tokenizer.hpp>
-
+#include <iostream>
 
 #define MAX_buf 256
 class C_connection
@@ -38,6 +38,7 @@ public:
 
 
      int c_send(int para);
+     int c_send(std::string msg,int para);
      int c_send(char command[]);
      int c_recv(int para);
  //int32_t c_return(int iterator);
