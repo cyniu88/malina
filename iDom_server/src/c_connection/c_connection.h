@@ -28,7 +28,7 @@ public:
     sockaddr_in c_from;
 
     char c_buffer[MAX_buf];
-
+   // std::string  str_buf;
     int recv_size;
 
 
@@ -39,13 +39,13 @@ public:
 
      int c_send(int para);
      int c_send(std::string msg,int para);
-     int c_send(char command[]);
+     int c_send(string command);
      int c_recv(int para);
  //int32_t c_return(int iterator);
     void c_get(int32_t buffor, int i);
     void c_send_recv_RS232 ();
     void c_read_buf (int c_pthread_self);
-    void c_write_buf(char *buf);
+    //void c_write_buf(char *buf);
     void c_send_recv_MASTER ();
      int c_analyse();
     bool c_analyse_exit();
@@ -57,11 +57,11 @@ public:
     void c_recv_send_master();
 
      // wysylanie loga
-    void l_send_log(string path);
+    void l_send_file(string path);
 
     private:
-    std::string temporary_str;
-
+    //std::string temporary_str;
+    std::string  str_buf;
 };
 
 
