@@ -4,7 +4,8 @@
 #include "../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h"
 #include <iostream>
 #include <string>
-#include <boost/regex.hpp>
+#include <regex>
+//#include <boost/regex.hpp>
 class LCD_c
 {
 public:
@@ -32,6 +33,7 @@ int rePrint;
 std::string row1;
 std::string row2;
 std::string radioName;
+
 };
 
 #endif // LCD_C_H

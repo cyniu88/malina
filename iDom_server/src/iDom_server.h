@@ -34,17 +34,17 @@
 #include "menu_tree/menu_tree.h"
 //#include "CRON/cron.hpp"
 
-#define MAX_MSG_LEN 18
-#define MAX_CONNECTION 10
-#define FREE 1
-#define RS232 11
-#define ok     0
+constexpr int MAX_MSG_LEN= 18;
+constexpr int MAX_CONNECTION =10;
+constexpr int FREE =1;
+constexpr int RS232 =11;
+constexpr int ok   =  0;
 
 #define log_file_cout  f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na ekran
 #define log_file_mutex f_log
 
-#define ON 1
-#define OFF 0
+constexpr int ON =1;
+constexpr int OFF =0;
 
 #define BUZZER 7
 #define GPIO_SPIK 21

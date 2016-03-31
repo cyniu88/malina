@@ -10,7 +10,8 @@
 #include <vector>
 #include <stack>
 #include <algorithm>
-#include <boost/regex.hpp>
+//#include <boost/regex.hpp>
+#include <regex>
 #include "../LCD_c/lcd_c.h"
 #include "../files_tree/files_tree.h"
  
@@ -25,8 +26,8 @@ std::vector < movie_database > movie_database_vector;
     DIR * sciezka;
     movie_database temp;
 
-    boost::regex w_serial;
-    boost::smatch result;
+    regex w_serial;
+    smatch result;
 
 std::stack <std::string> tree_stack;  // kolejka trzyma kolejke katalogow jakie odwiedzilismy  dzieki temu da sie wracac 
 std::stack <int> i_stack;

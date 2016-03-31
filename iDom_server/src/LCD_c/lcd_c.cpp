@@ -118,8 +118,8 @@ void LCD_c::song_printstr(){
 }
 void LCD_c::printRadioName(bool clear, int col, int row, std::string st){
     radioName =st;
-    boost::regex reg1("\\[(.*?)\\]");
-    boost::smatch  res1;
+    std::regex reg1("\\[(.*?)\\]");
+    std::smatch  res1;
     if (regex_search(radioName,res1,reg1)){
         radioName = res1[1];
     }

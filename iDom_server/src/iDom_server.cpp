@@ -438,13 +438,7 @@ int main()
     pthread_mutex_destroy(&C_connection::mutex_buf);
     pthread_mutex_destroy(&C_connection::mutex_who);
     pthread_mutex_destroy(&blockQueue::mutex_queue_char);
-//c++14
-    // Store a generalized lambda, that squares a number, in a variable
-       auto func = [](auto input) { return input * input; };
 
-       // Usage examples:
-       // square of an int
-   std::cout << func(10)<< "test " << std::endl;
     return 0;
 }
 
