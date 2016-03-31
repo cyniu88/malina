@@ -133,7 +133,7 @@ void c_irda_logic::_add(char X)
     {
         std::cout << "jestem w projektorze  " << std::endl;
         my_data_logic->mainLCD->set_print_song_state(100);
-        my_data_logic->mainLCD->printString(true,1,0,"  PROJEKTOR");
+        my_data_logic->mainLCD->printString(false,2,1,"  PROJEKTOR   ");
         if ( X=='e')
         {   my_data_logic->mainLCD->set_print_song_state(0);
             who = '!';
@@ -150,7 +150,7 @@ void c_irda_logic::_add(char X)
         else if (X=='O')
         {
             my_data_logic->mainLCD->set_print_song_state(1000);
-            my_data_logic->mainLCD->printString(true,0,0,"ODTWARZAM VIDEO");
+            my_data_logic->mainLCD->printString(false,0,0,"ODTWARZAM VIDEO");
             system("echo -n p > /tmp/cmd");  //pauza play
         }
         else if (X=='P')
