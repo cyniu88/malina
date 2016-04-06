@@ -65,7 +65,7 @@ void c_irda_logic::_add(char X)
 
     else if (who=='c')
     { my_data_logic->mainLCD->set_print_song_state(100);
-        my_data_logic->mainLCD->printString(true,0,0,intToStr(my_data_logic->sleeper)+" minut");
+        my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
         if ( X=='e')
         {
             my_data_logic->sleeper=0;
@@ -76,22 +76,22 @@ void c_irda_logic::_add(char X)
         else if (X=='U')
         {
             ++my_data_logic->sleeper;
-             my_data_logic->mainLCD->printString(true,0,0,intToStr(my_data_logic->sleeper)+" minut");
+             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
         }
         else if (X=='D')
         {
             --my_data_logic->sleeper;
-             my_data_logic->mainLCD->printString(true,0,0,intToStr(my_data_logic->sleeper)+" minut");
+             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
         }
         else if (X=='^')
         {
              my_data_logic->sleeper+=10;
-             my_data_logic->mainLCD->printString(true,0,0,intToStr(my_data_logic->sleeper)+" minut");
+             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
         }
         else if (X=='/')
         {
              my_data_logic->sleeper-=10;
-             my_data_logic->mainLCD->printString(true,0,0,intToStr(my_data_logic->sleeper)+" minut");
+             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
 
         }
         else if (X=='O')

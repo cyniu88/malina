@@ -27,7 +27,7 @@ void  *main_mpd_cli(void *data );
 
 /////////////// LCD
 
-static std::string wiad="null";
+static std::string _msg="null";
 
 ///////////////////////////////////////////
 

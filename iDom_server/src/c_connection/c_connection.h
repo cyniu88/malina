@@ -39,7 +39,7 @@ public:
 
      int c_send(int para);
      int c_send(std::string msg,int para);
-     int c_send(string command);
+     int c_send(std::string command);
      int c_recv(int para);
  //int32_t c_return(int iterator);
     void c_get(int32_t buffor, int i);
@@ -57,7 +57,7 @@ public:
     void c_recv_send_master();
 
      // wysylanie loga
-    void l_send_file(string path);
+    void l_send_file(std::string path);
 
     private:
     //std::string temporary_str;

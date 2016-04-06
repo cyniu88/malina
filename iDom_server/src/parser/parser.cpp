@@ -61,8 +61,7 @@ config read_config  ( const char* file_path    )
         if (variable == "ID")
         {
 
-
-            v_set.ID_server = atoi(  v_value.c_str());
+            v_set.ID_server = std::stoi(  v_value);
         }
         if (variable == "SERVER_IP")
         {
@@ -71,6 +70,10 @@ config read_config  ( const char* file_path    )
         if (variable == "MOVIES_DB_PATH")
         {
             v_set.MOVIES_DB_PATH= v_value;
+        }
+        if (variable == "MENU_PATH")
+        {
+            v_set.MENU_PATH=v_value;
         }
         if (variable == "MPD_IP")
         {
@@ -83,7 +86,7 @@ config read_config  ( const char* file_path    )
         }
         if (variable == "DELAY")
         {
-            v_set.v_delay  = atoi(v_value.c_str());
+            v_set.v_delay  = std::stoi(v_value );
         }
         if (variable == "PORT")
         {
@@ -119,7 +122,7 @@ config read_config  ( const char* file_path    )
         if (variable == s_node)
         {
            address_another_servers temp_a_node;
-            temp_a_node.id=atoi( v_value.c_str());
+            temp_a_node.id=std::stoi( v_value);
            // std::cout << " id noda z v_valuei " << v_value <<std::endl;
             variable="";
             for (unsigned int i=0 ; i< content.size();++i)

@@ -21,10 +21,10 @@
 #include <errno.h>
 #include <signal.h>
 #include <time.h>
-#include <boost/lexical_cast.hpp>
+//#include <boost/lexical_cast.hpp>
 #include <wiringPi.h>
 
- //#include <lirc/lirc_client.h>
+//#include <lirc/lirc_client.h>
 
 
 // MOJE BIBLIOTEKI
@@ -46,15 +46,15 @@ constexpr int ok   =  0;
 constexpr int ON =1;
 constexpr int OFF =0;
 
-#define BUZZER 7
-#define GPIO_SPIK 21
-#define BUTTON_PIN 25
+constexpr int BUZZER =7;
+constexpr int GPIO_SPIK =21;
+constexpr int BUTTON_PIN =25;
 
 extern std::string  _logfile  ;
 
 extern Logger log_file_mutex;
 
- extern std::string buffer;
+extern std::string buffer;
 
 //extern int max_msg  ;
 
@@ -103,6 +103,7 @@ struct config{
     std::string SERVER_IP;
     std::string MPD_IP;
     std::string MOVIES_DB_PATH;
+    std::string MENU_PATH;
     unsigned int ID_server;
 
     std::vector <addresses_mac> A_MAC;

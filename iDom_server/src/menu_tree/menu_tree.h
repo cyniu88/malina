@@ -26,8 +26,8 @@ std::vector < movie_database > movie_database_vector;
     DIR * sciezka;
     movie_database temp;
 
-    regex w_serial;
-    smatch result;
+    std::regex w_serial;
+    std::smatch result;
 
 std::stack <std::string> tree_stack;  // kolejka trzyma kolejke katalogow jakie odwiedzilismy  dzieki temu da sie wracac 
 std::stack <int> i_stack;

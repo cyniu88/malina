@@ -10,10 +10,10 @@
 //#include"CRON/cron.hpp"
 #include <wiringPi.h>
 
-std::string  _logfile  = "/tmp/iDom_log.log";
+std::string  _logfile  = "/mnt/ramdisk/iDom_log.log";
 std::string buffer ;
 Logger log_file_mutex(_logfile);
-//int max_msg = MAX_MSG_LEN*sizeof(int32_t);
+
 bool go_while = true;
 
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
@@ -25,8 +25,8 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     //Serial.begin(9600);
     SerialPi serial_ardu(strdup( data_rs232->portRS232.c_str()));
 
-    serial_ardu.begin( atoi( data_rs232->BaudRate.c_str()));
-    std::string znak;
+    serial_ardu.begin( std::stoi( data_rs232->BaudRate ));
+
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"otwarcie portu RS232 " <<  data_rs232->portRS232 << "  " <<data_rs232->BaudRate<<std::endl;
@@ -140,7 +140,7 @@ void *Server_connectivity_thread(void *przekaz){
         // ###########################  analia wiadomoscu ####################################//
         if ( client->c_analyse() == false )   // stop runing idom_server
         {
-            client->c_send("\nEND.\n");
+            //client->c_send("\nEND.\n");
             my_data->mainLCD->set_print_song_state(0);
             my_data->mainLCD->set_lcd_STATE(2);
             my_data->mainLCD->clear();
@@ -230,7 +230,7 @@ int main()
 
     ///////////////////////////////// MENU /////////////////////////////////
 
-    menu_tree main_MENU("/etc/config/iDom_SERVER/MENU", &mainLCD);
+    menu_tree main_MENU(server_settings.MENU_PATH, &mainLCD);
     /////////////////////////////////////////////////   wypelniam  struktury przesylane do watkow  ////////////////////////
     thread_data_rs232 data_rs232;
     data_rs232.BaudRate=server_settings.BaudRate;
@@ -260,7 +260,7 @@ int main()
 
     //////////////////////////////////////////////////////////////////////
 
-    int SERVER_PORT = atoi(server_settings.PORT.c_str());
+    int SERVER_PORT = std::stoi(server_settings.PORT );
     server_settings.SERVER_IP = conv_dns(server_settings.SERVER_IP);
     const char *SERVER_IP = server_settings.SERVER_IP.c_str();
 

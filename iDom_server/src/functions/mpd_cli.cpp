@@ -66,8 +66,8 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             printf(GREEN"aktualnie gramy:"RESET" %s - %s\n", song->artist, song->title);
 
             if (song->name != NULL){
-                wiad =  song->name;
-                my_data->mainLCD->printRadioName(true,0,0,wiad);
+                _msg =  song->name;
+                my_data->mainLCD->printRadioName(true,0,0,_msg);
                 my_data->mainLCD->set_lcd_STATE(5);
                 std::string temp_str="";
                 temp_str = send_to_arduino(my_data,"temperature:2;");
@@ -77,23 +77,23 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
 
 
             if (song->title != NULL ){
-                wiad =  song->title;
-                if (wiad.size() < 7 )
+                _msg =  song->title;
+                if (_msg.size() < 7 )
                 {
-                    wiad =  song->name;
-                    wiad += " -     brak nazwy                ";
+                    _msg =  song->name;
+                    _msg += " -     brak nazwy                ";
                 }
 
             }
             else
             {
 
-                wiad += " -     brak nazwy      ";
+                _msg += " -     brak nazwy      ";
             }
 
 
 
-            my_data->mainLCD->printSongName(wiad);
+            my_data->mainLCD->printSongName(_msg);
         }
     }
     if(what&MPD_CST_STATE)
@@ -172,7 +172,7 @@ void  *main_mpd_cli(void *data )
         hostname = (char*)my_data->server_settings->MPD_IP.c_str();
     }
     if(port){
-        iport = atoi(port);
+        iport = std::stoi(port);
     }
     /* Create mpd object */
     obj = mpd_new(hostname, iport,password);
@@ -284,7 +284,7 @@ break;*/
 
 
                 }
-                //  digitalWrite(LED7,0);  // gasze sygnal odbioru wiadomosci
+                //  digitalWrite(LED7,0);  // gasze sygnal odbioru _msgomosci
 
             }
             if (!mpd_check_connected(obj))

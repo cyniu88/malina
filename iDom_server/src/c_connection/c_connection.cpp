@@ -139,7 +139,7 @@ int C_connection::c_analyse()
         }
         else if (command[0]=="sleep")
         {
-            str_buf ="sleeper ma: "+ intToStr(my_data->sleeper);
+            str_buf ="sleeper ma: "+ std::to_string(my_data->sleeper);
             break;
         }
         else if (command[0]=="hello")
@@ -182,7 +182,7 @@ int C_connection::c_analyse()
             if (command[1]=="server")
             {
                 std::cout <<"wychodze!!!!";
-                c_send("\nEND.\n");
+                c_send("\nCLOSE.\n");
 
                 return false;
             }
@@ -263,11 +263,11 @@ int C_connection::c_analyse()
             if (command[1]=="thread")
             {
                 if (command [2] !="all"){
-                    str_buf  = my_data->main_THREAD_arr[atoi(command[2].c_str())].thread_name;
+                    str_buf  = my_data->main_THREAD_arr[std::stoi(command[2])].thread_name;
                     str_buf  += " ID: ";
-                    str_buf += intToStr(my_data->main_THREAD_arr[atoi(command[2].c_str())].thread_ID);
+                    str_buf += std::to_string(my_data->main_THREAD_arr[std::stoi(command[2])].thread_ID);
                     str_buf  += " socket: ";
-                    str_buf  += intToStr(my_data->main_THREAD_arr[atoi(command[2].c_str())].thread_socket);
+                    str_buf  += std::to_string(my_data->main_THREAD_arr[std::stoi(command[2])].thread_socket);
 
                     break;
                 }
@@ -275,14 +275,14 @@ int C_connection::c_analyse()
                 else {
                     for (int i =0 ; i< MAX_CONNECTION;++i)
                     {
-                        str_buf  = intToStr(i)+"\t";
+                        str_buf  = std::to_string(i)+"\t";
                         str_buf  += my_data->main_THREAD_arr[i].thread_name;
                         str_buf  += "\t ID: ";
-                        str_buf  += intToStr(my_data->main_THREAD_arr[i].thread_ID);
+                        str_buf  += std::to_string(my_data->main_THREAD_arr[i].thread_ID);
 
                         if (my_data->main_THREAD_arr[i].thread_socket !=0){
                             str_buf  += " socket: ";
-                            str_buf  += intToStr(my_data->main_THREAD_arr[i].thread_socket);
+                            str_buf  += std::to_string(my_data->main_THREAD_arr[i].thread_socket);
                         }
 
                         str_buf  += "\n";

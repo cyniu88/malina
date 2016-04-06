@@ -24,7 +24,7 @@ void LCD_c::checkState()
             if (play_Y_N == false)
             {
                 noBacklight();     //  jesli nic nie jest wysetlane  print_song_state == 0 i nic nie jest grane
-                                    // play_Y_N == fale  a lcd_state =0   to gas ekran  bo szkoda pradu
+                // play_Y_N == fale  a lcd_state =0   to gas ekran  bo szkoda pradu
             }
 
 
@@ -100,14 +100,14 @@ void LCD_c::printSongName (std::string songName){
 
 void LCD_c::song_printstr(){
     if (lcd_state != 0 || play_Y_N==false ){
-       return;
+        return;
     }
     if (print_song_state!= 0 )
     {
         return;
     }
 
-   // std::cout << "row1 ma znakow " << row1.size() << " a row2 ma " << row2.size() <<std::endl;
+    // std::cout << "row1 ma znakow " << row1.size() << " a row2 ma " << row2.size() <<std::endl;
     main_lcd.clear();
     main_lcd.backlight();
 

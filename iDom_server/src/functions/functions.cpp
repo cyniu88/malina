@@ -74,19 +74,19 @@ void binary(int val)
     {
         if ((i + 1) % 8 == 0)            std::cout << ' ';        std::cout << ((val >> i) % 2);    }    std::cout << std::endl;
 }
-
-std::string intToStr(int n){
+/*
+std::string std::to_string(int n){
      std::string tmp;
      if(n < 0) {
       tmp = "-";
       n = -n;
      }
      if(n > 9)
-      tmp += intToStr(n / 10);
+      tmp += std::to_string(n / 10);
      tmp += n % 10 + 48;
      return tmp;
 }
-
+*/
 
 
 
@@ -158,22 +158,22 @@ std::string  sek_to_uptime(long long secy )
    
     number_day = secy / day;
    
-     std::string text = "\n" +intToStr( number_day )+ " day " ;
+     std::string text = "\n" +std::to_string( number_day )+ " day " ;
     
     temp1 = secy % day;
   
     number_hour = temp1 / houry;
-    text += intToStr( number_hour ) +" hours "  ;
+    text += std::to_string( number_hour ) +" hours "  ;
  
     temp2 = temp1 % houry;
  
     number_min = temp2 / min;
-    text += intToStr(number_min)+" minutes "  ;
+    text += std::to_string(number_min)+" minutes "  ;
     
     temp3 = temp2 % min;
  
     number_sec = temp3;
-    text += intToStr( number_sec )+ " seconds " ;
+    text += std::to_string( number_sec )+ " seconds " ;
    
  return text;
 }
