@@ -16,7 +16,7 @@ void c_irda_logic::_add(char X)
 
     if (who=='!')
     {
-        if (X!='M'&& X!='r'&& X!='E' && X!='s' && X!='c')
+        if (X!='M'&& X!='r'&& X!='E' && X!='s' && X!='c' && X!='S' && X!='L')
         {
             char_queue._add(X);
         }
@@ -29,7 +29,29 @@ void c_irda_logic::_add(char X)
 
 
         }
+        else if (X=='S')
+        {
+            my_data_logic->mainLCD->set_lcd_STATE(10);
+            my_data_logic->mainLCD->printString(true,0,0,"GASZE LEDy");
+            std::string temp_str="";
+            temp_str = "I:";
+            temp_str += send_to_arduino(my_data_logic,"LED_STOP:2;");
 
+
+            who='!';
+
+        }
+        else if (X=='L')
+        {
+            my_data_logic->mainLCD->set_lcd_STATE(10);
+            my_data_logic->mainLCD->printString(true,0,0,"ZAPALAM LEDy");
+            std::string temp_str="";
+
+            temp_str += send_to_arduino(my_data_logic,"LED:2222;");
+
+
+            who='!';
+        }
         else if (X=='s')
         {
             CRON temp_cron(my_data_logic);

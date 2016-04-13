@@ -1,7 +1,13 @@
-// 0x28, 0x80, 0x3E, 0x64, 0x4, 0x0, 0x0, 0xD2
+#include <Adafruit_NeoPixel.h>
 
-// 0x28, 0x8F, 0x9F, 0x63, 0x4, 0x0, 0x0, 0x8E
 
+#include "LED.h" 
+#define PIN 6
+#define LICZBADIOD 60
+
+//LEDY
+
+LED _led(LICZBADIOD, PIN);
 
 #include <OneWire.h>
 #include <DallasTemperature.h>
@@ -19,22 +25,24 @@ DallasTemperature sensors(&oneWire);
 #define SENSORS_NUM 2
 // Adresy czujników
 // arrays to hold device addresses
-DeviceAddress insideThermometer = { 0x28, 0x80, 0x3E, 0x64, 0x4, 0x0, 0x0, 0xD2 };
-DeviceAddress outsideThermometer   = { 0x28, 0x8F, 0x9F, 0x63, 0x4, 0x0, 0x0, 0x8E };
- 
+DeviceAddress insideThermometer = { 
+  0x28, 0x80, 0x3E, 0x64, 0x4, 0x0, 0x0, 0xD2 };
+DeviceAddress outsideThermometer   = { 
+  0x28, 0x8F, 0x9F, 0x63, 0x4, 0x0, 0x0, 0x8E };
+
 
 String command="z";
- 
+
 String value="0";
 int valueINT=0;
 
-  
+
 void setup(void)
 {
 
   Serial.begin(9600);
-
-
+  _led.init();
+ 
   sensors.begin();
   sensors.setResolution(insideThermometer, TEMPERATURE_PRECISION);
   sensors.setResolution(outsideThermometer, TEMPERATURE_PRECISION);
@@ -49,7 +57,7 @@ void loop(void)
     //Serial.println(command);
     value = Serial.readStringUntil(';');
     //Serial.println(value);
-    valueINT = value.toInt();
+    
     //sensors.requestTemperatures(); // Send the command to get temperatures
     //Serial.print("Temperatura na Szuwarach: ");
     //Serial.println(sensors.getTempCByIndex(0));  
@@ -57,9 +65,36 @@ void loop(void)
     //valueINT=0;
   }
 
+  if (command == "LED")
+  {
+    
+    int r, g, b;
 
+    if (sscanf( value.toCharArray() , "%d,%d,%d", &r, &g, &b) == 3) {
+    // do something with r, g, b
+    _led.start (r,g,b);
+    }
+    
+     
+    Serial.print("LEDY START");  
+    Serial.print(';');  
+    command="z";
+    valueINT=0;
+
+  }
+  if (command == "LED_STOP")
+  {
+     
+    _led.stop_led();
+    Serial.print("LEDY STOP");  
+    Serial.print(';');  
+    command="z";
+    valueINT=0;
+
+  }
   if (command=="temperature")
   {
+    valueINT = value.toInt();
     sensors.requestTemperatures(); // Send the command to get temperatures
     Serial.print(sensors.getTempC(insideThermometer));
     Serial.print(':');  
@@ -67,28 +102,30 @@ void loop(void)
     Serial.print(';');  
     command="z";
     valueINT=0;
-     
+
   }
   if (command=="test")
   {
-     ++valueINT;
-     ++valueINT;
-     Serial.print("return:");
-     //sprintf(c,valueINT);
-     Serial.print(String(valueINT));
+    valueINT = value.toInt();
+    ++valueINT;
+    ++valueINT;
+    Serial.print("return:");
+    //sprintf(c,valueINT);
+    Serial.print(String(valueINT));
     Serial.print(';');  
     command="z";
     valueINT=0;
-     
+
   }
   if (command !="z")
   {
-   Serial.print ("unknown RS232 command: ");
+    Serial.print ("unknown RS232 command: ");
     Serial.println (command);
     Serial.print(';');
     //delay(2000);
   }
   command="z";
 }
+
 
 
