@@ -119,7 +119,7 @@ int C_connection::c_analyse()
     std::string buf(c_buffer);
     std::vector <std::string> command;
 
-    boost::char_separator<char> sep(",\n ");
+    /*boost::char_separator<char> sep(",\n ");
     boost::tokenizer< boost::char_separator<char> > tokens(buf, sep);
 
     BOOST_FOREACH (const std::string& t, tokens) {
@@ -127,7 +127,18 @@ int C_connection::c_analyse()
         command.push_back( t);
     }
     command.pop_back();  // usowa ostanit wpis smiec
+    */
+
+    tokenizer(command," \n,", buf);  // podzia  zdania na wyrazy
+    command.pop_back();
     str_buf= "unknown command\n";
+    std::cout <<"wielkosc command " << command.size()<<std::endl;
+    for(std::string  m: command)
+            {
+                std::cout << m << std::endl;
+
+            }
+
 
     switch (command.size())
     {
@@ -138,6 +149,11 @@ int C_connection::c_analyse()
             break;
         }
         else if (command[0]=="sleep")
+        {
+            str_buf ="sleeper ma: "+ std::to_string(my_data->sleeper);
+            break;
+        }
+        else if (command[0]=="123456789123456789123")
         {
             str_buf ="sleeper ma: "+ std::to_string(my_data->sleeper);
             break;
@@ -247,6 +263,7 @@ int C_connection::c_analyse()
 
             else if (command[1]=="send")
             {
+                std::cout << "!!!!!!!!!!!!!!!!! " << command[2] << std::endl;
                 str_buf = send_to_arduino(my_data,command[2]);
                 break;
             }
@@ -291,7 +308,7 @@ int C_connection::c_analyse()
                         c_recv(0);
 
                     }
-                    str_buf ="\nEND.";
+                    str_buf ="\nEND.\n";
 
                     break;
                 }

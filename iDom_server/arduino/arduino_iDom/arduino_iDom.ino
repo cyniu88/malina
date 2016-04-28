@@ -2,7 +2,7 @@
 
 
 #include "LED.h" 
-#define PIN 6
+#define PIN 11
 #define LICZBADIOD 60
 
 //LEDY
@@ -35,14 +35,14 @@ String command="z";
 
 String value="0";
 int valueINT=0;
-
+int licznik =0;
 
 void setup(void)
 {
 
   Serial.begin(9600);
   _led.init();
- 
+
   sensors.begin();
   sensors.setResolution(insideThermometer, TEMPERATURE_PRECISION);
   sensors.setResolution(outsideThermometer, TEMPERATURE_PRECISION);
@@ -56,38 +56,40 @@ void loop(void)
     command = Serial.readStringUntil(':');
     //Serial.println(command);
     value = Serial.readStringUntil(';');
-    //Serial.println(value);
-    
-    //sensors.requestTemperatures(); // Send the command to get temperatures
-    //Serial.print("Temperatura na Szuwarach: ");
-    //Serial.println(sensors.getTempCByIndex(0));  
-    //command="";
-    //valueINT=0;
+     
   }
 
   if (command == "LED")
   {
-    
-    int r, g, b;
 
-    if (sscanf( value.toCharArray() , "%d,%d,%d", &r, &g, &b) == 3) {
-    // do something with r, g, b
-    _led.start (r,g,b);
+    int from,to,r, g, b;
+
+    if (sscanf( value.c_str() , "[%d.%d.%d.%d.%d]", &from, &to,&r,&g,&b) == 5) {
+
+      // do something with r, g, b
+
+      Serial.print("LEDY START ");  
+      Serial.print(';');
+      delay(100);
+      _led.colorWipe(_led.Color(r, g, b), 50); // Red
     }
-    
-     
-    Serial.print("LEDY START");  
-    Serial.print(';');  
+    else {
+
+      Serial.print("LEDY START - ERROR");  
+      Serial.print(';'); 
+    } 
     command="z";
     valueINT=0;
 
   }
   if (command == "LED_STOP")
   {
-     
-    _led.stop_led();
+
+
     Serial.print("LEDY STOP");  
-    Serial.print(';');  
+    Serial.print(';'); 
+    delay(100);
+    _led.stop_led();  
     command="z";
     valueINT=0;
 
@@ -125,7 +127,10 @@ void loop(void)
     //delay(2000);
   }
   command="z";
+
+
+  //++licznik;
+  //Serial.println(licznik);
+  //delay(1000);
 }
-
-
 

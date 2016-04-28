@@ -1,13 +1,6 @@
 #include "serialib/serialib.h"              //brak
-//#include "wiadomosc/wiadomosc..h"
-//#include "c_connection/c_connection.h"
 #include "functions/functions.h"            // brak
-//#include "logger/logger.hpp"
-//#include "c_master_irda/master_irda.h"
-//#include "functions/mpd_cli...h"
-//#include "blockQueue/blockqueue..h"
 #include "parser/parser.hpp"
-//#include"CRON/cron.hpp"
 #include <wiringPi.h>
 
 std::string  _logfile  = "/mnt/ramdisk/iDom_log.log";
@@ -243,7 +236,7 @@ int main()
     /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
 
     int temp;
-    temp = mkfifo("/tmp/cmd",0666);
+    temp = mkfifo("/mnt/ramdisk/cmd",0666);
 
     if (temp == 0 )
     {

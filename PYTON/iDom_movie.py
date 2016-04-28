@@ -8,7 +8,7 @@ print(sys.argv[1])
  
 komenda2 = "omxplayer --align center  --no-ghost-box   -b -o local "
 
-komenda2 += sys.argv[1] + " </tmp/cmd"
+komenda2 += sys.argv[1] + " </mnt/ramdisk/cmd"
  
 print (komenda2)
 

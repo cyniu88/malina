@@ -47,7 +47,7 @@ void c_irda_logic::_add(char X)
             my_data_logic->mainLCD->printString(true,0,0,"ZAPALAM LEDy");
             std::string temp_str="";
 
-            temp_str += send_to_arduino(my_data_logic,"LED:2222;");
+            temp_str += send_to_arduino(my_data_logic,"LED:[1-60-255-0-0];");
 
 
             who='!';
@@ -98,22 +98,22 @@ void c_irda_logic::_add(char X)
         else if (X=='U')
         {
             ++my_data_logic->sleeper;
-             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
+            my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
         }
         else if (X=='D')
         {
             --my_data_logic->sleeper;
-             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
+            my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
         }
         else if (X=='^')
         {
-             my_data_logic->sleeper+=10;
-             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
+            my_data_logic->sleeper+=10;
+            my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
         }
         else if (X=='/')
         {
-             my_data_logic->sleeper-=10;
-             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
+            my_data_logic->sleeper-=10;
+            my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
 
         }
         else if (X=='O')
@@ -128,7 +128,7 @@ void c_irda_logic::_add(char X)
                 {
                     if ( con_counter!=MAX_CONNECTION -1)
                     {
-                           // int sleep_t = my_data_logic->sleeper;
+                        // int sleep_t = my_data_logic->sleeper;
 
                         pthread_create (&my_data_logic->main_THREAD_arr[con_counter].thread_ID, NULL,&sleeper_mpd,  my_data_logic);
                         my_data_logic->main_THREAD_arr[con_counter].thread_name="Sleeper  MPD ";
@@ -163,38 +163,38 @@ void c_irda_logic::_add(char X)
         }
         else if (X=='+')
         {
-            system("echo -n + > /tmp/cmd");  // podglasniamy
+            system("echo -n + > /mnt/ramdisk/cmd");  // podglasniamy
         }
         else if (X=='-')
         {
-            system("echo -n - > /tmp/cmd");  // wyciszamy
+            system("echo -n - > /mnt/ramdisk/cmd");  // wyciszamy
         }
         else if (X=='O')
         {
             my_data_logic->mainLCD->set_print_song_state(1000);
             my_data_logic->mainLCD->printString(false,0,0,"ODTWARZAM VIDEO");
-            system("echo -n p > /tmp/cmd");  //pauza play
+            system("echo -n p > /mnt/ramdisk/cmd");  //pauza play
         }
         else if (X=='P')
         {
-            system("echo -n q > /tmp/cmd &");  // zamykanie omxplayera
+            system("echo -n q > /mnt/ramdisk/cmd &");  // zamykanie omxplayera
         }
         else if (X=='D')
         {
-            system("echo -n $'\x1b\x5b\x43' > /tmp/cmd");  // do przodu
+            system("echo -n $'\x1b\x5b\x43' > /mnt/ramdisk/cmd");  // do przodu
         }
         else if (X=='U')
         {
-            system("echo -n $'\x1b\x5b\x44' > /tmp/cmd");  // do tylu
+            system("echo -n $'\x1b\x5b\x44' > /mnt/ramdisk/cmd");  // do tylu
 
         }
         else if (X=='^')
         {
-            system("echo -n o > /tmp/cmd");  // do przodu
+            system("echo -n o > /mnt/ramdisk/cmd");  // do przodu
         }
         else if (X=='/')
         {
-            system("echo -n i > /tmp/cmd");  // do tylu
+            system("echo -n i > /mnt/ramdisk/cmd");  // do tylu
 
         }
     }
@@ -226,7 +226,7 @@ void c_irda_logic::_add(char X)
             {
                 my_data_logic->main_tree->enter_dir();
                 my_data_logic->main_tree->show_list();
-               // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
+                // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
             }
             else
             {
@@ -250,13 +250,13 @@ void c_irda_logic::_add(char X)
 
         }
         my_data_logic->main_tree->show_list();
-       // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
+        // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
 
     }
-        /////////////////////////////////////////////////////////////////////////////////////////////  oblsuga menu
+    /////////////////////////////////////////////////////////////////////////////////////////////  oblsuga menu
 
-        else if (who=='M')
-        {
+    else if (who=='M')
+    {
 
         if ( X=='e')
         {
@@ -281,7 +281,7 @@ void c_irda_logic::_add(char X)
             {
                 my_data_logic->main_MENU->enter_dir();
                 my_data_logic->main_MENU->show_list();
-               // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
+                // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
             }
             else
             {
@@ -289,6 +289,11 @@ void c_irda_logic::_add(char X)
                 if (my_data_logic->main_MENU->show_list() == "5.SLEEPer" ){
                     std::cout << " POBUDKA!!!!" << std::endl;
                     who='c';
+                }
+                else if (my_data_logic->main_MENU->show_list() == "2.TEMPERATURA" ){
+                     std::cout << " temperatura !!!!" << std::endl;
+                    who='!';
+                    X='s';
                 }
 
             }
@@ -299,11 +304,11 @@ void c_irda_logic::_add(char X)
 
         }
         my_data_logic->main_MENU->show_list();
-       // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
+        // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
 
 
-        }
     }
+}
 
 
 char c_irda_logic::_get( )

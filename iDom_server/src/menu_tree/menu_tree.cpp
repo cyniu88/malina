@@ -124,17 +124,7 @@ std::string menu_tree::show_list(     )
             // std::cout << "wypisuje sciezke pliku " << movie_database_vector[i].path <<" | " <<movie_database_vector[i].files_name.substr(0,16)<< std::endl;
 
             mainLCD->printString(true,0,0,movie_database_vector[i].files_name.substr(0,16));
-//            if( regex_search(movie_database_vector[i].path,result,w_serial) )
-//            {
-//                mainLCD->printString(false,10,1,movie_database_vector[i].files_name.substr( movie_database_vector[i].files_name.size()-4,movie_database_vector[i].files_name.size()));
-//                mainLCD->printString(false, 1,1,result[0]);
-//                std::cout << " SERIAL!!!!!!!!!!!!!!!!!!!!!!!!!!1" << result[0] << std::endl;
-//            }
-//            else
-//            {
-//                mainLCD->printString(false,10,1,movie_database_vector[i].files_name.substr( movie_database_vector[i].files_name.size()-4,movie_database_vector[i].files_name.size()));
-//               std::cout << " NIEEEEEE SERIAL!!!!!!!!!!!!!!!!!!!!!!!!!!1" << std::endl;
-//            }
+
             return movie_database_vector[i].files_name;
 
         }
