@@ -291,9 +291,15 @@ void c_irda_logic::_add(char X)
                     who='c';
                 }
                 else if (my_data_logic->main_MENU->show_list() == "2.TEMPERATURA" ){
-                     std::cout << " temperatura !!!!" << std::endl;
+                    std::cout << " temperatura !!!!" << std::endl;
                     who='!';
-                    X='s';
+                    _add('s');
+                }
+                else if (my_data_logic->main_MENU->show_list() == "4.PLIKI" ){
+                    std::cout << " do filmow" << std::endl;
+                    who='!';
+                    _add('E');
+                    _add('+');
                 }
 
             }

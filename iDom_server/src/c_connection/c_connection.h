@@ -14,21 +14,17 @@
 #define MAX_buf 256
 class C_connection
 {
-
 public:
-
-
-     C_connection(thread_data  *my_data);
-
+    C_connection(thread_data  *my_data);
     ~C_connection();
 
-      thread_data   *my_data;
+    thread_data   *my_data;
     int c_socket;
-
     sockaddr_in c_from;
 
-    char c_buffer[MAX_buf];
-   // std::string  str_buf;
+    char  c_buffer[MAX_buf];
+    //char c_buffer[MAX_buf];
+    // std::string  str_buf;
     int recv_size;
 
 
@@ -37,29 +33,29 @@ public:
     struct s_pointer *pointer;
 
 
-     int c_send(int para);
-     int c_send(std::string msg,int para);
-     int c_send(std::string command);
-     int c_recv(int para);
- //int32_t c_return(int iterator);
+    int c_send(int para);
+    int c_send(std::string msg,int para);
+    int c_send(std::string command);
+    int c_recv(int para);
+    //int32_t c_return(int iterator);
     void c_get(int32_t buffor, int i);
     void c_send_recv_RS232 ();
     void c_read_buf (int c_pthread_self);
     //void c_write_buf(char *buf);
     void c_send_recv_MASTER ();
-     int c_analyse();
+    int c_analyse();
     bool c_analyse_exit();
     void c_set_buf (int what);
 
 
     // metody dla noda
-     void c_start_master();
+    void c_start_master();
     void c_recv_send_master();
 
-     // wysylanie loga
+    // wysylanie loga
     void l_send_file(std::string path);
 
-    private:
+private:
     //std::string temporary_str;
     std::string  str_buf;
 };

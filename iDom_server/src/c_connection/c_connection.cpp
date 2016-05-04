@@ -12,15 +12,12 @@ pthread_mutex_t C_connection::mutex_who = PTHREAD_MUTEX_INITIALIZER;
 C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_sock),
     c_from(my_data->from)
 {
-
     this -> pointer = &my_data->pointer;
     this -> my_data = my_data;
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< "konstruuje nowy obiekt do komunikacj na gniezdzie " << c_socket <<  std::endl;
     log_file_mutex.mutex_unlock();
-
 }
-
 
 
 // destruktor
@@ -41,17 +38,7 @@ C_connection::~C_connection()
     log_file_cout << INFO<< "koniec komunikacji - kasuje obiekt" <<  std::endl;
     log_file_mutex.mutex_unlock();
 }
-/*int C_connection::c_send(std::string msg,int para){
-    if(( send( c_socket, msg.c_str() ,msg.length(), para ) ) <= 0 )
-    {
-        //perror( "send() ERROR" );
-        return -1;
-    }
 
-    return 0;
-}
-
-*/
 
 int C_connection::c_send(int para)
 {
@@ -74,7 +61,7 @@ int C_connection::c_recv(int para)
 {
     for (unsigned int i =0 ; i< sizeof(c_buffer);++i)
     {
-        c_buffer[i]=' ';
+        c_buffer[i]=',';
     }
 
     struct timeval tv;
@@ -101,11 +88,7 @@ int C_connection::c_recv(int para)
     }
 
     std::cout << "giazdo odebralo bajtow: " <<recv_size << std::endl;
-    for  ( int i =0 ; i< recv_size;++i)
-    {
-        std::cout << c_buffer[i];
-    }
-    std::cout << " " <<std::endl;
+
     return 1;
 }
 
@@ -116,29 +99,26 @@ int C_connection::c_recv(int para)
 
 int C_connection::c_analyse()
 {
-    std::string buf(c_buffer);
+    std::string buf;
+    for(char n : c_buffer){
+        if (n!=','){
+
+            buf+=n;
+        }
+    }
+
     std::vector <std::string> command;
 
-    /*boost::char_separator<char> sep(",\n ");
-    boost::tokenizer< boost::char_separator<char> > tokens(buf, sep);
-
-    BOOST_FOREACH (const std::string& t, tokens) {
-        std::cout << " rozmiar t: " << t.size() << std::endl;
-        command.push_back( t);
-    }
-    command.pop_back();  // usowa ostanit wpis smiec
-    */
-
     tokenizer(command," \n,", buf);  // podzia  zdania na wyrazy
-    command.pop_back();
+    str_buf=command[command.size()-1];
+
+
     str_buf= "unknown command\n";
-    std::cout <<"wielkosc command " << command.size()<<std::endl;
-    for(std::string  m: command)
-            {
-                std::cout << m << std::endl;
+    for(std::string  t : command)
+    {
 
-            }
-
+        str_buf+=t+" ";
+    }
 
     switch (command.size())
     {
@@ -194,10 +174,10 @@ int C_connection::c_analyse()
     case 2 :
         if(command[0]=="stop")
         {
-            std::cout << " jest stop";
+            //std::cout << " jest stop";
             if (command[1]=="server")
             {
-                std::cout <<"wychodze!!!!";
+                //std::cout <<"wychodze!!!!";
                 c_send("\nCLOSE.\n");
 
                 return false;
@@ -247,7 +227,7 @@ int C_connection::c_analyse()
             if (command[1]=="get")
             {
                 if (command[2]=="temperature"){
-                    std::cout << " szukam temeratury" << std::endl;
+                    //std::cout << " szukam temeratury" << std::endl;
 
                     str_buf = send_to_arduino(my_data,"temperature:339;");
                     break;
@@ -263,7 +243,7 @@ int C_connection::c_analyse()
 
             else if (command[1]=="send")
             {
-                std::cout << "!!!!!!!!!!!!!!!!! " << command[2] << std::endl;
+                //std::cout << "!!!!!!!!!!!!!!!!! " << command[2] << std::endl;
                 str_buf = send_to_arduino(my_data,command[2]);
                 break;
             }
@@ -323,7 +303,7 @@ int C_connection::c_analyse()
         }
 
     default :
-        std::cout << " nic nie przyszlo komenda z dupy " << c_buffer<<std::endl;
+        //std::cout << " nic nie przyszlo komenda z dupy " << c_buffer<<std::endl;
         str_buf ="unknown command\n";
 
     }

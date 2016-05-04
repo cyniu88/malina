@@ -14,18 +14,13 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     thread_data_rs232 *data_rs232;
 
     data_rs232 = (thread_data_rs232*)przekaz;
-    // serialib port_arduino;   // obiekt port rs232
-    //Serial.begin(9600);
+
     SerialPi serial_ardu(strdup( data_rs232->portRS232.c_str()));
-
     serial_ardu.begin( std::stoi( data_rs232->BaudRate ));
-
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"otwarcie portu RS232 " <<  data_rs232->portRS232 << "  " <<data_rs232->BaudRate<<std::endl;
-    //log_file_cout << INFO <<"w buforze jest bajtow " << port_arduino.Peek() << std::endl;
     log_file_mutex.mutex_unlock();
-    std::cout << "";
 
     while (go_while)
     {
@@ -51,24 +46,18 @@ void *Send_Recieve_rs232_thread (void *przekaz){
                     break;
                 }
             }
-
-            std::cout << " odebralem: " << buffer << std::endl;
             pthread_mutex_unlock(&C_connection::mutex_buf);
         }
         pthread_mutex_unlock(&C_connection::mutex_who);
     }
     pthread_exit(NULL);
 }
-//////////// watek do obslugi polaczeni miiedzy nodami  //////////////
+//////////// watek do obslugi polaczeni miedzy nodami  //////////////
 
 void *f_serv_con_node (void *data){
     thread_data  *my_data;
     my_data = (thread_data*)data;
-    std::cout<<"start watek master \n";
     pthread_detach( pthread_self () );
-
-    std::cout<<"koniec  watek master \n";
-
     pthread_exit(NULL);
 } //  koniec f_serv_con_node
 /////////////////////  watek do obslugi irda //////////////////////////////
@@ -76,13 +65,11 @@ void *f_serv_con_node (void *data){
 void *f_master_irda (void *data){
     thread_data  *my_data;
     my_data = (thread_data*)data;
-    std::cout<<"start watek irda master 22222222 \n";
+    //std::cout<<"start watek irda master 22222222 \n";
     pthread_detach( pthread_self () );
 
     master_irda irda(my_data);
     irda.run();
-
-    std::cout<<"koniec  watek master \n";
 
     pthread_exit(NULL);
 } //  koniec master_irda
@@ -102,6 +89,7 @@ void *f_master_CRON (void *data){
 
     pthread_exit(NULL);
 } //  koniec CRON
+
 void *Server_connectivity_thread(void *przekaz){
     thread_data  *my_data;
     my_data = (thread_data*)przekaz;
@@ -111,8 +99,7 @@ void *Server_connectivity_thread(void *przekaz){
     C_connection *client = new C_connection( my_data);
 
     std::string tm = inet_ntoa( my_data->from.sin_addr);
-    if ("192.168.1.1" != tm)
-    {
+    if ("192.168.1.1" != tm) {
     my_data->mainLCD->set_print_song_state(3200);
     my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
     my_data->mainLCD->printString(false,0,1,  inet_ntoa( my_data->from.sin_addr)   );
@@ -122,18 +109,15 @@ void *Server_connectivity_thread(void *przekaz){
     log_file_cout << INFO <<"polaczenie z adresu  " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
     log_file_mutex.mutex_unlock();
 
-
     while (go_while)
     {
-        if( client->c_recv(0) == -1 )
-        {
+        if( client->c_recv(0) == -1 )  {
             break;
         }
 
         // ###########################  analia wiadomoscu ####################################//
         if ( client->c_analyse() == false )   // stop runing idom_server
         {
-            //client->c_send("\nEND.\n");
             my_data->mainLCD->set_print_song_state(0);
             my_data->mainLCD->set_lcd_STATE(2);
             my_data->mainLCD->clear();
@@ -142,9 +126,6 @@ void *Server_connectivity_thread(void *przekaz){
             go_while = false;
             break;
         }
-
-
-
         // ###############################  koniec analizy   wysylanie wyniku do RS232 lub  TCP ########################
 
         if( client->c_send(0 ) == -1 )
@@ -159,7 +140,6 @@ void *Server_connectivity_thread(void *przekaz){
     sleep (3);
     delete client;
     pthread_exit(NULL);
-
 }
 
 int main()
@@ -168,8 +148,7 @@ int main()
     pthread_mutex_init(&C_connection::mutex_who, NULL);
     pthread_mutex_init(&blockQueue::mutex_queue_char, NULL);
     pthread_mutex_init(&Logger::mutex_log, NULL);
-    //pthread_t  main_th;
-    //pthread_create (&main_th, NULL,&main_thread,NULL);
+
     config server_settings   =  read_config ( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfigu
     struct sockaddr_in server;
     int v_socket;
@@ -199,6 +178,7 @@ int main()
     for (u_int i=0;i<server_settings.AAS.size();++i){
         log_file_cout << INFO << server_settings.AAS[i].id<<" "<< server_settings.AAS[i].SERVER_IP <<std::endl;
     }
+
     log_file_cout << INFO  << "baza z filami \t"<< server_settings.MOVIES_DB_PATH << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;

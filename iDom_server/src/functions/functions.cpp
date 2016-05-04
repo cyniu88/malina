@@ -74,27 +74,8 @@ void binary(int val)
     {
         if ((i + 1) % 8 == 0)            std::cout << ' ';        std::cout << ((val >> i) % 2);    }    std::cout << std::endl;
 }
-/*
-std::string std::to_string(int n){
-     std::string tmp;
-     if(n < 0) {
-      tmp = "-";
-      n = -n;
-     }
-     if(n > 9)
-      tmp += std::to_string(n / 10);
-     tmp += n % 10 + 48;
-     return tmp;
-}
-*/
-
-
-
-
 
 std::string send_to_arduino (thread_data *my_data_logic, std::string msg){
-
-
 
     while (go_while)
     {
@@ -183,9 +164,6 @@ void *sleeper_mpd (void * data)
 {
     thread_data *my_data = (thread_data *)data;
     blockQueue char_queue; // kolejka polecen
-    //std::cout << " a tu dziala ? : " << my_data->main_THREAD_arr[2].thread_name <<std::endl;
-
-   // std::cout << "pauzuje przez :" << my_data->sleeper <<" adres " << &my_data->sleeper << std::endl;
 
     sleep (my_data->sleeper);
     char_queue._add('P');
@@ -211,7 +189,7 @@ void *sleeper_mpd (void * data)
 void tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text){
     std::string temp;
     bool is_sep = false;
-    
+
     for(char n: text) { // the initializer may be an array
         is_sep = false;
         for(char m: separator){
@@ -220,23 +198,34 @@ void tokenizer ( std::vector <std::string> &command, std::string separator, std:
           {
             is_sep = true;
           }
-            
+
         }
         
         if (is_sep== false){
+//            std::cout << "n: " << n<< " int: "<<(int)n<<" ";
+//            if (n=='$'){
+//                std::cout<<"ETURN";
+//                return;
+//            }
             temp+=n;
         }
         else
         {
             if (!temp.empty())
-              command.push_back( temp);
+            {
+            command.push_back( temp);
+        std::cout << "in loop"<<std::endl;
             temp="";
+            }
         }
         
         
     }
-    if (!temp.empty())
-              command.push_back( temp);
+    if (!temp.empty()){
+        command.push_back( temp);
+        std::cout << "koncowe"<<std::endl;
+    }
+
    
 }
 

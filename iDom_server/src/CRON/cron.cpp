@@ -54,10 +54,8 @@ std::string CRON::smog( )
     }
     curl_global_cleanup();
     int start = readBuffer.find("<h2 class=\"polution\">");
-    //std::cout << " pozycja to:" << start << std::endl;
     readBuffer = readBuffer.substr(start, 40);
     readBuffer = find_tag(readBuffer);
-//std::cout << "ZNALAZLEM! " << readBuffer << std::endl;
 
     return readBuffer;
 }
@@ -67,19 +65,15 @@ void CRON::send_temperature_thingSpeak(std::string key)
     CURL *curl;
     CURLcode res;
 
-
     std::string addres = "api.thingspeak.com/update?key=";
     addres+=key;
     addres+="&field1=";
     addres+= send_to_arduino(my_data,"temperature:2;");
     addres.erase(addres.size()-2,addres.size());
-
     addres.insert(addres.find_last_of(':'),"&field3=");
-
     addres.erase(addres.find_last_of(':'),1);
-
     addres+="&field2="+smog();
-   // std::cout << addres << std::endl;
+
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
 
@@ -90,8 +84,6 @@ void CRON::send_temperature_thingSpeak(std::string key)
            just as well be a https:// URL if that is what should receive the
            data. */
         curl_easy_setopt(curl, CURLOPT_URL, addres.c_str());
-
-
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
         /* Check for errors */
@@ -103,7 +95,6 @@ void CRON::send_temperature_thingSpeak(std::string key)
         curl_easy_cleanup(curl);
     }
     curl_global_cleanup();
-
 }
 
 void CRON::run()
@@ -122,8 +113,6 @@ void CRON::run()
         {
             if (check_temperature==TRUE){
                 send_temperature_thingSpeak("47XSQ0J9CPJ4BO2O");
-                //std::cout << " wysylam temperature" <<std::endl;
-
             }
             check_temperature=FALSE;
         }

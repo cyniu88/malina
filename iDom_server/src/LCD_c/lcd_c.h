@@ -26,7 +26,7 @@ public:
     void checkState();
     bool play_Y_N;
 private:
-std::string intToStr(int n);
+//std::string intToStr(int n);
 int lcd_state;
 int print_song_state;
 int rePrint;

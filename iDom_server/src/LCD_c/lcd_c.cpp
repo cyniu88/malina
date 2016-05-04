@@ -14,7 +14,6 @@ void LCD_c::checkState()
         --print_song_state;
     }
     if (print_song_state == 0 ){
-        //std::cout << "stan checkState: " << lcd_state << " ";
         if (lcd_state == -1)
         {
             return;
@@ -26,7 +25,6 @@ void LCD_c::checkState()
                 noBacklight();     //  jesli nic nie jest wysetlane  print_song_state == 0 i nic nie jest grane
                 // play_Y_N == fale  a lcd_state =0   to gas ekran  bo szkoda pradu
             }
-
 
             if (rePrint == 0 )
             {
@@ -107,7 +105,6 @@ void LCD_c::song_printstr(){
         return;
     }
 
-    // std::cout << "row1 ma znakow " << row1.size() << " a row2 ma " << row2.size() <<std::endl;
     main_lcd.clear();
     main_lcd.backlight();
 
@@ -116,6 +113,7 @@ void LCD_c::song_printstr(){
     main_lcd.setCursor(0, 1);
     main_lcd.printstr(row2.c_str());
 }
+
 void LCD_c::printRadioName(bool clear, int col, int row, std::string st){
     radioName =st;
     std::regex reg1("\\[(.*?)\\]");
@@ -140,7 +138,6 @@ void LCD_c::printString(bool clear,int col,int row , std::string str){
     main_lcd.backlight();
     main_lcd.setCursor(col, row);
     main_lcd.printstr(str.c_str());
-
 }
 
 void LCD_c::noBacklight(){
@@ -160,7 +157,8 @@ void LCD_c::printVolume (int vol)
         return;
     }
     std::string tmp ="   vol  "  ;
-    tmp+=intToStr(vol);
+    //tmp+=intToStr(vol);
+    tmp+=std::to_string(vol);
     tmp+=" %";
     main_lcd.backlight();
     main_lcd.clear();
@@ -168,7 +166,7 @@ void LCD_c::printVolume (int vol)
     lcd_state=10;
 
 }
-std::string LCD_c::intToStr(int n)
+/*std::string LCD_c::intToStr(int n)
 {
     std::string tmp;
     if(n < 0) {
@@ -179,4 +177,4 @@ std::string LCD_c::intToStr(int n)
         tmp += intToStr(n / 10);
     tmp += n % 10 + 48;
     return tmp;
-}
+}*/
