@@ -72,9 +72,13 @@ void ChangeEndianness(int32_t * value,int MAX_MSG_LEN_INT)
 void binary(int val)
 {    for (int i = 31; i >= 0; i--)
     {
-        if ((i + 1) % 8 == 0)            std::cout << ' ';        std::cout << ((val >> i) % 2);    }    std::cout << std::endl;
-}
+        if ((i + 1) % 8 == 0)
+            std::cout << ' ';
+            std::cout << ((val >> i) % 2);
+    }
+     std::cout << std::endl;
 
+}
 std::string send_to_arduino (thread_data *my_data_logic, std::string msg){
 
     while (go_while)
@@ -202,11 +206,7 @@ void tokenizer ( std::vector <std::string> &command, std::string separator, std:
         }
         
         if (is_sep== false){
-//            std::cout << "n: " << n<< " int: "<<(int)n<<" ";
-//            if (n=='$'){
-//                std::cout<<"ETURN";
-//                return;
-//            }
+
             temp+=n;
         }
         else
@@ -214,7 +214,7 @@ void tokenizer ( std::vector <std::string> &command, std::string separator, std:
             if (!temp.empty())
             {
             command.push_back( temp);
-        std::cout << "in loop"<<std::endl;
+        ////std::cout << "in loop"<<std::endl;
             temp="";
             }
         }
@@ -223,9 +223,8 @@ void tokenizer ( std::vector <std::string> &command, std::string separator, std:
     }
     if (!temp.empty()){
         command.push_back( temp);
-        std::cout << "koncowe"<<std::endl;
+        //std::cout << "koncowe"<<std::endl;
     }
 
    
 }
-
