@@ -2,72 +2,71 @@
 #include "c_connection.h"
 #include <iostream>
 
-/*void C_connection::c_write_buf(char * buf){
-
-    for (unsigned int i =0 ; i< sizeof(c_buffer);++i)
-    {
-        c_buffer[i]=' ';
-    }
-    for (unsigned int i =0 ; i< strlen( buf);++i)
-    {
-
-        c_buffer[i]=buf[i];
-    }
-    c_buffer[strlen(buf)]='\0';
-
-}*/
 
 
-void C_connection::c_read_buf(int c_pthread_self)
+void C_connection::l_send_file(std::string path, std::string find ="")
 {
-
-
-
-}
-
-void C_connection::l_send_file(std::string path)
-{
-
-    std::fstream log_file;
-    log_file.open(path.c_str(),std::ios::in);
-    if( log_file.good() == false )
+    if(find.empty()==true)
     {
-        str_buf =" can not open file !";
-        c_send(0);
-        c_recv(0);
-        return;
-    }
-
-
-    else
-    {
-        std::cout << "otwarty plik" << std::endl;
-        str_buf.erase();
-        while( !log_file.eof() )
+        std::fstream log_file;
+        log_file.open(path.c_str(),std::ios::in);
+        if( log_file.good() == false )
         {
-
-            for (int i =0 ; i< MAX_buf-1 ; ++i)
-            {
-                if (log_file.eof()==1)
-                {
-                    str_buf.erase(str_buf.length()-1, str_buf.length());
-                    break;
-                }
-                str_buf += log_file.get();
-
-            }
-            //c_buffer[MAX_buf-1]='\0';
-             std::cout << " wielkosc bufora z send "<< str_buf.length() << std::endl;
+            str_buf =" can not open file !";
             c_send(0);
             c_recv(0);
-            str_buf.erase();
-
+            return;
         }
+        else
+        {
+            str_buf.erase();
+            while( !log_file.eof() )
+            {
+                for (int i =0 ; i< MAX_buf-1 ; ++i)
+                {
+                    if (log_file.eof()==1)
+                    {
+                        str_buf.erase(str_buf.length()-1, str_buf.length());
+                        break;
+                    }
+                    str_buf += log_file.get();
+                }
 
+                std::cout << " wielkosc bufora z send "<< str_buf.length() << std::endl;
+                c_send(0);
+                c_recv(0);
+                str_buf.erase();
+            }
+            log_file.close();
+        }
+    }
+    else
+    {
+        std::fstream log_file;
+        log_file.open(path.c_str(),std::ios::in);
+        if( log_file.good() == false )
+        {
+            str_buf =" can not open file !";
+            c_send(0);
+            c_recv(0);
+            return;
+        }
+        else
+        {
+            str_buf.erase();
+            while( std::getline(log_file,str_buf) )
+            {
 
-
-    log_file.close();
-}
+                if(std::string::npos!=str_buf.find(find)){
+                    str_buf+="\n";
+                    c_send(0);
+                    c_recv(0);
+                }
+                str_buf.erase();
+            }
+            log_file.close();
+        }
+    }
 }
 
 

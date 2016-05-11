@@ -145,7 +145,7 @@ int C_connection::c_analyse()
         }
         else if (command [0] == "help")
         {
-            l_send_file("/etc/config/iDom_SERVER/help");
+            l_send_file("/etc/config/iDom_SERVER/help","");
             str_buf="\nEND.\n";
             break;
         }
@@ -191,7 +191,7 @@ int C_connection::c_analyse()
         {
             if (command[1]=="log")
             {
-                l_send_file(_logfile);
+                l_send_file(_logfile,"");
                 str_buf="\nEND.\n";
                 break;
             }
@@ -257,7 +257,13 @@ int C_connection::c_analyse()
 
         else if (command[0]=="show")
         {
-            if (command[1]=="thread")
+            if (command[1]=="log")
+            {
+                l_send_file(_logfile,command[2]);
+                str_buf="\nEND.\n";
+                break;
+            }
+            else if (command[1]=="thread")
             {
                 if (command [2] !="all"){
                     str_buf  = my_data->main_THREAD_arr[std::stoi(command[2])].thread_name;

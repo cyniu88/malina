@@ -182,8 +182,16 @@ void  *main_mpd_cli(void *data )
     mpd_signal_connect_status_changed(obj,(StatusChangedCallback)status_changed , my_data);
     /* Set timeout */
     mpd_set_connection_timeout(obj, 10);
+    std::cout << " start "<<std::endl;
+    bool work;
+    try{
+     work = mpd_connect(obj);
 
-    if(!mpd_connect(obj))
+    }
+    catch(...){
+    std::cout << " stop "<<std::endl;
+    }
+    if(!work)
     {
         char buffer;
         mpd_send_password(obj);
@@ -334,6 +342,9 @@ break;*/
         mpd_player_stop(obj);
         sleep (3);
 
+    }
+    else{
+        std::cout << " NIE UDALO SIE POłączyć "<<std::endl;
     }
     mpd_free(obj);
     log_file_mutex.mutex_lock();
