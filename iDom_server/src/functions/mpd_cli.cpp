@@ -8,9 +8,9 @@ extern int debug_level;
 
 bool check_title_song_to = false;
 
-void error_callback(int errorid, char *msg)
+void error_callback(MpdObj *mi,int errorid, char *msg, void *userdata)
 {
-    printf(RED"Error "RESET""GREEN"%i:"RESET" '%s'\n", errorid, msg);
+    //printf(RED"Error "RESET""GREEN"%i:"RESET" '%s'\n", errorid, msg);
 }
 
 void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
@@ -182,19 +182,31 @@ void  *main_mpd_cli(void *data )
     mpd_signal_connect_status_changed(obj,(StatusChangedCallback)status_changed , my_data);
     /* Set timeout */
     mpd_set_connection_timeout(obj, 10);
-    std::cout << " start "<<std::endl;
-    bool work;
-    try{
-     work = mpd_connect(obj);
 
+    int work;
+    work = mpd_connect(obj);
+
+    while (work){
+
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "nie udalo sie polaczyc z MPD "<<   std::endl;
+        log_file_mutex.mutex_unlock();
+        system("service mpd restart");
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "restart MPD "<<   std::endl;
+        log_file_mutex.mutex_unlock();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "nawiazuje nowe polaczenie z MPD "<<   std::endl;
+        log_file_mutex.mutex_unlock();
+        work = mpd_connect(obj);
     }
-    catch(...){
+
     std::cout << " stop "<<std::endl;
-    }
+
     if(!work)
     {
         char buffer;
-        mpd_send_password(obj);
+        // mpd_send_password(obj);
         //memset(buffer, '\0', 20);
         do{
 
@@ -297,7 +309,11 @@ break;*/
             }
             if (!mpd_check_connected(obj))
             {
-                printf("not connected\n");
+                log_file_mutex.mutex_lock();
+                log_file_cout << WARNING << "utracono polacznie z  MPD "<<   std::endl;
+                log_file_cout << INFO << "restart MPD" << std::endl;
+                log_file_mutex.mutex_unlock();
+                system ("service mpd restart");
                 mpd_connect(obj);
 
             }
@@ -307,7 +323,7 @@ break;*/
 
             my_data->mainLCD->checkState();
 
-/////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////
 
 
             if ( digitalRead(BUTTON_PIN) == HIGH )
@@ -345,6 +361,7 @@ break;*/
     }
     else{
         std::cout << " NIE UDALO SIE POłączyć "<<std::endl;
+
     }
     mpd_free(obj);
     log_file_mutex.mutex_lock();
@@ -353,5 +370,5 @@ break;*/
     //close(fdstdin);
 
 
-return 0;
+    return 0;
 }

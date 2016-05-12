@@ -144,8 +144,14 @@ int main(int argc, char **argv)
         mpd_signal_connect_status_changed(obj,(StatusChangedCallback)status_changed, NULL);
         /* Set timeout */
         mpd_set_connection_timeout(obj, 10);
+        std::cout << " start "<<std::endl;
+        int work;
 
-        if(!mpd_connect(obj))
+         work = mpd_connect(obj);
+
+
+        std::cout << " stop "<<std::endl;
+        if(!work)
         {
                 char buffer[20];
                 mpd_send_password(obj);
