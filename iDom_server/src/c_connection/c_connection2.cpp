@@ -3,6 +3,16 @@
 #include <iostream>
 
 
+std::string C_connection::c_read_buf ( ){
+
+    for(char n : c_buffer){
+        if (n!=','){
+
+            str_buf+=n;
+        }
+    }
+    return str_buf;
+}
 
 void C_connection::l_send_file(std::string path, std::string find ="")
 {

@@ -40,7 +40,7 @@ public:
     //int32_t c_return(int iterator);
     void c_get(int32_t buffor, int i);
     void c_send_recv_RS232 ();
-    void c_read_buf (int c_pthread_self);
+    std::string c_read_buf ( );
     //void c_write_buf(char *buf);
     void c_send_recv_MASTER ();
     int c_analyse();

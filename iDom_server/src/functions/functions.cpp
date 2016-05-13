@@ -16,31 +16,31 @@
 // przerobka  adresu na ip . //////////////////////////////////
 std::string conv_dns (std::string temp){
 
-int i;
-struct hostent * he;
-struct in_addr ** addr_list;
-std::string s_ip;
+    int i;
+    struct hostent * he;
+    struct in_addr ** addr_list;
+    std::string s_ip;
 
-if(( he = gethostbyname( temp.c_str() ) ) == NULL )
-{
-    herror( "gethostbyname" );
-    return "- 1";
-}
+    if(( he = gethostbyname( temp.c_str() ) ) == NULL )
+    {
+        herror( "gethostbyname" );
+        return "- 1";
+    }
 
-// print information about this host:
-printf( "Official name is: %s\n", he->h_name );
+    // print information about this host:
+    printf( "Official name is: %s\n", he->h_name );
 
-printf( "IP addresses: " );
-addr_list =( struct in_addr ** ) he->h_addr_list;
-for( i = 0; addr_list[ i ] != NULL; i++ )
-{
-    printf( "%s ", inet_ntoa( * addr_list[ i ] ) );
-    s_ip += inet_ntoa( * addr_list[ i ] );
+    printf( "IP addresses: " );
+    addr_list =( struct in_addr ** ) he->h_addr_list;
+    for( i = 0; addr_list[ i ] != NULL; i++ )
+    {
+        printf( "%s ", inet_ntoa( * addr_list[ i ] ) );
+        s_ip += inet_ntoa( * addr_list[ i ] );
 
-}
-printf( "\n" );
+    }
+    printf( "\n" );
 
-return s_ip;
+    return s_ip;
 }
 
 
@@ -74,7 +74,7 @@ void binary(int val)
     {
         if ((i + 1) % 8 == 0)
             std::cout << ' ';
-            std::cout << ((val >> i) % 2);
+        std::cout << ((val >> i) % 2);
     }
      std::cout << std::endl;
 
@@ -114,7 +114,7 @@ std::string send_to_arduino (thread_data *my_data_logic, std::string msg){
             my_data_logic->pointer.ptr_who[0]=FREE;
             my_data_logic->pointer.ptr_who[1]= 0;
 
-           msg=buffer;
+            msg=buffer;
 
             pthread_mutex_unlock(&C_connection::mutex_buf);
             pthread_mutex_unlock(&C_connection::mutex_who);
@@ -124,43 +124,43 @@ std::string send_to_arduino (thread_data *my_data_logic, std::string msg){
 
     }
 
-  return msg;
+    return msg;
 } //end send_to_arduino
 
 std::string  sek_to_uptime(long long secy )
 {
- 
-   
+
+
     const int min = 60; //s
     const int houry = 3600; //s
     const int day = 86400; //s
 
-   
+
 
     int number_day, number_hour, number_min, number_sec;
     int temp1, temp2, temp3;
 
-   
+
     number_day = secy / day;
-   
-     std::string text = "\n" +std::to_string( number_day )+ " day " ;
+
+    std::string text = "\n" +std::to_string( number_day )+ " day " ;
     
     temp1 = secy % day;
-  
+
     number_hour = temp1 / houry;
     text += std::to_string( number_hour ) +" hours "  ;
- 
+
     temp2 = temp1 % houry;
- 
+
     number_min = temp2 / min;
     text += std::to_string(number_min)+" minutes "  ;
     
     temp3 = temp2 % min;
- 
+
     number_sec = temp3;
     text += std::to_string( number_sec )+ " seconds " ;
-   
- return text;
+
+    return text;
 }
 
 ////// watek sleeper
@@ -171,7 +171,7 @@ void *sleeper_mpd (void * data)
 
     sleep (my_data->sleeper);
     char_queue._add('P');
-   for (int i =0 ; i< MAX_CONNECTION;++i)
+    for (int i =0 ; i< MAX_CONNECTION;++i)
     {
 
         if (my_data->main_THREAD_arr[i].thread_ID == pthread_self())
@@ -186,7 +186,7 @@ void *sleeper_mpd (void * data)
     log_file_cout << INFO<< "koniec  watku SLEEP_MPD" <<  std::endl;
     log_file_mutex.mutex_unlock();
 
-     pthread_exit(NULL);
+    pthread_exit(NULL);
 
 
 }
@@ -198,10 +198,10 @@ void tokenizer ( std::vector <std::string> &command, std::string separator, std:
         is_sep = false;
         for(char m: separator){
             
-          if (n==m)
-          {
-            is_sep = true;
-          }
+            if (n==m)
+            {
+                is_sep = true;
+            }
 
         }
         
@@ -213,18 +213,40 @@ void tokenizer ( std::vector <std::string> &command, std::string separator, std:
         {
             if (!temp.empty())
             {
-            command.push_back( temp);
-        ////std::cout << "in loop"<<std::endl;
-            temp="";
+                command.push_back( temp);
+                ////std::cout << "in loop"<<std::endl;
+                temp="";
             }
         }
-        
-        
     }
     if (!temp.empty()){
         command.push_back( temp);
         //std::cout << "koncowe"<<std::endl;
     }
+}
 
-   
+std::string RSHash(int offset  )
+{
+
+    time_t act_time;
+    struct tm * act_date;
+    time(&act_time);
+    act_date = localtime(&act_time);
+    //std::string str="";
+    //str = std::to_string(act_date->tm_min+offset)+ std::to_string(act_date->tm_hour)+std::to_string(act_date->tm_wday);
+
+    char buffer[10];
+    strftime(buffer,10,"%M%H%w",act_date);
+      std::string str(buffer);
+//std::cout<<str<<std::endl;
+    unsigned int b    = 378551;
+    unsigned int a    = 63689;
+    unsigned int hash = 0;
+
+    for(std::size_t i = 0; i < str.length(); i++)
+    {
+        hash = hash * a + str[i];
+        a    = a * b;
+    }
+    return std::to_string((hash & 0x7FFFFFFF));
 }

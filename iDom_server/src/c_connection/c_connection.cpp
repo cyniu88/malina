@@ -112,7 +112,7 @@ int C_connection::c_analyse()
     tokenizer(command," \n,", buf);  // podzia  zdania na wyrazy
     str_buf=command[command.size()-1];
 
-
+    std::cout << "D: "<<RSHash( )<<std::endl;
     str_buf= "unknown command\n";
     for(std::string  t : command)
     {
@@ -212,6 +212,7 @@ int C_connection::c_analyse()
                 break;
             }
         }
+
 
         else
         {

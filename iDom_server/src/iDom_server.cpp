@@ -97,7 +97,7 @@ void *Server_connectivity_thread(void *przekaz){
     pthread_detach( pthread_self () );
 
     C_connection *client = new C_connection( my_data);
-
+    bool key_ok=false;
     std::string tm = inet_ntoa( my_data->from.sin_addr);
     if ("192.168.1.1" != tm) {
     my_data->mainLCD->set_print_song_state(3200);
@@ -109,7 +109,34 @@ void *Server_connectivity_thread(void *przekaz){
     log_file_cout << INFO <<"polaczenie z adresu  " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
     log_file_mutex.mutex_unlock();
 
-    while (go_while)
+    if( client->c_recv(0) == -1 )  {
+        key_ok=false;
+    }
+    //std::cout <<"WYNIK:"<< client->c_read_buf().size()<<"a to wlasny" << RSHash().size()<<"!"<<std::endl;
+
+    if (   client->c_read_buf()  ==   RSHash()   )   // stop runing idom_server
+    {
+        std::cout<< "klucze rowne"<< std::endl;
+        key_ok=true;
+        if( client->c_send("OK" ) == -1 )
+        {
+
+            key_ok=false;
+        }
+    }
+    else{
+        key_ok=false;
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL <<"AUTHENTICATION FAILED! " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
+        log_file_mutex.mutex_unlock();
+        if( client->c_send("\nFAIL\n" ) == -1 )
+        {
+            key_ok=false;
+        }
+    }
+
+
+    while (go_while && key_ok)
     {
         if( client->c_recv(0) == -1 )  {
             break;
