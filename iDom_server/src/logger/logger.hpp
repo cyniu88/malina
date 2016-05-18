@@ -61,7 +61,8 @@ typedef enum {
   INFO,
   WARNING,
   ERROR,
-  CRITICAL
+  CRITICAL,
+  FATAL
 } logger_level;
 
 

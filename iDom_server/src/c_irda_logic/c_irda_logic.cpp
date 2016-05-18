@@ -135,7 +135,7 @@ void c_irda_logic::_add(char X)
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO << "watek sleeper wystartowal  "<< my_data_logic->main_THREAD_arr[con_counter].thread_ID << std::endl;
                         log_file_mutex.mutex_unlock();
-                        my_data_logic->mainLCD->printString(false,1,0,"SLEEPer START");
+                        my_data_logic->mainLCD->printString(true,1,0,"SLEEPer START");
                         my_data_logic->sleeper=0;
                         my_data_logic->mainLCD->set_print_song_state(0);
                         who = '!';

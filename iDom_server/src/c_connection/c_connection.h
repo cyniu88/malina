@@ -53,7 +53,7 @@ public:
     void c_recv_send_master();
 
     // wysylanie loga
-    void l_send_file(std::string path, std::string find);
+    void l_send_file(std::string path, std::string find="", bool reverse= false);
 
 private:
     //std::string temporary_str;

@@ -133,11 +133,7 @@ int C_connection::c_analyse()
             str_buf ="sleeper ma: "+ std::to_string(my_data->sleeper);
             break;
         }
-        else if (command[0]=="123456789123456789123")
-        {
-            str_buf ="sleeper ma: "+ std::to_string(my_data->sleeper);
-            break;
-        }
+
         else if (command[0]=="hello")
         {
             str_buf = "\nHI !\n";
@@ -260,7 +256,7 @@ int C_connection::c_analyse()
         {
             if (command[1]=="log")
             {
-                l_send_file(_logfile,command[2]);
+                l_send_file(_logfile,command[2],true);
                 str_buf="\nEND.\n";
                 break;
             }
@@ -308,7 +304,16 @@ int C_connection::c_analyse()
             // c_write_buf("END.\n");
             break;
         }
-
+    case 4:
+        if (command[0]=="show")
+        {
+            if (command[1]=="log" &&  command [2] =="no")
+            {
+                l_send_file(_logfile,command[3],false);
+                str_buf="\nEND.\n";
+                break;
+            }
+        }
     default :
         //std::cout << " nic nie przyszlo komenda z dupy " << c_buffer<<std::endl;
         str_buf ="unknown command\n";

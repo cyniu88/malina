@@ -116,7 +116,7 @@ void *Server_connectivity_thread(void *przekaz){
 
     if (   client->c_read_buf()  ==   RSHash()   )   // stop runing idom_server
     {
-        std::cout<< "klucze rowne"<< std::endl;
+        //std::cout<< "klucze rowne"<< std::endl;
         key_ok=true;
         if( client->c_send("OK" ) == -1 )
         {

@@ -14,7 +14,7 @@ std::string C_connection::c_read_buf ( ){
     return str_buf;
 }
 
-void C_connection::l_send_file(std::string path, std::string find ="")
+void C_connection::l_send_file(std::string path, std::string find  , bool reverse )
 {
     if(find.empty()==true)
     {
@@ -67,10 +67,20 @@ void C_connection::l_send_file(std::string path, std::string find ="")
             while( std::getline(log_file,str_buf) )
             {
 
-                if(std::string::npos!=str_buf.find(find)){
-                    str_buf+="\n";
-                    c_send(0);
-                    c_recv(0);
+                if (reverse){
+                    if(std::string::npos!=str_buf.find(find)){
+                        str_buf+="\n";
+                        c_send(0);
+                        c_recv(0);
+                    }
+                }
+                else{
+                    if(std::string::npos ==str_buf.find(find)){
+                        str_buf+="\n";
+
+                        c_send(0);
+                        c_recv(0);
+                    }
                 }
                 str_buf.erase();
             }
