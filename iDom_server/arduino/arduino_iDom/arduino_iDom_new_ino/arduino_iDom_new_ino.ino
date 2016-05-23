@@ -85,7 +85,7 @@ void loop() {
       Serial.print("LEDY START ");  
       Serial.print(';');
       delay(100);
-       colorWipe(strip.Color(r, g, b), 50); // Red
+       colorWipe(strip.Color(r, g, b), 5); // Red
     }
     else {
 

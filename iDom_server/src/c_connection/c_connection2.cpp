@@ -77,7 +77,9 @@ void C_connection::l_send_file(std::string path, std::string find  , bool revers
                 else{
                     if(std::string::npos ==str_buf.find(find)){
                         str_buf+="\n";
-
+                        if(str_buf.size()<3){
+                            str_buf+="    ";
+                        }
                         c_send(0);
                         c_recv(0);
                     }
