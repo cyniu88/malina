@@ -22,6 +22,14 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     log_file_cout << INFO <<"otwarcie portu RS232 " <<  data_rs232->portRS232 << "  " <<data_rs232->BaudRate<<std::endl;
     log_file_mutex.mutex_unlock();
 
+    SerialPi serial_ardu_clock(strdup( data_rs232->portRS232_clock.c_str()));
+    serial_ardu_clock.begin( std::stoi( data_rs232->BaudRate ));
+
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO <<"otwarcie portu RS232_clock " <<  data_rs232->portRS232_clock << data_rs232->BaudRate <<std::endl;
+    log_file_mutex.mutex_unlock();
+    //serial_ardu_clock.print("SB90" );
+
     while (go_while)
     {
         usleep(500);
@@ -45,6 +53,29 @@ void *Send_Recieve_rs232_thread (void *przekaz){
                     buffer.erase(buffer.end()-1);
                     break;
                 }
+            }
+            pthread_mutex_unlock(&C_connection::mutex_buf);
+        }
+        else if (data_rs232->pointer.ptr_who[0] == CLOCK){
+            pthread_mutex_lock(&C_connection::mutex_buf);
+
+            data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
+            data_rs232->pointer.ptr_who[1]= RS232;
+            serial_ardu_clock.print(buffer.c_str());
+
+            buffer.erase();
+
+            while ( go_while){
+                if (serial_ardu_clock.available()>0){
+                    buffer+=serial_ardu_clock.read();
+                    buffer+=serial_ardu_clock.read();
+                    break;
+                }
+               /* if (buffer[buffer.size()-1] == 'K')
+                {
+                    buffer.erase(buffer.end()-1);
+                    break;
+                }*/
             }
             pthread_mutex_unlock(&C_connection::mutex_buf);
         }
@@ -113,8 +144,9 @@ void *Server_connectivity_thread(void *przekaz){
         key_ok=false;
     }
     //std::cout <<"WYNIK:"<< client->c_read_buf().size()<<"a to wlasny" << RSHash().size()<<"!"<<std::endl;
-
-    if (   client->c_read_buf()  ==   RSHash()   )   // stop runing idom_server
+    std::string KEY_rec =  client->c_read_buf();
+    std::string KEY_OWN = RSHash() ;
+    if (   KEY_rec == KEY_OWN    )   // stop runing idom_server
     {
         //std::cout<< "klucze rowne"<< std::endl;
         key_ok=true;
@@ -128,13 +160,17 @@ void *Server_connectivity_thread(void *przekaz){
         key_ok=false;
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL <<"AUTHENTICATION FAILED! " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
+        log_file_cout << CRITICAL <<"KEY RECIVED: " << KEY_rec << " KEY SERVER: "<< KEY_OWN   <<std::endl;
         log_file_mutex.mutex_unlock();
         if( client->c_send("\nFAIL\n" ) == -1 )
         {
             key_ok=false;
         }
     }
-
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO <<"AUTHENTICATION OK! " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
+    log_file_cout << INFO <<"KEY RECIVED: " << KEY_rec << " KEY SERVER: "<< KEY_OWN   <<std::endl;
+    log_file_mutex.mutex_unlock();
 
     while (go_while && key_ok)
     {
@@ -197,6 +233,7 @@ int main()
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
     log_file_cout << INFO  << "ID serwera\t"<< server_settings.ID_server << std::endl;
     log_file_cout << INFO  << "PortRS232\t"<< server_settings.portRS232 << std::endl;
+    log_file_cout << INFO  << "PortRS232_clock\t"<< server_settings.portRS232_clock << std::endl;
     log_file_cout << INFO  << "BaudRate RS232\t"<< server_settings.BaudRate << std::endl;
     log_file_cout << INFO  << "port TCP \t"<< server_settings.PORT << std::endl;
     log_file_cout << INFO  << "serwer ip \t"<< server_settings.SERVER_IP  <<std::endl;
@@ -233,8 +270,9 @@ int main()
     menu_tree main_MENU(server_settings.MENU_PATH, &mainLCD);
     /////////////////////////////////////////////////   wypelniam  struktury przesylane do watkow  ////////////////////////
     thread_data_rs232 data_rs232;
-    data_rs232.BaudRate=server_settings.BaudRate;
-    data_rs232.portRS232=server_settings.portRS232;
+           data_rs232.BaudRate = server_settings.BaudRate;
+          data_rs232.portRS232 = server_settings.portRS232;
+    data_rs232.portRS232_clock = server_settings.portRS232_clock;
 
     data_rs232.pointer.ptr_who=who;
     pthread_create(&thread_array[2].thread_ID ,NULL,&Send_Recieve_rs232_thread,&data_rs232 );    ///  start watku do komunikacji rs232
@@ -272,6 +310,7 @@ int main()
     node_data.main_MENU=&main_MENU;
     node_data.main_THREAD_arr = &thread_array[0];
     node_data.sleeper = 0;
+
     // start watku irda
     pthread_create (&thread_array[0].thread_ID, NULL,&f_master_irda ,&node_data);
     thread_array[0].thread_name="IRDA_master";

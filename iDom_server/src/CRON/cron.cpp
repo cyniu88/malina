@@ -102,6 +102,12 @@ void CRON::run()
     time_t act_time;
     struct tm * act_date;
 
+
+
+
+    int min =0 ;
+    char buffer[5];
+
     while (go_while) {
 
         sleep(10);
@@ -119,6 +125,16 @@ void CRON::run()
         else
         {
             check_temperature=TRUE;
+        }
+
+
+        if (min != act_date->tm_min  ){
+
+            strftime(buffer,5,"%H%M",act_date);
+            // serial_ardu.print(buffer );
+            send_to_arduino_clock(my_data,buffer);
+             min = act_date->tm_min;
+             //std::cout << "czas "<< buffer <<" arduino "<<send_to_arduino_clock(my_data,buffer)<< std::endl;
         }
     }
 }

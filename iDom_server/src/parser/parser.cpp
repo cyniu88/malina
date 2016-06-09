@@ -58,6 +58,12 @@ config read_config  ( const char* file_path    )
         {
             v_set.portRS232= v_value;
         }
+        if (variable == "portRS232_clock")
+        {
+            v_set.portRS232_clock= v_value;
+        }
+
+
         if (variable == "ID")
         {
 

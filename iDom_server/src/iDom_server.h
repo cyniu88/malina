@@ -38,6 +38,7 @@ constexpr int MAX_MSG_LEN= 18;
 constexpr int MAX_CONNECTION =10;
 constexpr int FREE =1;
 constexpr int RS232 =11;
+constexpr int CLOCK =12;
 constexpr int ok   =  0;
 
 #define log_file_cout  f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na ekran
@@ -98,6 +99,7 @@ struct address_another_servers {
 
 struct config{
     std::string portRS232;
+    std::string portRS232_clock;
     std::string BaudRate;
     std::string PORT;
     std::string SERVER_IP;
@@ -124,6 +126,7 @@ struct thread_data{
     time_t now_time;
     int sleeper;
 
+
     //CRON * main_cron;
 
 };
@@ -132,6 +135,7 @@ struct thread_data{
 struct thread_data_rs232{
 
     std::string portRS232;
+    std::string portRS232_clock;
     std::string BaudRate;
     struct s_pointer pointer;
 
