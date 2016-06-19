@@ -42,6 +42,7 @@ C_connection::~C_connection()
 
 int C_connection::c_send(int para)
 {
+    //std::cout << "SEND" <<std::endl;
     if(( send( c_socket, str_buf.c_str() ,str_buf.length(), para ) ) <= 0 )
     {
         return -1;
@@ -59,6 +60,7 @@ int C_connection::c_send(std::string command )
 
 int C_connection::c_recv(int para)
 {
+    //std::cout <<"RECV" <<std::endl;
     for (unsigned int i =0 ; i< sizeof(c_buffer);++i)
     {
         c_buffer[i]=',';
@@ -87,7 +89,10 @@ int C_connection::c_recv(int para)
         return -1;
     }
 
-    //std::cout << "giazdo odebralo bajtow: " <<recv_size << std::endl;
+    //std::cout << "giazdo odebralo bajtow: " <<recv_size    <<std::endl;
+
+
+
 
     return 1;
 }
@@ -149,6 +154,12 @@ int C_connection::c_analyse()
             str_buf = "\nEND.\n";
             break;
         }
+        else if (command [0] == "ALL")
+        {
+            str_buf = "YES\n";
+            break;
+        }
+
         else if (command [0] == "IP")
         {
             str_buf = my_data->server_settings->SERVER_IP;
@@ -161,6 +172,13 @@ int C_connection::c_analyse()
             str_buf ="uptime: ";
             str_buf +=  sek_to_uptime(difftime(my_data->now_time,my_data->start) );
             break;
+        }
+        else if (command [0] == "big")
+        {
+            str_buf.erase();
+            for (int i =0 ; i < MAX_buf ; ++i){
+                str_buf += std::to_string(i)+ " ";
+            }
         }
         else
         {
@@ -181,6 +199,11 @@ int C_connection::c_analyse()
             {   str_buf="stop what? \n";
                 break;
             }
+        }
+        else if (command[0]=="clock")
+        {
+            str_buf = "ustawiono "+ send_to_arduino_clock(my_data,command[1]);
+
         }
         else if (command[0]=="show")
         {

@@ -26,7 +26,7 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     serial_ardu_clock.begin( std::stoi( data_rs232->BaudRate ));
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO <<"otwarcie portu RS232_clock " <<  data_rs232->portRS232_clock << data_rs232->BaudRate <<std::endl;
+    log_file_cout << INFO <<"otwarcie portu RS232_clock " <<  data_rs232->portRS232_clock <<" "<< data_rs232->BaudRate <<std::endl;
     log_file_mutex.mutex_unlock();
     //serial_ardu_clock.print("SB90" );
 
@@ -167,10 +167,7 @@ void *Server_connectivity_thread(void *przekaz){
             key_ok=false;
         }
     }
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO <<"AUTHENTICATION OK! " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
-    log_file_cout << INFO <<"KEY RECIVED: " << KEY_rec << " KEY SERVER: "<< KEY_OWN   <<std::endl;
-    log_file_mutex.mutex_unlock();
+
 
     while (go_while && key_ok)
     {

@@ -32,21 +32,28 @@ void C_connection::l_send_file(std::string path, std::string find  , bool revers
             str_buf.erase();
             while( !log_file.eof() )
             {
-                for (int i =0 ; i< MAX_buf-1 ; ++i)
+                for (int i =0 ; i< MAX_buf ; ++i)
                 {
+                    str_buf += log_file.get();
                     if (log_file.eof()==1)
                     {
                         str_buf.erase(str_buf.length()-1, str_buf.length());
                         break;
                     }
-                    str_buf += log_file.get();
+
                 }
 
                 std::cout << " wielkosc bufora z send "<< str_buf.length() << std::endl;
                 c_send(0);
+                 std::cout << "w local FILES send "<<std::endl;
                 c_recv(0);
+
+
+                std::cout << " \npo recv w FILES" <<std::endl;
                 str_buf.erase();
+                //c_recv(0);
             }
+            //c_send("dupa");
             log_file.close();
         }
     }

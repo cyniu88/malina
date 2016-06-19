@@ -11,7 +11,7 @@
 #include <boost/tokenizer.hpp>
 #include <iostream>
 
-#define MAX_buf 256
+constexpr int MAX_buf = 32768;
 class C_connection
 {
 public:
@@ -20,6 +20,7 @@ public:
 
     thread_data   *my_data;
     int c_socket;
+
     sockaddr_in c_from;
 
     char  c_buffer[MAX_buf];
