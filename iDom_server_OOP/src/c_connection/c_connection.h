@@ -4,7 +4,7 @@
 #include "../functions/functions.h"                 // brak
 #include "../CRON/cron.hpp"
 #include "../functions/mpd_cli.h"
-#include "../iDom_server/src/iDom_server.h"
+//#include "../iDom_server/src/iDom_server.h"
 
 #include <unistd.h>
 #include <boost/foreach.hpp>

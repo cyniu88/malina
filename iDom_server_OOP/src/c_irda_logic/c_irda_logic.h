@@ -8,7 +8,7 @@
 #include <queue>
 #include <iostream>
 #include <string.h>
-#include "../iDom_server/src/iDom_server.h"
+//#include "../iDom_server/src/iDom_server.h"
 #include "../blockQueue/blockqueue.h"   // brak
 #include "../files_tree/files_tree.h"   //brak
 #include "../c_connection/c_connection.h"

@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <stdlib.h>
-#include "../iDom_server/src/iDom_server.h"
-#include "../iDom_server/src/c_connection/c_connection.h"
+#include "../iDom_server_OOP.h"
+#include "../c_connection/c_connection.h"
 
 std::string conv_dns (std::string temp);
 

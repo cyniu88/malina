@@ -35,11 +35,11 @@ KEY_VOLUMEUP        +
  */
 #include "master_irda.h"
 
-master_irda::master_irda(thread_data *my_data)
+master_irda::master_irda(thread_data *my_data): buttonMENU(0), my_data2(my_data),buttonTimer(millis())
 {
-    buttonTimer = millis();
-    buttonMENU = 0;
-      my_data2 = my_data;
+    //buttonTimer = millis();
+    //buttonMENU = 0;
+    //my_data2 = my_data;
 
     //Initiate LIRC. Exit on failure
     if(lirc_init("lirc",1)==-1)
@@ -50,8 +50,10 @@ master_irda::master_irda(thread_data *my_data)
 
 
 }
+
 void master_irda::setup ()
 {
+
 
 
 }
@@ -76,12 +78,12 @@ void master_irda::run()
             //then skip lines below and start while loop again.
             if(code==NULL) {
                 std::cout << " kontynuuje\n";
-                continue;}
+                continue;
+            }else
             {
                 //Make sure there is a 400ms gap before detecting button presses.
                 if (millis() - buttonTimer  > 400 ){
 
-                    digitalWrite(BUZZER,ON);
 
                     // time out   OK menu
                     if (millis() - buttonTimer  > 30000 && buttonMENU == 1){
@@ -93,6 +95,8 @@ void master_irda::run()
                     }
                     //////////////////////////////////////////////////////////////
                     //Check to see if the string "KEY_1" appears anywhere within the string 'code'.
+
+                    std::cout << "wcisnieto obiekt: "<<my_data2->key_map[code]->second.getName()<<std::endl;
 
                     if(strstr (code,"KEY_POWER")){
                         log_file_mutex.mutex_lock();
@@ -273,3 +277,5 @@ void master_irda::run()
 
 
 }
+
+

@@ -21,7 +21,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <time.h>
-//#include <boost/lexical_cast.hpp>
+#include "src/KEY/key.h"
 #include <wiringPi.h>
 
 //#include <lirc/lirc_client.h>
@@ -125,6 +125,7 @@ struct thread_data{
     time_t start;
     time_t now_time;
     int sleeper;
+    std::map <std::string , std::unique_ptr <KEY>  > key_map;
 
 
     //CRON * main_cron;

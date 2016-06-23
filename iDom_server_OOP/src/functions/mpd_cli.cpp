@@ -1,5 +1,5 @@
 #include "mpd_cli.h"
-#include "../iDom_server/src/iDom_server.h"
+//#include "../iDom_server/src/iDom_server.h"
 #define RESET "\x1b[0m"
 #define GREEN "\x1b[32;06m"
 #define YELLOW "\x1b[33;06m"

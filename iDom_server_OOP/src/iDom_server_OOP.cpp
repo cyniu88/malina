@@ -1,4 +1,4 @@
-
+#include "iDom_server_OOP.h"
 #include "functions/functions.h"            // brak
 #include "parser/parser.hpp"
 #include <wiringPi.h>
@@ -307,7 +307,11 @@ int main()
     node_data.main_MENU=&main_MENU;
     node_data.main_THREAD_arr = &thread_array[0];
     node_data.sleeper = 0;
+    //dodanie pilota
 
+    std::unique_ptr <pilot> pilotPTR( new pilot(&node_data.key_map));
+    pilotPTR->setup();
+    //return 0;
     // start watku irda
     pthread_create (&thread_array[0].thread_ID, NULL,&f_master_irda ,&node_data);
     thread_array[0].thread_name="IRDA_master";

@@ -19,7 +19,8 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.cpp \
     src/c_irda_logic/c_irda_logic.cpp \
     src/menu_tree/menu_tree.cpp \
-    src/CRON/cron.cpp
+    src/CRON/cron.cpp \
+    src/KEY/key.cpp
 
 
 HEADERS += src/parser/parser.hpp  \
@@ -37,4 +38,6 @@ HEADERS += src/parser/parser.hpp  \
     src/c_irda_logic/c_irda_logic.h \
     src/wiadomosc/wiadomosc.h \
     src/menu_tree/menu_tree.h \
-    src/CRON/cron.hpp
+    src/CRON/cron.hpp \
+    src/KEY/key.h
+

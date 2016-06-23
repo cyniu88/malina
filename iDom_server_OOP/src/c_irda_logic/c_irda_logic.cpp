@@ -1,5 +1,5 @@
 #include "c_irda_logic.h"
-#include "../iDom_server/src/iDom_server.h"
+//#include "../iDom_server/src/iDom_server.h"
 
 
 c_irda_logic::c_irda_logic(thread_data *my_data)
