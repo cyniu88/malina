@@ -96,8 +96,13 @@ void master_irda::run()
                     //////////////////////////////////////////////////////////////
                     //Check to see if the string "KEY_1" appears anywhere within the string 'code'.
 
-                    std::cout << "wcisnieto obiekt: "<<my_data2->key_map[code]->second.getName()<<std::endl;
 
+                    std::string k(code);
+                    std::string j ="KEY_1"; //( code) ;
+
+                     std::cout << "wcisnieto obiekt: "<<my_data2->key_map[j]->getName()<<"a k:" << k <<std::endl;
+
+                    std::cout << "mymap now contains " << my_data2->key_map.size() << " elements.\n"<<std::endl;
                     if(strstr (code,"KEY_POWER")){
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO<< " wcisnieto POWER" <<  std::endl;

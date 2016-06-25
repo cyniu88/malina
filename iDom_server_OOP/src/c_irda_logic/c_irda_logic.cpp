@@ -1,5 +1,6 @@
 #include "c_irda_logic.h"
-//#include "../iDom_server/src/iDom_server.h"
+#include "../iDom_server_OOP.h"
+#include   <unistd.h>
 
 
 c_irda_logic::c_irda_logic(thread_data *my_data)
@@ -25,7 +26,7 @@ void c_irda_logic::_add(char X)
         {
             who = 'r';
             char_queue._add('A'); // projektor wlaczony wiec pauzuje radio
-            usleep(500);
+            //usleep(500);
 
 
         }
@@ -34,9 +35,9 @@ void c_irda_logic::_add(char X)
             my_data_logic->mainLCD->set_lcd_STATE(10);
             my_data_logic->mainLCD->printString(true,0,0,"GASZE LEDy");
             std::string temp_str="";
-            temp_str = "I:";
+            temp_str.erase();
             temp_str += send_to_arduino(my_data_logic,"LED_STOP:2;");
-
+            my_data_logic->mainLCD->printString(false,0,1,temp_str);
 
             who='!';
 
@@ -49,7 +50,7 @@ void c_irda_logic::_add(char X)
 
             temp_str += send_to_arduino(my_data_logic,"LED:[1-60-255-0-0];");
 
-
+            my_data_logic->mainLCD->printString(false,0,1,temp_str);
             who='!';
         }
         else if (X=='s')
