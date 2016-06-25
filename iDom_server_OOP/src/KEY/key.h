@@ -8,13 +8,33 @@
 class KEY
 {
 public:
-    KEY(std::string name) ;
+    KEY(char value, std::string name) ;
     ~KEY() ;
    std::string getName();
+    virtual char getValue();
 
-private:
+protected:
+    char value;
    std::string key_name;
+
 };
+
+
+
+
+class SuperKEY : public KEY
+{
+    public:
+    SuperKEY (char v, std::string n,std::string LogName) ;
+    ~SuperKEY() ;
+
+    char getValue();
+    protected:
+
+    std::string LogName;
+};
+
+
 
 class map_key
 {
@@ -29,6 +49,8 @@ public:
 
 
 };
+
+
  class pilot
  {   std::map <std::string , std::unique_ptr <KEY>  > *key_map;
     public:

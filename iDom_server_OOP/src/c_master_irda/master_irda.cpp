@@ -34,7 +34,7 @@ KEY_VOLUMEUP        +
 
  */
 #include "master_irda.h"
-
+#include "../c_irda_logic/c_irda_logic.h"
 master_irda::master_irda(thread_data *my_data): buttonMENU(0), my_data2(my_data),buttonTimer(millis())
 {
     //buttonTimer = millis();
@@ -67,7 +67,7 @@ void master_irda::run()
     {
         // std::cout << " jestem w iflirc_readconfig(NULL,&config,NULL)==0 \n ";
         //Do stuff while LIRC socket is open  0=open  -1=closed.
-        while(lirc_nextcode(&code)==0 )
+        while(lirc_nextcode(&code )==0 )
         {
             std::cout << " w while \n";
             if (go_while==false)     /// TO NIE DZIALA DO POPRAWY
@@ -97,12 +97,37 @@ void master_irda::run()
                     //Check to see if the string "KEY_1" appears anywhere within the string 'code'.
 
 
-                    std::string k(code);
-                    std::string j ="KEY_1"; //( code) ;
+                    CodeString= code;
 
-                     std::cout << "wcisnieto obiekt: "<<my_data2->key_map[j]->getName()<<"a k:" << k <<std::endl;
+                    CodeString.erase(0,  ( CodeString.find("KEY"))) ;
+                    CodeString.erase(  CodeString.find(" "), CodeString.size());
 
-                    std::cout << "mymap now contains " << my_data2->key_map.size() << " elements.\n"<<std::endl;
+
+                    //std::cout << "wcisnieto obiekt: "<<my_data2->key_map[CodeString]->getName()  <<std::endl;
+                    irda_queue._add( my_data2->key_map[CodeString]->getValue() );
+                    buttonTimer = millis();
+
+                      if(strstr (code,"KEY_EPG")){
+
+                        buttonMENU=1;
+
+                    }
+                    else if(strstr (code,"KEY_OK")){
+
+                        buttonMENU=0;
+
+                    }
+                    else if(strstr (code,"KEY_MENU")){
+
+                        buttonMENU=1;// wlacz timeout dla menu
+
+                    }
+                    else if(strstr (code,"KEY_EXIT")){
+
+                        buttonMENU = 0;
+
+                    }
+                    /*
                     if(strstr (code,"KEY_POWER")){
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO<< " wcisnieto POWER" <<  std::endl;
@@ -208,6 +233,20 @@ void master_irda::run()
                         buttonMENU = 0;
                         buttonTimer = millis();
                     }
+                    else if(strstr (code,"KEY_TV")){
+                        log_file_mutex.mutex_lock();
+                        log_file_cout << INFO<< " wcisnieto PLAY" <<  std::endl;
+                        log_file_mutex.mutex_unlock();
+                        irda_queue._add('t');
+                        buttonTimer = millis();
+                    }
+                    else if(strstr (code,"KEY_AUDIO")){
+                        log_file_mutex.mutex_lock();
+                        log_file_cout << INFO<< " wcisnieto PAUSE" <<  std::endl;
+                        log_file_mutex.mutex_unlock();
+                        irda_queue._add('A');
+                        buttonTimer = millis();
+                    }
                     else if(strstr (code,"KEY_RADIO")){
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO<< " sterowanie projektorem" <<  std::endl;
@@ -261,6 +300,7 @@ void master_irda::run()
                         irda_queue._add('T');
                         buttonTimer = millis();
                     }
+                    */
                 }
             }
             //Need to free up code before the next loop

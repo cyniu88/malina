@@ -31,7 +31,7 @@ public:
     void _add(char X);
     char _get();
     int  _size();
-    void _distribute();
+    //void _distribute();
 
 
 };
