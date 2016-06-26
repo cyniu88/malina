@@ -41,6 +41,11 @@ String command="z";
 
 String value="0";
 int valueINT=0;
+
+double insideTemp = 0;
+double outsideTemp =0;
+double insideTempOld = 0;
+double outsideTempOld =0;
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
 // and minimize distance between Arduino and first pixel.  Avoid connecting
@@ -115,9 +120,22 @@ void loop() {
   {
     valueINT = value.toInt();
     sensors.requestTemperatures(); // Send the command to get temperatures
-    Serial.print(sensors.getTempC(insideThermometer));
+    
+    insideTemp =sensors.getTempC(insideThermometer);
+    outsideTemp = sensors.getTempC(outsideThermometer);
+    if ( insideTemp< -60 ||  insideTemp > 100)
+    {
+        insideTemp = insideTempOld;
+    }
+    if ( outsideTemp< -60 ||  outsideTemp > 100)
+    {
+        outsideTemp = outsideTempOld;
+    }
+    outsideTempOld =  outsideTemp;
+    insideTempOld  = insideTemp; 
+    Serial.print(insideTemp);
     Serial.print(':');  
-    Serial.println(sensors.getTempC(outsideThermometer));
+    Serial.println(outsideTemp);
     Serial.print(';');  
     command="z";
     valueINT=0;
