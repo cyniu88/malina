@@ -59,6 +59,7 @@ public:
 private:
     //std::string temporary_str;
     std::string  str_buf;
+    blockQueue char_queue;
 };
 
 

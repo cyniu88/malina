@@ -234,6 +234,70 @@ int C_connection::c_analyse()
                 break;
             }
         }
+
+
+
+        else if (command[0]=="MPD")
+        {
+            if (command[1]=="start")
+            {
+
+                char_queue._add('t');
+                 sleep(1);
+                str_buf=my_data->ptr_MPD_info->title;
+            }
+            else if (command[1]=="stop")
+            {
+                char_queue._add('P');
+                str_buf="stoped!";
+            }
+            else if (command[1]=="next")
+            {
+                char_queue._add('D');
+                sleep(1);
+                str_buf = my_data->ptr_MPD_info->radio + " : "+ my_data->ptr_MPD_info->title;
+            }
+            else if (command[1]=="prev")
+            {
+                char_queue._add('U');
+                sleep(1);
+                str_buf=my_data->ptr_MPD_info->radio+ " : "+ my_data->ptr_MPD_info->title;
+            }
+            else if (command[1]=="pause")
+            {
+                char_queue._add('A');
+                str_buf="paused!";
+            }
+            else if (command[1]=="volume_up")
+            {
+                char_queue._add('+');
+                sleep(1);
+                str_buf=std::to_string(   my_data->ptr_MPD_info->volume);
+            }
+
+            else if (command[1]=="volume_down")
+            {
+                char_queue._add('-');
+                sleep(1);
+                str_buf=std::to_string(   my_data->ptr_MPD_info->volume);
+            }
+            else if (command[1]=="get_volume")
+            {
+                str_buf=std::to_string(   my_data->ptr_MPD_info->volume);
+            }
+            else if (command[1]=="get_info")
+            {
+                str_buf = my_data->ptr_MPD_info->radio + " : "+ my_data->ptr_MPD_info->title;
+            }
+            else
+            {
+                str_buf="unknown parameter " + command[1];
+            }
+
+        }
+
+
+
         else if (command [0] == "big")
         {
             str_buf.erase();

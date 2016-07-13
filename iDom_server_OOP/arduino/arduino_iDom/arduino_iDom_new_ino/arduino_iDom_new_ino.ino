@@ -90,7 +90,7 @@ void loop() {
       Serial.print("LEDY START ");  
       Serial.print(';');
       delay(100);
-       colorWipe(strip.Color(r, g, b), 5); // Red
+       colorWipe(strip.Color(r, g, b), 5,from ,to); // Red
     }
     else {
 
@@ -165,8 +165,13 @@ void loop() {
 }
 
 // Fill the dots one after the other with a color
-void colorWipe(uint32_t c, uint8_t wait) {
-  for(uint16_t i=0; i<strip.numPixels(); i++) {
+void colorWipe(uint32_t c, uint8_t wait,int from,int to) {
+  
+  if (to>strip.numPixels())
+  {
+    to = strip.numPixels();
+  }
+  for(uint16_t i=from; i<to; i++) {
     strip.setPixelColor(i, c);
     strip.show();
     delay(wait);

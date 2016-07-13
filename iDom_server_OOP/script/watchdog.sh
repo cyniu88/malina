@@ -1,5 +1,7 @@
 #!/bin/bash
 var=`ps ax| grep iDom_server | wc | awk '{print$1}'`
+echo  var : $var
+
 if  [ $var != 2 ]
 then
 sudo  chmod 777 /tmp/iDom_log.log

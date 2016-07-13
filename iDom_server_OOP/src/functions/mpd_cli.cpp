@@ -10,7 +10,7 @@ bool check_title_song_to = false;
 
 void error_callback(MpdObj *mi,int errorid, char *msg, void *userdata)
 {
-    //printf(RED"Error "RESET""GREEN"%i:"RESET" '%s'\n", errorid, msg);
+    printf(RED"Error "RESET""GREEN"%i:"RESET" '%s'\n", errorid, msg);
 }
 
 void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
@@ -36,6 +36,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                mpd_status_get_volume(mi));
 
         my_data->mainLCD->printVolume(mpd_status_get_volume(mi));
+        my_data->ptr_MPD_info->volume= mpd_status_get_volume(mi);
     }
     if(what&MPD_CST_CROSSFADE){
         printf(GREEN"X-Fade:"RESET" %i sec.\n",
@@ -64,9 +65,15 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             mpd_Song *song = mpd_playlist_get_current_song(mi);
             // std::cout <<" SONG: " << song->artist<<" "<< song->title << std::endl;
             printf(GREEN"aktualnie gramy:"RESET" %s - %s\n", song->artist, song->title);
+            my_data->ptr_MPD_info->title = std::string( song->title);
+            //my_data->ptr_MPD_info->title+=" - ";
+            //my_data->ptr_MPD_info->title.assign( song->title);
+
+
 
             if (song->name != NULL){
                 _msg =  song->name;
+                my_data->ptr_MPD_info->radio = _msg;
                 my_data->mainLCD->printRadioName(true,0,0,_msg);
                 my_data->mainLCD->set_lcd_STATE(5);
                 std::string temp_str="";
@@ -105,6 +112,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             printf("Playing\n");
             check_title_song_to=true;
             my_data->mainLCD->play_Y_N=true;
+            my_data->ptr_MPD_info->isPlay=true;
             digitalWrite(GPIO_SPIK, LOW);
             my_data->mainLCD->set_lcd_STATE(1);
             my_data->mainLCD->song_printstr();
@@ -118,6 +126,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             printf("Stopped\n");
             check_title_song_to=false;
             my_data->mainLCD->play_Y_N=false;
+            my_data->ptr_MPD_info->isPlay=false;
             digitalWrite(GPIO_SPIK,HIGH);
             my_data->mainLCD->noBacklight();
             break;
@@ -191,11 +200,12 @@ void  *main_mpd_cli(void *data )
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "nie udalo sie polaczyc z MPD "<<   std::endl;
         log_file_mutex.mutex_unlock();
-        system("service mpd restart");
+        system("service mpd stop");
+        sleep(1);
+        system("service mpd start");
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "restart MPD "<<   std::endl;
-        log_file_mutex.mutex_unlock();
-        log_file_mutex.mutex_lock();
+
         log_file_cout << INFO << "nawiazuje nowe polaczenie z MPD "<<   std::endl;
         log_file_mutex.mutex_unlock();
         work = mpd_connect(obj);

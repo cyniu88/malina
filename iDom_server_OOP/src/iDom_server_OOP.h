@@ -61,7 +61,12 @@ extern std::string buffer;
 
 extern bool go_while  ;
 
-
+struct MPD_info{
+    std::string title="NULL";
+    std::string radio="NULL";
+    int volume=0;
+    bool isPlay=false;
+};
 struct s_pointer{
     unsigned int *ptr_who;
     int32_t *ptr_buf;
@@ -126,6 +131,7 @@ struct thread_data{
     time_t now_time;
     int sleeper;
     std::map <std::string , std::unique_ptr <KEY>  > key_map;
+    MPD_info *ptr_MPD_info;
 
 
     //CRON * main_cron;

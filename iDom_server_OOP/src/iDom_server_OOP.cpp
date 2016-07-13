@@ -256,6 +256,9 @@ int main()
     pinMode(GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
     digitalWrite(GPIO_SPIK,HIGH);
     pinMode(BUTTON_PIN, INPUT);   //  gpio pin przycisku
+    /////////////////////////////// MPD info /////////////////////////
+    MPD_info my_MPD_info;
+
     /////////////////////////////// LCD ///////////////////////////////
     LCD_c mainLCD(0x27,16,2);
     //////////////     przegladanie plikow ////////////////////
@@ -307,6 +310,7 @@ int main()
     node_data.main_MENU=&main_MENU;
     node_data.main_THREAD_arr = &thread_array[0];
     node_data.sleeper = 0;
+    node_data.ptr_MPD_info = &my_MPD_info;
     //dodanie pilota
 
     std::unique_ptr <pilot> pilotPTR( new pilot(&node_data.key_map));
@@ -385,6 +389,7 @@ int main()
 
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "BIND problem: " <<  strerror(  errno )<< std::endl;
+        log_file_cout << CRITICAL << "awaryjne ! zamykanie gniazda  "  << shutdown( v_socket, SHUT_RDWR )<< std::endl;
         log_file_mutex.mutex_unlock();
         perror( "bind() ERROR" );
         exit( - 1 );
