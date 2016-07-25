@@ -7,8 +7,8 @@
 //#include "../iDom_server/src/iDom_server.h"
 
 #include <unistd.h>
-#include <boost/foreach.hpp>
-#include <boost/tokenizer.hpp>
+//#include <boost/foreach.hpp>
+//#include <boost/tokenizer.hpp>
 #include <iostream>
 
 constexpr int MAX_buf = 32768;
@@ -60,6 +60,7 @@ private:
     //std::string temporary_str;
     std::string  str_buf;
     blockQueue char_queue;
+    int  counter =0;
 };
 
 

@@ -36,7 +36,16 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                mpd_status_get_volume(mi));
 
         my_data->mainLCD->printVolume(mpd_status_get_volume(mi));
-        my_data->ptr_MPD_info->volume= mpd_status_get_volume(mi);
+        try
+        {
+            my_data->ptr_MPD_info->volume= mpd_status_get_volume(mi);
+        }
+        catch (...)
+        {
+            log_file_mutex.mutex_lock();
+            log_file_cout << ERROR << "problem z wpisaniem volume "<<   std::endl;
+            log_file_mutex.mutex_unlock();
+        }
     }
     if(what&MPD_CST_CROSSFADE){
         printf(GREEN"X-Fade:"RESET" %i sec.\n",
@@ -65,15 +74,34 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             mpd_Song *song = mpd_playlist_get_current_song(mi);
             // std::cout <<" SONG: " << song->artist<<" "<< song->title << std::endl;
             printf(GREEN"aktualnie gramy:"RESET" %s - %s\n", song->artist, song->title);
-            my_data->ptr_MPD_info->title = std::string( song->title);
-            //my_data->ptr_MPD_info->title+=" - ";
-            //my_data->ptr_MPD_info->title.assign( song->title);
+
+            try
+            {
+                my_data->ptr_MPD_info->title = std::string( song->title);
+            }
+            catch (...)
+            {
+                log_file_mutex.mutex_lock();
+                log_file_cout << ERROR << "problem z wpisaniem tytulu "<<   std::endl;
+                log_file_mutex.mutex_unlock();
+            }
 
 
 
             if (song->name != NULL){
                 _msg =  song->name;
-                my_data->ptr_MPD_info->radio = _msg;
+
+                try
+                {
+                    my_data->ptr_MPD_info->radio = _msg;
+                }
+                catch (...)
+                {
+                    log_file_mutex.mutex_lock();
+                    log_file_cout << ERROR << "problem z wpisaniem radia "<<   std::endl;
+                    log_file_mutex
+                            .mutex_unlock();
+                }
                 my_data->mainLCD->printRadioName(true,0,0,_msg);
                 my_data->mainLCD->set_lcd_STATE(5);
                 std::string temp_str="";
@@ -127,6 +155,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             check_title_song_to=false;
             my_data->mainLCD->play_Y_N=false;
             my_data->ptr_MPD_info->isPlay=false;
+            my_data->ptr_MPD_info->title="* * * *";
             digitalWrite(GPIO_SPIK,HIGH);
             my_data->mainLCD->noBacklight();
             break;

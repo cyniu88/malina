@@ -287,7 +287,9 @@ int C_connection::c_analyse()
             }
             else if (command[1]=="get_info")
             {
+
                 str_buf = my_data->ptr_MPD_info->radio + " : "+ my_data->ptr_MPD_info->title;
+
             }
             else
             {
@@ -355,6 +357,7 @@ int C_connection::c_analyse()
                     //std::cout << " szukam temeratury" << std::endl;
 
                     str_buf = send_to_arduino(my_data,"temperature:339;");
+                    str_buf += std::to_string(++counter);
                     break;
                 }
                 else
