@@ -125,7 +125,7 @@ void loop() {
     outsideTemp = sensors.getTempC(outsideThermometer);
     if ( insideTemp< -60 ||  insideTemp > 100)
     {
-        insideTemp = insideTempOld;
+        insideTemp = insideTempOld+0.005;
     }
     if ( outsideTemp< -60 ||  outsideTemp > 100)
     {
