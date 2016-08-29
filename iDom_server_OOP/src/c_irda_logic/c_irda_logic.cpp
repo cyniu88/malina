@@ -154,7 +154,7 @@ void c_irda_logic::_add(char X)
     ////////////////////////////////////////////////////////////////////////////////////////////// obsluga projektora
     else if (who=='r')
     {
-        std::cout << "jestem w projektorze  " << std::endl;
+        //std::cout << "jestem w projektorze  " << std::endl;
         my_data_logic->mainLCD->set_print_song_state(100);
         my_data_logic->mainLCD->printString(false,2,1,"  PROJEKTOR   ");
         if ( X=='e')
@@ -162,40 +162,48 @@ void c_irda_logic::_add(char X)
             who = '!';
             //   std::cout << "koniec sterowania  projektorem" << std::endl;
         }
+
         else if (X=='+')
         {
-            system("echo -n + > /mnt/ramdisk/cmd");  // podglasniamy
+            //system("echo -n + > /mnt/ramdisk/cmd");  // podglasniamy
+            write_to_mkfifo("+");
         }
         else if (X=='-')
         {
-            system("echo -n - > /mnt/ramdisk/cmd");  // wyciszamy
+            //system("echo -n - > /mnt/ramdisk/cmd");  // wyciszamy
+            write_to_mkfifo("-");
         }
         else if (X=='O')
         {
             my_data_logic->mainLCD->set_print_song_state(1000);
             my_data_logic->mainLCD->printString(false,0,0,"ODTWARZAM VIDEO");
-            system("echo -n p > /mnt/ramdisk/cmd");  //pauza play
+            //system("echo -n p > /mnt/ramdisk/cmd");  //pauza play
+            write_to_mkfifo("p");
         }
         else if (X=='P')
         {
-            system("echo -n q > /mnt/ramdisk/cmd &");  // zamykanie omxplayera
+            //system("echo -n q > /mnt/ramdisk/cmd &");  // zamykanie omxplayera
+            write_to_mkfifo("q");
         }
         else if (X=='D')
         {
             system("echo -n $'\x1b\x5b\x43' > /mnt/ramdisk/cmd");  // do przodu
+            //write_to_mkfifo("$'\x1b\x5b\x43'");
         }
         else if (X=='U')
         {
             system("echo -n $'\x1b\x5b\x44' > /mnt/ramdisk/cmd");  // do tylu
-
+                 //   write_to_mkfifo("$'\x1b\x5b\x44'");
         }
         else if (X=='^')
         {
-            system("echo -n o > /mnt/ramdisk/cmd");  // do przodu
+            //system("echo -n o > /mnt/ramdisk/cmd");  // do przodu
+             write_to_mkfifo("o");
         }
         else if (X=='/')
         {
-            system("echo -n i > /mnt/ramdisk/cmd");  // do tylu
+            //system("echo -n i > /mnt/ramdisk/cmd");  // do tylu
+             write_to_mkfifo("i");
 
         }
     }

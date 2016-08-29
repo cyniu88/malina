@@ -113,6 +113,7 @@ struct config{
     std::string MENU_PATH;
     unsigned int ID_server;
 
+
     std::vector <addresses_mac> A_MAC;
     int v_delay  ;
     std::vector <address_another_servers> AAS;

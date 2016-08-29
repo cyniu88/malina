@@ -71,7 +71,7 @@ void *Send_Recieve_rs232_thread (void *przekaz){
                     buffer+=serial_ardu_clock.read();
                     break;
                 }
-               /* if (buffer[buffer.size()-1] == 'K')
+                /* if (buffer[buffer.size()-1] == 'K')
                 {
                     buffer.erase(buffer.end()-1);
                     break;
@@ -131,9 +131,9 @@ void *Server_connectivity_thread(void *przekaz){
     bool key_ok=false;
     std::string tm = inet_ntoa( my_data->from.sin_addr);
     if ("192.168.1.1" != tm) {
-    my_data->mainLCD->set_print_song_state(3200);
-    my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
-    my_data->mainLCD->printString(false,0,1,  inet_ntoa( my_data->from.sin_addr)   );
+        my_data->mainLCD->set_print_song_state(3200);
+        my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
+        my_data->mainLCD->printString(false,0,1,  inet_ntoa( my_data->from.sin_addr)   );
     }
 
     log_file_mutex.mutex_lock();
@@ -270,8 +270,8 @@ int main()
     menu_tree main_MENU(server_settings.MENU_PATH, &mainLCD);
     /////////////////////////////////////////////////   wypelniam  struktury przesylane do watkow  ////////////////////////
     thread_data_rs232 data_rs232;
-           data_rs232.BaudRate = server_settings.BaudRate;
-          data_rs232.portRS232 = server_settings.portRS232;
+    data_rs232.BaudRate = server_settings.BaudRate;
+    data_rs232.portRS232 = server_settings.portRS232;
     data_rs232.portRS232_clock = server_settings.portRS232_clock;
 
     data_rs232.pointer.ptr_who=who;

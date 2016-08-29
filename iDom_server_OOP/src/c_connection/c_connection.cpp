@@ -177,6 +177,11 @@ int C_connection::c_analyse()
             str_buf ="sleeper ma: "+ std::to_string(my_data->sleeper);
             break;
         }
+        else if (command[0]=="cmd")
+        {
+            str_buf ="w cmd było: "+ read_from_mkfifo();
+            break;
+        }
 
         else if (command[0]=="hello")
         {

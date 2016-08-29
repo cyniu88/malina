@@ -284,8 +284,8 @@ std::string RSHash(int offset  )
 
     char buffer[10];
     strftime(buffer,10,"%M%H%w",act_date);
-      std::string str(buffer);
-//std::cout<<str<<std::endl;
+    std::string str(buffer);
+    //std::cout<<str<<std::endl;
     unsigned int b    = 378551;
     unsigned int a    = 63689;
     unsigned int hash = 0;
@@ -296,4 +296,27 @@ std::string RSHash(int offset  )
         a    = a * b;
     }
     return std::to_string((hash & 0x7FFFFFFF));
+}
+
+
+void write_to_mkfifo(  std::string msg)
+{
+    int fd = open("/mnt/ramdisk/cmd", O_WRONLY);
+    write(fd, msg.c_str(), msg.size());
+    close(fd);
+
+}
+
+
+std::string read_from_mkfifo()
+{
+    char buf[10];
+
+    /* open, read, and display the message from the FIFO */
+    int fd = open("/mnt/ramdisk/cmd", O_RDONLY);
+    read(fd, buf, 10);
+
+    close(fd);
+    return (std::string(buf));;
+
 }

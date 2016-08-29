@@ -17,4 +17,6 @@ std::string  sek_to_uptime(long long secy );
 void *sleeper_mpd (void *data);
 void tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text);
 std::string  RSHash(int offset =0);
+void write_to_mkfifo(std::string msg);
+std::string read_from_mkfifo();
 #endif // FUNCTIONS_H
