@@ -270,6 +270,7 @@ void  *main_mpd_cli(void *data )
                     mpd_player_pause(obj);
                     break;
                 case 'P':
+                    mpd_player_pause(obj);
                     mpd_player_stop(obj);
                     break;
                 case 'q':
@@ -292,9 +293,10 @@ void  *main_mpd_cli(void *data )
 
                             if(data->type == MPD_DATA_TYPE_SONG)
                             {
-                                printf(GREEN"%i"RESET": %s - %s\n", data->song->id,
+                                 my_data->ptr_MPD_info->songList =  printf(GREEN"%i"RESET": %s - %s\n", data->song->id,
                                        data->song->artist,
                                        data->song->title);
+
                             }
                             data = mpd_data_get_next(data);
                         }while(data);

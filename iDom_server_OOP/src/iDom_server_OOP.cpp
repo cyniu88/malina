@@ -130,8 +130,8 @@ void *Server_connectivity_thread(void *przekaz){
     C_connection *client = new C_connection( my_data);
     bool key_ok=false;
     std::string tm = inet_ntoa( my_data->from.sin_addr);
-    if ("192.168.1.1" != tm) {
-        my_data->mainLCD->set_print_song_state(3200);
+    if ("192.168.1.1" != tm && my_data->ptr_MPD_info->isPlay== false) {
+        my_data->mainLCD->set_print_song_state(32);
         my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
         my_data->mainLCD->printString(false,0,1,  inet_ntoa( my_data->from.sin_addr)   );
     }

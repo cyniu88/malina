@@ -66,6 +66,7 @@ struct MPD_info{
     std::string radio="NULL";
     int volume=0;
     bool isPlay=false;
+    std::string songList="NULL";
 };
 struct s_pointer{
     unsigned int *ptr_who;
