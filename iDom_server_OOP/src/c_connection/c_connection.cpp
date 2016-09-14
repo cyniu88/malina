@@ -301,6 +301,7 @@ int C_connection::c_analyse()
                 char_queue._add('1');
                 sleep(1);
                 str_buf = "done!\n"+my_data->ptr_MPD_info->songList;
+                my_data->ptr_MPD_info->songList ="";
 
             }
             else
