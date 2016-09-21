@@ -298,10 +298,9 @@ int C_connection::c_analyse()
             }
             else if (command[1]=="list")
             {
-                char_queue._add('1');
-                sleep(1);
-                str_buf = "done!\n"+my_data->ptr_MPD_info->songList;
-                my_data->ptr_MPD_info->songList ="";
+
+                str_buf =  my_data->ptr_MPD_info->songList;
+                //my_data->ptr_MPD_info->songList ="";
 
             }
             else

@@ -8,6 +8,8 @@ extern int debug_level;
 
 bool check_title_song_to = false;
 
+
+
 void error_callback(MpdObj *mi,int errorid, char *msg, void *userdata)
 {
     printf(RED"Error "RESET""GREEN"%i:"RESET" '%s'\n", errorid, msg);
@@ -144,6 +146,33 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             digitalWrite(GPIO_SPIK, LOW);
             my_data->mainLCD->set_lcd_STATE(1);
             my_data->mainLCD->song_printstr();
+            //////////////////////////////////////////////////////////////////
+
+        {
+            MpdData *data = mpd_playlist_get_changes(mi,-1);
+            my_data->ptr_MPD_info->songList ="";
+            if(data)
+            {
+                printf(GREEN"Playlist:"RESET"\n");
+                do{
+
+                    if(data->type == MPD_DATA_TYPE_SONG)
+                    {
+                        printf(GREEN"%i"RESET": %s - %s\n", data->song->id,
+                               data->song->artist,
+                               data->song->title);
+                        if (data->song->title != NULL && data->song->name != NULL){
+                            my_data->ptr_MPD_info->songList += std::to_string(data->song->id)+" "+data->song->name+
+                                    " "+std::string(data->song->title)+"\n";
+                        }
+
+                    }
+                    data = mpd_data_get_next(data);
+                }while(data);
+            }
+
+        }
+            //////////////////////////////////////////////////////////////////
             break;
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
@@ -283,30 +312,7 @@ void  *main_mpd_cli(void *data )
                 case 's':
                     mpd_player_set_random(obj, !mpd_player_get_random(obj));
                     break;
-                case '1':
-                {
-                    MpdData *data = mpd_playlist_get_changes(obj,-1);
-                    if(data)
-                    {
-                        printf(GREEN"Playlist:"RESET"\n");
-                        do{
 
-                            if(data->type == MPD_DATA_TYPE_SONG)
-                            {
-                                   printf(GREEN"%i"RESET": %s - %s\n", data->song->id,
-                                       data->song->artist,
-                                       data->song->title);
-                                   if (data->song->title != NULL){
-                                   my_data->ptr_MPD_info->songList += std::to_string(data->song->id)+" "+
-                                            " "+std::string(data->song->title)+"\n";
-                                   }
-
-                            }
-                            data = mpd_data_get_next(data);
-                        }while(data);
-                    }
-                    break;
-                }
                 case 'p':
                     /*if(char_queue._size() > 0)
 {

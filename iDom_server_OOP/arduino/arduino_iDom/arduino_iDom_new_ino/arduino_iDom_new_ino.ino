@@ -41,6 +41,8 @@ String command="z";
 
 String value="0";
 int valueINT=0;
+int errorTemperatureInCounter  = 0 ;
+int errorTemperatureOutCounter = 0 ;
 
 double insideTemp = 0;
 double outsideTemp =0;
@@ -126,16 +128,30 @@ void loop() {
     if ( insideTemp< -60 ||  insideTemp > 100)
     {
         insideTemp = insideTempOld+0.005;
+        ++errorTemperatureInCounter;
     }
     if ( outsideTemp< -60 ||  outsideTemp > 100)
     {
         outsideTemp = outsideTempOld;
+        ++errorTemperatureOutCounter;
     }
     outsideTempOld =  outsideTemp;
     insideTempOld  = insideTemp; 
     Serial.print(insideTemp);
     Serial.print(':');  
     Serial.println(outsideTemp);
+    Serial.print(';');  
+    command="z";
+    valueINT=0;
+
+  }
+  if (command=="temperature_error")
+  {
+     
+    Serial.print("Temperature error counter: OUT - ");
+    Serial.print(String(errorTemperatureOutCounter));
+    Serial.print(" | IN - ");
+    Serial.print(String(errorTemperatureInCounter));
     Serial.print(';');  
     command="z";
     valueINT=0;
