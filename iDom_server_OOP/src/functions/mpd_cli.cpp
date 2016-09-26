@@ -158,12 +158,15 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
 
                     if(data->type == MPD_DATA_TYPE_SONG)
                     {
-                        printf(GREEN"%i"RESET": %s - %s\n", data->song->id,
-                               data->song->artist,
-                               data->song->title);
-                        if (data->song->title != NULL && data->song->name != NULL){
-                            my_data->ptr_MPD_info->songList += std::to_string(data->song->id)+" "+data->song->name+
-                                    " "+std::string(data->song->title)+"\n";
+                        printf(GREEN"%i"RESET": %s - %s\n", data->song->id, data->song->artist, data->song->title);
+                        if ( data->song->name != NULL){
+                            my_data->ptr_MPD_info->songList += std::to_string(data->song->id)+" "+data->song->name+"\n";//+std::string(data->song->title)+"\n";
+                        }
+                        else if  ( data->song->title != NULL ){
+                            my_data->ptr_MPD_info->songList += std::to_string(data->song->id)+ " "+std::string(data->song->title)+"\n";
+                        }
+                        else {
+                             my_data->ptr_MPD_info->songList += std::to_string(data->song->id)+ " unknown name\n";
                         }
 
                     }
