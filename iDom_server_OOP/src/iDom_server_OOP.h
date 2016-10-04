@@ -24,9 +24,6 @@
 #include "src/KEY/key.h"
 #include <wiringPi.h>
 
-//#include <lirc/lirc_client.h>
-
-
 // MOJE BIBLIOTEKI
 #include "logger/logger.hpp"
 #include "LCD_c/lcd_c.h"
@@ -120,6 +117,21 @@ struct config{
     std::vector <address_another_servers> AAS;
 
 };
+
+struct pilot_led{
+    int counter=0;
+    const std::vector<std::string> colorLED = {"LED:[1-60-255-192-0];",
+                                               "LED:[1-60-255-0-0];",
+                                               "LED:[1-60-0-255-0];",
+                                               "LED:[1-60-0-0-255];",
+                                               "LED:[1-60-255-255-255];",
+                                               "LED:[1-60-255-255-0];",
+                                               "LED:[1-60-0-255-255];",
+                                               "LED:[1-60-255-0-255];"
+
+                                              };
+};
+
 struct thread_data{
     int s_client_sock;
     struct sockaddr_in from;
@@ -134,6 +146,8 @@ struct thread_data{
     int sleeper;
     std::map <std::string , std::unique_ptr <KEY>  > key_map;
     MPD_info *ptr_MPD_info;
+    pilot_led * ptr_pilot_led;
+
 
 
     //CRON * main_cron;

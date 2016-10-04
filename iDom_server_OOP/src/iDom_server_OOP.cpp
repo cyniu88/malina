@@ -311,6 +311,9 @@ int main()
     node_data.main_THREAD_arr = &thread_array[0];
     node_data.sleeper = 0;
     node_data.ptr_MPD_info = &my_MPD_info;
+
+    pilot_led mainPilotLED;
+    node_data.ptr_pilot_led = &mainPilotLED;
     //dodanie pilota
 
     std::unique_ptr <pilot> pilotPTR( new pilot(&node_data.key_map));

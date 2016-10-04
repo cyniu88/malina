@@ -6,7 +6,7 @@
 
 KEY::KEY(char value, std::string name) : value{value},key_name{name}
 {
-std::cout << "konstruktor KEY" << std::endl;
+//std::cout << "konstruktor KEY" << std::endl;
 }
 
 KEY::~KEY()
@@ -26,7 +26,7 @@ char KEY::getValue()
 
 map_key::map_key(std::map <std::string , std::unique_ptr <KEY>  > *key_map) : key_map (key_map)
 {
-    std::cout << "konstruktor map_key"<<std::endl;
+   // std::cout << "konstruktor map_key"<<std::endl;
 }
 map_key::~map_key( )
 {

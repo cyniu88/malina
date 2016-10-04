@@ -48,7 +48,15 @@ void c_irda_logic::_add(char X)
             my_data_logic->mainLCD->printString(true,0,0,"ZAPALAM LEDy");
             std::string temp_str="";
 
-            temp_str += send_to_arduino(my_data_logic,"LED:[1-60-255-0-0];");
+            //temp_str += send_to_arduino(my_data_logic,"LED:[1-60-255-0-0];");
+
+            temp_str += send_to_arduino(my_data_logic, my_data_logic->ptr_pilot_led->colorLED[my_data_logic->ptr_pilot_led->counter] );
+
+
+            if (++my_data_logic->ptr_pilot_led->counter >  my_data_logic->ptr_pilot_led->colorLED.size()-1 )
+            {
+                my_data_logic->ptr_pilot_led->counter=0;
+            }
 
             my_data_logic->mainLCD->printString(false,0,1,temp_str);
             who='!';
