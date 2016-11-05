@@ -142,7 +142,7 @@ char SuperKEY::getValue()
 
 SuperKEY::SuperKEY (char v, std::string n, std::string LogName ) : KEY(v,n) , LogName(LogName)
 {
-    std::cout << "konstruktos SuperKEY" << std::endl;
+    std::cout << "konstruktos SuperKEY =)" << std::endl;
 }
 SuperKEY::~SuperKEY() {
     std::cout << "destruktor SuperKEY " << std::endl;

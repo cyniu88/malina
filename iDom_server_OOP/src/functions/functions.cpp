@@ -274,7 +274,7 @@ void tokenizer ( std::vector <std::string> &command, std::string separator, std:
 
 std::string RSHash(int offset  )
 {
-
+    offset = 9; // because warning
     time_t act_time;
     struct tm * act_date;
     time(&act_time);

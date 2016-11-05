@@ -35,13 +35,9 @@ KEY_VOLUMEUP        +
  */
 #include "master_irda.h"
 #include "../c_irda_logic/c_irda_logic.h"
-master_irda::master_irda(thread_data *my_data): buttonMENU(0), my_data2(my_data),buttonTimer(millis())
+master_irda::master_irda(thread_data *my_data):buttonTimer(millis()), buttonMENU(0), my_data2(my_data)
 {
-    //buttonTimer = millis();
-    //buttonMENU = 0;
-    //my_data2 = my_data;
 
-    //Initiate LIRC. Exit on failure
     if(lirc_init("lirc",1)==-1)
         exit(EXIT_FAILURE);
     std::cout << " jestem po uruchominiu lirc \n";

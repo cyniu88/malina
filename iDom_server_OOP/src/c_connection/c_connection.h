@@ -4,7 +4,7 @@
 #include "../functions/functions.h"                 // brak
 #include "../CRON/cron.hpp"
 #include "../functions/mpd_cli.h"
-//#include "../iDom_server/src/iDom_server.h"
+#include "../command/commandhandler.h"
 
 #include <unistd.h>
 //#include <boost/foreach.hpp>
@@ -61,6 +61,8 @@ private:
     std::string  str_buf;
     blockQueue char_queue;
     int  counter =0;
+    commandHandler mainCommandHandler;
+
 };
 
 

@@ -20,7 +20,12 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     src/c_irda_logic/c_irda_logic.cpp \
     src/menu_tree/menu_tree.cpp \
     src/CRON/cron.cpp \
-    src/KEY/key.cpp
+    src/KEY/key.cpp \
+    src/command/command.cpp \
+    src/command/commandClass/commandexit.cpp \
+    src/command/commandClass/commandtest.cpp \
+    src/command/commandhandler.cpp \
+    src/command/commandClass/command_mpd.cpp
 
 
 HEADERS += src/parser/parser.hpp  \
@@ -39,5 +44,12 @@ HEADERS += src/parser/parser.hpp  \
     src/wiadomosc/wiadomosc.h \
     src/menu_tree/menu_tree.h \
     src/CRON/cron.hpp \
-    src/KEY/key.h
+    src/KEY/key.h \
+    src/command/commandhandler.h \
+    src/command/command.h \
+    src/command/command_unit/commandtest.h \
+    src/command/command.h \
+    src/command/commandClass/commandexit.h \
+    src/command/commandClass/commandtest.h \
+    src/command/commandClass/command_mpd.h
 

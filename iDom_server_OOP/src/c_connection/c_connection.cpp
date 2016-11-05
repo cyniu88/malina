@@ -163,7 +163,7 @@ int C_connection::c_analyse()
     {
         str_buf+=t+" ";
     }
-
+    std::cout << "bufcio: " << str_buf<< std::endl;
     switch (command.size())
     {
     case 1 :
@@ -242,7 +242,7 @@ int C_connection::c_analyse()
 
 
 
-        else if (command[0]=="MPD")
+      /*  else if (command[0]=="MPD")
         {
             if (command[1]=="start")
             {
@@ -310,7 +310,7 @@ int C_connection::c_analyse()
 
         }
 
-
+*/
 
         else if (command [0] == "big")
         {
@@ -354,7 +354,7 @@ int C_connection::c_analyse()
 
         else
         {
-            // c_write_buf("\nEND.\n");
+            str_buf  = mainCommandHandler.run(command,my_data);
             break;
         }
 
@@ -443,7 +443,7 @@ int C_connection::c_analyse()
 
         else
         {
-            // c_write_buf("END.\n");
+            str_buf  = mainCommandHandler.run(command,my_data);
             break;
         }
     case 4:
@@ -456,9 +456,13 @@ int C_connection::c_analyse()
                 break;
             }
         }
+    case 5:
+
+        str_buf = mainCommandHandler.run(command, my_data);
+        break;
     default :
         //std::cout << " nic nie przyszlo komenda z dupy " << c_buffer<<std::endl;
-        str_buf ="unknown command\n";
+        str_buf +="\n";
 
     }
 

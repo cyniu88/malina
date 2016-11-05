@@ -29,7 +29,7 @@
 #include "LCD_c/lcd_c.h"
 #include "files_tree/files_tree.h"
 #include "menu_tree/menu_tree.h"
-//#include "CRON/cron.hpp"
+#include "command/command.h"
 
 constexpr int MAX_MSG_LEN= 18;
 constexpr int MAX_CONNECTION =10;
