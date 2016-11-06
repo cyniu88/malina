@@ -60,7 +60,7 @@ private:
     //std::string temporary_str;
     std::string  str_buf;
     blockQueue char_queue;
-    int  counter =0;
+    int counter = 0;
     commandHandler mainCommandHandler;
 
 };

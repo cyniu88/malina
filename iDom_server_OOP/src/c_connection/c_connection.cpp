@@ -361,41 +361,7 @@ int C_connection::c_analyse()
 
     case 3:
 
-        if (command[0]=="RS232")
-        {
-            if (command[1]=="get")
-            {
-                if (command[2]=="temperature"){
-                    //std::cout << " szukam temeratury" << std::endl;
-
-                    str_buf = send_to_arduino(my_data,"temperature:339;");
-                    str_buf += std::to_string(++counter);
-                    break;
-                }
-                else
-                {
-                    str_buf = ("wrong parameter: "+command[2]);
-                    break;
-                }
-
-
-            }
-
-            else if (command[1]=="send")
-            {
-                //std::cout << "!!!!!!!!!!!!!!!!! " << command[2] << std::endl;
-                str_buf = send_to_arduino(my_data,command[2]);
-                break;
-            }
-            else
-            {
-                str_buf = ("wrong parameter: "+command[1]);
-                break;
-            }
-
-        }
-
-        else if (command[0]=="show")
+        if (command[0]=="show")
         {
             if (command[1]=="log")
             {

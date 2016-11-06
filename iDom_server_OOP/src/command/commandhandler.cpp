@@ -1,5 +1,6 @@
 #include "commandhandler.h"
 #include "commandClass/command_mpd.h"
+#include "commandClass/commandrs232.h"
 
 commandHandler::commandHandler()
 {
@@ -11,6 +12,9 @@ commandHandler::commandHandler()
 
     std::unique_ptr <command> MPD(new command_mpd("MPD"));
     commandMap.insert(std::make_pair(MPD->getCommandName(), std::move (MPD)));
+
+    std::unique_ptr <command> RS232 (new commandRS232("RS232"));
+    commandMap.insert(std::make_pair(RS232->getCommandName(), std::move(RS232)));
 }
 
 std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_data)

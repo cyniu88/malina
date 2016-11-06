@@ -25,7 +25,8 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     src/command/commandClass/commandexit.cpp \
     src/command/commandClass/commandtest.cpp \
     src/command/commandhandler.cpp \
-    src/command/commandClass/command_mpd.cpp
+    src/command/commandClass/command_mpd.cpp \
+    src/command/commandClass/commandrs232.cpp
 
 
 HEADERS += src/parser/parser.hpp  \
@@ -51,5 +52,6 @@ HEADERS += src/parser/parser.hpp  \
     src/command/command.h \
     src/command/commandClass/commandexit.h \
     src/command/commandClass/commandtest.h \
-    src/command/commandClass/command_mpd.h
+    src/command/commandClass/command_mpd.h \
+    src/command/commandClass/commandrs232.h
 
