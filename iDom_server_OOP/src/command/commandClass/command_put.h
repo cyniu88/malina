@@ -1,17 +1,17 @@
-#ifndef COMMANDEXIT_H
-#define COMMANDEXIT_H
+#ifndef COMMAND_PUT_H
+#define COMMAND_PUT_H
+
 #include <iostream>
 #include <string>
 #include <vector>
 #include "../command.h"
 
-class commandEXIT : public command
+class command_put : public command
 {
 public:
-    commandEXIT(std::string);
+    command_put(std::string);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
     std::string help();
-
 };
 
-#endif // COMMANDEXIT_H
+#endif // COMMAND_PUT_H

@@ -19,4 +19,6 @@ void tokenizer ( std::vector <std::string> &command, std::string separator, std:
 std::string  RSHash(int offset =0);
 void write_to_mkfifo(std::string msg);
 std::string read_from_mkfifo();
+std::string l_send_file(std::string path, std::string find  , bool reverse =false );
+
 #endif // FUNCTIONS_H

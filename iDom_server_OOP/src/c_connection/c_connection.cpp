@@ -10,7 +10,7 @@ pthread_mutex_t C_connection::mutex_who = PTHREAD_MUTEX_INITIALIZER;
 
 // konstruktor
 C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_sock),
-    c_from(my_data->from)
+    c_from(my_data->from),mainCommandHandler(my_data)
 {
     this -> pointer = &my_data->pointer;
     this -> my_data = my_data;
@@ -167,60 +167,9 @@ int C_connection::c_analyse()
     switch (command.size())
     {
     case 1 :
-        if(command[0]=="exit")
-        {
-            str_buf="\nEND.\n";
-            break;
-        }
-        else if (command[0]=="sleep")
-        {
-            str_buf ="sleeper ma: "+ std::to_string(my_data->sleeper);
-            break;
-        }
-        else if (command[0]=="cmd")
-        {
-            str_buf ="w cmd było: "+ read_from_mkfifo();
-            break;
-        }
 
-        else if (command[0]=="hello")
         {
-            str_buf = "\nHI !\n";
-            break;
-        }
-        else if (command [0] == "help")
-        {
-            l_send_file("/etc/config/iDom_SERVER/help","");
-
-            break;
-        }
-        else if (command [0] == "OK")
-        {
-            str_buf = "\nEND.\n";
-            break;
-        }
-        else if (command [0] == "ALL")
-        {
-            str_buf = "YES\n";
-            break;
-        }
-
-        else if (command [0] == "IP")
-        {
-            str_buf = my_data->server_settings->SERVER_IP;
-
-            break;
-        }
-        else if (command [0] == "uptime")
-        {
-            time(&my_data->now_time);
-            str_buf ="uptime: ";
-            str_buf +=  sek_to_uptime(difftime(my_data->now_time,my_data->start) );
-            break;
-        }
-
-        else
-        {
+            str_buf  = mainCommandHandler.run(command,my_data);
             break;
         }
     case 2 :
@@ -242,94 +191,11 @@ int C_connection::c_analyse()
 
 
 
-      /*  else if (command[0]=="MPD")
-        {
-            if (command[1]=="start")
-            {
-
-                char_queue._add('t');
-                 sleep(1);
-                str_buf=my_data->ptr_MPD_info->title;
-            }
-            else if (command[1]=="stop")
-            {
-                char_queue._add('P');
-                str_buf="stoped!";
-            }
-            else if (command[1]=="next")
-            {
-                char_queue._add('D');
-                sleep(1);
-                str_buf = my_data->ptr_MPD_info->radio + " : "+ my_data->ptr_MPD_info->title;
-            }
-            else if (command[1]=="prev")
-            {
-                char_queue._add('U');
-                sleep(1);
-                str_buf=my_data->ptr_MPD_info->radio+ " : "+ my_data->ptr_MPD_info->title;
-            }
-            else if (command[1]=="pause")
-            {
-                char_queue._add('A');
-                str_buf="paused!";
-            }
-            else if (command[1]=="volume_up")
-            {
-                char_queue._add('+');
-                sleep(1);
-                str_buf=std::to_string(   my_data->ptr_MPD_info->volume);
-            }
-
-            else if (command[1]=="volume_down")
-            {
-                char_queue._add('-');
-                sleep(1);
-                str_buf=std::to_string(   my_data->ptr_MPD_info->volume);
-            }
-            else if (command[1]=="get_volume")
-            {
-                str_buf=std::to_string(   my_data->ptr_MPD_info->volume);
-            }
-            else if (command[1]=="get_info")
-            {
-
-                str_buf = my_data->ptr_MPD_info->radio + " : "+ my_data->ptr_MPD_info->title;
-
-            }
-            else if (command[1]=="list")
-            {
-
-                str_buf =  my_data->ptr_MPD_info->songList;
-                //my_data->ptr_MPD_info->songList ="";
-
-            }
-            else
-            {
-                str_buf="unknown parameter " + command[1];
-            }
-
-        }
-
-*/
-
-        else if (command [0] == "big")
-        {
-            str_buf.erase();
-            for (int i =0 ; i < std::stoi(command[1])-1 ; ++i){
-                str_buf += "z";
-            }
-            str_buf += "Y";
-        }
-        else if (command[0]=="clock")
-        {
-            str_buf = "ustawiono "+ send_to_arduino_clock(my_data,command[1]);
-
-        }
         else if (command[0]=="show")
         {
             if (command[1]=="log")
             {
-                l_send_file(_logfile,"");
+                //l_send_file(_logfile,"");
 
                 break;
             }
@@ -339,23 +205,6 @@ int C_connection::c_analyse()
                 break;
             }
 
-        }
-        else if (command[0]=="put")
-        {
-            if (command[1]=="temperature")
-            {
-                CRON temp_CRON(my_data);
-                temp_CRON.send_temperature_thingSpeak("47XSQ0J9CPJ4BO2O");
-                str_buf = "DONE";
-                break;
-            }
-        }
-
-
-        else
-        {
-            str_buf  = mainCommandHandler.run(command,my_data);
-            break;
         }
 
 

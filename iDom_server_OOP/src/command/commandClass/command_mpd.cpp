@@ -81,3 +81,28 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
     }
     return str_buf;
 }
+
+std::string command_mpd::help()
+{
+    std::string help = "MPD - for control music player:";
+                help.append("\n\n");
+                help.append("parameter:");
+                help.append("\n");
+                help.append("\tstart - play music");
+                help.append("\n");
+                help.append("\tstop  - stop music");
+                help.append("\n");
+                help.append("\tpause - pause music");
+                help.append("\n");
+                help.append("\tnext  - next song");
+                help.append("\n");
+                help.append("\tprev  - previous song");
+                help.append("\n");
+                help.append("\tlist  - show playlist");
+                help.append("\n");
+                help.append("\tget volume - get volume %");
+                help.append("\n");
+                help.append("\tvolume up/down - increase/decrease volume 1%");
+                help.append("\n");
+    return help;
+}

@@ -131,6 +131,7 @@ struct pilot_led{
 
                                               };
 };
+class command ;  // for struc thread_data req
 
 struct thread_data{
     int s_client_sock;
@@ -144,9 +145,10 @@ struct thread_data{
     time_t start;
     time_t now_time;
     int sleeper;
-    std::map <std::string , std::unique_ptr <KEY>  > key_map;
+    std::map <std::string, std::unique_ptr <KEY>  > key_map;
     MPD_info *ptr_MPD_info;
     pilot_led * ptr_pilot_led;
+    std::map <std::string, std::unique_ptr<command> > *commandMapPtr;
 
 
 

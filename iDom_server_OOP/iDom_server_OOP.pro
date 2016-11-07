@@ -26,7 +26,18 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     src/command/commandClass/commandtest.cpp \
     src/command/commandhandler.cpp \
     src/command/commandClass/command_mpd.cpp \
-    src/command/commandClass/commandrs232.cpp
+    src/command/commandClass/commandrs232.cpp \
+    src/command/commandClass/command_uptime.cpp \
+    src/command/commandClass/command_big.cpp \
+    src/command/commandClass/command_clock.cpp \
+    src/command/commandClass/command_cmd.cpp \
+    src/command/commandClass/command_hello.cpp \
+    src/command/commandClass/command_help.cpp \
+    src/command/commandClass/command_ip.cpp \
+    src/command/commandClass/command_ok.cpp \
+    src/command/commandClass/command_put.cpp \
+    src/command/commandClass/command_show.cpp \
+    src/command/commandClass/command_sleep.cpp
 
 
 HEADERS += src/parser/parser.hpp  \
@@ -53,5 +64,16 @@ HEADERS += src/parser/parser.hpp  \
     src/command/commandClass/commandexit.h \
     src/command/commandClass/commandtest.h \
     src/command/commandClass/command_mpd.h \
-    src/command/commandClass/commandrs232.h
+    src/command/commandClass/commandrs232.h \
+    src/command/commandClass/command_uptime.h \
+    src/command/commandClass/command_big.h \
+    src/command/commandClass/command_clock.h \
+    src/command/commandClass/command_cmd.h \
+    src/command/commandClass/command_hello.h \
+    src/command/commandClass/command_help.h \
+    src/command/commandClass/command_ip.h \
+    src/command/commandClass/command_ok.h \
+    src/command/commandClass/command_put.h \
+    src/command/commandClass/command_show.h \
+    src/command/commandClass/command_sleep.h
 

@@ -9,3 +9,8 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_da
 {
     return v[0]+" "+v[1]+" tak dla testu =)";
 }
+
+std::string commandTEST::help()
+{
+    return "test - for test\n";
+}

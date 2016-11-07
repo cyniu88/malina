@@ -320,3 +320,73 @@ std::string read_from_mkfifo()
     return (std::string(buf));;
 
 }
+
+//wysylanie pliku
+
+std::string l_send_file(std::string path, std::string find  , bool reverse )
+{
+    std::string str_buf;
+    if(find.empty()==true)
+    {
+        std::fstream log_file;
+        log_file.open(path.c_str(),std::ios::in);
+        if( log_file.good() == false )
+        {
+            return " can not open file !";
+        }
+        else
+        {
+            str_buf.erase();
+            while( !log_file.eof() )
+            {
+                str_buf += log_file.get();
+            }
+            str_buf.erase(str_buf.length()-1, str_buf.length());
+
+            log_file.close();
+        }
+    }
+    else
+    {
+        std::fstream log_file;
+        log_file.open(path.c_str(),std::ios::in);
+        if( log_file.good() == false )
+        {
+            return " can not open file !";
+        }
+        else
+        {
+            str_buf.erase();
+            std::string str_temp;
+            while( std::getline(log_file,str_temp) )
+            {
+
+                if (reverse){
+                    if(std::string::npos!=str_temp.find(find)){
+                        str_buf+=str_temp +"\n";
+
+                    }
+                    else{
+                        if(str_buf.size()<3){
+                            str_buf+="    ";
+                        }
+                    }
+
+                }
+                else{
+                    if(std::string::npos == str_temp.find(find)){
+                        str_buf+=str_temp+"\n";
+
+
+                    }
+                }
+                if(str_buf.size()<3){
+                    str_buf+="    ";
+                }
+            }
+
+        }
+        log_file.close();
+    }
+    return str_buf;
+}

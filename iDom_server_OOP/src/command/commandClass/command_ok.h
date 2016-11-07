@@ -1,17 +1,16 @@
-#ifndef COMMANDEXIT_H
-#define COMMANDEXIT_H
-#include <iostream>
+#ifndef COMMAND_OK_H
+#define COMMAND_OK_H
+
 #include <string>
 #include <vector>
 #include "../command.h"
 
-class commandEXIT : public command
+class command_ok : public command
 {
 public:
-    commandEXIT(std::string);
+    command_ok(std::string);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
     std::string help();
-
 };
 
-#endif // COMMANDEXIT_H
+#endif // COMMAND_OK_H

@@ -1,17 +1,17 @@
-#ifndef COMMANDEXIT_H
-#define COMMANDEXIT_H
+#ifndef COMMAND_SLEEP_H
+#define COMMAND_SLEEP_H
+
 #include <iostream>
 #include <string>
 #include <vector>
 #include "../command.h"
 
-class commandEXIT : public command
+class command_sleep : public command
 {
 public:
-    commandEXIT(std::string);
+    command_sleep(std::string);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
     std::string help();
-
 };
 
-#endif // COMMANDEXIT_H
+#endif // COMMAND_SLEEP_H

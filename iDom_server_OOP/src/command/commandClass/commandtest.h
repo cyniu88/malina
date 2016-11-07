@@ -11,6 +11,7 @@ class commandTEST : public command
 public:
     commandTEST(std::string name);
     std::string execute(std::vector <std::string> &v , thread_data * my_data);
+    std::string help();
 };
 
 #endif // COMMANDTEST_H

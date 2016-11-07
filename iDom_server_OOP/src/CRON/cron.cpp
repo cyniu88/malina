@@ -60,7 +60,7 @@ std::string CRON::smog( )
     return readBuffer;
 }
 
-void CRON::send_temperature_thingSpeak(std::string key)
+void CRON::send_temperature_thingSpeak()
 {
     CURL *curl;
     CURLcode res;
@@ -118,7 +118,7 @@ void CRON::run()
         if (act_date->tm_min % 15 == 0 )
         {
             if (check_temperature==TRUE){
-                send_temperature_thingSpeak("47XSQ0J9CPJ4BO2O");
+                send_temperature_thingSpeak();
             }
             check_temperature=FALSE;
         }

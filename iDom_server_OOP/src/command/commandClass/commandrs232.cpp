@@ -42,5 +42,21 @@ std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_d
         }
 
 
-    return str_buf;
+        return str_buf;
+}
+
+std::string commandRS232::help()
+{
+    std::string help = "RS232 - communication with Arduino:";
+                help.append("\n");
+                help.append("parameter:");
+                help.append("\n\n");
+                help.append("\tsend <command> - send  <command>  to Arduino");
+                help.append("\n");
+                help.append("\tget <param> - get <param> from Arduino");
+                help.append("\n");
+                help.append("\t\ttemperature - get temeprature INSIDE + OUTSIDE");
+                help.append("\n");
+
+    return help;
 }
