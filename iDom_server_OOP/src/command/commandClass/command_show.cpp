@@ -71,7 +71,15 @@ std::string command_show::help()
     help.append("\n\n");
     help.append("parameter:");
     help.append("\n");
-    help.append("\tlog - show all server log");
+    help.append("\tlog             - show all server log");
+    help.append("\n");
+    help.append("\tlog <string>    - show all server log lines which contain <string>");
+    help.append("\n");
+    help.append("\tlog no <string> - show all server log lines which NO contain <string>");
+    help.append("\n");
+    help.append("\tthread all      - show all server thread pid ");
+    help.append("\n");
+    help.append("\tthread <number> - show server <number> thread pid ");
     help.append("\n");
 
     return help;

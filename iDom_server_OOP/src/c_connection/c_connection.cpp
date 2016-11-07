@@ -163,16 +163,9 @@ int C_connection::c_analyse()
     {
         str_buf+=t+" ";
     }
-    std::cout << "bufcio: " << str_buf<< std::endl;
-    switch (command.size())
-    {
-    case 1 :
+    str_buf  = mainCommandHandler.run(command,my_data);
 
-        {
-            str_buf  = mainCommandHandler.run(command,my_data);
-            break;
-        }
-    case 2 :
+
         if(command[0]=="stop")
         {
             //std::cout << " jest stop";
@@ -185,104 +178,12 @@ int C_connection::c_analyse()
             }
             else
             {   str_buf="stop what? \n";
-                break;
+
             }
         }
 
 
-
-        else if (command[0]=="show")
-        {
-            if (command[1]=="log")
-            {
-                //l_send_file(_logfile,"");
-
-                break;
-            }
-            else if (command[1]=="thread")
-            {
-                str_buf = " No ID";
-                break;
-            }
-
-        }
-
-
-    case 3:
-
-        if (command[0]=="show")
-        {
-            if (command[1]=="log")
-            {
-                l_send_file(_logfile,command[2],true);
-
-                break;
-            }
-            else if (command[1]=="thread")
-            {
-                if (command [2] !="all"){
-                    str_buf  = my_data->main_THREAD_arr[std::stoi(command[2])].thread_name;
-                    str_buf  += " ID: ";
-                    str_buf += std::to_string(my_data->main_THREAD_arr[std::stoi(command[2])].thread_ID);
-                    str_buf  += " socket: ";
-                    str_buf  += std::to_string(my_data->main_THREAD_arr[std::stoi(command[2])].thread_socket);
-
-                    break;
-                }
-
-                else {
-                    str_buf.erase();
-                    for (int i =0 ; i< MAX_CONNECTION;++i)
-                    {
-                        str_buf  += std::to_string(i)+"\t";
-                        str_buf  += my_data->main_THREAD_arr[i].thread_name;
-                        str_buf  += "\t ID: ";
-                        str_buf  += std::to_string(my_data->main_THREAD_arr[i].thread_ID);
-
-                        if (my_data->main_THREAD_arr[i].thread_socket !=0){
-                            str_buf  += " socket: ";
-                            str_buf  += std::to_string(my_data->main_THREAD_arr[i].thread_socket);
-                        }
-
-                        str_buf  += "\n";
-
-
-                    }
-
-
-                    break;
-                }
-            }
-
-        }
-
-        else
-        {
-            str_buf  = mainCommandHandler.run(command,my_data);
-            break;
-        }
-    case 4:
-        if (command[0]=="show")
-        {
-            if (command[1]=="log" &&  command [2] =="no")
-            {
-                l_send_file(_logfile,command[3],false);
-
-                break;
-            }
-        }
-    case 5:
-
-        str_buf = mainCommandHandler.run(command, my_data);
-        break;
-    default :
-        //std::cout << " nic nie przyszlo komenda z dupy " << c_buffer<<std::endl;
-        str_buf +="\n";
-
-    }
-
-
-    return true;
+   return true;
 }
 
 

@@ -7,7 +7,7 @@ command_help::command_help(std::string name):command(name)
 
 std::string command_help::execute(std::vector<std::string> &v, thread_data *my_data)
 {
-    std::string result ="dom";
+    std::string result ="";
     if (v.size() ==2){
 
         if (my_data->commandMapPtr->find(v[1]) == my_data->commandMapPtr->end()){
@@ -20,6 +20,7 @@ std::string command_help::execute(std::vector<std::string> &v, thread_data *my_d
     else
     {
         for( auto  iter= my_data->commandMapPtr->begin();iter != my_data->commandMapPtr->end(); ++iter ) {
+            result+= "\n-----------------------------------\n";
             result+= iter->second->help();
         }
     }
