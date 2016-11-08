@@ -1,4 +1,6 @@
 #include "command_help.h"
+#include <vector>
+#include <algorithm>
 
 command_help::command_help(std::string name):command(name)
 {
@@ -14,14 +16,17 @@ std::string command_help::execute(std::vector<std::string> &v, thread_data *my_d
             return "unknown command: "+ v[1];
         }
         else{
-        return  my_data->commandMapPtr->find(v[1])->second->help();
+            return  my_data->commandMapPtr->find(v[1])->second->help();
         }
     }
     else
     {
+
+
         for( auto  iter= my_data->commandMapPtr->begin();iter != my_data->commandMapPtr->end(); ++iter ) {
-            result+= "\n-----------------------------------\n";
+
             result+= iter->second->help();
+            result+= "------------------------------------\n";
         }
     }
 

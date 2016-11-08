@@ -16,7 +16,7 @@
 
 commandHandler::commandHandler(thread_data * my_data)
 {
-    std::unique_ptr <command> test(new commandTEST("TEST") );
+    std::unique_ptr <command> test(new commandTEST("test") );
     commandMap.insert( std::make_pair(test->getCommandName(),std::move( test )) );
 
     std::unique_ptr <command> exit(new commandEXIT("exit"));
@@ -52,14 +52,16 @@ commandHandler::commandHandler(thread_data * my_data)
     std::unique_ptr <command> ok (new command_ok("ok"));
     commandMap.insert(std::make_pair(ok->getCommandName(), std::move(ok)));
 
-    std::unique_ptr <command> put (new command_put("put"));
-    commandMap.insert(std::make_pair(put->getCommandName(), std::move(put)));
-
     std::unique_ptr <command> show (new command_show("show"));
     commandMap.insert(std::make_pair(show->getCommandName(), std::move(show)));
 
     std::unique_ptr <command> sleep (new command_sleep("sleep"));
     commandMap.insert(std::make_pair(sleep->getCommandName(), std::move(sleep)));
+
+    std::unique_ptr <command> put (new command_put("put"));
+    commandMap.insert(std::make_pair(put->getCommandName(), std::move(put)));
+
+
 
 
     this->my_data = my_data;
