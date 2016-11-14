@@ -61,9 +61,10 @@ extern bool go_while  ;
 struct MPD_info{
     std::string title="NULL";
     std::string radio="NULL";
+    std::string artist="NULL";
     int volume=0;
     bool isPlay=false;
-    std::string songList="NULL";
+    std::vector <std::string> songList;
 };
 struct s_pointer{
     unsigned int *ptr_who;
@@ -149,7 +150,7 @@ struct thread_data{
     MPD_info *ptr_MPD_info;
     pilot_led * ptr_pilot_led;
     std::map <std::string, std::unique_ptr<command> > *commandMapPtr;
-
+    int currentSongID = 0;
 
 
     //CRON * main_cron;

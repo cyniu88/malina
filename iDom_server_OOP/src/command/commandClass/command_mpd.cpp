@@ -13,10 +13,20 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
 
     if (v[1]=="start")
     {
+        if (v.size()>2){
+            if (std::stoi(v[2] ) > 0){
+                my_data->currentSongID = std::stoi(v[2]);
+                char_queue._add('I');
+                sleep(1);
+                str_buf=my_data->ptr_MPD_info->songList[std::stoi(v[2])-1];
+            }
+        }
+        else {
+            char_queue._add('t');
+            sleep(1);
+            str_buf=my_data->ptr_MPD_info->title;
+        }
 
-        char_queue._add('t');
-        sleep(1);
-        str_buf=my_data->ptr_MPD_info->title;
     }
     else if (v[1]=="stop")
     {
@@ -70,10 +80,8 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
 
     else if (v[1]=="list")
     {
-
-        str_buf =  my_data->ptr_MPD_info->songList;
-        //my_data->ptr_MPD_info->songList ="";
-
+        for (auto i : my_data->ptr_MPD_info->songList)
+            str_buf += i+"\n";
     }
     else
     {
@@ -85,24 +93,24 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
 std::string command_mpd::help()
 {
     std::string help = "MPD - for control music player:";
-                help.append("\n\n");
-                help.append("parameter:");
-                help.append("\n");
-                help.append("\tstart - play music");
-                help.append("\n");
-                help.append("\tstop  - stop music");
-                help.append("\n");
-                help.append("\tpause - pause music");
-                help.append("\n");
-                help.append("\tnext  - next song");
-                help.append("\n");
-                help.append("\tprev  - previous song");
-                help.append("\n");
-                help.append("\tlist  - show playlist");
-                help.append("\n");
-                help.append("\tget volume - get volume %");
-                help.append("\n");
-                help.append("\tvolume up/down - increase/decrease volume 1%");
-                help.append("\n");
+    help.append("\n\n");
+    help.append("parameter:");
+    help.append("\n");
+    help.append("\tstart - play music");
+    help.append("\n");
+    help.append("\tstop  - stop music");
+    help.append("\n");
+    help.append("\tpause - pause music");
+    help.append("\n");
+    help.append("\tnext  - next song");
+    help.append("\n");
+    help.append("\tprev  - previous song");
+    help.append("\n");
+    help.append("\tlist  - show playlist");
+    help.append("\n");
+    help.append("\tget volume - get volume %");
+    help.append("\n");
+    help.append("\tvolume up/down - increase/decrease volume 1%");
+    help.append("\n");
     return help;
 }

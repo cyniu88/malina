@@ -87,7 +87,16 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                 log_file_cout << ERROR << "problem z wpisaniem tytulu "<<   std::endl;
                 log_file_mutex.mutex_unlock();
             }
-
+            try
+            {
+                my_data->ptr_MPD_info->artist = std::string( song->artist);
+            }
+            catch (...)
+            {
+                log_file_mutex.mutex_lock();
+                log_file_cout << ERROR << "problem z wpisaniem artysty "<<   std::endl;
+                log_file_mutex.mutex_unlock();
+            }
 
 
             if (song->name != NULL){
@@ -122,6 +131,9 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                 }
 
             }
+            else if (song->artist != NULL){
+                _msg = song->artist;
+            }
             else
             {
 
@@ -150,25 +162,31 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
 
         {
             MpdData *data = mpd_playlist_get_changes(mi,-1);
-            my_data->ptr_MPD_info->songList ="";
+            //my_data->ptr_MPD_info->songList ="";
             if(data)
             {
                 printf(GREEN"Playlist:"RESET"\n");
+                std::string buffor;
                 do{
 
                     if(data->type == MPD_DATA_TYPE_SONG)
                     {
                         printf(GREEN"%i"RESET": %s - %s\n", data->song->id, data->song->artist, data->song->title);
+                        buffor = std::to_string(data->song->id)+" ";
                         if ( data->song->name != NULL){
-                            my_data->ptr_MPD_info->songList += std::to_string(data->song->id)+" "+data->song->name+"\n";//+std::string(data->song->title)+"\n";
+                            buffor +=std::string(data->song->name)+" ";
                         }
-                        else if  ( data->song->title != NULL ){
-                            my_data->ptr_MPD_info->songList += std::to_string(data->song->id)+ " "+std::string(data->song->title)+"\n";
+//                        else {
+//                             buffor += std::to_string(data->song->id)+ " ";
+//                        }
+                        if (data->song->artist != NULL){
+                            buffor += std::string(data->song->artist)+" ";
                         }
-                        else {
-                             my_data->ptr_MPD_info->songList += std::to_string(data->song->id)+ " unknown name\n";
+                        if  ( data->song->title != NULL ){
+                            buffor +=std::string(data->song->title)+" ";
                         }
 
+                        my_data->ptr_MPD_info->songList.push_back(buffor);
                     }
                     data = mpd_data_get_next(data);
                 }while(data);
@@ -337,6 +355,9 @@ break;*/
                 case '2':
                     debug_level = (debug_level > 0)?0:3;
                     printf(YELLOW"Debug:"RESET" %s\n", (debug_level >0)? "Enabled":"Disabled");
+                    break;
+                case 'I':
+                    mpd_player_play_id(obj,my_data->currentSongID);
                     break;
                 case 'h':
                     printf("\th:\t\tHelp\n"\
