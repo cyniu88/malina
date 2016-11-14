@@ -190,6 +190,8 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             my_data->ptr_MPD_info->title="* * * *";
             digitalWrite(GPIO_SPIK,HIGH);
             my_data->mainLCD->noBacklight();
+            sleep(1);
+            send_to_arduino(my_data,"LED_CLEAR:44;");
             break;
         default:
             break;

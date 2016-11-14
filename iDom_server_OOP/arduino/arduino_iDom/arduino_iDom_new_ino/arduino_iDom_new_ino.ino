@@ -49,6 +49,8 @@ double insideTemp = 0;
 double outsideTemp =0;
 double insideTempOld = 0;
 double outsideTempOld =0;
+
+bool LED_state = false;
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
 // and minimize distance between Arduino and first pixel.  Avoid connecting
@@ -89,7 +91,7 @@ void loop() {
     if (sscanf( value.c_str() , "[%d-%d-%d-%d-%d]", &from, &to,&r,&g,&b) == 5) {
 
       // do something with r, g, b
-
+      LED_state = true;
       Serial.print("LEDY START ");  
       Serial.print(';');
       delay(100);
@@ -97,7 +99,7 @@ void loop() {
     }
     else {
 
-      Serial.print("LEDY START - ERROR");  
+      Serial.print("LED START - ERROR");  
       Serial.print(';'); 
     } 
     command="z";
@@ -106,19 +108,32 @@ void loop() {
   }
   if (command == "LED_STOP")
   {
-
-
-    Serial.print("LEDY STOP");  
+    Serial.print("LED STOP");  
     Serial.print(';'); 
     strip.clear();
     strip.show();
     delay(100);
-       
+    LED_state = false;
     command="z";
     valueINT=0;
 
   }
-  
+  ///////////////////////////////////////////////////////////////////////
+    if (command == "LED_CLEAR")
+  {
+    Serial.print("LED CLEAR");  
+    Serial.print(';'); 
+    if (LED_state == false){
+    strip.clear();
+    strip.show();
+    delay(100);
+    }
+ 
+    command="z";
+    valueINT=0;
+
+  }
+  ////////////////////////////////////////////////////////////////////
   if (command=="temperature")
   {
     valueINT = value.toInt();
