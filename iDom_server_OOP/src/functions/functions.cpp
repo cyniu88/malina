@@ -216,7 +216,12 @@ void *sleeper_mpd (void * data)
     thread_data *my_data = (thread_data *)data;
     blockQueue char_queue; // kolejka polecen
 
-    sleep (my_data->sleeper);
+
+    for (int i = my_data->sleeper; my_data->sleeper >0 ; ){
+        sleep (60);
+        my_data->sleeper--;
+    }
+
     char_queue._add('P');
     for (int i =0 ; i< MAX_CONNECTION;++i)
     {

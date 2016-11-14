@@ -96,6 +96,7 @@ void c_irda_logic::_add(char X)
 
     else if (who=='c')
     { my_data_logic->mainLCD->set_print_song_state(100);
+
         my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
         if ( X=='e')
         {
@@ -127,7 +128,7 @@ void c_irda_logic::_add(char X)
         }
         else if (X=='O')
         {
-            my_data_logic->sleeper*=60;
+           // my_data_logic->sleeper*=60;
 
 
             for (int con_counter=0; con_counter< MAX_CONNECTION; ++con_counter)
@@ -142,10 +143,10 @@ void c_irda_logic::_add(char X)
                         pthread_create (&my_data_logic->main_THREAD_arr[con_counter].thread_ID, NULL,&sleeper_mpd,  my_data_logic);
                         my_data_logic->main_THREAD_arr[con_counter].thread_name="Sleeper  MPD ";
                         log_file_mutex.mutex_lock();
-                        log_file_cout << INFO << "watek sleeper wystartowal  "<< my_data_logic->main_THREAD_arr[con_counter].thread_ID << std::endl;
+                        log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data_logic->main_THREAD_arr[con_counter].thread_ID << std::endl;
                         log_file_mutex.mutex_unlock();
+                       // my_data_logic->sleeper=0;
                         my_data_logic->mainLCD->printString(true,1,0,"SLEEPer START");
-                        my_data_logic->sleeper=0;
                         my_data_logic->mainLCD->set_print_song_state(0);
                         who = '!';
                         pthread_detach( my_data_logic->main_THREAD_arr[con_counter].thread_ID );
