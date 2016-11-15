@@ -64,7 +64,7 @@ struct MPD_info{
     std::string artist="NULL";
     int volume=0;
     bool isPlay=false;
-    std::vector <std::string> songList;
+    std::vector <std::string> songList={"NULL"};
 };
 struct s_pointer{
     unsigned int *ptr_who;

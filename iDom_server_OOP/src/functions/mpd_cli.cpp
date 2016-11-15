@@ -167,6 +167,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             {
                 printf(GREEN"Playlist:"RESET"\n");
                 std::string buffor;
+                my_data->ptr_MPD_info->songList.erase(my_data->ptr_MPD_info->songList.begin(),my_data->ptr_MPD_info->songList.end());
                 do{
 
                     if(data->type == MPD_DATA_TYPE_SONG)
