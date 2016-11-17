@@ -53,6 +53,7 @@ void *Send_Recieve_rs232_thread (void *przekaz){
                     buffer.erase(buffer.end()-1);
                     break;
                 }
+
             }
             pthread_mutex_unlock(&C_connection::mutex_buf);
         }
@@ -71,11 +72,7 @@ void *Send_Recieve_rs232_thread (void *przekaz){
                     buffer+=serial_ardu_clock.read();
                     break;
                 }
-                /* if (buffer[buffer.size()-1] == 'K')
-                {
-                    buffer.erase(buffer.end()-1);
-                    break;
-                }*/
+
             }
             pthread_mutex_unlock(&C_connection::mutex_buf);
         }

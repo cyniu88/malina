@@ -177,9 +177,9 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                         if ( data->song->name != NULL){
                             buffor +=std::string(data->song->name)+" ";
                         }
-//                        else {
-//                             buffor += std::to_string(data->song->id)+ " ";
-//                        }
+                        //                        else {
+                        //                             buffor += std::to_string(data->song->id)+ " ";
+                        //                        }
                         if (data->song->artist != NULL){
                             buffor += std::string(data->song->artist)+" ";
                         }
@@ -203,6 +203,9 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             break;
         case MPD_PLAYER_STOP:
             printf("Stopped\n");
+            if (my_data->ptr_MPD_info->isPlay ==true){
+                send_to_arduino(my_data,"LED_CLEAR:44;");
+            }
             check_title_song_to=false;
             my_data->mainLCD->play_Y_N=false;
             my_data->ptr_MPD_info->isPlay=false;
@@ -210,7 +213,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             digitalWrite(GPIO_SPIK,HIGH);
             my_data->mainLCD->noBacklight();
             sleep(1);
-            send_to_arduino(my_data,"LED_CLEAR:44;");
+
             break;
         default:
             break;
