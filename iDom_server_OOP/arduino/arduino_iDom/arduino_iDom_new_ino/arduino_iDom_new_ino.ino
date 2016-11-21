@@ -1,6 +1,6 @@
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
-  #include <avr/power.h>
+#include <avr/power.h>
 #endif
 
 #define PIN 11
@@ -34,7 +34,7 @@ DallasTemperature sensors(&oneWire);
 DeviceAddress insideThermometer = { 
   0x28, 0x80, 0x3E, 0x64, 0x4, 0x0, 0x0, 0xD2 };
 DeviceAddress outsideThermometer   = { 
- // 0x28, 0x8F, 0x9F, 0x63, 0x4, 0x0, 0x0, 0x8E };
+  // 0x28, 0x8F, 0x9F, 0x63, 0x4, 0x0, 0x0, 0x8E };
   0x28, 0xFF, 0x07, 0x04, 0x81, 0x16, 0x03, 0x7A};
 
 
@@ -58,16 +58,16 @@ bool LED_state = false;
 
 void setup() {
   // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
-  #if defined (__AVR_ATtiny85__)
-    if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
-  #endif
+#if defined (__AVR_ATtiny85__)
+  if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
+#endif
   // End of trinket special code
 
-   Serial.begin(9600);
+  Serial.begin(9600);
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
-  
-  
+
+
   sensors.begin();
   sensors.setResolution(insideThermometer, TEMPERATURE_PRECISION);
   sensors.setResolution(outsideThermometer, TEMPERATURE_PRECISION);
@@ -80,10 +80,10 @@ void loop() {
     command = Serial.readStringUntil(':');
     //Serial.println(command);
     value = Serial.readStringUntil(';');
-     
+
   }
-  
- if (command == "LED")
+
+  if (command == "LED")
   {
 
     int from,to,r, g, b;
@@ -95,7 +95,7 @@ void loop() {
       Serial.print("LEDY START ");  
       Serial.print(';');
       delay(100);
-       colorWipe(strip.Color(r, g, b), 5,from ,to); // Red
+      colorWipe(strip.Color(r, g, b), 5,from ,to); // Red
     }
     else {
 
@@ -119,16 +119,17 @@ void loop() {
 
   }
   ///////////////////////////////////////////////////////////////////////
-    if (command == "LED_CLEAR")
+  if (command == "LED_CLEAR")
   {
     Serial.print("LED CLEAR");  
     Serial.print(';'); 
     if (LED_state == false){
-    strip.clear();
-    strip.show();
-    delay(100);
+      delay(1000);
+      strip.clear();
+      strip.show();
+      delay(100);
     }
- 
+
     command="z";
     valueINT=0;
 
@@ -138,18 +139,18 @@ void loop() {
   {
     valueINT = value.toInt();
     sensors.requestTemperatures(); // Send the command to get temperatures
-    
-    insideTemp =sensors.getTempC(insideThermometer);
+
+      insideTemp =sensors.getTempC(insideThermometer);
     outsideTemp = sensors.getTempC(outsideThermometer);
     if ( insideTemp< -60 ||  insideTemp > 100)
     {
-        insideTemp = insideTempOld+0.005;
-        ++errorTemperatureInCounter;
+      insideTemp = insideTempOld+0.005;
+      ++errorTemperatureInCounter;
     }
     if ( outsideTemp< -60 ||  outsideTemp > 100)
     {
-        outsideTemp = outsideTempOld;
-        ++errorTemperatureOutCounter;
+      outsideTemp = outsideTempOld;
+      ++errorTemperatureOutCounter;
     }
     outsideTempOld =  outsideTemp;
     insideTempOld  = insideTemp; 
@@ -163,7 +164,7 @@ void loop() {
   }
   if (command=="temperature_error")
   {
-     
+
     Serial.print("Temperature error counter: OUT - ");
     Serial.print(String(errorTemperatureOutCounter));
     Serial.print(" | IN - ");
@@ -198,7 +199,7 @@ void loop() {
 
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait,int from,int to) {
-  
+
   if (to>strip.numPixels())
   {
     to = strip.numPixels();
@@ -285,3 +286,4 @@ uint32_t Wheel(byte WheelPos) {
   WheelPos -= 170;
   return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
+

@@ -83,9 +83,9 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             }
             catch (...)
             {
-                log_file_mutex.mutex_lock();
-                log_file_cout << ERROR << "problem z wpisaniem tytulu "<<   std::endl;
-                log_file_mutex.mutex_unlock();
+//                log_file_mutex.mutex_lock();
+//                log_file_cout << ERROR << "problem z wpisaniem tytulu "<<   std::endl;
+//                log_file_mutex.mutex_unlock();
             }
             try
             {
@@ -93,9 +93,9 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             }
             catch (...)
             {
-                log_file_mutex.mutex_lock();
-                log_file_cout << ERROR << "problem z wpisaniem artysty "<<   std::endl;
-                log_file_mutex.mutex_unlock();
+//                log_file_mutex.mutex_lock();
+//                log_file_cout << ERROR << "problem z wpisaniem artysty "<<   std::endl;
+//                log_file_mutex.mutex_unlock();
             }
 
 
@@ -108,10 +108,9 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                 }
                 catch (...)
                 {
-                    log_file_mutex.mutex_lock();
-                    log_file_cout << ERROR << "problem z wpisaniem radia "<<   std::endl;
-                    log_file_mutex
-                            .mutex_unlock();
+//                    log_file_mutex.mutex_lock();
+//                    log_file_cout << ERROR << "problem z wpisaniem radia "<<   std::endl;
+//                    log_file_mutex.mutex_unlock();
                 }
                 my_data->mainLCD->printRadioName(true,0,0,_msg);
                 my_data->mainLCD->set_lcd_STATE(5);
@@ -177,9 +176,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                         if ( data->song->name != NULL){
                             buffor +=std::string(data->song->name)+" ";
                         }
-                        //                        else {
-                        //                             buffor += std::to_string(data->song->id)+ " ";
-                        //                        }
+
                         if (data->song->artist != NULL){
                             buffor += std::string(data->song->artist)+" ";
                         }

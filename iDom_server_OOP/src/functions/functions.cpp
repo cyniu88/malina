@@ -217,9 +217,9 @@ void *sleeper_mpd (void * data)
     blockQueue char_queue; // kolejka polecen
 
 
-    for (int i = my_data->sleeper; my_data->sleeper >0 ; ){
+    for (; my_data->sleeper >0 ; my_data->sleeper-- ){
         sleep (60);
-        my_data->sleeper--;
+
     }
 
     char_queue._add('P');
