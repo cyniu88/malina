@@ -75,7 +75,7 @@ void setup() {
 }
 
 void loop() {
-  if (Serial.available () > 6 )
+  if (Serial.available () > 4 )
   {
     command = Serial.readStringUntil(':');
     //Serial.println(command);
@@ -183,6 +183,19 @@ void loop() {
     //sprintf(c,valueINT);
     Serial.print(String(valueINT));
     Serial.print(';');  
+    command="z";
+    valueINT=0;
+
+  }
+    if (command=="clean")
+  {
+   // valueINT = value.toInt();
+   // ++valueINT;
+    //++valueINT;
+    //Serial.print("return:");
+    //sprintf(c,valueINT);
+   // Serial.print(String(valueINT));
+    //Serial.print(';');  
     command="z";
     valueINT=0;
 

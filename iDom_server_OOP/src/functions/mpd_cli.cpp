@@ -86,6 +86,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
 //                log_file_mutex.mutex_lock();
 //                log_file_cout << ERROR << "problem z wpisaniem tytulu "<<   std::endl;
 //                log_file_mutex.mutex_unlock();
+                my_data->ptr_MPD_info->title = "no data";
             }
             try
             {
@@ -96,6 +97,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
 //                log_file_mutex.mutex_lock();
 //                log_file_cout << ERROR << "problem z wpisaniem artysty "<<   std::endl;
 //                log_file_mutex.mutex_unlock();
+                my_data->ptr_MPD_info->artist = "no data";
             }
 
 
@@ -140,7 +142,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             }
 
 
-
+           // my_data->ptr_MPD_info->title = _msg;
             my_data->mainLCD->printSongName(_msg);
         }
     }
