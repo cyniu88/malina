@@ -37,7 +37,12 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     src/command/commandClass/command_ok.cpp \
     src/command/commandClass/command_put.cpp \
     src/command/commandClass/command_show.cpp \
-    src/command/commandClass/command_sleep.cpp
+    src/command/commandClass/command_sleep.cpp \
+    libs/event_counter_test/event_counters/event/event_unknown.cpp \
+    libs/event_counter_test/event_counters/event/new_connect_event.cpp \
+    libs/event_counter_test/event_counters/event_counters_handler.cpp \
+    libs/event_counter_test/event_counters/event_counters.cpp \
+    src/command/commandClass/command_event.cpp
 
 
 HEADERS += src/parser/parser.hpp  \
@@ -75,5 +80,10 @@ HEADERS += src/parser/parser.hpp  \
     src/command/commandClass/command_ok.h \
     src/command/commandClass/command_put.h \
     src/command/commandClass/command_show.h \
-    src/command/commandClass/command_sleep.h
+    src/command/commandClass/command_sleep.h \
+    libs/event_counter_test/event_counters/event/event_unknown.h \
+    libs/event_counter_test/event_counters/event/new_connect_event.h \
+    libs/event_counter_test/event_counters/event_counters_handler.h \
+    libs/event_counter_test/event_counters/event_counters.h \
+    src/command/commandClass/command_event.h
 

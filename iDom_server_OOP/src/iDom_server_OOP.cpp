@@ -130,12 +130,13 @@ void *Server_connectivity_thread(void *przekaz){
     if ("192.168.1.1" != tm && my_data->ptr_MPD_info->isPlay== false) {
         my_data->mainLCD->set_print_song_state(32);
         my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
-        my_data->mainLCD->printString(false,0,1,  inet_ntoa( my_data->from.sin_addr)   );
+        my_data->mainLCD->printString(false,0,1,  tm   );
     }
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO <<"polaczenie z adresu  " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
+    log_file_cout << INFO <<"polaczenie z adresu  " <<  tm   <<std::endl;
     log_file_mutex.mutex_unlock();
+     my_data->myEventHandler.run("connections")->addEvent(tm);
 
     if( client->c_recv(0) == -1 )  {
         key_ok=false;

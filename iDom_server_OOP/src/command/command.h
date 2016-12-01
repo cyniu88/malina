@@ -12,9 +12,8 @@ struct thread_data;
 
 class command
 {
-
     std::string commandName;
-    std::map<std::string, std::unique_ptr<command> > *commandMap;
+    //std::map<std::string, std::unique_ptr<command> > *commandMap;
 public:
     command(std::string commandName);
     ~command();

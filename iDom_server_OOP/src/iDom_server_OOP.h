@@ -30,7 +30,7 @@
 #include "files_tree/files_tree.h"
 #include "menu_tree/menu_tree.h"
 #include "command/command.h"
-
+#include "../libs/event_counter_test/event_counters/event_counters_handler.h"
 constexpr int MAX_MSG_LEN= 18;
 constexpr int MAX_CONNECTION =10;
 constexpr int FREE =1;
@@ -151,6 +151,7 @@ struct thread_data{
     pilot_led * ptr_pilot_led;
     std::map <std::string, std::unique_ptr<command> > *commandMapPtr;
     int currentSongID = 0;
+    event_counters_handler myEventHandler;
 
 
     //CRON * main_cron;

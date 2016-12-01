@@ -1,9 +1,6 @@
 #include "mpd_cli.h"
 //#include "../iDom_server/src/iDom_server.h"
-#define RESET "\x1b[0m"
-#define GREEN "\x1b[32;06m"
-#define YELLOW "\x1b[33;06m"
-#define RED "\x1b[33;06m"
+
 extern int debug_level;
 
 bool check_title_song_to = false;
@@ -12,7 +9,7 @@ bool check_title_song_to = false;
 
 void error_callback(MpdObj *mi,int errorid, char *msg, void *userdata)
 {
-    printf(RED"Error "RESET""GREEN"%i:"RESET" '%s'\n", errorid, msg);
+    printf( "Error """"%i:"" '%s'\n", errorid, msg);
 }
 
 void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
@@ -22,19 +19,19 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
         mpd_Song *song = mpd_playlist_get_current_song(mi);
         if(song)
         {
-            printf(GREEN "Song:"RESET" %s - %s\n", song->artist, song->title);
+            printf( "Song:"" %s - %s\n", song->artist, song->title);
         }
     }
 
 
     if(what&MPD_CST_REPEAT){
-        printf(GREEN"Repeat:"RESET" %s\n", mpd_player_get_repeat(mi)? "On":"Off");
+        printf("Repeat:"" %s\n", mpd_player_get_repeat(mi)? "On":"Off");
     }
     if(what&MPD_CST_RANDOM){
-        printf(GREEN"Random:"RESET" %s\n", mpd_player_get_random(mi)? "On":"Off");
+        printf("Random:"" %s\n", mpd_player_get_random(mi)? "On":"Off");
     }
     if(what&MPD_CST_VOLUME){
-        printf(GREEN"Volume:"RESET" %03i%%\n",
+        printf("Volume:"" %03i%%\n",
                mpd_status_get_volume(mi));
 
         my_data->mainLCD->printVolume(mpd_status_get_volume(mi));
@@ -50,32 +47,32 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
         }
     }
     if(what&MPD_CST_CROSSFADE){
-        printf(GREEN"X-Fade:"RESET" %i sec.\n",
+        printf("X-Fade:"" %i sec.\n",
                mpd_status_get_crossfade(mi));
     }
     if(what&MPD_CST_UPDATING)
     {
         if(mpd_status_db_is_updating(mi))
         {
-            printf(GREEN"Started updating DB"RESET"\n");
+            printf("Started updating DB""\n");
         }
         else
         {
-            printf(GREEN"Updating DB finished"RESET"\n");
+            printf("Updating DB finished""\n");
         }
     }
     if(what&MPD_CST_DATABASE)
     {
-        printf(GREEN"Databased changed"RESET"\n");
+        printf("Databased changed""\n");
     }
     if(what&MPD_CST_PLAYLIST)
     {
-        printf(GREEN"Playlist changed2"RESET"\n");
+        printf("Playlist changed2""\n");
         if (check_title_song_to==true)
         {
             mpd_Song *song = mpd_playlist_get_current_song(mi);
             // std::cout <<" SONG: " << song->artist<<" "<< song->title << std::endl;
-            printf(GREEN"aktualnie gramy:"RESET" %s - %s\n", song->artist, song->title);
+            printf("aktualnie gramy:"" %s - %s\n", song->artist, song->title);
 
             try
             {
@@ -148,7 +145,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
     }
     if(what&MPD_CST_STATE)
     {
-        printf(GREEN"State:"RESET);
+        printf("State:");
         switch(mpd_player_get_state(mi))
         {
         case MPD_PLAYER_PLAY:
@@ -166,14 +163,14 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             //my_data->ptr_MPD_info->songList ="";
             if(data)
             {
-                printf(GREEN"Playlist:"RESET"\n");
+                printf("Playlist:""\n");
                 std::string buffor;
                 my_data->ptr_MPD_info->songList.erase(my_data->ptr_MPD_info->songList.begin(),my_data->ptr_MPD_info->songList.end());
                 do{
 
                     if(data->type == MPD_DATA_TYPE_SONG)
                     {
-                        printf(GREEN"%i"RESET": %s - %s\n", data->song->id, data->song->artist, data->song->title);
+                        printf("%i"": %s - %s\n", data->song->id, data->song->artist, data->song->title);
                         buffor = std::to_string(data->song->id)+" ";
                         if ( data->song->name != NULL){
                             buffor +=std::string(data->song->name)+" ";
@@ -220,10 +217,10 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
     }
     /* not yet implemented signals */
     if(what&MPD_CST_AUDIO){
-        printf(GREEN"Audio Changed"RESET"\n");
+        printf("Audio Changed""\n");
     }
     if(what&MPD_CST_TOTAL_TIME){
-        printf(GREEN"Total song time changed:"RESET" %02i:%02i\n",
+        printf("Total song time changed:"" %02i:%02i\n",
                mpd_status_get_total_song_time(mi)/60,
                mpd_status_get_total_song_time(mi)%60);
     }
@@ -233,7 +230,7 @@ mpd_status_get_elapsed_song_time(mi)/60,
 mpd_status_get_elapsed_song_time(mi)%60);
 */  }
     if(what&MPD_CST_PERMISSION){
-        printf(YELLOW"Permission:"RESET" Changed\n");
+        printf( "Permission:"" Changed\n");
     }
 }
 
@@ -357,7 +354,7 @@ break;*/
                     break;
                 case '2':
                     debug_level = (debug_level > 0)?0:3;
-                    printf(YELLOW"Debug:"RESET" %s\n", (debug_level >0)? "Enabled":"Disabled");
+                    printf( "Debug:"" %s\n", (debug_level >0)? "Enabled":"Disabled");
                     break;
                 case 'I':
                     mpd_player_play_id(obj,my_data->currentSongID);

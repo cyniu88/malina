@@ -21,8 +21,6 @@ std::string command_help::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else
     {
-
-
         for( auto  iter= my_data->commandMapPtr->begin();iter != my_data->commandMapPtr->end(); ++iter ) {
 
             result+= iter->second->help();

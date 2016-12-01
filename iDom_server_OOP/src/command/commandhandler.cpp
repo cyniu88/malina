@@ -12,6 +12,7 @@
 #include "commandClass/command_sleep.h"
 #include "commandClass/command_ok.h"
 #include "commandClass/command_show.h"
+#include "commandClass/command_event.h"
 
 
 commandHandler::commandHandler(thread_data * my_data)
@@ -61,6 +62,8 @@ commandHandler::commandHandler(thread_data * my_data)
     std::unique_ptr <command> put (new command_put("put"));
     commandMap.insert(std::make_pair(put->getCommandName(), std::move(put)));
 
+    std::unique_ptr <command> event (new command_event("event"));
+    commandMap.insert(std::make_pair(event->getCommandName(), std::move(event)));
 
 
 
