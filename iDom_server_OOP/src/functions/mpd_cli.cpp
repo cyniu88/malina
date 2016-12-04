@@ -80,9 +80,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             }
             catch (...)
             {
-//                log_file_mutex.mutex_lock();
-//                log_file_cout << ERROR << "problem z wpisaniem tytulu "<<   std::endl;
-//                log_file_mutex.mutex_unlock();
+                my_data->myEventHandler.run("mpd")->addEvent("wrong title");
                 my_data->ptr_MPD_info->title = "no data";
             }
             try
@@ -91,9 +89,8 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             }
             catch (...)
             {
-//                log_file_mutex.mutex_lock();
-//                log_file_cout << ERROR << "problem z wpisaniem artysty "<<   std::endl;
-//                log_file_mutex.mutex_unlock();
+                my_data->myEventHandler.run("mpd")->addEvent("wrong artist");
+
                 my_data->ptr_MPD_info->artist = "no data";
             }
 
@@ -107,9 +104,8 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                 }
                 catch (...)
                 {
-//                    log_file_mutex.mutex_lock();
-//                    log_file_cout << ERROR << "problem z wpisaniem radia "<<   std::endl;
-//                    log_file_mutex.mutex_unlock();
+                    my_data->myEventHandler.run("mpd")->addEvent("wrong radio station name");
+
                 }
                 my_data->mainLCD->printRadioName(true,0,0,_msg);
                 my_data->mainLCD->set_lcd_STATE(5);
@@ -289,6 +285,7 @@ void  *main_mpd_cli(void *data )
 
         log_file_cout << INFO << "nawiazuje nowe polaczenie z MPD "<<   std::endl;
         log_file_mutex.mutex_unlock();
+        my_data->myEventHandler.run("mpd")->addEvent("restart MPD");
         work = mpd_connect(obj);
     }
 

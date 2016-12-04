@@ -99,7 +99,7 @@ void master_irda::run()
                     CodeString.erase(  CodeString.find(" "), CodeString.size());
 
 
-                    //std::cout << "wcisnieto obiekt: "<<my_data2->key_map[CodeString]->getName()  <<std::endl;
+                    my_data2->myEventHandler.run("pilot")->addEvent("press: "+CodeString);
                     irda_queue._add( my_data2->key_map[CodeString]->getValue() );
                     buttonTimer = millis();
 

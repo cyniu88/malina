@@ -9,7 +9,7 @@ std::string command_event::execute(std::vector<std::string> &v, thread_data *my_
 {
     std::string result ="";
     if (v.size() ==1){
-        return "error =(";
+        return my_data->myEventHandler.getListPossibleEvents();
     }
     if (v.size() ==2){
 
