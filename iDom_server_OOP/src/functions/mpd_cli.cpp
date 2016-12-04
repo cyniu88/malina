@@ -349,6 +349,9 @@ break;*/
                 case '-':
                     mpd_status_set_volume(obj, mpd_status_get_volume(obj)-1);
                     break;
+                case '%':
+                    mpd_status_set_volume(obj, my_data->ptr_MPD_info->volume);
+                    break;
                 case '2':
                     debug_level = (debug_level > 0)?0:3;
                     printf( "Debug:"" %s\n", (debug_level >0)? "Enabled":"Disabled");

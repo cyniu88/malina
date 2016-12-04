@@ -58,7 +58,14 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
         else if (v[2]=="down"){
             char_queue._add('-');
         }
+        else {
+            int vol = std::stoi(v[2]);
+            if (vol >0 && vol <100){
+                my_data->ptr_MPD_info->volume = vol;
+                char_queue._add('%');
+            }
 
+        }
 
         sleep(1);
         str_buf=std::to_string(   my_data->ptr_MPD_info->volume);
