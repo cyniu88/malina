@@ -24,7 +24,7 @@
 //extern bool go_while;
 //extern Logger log_file_mutex;
 void  *main_mpd_cli(void *data );
-
+void  updatePlayList(MpdObj *mi, thread_data *my_data);
 /////////////// LCD
 
 static std::string _msg="null";

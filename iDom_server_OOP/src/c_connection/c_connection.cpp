@@ -151,7 +151,7 @@ int C_connection::c_analyse()
             buf+=n;
         }
     }
-
+    my_data->myEventHandler.run("command")->addEvent(buf);
     std::vector <std::string> command;
 
     tokenizer(command," \n,", buf);  // podzia  zdania na wyrazy

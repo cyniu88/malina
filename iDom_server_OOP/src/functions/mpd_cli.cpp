@@ -113,6 +113,8 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                 temp_str = send_to_arduino(my_data,"temperature:2;");
                 temp_str.erase(temp_str.size()-2,temp_str.size());
                 my_data->mainLCD->printString(false,0,1,"temp:"+temp_str+" c");
+
+                updatePlayList(mi,my_data);
             }
 
 
@@ -135,7 +137,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             }
 
 
-           // my_data->ptr_MPD_info->title = _msg;
+            // my_data->ptr_MPD_info->title = _msg;
             my_data->mainLCD->printSongName(_msg);
         }
     }
@@ -152,40 +154,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             digitalWrite(GPIO_SPIK, LOW);
             my_data->mainLCD->set_lcd_STATE(1);
             my_data->mainLCD->song_printstr();
-            //////////////////////////////////////////////////////////////////
-
-        {
-            MpdData *data = mpd_playlist_get_changes(mi,-1);
-            //my_data->ptr_MPD_info->songList ="";
-            if(data)
-            {
-                printf("Playlist:""\n");
-                std::string buffor;
-                my_data->ptr_MPD_info->songList.erase(my_data->ptr_MPD_info->songList.begin(),my_data->ptr_MPD_info->songList.end());
-                do{
-
-                    if(data->type == MPD_DATA_TYPE_SONG)
-                    {
-                        printf("%i"": %s - %s\n", data->song->id, data->song->artist, data->song->title);
-                        buffor = std::to_string(data->song->id)+" ";
-                        if ( data->song->name != NULL){
-                            buffor +=std::string(data->song->name)+" ";
-                        }
-
-                        if (data->song->artist != NULL){
-                            buffor += std::string(data->song->artist)+" ";
-                        }
-                        if  ( data->song->title != NULL ){
-                            buffor +=std::string(data->song->title)+" ";
-                        }
-
-                        my_data->ptr_MPD_info->songList.push_back(buffor);
-                    }
-                    data = mpd_data_get_next(data);
-                }while(data);
-            }
-
-        }
+            updatePlayList(mi,my_data);
             //////////////////////////////////////////////////////////////////
             break;
         case MPD_PLAYER_PAUSE:
@@ -448,4 +417,40 @@ break;*/
 
 
     return 0;
+}
+
+void updatePlayList(MpdObj *mi,thread_data *my_data)
+{
+    {
+        MpdData *data = mpd_playlist_get_changes(mi,-1);
+        //my_data->ptr_MPD_info->songList ="";
+        if(data)
+        {
+            //printf("Playlist:""\n");
+            std::string buffor;
+            my_data->ptr_MPD_info->songList.erase(my_data->ptr_MPD_info->songList.begin(),my_data->ptr_MPD_info->songList.end());
+            do{
+
+                if(data->type == MPD_DATA_TYPE_SONG)
+                {
+                    //printf("%i"": %s - %s\n", data->song->id, data->song->artist, data->song->title);
+                    buffor = std::to_string(data->song->id)+" ";
+                    if ( data->song->name != NULL){
+                        buffor +=std::string(data->song->name)+" ";
+                    }
+
+                    if (data->song->artist != NULL){
+                        buffor += std::string(data->song->artist)+" ";
+                    }
+                    if  ( data->song->title != NULL ){
+                        buffor +=std::string(data->song->title)+" ";
+                    }
+
+                    my_data->ptr_MPD_info->songList.push_back(buffor);
+                }
+                data = mpd_data_get_next(data);
+            }while(data);
+        }
+
+    }
 }

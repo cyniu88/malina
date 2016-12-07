@@ -73,6 +73,7 @@ commandHandler::commandHandler(thread_data * my_data)
 
 std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_data)
 {
+
     if (commandMap.find(v[0]) == commandMap.end()){
         return "unknown command: "+ v[0];
     }
