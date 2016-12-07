@@ -3,13 +3,11 @@
 #include <iostream>
 
 
-std::string C_connection::c_read_buf ( ){
+std::string C_connection::c_read_buf ( int  recvSize){
 
-    for(char n : c_buffer){
-        if (n!=','){
-
-            str_buf+=n;
-        }
+    std::string str_buf;
+    for (int i = 0 ; i < recvSize; ++i){
+        str_buf+= c_buffer[i];
     }
     return str_buf;
 }

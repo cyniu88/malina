@@ -41,10 +41,10 @@ public:
     //int32_t c_return(int iterator);
     void c_get(int32_t buffor, int i);
     void c_send_recv_RS232 ();
-    std::string c_read_buf ( );
+    std::string c_read_buf (int recvSize);
     //void c_write_buf(char *buf);
     void c_send_recv_MASTER ();
-    int c_analyse();
+    int c_analyse(int recvSize);
     bool c_analyse_exit();
     void c_set_buf (int what);
 

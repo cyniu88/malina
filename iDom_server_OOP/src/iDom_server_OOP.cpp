@@ -136,14 +136,16 @@ void *Server_connectivity_thread(void *przekaz){
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"polaczenie z adresu  " <<  tm   <<std::endl;
     log_file_mutex.mutex_unlock();
-     my_data->myEventHandler.run("connections")->addEvent(tm);
+    my_data->myEventHandler.run("connections")->addEvent(tm);
 
-    if( client->c_recv(0) == -1 )  {
+    int recvSize = client->c_recv(0);
+    if( recvSize == -1 )  {
         key_ok=false;
     }
     //std::cout <<"WYNIK:"<< client->c_read_buf().size()<<"a to wlasny" << RSHash().size()<<"!"<<std::endl;
-    std::string KEY_rec =  client->c_read_buf();
+    std::string KEY_rec =  client->c_read_buf(recvSize);
     std::string KEY_OWN = RSHash() ;
+
     if (   KEY_rec == KEY_OWN    )   // stop runing idom_server
     {
         //std::cout<< "klucze rowne"<< std::endl;
@@ -169,12 +171,13 @@ void *Server_connectivity_thread(void *przekaz){
 
     while (go_while && key_ok)
     {
-        if( client->c_recv(0) == -1 )  {
+        int recvSize = client->c_recv(0) ;
+        if( recvSize == -1 )  {
             break;
         }
 
         // ###########################  analia wiadomoscu ####################################//
-        if ( client->c_analyse() == false )   // stop runing idom_server
+        if ( client->c_analyse(recvSize) == false )   // stop runing idom_server
         {
             my_data->mainLCD->set_print_song_state(0);
             my_data->mainLCD->set_lcd_STATE(2);

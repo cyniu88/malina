@@ -100,12 +100,6 @@ int C_connection::c_send(std::string command )
 
 int C_connection::c_recv(int para)
 {
-    //std::cout <<"RECV" <<std::endl;
-    for (unsigned int i =0 ; i< sizeof(c_buffer);++i)
-    {
-        c_buffer[i]=',';
-    }
-
     struct timeval tv;
     tv.tv_sec = 90;
     tv.tv_usec = 0;
@@ -115,7 +109,6 @@ int C_connection::c_recv(int para)
 
     if(recv_size < 0 )
     {
-        //perror( "recv() ERROR" );
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "recv() error - " << strerror(  errno ) <<   std::endl;
         log_file_mutex.mutex_unlock();
@@ -128,28 +121,15 @@ int C_connection::c_recv(int para)
         log_file_mutex.mutex_unlock();
         return -1;
     }
-
-    //std::cout << "giazdo odebralo bajtow: " <<recv_size    <<std::endl;
-
-
-
-
-    return 1;
+    return recv_size;
 }
 
-
-
-
-
-
-int C_connection::c_analyse()
+int C_connection::c_analyse(int recvSize)
 {
     std::string buf;
-    for(char n : c_buffer){
-        if (n!=','){
 
-            buf+=n;
-        }
+    for (int i = 0 ; i < recvSize; ++i){
+        buf+= c_buffer[i];
     }
     my_data->myEventHandler.run("command")->addEvent(buf);
     std::vector <std::string> command;
@@ -157,7 +137,6 @@ int C_connection::c_analyse()
     tokenizer(command," \n,", buf);  // podzia  zdania na wyrazy
     str_buf=command[command.size()-1];
 
-    //std::cout << "D: "<<RSHash( )<<std::endl;
     str_buf= "unknown command\n";
     for(std::string  t : command)
     {
