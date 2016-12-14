@@ -52,9 +52,7 @@ public:
     // metody dla noda
     void c_start_master();
     void c_recv_send_master();
-
-    // wysylanie loga
-   // void l_send_file(std::string path, std::string find="", bool reverse= false);
+    void setEncriptionKey(std::string key);
 
 private:
     //std::string temporary_str;
@@ -62,6 +60,7 @@ private:
     blockQueue char_queue;
     int counter = 0;
     commandHandler mainCommandHandler;
+    std::string encriptionKey;
 
 };
 

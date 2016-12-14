@@ -57,3 +57,8 @@ void C_connection::c_recv_send_master()
     } // end while
 
 }
+
+void C_connection::setEncriptionKey(std::string key)
+{
+     encriptionKey = key;
+}

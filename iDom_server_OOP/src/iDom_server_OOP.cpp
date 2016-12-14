@@ -2,6 +2,7 @@
 #include "functions/functions.h"            // brak
 #include "parser/parser.hpp"
 #include <wiringPi.h>
+#include <bluetooth/bluetooth.h>
 
 std::string  _logfile  = "/mnt/ramdisk/iDom_log.log";
 std::string buffer ;
@@ -145,7 +146,7 @@ void *Server_connectivity_thread(void *przekaz){
     //std::cout <<"WYNIK:"<< client->c_read_buf().size()<<"a to wlasny" << RSHash().size()<<"!"<<std::endl;
     std::string KEY_rec =  client->c_read_buf(recvSize);
     std::string KEY_OWN = RSHash() ;
-
+    client->setEncriptionKey(KEY_OWN);
     if (   KEY_rec == KEY_OWN    )   // stop runing idom_server
     {
         //std::cout<< "klucze rowne"<< std::endl;

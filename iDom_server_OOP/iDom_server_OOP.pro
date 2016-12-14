@@ -45,7 +45,8 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     src/command/commandClass/command_event.cpp \
     libs/event_counter_test/event_counters/event/event_mpd.cpp \
     libs/event_counter_test/event_counters/event/event_pilot.cpp \
-    libs/event_counter_test/event_counters/event/event_command.cpp
+    libs/event_counter_test/event_counters/event/event_command.cpp \
+    src/iDomTools/idomtools.cpp
 
 
 HEADERS += src/parser/parser.hpp  \
@@ -91,5 +92,6 @@ HEADERS += src/parser/parser.hpp  \
     src/command/commandClass/command_event.h \
     libs/event_counter_test/event_counters/event/event_mpd.h \
     libs/event_counter_test/event_counters/event/event_pilot.h \
-    libs/event_counter_test/event_counters/event/event_command.h
+    libs/event_counter_test/event_counters/event/event_command.h \
+    src/iDomTools/idomtools.h
 

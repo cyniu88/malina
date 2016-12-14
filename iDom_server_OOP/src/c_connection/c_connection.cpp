@@ -14,6 +14,7 @@ C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_so
 {
     this -> pointer = &my_data->pointer;
     this -> my_data = my_data;
+
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< "konstruuje nowy obiekt do komunikacj na gniezdzie " << c_socket <<  std::endl;
     log_file_mutex.mutex_unlock();

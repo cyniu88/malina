@@ -6,7 +6,7 @@ CRON::CRON(thread_data *my_data)
     this->check_temperature=TRUE;
 }
 
-  size_t CRON::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
+size_t CRON::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
     return size * nmemb;
@@ -22,12 +22,10 @@ std::string CRON::find_tag (std::string temp)
             {
                 value+= temp.at(z);
                 ++z;
-
             }
             break;
         }
     }
-
     return value;
 }
 
@@ -64,16 +62,25 @@ void CRON::send_temperature_thingSpeak()
 {
     CURL *curl;
     CURLcode res;
+    std::string _temperature = send_to_arduino(my_data,"temperature:2;");
 
     std::string addres = "api.thingspeak.com/update?key=";
     addres+=key;
     addres+="&field1=";
-    addres+= send_to_arduino(my_data,"temperature:2;");
+    addres+= _temperature;
     addres.erase(addres.size()-2,addres.size());
     addres.insert(addres.find_last_of(':'),"&field3=");
     addres.erase(addres.find_last_of(':'),1);
     addres+="&field2="+smog();
 
+    //////////////////////////////// pozyskanie temperatury
+    ///
+    ///
+    _temperature.erase(_temperature.size()-2,_temperature.size());
+    std::string in = _temperature.substr(0,_temperature.find_last_of(':'));
+    std::string out = _temperature.substr(_temperature.find_last_of(':')+1,_temperature.size());
+
+    printf("o=inside: %f outside %f\n",   std::stof(in)   ,std::stof(out) );
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
 

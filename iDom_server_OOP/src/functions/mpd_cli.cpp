@@ -1,11 +1,7 @@
 #include "mpd_cli.h"
-//#include "../iDom_server/src/iDom_server.h"
 
 extern int debug_level;
-
 bool check_title_song_to = false;
-
-
 
 void error_callback(MpdObj *mi,int errorid, char *msg, void *userdata)
 {
@@ -22,7 +18,6 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             printf( "Song:"" %s - %s\n", song->artist, song->title);
         }
     }
-
 
     if(what&MPD_CST_REPEAT){
         printf("Repeat:"" %s\n", mpd_player_get_repeat(mi)? "On":"Off");
@@ -90,10 +85,8 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             catch (...)
             {
                 my_data->myEventHandler.run("mpd")->addEvent("wrong artist");
-
                 my_data->ptr_MPD_info->artist = "no data";
             }
-
 
             if (song->name != NULL){
                 _msg =  song->name;
@@ -105,7 +98,6 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                 catch (...)
                 {
                     my_data->myEventHandler.run("mpd")->addEvent("wrong radio station name");
-
                 }
                 my_data->mainLCD->printRadioName(true,0,0,_msg);
                 my_data->mainLCD->set_lcd_STATE(5);
@@ -117,7 +109,6 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                 updatePlayList(mi,my_data);
             }
 
-
             if (song->title != NULL ){
                 _msg =  song->title;
                 if (_msg.size() < 7 )
@@ -125,18 +116,14 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                     _msg =  song->name;
                     _msg += " -     brak nazwy                ";
                 }
-
             }
             else if (song->artist != NULL){
                 _msg = song->artist;
             }
             else
             {
-
                 _msg += " -     brak nazwy      ";
             }
-
-
             // my_data->ptr_MPD_info->title = _msg;
             my_data->mainLCD->printSongName(_msg);
         }
@@ -155,12 +142,13 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             my_data->mainLCD->set_lcd_STATE(1);
             my_data->mainLCD->song_printstr();
             updatePlayList(mi,my_data);
-            //////////////////////////////////////////////////////////////////
+            my_data->myEventHandler.run("mpd")->addEvent("MPD playing");
             break;
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
             my_data->mainLCD->set_lcd_STATE( -1);
             my_data->mainLCD->printString(true ,0,1,"    PAUSE");
+            my_data->myEventHandler.run("mpd")->addEvent("MPD pause");
             break;
         case MPD_PLAYER_STOP:
             printf("Stopped\n");
@@ -174,7 +162,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             digitalWrite(GPIO_SPIK,HIGH);
             my_data->mainLCD->noBacklight();
             sleep(1);
-
+            my_data->myEventHandler.run("mpd")->addEvent("MPD stopped");
             break;
         default:
             break;
@@ -201,28 +189,22 @@ mpd_status_get_elapsed_song_time(mi)%60);
 
 void  *main_mpd_cli(void *data )
 {
-
     blockQueue char_queue; // kolejka polecen
     thread_data  *my_data;
     my_data = (thread_data*)data;
 
     ////////////////////////////// LCD PART ///////////////////////
-    // LCD_c m_lcd(0x27,16,2);
     my_data->mainLCD->set_print_song_state(0);
     ///////////////////////////////////////////////////////////////////
-    //int fdstdin = 0;
     int   iport = 6600, button_counter =0;
     char *hostname = getenv("MPD_HOST");
     char *port = getenv("MPD_PORT");
     char *password = getenv("MPD_PASSWORD");
     MpdObj *obj = NULL;
-    /* Make the input non blocking */
-    // fdstdin = open("/dev/stdin", O_NONBLOCK|O_RDONLY);
-    /* set correct hostname */
+
+
     std::cout << " adres hosta to " << hostname << std::endl;
     if(!hostname) {
-
-
         std::cout << " ip mpd to " <<  my_data->server_settings->MPD_IP << " ! \n";
         hostname = (char*)my_data->server_settings->MPD_IP.c_str();
     }
@@ -231,10 +213,9 @@ void  *main_mpd_cli(void *data )
     }
     /* Create mpd object */
     obj = mpd_new(hostname, iport,password);
-
     /* Connect signals */
     mpd_signal_connect_error(obj,(ErrorCallback)error_callback, NULL);
-    mpd_signal_connect_status_changed(obj,(StatusChangedCallback)status_changed , my_data);
+    mpd_signal_connect_status_changed(obj,(StatusChangedCallback)status_changed , my_data );
     /* Set timeout */
     mpd_set_connection_timeout(obj, 10);
 
@@ -242,7 +223,6 @@ void  *main_mpd_cli(void *data )
     work = mpd_connect(obj);
 
     while (work){
-
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "nie udalo sie polaczyc z MPD "<<   std::endl;
         log_file_mutex.mutex_unlock();
@@ -251,7 +231,6 @@ void  *main_mpd_cli(void *data )
         system("service mpd start");
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "restart MPD "<<   std::endl;
-
         log_file_cout << INFO << "nawiazuje nowe polaczenie z MPD "<<   std::endl;
         log_file_mutex.mutex_unlock();
         my_data->myEventHandler.run("mpd")->addEvent("restart MPD");
@@ -263,10 +242,7 @@ void  *main_mpd_cli(void *data )
     if(!work)
     {
         char buffer;
-        // mpd_send_password(obj);
-        //memset(buffer, '\0', 20);
         do{
-
             if(char_queue._size() > 0)
             {
                 //digitalWrite(LED7,1);
@@ -292,7 +268,6 @@ void  *main_mpd_cli(void *data )
                     mpd_player_stop(obj);
                     break;
                 case 'q':
-
                     printf("Quitting....\n");
                     break;
                 case 'R':
@@ -347,11 +322,7 @@ break;*/
                     break;
                 default:
                     printf("buffer: %c\n", buffer);
-
-
                 }
-                //  digitalWrite(LED7,0);  // gasze sygnal odbioru _msgomosci
-
             }
             if (!mpd_check_connected(obj))
             {
@@ -361,16 +332,10 @@ break;*/
                 log_file_mutex.mutex_unlock();
                 system ("service mpd restart");
                 mpd_connect(obj);
-
             }
-            //std::cout << " \n\nprzed if \n\n";
+
             mpd_status_update(obj);
-
-
             my_data->mainLCD->checkState();
-
-            /////////////////////////////////////////////////////////////////////////////////
-
 
             if ( digitalRead(BUTTON_PIN) == HIGH )
             {
@@ -387,35 +352,29 @@ break;*/
                 }
                 else if (check_title_song_to == false && button_counter ==10)
                 {
-
                     std::cout << " \n\n\n koniec programu z przyciska !" << std::endl;
                     go_while = false;
                 }
-
                 std::cout << " \n\n\n licznik guzika wskazuje "<< button_counter << std::endl;
                 ++button_counter;
             }
-            else button_counter =0;
+            else
+            {
+                button_counter =0;
+            }
 
 
-
-            //m_lcd.checkState();
-        }while(!usleep(500000) &&  go_while);
+        } while(!usleep(500000) &&  go_while);
         mpd_player_stop(obj);
         sleep (3);
-
     }
     else{
         std::cout << " NIE UDALO SIE POłączyć "<<std::endl;
-
     }
     mpd_free(obj);
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << " koniec watku klient MPD  "<<   std::endl;
     log_file_mutex.mutex_unlock();
-    //close(fdstdin);
-
-
     return 0;
 }
 
@@ -430,7 +389,6 @@ void updatePlayList(MpdObj *mi,thread_data *my_data)
             std::string buffor;
             my_data->ptr_MPD_info->songList.erase(my_data->ptr_MPD_info->songList.begin(),my_data->ptr_MPD_info->songList.end());
             do{
-
                 if(data->type == MPD_DATA_TYPE_SONG)
                 {
                     //printf("%i"": %s - %s\n", data->song->id, data->song->artist, data->song->title);
@@ -438,19 +396,16 @@ void updatePlayList(MpdObj *mi,thread_data *my_data)
                     if ( data->song->name != NULL){
                         buffor +=std::string(data->song->name)+" ";
                     }
-
                     if (data->song->artist != NULL){
                         buffor += std::string(data->song->artist)+" ";
                     }
                     if  ( data->song->title != NULL ){
                         buffor +=std::string(data->song->title)+" ";
                     }
-
                     my_data->ptr_MPD_info->songList.push_back(buffor);
                 }
                 data = mpd_data_get_next(data);
             }while(data);
         }
-
     }
 }

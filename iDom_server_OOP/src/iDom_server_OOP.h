@@ -31,6 +31,8 @@
 #include "menu_tree/menu_tree.h"
 #include "command/command.h"
 #include "../libs/event_counter_test/event_counters/event_counters_handler.h"
+#include "iDomTools/idomtools.h"
+
 constexpr int MAX_MSG_LEN= 18;
 constexpr int MAX_CONNECTION =10;
 constexpr int FREE =1;
@@ -57,7 +59,7 @@ extern std::string buffer;
 //extern int max_msg  ;
 
 extern bool go_while  ;
-
+enum class TEMPERATURE_STATE;
 struct MPD_info{
     std::string title="NULL";
     std::string radio="NULL";
@@ -76,13 +78,7 @@ struct Thread_array_struc {
     std::string thread_name;
     int thread_socket;
 };
-//struct s_arg{
-//    serialib port_arduino;
-//    struct struktura_wiadomosci s_msg;
-//    union unia_wiadomosci s_unia_msg;
-//    struct struktura_wiadomosci r_msg;
-//    union unia_wiadomosci r_unia_msg;
-//};
+
 
 struct addresses_mac{
     std::string name_MAC;
@@ -111,13 +107,11 @@ struct config{
     std::string MOVIES_DB_PATH;
     std::string MENU_PATH;
     unsigned int ID_server;
-
-
     std::vector <addresses_mac> A_MAC;
     int v_delay  ;
     std::vector <address_another_servers> AAS;
-
 };
+
 
 struct pilot_led{
     int counter=0;
@@ -152,20 +146,15 @@ struct thread_data{
     std::map <std::string, std::unique_ptr<command> > *commandMapPtr;
     int currentSongID = 0;
     event_counters_handler myEventHandler;
-
-
-    //CRON * main_cron;
-
+    std::string encriptionKey = "40%";
+    iDomTOOLS main_iDomTools;
 };
 
-
 struct thread_data_rs232{
-
     std::string portRS232;
     std::string portRS232_clock;
     std::string BaudRate;
     struct s_pointer pointer;
-
 };
 
 //int parser_bufor ( int32_t bufor_tmp[]);
