@@ -29,14 +29,12 @@ std::string conv_dns (std::string temp){
 
     // print information about this host:
     printf( "Official name is: %s\n", he->h_name );
-
     printf( "IP addresses: " );
     addr_list =( struct in_addr ** ) he->h_addr_list;
     for( i = 0; addr_list[ i ] != NULL; i++ )
     {
         printf( "%s ", inet_ntoa( * addr_list[ i ] ) );
         s_ip += inet_ntoa( * addr_list[ i ] );
-
     }
     printf( "\n" );
 
@@ -48,14 +46,12 @@ void ChangeEndianness(int32_t * value,int MAX_MSG_LEN_INT)
 {
     if (__BYTE_ORDER == __BIG_ENDIAN)
     {
-        //printf("big-endian");
 
     }
     else if( __BYTE_ORDER == __LITTLE_ENDIAN)
     { //cout << "little-endian" << endl
         for (int i =0 ; i < MAX_MSG_LEN_INT ; ++i )
         {
-
             int32_t result = 0;
             result |= (value[i] & 0x000000FF) << 24;
             result |= (value[i] & 0x0000FF00) << 8;
@@ -63,11 +59,9 @@ void ChangeEndianness(int32_t * value,int MAX_MSG_LEN_INT)
             result |= (value[i] & 0xFF000000) >> 24;
 
             value[i] = result;
-
         }
     }
 }// ChangeEndianness
-
 
 void binary(int val)
 {    for (int i = 31; i >= 0; i--)
@@ -77,7 +71,6 @@ void binary(int val)
         std::cout << ((val >> i) % 2);
     }
      std::cout << std::endl;
-
 }
 std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg){
 
@@ -88,18 +81,14 @@ std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg){
         if (my_data_logic->pointer.ptr_who[0] == FREE)
         {
             pthread_mutex_lock(&C_connection::mutex_buf);
-
-
             my_data_logic->pointer.ptr_who[0]=CLOCK;
             my_data_logic->pointer.ptr_who[1]= pthread_self();
             buffer=msg;
-
             pthread_mutex_unlock(&C_connection::mutex_buf);
             pthread_mutex_unlock(&C_connection::mutex_who);
             break;
         }
         pthread_mutex_unlock(&C_connection::mutex_who);
-
     }
 
     while (go_while)
@@ -109,19 +98,14 @@ std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg){
         if (my_data_logic->pointer.ptr_who[0] == pthread_self())
         {
             pthread_mutex_lock(&C_connection::mutex_buf);
-
-
             my_data_logic->pointer.ptr_who[0]=FREE;
             my_data_logic->pointer.ptr_who[1]= 0;
-
             msg=buffer;
-
             pthread_mutex_unlock(&C_connection::mutex_buf);
             pthread_mutex_unlock(&C_connection::mutex_who);
             break;
         }
         pthread_mutex_unlock(&C_connection::mutex_who);
-
     }
 
     return msg;
@@ -135,18 +119,14 @@ std::string send_to_arduino (thread_data *my_data_logic, std::string msg){
         if (my_data_logic->pointer.ptr_who[0] == FREE)
         {
             pthread_mutex_lock(&C_connection::mutex_buf);
-
-
             my_data_logic->pointer.ptr_who[0]=RS232;
             my_data_logic->pointer.ptr_who[1]= pthread_self();
             buffer=msg;
-
             pthread_mutex_unlock(&C_connection::mutex_buf);
             pthread_mutex_unlock(&C_connection::mutex_who);
             break;
         }
         pthread_mutex_unlock(&C_connection::mutex_who);
-
     }
 
     while (go_while)
@@ -156,19 +136,14 @@ std::string send_to_arduino (thread_data *my_data_logic, std::string msg){
         if (my_data_logic->pointer.ptr_who[0] == pthread_self())
         {
             pthread_mutex_lock(&C_connection::mutex_buf);
-
-
             my_data_logic->pointer.ptr_who[0]=FREE;
             my_data_logic->pointer.ptr_who[1]= 0;
-
             msg=buffer;
-
             pthread_mutex_unlock(&C_connection::mutex_buf);
             pthread_mutex_unlock(&C_connection::mutex_who);
             break;
         }
         pthread_mutex_unlock(&C_connection::mutex_who);
-
     }
 
     return msg;
@@ -176,37 +151,22 @@ std::string send_to_arduino (thread_data *my_data_logic, std::string msg){
 
 std::string  sek_to_uptime(long long secy )
 {
-
-
     const int min = 60; //s
     const int houry = 3600; //s
     const int day = 86400; //s
-
-
-
     int number_day, number_hour, number_min, number_sec;
     int temp1, temp2, temp3;
-
-
     number_day = secy / day;
-
     std::string text = "\n" +std::to_string( number_day )+ " day " ;
-    
     temp1 = secy % day;
-
     number_hour = temp1 / houry;
     text += std::to_string( number_hour ) +" hours "  ;
-
     temp2 = temp1 % houry;
-
     number_min = temp2 / min;
     text += std::to_string(number_min)+" minutes "  ;
-    
     temp3 = temp2 % min;
-
     number_sec = temp3;
     text += std::to_string( number_sec )+ " seconds " ;
-
     return text;
 }
 
@@ -215,17 +175,13 @@ void *sleeper_mpd (void * data)
 {
     thread_data *my_data = (thread_data *)data;
     blockQueue char_queue; // kolejka polecen
-
-
     for (; my_data->sleeper >0 ; my_data->sleeper-- ){
         sleep (60);
-
     }
 
     char_queue._add('P');
     for (int i =0 ; i< MAX_CONNECTION;++i)
     {
-
         if (my_data->main_THREAD_arr[i].thread_ID == pthread_self())
         {
             my_data->main_THREAD_arr[i].thread_ID = 0;
@@ -239,8 +195,6 @@ void *sleeper_mpd (void * data)
     log_file_mutex.mutex_unlock();
 
     pthread_exit(NULL);
-
-
 }
 void tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text){
     std::string temp;
@@ -254,7 +208,6 @@ void tokenizer ( std::vector <std::string> &command, std::string separator, std:
             {
                 is_sep = true;
             }
-
         }
         
         if (is_sep== false){
@@ -303,31 +256,25 @@ std::string RSHash(int offset  )
     return std::to_string((hash & 0x7FFFFFFF));
 }
 
-
 void write_to_mkfifo(  std::string msg)
 {
     int fd = open("/mnt/ramdisk/cmd", O_WRONLY);
     write(fd, msg.c_str(), msg.size());
     close(fd);
-
 }
 
 
 std::string read_from_mkfifo()
 {
     char buf[10];
-
     /* open, read, and display the message from the FIFO */
     int fd = open("/mnt/ramdisk/cmd", O_RDONLY);
     read(fd, buf, 10);
-
     close(fd);
-    return (std::string(buf));;
-
+    return (std::string(buf));
 }
 
 //wysylanie pliku
-
 std::string l_send_file(std::string path, std::string find  , bool reverse )
 {
     std::string str_buf;
@@ -365,31 +312,25 @@ std::string l_send_file(std::string path, std::string find  , bool reverse )
             std::string str_temp;
             while( std::getline(log_file,str_temp) )
             {
-
                 if (reverse){
                     if(std::string::npos!=str_temp.find(find)){
                         str_buf+=str_temp +"\n";
-
                     }
                     else{
                         if(str_buf.size()<3){
                             str_buf+="    ";
                         }
                     }
-
                 }
                 else{
                     if(std::string::npos == str_temp.find(find)){
                         str_buf+=str_temp+"\n";
-
-
                     }
                 }
                 if(str_buf.size()<3){
                     str_buf+="    ";
                 }
             }
-
         }
         log_file.close();
     }

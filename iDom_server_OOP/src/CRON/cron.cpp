@@ -80,6 +80,8 @@ void CRON::send_temperature_thingSpeak()
     std::string in = _temperature.substr(0,_temperature.find_last_of(':'));
     std::string out = _temperature.substr(_temperature.find_last_of(':')+1,_temperature.size());
 
+    my_data->main_iDomTools.setTemperature("inside",std::stof(in));
+    my_data->main_iDomTools.setTemperature("outside",std::stof(out));
     printf("o=inside: %f outside %f\n",   std::stof(in)   ,std::stof(out) );
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
@@ -108,18 +110,12 @@ void CRON::run()
 {
     time_t act_time;
     struct tm * act_date;
-
-
-
-
     int min =0 ;
     char buffer[5];
 
     while (go_while) {
-
         sleep(10);
         time(&act_time);
-
         act_date = localtime(&act_time);
         //std::cout << "dzien tygodnia " << act_date->tm_wday << " godzina " << act_date->tm_hour <<" minuta " << act_date->tm_min <<std::endl;
         if (act_date->tm_min % 15 == 0 )
@@ -133,8 +129,6 @@ void CRON::run()
         {
             check_temperature=TRUE;
         }
-
-
         if (min != act_date->tm_min  ){
 
             strftime(buffer,5,"%H%M",act_date);

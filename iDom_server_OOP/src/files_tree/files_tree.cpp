@@ -35,9 +35,6 @@ void files_tree::next(  )
     if (get_vector_size() == i ){
         i=0;
     }
-    ////std::cout << " iteracja i ma : " << i <<" rozmiar vectora : " << get_vector_size() <<  std::endl;
-    // show_list();
-
 }
 
 void files_tree::previous(  )
@@ -49,8 +46,6 @@ void files_tree::previous(  )
     {
         i=get_vector_size()-1;
     }
-    ////std::cout << " iteracja i ma : " << i << " rozmiar vectora : " << get_vector_size() <<std::endl;
-    //show_list();
 }
 
 int files_tree::get_vector_size ()
@@ -73,8 +68,7 @@ int files_tree::get_i()
 
 void files_tree::enter_dir()
 {
-    i_stack.push(i);  // wpisuje na stos  kolejna wersje licznika i
-    
+    i_stack.push(i);  // wpisuje na stos  kolejna wersje licznika i 
 
     if (movie_database_vector[i].is_file == false )  {
         get_list (movie_database_vector[i].path)  ;
@@ -154,39 +148,22 @@ void files_tree::get_list( std::string path  ) {
             //	//std::cout << " SCIEZKA TO " << path << std::endl;
             if (  static_cast<int>(plik->d_type) == 4 /*&&   strcmp( plik->d_name, ".." ) && strcmp( plik->d_name, "." )*/  )
             {
-
                 temp.is_file=false;
-
-
             }
             else //if ( (int)plik->d_type == 8 && strcmp( plik->d_name, ".." ) && strcmp( plik->d_name, "." ))
             {
                 temp.is_file=true;
-
             }
 
             v_path= path2;
-
             v_path+="/";
-
             tmp_string.assign(plik->d_name);
             v_path+=tmp_string;
             temp.path =v_path;
             temp.files_name.assign(plik->d_name);
-
-            // //std::cout << "wpisuje w strukture " << plik->d_name << std::endl;
-
-            ////std::cout << "\n";
-
-
-            // //std::cout << "wpisuje w vector " << temp.path << " i jest to " << temp.is_file << std::endl;
             movie_database_vector.push_back(temp);
-
         }  // end while
         sort(movie_database_vector.begin(),movie_database_vector.end(), comper);
         closedir( sciezka );
     }
-
-        //std::cout << " wywoujc funkcj opendir(%s) pojawi si bd otwarcia strumienia dla danej cieki, moe nie istnieje, lub podano ciek pust\n"<<  path << std::endl;
-
 }

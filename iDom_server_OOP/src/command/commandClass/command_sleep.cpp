@@ -29,8 +29,6 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
                 {
                     if ( con_counter!=MAX_CONNECTION -1)
                     {
-                        // int sleep_t = my_data_logic->sleeper;
-
                         pthread_create (&my_data->main_THREAD_arr[con_counter].thread_ID, NULL,&sleeper_mpd,  my_data);
                         my_data->main_THREAD_arr[con_counter].thread_name="Sleeper  MPD ";
                         log_file_mutex.mutex_lock();
@@ -42,8 +40,6 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
                         //                        who = '!';
                         pthread_detach( my_data->main_THREAD_arr[con_counter].thread_ID );
                         return "DONE \n sleep has set to: "+v[2];
-
-
                     }
                 }
             }

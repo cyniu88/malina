@@ -65,8 +65,6 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
             return "wrong parameter: "+v[1];
         }
     }
-
-
     return str_buf;
 }
 

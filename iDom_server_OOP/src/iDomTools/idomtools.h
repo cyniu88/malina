@@ -21,7 +21,7 @@ class iDomTOOLS
 public:
     iDomTOOLS();
 
-    void setTemperature (std::string name, int value);
+    void setTemperature (std::string name, float value);
     TEMPERATURE_STATE hasTemperatureChange(std::string thermometerName, int reference);
 };
 

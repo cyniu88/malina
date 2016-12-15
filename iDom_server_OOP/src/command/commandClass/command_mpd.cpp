@@ -64,9 +64,7 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
                 my_data->ptr_MPD_info->volume = vol;
                 char_queue._add('%');
             }
-
         }
-
         sleep(1);
         str_buf=std::to_string(   my_data->ptr_MPD_info->volume);
     }
@@ -79,9 +77,7 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
         }
         else if (v[2]=="info")
         {
-
             str_buf = my_data->ptr_MPD_info->radio + " : "+ my_data->ptr_MPD_info->title;
-
         }
     }
 

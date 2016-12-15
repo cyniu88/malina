@@ -65,15 +65,12 @@ commandHandler::commandHandler(thread_data * my_data)
     std::unique_ptr <command> event (new command_event("event"));
     commandMap.insert(std::make_pair(event->getCommandName(), std::move(event)));
 
-
-
     this->my_data = my_data;
     this->my_data->commandMapPtr = &commandMap;
    }
 
 std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_data)
 {
-
     if (commandMap.find(v[0]) == commandMap.end()){
         return "unknown command: "+ v[0];
     }

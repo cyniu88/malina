@@ -6,7 +6,7 @@ iDomTOOLS::iDomTOOLS()
     thermometer["outside"];
 }
 
-void iDomTOOLS::setTemperature(std::string name, int value)
+void iDomTOOLS::setTemperature(std::string name, float value)
 {
      auto cur = thermometer.find(name);
      cur->second.oldTemp = cur->second.newTemp ;

@@ -27,7 +27,6 @@ std::string command_help::execute(std::vector<std::string> &v, thread_data *my_d
             result+= "------------------------------------\n";
         }
     }
-
     return result;
 }
 
