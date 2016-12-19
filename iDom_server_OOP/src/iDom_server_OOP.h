@@ -127,6 +127,7 @@ struct pilot_led{
                                               };
 };
 class command ;  // for struc thread_data req
+class iDomTOOLS;
 
 struct thread_data{
     int s_client_sock;
@@ -147,7 +148,7 @@ struct thread_data{
     int currentSongID = 0;
     event_counters_handler myEventHandler;
     std::string encriptionKey = "40%";
-    iDomTOOLS main_iDomTools;
+    iDomTOOLS *main_iDomTools;
 };
 
 struct thread_data_rs232{

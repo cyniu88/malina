@@ -260,7 +260,8 @@ int main()
     pinMode(BUTTON_PIN, INPUT);   //  gpio pin przycisku
     /////////////////////////////// MPD info /////////////////////////
     MPD_info my_MPD_info;
-
+    /////////////////////////////// iDom Tools ///////////////////////
+    iDomTOOLS my_iDomTools(&node_data);
     /////////////////////////////// LCD ///////////////////////////////
     LCD_c mainLCD(0x27,16,2);
     //////////////     przegladanie plikow ////////////////////
@@ -317,10 +318,10 @@ int main()
     pilot_led mainPilotLED;
     node_data.ptr_pilot_led = &mainPilotLED;
     //dodanie pilota
+    node_data.main_iDomTools = &my_iDomTools;
 
     std::unique_ptr <pilot> pilotPTR( new pilot(&node_data.key_map));
     pilotPTR->setup();
-
 
     // start watku irda
     pthread_create (&thread_array[0].thread_ID, NULL,&f_master_irda ,&node_data);
@@ -345,7 +346,6 @@ int main()
     pthread_detach( thread_array[3].thread_ID );
 
     if (server_settings.ID_server == 1001){    ///  jesli  id 1001  to wystartuj watek do polaczeni z innym nodem masterem
-
         pthread_create (&thread_array[4].thread_ID, NULL,&f_serv_con_node ,&node_data);
         thread_array[3].thread_name="node master";
         log_file_mutex.mutex_lock();
@@ -392,7 +392,6 @@ int main()
     socklen_t len = sizeof( server );
     if( bind( v_socket,( struct sockaddr * ) & server, len ) < 0 )
     {
-
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "BIND problem: " <<  strerror(  errno )<< std::endl;
         log_file_cout << CRITICAL << "awaryjne ! zamykanie gniazda  "  << shutdown( v_socket, SHUT_RDWR )<< std::endl;
@@ -433,11 +432,9 @@ int main()
         for (int con_counter=0; con_counter< MAX_CONNECTION; ++con_counter)
         {
             if ( thread_array[con_counter].thread_ID==0 || pthread_kill(thread_array[con_counter].thread_ID, 0) == ESRCH )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
-
             {
                 if ( con_counter!=MAX_CONNECTION -1)
                 {
-
                     node_data.s_client_sock =v_sock_ind;
                     node_data.from=from;
 
@@ -450,11 +447,9 @@ int main()
 
                     pthread_detach( thread_array[con_counter].thread_ID );
                     break;
-
                 }
                 else
                 {
-
                     log_file_mutex.mutex_lock();
                     log_file_cout << INFO << "za duzo klientow "<< thread_array[con_counter].thread_ID << std::endl;
                     log_file_mutex.mutex_unlock();
@@ -464,12 +459,9 @@ int main()
                         perror( "send() ERROR" );
                         break;
                     }
-
                     continue;
                 }
-
             }
-
         }
     } // while
     // zamykam gniazdo

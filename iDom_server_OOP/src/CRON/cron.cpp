@@ -80,9 +80,10 @@ void CRON::send_temperature_thingSpeak()
     std::string in = _temperature.substr(0,_temperature.find_last_of(':'));
     std::string out = _temperature.substr(_temperature.find_last_of(':')+1,_temperature.size());
 
-    my_data->main_iDomTools.setTemperature("inside",std::stof(in));
-    my_data->main_iDomTools.setTemperature("outside",std::stof(out));
-    printf("o=inside: %f outside %f\n",   std::stof(in)   ,std::stof(out) );
+    my_data->main_iDomTools->setTemperature("inside",std::stof(in));
+    my_data->main_iDomTools->setTemperature("outside",std::stof(out));
+    my_data->main_iDomTools->sendSMSifTempChanged("outside",0,"50","test");
+    //printf("o=inside: %f outside %f\n",   std::stof(in)   ,std::stof(out) );
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
 
@@ -134,8 +135,8 @@ void CRON::run()
             strftime(buffer,5,"%H%M",act_date);
             // serial_ardu.print(buffer );
             send_to_arduino_clock(my_data,buffer);
-             min = act_date->tm_min;
-             //std::cout << "czas "<< buffer <<" arduino "<<send_to_arduino_clock(my_data,buffer)<< std::endl;
+            min = act_date->tm_min;
+            //std::cout << "czas "<< buffer <<" arduino "<<send_to_arduino_clock(my_data,buffer)<< std::endl;
         }
     }
 }

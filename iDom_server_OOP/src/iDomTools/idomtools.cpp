@@ -1,16 +1,17 @@
 #include "idomtools.h"
 
-iDomTOOLS::iDomTOOLS()
+iDomTOOLS::iDomTOOLS(thread_data *myData)
 {
+    my_data = myData;
     thermometer["inside"];
     thermometer["outside"];
 }
 
 void iDomTOOLS::setTemperature(std::string name, float value)
 {
-     auto cur = thermometer.find(name);
-     cur->second.oldTemp = cur->second.newTemp ;
-     cur->second.newTemp = value;
+    auto cur = thermometer.find(name);
+    cur->second.oldTemp = cur->second.newTemp ;
+    cur->second.newTemp = value;
 }
 
 TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName,int reference )
@@ -29,6 +30,21 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName,in
     }
     return TEMPERATURE_STATE::Unknown;
 
+}
+
+void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int reference, std::string phoneNumber, std::string msg)
+{
+    TEMPERATURE_STATE status = hasTemperatureChange(thermomethernName,reference);
+
+    if (status == TEMPERATURE_STATE::Over){
+        my_data->myEventHandler.run("unknown")->addEvent("temperatura "+thermomethernName+" powyzej "+ std::to_string(reference));
+    }
+    else if (status == TEMPERATURE_STATE::Under){
+       my_data->myEventHandler.run("unknown")->addEvent("temperatura " + thermomethernName+" powyzej "+std::to_string(reference));
+    }
+    else{
+        my_data->myEventHandler.run("unknown")->addEvent("temperatura nie przeszla przez "+std::to_string(reference));
+    }
 }
 
 
