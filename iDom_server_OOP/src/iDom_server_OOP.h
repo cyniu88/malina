@@ -21,14 +21,14 @@
 #include <errno.h>
 #include <signal.h>
 #include <time.h>
-#include "src/KEY/key.h"
+#include "KEY/key.h"
 #include <wiringPi.h>
 
 // MOJE BIBLIOTEKI
 #include "logger/logger.hpp"
-#include "LCD_c/lcd_c.h"
 #include "files_tree/files_tree.h"
 #include "menu_tree/menu_tree.h"
+#include "LCD_c/lcd_c.h"
 #include "command/command.h"
 #include "../libs/event_counter_test/event_counters/event_counters_handler.h"
 #include "iDomTools/idomtools.h"

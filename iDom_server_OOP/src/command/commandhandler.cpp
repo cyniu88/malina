@@ -13,6 +13,7 @@
 #include "commandClass/command_ok.h"
 #include "commandClass/command_show.h"
 #include "commandClass/command_event.h"
+#include "commandClass/command_idom.h"
 
 
 commandHandler::commandHandler(thread_data * my_data)
@@ -64,6 +65,9 @@ commandHandler::commandHandler(thread_data * my_data)
 
     std::unique_ptr <command> event (new command_event("event"));
     commandMap.insert(std::make_pair(event->getCommandName(), std::move(event)));
+
+    std::unique_ptr <command> iDom (new command_iDom("iDom"));
+    commandMap.insert(std::make_pair(iDom->getCommandName(), std::move(iDom)));
 
     this->my_data = my_data;
     this->my_data->commandMapPtr = &commandMap;

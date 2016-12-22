@@ -83,6 +83,7 @@ void CRON::send_temperature_thingSpeak()
     my_data->main_iDomTools->setTemperature("inside",std::stof(in));
     my_data->main_iDomTools->setTemperature("outside",std::stof(out));
     my_data->main_iDomTools->sendSMSifTempChanged("outside",0,"50","test");
+    my_data->main_iDomTools->sendSMSifTempChanged("inside",24,"50","inside zmina");
     //printf("o=inside: %f outside %f\n",   std::stof(in)   ,std::stof(out) );
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
