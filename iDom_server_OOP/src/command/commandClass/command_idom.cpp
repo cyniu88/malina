@@ -27,6 +27,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
 
 std::string command_iDom::help()
 {
-    std::string ret = "iDom - for control smart home";
+    std::string ret = "iDom - for control smart home\n";
+    ret.append("iDom speakers ON/OFF - to on or off speakers\n");
     return ret;
 }

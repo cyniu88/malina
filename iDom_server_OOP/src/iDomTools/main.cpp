@@ -7,9 +7,9 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     cout << "== Start test ===" << endl;
-    int newValue = 0;
-    int oldValue = 0;
-    int reference= 0;
+    double newValue = 0;
+    double oldValue = 0;
+    double reference= 0.002;
     while (newValue != 100)
     {
         cout << "podaj wartosc ";
