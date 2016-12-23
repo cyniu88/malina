@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 #include "../iDom_server_OOP.h"
-
+#include "../../libs/sunrise-sunset/sunriseset.h"
 struct thread_data;
 
 enum class TEMPERATURE_STATE{
@@ -22,6 +22,7 @@ class iDomTOOLS
 {
     std::map <std::string ,temperature> thermometer;
     thread_data *my_data;
+    SunRiseSet sun;
 public:
     iDomTOOLS(thread_data *myData);
 
@@ -30,6 +31,9 @@ public:
     void sendSMSifTempChanged(std::string thermomethernName, int reference, std::string phoneNumber, std::string msg );
     void turnOnSpeakers();
     void turnOffSpeakers();
+    std::string getSunrise();
+    std::string getSunset();
+    std::string getDayLenght();
 };
 
 #endif // IDOMTOOLS_H

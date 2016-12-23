@@ -56,3 +56,21 @@ void iDomTOOLS::turnOffSpeakers()
 {
     digitalWrite(GPIO_SPIK, HIGH);
 }
+
+std::string iDomTOOLS::getSunrise()
+{
+    Clock tt = sun.getSunRise();
+     return "Sunrise time: "+tt.getString();
+}
+
+std::string iDomTOOLS::getSunset()
+{
+    Clock tt = sun.getSunSet();
+    return  "Sunset time: "+tt.getString();
+}
+
+std::string iDomTOOLS::getDayLenght()
+{
+    Clock tt = sun.getDayLength();
+    return "Day Lenght : "+tt.getString();
+}

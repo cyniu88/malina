@@ -21,6 +21,15 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             return "unknow speakers action: "+v[2];
         }
     }
+    else if (v[1]=="sunset"){
+        return my_data->main_iDomTools->getSunset();
+    }
+    else if (v[1]=="sunrise"){
+        return my_data->main_iDomTools->getSunrise();
+    }
+    else if (v[1]=="day" && v[2]=="lenght"){
+        return my_data->main_iDomTools->getDayLenght();
+    }
 
     return " unknown command "+ v[1];
 }
@@ -29,5 +38,6 @@ std::string command_iDom::help()
 {
     std::string ret = "iDom - for control smart home\n";
     ret.append("iDom speakers ON/OFF - to on or off speakers\n");
+    ret.append("iDom sunset/sunrise/day lenght  - to show those parameters\n");
     return ret;
 }

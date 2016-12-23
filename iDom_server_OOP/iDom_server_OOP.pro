@@ -47,7 +47,8 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     libs/event_counter_test/event_counters/event/event_pilot.cpp \
     libs/event_counter_test/event_counters/event/event_command.cpp \
     src/iDomTools/idomtools.cpp \
-    src/command/commandClass/command_idom.cpp
+    src/command/commandClass/command_idom.cpp \
+    libs/sunrise-sunset/sunriseset.cpp
 
 
 HEADERS += src/parser/parser.hpp  \
@@ -95,5 +96,6 @@ HEADERS += src/parser/parser.hpp  \
     libs/event_counter_test/event_counters/event/event_pilot.h \
     libs/event_counter_test/event_counters/event/event_command.h \
     src/iDomTools/idomtools.h \
-    src/command/commandClass/command_idom.h
+    src/command/commandClass/command_idom.h \
+    libs/sunrise-sunset/sunriseset.h
 
