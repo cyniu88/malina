@@ -5,6 +5,7 @@
 #include <string>
 #include "../iDom_server_OOP.h"
 #include "../../libs/sunrise-sunset/sunriseset.h"
+#include "sys/sysinfo.h"
 struct thread_data;
 
 enum class TEMPERATURE_STATE{
@@ -34,6 +35,7 @@ public:
     std::string getSunrise();
     std::string getSunset();
     std::string getDayLenght();
+    std::string getSystemInfo();
 };
 
 #endif // IDOMTOOLS_H

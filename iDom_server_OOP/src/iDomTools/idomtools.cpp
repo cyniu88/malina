@@ -74,3 +74,24 @@ std::string iDomTOOLS::getDayLenght()
     Clock tt = sun.getDayLength();
     return "Day Lenght : "+tt.getString();
 }
+
+std::string iDomTOOLS::getSystemInfo()
+{
+    struct sysinfo info;
+    sysinfo(&info);
+    long input_seconds = info.uptime;
+    auto days = input_seconds / 60 / 60 / 24;
+    auto hours = (input_seconds / 60 / 60) % 24;
+    auto minutes = (input_seconds / 60) % 60;
+    auto seconds = input_seconds % 60;
+
+
+   std::string  ret;
+   ret=  "System uptime: " + std::to_string(days)+" day ";
+   ret+=  std::to_string(hours) +" hours " ;
+   ret+=  std::to_string(minutes)+ " minutes ";
+   ret+=  std::to_string(seconds)+ " seconds ";
+   ret.append("\n");
+   ret+= std::to_string(info.freeram);
+   return ret;
+}
