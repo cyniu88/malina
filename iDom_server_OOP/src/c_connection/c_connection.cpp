@@ -1,12 +1,8 @@
 #include "c_connection.h"
 #include <iostream>
-//us
 
-
-
-pthread_mutex_t C_connection::mutex_buf = PTHREAD_MUTEX_INITIALIZER;
-
-pthread_mutex_t C_connection::mutex_who = PTHREAD_MUTEX_INITIALIZER;
+std::mutex C_connection::mutex_buf;
+std::mutex C_connection::mutex_who;
 
 // konstruktor
 C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_sock),
@@ -27,11 +23,12 @@ C_connection::~C_connection()
     shutdown( c_socket, SHUT_RDWR );
     for (int i =0 ; i< MAX_CONNECTION;++i)
     {
-        if (my_data->main_THREAD_arr[i].thread_ID == pthread_self())
+        if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
         {
-            my_data->main_THREAD_arr[i].thread_ID = 0;
+            my_data->main_THREAD_arr[i].thread.detach();
             my_data->main_THREAD_arr[i].thread_name ="  -empty-  ";
             my_data->main_THREAD_arr[i].thread_socket=0;
+            my_data->main_THREAD_arr[i].thread_ID = std::thread::id();
             break;
         }
     }

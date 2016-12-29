@@ -1,15 +1,14 @@
 #ifndef C_CONNECTION_H
 #define C_CONNECTION_H
-
+# include <mutex>
+#include <unistd.h>
+#include <iostream>
 #include "../functions/functions.h"                 // brak
 #include "../CRON/cron.hpp"
 #include "../functions/mpd_cli.h"
 #include "../command/commandhandler.h"
 
-#include <unistd.h>
-//#include <boost/foreach.hpp>
-//#include <boost/tokenizer.hpp>
-#include <iostream>
+
 
 constexpr int MAX_buf = 32768;
 class C_connection
@@ -27,11 +26,9 @@ public:
     //char c_buffer[MAX_buf];
     // std::string  str_buf;
     int recv_size;
-
-
-    static pthread_mutex_t mutex_buf ;// = PTHREAD_MUTEX_INITIALIZER;
-    static pthread_mutex_t mutex_who ;//= PTHREAD_MUTEX_INITIALIZER;
     struct s_pointer *pointer;
+    static std::mutex mutex_buf;
+    static std::mutex mutex_who;
 
 
     int c_send(int para);

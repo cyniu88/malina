@@ -1,3 +1,4 @@
+#include <strstream>
 #include "command_show.h"
 #include "../iDom_server_OOP/src/functions/functions.h"
 
@@ -34,21 +35,27 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
             }
             else {
                 if (v [2] !="all"){
+                    std::stringstream ss;
+                    ss << my_data->main_THREAD_arr[std::stoi(v[2])].thread_ID;
                     str_buf  = my_data->main_THREAD_arr[std::stoi(v[2])].thread_name;
                     str_buf  += " ID: ";
-                    str_buf  += std::to_string(my_data->main_THREAD_arr[std::stoi(v[2])].thread_ID);
+                    str_buf  += ss.str();
                     str_buf  += " socket: ";
                     str_buf  += std::to_string(my_data->main_THREAD_arr[std::stoi(v[2])].thread_socket);
                     return str_buf;
                 }
                 else{
                     str_buf.erase();
+                    std::stringstream ss;
                     for (int i =0 ; i< MAX_CONNECTION;++i)
                     {
+                        ss.clear();
+                        ss = std::stringstream();
                         str_buf  += std::to_string(i)+"\t";
                         str_buf  += my_data->main_THREAD_arr[i].thread_name;
                         str_buf  += "\t ID: ";
-                        str_buf  += std::to_string(my_data->main_THREAD_arr[i].thread_ID);
+                        ss << my_data->main_THREAD_arr[i].thread_ID;
+                        str_buf  += ss.str();
 
                         if (my_data->main_THREAD_arr[i].thread_socket !=0){
                             str_buf  += " socket: ";
@@ -59,7 +66,6 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
                     return str_buf;
                 }
             }
-
         }
         else {
             return "wrong parameter: "+v[1];

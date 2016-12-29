@@ -3,47 +3,30 @@
 blockQueue::blockQueue()
 {
 }
-
-pthread_mutex_t blockQueue::mutex_queue_char = PTHREAD_MUTEX_INITIALIZER;
-
+std::mutex blockQueue::mutex_queue_char;
 std::queue < char > blockQueue::_charQ;
 void blockQueue::_add(char X)
 {
-    //digitalWrite(LED7,1);  // zapalam sygnal odbioru wiadomosci
-
- pthread_mutex_lock(&mutex_queue_char);
-
-_charQ.push(X);
-
-pthread_mutex_unlock(&mutex_queue_char);
-
+    std::lock_guard <std::mutex>  lock (mutex_queue_char);
+    _charQ.push(X);
 }
 
 char blockQueue::_get( )
-{  char temp;
-  //  digitalWrite(LED7,0);  // zapalam sygnal odbioru wiadomosci
-
-pthread_mutex_lock(&mutex_queue_char);
-
-if (_charQ.size() > 0){
-temp = _charQ.front();
-
-_charQ.pop();
-}
-else{
-  pthread_mutex_unlock(&mutex_queue_char);
-
-return 'a';
-}
-pthread_mutex_unlock(&mutex_queue_char);
-
-return temp;
+{
+    char temp;
+    std::lock_guard <std::mutex>  lock (mutex_queue_char);
+    if (_charQ.size() > 0){
+        temp = _charQ.front();
+        _charQ.pop();
+    }
+    else{
+        return 'a';
+    }
+    return temp;
 }
 
 int blockQueue::_size()
-{   int tmp;
-    pthread_mutex_lock(&mutex_queue_char);
- tmp = _charQ.size();
-    pthread_mutex_unlock(&mutex_queue_char);
-    return tmp;
+{
+    std::lock_guard <std::mutex>  lock (mutex_queue_char);
+    return _charQ.size();
 }

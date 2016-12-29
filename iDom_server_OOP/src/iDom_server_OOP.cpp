@@ -2,6 +2,7 @@
 #include "functions/functions.h"            // brak
 #include "parser/parser.hpp"
 #include <wiringPi.h>
+#include "c_connection/c_connection.h"
 
 std::string  _logfile  = "/mnt/ramdisk/iDom_log.log";
 std::string buffer ;
@@ -10,10 +11,7 @@ Logger log_file_mutex(_logfile);
 bool go_while = true;
 
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
-void *Send_Recieve_rs232_thread (void *przekaz){
-    thread_data_rs232 *data_rs232;
-
-    data_rs232 = (thread_data_rs232*)przekaz;
+void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
 
     SerialPi serial_ardu(strdup( data_rs232->portRS232.c_str()));
     serial_ardu.begin( std::stoi( data_rs232->BaudRate ));
@@ -28,15 +26,14 @@ void *Send_Recieve_rs232_thread (void *przekaz){
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"otwarcie portu RS232_clock " <<  data_rs232->portRS232_clock <<" "<< data_rs232->BaudRate <<std::endl;
     log_file_mutex.mutex_unlock();
-    //serial_ardu_clock.print("SB90" );
 
     while (go_while)
     {
         usleep(500);
-        pthread_mutex_lock(&C_connection::mutex_who);
+        C_connection::mutex_who.lock();
         if (data_rs232->pointer.ptr_who[0] == RS232)
         {
-            pthread_mutex_lock(&C_connection::mutex_buf);
+            C_connection::mutex_buf.lock();
 
             data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
             data_rs232->pointer.ptr_who[1]= RS232;
@@ -53,12 +50,11 @@ void *Send_Recieve_rs232_thread (void *przekaz){
                     buffer.erase(buffer.end()-1);
                     break;
                 }
-
             }
-            pthread_mutex_unlock(&C_connection::mutex_buf);
+            C_connection::mutex_buf.unlock();
         }
         else if (data_rs232->pointer.ptr_who[0] == CLOCK){
-            pthread_mutex_lock(&C_connection::mutex_buf);
+            C_connection::mutex_buf.lock();
 
             data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
             data_rs232->pointer.ptr_who[1]= RS232;
@@ -72,34 +68,25 @@ void *Send_Recieve_rs232_thread (void *przekaz){
                     buffer+=serial_ardu_clock.read();
                     break;
                 }
-
             }
-            pthread_mutex_unlock(&C_connection::mutex_buf);
+            C_connection::mutex_buf.unlock();
         }
-        pthread_mutex_unlock(&C_connection::mutex_who);
+        C_connection::mutex_who.unlock();
     }
-    pthread_exit(NULL);
+    //pthread_exit(NULL);
 }
 //////////// watek do obslugi polaczeni miedzy nodami  //////////////
 
-void *f_serv_con_node (void *data){
-    thread_data  *my_data;
-    my_data = (thread_data*)data;
-    pthread_detach( pthread_self () );
-    pthread_exit(NULL);
+void f_serv_con_node (thread_data  *my_data){
+     my_data->myEventHandler.run("node")->addEvent("start and stop node");
 } //  koniec f_serv_con_node
 /////////////////////  watek do obslugi irda //////////////////////////////
 
-void *f_master_irda (void *data){
-    thread_data  *my_data;
-    my_data = (thread_data*)data;
-    //std::cout<<"start watek irda master 22222222 \n";
-    pthread_detach( pthread_self () );
+void f_master_irda (thread_data  *my_data){
 
     master_irda irda(my_data);
     irda.run();
 
-    pthread_exit(NULL);
 } //  koniec master_irda
 ///////////  watek wymiany polaczenia /////////////////////
 
@@ -107,22 +94,16 @@ void *f_master_irda (void *data){
 /////////////////////  watek CRON //////////////////////////////
 
 
-void *f_master_CRON (void *data){
-    thread_data  *my_data;
-    my_data = (thread_data*)data;
-
-    pthread_detach( pthread_self () );
+void f_master_CRON (thread_data  *my_data){
     CRON my_CRON(my_data);
     my_CRON.run();
-
-    pthread_exit(NULL);
 } //  koniec CRON
 
-void *Server_connectivity_thread(void *przekaz){
-    thread_data  *my_data;
-    my_data = (thread_data*)przekaz;
+void Server_connectivity_thread(thread_data  *my_data){
 
-    pthread_detach( pthread_self () );
+    //my_data = (thread_data*)my_data2;
+
+    //pthread_detach( pthread_self () );
 
     C_connection *client = new C_connection( my_data);
     bool key_ok=false;
@@ -200,14 +181,14 @@ void *Server_connectivity_thread(void *przekaz){
     my_data->mainLCD->set_lcd_STATE(2);
     sleep (3);
     delete client;
-    pthread_exit(NULL);
+    //pthread_exit(NULL);
 }
 
 int main()
 {
-    pthread_mutex_init(&C_connection::mutex_buf, NULL);
-    pthread_mutex_init(&C_connection::mutex_who, NULL);
-    pthread_mutex_init(&blockQueue::mutex_queue_char, NULL);
+    //pthread_mutex_init(&C_connection::mutex_buf, NULL);
+    //pthread_mutex_init(&C_connection::mutex_who, NULL);
+    //pthread_mutex_init(&blockQueue::mutex_queue_char, NULL);
     pthread_mutex_init(&Logger::mutex_log, NULL);
 
     config server_settings   =  read_config ( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfigu
@@ -221,7 +202,7 @@ int main()
     Thread_array_struc thread_array[MAX_CONNECTION];
     for (int i =0 ; i< MAX_CONNECTION;++i){
         thread_array[i].thread_name="  -empty-  ";
-        thread_array[i].thread_ID=0;
+       // thread_array[i].thread_ID=0;
         thread_array[i].thread_socket=0;
     }
 
@@ -277,8 +258,12 @@ int main()
     data_rs232.portRS232_clock = server_settings.portRS232_clock;
 
     data_rs232.pointer.ptr_who=who;
-    pthread_create(&thread_array[2].thread_ID ,NULL,&Send_Recieve_rs232_thread,&data_rs232 );    ///  start watku do komunikacji rs232
+
+    ///  start watku do komunikacji rs232
+    thread_array[2].thread = std::thread (Send_Recieve_rs232_thread,&data_rs232);
     thread_array[2].thread_name="RS232_thread";
+    thread_array[2].thread_ID = thread_array[2].thread.get_id();
+    //thread_array[2].thread.detach();
 
     /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
 
@@ -323,34 +308,41 @@ int main()
     pilotPTR->setup();
 
     // start watku irda
-    pthread_create (&thread_array[0].thread_ID, NULL,&f_master_irda ,&node_data);
+    thread_array[0].thread = std::thread (f_master_irda, &node_data);
     thread_array[0].thread_name="IRDA_master";
+    thread_array[0].thread_ID = thread_array[0].thread.get_id();
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "watek wystartowal polaczenie irda "<< thread_array[0].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();
-    pthread_detach( thread_array[0].thread_ID );
+
     // start watku  mpd_cli
-    pthread_create (&thread_array[1].thread_ID, NULL,&main_mpd_cli ,&node_data);
+    thread_array[1].thread = std::thread (main_mpd_cli, &node_data);
     thread_array[1].thread_name="MPD_client";
+    thread_array[1].thread_ID = thread_array[1].thread.get_id();
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "watek wystartowal klient mpd "<< thread_array[1].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();
-    pthread_detach( thread_array[1].thread_ID );
+    //
+    //thread_array[1].thread.detach();
+
     // start watku CRONa
-    pthread_create (&thread_array[3].thread_ID, NULL,&f_master_CRON ,&node_data);
+    thread_array[3].thread = std::thread(f_master_CRON, &node_data);
     thread_array[3].thread_name="CRON_master";
+    thread_array[3].thread_ID = thread_array[3].thread.get_id();
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "watek CRON wystartowal "<< thread_array[3].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();
-    pthread_detach( thread_array[3].thread_ID );
+    //thread_array[3].thread.detach();
 
     if (server_settings.ID_server == 1001){    ///  jesli  id 1001  to wystartuj watek do polaczeni z innym nodem masterem
-        pthread_create (&thread_array[4].thread_ID, NULL,&f_serv_con_node ,&node_data);
-        thread_array[3].thread_name="node master";
+
+        thread_array[4].thread = std::thread(f_serv_con_node, &node_data);
+        thread_array[4].thread_name="node master";
+        thread_array[4].thread_ID = thread_array[4].thread.get_id();
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "watek wystartowal dla NODA MASTERA "<< thread_array[4].thread_ID << std::endl;
         log_file_mutex.mutex_unlock();
-        pthread_detach( thread_array[4].thread_ID );
+        //thread_array[4].thread.detach();
     }
 
     else
@@ -430,21 +422,23 @@ int main()
         ////////////////////////   jest połacznie   wiec wstawiamy je  do nowego watku  i  umieszczamy id watku w tablicy  w pierwszym wolnym miejscy ////////////////////
         for (int con_counter=0; con_counter< MAX_CONNECTION; ++con_counter)
         {
-            if ( thread_array[con_counter].thread_ID==0 || pthread_kill(thread_array[con_counter].thread_ID, 0) == ESRCH )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
+            if ( node_data.main_THREAD_arr[con_counter].thread.joinable() == false  )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
             {
                 if ( con_counter!=MAX_CONNECTION -1)
                 {
                     node_data.s_client_sock =v_sock_ind;
                     node_data.from=from;
 
-                    pthread_create (&thread_array[con_counter].thread_ID, NULL,&Server_connectivity_thread,&node_data);
+                    //pthread_create (&thread_array[con_counter].thread_ID, NULL,&Server_connectivity_thread,&node_data);
+                    thread_array[con_counter].thread = std::thread(Server_connectivity_thread, &node_data);
                     thread_array[con_counter].thread_name = inet_ntoa(node_data.from.sin_addr);
                     thread_array[con_counter].thread_socket=v_sock_ind;
+                    thread_array[con_counter].thread_ID = thread_array[con_counter].thread.get_id();
+                    //thread_array[con_counter].thread.detach();
                     log_file_mutex.mutex_lock();
                     log_file_cout << INFO << "watek wystartowal  "<< thread_array[con_counter].thread_ID << std::endl;
                     log_file_mutex.mutex_unlock();
 
-                    pthread_detach( thread_array[con_counter].thread_ID );
                     break;
                 }
                 else
@@ -477,9 +471,9 @@ int main()
 
     //pthread_join(main_th ,NULL);
     pthread_mutex_destroy(&Logger::mutex_log);
-    pthread_mutex_destroy(&C_connection::mutex_buf);
-    pthread_mutex_destroy(&C_connection::mutex_who);
-    pthread_mutex_destroy(&blockQueue::mutex_queue_char);
+    //pthread_mutex_destroy(&C_connection::mutex_buf);
+    //pthread_mutex_destroy(&C_connection::mutex_who);
+    //pthread_mutex_destroy(&blockQueue::mutex_queue_char);
 
     return 0;
 }

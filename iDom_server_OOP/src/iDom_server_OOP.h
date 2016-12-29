@@ -12,6 +12,7 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <vector>
+#include <thread>
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -74,7 +75,8 @@ struct s_pointer{
 };
 
 struct Thread_array_struc {
-    pthread_t  thread_ID;
+    std::thread thread;
+    std::thread::id thread_ID;
     std::string thread_name;
     int thread_socket;
 };

@@ -128,20 +128,18 @@ void c_irda_logic::_add(char X)
         }
         else if (X=='O')
         {
-           // my_data_logic->sleeper*=60;
-
 
             for (int con_counter=0; con_counter< MAX_CONNECTION; ++con_counter)
             {
-                if ( my_data_logic->main_THREAD_arr[con_counter].thread_ID==0 || pthread_kill(my_data_logic->main_THREAD_arr[con_counter].thread_ID, 0) == ESRCH )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
+                if (   my_data_logic->main_THREAD_arr[con_counter].thread.joinable() == false )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
 
                 {
                     if ( con_counter!=MAX_CONNECTION -1)
                     {
-                        // int sleep_t = my_data_logic->sleeper;
-
-                        pthread_create (&my_data_logic->main_THREAD_arr[con_counter].thread_ID, NULL,&sleeper_mpd,  my_data_logic);
+                        my_data_logic->main_THREAD_arr[con_counter].thread = std::thread(sleeper_mpd,my_data_logic);
                         my_data_logic->main_THREAD_arr[con_counter].thread_name="Sleeper  MPD ";
+                        my_data_logic->main_THREAD_arr[con_counter].thread_ID = my_data_logic->main_THREAD_arr[con_counter].thread.get_id();
+                        my_data_logic->main_THREAD_arr[con_counter].thread.detach();
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data_logic->main_THREAD_arr[con_counter].thread_ID << std::endl;
                         log_file_mutex.mutex_unlock();
@@ -149,7 +147,7 @@ void c_irda_logic::_add(char X)
                         my_data_logic->mainLCD->printString(true,1,0,"SLEEPer START");
                         my_data_logic->mainLCD->set_print_song_state(0);
                         who = '!';
-                        pthread_detach( my_data_logic->main_THREAD_arr[con_counter].thread_ID );
+
                         break;
 
                     }

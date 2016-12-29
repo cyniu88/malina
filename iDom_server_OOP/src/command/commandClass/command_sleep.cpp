@@ -24,13 +24,15 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
             my_data->sleeper = sleep;
             for (int con_counter=0; con_counter< MAX_CONNECTION; ++con_counter)
             {
-                if ( my_data->main_THREAD_arr[con_counter].thread_ID==0 || pthread_kill(my_data->main_THREAD_arr[con_counter].thread_ID, 0) == ESRCH )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
+                if (   my_data->main_THREAD_arr[con_counter].thread.joinable() == false )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
 
                 {
                     if ( con_counter!=MAX_CONNECTION -1)
                     {
-                        pthread_create (&my_data->main_THREAD_arr[con_counter].thread_ID, NULL,&sleeper_mpd,  my_data);
+                        my_data->main_THREAD_arr[con_counter].thread = std::thread(sleeper_mpd,my_data);
                         my_data->main_THREAD_arr[con_counter].thread_name="Sleeper  MPD ";
+                        my_data->main_THREAD_arr[con_counter].thread_ID = my_data->main_THREAD_arr[con_counter].thread.get_id();
+                        //my_data->main_THREAD_arr[con_counter].thread.detach();
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data->main_THREAD_arr[con_counter].thread_ID << std::endl;
                         log_file_mutex.mutex_unlock();
@@ -38,7 +40,7 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
                         //                        my_data_logic->mainLCD->printString(true,1,0,"SLEEPer START");
                         //                        my_data_logic->mainLCD->set_print_song_state(0);
                         //                        who = '!';
-                        pthread_detach( my_data->main_THREAD_arr[con_counter].thread_ID );
+
                         return "DONE \n sleep has set to: "+v[2];
                     }
                 }

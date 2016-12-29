@@ -5,6 +5,7 @@
 #include <queue>
 #include <pthread.h>
 #include <iostream>
+#include <mutex>
 //#include <wiringPi.h>
 
 #include "../logger/logger.hpp"
@@ -15,7 +16,7 @@ class blockQueue
 {
 public:
     blockQueue();
-    static pthread_mutex_t mutex_queue_char ;
+    static std::mutex mutex_queue_char ;
 
     static std::queue < char > _charQ;
 

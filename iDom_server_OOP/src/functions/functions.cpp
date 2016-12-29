@@ -77,35 +77,36 @@ std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg){
     while (go_while)
     {
         usleep(500);
-        pthread_mutex_lock(&C_connection::mutex_who);
+        //pthread_mutex_lock(&C_connection::mutex_who);
+        C_connection::mutex_who.lock();
         if (my_data_logic->pointer.ptr_who[0] == FREE)
         {
-            pthread_mutex_lock(&C_connection::mutex_buf);
+            C_connection::mutex_buf.lock();
             my_data_logic->pointer.ptr_who[0]=CLOCK;
             my_data_logic->pointer.ptr_who[1]= pthread_self();
             buffer=msg;
-            pthread_mutex_unlock(&C_connection::mutex_buf);
-            pthread_mutex_unlock(&C_connection::mutex_who);
+            C_connection::mutex_buf.unlock();
+            C_connection::mutex_who.unlock();
             break;
         }
-        pthread_mutex_unlock(&C_connection::mutex_who);
+        C_connection::mutex_who.unlock();
     }
 
     while (go_while)
     {
         usleep(500);
-        pthread_mutex_lock(&C_connection::mutex_who);
+        C_connection::mutex_who.lock();
         if (my_data_logic->pointer.ptr_who[0] == pthread_self())
         {
-            pthread_mutex_lock(&C_connection::mutex_buf);
+            C_connection::mutex_buf.lock();
             my_data_logic->pointer.ptr_who[0]=FREE;
             my_data_logic->pointer.ptr_who[1]= 0;
             msg=buffer;
-            pthread_mutex_unlock(&C_connection::mutex_buf);
-            pthread_mutex_unlock(&C_connection::mutex_who);
+            C_connection::mutex_buf.unlock();
+            C_connection::mutex_who.unlock();
             break;
         }
-        pthread_mutex_unlock(&C_connection::mutex_who);
+        C_connection::mutex_who.unlock();
     }
 
     return msg;
@@ -115,35 +116,35 @@ std::string send_to_arduino (thread_data *my_data_logic, std::string msg){
     while (go_while)
     {
         usleep(500);
-        pthread_mutex_lock(&C_connection::mutex_who);
+        C_connection::mutex_who.lock();
         if (my_data_logic->pointer.ptr_who[0] == FREE)
         {
-            pthread_mutex_lock(&C_connection::mutex_buf);
+            C_connection::mutex_buf.lock();
             my_data_logic->pointer.ptr_who[0]=RS232;
             my_data_logic->pointer.ptr_who[1]= pthread_self();
             buffer=msg;
-            pthread_mutex_unlock(&C_connection::mutex_buf);
-            pthread_mutex_unlock(&C_connection::mutex_who);
+            C_connection::mutex_buf.unlock();
+            C_connection::mutex_who.unlock();
             break;
         }
-        pthread_mutex_unlock(&C_connection::mutex_who);
+        C_connection::mutex_who.unlock();
     }
 
     while (go_while)
     {
         usleep(500);
-        pthread_mutex_lock(&C_connection::mutex_who);
+        C_connection::mutex_who.lock();
         if (my_data_logic->pointer.ptr_who[0] == pthread_self())
         {
-            pthread_mutex_lock(&C_connection::mutex_buf);
+            C_connection::mutex_buf.lock();
             my_data_logic->pointer.ptr_who[0]=FREE;
             my_data_logic->pointer.ptr_who[1]= 0;
             msg=buffer;
-            pthread_mutex_unlock(&C_connection::mutex_buf);
-            pthread_mutex_unlock(&C_connection::mutex_who);
+            C_connection::mutex_buf.unlock();
+            C_connection::mutex_who.unlock();
             break;
         }
-        pthread_mutex_unlock(&C_connection::mutex_who);
+        C_connection::mutex_who.unlock();
     }
 
     return msg;
@@ -171,9 +172,8 @@ std::string  sek_to_uptime(long long secy )
 }
 
 ////// watek sleeper
-void *sleeper_mpd (void * data)
+void sleeper_mpd (thread_data  *my_data)
 {
-    thread_data *my_data = (thread_data *)data;
     blockQueue char_queue; // kolejka polecen
     for (; my_data->sleeper >0 ; my_data->sleeper-- ){
         sleep (60);
@@ -182,11 +182,11 @@ void *sleeper_mpd (void * data)
     char_queue._add('P');
     for (int i =0 ; i< MAX_CONNECTION;++i)
     {
-        if (my_data->main_THREAD_arr[i].thread_ID == pthread_self())
+        if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
         {
-            my_data->main_THREAD_arr[i].thread_ID = 0;
+            my_data->main_THREAD_arr[i].thread.detach();
             my_data->main_THREAD_arr[i].thread_name ="  -empty-  ";
-
+            my_data->main_THREAD_arr[i].thread_ID =  std::thread::id();
             break;
         }
     }
@@ -194,7 +194,6 @@ void *sleeper_mpd (void * data)
     log_file_cout << INFO<< "koniec  watku SLEEP_MPD" <<  std::endl;
     log_file_mutex.mutex_unlock();
 
-    pthread_exit(NULL);
 }
 void tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text){
     std::string temp;
