@@ -2,7 +2,6 @@
 #include "functions/functions.h"            // brak
 #include "parser/parser.hpp"
 #include <wiringPi.h>
-#include <bluetooth/bluetooth.h>
 
 std::string  _logfile  = "/mnt/ramdisk/iDom_log.log";
 std::string buffer ;

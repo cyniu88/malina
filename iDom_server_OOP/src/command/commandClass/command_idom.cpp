@@ -7,6 +7,9 @@ command_iDom::command_iDom(std::string name):command(name)
 
 std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_data)
 {
+    if (v.size()<2){
+        return "need parameter!";
+    }
     if (v[1]=="speakers")
     {
         if (v[2] =="ON"){
@@ -44,7 +47,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         return my_data->main_iDomTools->getSystemInfo();
     }
 
-    return " unknown command "+ v[1];
+    return "iDom - unknown parameter: "+ v[1];
 }
 
 std::string command_iDom::help()

@@ -24,7 +24,9 @@ class iDomTOOLS
     std::map <std::string ,temperature> thermometer;
     thread_data *my_data;
     SunRiseSet sun;
+
 public:
+    std::vector <std::string> textToSpeachVector;
     iDomTOOLS(thread_data *myData);
 
     void setTemperature (std::string name, float value);
@@ -36,6 +38,7 @@ public:
     std::string getSunset();
     std::string getDayLenght();
     std::string getSystemInfo();
+    void textToSpeach(std::vector <std::string> *textVector) const;
 };
 
 #endif // IDOMTOOLS_H

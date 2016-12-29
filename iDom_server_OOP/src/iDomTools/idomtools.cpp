@@ -95,3 +95,17 @@ std::string iDomTOOLS::getSystemInfo()
    ret+= std::to_string(info.freeram);
    return ret;
 }
+
+void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector) const
+{
+    if (textVector->empty() ){
+        return;
+    }
+    std::string txt;
+
+    for (auto a : *textVector){
+        txt += a;
+    }
+    /////////// start thread  TTS - python use ////////////////////////
+
+}
