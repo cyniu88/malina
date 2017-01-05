@@ -6,6 +6,8 @@
 #include "../iDom_server_OOP.h"
 #include "../../libs/sunrise-sunset/sunriseset.h"
 #include "sys/sysinfo.h"
+#include <chrono>
+
 struct thread_data;
 
 enum class TEMPERATURE_STATE{
@@ -34,11 +36,13 @@ public:
     void sendSMSifTempChanged(std::string thermomethernName, int reference, std::string phoneNumber, std::string msg );
     void turnOnSpeakers();
     void turnOffSpeakers();
-    std::string getSunrise();
-    std::string getSunset();
-    std::string getDayLenght();
+    std::string getSunrise(bool extend = false);
+    std::string getSunset(bool extend = false);
+    std::string getDayLenght(bool extend = false);
     std::string getSystemInfo();
     void textToSpeach(std::vector <std::string> *textVector) const;
+    std::string getTextToSpeach();
+    std::vector <std::string> getTemperature();
 };
 
 #endif // IDOMTOOLS_H

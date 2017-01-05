@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <vector>
+#include <string>
 #include "../iDom_server_OOP.h"
 #include "../c_connection/c_connection.h"
 
@@ -20,5 +22,5 @@ std::string  RSHash(int offset =0);
 void write_to_mkfifo(std::string msg);
 std::string read_from_mkfifo();
 std::string l_send_file(std::string path, std::string find  , bool reverse =false );
-
+std::vector<std::string> split(const std::string& s, char separator );
 #endif // FUNCTIONS_H

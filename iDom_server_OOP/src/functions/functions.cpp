@@ -180,16 +180,28 @@ void sleeper_mpd (thread_data  *my_data)
     }
 
     char_queue._add('P');
-    for (int i =0 ; i< MAX_CONNECTION;++i)
-    {
-        if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
+    send_to_arduino(my_data,"LED_STOP:22;");
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO<< "zaczynam procedure konca watku SLEEP_MPD" <<  std::endl;
+    log_file_mutex.mutex_unlock();
+    try {
+        for (int i =0 ; i< MAX_CONNECTION;++i)
         {
-            my_data->main_THREAD_arr[i].thread.detach();
-            my_data->main_THREAD_arr[i].thread_name ="  -empty-  ";
-            my_data->main_THREAD_arr[i].thread_ID =  std::thread::id();
-            break;
+            if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
+            {
+                my_data->main_THREAD_arr[i].thread.detach();
+                my_data->main_THREAD_arr[i].thread_name ="  -empty-  ";
+                my_data->main_THREAD_arr[i].thread_ID =  std::thread::id();
+                break;
+            }
         }
     }
+    catch (std::system_error e){
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR<< "zlapano wyjatek w  watku SLEEP_MPD: " << e.what()<< std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< "koniec  watku SLEEP_MPD" <<  std::endl;
     log_file_mutex.mutex_unlock();
@@ -335,3 +347,23 @@ std::string l_send_file(std::string path, std::string find  , bool reverse )
     }
     return str_buf;
 }
+
+std::vector<std::string> split(const std::string& s, char separator ){
+    std::vector<std::string> output;
+
+    std::string::size_type prev_pos = 0, pos = 0;
+
+    while((pos = s.find(separator, pos)) != std::string::npos)
+    {
+        std::string substring( s.substr(prev_pos, pos-prev_pos) );
+
+        output.push_back(substring);
+
+        prev_pos = ++pos;
+    }
+
+    output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
+
+    return output;
+}
+
