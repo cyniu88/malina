@@ -14,7 +14,7 @@ public:
     virtual char getValue();
 
 protected:
-    char value;
+    char char_value;
    std::string key_name;
 
 };

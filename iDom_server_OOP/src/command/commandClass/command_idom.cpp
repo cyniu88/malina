@@ -49,6 +49,14 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1]=="text"){
         return my_data->main_iDomTools->getTextToSpeach();
     }
+    else if (v[1]=="say"){
+        if (v.size()<3){
+
+            std::vector<std::string> vTTS ={ my_data->main_iDomTools->getTextToSpeach()};
+            my_data->main_iDomTools->textToSpeach(&vTTS);
+        }
+
+    }
 
     return "iDom - unknown parameter: "+ v[1];
 }
@@ -61,5 +69,6 @@ std::string command_iDom::help()
     ret.append("iDom sun        - get sunrise, sunset and day lenght\n");
     ret.append("iDom sysinfo    - get system info \n");
     ret.append("iDom text       - get text to speach\n");
+    ret.append("iDom say <text> - say standatrd info or <text> \n");
     return ret;
 }

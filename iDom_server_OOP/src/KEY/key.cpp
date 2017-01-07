@@ -4,7 +4,7 @@
 
 
 
-KEY::KEY(char value, std::string name) : value{value},key_name{name}
+KEY::KEY(char value, std::string name) : char_value{value},key_name{name}
 {
 //std::cout << "konstruktor KEY" << std::endl;
 }
@@ -21,7 +21,7 @@ std::string KEY::getName()
 
 char KEY::getValue()
 {
-    return value;
+    return char_value;
 }
 
 map_key::map_key(std::map <std::string , std::unique_ptr <KEY>  > *key_map) : key_map (key_map)
@@ -136,7 +136,7 @@ char SuperKEY::getValue()
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< " " <<LogName<<  std::endl;
     log_file_mutex.mutex_unlock();
-    return value;
+    return char_value;
 }
 
 

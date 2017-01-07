@@ -40,9 +40,11 @@ public:
     std::string getSunset(bool extend = false);
     std::string getDayLenght(bool extend = false);
     std::string getSystemInfo();
-    void textToSpeach(std::vector <std::string> *textVector) const;
+    void textToSpeach(std::vector <std::string> *textVector);
     std::string getTextToSpeach();
     std::vector <std::string> getTemperature();
+    Clock getTime();
+    std::string getSmog();
 };
 
 #endif // IDOMTOOLS_H

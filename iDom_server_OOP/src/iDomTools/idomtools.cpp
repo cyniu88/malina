@@ -1,6 +1,7 @@
 #include "idomtools.h"
 #include "../functions/functions.h"
 #include "../CRON/cron.hpp"
+
 iDomTOOLS::iDomTOOLS(thread_data *myData)
 {
     my_data = myData;
@@ -105,7 +106,7 @@ std::string iDomTOOLS::getSystemInfo()
     return ret;
 }
 
-void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector) const
+void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
 {
     if (textVector->empty() ){
         return;
@@ -116,28 +117,62 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector) const
         txt += a;
     }
     /////////// start thread  TTS - python use ////////////////////////
-    
+    std::string command = " python /home/pi/programowanie/PYTON/gadacz.py ";
+    command += "\""+ txt +"\"";
+    if(my_data->ptr_MPD_info->isPlay){
+
+    }
+    else {
+        turnOnSpeakers();
+    }
+    system(command.c_str());
+    if(my_data->ptr_MPD_info->isPlay){
+
+    }
+    else {
+        turnOffSpeakers();
+    }
 }
 
 std::string iDomTOOLS::getTextToSpeach()
 {
-    auto start = std::chrono::system_clock::now();
     std::vector<std::string> dayL = split(getDayLenght(),':');
     std::string  text;
-    text =  "Godzina:";
+    std::string smogText = getSmog();
+    int smogInt = std::stoi(smogText);
+    text =  "Godzina: "+ getTime().getString();
     text += ". \nWschód słońca: "+getSunrise();
     text += ". \nZachód słońca: "+getSunset();
     text += ". \nDługość dnia: "+ dayL[0]+" godzin "+dayL[1]+" minut";
     text +=". \n";
     dayL = getTemperature();
-    text += "Temperatura na zewnątrz:"+ dayL[1]+" stopnia. \n";
-    text += "Temperatura w pokoju:"+ dayL[0]+" stopnia. \n";
-    text += "Smog: "+  CRON::smog()+"miligram na metr szescienny. \n";
+    text += "Temperatura na zewnątrz: "+ dayL[1]+" stopnia. \n";
+    text += "Temperatura w pokoju: "+ dayL[0]+" stopnia. \n";
+    text += "Smog: "+ smogText +" mg/m^3. \n";
+    if (smogInt > 50){
+        int result = smogInt *2 ;
+        text += "UWAGA! Maksymalna wartość przekroczona "+ std::to_string(result)+"%.";
+    }
     return text;
 }
 
 std::vector<std::string> iDomTOOLS::getTemperature()
 {
-   std::vector<std::string>  vect = split(send_to_arduino(my_data,"temperature:22;"),':');
-   return vect;
+    std::vector<std::string>  vect = split(send_to_arduino(my_data,"temperature:22;"),':');
+    return vect;
+}
+
+Clock iDomTOOLS::getTime()
+{
+    Clock t;
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+
+    t.set( ltm->tm_hour ,ltm->tm_min );
+    return t;
+}
+
+std::string iDomTOOLS::getSmog()
+{
+    return CRON::smog();
 }
