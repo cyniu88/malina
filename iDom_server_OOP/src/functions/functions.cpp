@@ -209,10 +209,9 @@ void sleeper_mpd (thread_data  *my_data)
 }
 void tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text){
     std::string temp;
-    bool is_sep = false;
 
     for(char n: text) { // the initializer may be an array
-        is_sep = false;
+        bool is_sep = false;
         for(char m: separator){
             
             if (n==m)
@@ -237,7 +236,6 @@ void tokenizer ( std::vector <std::string> &command, std::string separator, std:
     }
     if (!temp.empty()){
         command.push_back( temp);
-        //std::cout << "koncowe"<<std::endl;
     }
 }
 

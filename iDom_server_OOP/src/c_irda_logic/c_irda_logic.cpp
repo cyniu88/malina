@@ -62,9 +62,8 @@ void c_irda_logic::_add(char X)
             CRON temp_cron(my_data_logic);
             my_data_logic->mainLCD->set_lcd_STATE(10);
             my_data_logic->mainLCD->printString(true,0,0,"SMOG: "+temp_cron.smog()+" mg/m^3");
-            std::string temp_str="";
-            temp_str = "I:";
-            temp_str += send_to_arduino(my_data_logic,"temperature:2;");
+            std::string temp_str = "I:";
+            temp_str += my_data_logic->main_iDomTools->getTemperatureString();// send_to_arduino(my_data_logic,"temperature:2;");
 
             temp_str.insert(temp_str.find_last_of(':')," O:");
 
@@ -293,7 +292,6 @@ void c_irda_logic::_add(char X)
             {
                 my_data_logic->main_MENU->enter_dir();
                 my_data_logic->main_MENU->show_list();
-                // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
             }
             else
             {
@@ -313,39 +311,31 @@ void c_irda_logic::_add(char X)
                     _add('E');
                     _add('+');
                 }
-
             }
         }
         else if (X=='U')
         {
             my_data_logic->main_MENU->back_dir();
-
         }
         my_data_logic->main_MENU->show_list();
-        // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
-
-
     }
 }
 
 
 char c_irda_logic::_get( )
-{  char temp;
-
-
+{
+    char temp;
     if (irda_queue.size() > 0){
         temp = irda_queue.front();
-
         irda_queue.pop();
     }
     else{
-
         return 'a';
     }
     return temp;
 }
 
-int c_irda_logic::_size()
+int c_irda_logic::_size() const
 {
     return irda_queue.size();
 }

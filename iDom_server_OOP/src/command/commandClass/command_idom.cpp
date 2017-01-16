@@ -84,6 +84,9 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             my_data->main_iDomTools->textToSpeach(&vTTS);
         }
     }
+    else if (v[1]=="smog"){
+        return my_data->main_iDomTools->getSmog()+"mg/m^3";
+    }
     return "iDom - unknown parameter: "+ v[1];
 }
 
@@ -100,5 +103,6 @@ std::string command_iDom::help()
     ret.append("iDom LED <FROM> <TO> <R> <G> <B> - set RGB LED strip\n");
     ret.append("iDom LED OFF    - led off\n");
     ret.append("iDom temperature - get temperature from all termomether\n");
+    ret.append("iDom smog       - get current SMOG level (KRAKOW)\n");
     return ret;
 }

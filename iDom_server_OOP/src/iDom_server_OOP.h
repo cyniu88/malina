@@ -120,21 +120,23 @@ struct LED_Strip{
     std::string G ;
     std::string B ;
 
-    LED_Strip (int from, int to, int r, int g, int b){
-        puts("konstruktor paska LED");
-        this->from =std::to_string(from);
-        this->to = std::to_string(to);
-        R = std::to_string(r);
-        G = std::to_string(g);
-        B = std::to_string(b);
-    };
-    LED_Strip (std::string from, std::string to, std::string r, std::string g, std::string b){
-        this->from =from;
-        this->to = to;
-        R = r;
-        G = g;
-        B = b;
-    };
+    LED_Strip (int from, int to, int r, int g, int b):from(std::to_string(from)),
+        to(std::to_string(to)),
+        R(std::to_string(r)),
+        G(std::to_string(g)),
+        B(std::to_string(b))
+    {
+
+    }
+    LED_Strip (std::string from, std::string to, std::string r, std::string g, std::string b):
+        from(from),
+        to(to),
+        R(r),
+        G(g),
+        B(b)
+    {
+
+    }
 
     void set (std::string from, std::string to, std::string r, std::string g, std::string b){
         this->from =from;
@@ -151,7 +153,7 @@ struct LED_Strip{
         B = std::to_string(b);
     }
 
-    std::string get() {
+    std::string get() const{
         return "LED:["+from+"-"+to+"-"+R+"-"+G+"-"+B+"];";
     }
     static std::string makeCommand(std::string from, std::string to, std::string R, std::string G, std::string B){
@@ -160,16 +162,16 @@ struct LED_Strip{
 };
 
 struct pilot_led{
-    int counter=0;
+    unsigned int counter=0;
     std::vector<LED_Strip> colorLED   = { LED_Strip(1,60,255,192,0),
-                                              LED_Strip(1,60,255,0,0),
-                                              LED_Strip(1,60,0,255,0),
-                                              LED_Strip(1,60,0,0,255),
-                                              LED_Strip(1,60,255,255,255),
-                                              LED_Strip(1,60,255,255,0),
-                                              LED_Strip(1,60,0,255,255),
-                                              LED_Strip(1,60,255,0,255)
-    };
+                                          LED_Strip(1,60,255,0,0),
+                                          LED_Strip(1,60,0,255,0),
+                                          LED_Strip(1,60,0,0,255),
+                                          LED_Strip(1,60,255,255,255),
+                                          LED_Strip(1,60,255,255,0),
+                                          LED_Strip(1,60,0,255,255),
+                                          LED_Strip(1,60,255,0,255)
+                                        };
 };
 class command ;  // for struc thread_data req
 class iDomTOOLS;

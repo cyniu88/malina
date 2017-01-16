@@ -61,7 +61,7 @@ void CRON::send_temperature_thingSpeak()
 {
     CURL *curl;
     CURLcode res;
-    std::string _temperature = send_to_arduino(my_data,"temperature:2;");
+    std::string _temperature = my_data->main_iDomTools->getTemperatureString();
 
     std::string addres = "api.thingspeak.com/update?key=";
     addres+=key;

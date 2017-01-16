@@ -11,13 +11,13 @@ menu_tree::menu_tree (std::string path, LCD_c *mainLCD_PTR):w_serial( "([Ss]\\d{
     get_list( database_path  );
 }
 
-bool menu_tree::is_file(  )
+bool menu_tree::is_file(  ) const
 {
     return movie_database_vector[i].is_file;
 }
-std::string menu_tree::return_path( int i)
+std::string menu_tree::return_path( int i) const
 {
-    ////std::cout << " return " << movie_database_vector[i].path <<std::endl;
+
     return movie_database_vector[i].path;
 }
 
@@ -50,7 +50,7 @@ void menu_tree::previous(  )
 	//show_list();
 }
 
-int menu_tree::get_vector_size ()
+int menu_tree::get_vector_size () const
 {
     return  movie_database_vector.size();
 }

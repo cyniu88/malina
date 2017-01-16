@@ -14,17 +14,17 @@ KEY::~KEY()
     std::cout << "destruktor KEY" << std::endl;
 }
 
-std::string KEY::getName()
+std::string KEY::getName() const
 {
     return key_name;
 }
 
-char KEY::getValue()
+char KEY::getValue() const
 {
     return char_value;
 }
 
-map_key::map_key(std::map <std::string , std::unique_ptr <KEY>  > *key_map) : key_map (key_map)
+map_key::map_key() //: key_map (key_map)
 {
    // std::cout << "konstruktor map_key"<<std::endl;
 }
@@ -115,11 +115,6 @@ void pilot::setup(){
 
 }
 
-void map_key::addToMap (std::unique_ptr <KEY> keyPtr){
-    key_map->insert(std::make_pair(keyPtr->getName(), std::move(keyPtr)) );
-}
-
-
 pilot::pilot(std::map <std::string , std::unique_ptr <KEY>  > *key_map) : key_map (key_map)
 {
     std::cout << "konstruktor pilot"<<std::endl;
@@ -130,7 +125,7 @@ pilot::~pilot( )
 }
 
 
-char SuperKEY::getValue()
+char SuperKEY::getValue() const
 {
 
     log_file_mutex.mutex_lock();

@@ -37,11 +37,11 @@ void get_list(std::string path );  // pobiera liste plikow i katalogow  w katalo
 void get_main_list ();
 std::string show_list ( );
 int get_i(); 				//pobgiera i  ze stosu  do cofania sie po katalogach
-std::string return_path (int i);
-int get_vector_size ();
+std::string return_path (int i) const;
+int get_vector_size () const;
 void next( );
 void previous();
-bool is_file( );
+bool is_file( ) const;
 
 void back_dir();
 

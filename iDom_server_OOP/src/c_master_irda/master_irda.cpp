@@ -37,26 +37,15 @@ KEY_VOLUMEUP        +
 #include "../c_irda_logic/c_irda_logic.h"
 master_irda::master_irda(thread_data *my_data):buttonTimer(millis()), buttonMENU(0), my_data2(my_data)
 {
-
-    if(lirc_init("lirc",1)==-1)
+    if(  lirc_init(const_cast< char*>("lirc"),1)  ==  -1 )
         exit(EXIT_FAILURE);
     std::cout << " jestem po uruchominiu lirc \n";
 
     //// tu chyba sa glupoty  zle
-
-
-}
-
-void master_irda::setup ()
-{
-
-
-
 }
 
 void master_irda::run()
 {
-
     c_irda_logic irda_queue(my_data2);
     //Read the default LIRC config at /etc/lirc/lircd.conf  This is the config for your remote.
     if(lirc_readconfig(NULL,&config,NULL)==0)
@@ -75,11 +64,11 @@ void master_irda::run()
             if(code==NULL) {
                 std::cout << " kontynuuje\n";
                 continue;
-            }else
+            }
+            else
             {
                 //Make sure there is a 400ms gap before detecting button presses.
                 if (millis() - buttonTimer  > 400 ){
-
 
                     // time out   OK menu
                     if (millis() - buttonTimer  > 30000 && buttonMENU == 1){
@@ -104,31 +93,21 @@ void master_irda::run()
                     buttonTimer = millis();
 
                       if(strstr (code,"KEY_EPG")){
-
                         buttonMENU=1;
-
                     }
                     else if(strstr (code,"KEY_OK")){
-
                         buttonMENU=0;
-
                     }
                     else if(strstr (code,"KEY_MENU")){
-
                         buttonMENU=1;// wlacz timeout dla menu
-
                     }
                     else if(strstr (code,"KEY_EXIT")){
-
                         buttonMENU = 0;
-
                     }
-
                 }
             }
             //Need to free up code before the next loop
             free(code);
-
             digitalWrite(BUZZER,OFF);
         }
         //Frees the data structures associated with config.
@@ -138,12 +117,7 @@ void master_irda::run()
     log_file_cout << INFO << " koniec watku master IRDA  "<<   std::endl;
     log_file_mutex.mutex_unlock();
 
-
     //lirc_deinit() closes the connection to lircd and does some internal clean-up stuff.
     lirc_deinit();
     // exit(EXIT_SUCCESS);
-
-
 }
-
-

@@ -4,9 +4,10 @@ bool comper (const movie_database & a , const movie_database& b)
 {
     return a.files_name < b.files_name ;
 }
-files_tree::files_tree (std::string path, LCD_c *mainLCD_PTR):w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
+files_tree::files_tree (std::string path, LCD_c *mainLCD_PTR):database_path(path),w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
+
 {
-    database_path = path;
+    //database_path = path;
     mainLCD=mainLCD_PTR;
     //tree_stack.push(database_path);
     i_stack.push(0);
@@ -14,13 +15,12 @@ files_tree::files_tree (std::string path, LCD_c *mainLCD_PTR):w_serial( "([Ss]\\
     get_list( database_path  );
 
 }
-bool files_tree::is_file(  )
+bool files_tree::is_file(  ) const
 {
     return movie_database_vector[i].is_file;
 }
-std::string files_tree::return_path( int i)
+std::string files_tree::return_path( int i) const
 {
-    ////std::cout << " return " << movie_database_vector[i].path <<std::endl;
     return movie_database_vector[i].path;
 }
 
@@ -48,7 +48,7 @@ void files_tree::previous(  )
     }
 }
 
-int files_tree::get_vector_size ()
+int files_tree::get_vector_size () const
 {
     return  movie_database_vector.size();
 }
@@ -123,9 +123,7 @@ std::string files_tree::show_list(     )
         //std::cout << "wypisuje sciezke katalogu " << movie_database_vector[i].path << std::endl;
         mainLCD->printString(true,0,0,movie_database_vector[i].files_name+"/");
     }
-
     return movie_database_vector[i].path;
-
 }
 
 
@@ -135,8 +133,6 @@ void files_tree::get_list( std::string path  ) {
     //  i=0;
     std::string  path2 =path;
     std::string v_path ,tmp_string ;
-    //std::cout << " SCIEZKA TO " << path << std::endl;
-    //std::cin >> g;
 
     if(sciezka = opendir( path.c_str() ))  {
 

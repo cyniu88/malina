@@ -23,8 +23,6 @@ public:
     sockaddr_in c_from;
 
     char  c_buffer[MAX_buf];
-    //char c_buffer[MAX_buf];
-    // std::string  str_buf;
     int recv_size;
     struct s_pointer *pointer;
     static std::mutex mutex_buf;

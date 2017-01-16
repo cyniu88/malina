@@ -101,8 +101,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                 }
                 my_data->mainLCD->printRadioName(true,0,0,_msg);
                 my_data->mainLCD->set_lcd_STATE(5);
-                std::string temp_str="";
-                temp_str = send_to_arduino(my_data,"temperature:2;");
+                std::string temp_str = my_data->main_iDomTools->getTemperatureString(); // send_to_arduino(my_data,"temperature:2;");
                 temp_str.erase(temp_str.size()-2,temp_str.size());
                 my_data->mainLCD->printString(false,0,1,"temp:"+temp_str+" c");
 
@@ -187,16 +186,14 @@ mpd_status_get_elapsed_song_time(mi)%60);
     }
 }
 
-void  *main_mpd_cli(void *data )
+void main_mpd_cli(thread_data* my_data )
 {
     blockQueue char_queue; // kolejka polecen
-    thread_data  *my_data;
-    my_data = (thread_data*)data;
 
     ////////////////////////////// LCD PART ///////////////////////
     my_data->mainLCD->set_print_song_state(0);
     ///////////////////////////////////////////////////////////////////
-    int   iport = 6600, button_counter =0;
+    int   iport = 6600;
     char *hostname = getenv("MPD_HOST");
     char *port = getenv("MPD_PORT");
     char *password = getenv("MPD_PASSWORD");
@@ -242,6 +239,7 @@ void  *main_mpd_cli(void *data )
     if(!work)
     {
         char buffer;
+        int button_counter =0;
         do{
             if(char_queue._size() > 0)
             {
@@ -375,7 +373,6 @@ break;*/
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << " koniec watku klient MPD  "<<   std::endl;
     log_file_mutex.mutex_unlock();
-    return 0;
 }
 
 void updatePlayList(MpdObj *mi,thread_data *my_data)

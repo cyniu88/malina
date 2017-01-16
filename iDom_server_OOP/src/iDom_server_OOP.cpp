@@ -332,7 +332,6 @@ int main()
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "watek CRON wystartowal "<< thread_array[3].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();
-    //thread_array[3].thread.detach();
 
     if (server_settings.ID_server == 1001){    ///  jesli  id 1001  to wystartuj watek do polaczeni z innym nodem masterem
 
@@ -342,7 +341,6 @@ int main()
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "watek wystartowal dla NODA MASTERA "<< thread_array[4].thread_ID << std::endl;
         log_file_mutex.mutex_unlock();
-        //thread_array[4].thread.detach();
     }
 
     else
@@ -350,10 +348,9 @@ int main()
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "NIE startuje NODA MASTERA do polaczen z innymi " << std::endl;
         log_file_mutex.mutex_unlock();
-
     }
 
-    bzero( & server, sizeof( server ) );
+    memset(&server, 0, sizeof( server ) );
 
     server.sin_family = AF_INET;
     server.sin_port = htons( SERVER_PORT );
@@ -408,8 +405,7 @@ int main()
 
     while (1)
     {
-
-        bzero( & from, sizeof( from ) );
+        memset( &from,0, sizeof( from ) );
         if (!go_while) {break;}
 
         usleep(100000);

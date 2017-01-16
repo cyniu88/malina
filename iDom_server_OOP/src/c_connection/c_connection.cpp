@@ -6,7 +6,7 @@ std::mutex C_connection::mutex_who;
 
 // konstruktor
 C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_sock),
-    c_from(my_data->from),mainCommandHandler(my_data)
+    c_from(my_data->from),recv_size(0)  ,mainCommandHandler(my_data)
 {
     this -> pointer = &my_data->pointer;
     this -> my_data = my_data;
@@ -64,12 +64,12 @@ int C_connection::c_send(int para)
         return -1;
     }
 
-    unsigned int len_send = str_buf.length();
-    unsigned int len_temp =0;
+     int len_send = str_buf.length();
+    // len_temp =0;
 
     while (len_send > 0)
     {
-        len_temp = send( c_socket, str_buf.c_str() ,str_buf.length(), para ) ;
+        int len_temp = send( c_socket, str_buf.c_str() ,str_buf.length(), para ) ;
         std::cout <<"wyslalem bajtow: " << len_temp <<std::endl;
         if(len_temp  <= 0 )
         {

@@ -9,9 +9,9 @@ class KEY
 {
 public:
     KEY(char value, std::string name) ;
-    ~KEY() ;
-   std::string getName();
-    virtual char getValue();
+    virtual ~KEY() ;
+   std::string getName() const;
+   virtual  char getValue() const;
 
 protected:
     char char_value;
@@ -28,26 +28,19 @@ class SuperKEY : public KEY
     SuperKEY (char v, std::string n,std::string LogName) ;
     ~SuperKEY() ;
 
-    char getValue();
+     char getValue() const;
     protected:
 
     std::string LogName;
 };
 
-
-
 class map_key
 {
-    std::map <std::string , std::unique_ptr <KEY>  > *key_map;
+ //   std::map <std::string , std::unique_ptr <KEY>  > *key_map;
 public:
 
-    map_key(std::map <std::string , std::unique_ptr <KEY>  > *key_map) ;
+    map_key() ;
     ~map_key( );
-
-    void addToMap(std::unique_ptr <KEY> keyPtr);
-
-
-
 };
 
 
