@@ -36,7 +36,7 @@ void c_irda_logic::_add(char X)
             my_data_logic->mainLCD->printString(true,0,0,"GASZE LEDy");
             std::string temp_str="";
             temp_str.erase();
-            temp_str += send_to_arduino(my_data_logic,"LED_STOP:2;");
+            temp_str += my_data_logic->main_iDomTools->ledOFF();
             my_data_logic->mainLCD->printString(false,0,1,temp_str);
 
             who='!';
@@ -47,11 +47,7 @@ void c_irda_logic::_add(char X)
             my_data_logic->mainLCD->set_lcd_STATE(10);
             my_data_logic->mainLCD->printString(true,0,0,"ZAPALAM LEDy");
             std::string temp_str="";
-
-            //temp_str += send_to_arduino(my_data_logic,"LED:[1-60-255-0-0];");
-
-            temp_str += send_to_arduino(my_data_logic, my_data_logic->ptr_pilot_led->colorLED[my_data_logic->ptr_pilot_led->counter] );
-
+            temp_str += my_data_logic->main_iDomTools->ledOn(my_data_logic->ptr_pilot_led->colorLED[my_data_logic->ptr_pilot_led->counter]);
 
             if (++my_data_logic->ptr_pilot_led->counter >  my_data_logic->ptr_pilot_led->colorLED.size()-1 )
             {
@@ -143,7 +139,7 @@ void c_irda_logic::_add(char X)
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data_logic->main_THREAD_arr[con_counter].thread_ID << std::endl;
                         log_file_mutex.mutex_unlock();
-                       // my_data_logic->sleeper=0;
+                        // my_data_logic->sleeper=0;
                         my_data_logic->mainLCD->printString(true,1,0,"SLEEPer START");
                         my_data_logic->mainLCD->set_print_song_state(0);
                         who = '!';
@@ -200,17 +196,17 @@ void c_irda_logic::_add(char X)
         else if (X=='U')
         {
             system("echo -n $'\x1b\x5b\x44' > /mnt/ramdisk/cmd");  // do tylu
-                 //   write_to_mkfifo("$'\x1b\x5b\x44'");
+            //   write_to_mkfifo("$'\x1b\x5b\x44'");
         }
         else if (X=='^')
         {
             //system("echo -n o > /mnt/ramdisk/cmd");  // do przodu
-             write_to_mkfifo("o");
+            write_to_mkfifo("o");
         }
         else if (X=='/')
         {
             //system("echo -n i > /mnt/ramdisk/cmd");  // do tylu
-             write_to_mkfifo("i");
+            write_to_mkfifo("i");
 
         }
     }

@@ -46,18 +46,44 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1]=="sysinfo"){
         return my_data->main_iDomTools->getSystemInfo();
     }
+    else if (v[1]=="temperature"){
+        return my_data->main_iDomTools->getTemperatureString();
+    }
+    else if (v[1]=="sms"){
+        if (v.size() <3){
+            return "function not ready yet";
+        }
+        else{
+            std::string m;
+            for(size_t i = 2; i<v.size();++i){
+                m+= v[i]+" ";
+            }
+            return my_data->main_iDomTools->sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
+        }
+    }
     else if (v[1]=="text"){
         return my_data->main_iDomTools->getTextToSpeach();
     }
+    else if (v[1]=="LED"){
+        if (v.size() != 7){
+            if (v[2]=="OFF"){
+                return my_data->main_iDomTools->ledOFF();
+            }
+            else{
+            return "need more parameter from-to-R-G-B";
+            }
+        }
+        else {
+            LED_Strip strip(v[2],v[3],v[4],v[5],v[6]);
+            return my_data->main_iDomTools->ledOn(strip);
+        }
+    }
     else if (v[1]=="say"){
         if (v.size()<3){
-
             std::vector<std::string> vTTS ={ my_data->main_iDomTools->getTextToSpeach()};
             my_data->main_iDomTools->textToSpeach(&vTTS);
         }
-
     }
-
     return "iDom - unknown parameter: "+ v[1];
 }
 
@@ -70,5 +96,9 @@ std::string command_iDom::help()
     ret.append("iDom sysinfo    - get system info \n");
     ret.append("iDom text       - get text to speach\n");
     ret.append("iDom say <text> - say standatrd info or <text> \n");
+    ret.append("iDom sms <text> - send sms<text> \n");
+    ret.append("iDom LED <FROM> <TO> <R> <G> <B> - set RGB LED strip\n");
+    ret.append("iDom LED OFF    - led off\n");
+    ret.append("iDom temperature - get temperature from all termomether\n");
     return ret;
 }

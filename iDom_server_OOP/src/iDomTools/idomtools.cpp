@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "idomtools.h"
 #include "../functions/functions.h"
 #include "../CRON/cron.hpp"
@@ -34,15 +35,19 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName,in
     return TEMPERATURE_STATE::Unknown;
 }
 
-void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int reference, std::string phoneNumber, std::string msg)
+void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int reference)
 {
     TEMPERATURE_STATE status = hasTemperatureChange(thermomethernName,reference);
-    
+    std::string m = "temperature "+thermomethernName+" over ^"+ std::to_string(reference);
+
     if (status == TEMPERATURE_STATE::Over){
-        my_data->myEventHandler.run("temperature")->addEvent("temperature "+thermomethernName+"\tover "+ std::to_string(reference));
+        my_data->myEventHandler.run("temperature")->addEvent(m);
+        sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
     }
     else if (status == TEMPERATURE_STATE::Under){
-        my_data->myEventHandler.run("temperature")->addEvent("temperature " + thermomethernName+"\tunder "+std::to_string(reference));
+        m ="temperature " + thermomethernName+" under \\/"+std::to_string(reference);
+        my_data->myEventHandler.run("temperature")->addEvent(m);
+        sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
     }
     else{
         //my_data->myEventHandler.run("unknown")->addEvent("temperatura nie przeszla przez "+std::to_string(reference));
@@ -146,6 +151,7 @@ std::string iDomTOOLS::getTextToSpeach()
     text += ". \nDługość dnia: "+ dayL[0]+" godzin "+dayL[1]+" minut";
     text +=". \n";
     dayL = getTemperature();
+    dayL[1] = dayL[1].substr(0, dayL[1].size()-2);
     text += "Temperatura na zewnątrz: "+ dayL[1]+" stopnia. \n";
     text += "Temperatura w pokoju: "+ dayL[0]+" stopnia. \n";
     text += "Smog: "+ smogText +" mg/m^3. \n";
@@ -162,6 +168,11 @@ std::vector<std::string> iDomTOOLS::getTemperature()
     return vect;
 }
 
+std::string iDomTOOLS::getTemperatureString()
+{
+    return send_to_arduino(my_data,"temperature:22;");
+}
+
 Clock iDomTOOLS::getTime()
 {
     Clock t;
@@ -175,4 +186,53 @@ Clock iDomTOOLS::getTime()
 std::string iDomTOOLS::getSmog()
 {
     return CRON::smog();
+}
+
+std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std::string number, std::string msg,int silentFrom , int silentTo  )
+{
+    if (silentFrom !=0 && silentTo !=0){
+        // TODO
+    }
+    std::replace(msg.begin(),msg.end(),' ','+');
+    std::string address = "http://darsonserver.5v.pl/bramkaPlus?login=";
+    address +=login+"&password="+pass+"&sender=iDom&number="+number+"&message="+msg;
+
+    CURL *curl;
+    CURLcode res;
+    std::string readBuffer;
+
+    curl = curl_easy_init();
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CRON::WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                    curl_easy_strerror(res));
+
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_global_cleanup();
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO <<"wysłano SMSa otreśći: " <<  msg<<std::endl;
+    log_file_mutex.mutex_unlock();
+    return readBuffer +"\n"+address;
+}
+
+std::string iDomTOOLS::ledOFF()
+{
+    return send_to_arduino(my_data,"LED_STOP:2;");
+}
+
+std::string iDomTOOLS::ledClear()
+{
+    return send_to_arduino(my_data,"LED_CLEAR:2;");
+}
+
+std::string iDomTOOLS::ledOn(LED_Strip ledColor)
+{
+    return send_to_arduino(my_data,ledColor.get());
 }

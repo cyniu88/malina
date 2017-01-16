@@ -153,7 +153,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
         case MPD_PLAYER_STOP:
             printf("Stopped\n");
             if (my_data->ptr_MPD_info->isPlay ==true){
-                send_to_arduino(my_data,"LED_CLEAR:44;");
+                my_data->main_iDomTools->ledClear();
             }
             check_title_song_to=false;
             my_data->mainLCD->play_Y_N=false;

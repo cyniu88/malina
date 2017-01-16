@@ -5,7 +5,6 @@ CRON::CRON(thread_data *my_data)
     this->my_data = my_data;
     this->check_temperature=TRUE;
 }
-
 size_t CRON::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
@@ -82,8 +81,8 @@ void CRON::send_temperature_thingSpeak()
 
     my_data->main_iDomTools->setTemperature("inside",std::stof(in));
     my_data->main_iDomTools->setTemperature("outside",std::stof(out));
-    my_data->main_iDomTools->sendSMSifTempChanged("outside",0,"50","test");
-    my_data->main_iDomTools->sendSMSifTempChanged("inside",24,"50","inside zmina");
+    my_data->main_iDomTools->sendSMSifTempChanged("outside",0);
+    my_data->main_iDomTools->sendSMSifTempChanged("inside",24);
     //printf("o=inside: %f outside %f\n",   std::stof(in)   ,std::stof(out) );
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
@@ -94,7 +93,11 @@ void CRON::send_temperature_thingSpeak()
         /* First set the URL that is about to receive our POST. This URL can
            just as well be a https:// URL if that is what should receive the
            data. */
+        std::string dummyString;
         curl_easy_setopt(curl, CURLOPT_URL, addres.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &dummyString);
+
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
         /* Check for errors */
