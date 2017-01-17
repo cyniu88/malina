@@ -30,7 +30,7 @@ void C_connection::c_recv_send_master()
 {
     while (1)
     {
-        usleep(500);
+        std::this_thread::sleep_for( std::chrono::milliseconds(50) );
 
         mutex_who.lock();
         if (  pointer->ptr_who[0] == my_data->server_settings->ID_server)

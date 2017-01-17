@@ -29,7 +29,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
 
     while (go_while)
     {
-        usleep(500);
+        std::this_thread::sleep_for( std::chrono::milliseconds(50) );
         C_connection::mutex_who.lock();
         if (data_rs232->pointer.ptr_who[0] == RS232)
         {
@@ -408,7 +408,7 @@ int main()
         memset( &from,0, sizeof( from ) );
         if (!go_while) {break;}
 
-        usleep(100000);
+        std::this_thread::sleep_for( std::chrono::milliseconds(500) );
 
         if(( v_sock_ind = accept( v_socket,( struct sockaddr * ) & from, & len ) ) < 0 )
         {
@@ -463,7 +463,7 @@ int main()
     log_file_cout << INFO << "koniec programu  "<<   std::endl;
     log_file_mutex.mutex_unlock();
 
-    sleep(3);
+    std::this_thread::sleep_for( std::chrono::milliseconds(50) );
 
     //pthread_join(main_th ,NULL);
     pthread_mutex_destroy(&Logger::mutex_log);

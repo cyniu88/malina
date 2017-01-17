@@ -3,13 +3,10 @@
 [blockQueue/blockqueue.cpp:14] -> [blockQueue/blockqueue.h:24]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
 [blockQueue/blockqueue.cpp:28] -> [blockQueue/blockqueue.h:25]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
 [c_connection/c_connection.cpp:8]: (warning) Member variable 'C_connection::c_buffer' is not initialized in the constructor.
-[c_connection/c_connection_node.cpp:33]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
 [files_tree/files_tree.cpp:140]: (portability) Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.
 [functions/functions.cpp:25]: (portability) Non reentrant function 'gethostbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostbyname_r'.
 [functions/functions.cpp:251]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
 [functions/functions.cpp:25]: (style) Obsolete function 'gethostbyname' called. It is recommended to use the function 'getaddrinfo' instead.
-[functions/functions.cpp:121]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
-[functions/functions.cpp:138]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
 [functions/mpd_cli.cpp:203] -> [functions/mpd_cli.cpp:204]: (warning) Possible null pointer dereference: hostname - otherwise it is redundant to check it against null.
 [functions/mpd_cli.cpp:365]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
 [iDomTools/idomtools.cpp:57] -> [iDomTools/idomtools.h:39]: (performance, inconclusive) Technically the member function 'iDomTOOLS::turnOnSpeakers' can be static.
@@ -19,8 +16,6 @@
 [iDomTools/idomtools.cpp:186] -> [iDomTools/idomtools.h:53]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSmog' can be static.
 [iDomTools/idomtools.cpp:191] -> [iDomTools/idomtools.h:55]: (performance, inconclusive) Technically the member function 'iDomTOOLS::sendSMStoPlusGSM' can be static.
 [iDomTools/idomtools.cpp:180]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
-[iDom_server_OOP.cpp:32]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
-[iDom_server_OOP.cpp:411]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
 [logger/logger.cc:121]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
 [logger/logger.cc:122]: (style) Obsolete function 'asctime' called. It is recommended to use the function 'strftime' instead.
 [menu_tree/menu_tree.cpp:155]: (portability) Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.
