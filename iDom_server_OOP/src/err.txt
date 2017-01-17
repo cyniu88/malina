@@ -1,19 +1,12 @@
 [CRON/cron.cpp:124]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
-[LCD_c/lcd_c.cpp:3]: (warning) Member variable 'LCD_c::play_Y_N' is not initialized in the constructor.
-[LCD_c/lcd_c.cpp:3]: (warning) Member variable 'LCD_c::print_song_state' is not initialized in the constructor.
-[LCD_c/lcd_c.cpp:3]: (warning) Member variable 'LCD_c::rePrint' is not initialized in the constructor.
 [blockQueue/blockqueue.cpp:8] -> [blockQueue/blockqueue.h:23]: (performance, inconclusive) Technically the member function 'blockQueue::_add' can be static.
 [blockQueue/blockqueue.cpp:14] -> [blockQueue/blockqueue.h:24]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
 [blockQueue/blockqueue.cpp:28] -> [blockQueue/blockqueue.h:25]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
 [blockQueue/blockqueue.cpp:18]: (performance) Possible inefficient checking for '_charQ' emptiness.
 [c_connection/c_connection.cpp:8]: (warning) Member variable 'C_connection::c_buffer' is not initialized in the constructor.
 [c_connection/c_connection_node.cpp:33]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
-[c_irda_logic/c_irda_logic.cpp:328]: (performance) Possible inefficient checking for 'irda_queue' emptiness.
-[c_master_irda/master_irda.cpp:38]: (warning) Member variable 'master_irda::config' is not initialized in the constructor.
-[c_master_irda/master_irda.cpp:38]: (warning) Member variable 'master_irda::code' is not initialized in the constructor.
-[command/commandhandler.cpp:25]: (style) Statements following return, break, continue, goto or throw will never be executed.
+[c_irda_logic/c_irda_logic.cpp:326]: (performance) Possible inefficient checking for 'irda_queue' emptiness.
 [files_tree/files_tree.cpp:140]: (portability) Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.
-[functions/functions.cpp:199]: (style) Exception should be caught by reference.
 [functions/functions.cpp:24]: (portability) Non reentrant function 'gethostbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostbyname_r'.
 [functions/functions.cpp:248]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
 [functions/functions.cpp:24]: (style) Obsolete function 'gethostbyname' called. It is recommended to use the function 'getaddrinfo' instead.
@@ -34,8 +27,7 @@
 [iDom_server_OOP.cpp:411]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
 [logger/logger.cc:121]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
 [logger/logger.cc:122]: (style) Obsolete function 'asctime' called. It is recommended to use the function 'strftime' instead.
-[menu_tree/menu_tree.cpp:6]: (performance) Variable 'database_path' is assigned in constructor body. Consider performing initialization in initialization list.
-[menu_tree/menu_tree.cpp:156]: (portability) Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.
+[menu_tree/menu_tree.cpp:155]: (portability) Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.
 [functions/functions.cpp:45]: (style) The function 'ChangeEndianness' is never used.
 [functions/functions.cpp:66]: (style) The function 'binary' is never used.
 [c_connection/c_connection_node.cpp:6]: (style) The function 'c_start_master' is never used.

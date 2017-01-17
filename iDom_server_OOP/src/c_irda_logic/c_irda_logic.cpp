@@ -71,8 +71,6 @@ void c_irda_logic::_add(char X)
             temp_str.erase(temp_str.size()-2,temp_str.size());
             my_data_logic->mainLCD->printString(false,0,1,temp_str+" c");
             who='!';
-
-
         }
         else if (X=='E')
         {

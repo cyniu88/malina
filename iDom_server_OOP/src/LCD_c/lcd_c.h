@@ -24,12 +24,12 @@ public:
     LiquidCrystal_I2C main_lcd ;
     void printSongName (std::string songName);
     void checkState();
-    bool play_Y_N;
+    bool play_Y_N = false;
 private:
 //std::string intToStr(int n);
-int lcd_state;
-int print_song_state;
-int rePrint;
+int lcd_state = 0;
+int print_song_state = 0;
+int rePrint = 0;
 std::string row1;
 std::string row2;
 std::string radioName;

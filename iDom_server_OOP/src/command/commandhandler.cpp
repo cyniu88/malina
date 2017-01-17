@@ -21,8 +21,8 @@ commandHandler::commandHandler(thread_data * my_data)
     std::unique_ptr <command> test(new commandTEST("test") );
     commandMap.insert( std::make_pair(test->getCommandName(),std::move( test )) );
 
-    std::unique_ptr <command> exit(new commandEXIT("exit"));
-    commandMap.insert( std::make_pair(exit->getCommandName(),std::move( exit )) );
+    std::unique_ptr <command> eexit(new commandEXIT("exit"));
+    commandMap.insert( std::make_pair(eexit->getCommandName(),std::move( eexit )) );
 
     std::unique_ptr <command> MPD(new command_mpd("MPD"));
     commandMap.insert(std::make_pair(MPD->getCommandName(), std::move (MPD)));

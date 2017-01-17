@@ -1,11 +1,10 @@
 #include "menu_tree.h"
 
 
-menu_tree::menu_tree (std::string path, LCD_c *mainLCD_PTR):w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
+menu_tree::menu_tree (std::string path, LCD_c *mainLCD_PTR):database_path(path),w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
 {
-    database_path = path;
     mainLCD=mainLCD_PTR;
-	//tree_stack.push(database_path);
+
 	i_stack.push(0);
 	i=0;
     get_list( database_path  );

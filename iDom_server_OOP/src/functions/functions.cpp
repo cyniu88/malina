@@ -196,7 +196,7 @@ void sleeper_mpd (thread_data  *my_data)
             }
         }
     }
-    catch (std::system_error e){
+    catch (std::system_error &e){
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR<< "zlapano wyjatek w  watku SLEEP_MPD: " << e.what()<< std::endl;
         log_file_mutex.mutex_unlock();
