@@ -13,6 +13,7 @@
 #include <iostream>
 #include <time.h>
 #include <netdb.h>
+#include <chrono>
 // przerobka  adresu na ip . //////////////////////////////////
 std::string conv_dns (std::string temp){
 
@@ -76,7 +77,7 @@ std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg){
 
     while (go_while)
     {
-        usleep(500);
+        std::this_thread::sleep_for( std::chrono::milliseconds(50) );
         //pthread_mutex_lock(&C_connection::mutex_who);
         C_connection::mutex_who.lock();
         if (my_data_logic->pointer.ptr_who[0] == FREE)
@@ -94,7 +95,9 @@ std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg){
 
     while (go_while)
     {
-        usleep(500);
+
+        std::this_thread::sleep_for( std::chrono::milliseconds(50) );
+
         C_connection::mutex_who.lock();
         if (my_data_logic->pointer.ptr_who[0] == pthread_self())
         {
