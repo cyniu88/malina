@@ -8,7 +8,6 @@
 [functions/functions.cpp:251]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
 [functions/functions.cpp:25]: (style) Obsolete function 'gethostbyname' called. It is recommended to use the function 'getaddrinfo' instead.
 [functions/mpd_cli.cpp:203] -> [functions/mpd_cli.cpp:204]: (warning) Possible null pointer dereference: hostname - otherwise it is redundant to check it against null.
-[functions/mpd_cli.cpp:365]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
 [iDomTools/idomtools.cpp:57] -> [iDomTools/idomtools.h:39]: (performance, inconclusive) Technically the member function 'iDomTOOLS::turnOnSpeakers' can be static.
 [iDomTools/idomtools.cpp:62] -> [iDomTools/idomtools.h:40]: (performance, inconclusive) Technically the member function 'iDomTOOLS::turnOffSpeakers' can be static.
 [iDomTools/idomtools.cpp:94] -> [iDomTools/idomtools.h:45]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSystemInfo' can be static.

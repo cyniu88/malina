@@ -361,8 +361,8 @@ break;*/
                 button_counter =0;
             }
 
-
-        } while(!usleep(500000) &&  go_while);
+            std::this_thread::sleep_for( std::chrono::milliseconds(50) );
+        } while( go_while);
         mpd_player_stop(obj);
         sleep (3);
     }
