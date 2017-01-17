@@ -5,11 +5,8 @@
 
 c_irda_logic::c_irda_logic(thread_data *my_data)
 {
-    //std::cout <<"SCIEZKA TO " << my_data->server_settings->MOVIES_DB_PATH << std::endl;
     my_data_logic = my_data;
     who='!';
-    // pinMode(LED7, OUTPUT); // LED  na wyjscie  GPIO
-    //digitalWrite(LED7,OFF);
 }
 
 void c_irda_logic::_add(char X)
@@ -25,10 +22,6 @@ void c_irda_logic::_add(char X)
         else if (X=='r')
         {
             who = 'r';
-            char_queue._add('A'); // projektor wlaczony wiec pauzuje radio
-            //usleep(500);
-
-
         }
         else if (X=='S')
         {
@@ -40,7 +33,6 @@ void c_irda_logic::_add(char X)
             my_data_logic->mainLCD->printString(false,0,1,temp_str);
 
             who='!';
-
         }
         else if (X=='L')
         {
@@ -117,11 +109,9 @@ void c_irda_logic::_add(char X)
         {
             my_data_logic->sleeper-=10;
             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
-
         }
         else if (X=='O')
         {
-
             for (int con_counter=0; con_counter< MAX_CONNECTION; ++con_counter)
             {
                 if (   my_data_logic->main_THREAD_arr[con_counter].thread.joinable() == false )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
@@ -140,16 +130,11 @@ void c_irda_logic::_add(char X)
                         my_data_logic->mainLCD->printString(true,1,0,"SLEEPer START");
                         my_data_logic->mainLCD->set_print_song_state(0);
                         who = '!';
-
                         break;
-
                     }
                 }
             }
-
         }
-
-
     }
     ////////////////////////////////////////////////////////////////////////////////////////////// obsluga projektora
     else if (who=='r')
@@ -160,6 +145,14 @@ void c_irda_logic::_add(char X)
         if ( X=='e')
         {   my_data_logic->mainLCD->set_print_song_state(0);
             who = '!';
+            if(my_data_logic->ptr_MPD_info->isPlay == true){
+                char_queue._add('t');
+            }
+            else {
+                my_data_logic->main_iDomTools->turnOffSpeakers();
+                my_data_logic->mainLCD->set_print_song_state(0); // off display
+                my_data_logic->mainLCD->set_lcd_STATE(0);
+            }
             //   std::cout << "koniec sterowania  projektorem" << std::endl;
         }
 
@@ -241,7 +234,6 @@ void c_irda_logic::_add(char X)
             {
                 std::cout << " URUCHAMIAM PLIK! " <<my_data_logic->main_tree->show_list() <<std::endl;
 
-
                 std::string command = "/home/pi/programowanie/PYTON/iDom_movie.py ";
                 command+=my_data_logic->main_tree->show_list();
                 system(command.c_str());
@@ -250,7 +242,17 @@ void c_irda_logic::_add(char X)
                 my_data_logic->mainLCD->printString(true,0,0,"odtwarzam film");
                 my_data_logic->mainLCD->printString(false,0,1,my_data_logic->main_tree->show_list());
                 who='r';
-                char_queue._add('A');
+                //char_queue._add('A');
+                log_file_mutex.mutex_lock();
+                log_file_cout << INFO << "odtwarzam film "<< my_data_logic->ptr_MPD_info->isPlay << std::endl;
+                log_file_mutex.mutex_unlock();
+                if (my_data_logic->ptr_MPD_info->isPlay == true){
+                    char_queue._add('A'); // projektor wlaczony wiec pauzuje radio
+                }
+                else{
+                    my_data_logic->main_iDomTools->turnOnSpeakers();
+                    puts("wlaczam glosnik do filmu");
+                }
             }
         }
         else if (X=='U')
