@@ -41,10 +41,10 @@ private:
 public:
     files_tree(std::string path, LCD_c *mainLCD_PTR);
     void get_list(std::string path );  // pobiera liste plikow i katalogow  w katalogu glóm
-    void get_main_list ();
+    //void get_main_list ();
     std::string show_list ( );
     int get_i(); 				//pobgiera i  ze stosu  do cofania sie po katalogach
-    std::string return_path (int i) const;
+    //std::string return_path (int i) const;
     int get_vector_size () const;
     void next( );
     void previous();

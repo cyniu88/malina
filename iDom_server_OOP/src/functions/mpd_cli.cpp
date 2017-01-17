@@ -199,9 +199,8 @@ void main_mpd_cli(thread_data* my_data )
     char *password = getenv("MPD_PASSWORD");
     MpdObj *obj = NULL;
 
-
     std::cout << " adres hosta to " << hostname << std::endl;
-    if(!hostname) {
+    if(hostname == NULL) {
         std::cout << " ip mpd to " <<  my_data->server_settings->MPD_IP << " ! \n";
         hostname = (char*)my_data->server_settings->MPD_IP.c_str();
     }
@@ -361,7 +360,7 @@ break;*/
                 button_counter =0;
             }
 
-            std::this_thread::sleep_for( std::chrono::milliseconds(50) );
+            std::this_thread::sleep_for( std::chrono::milliseconds(500) );
         } while( go_while);
         mpd_player_stop(obj);
         sleep (3);

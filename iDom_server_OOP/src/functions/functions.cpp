@@ -42,7 +42,10 @@ std::string conv_dns (std::string temp){
     return s_ip;
 }
 
-
+////////////////////////////////////////// not used now
+///
+///
+/*
 void ChangeEndianness(int32_t * value,int MAX_MSG_LEN_INT)
 {
     if (__BYTE_ORDER == __BIG_ENDIAN)
@@ -73,6 +76,7 @@ void binary(int val)
     }
      std::cout << std::endl;
 }
+*/
 std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg){
 
     while (go_while)

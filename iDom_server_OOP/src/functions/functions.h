@@ -9,10 +9,11 @@
 #include "../c_connection/c_connection.h"
 
 std::string conv_dns (std::string temp);
-
-void ChangeEndianness(int32_t * value, int MAX_MSG_LEN_INT);
-void binary(int val);
+/////// not used now
+// void ChangeEndianness(int32_t * value, int MAX_MSG_LEN_INT);
+// void binary(int val);
 //std::string intToStr(int n);
+//////////////
 std::string send_to_arduino (thread_data *my_data_logic, std::string msg);
 std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg);
 std::string  sek_to_uptime(long long secy );

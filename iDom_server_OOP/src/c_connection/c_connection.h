@@ -19,7 +19,6 @@ public:
 
     thread_data   *my_data;
     int c_socket;
-
     sockaddr_in c_from;
 
     char  c_buffer[MAX_buf];
@@ -28,16 +27,13 @@ public:
     static std::mutex mutex_buf;
     static std::mutex mutex_who;
 
-
     int c_send(int para);
     int c_send(std::string msg,int para);
     int c_send(std::string command);
     int c_recv(int para);
-    //int32_t c_return(int iterator);
     void c_get(int32_t buffor, int i);
     void c_send_recv_RS232 ();
     std::string c_read_buf (int recvSize);
-    //void c_write_buf(char *buf);
     void c_send_recv_MASTER ();
     int c_analyse(int recvSize);
     bool c_analyse_exit();
@@ -45,8 +41,8 @@ public:
 
 
     // metody dla noda
-    void c_start_master();
-    void c_recv_send_master();
+    // void c_start_master();
+    //void c_recv_send_master();
     void setEncriptionKey(std::string key);
 
 private:

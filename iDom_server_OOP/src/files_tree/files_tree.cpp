@@ -19,15 +19,15 @@ bool files_tree::is_file(  ) const
 {
     return movie_database_vector[i].is_file;
 }
-std::string files_tree::return_path( int i) const
-{
-    return movie_database_vector[i].path;
-}
+//std::string files_tree::return_path( int i) const
+//{
+//    return movie_database_vector[i].path;
+//}
 
-void files_tree::get_main_list()
-{
-    get_list( database_path );
-}
+//void files_tree::get_main_list()
+//{
+//    get_list( database_path );
+//}
 void files_tree::next(  )
 {   
     ++i;

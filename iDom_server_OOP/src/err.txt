@@ -1,27 +1,13 @@
-[CRON/cron.cpp:124]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
 [blockQueue/blockqueue.cpp:8] -> [blockQueue/blockqueue.h:23]: (performance, inconclusive) Technically the member function 'blockQueue::_add' can be static.
 [blockQueue/blockqueue.cpp:14] -> [blockQueue/blockqueue.h:24]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
 [blockQueue/blockqueue.cpp:28] -> [blockQueue/blockqueue.h:25]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
-[c_connection/c_connection.cpp:8]: (warning) Member variable 'C_connection::c_buffer' is not initialized in the constructor.
-[files_tree/files_tree.cpp:140]: (portability) Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.
-[functions/functions.cpp:25]: (portability) Non reentrant function 'gethostbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostbyname_r'.
-[functions/functions.cpp:251]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
-[functions/functions.cpp:25]: (style) Obsolete function 'gethostbyname' called. It is recommended to use the function 'getaddrinfo' instead.
-[functions/mpd_cli.cpp:203] -> [functions/mpd_cli.cpp:204]: (warning) Possible null pointer dereference: hostname - otherwise it is redundant to check it against null.
+[functions/mpd_cli.cpp:202] -> [functions/mpd_cli.cpp:203]: (warning) Possible null pointer dereference: hostname - otherwise it is redundant to check it against null.
 [iDomTools/idomtools.cpp:57] -> [iDomTools/idomtools.h:39]: (performance, inconclusive) Technically the member function 'iDomTOOLS::turnOnSpeakers' can be static.
 [iDomTools/idomtools.cpp:62] -> [iDomTools/idomtools.h:40]: (performance, inconclusive) Technically the member function 'iDomTOOLS::turnOffSpeakers' can be static.
 [iDomTools/idomtools.cpp:94] -> [iDomTools/idomtools.h:45]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSystemInfo' can be static.
 [iDomTools/idomtools.cpp:176] -> [iDomTools/idomtools.h:52]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getTime' can be static.
 [iDomTools/idomtools.cpp:186] -> [iDomTools/idomtools.h:53]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSmog' can be static.
 [iDomTools/idomtools.cpp:191] -> [iDomTools/idomtools.h:55]: (performance, inconclusive) Technically the member function 'iDomTOOLS::sendSMStoPlusGSM' can be static.
-[iDomTools/idomtools.cpp:180]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
-[logger/logger.cc:121]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
 [logger/logger.cc:122]: (style) Obsolete function 'asctime' called. It is recommended to use the function 'strftime' instead.
-[menu_tree/menu_tree.cpp:155]: (portability) Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.
-[functions/functions.cpp:46]: (style) The function 'ChangeEndianness' is never used.
-[functions/functions.cpp:67]: (style) The function 'binary' is never used.
-[c_connection/c_connection_node.cpp:6]: (style) The function 'c_start_master' is never used.
-[files_tree/files_tree.cpp:27]: (style) The function 'get_main_list' is never used.
-[files_tree/files_tree.cpp:22]: (style) The function 'return_path' is never used.
 [logger/logger.cc:78]: (style) The function 'set_level' is never used.
 (information) Cppcheck cannot find all the include files (use --check-config for details)
