@@ -5,13 +5,11 @@
 [c_connection/c_connection.cpp:8]: (warning) Member variable 'C_connection::c_buffer' is not initialized in the constructor.
 [c_connection/c_connection_node.cpp:33]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
 [files_tree/files_tree.cpp:140]: (portability) Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.
-[functions/functions.cpp:24]: (portability) Non reentrant function 'gethostbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostbyname_r'.
-[functions/functions.cpp:248]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
-[functions/functions.cpp:24]: (style) Obsolete function 'gethostbyname' called. It is recommended to use the function 'getaddrinfo' instead.
-[functions/functions.cpp:79]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
-[functions/functions.cpp:97]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
-[functions/functions.cpp:118]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
-[functions/functions.cpp:135]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
+[functions/functions.cpp:25]: (portability) Non reentrant function 'gethostbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostbyname_r'.
+[functions/functions.cpp:251]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
+[functions/functions.cpp:25]: (style) Obsolete function 'gethostbyname' called. It is recommended to use the function 'getaddrinfo' instead.
+[functions/functions.cpp:121]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
+[functions/functions.cpp:138]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
 [functions/mpd_cli.cpp:203] -> [functions/mpd_cli.cpp:204]: (warning) Possible null pointer dereference: hostname - otherwise it is redundant to check it against null.
 [functions/mpd_cli.cpp:365]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
 [iDomTools/idomtools.cpp:57] -> [iDomTools/idomtools.h:39]: (performance, inconclusive) Technically the member function 'iDomTOOLS::turnOnSpeakers' can be static.
@@ -26,8 +24,8 @@
 [logger/logger.cc:121]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
 [logger/logger.cc:122]: (style) Obsolete function 'asctime' called. It is recommended to use the function 'strftime' instead.
 [menu_tree/menu_tree.cpp:155]: (portability) Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.
-[functions/functions.cpp:45]: (style) The function 'ChangeEndianness' is never used.
-[functions/functions.cpp:66]: (style) The function 'binary' is never used.
+[functions/functions.cpp:46]: (style) The function 'ChangeEndianness' is never used.
+[functions/functions.cpp:67]: (style) The function 'binary' is never used.
 [c_connection/c_connection_node.cpp:6]: (style) The function 'c_start_master' is never used.
 [files_tree/files_tree.cpp:27]: (style) The function 'get_main_list' is never used.
 [files_tree/files_tree.cpp:22]: (style) The function 'return_path' is never used.
