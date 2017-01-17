@@ -323,7 +323,7 @@ void c_irda_logic::_add(char X)
 char c_irda_logic::_get( )
 {
     char temp;
-    if (irda_queue.size() > 0){
+    if (irda_queue.empty() == false){
         temp = irda_queue.front();
         irda_queue.pop();
     }

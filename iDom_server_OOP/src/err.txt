@@ -2,10 +2,8 @@
 [blockQueue/blockqueue.cpp:8] -> [blockQueue/blockqueue.h:23]: (performance, inconclusive) Technically the member function 'blockQueue::_add' can be static.
 [blockQueue/blockqueue.cpp:14] -> [blockQueue/blockqueue.h:24]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
 [blockQueue/blockqueue.cpp:28] -> [blockQueue/blockqueue.h:25]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
-[blockQueue/blockqueue.cpp:18]: (performance) Possible inefficient checking for '_charQ' emptiness.
 [c_connection/c_connection.cpp:8]: (warning) Member variable 'C_connection::c_buffer' is not initialized in the constructor.
 [c_connection/c_connection_node.cpp:33]: (style) Obsolete function 'usleep' called. It is recommended to use the 'nanosleep' or 'setitimer' function instead.
-[c_irda_logic/c_irda_logic.cpp:326]: (performance) Possible inefficient checking for 'irda_queue' emptiness.
 [files_tree/files_tree.cpp:140]: (portability) Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.
 [functions/functions.cpp:24]: (portability) Non reentrant function 'gethostbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostbyname_r'.
 [functions/functions.cpp:248]: (portability) Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.

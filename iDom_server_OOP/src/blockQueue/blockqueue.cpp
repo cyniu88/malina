@@ -15,7 +15,7 @@ char blockQueue::_get( )
 {
     char temp;
     std::lock_guard <std::mutex>  lock (mutex_queue_char);
-    if (_charQ.size() > 0){
+    if (_charQ.empty() == false){
         temp = _charQ.front();
         _charQ.pop();
     }
