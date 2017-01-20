@@ -150,7 +150,6 @@ int C_connection::c_analyse(int recvSize)
             {
                 //std::cout <<"wychodze!!!!";
                 c_send("\nCLOSE.\n");
-                 send_to_arduino_clock(my_data,"STOP"); // ustawia stop zamiast czasu  na koniec pracy servera
                 return false;
             }
             else

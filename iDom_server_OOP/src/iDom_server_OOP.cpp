@@ -160,11 +160,11 @@ void Server_connectivity_thread(thread_data  *my_data){
         // ###########################  analia wiadomoscu ####################################//
         if ( client->c_analyse(recvSize) == false )   // stop runing idom_server
         {
-            my_data->mainLCD->set_print_song_state(0);
-            my_data->mainLCD->set_lcd_STATE(2);
-            my_data->mainLCD->clear();
-            my_data->mainLCD->noBacklight();
-            sleep (3);
+//            my_data->mainLCD->set_print_song_state(0);
+//            my_data->mainLCD->set_lcd_STATE(2);
+//            my_data->mainLCD->clear();
+//            my_data->mainLCD->noBacklight();
+//            sleep (3);
             go_while = false;
             break;
         }
@@ -406,7 +406,9 @@ int main()
     while (1)
     {
         memset( &from,0, sizeof( from ) );
-        if (!go_while) {break;}
+        if (!go_while) {
+            break;
+        }
 
         std::this_thread::sleep_for( std::chrono::milliseconds(500) );
 
@@ -455,6 +457,13 @@ int main()
     } // while
     // zamykam gniazdo
 
+
+    //send_to_arduino_clock(node_data,"STOP"); // ustawia stop zamiast czasu  na koniec pracy servera
+    node_data.main_iDomTools->turnOffSpeakers();
+    node_data.mainLCD->set_print_song_state(0);
+    node_data.mainLCD->set_lcd_STATE(2);
+    node_data.mainLCD->clear();
+    node_data.mainLCD->noBacklight();
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "zamykanie gniazda wartosc ind "  << shutdown( v_sock_ind, SHUT_RDWR )<< std::endl;
     log_file_cout << ERROR << "gniazdo ind  "<<strerror(  errno ) << std::endl;

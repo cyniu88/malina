@@ -362,8 +362,9 @@ break;*/
 
             std::this_thread::sleep_for( std::chrono::milliseconds(500) );
         } while( go_while);
-        mpd_player_stop(obj);
-        sleep (3);
+
+        mpd_player_stop(obj); //wylaczanie mpd na koniec
+
     }
     else{
         std::cout << " NIE UDALO SIE POłączyć "<<std::endl;

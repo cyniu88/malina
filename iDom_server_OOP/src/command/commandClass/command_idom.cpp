@@ -85,7 +85,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
     }
     else if (v[1]=="smog"){
-        return my_data->main_iDomTools->getSmog()+"mg/m^3";
+        return my_data->main_iDomTools->getSmog()+" mg/m^3";
     }
     return "iDom - unknown parameter: "+ v[1];
 }
