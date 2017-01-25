@@ -53,7 +53,7 @@ void c_irda_logic::_add(char X)
         {
             CRON temp_cron(my_data_logic);
             my_data_logic->mainLCD->set_lcd_STATE(10);
-            my_data_logic->mainLCD->printString(true,0,0,"SMOG: "+temp_cron.smog()+" mg/m^3");
+            my_data_logic->mainLCD->printString(true,0,0,"SMOG: "+my_data_logic->main_iDomTools->getSmog()+" mg/m^3");
             std::string temp_str = "I:";
             temp_str += my_data_logic->main_iDomTools->getTemperatureString();// send_to_arduino(my_data_logic,"temperature:2;");
 

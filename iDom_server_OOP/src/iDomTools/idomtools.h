@@ -27,6 +27,8 @@ class iDomTOOLS
     std::map <std::string ,temperature> thermometer;
     thread_data *my_data;
     SunRiseSet sun;
+    //TODO  przenisc do konfigu
+    std::string key = "47XSQ0J9CPJ4BO2O";
 
 public:
     std::vector <std::string> textToSpeachVector;
@@ -51,6 +53,9 @@ public:
     std::string getTemperatureString();
     Clock getTime();
     std::string getSmog();
+    void send_temperature_thingSpeak();
+    static size_t  WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
+    static std::string find_tag (std::string temp);
 
     std::string sendSMStoPlusGSM(std::string login, std::string pass, std::string number, std::string msg, int silentFrom = 0, int silentTo =0);
 

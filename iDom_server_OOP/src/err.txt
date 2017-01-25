@@ -2,12 +2,12 @@
 [blockQueue/blockqueue.cpp:14] -> [blockQueue/blockqueue.h:24]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
 [blockQueue/blockqueue.cpp:28] -> [blockQueue/blockqueue.h:25]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
 [functions/mpd_cli.cpp:202] -> [functions/mpd_cli.cpp:203]: (warning) Possible null pointer dereference: hostname - otherwise it is redundant to check it against null.
-[iDomTools/idomtools.cpp:57] -> [iDomTools/idomtools.h:39]: (performance, inconclusive) Technically the member function 'iDomTOOLS::turnOnSpeakers' can be static.
-[iDomTools/idomtools.cpp:62] -> [iDomTools/idomtools.h:40]: (performance, inconclusive) Technically the member function 'iDomTOOLS::turnOffSpeakers' can be static.
-[iDomTools/idomtools.cpp:94] -> [iDomTools/idomtools.h:45]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSystemInfo' can be static.
-[iDomTools/idomtools.cpp:176] -> [iDomTools/idomtools.h:52]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getTime' can be static.
-[iDomTools/idomtools.cpp:186] -> [iDomTools/idomtools.h:53]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSmog' can be static.
-[iDomTools/idomtools.cpp:191] -> [iDomTools/idomtools.h:55]: (performance, inconclusive) Technically the member function 'iDomTOOLS::sendSMStoPlusGSM' can be static.
+[iDomTools/idomtools.cpp:57] -> [iDomTools/idomtools.h:41]: (performance, inconclusive) Technically the member function 'iDomTOOLS::turnOnSpeakers' can be static.
+[iDomTools/idomtools.cpp:62] -> [iDomTools/idomtools.h:42]: (performance, inconclusive) Technically the member function 'iDomTOOLS::turnOffSpeakers' can be static.
+[iDomTools/idomtools.cpp:94] -> [iDomTools/idomtools.h:47]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSystemInfo' can be static.
+[iDomTools/idomtools.cpp:176] -> [iDomTools/idomtools.h:54]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getTime' can be static.
+[iDomTools/idomtools.cpp:186] -> [iDomTools/idomtools.h:55]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSmog' can be static.
+[iDomTools/idomtools.cpp:294] -> [iDomTools/idomtools.h:60]: (performance, inconclusive) Technically the member function 'iDomTOOLS::sendSMStoPlusGSM' can be static.
 [logger/logger.cc:122]: (style) Obsolete function 'asctime' called. It is recommended to use the function 'strftime' instead.
 [logger/logger.cc:78]: (style) The function 'set_level' is never used.
 (information) Cppcheck cannot find all the include files (use --check-config for details)
