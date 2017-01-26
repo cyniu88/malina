@@ -14,18 +14,18 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
         if (v[1] =="log")
         {
             if (v.size() >2 && v.size() < 4){
-                 return l_send_file(_logfile,v[2],true);
+                 return useful_F::l_send_file(_logfile,v[2],true);
             }
             else if (v.size() > 3){
                 if (v[2] == "no"){
-                 return l_send_file(_logfile,v[3],false);
+                 return useful_F::l_send_file(_logfile,v[3],false);
                 }
                 else{
                     return "do you mean : show log no <string>? ";
                 }
             }
 
-            return l_send_file(_logfile,"");
+            return useful_F::l_send_file(_logfile,"");
 
         }
         if (v[1]=="thread")

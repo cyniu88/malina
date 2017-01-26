@@ -132,7 +132,7 @@ int C_connection::c_analyse(int recvSize)
     my_data->myEventHandler.run("command")->addEvent(buf);
     std::vector <std::string> command;
 
-    tokenizer(command," \n,", buf);  // podzia  zdania na wyrazy
+    useful_F::tokenizer(command," \n,", buf);  // podzia  zdania na wyrazy
     str_buf=command[command.size()-1];
 
     str_buf= "unknown command\n";

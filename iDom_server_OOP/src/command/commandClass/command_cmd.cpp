@@ -9,7 +9,7 @@ command_cmd::command_cmd(std::string name):command(name)
 std::string command_cmd::execute(std::vector<std::string> &v, thread_data *my_data)
 {
     if (v.size() ==1){
-        return "fifo file contain: "+ read_from_mkfifo();
+        return "fifo file contain: "+ useful_F::read_from_mkfifo();
     }
     return "error: unknown parameter: "+v[1];
 }

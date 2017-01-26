@@ -34,7 +34,7 @@ void CRON::run()
 
             strftime(buffer,5,"%H%M",act_date);
             // serial_ardu.print(buffer );
-            send_to_arduino_clock(my_data,buffer);
+            useful_F::send_to_arduino_clock(my_data,buffer);
             min = act_date->tm_min;
             //std::cout << "czas "<< buffer <<" arduino "<<send_to_arduino_clock(my_data,buffer)<< std::endl;
         }

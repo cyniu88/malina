@@ -125,7 +125,7 @@ void Server_connectivity_thread(thread_data  *my_data){
     }
     //std::cout <<"WYNIK:"<< client->c_read_buf().size()<<"a to wlasny" << RSHash().size()<<"!"<<std::endl;
     std::string KEY_rec =  client->c_read_buf(recvSize);
-    std::string KEY_OWN = RSHash() ;
+    std::string KEY_OWN = useful_F::RSHash() ;
     client->setEncriptionKey(KEY_OWN);
     if (   KEY_rec == KEY_OWN    )   // stop runing idom_server
     {
@@ -286,7 +286,7 @@ int main()
     //////////////////////////////////////////////////////////////////////
 
     int SERVER_PORT = std::stoi(server_settings.PORT );
-    server_settings.SERVER_IP = conv_dns(server_settings.SERVER_IP);
+    server_settings.SERVER_IP = useful_F::conv_dns(server_settings.SERVER_IP);
     const char *SERVER_IP = server_settings.SERVER_IP.c_str();
 
     node_data.server_settings=&server_settings;

@@ -119,7 +119,7 @@ void c_irda_logic::_add(char X)
                 {
                     if ( con_counter!=MAX_CONNECTION -1)
                     {
-                        my_data_logic->main_THREAD_arr[con_counter].thread = std::thread(sleeper_mpd,my_data_logic);
+                        my_data_logic->main_THREAD_arr[con_counter].thread = std::thread(useful_F::sleeper_mpd,my_data_logic);
                         my_data_logic->main_THREAD_arr[con_counter].thread_name="Sleeper  MPD ";
                         my_data_logic->main_THREAD_arr[con_counter].thread_ID = my_data_logic->main_THREAD_arr[con_counter].thread.get_id();
                         my_data_logic->main_THREAD_arr[con_counter].thread.detach();
@@ -159,24 +159,24 @@ void c_irda_logic::_add(char X)
         else if (X=='+')
         {
             //system("echo -n + > /mnt/ramdisk/cmd");  // podglasniamy
-            write_to_mkfifo("+");
+            useful_F::write_to_mkfifo("+");
         }
         else if (X=='-')
         {
             //system("echo -n - > /mnt/ramdisk/cmd");  // wyciszamy
-            write_to_mkfifo("-");
+            useful_F::write_to_mkfifo("-");
         }
         else if (X=='O')
         {
             my_data_logic->mainLCD->set_print_song_state(1000);
             my_data_logic->mainLCD->printString(false,0,0,"ODTWARZAM VIDEO");
             //system("echo -n p > /mnt/ramdisk/cmd");  //pauza play
-            write_to_mkfifo("p");
+            useful_F::write_to_mkfifo("p");
         }
         else if (X=='P')
         {
             //system("echo -n q > /mnt/ramdisk/cmd &");  // zamykanie omxplayera
-            write_to_mkfifo("q");
+            useful_F::write_to_mkfifo("q");
         }
         else if (X=='D')
         {
@@ -191,12 +191,12 @@ void c_irda_logic::_add(char X)
         else if (X=='^')
         {
             //system("echo -n o > /mnt/ramdisk/cmd");  // do przodu
-            write_to_mkfifo("o");
+            useful_F::write_to_mkfifo("o");
         }
         else if (X=='/')
         {
             //system("echo -n i > /mnt/ramdisk/cmd");  // do tylu
-            write_to_mkfifo("i");
+            useful_F::write_to_mkfifo("i");
 
         }
     }

@@ -15,7 +15,7 @@
 #include <netdb.h>
 #include <chrono>
 // przerobka  adresu na ip . //////////////////////////////////
-std::string conv_dns (std::string temp){
+std::string useful_F::conv_dns (std::string temp){
 
     int i;
     struct hostent * he;
@@ -77,7 +77,7 @@ void binary(int val)
      std::cout << std::endl;
 }
 */
-std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg){
+std::string useful_F::send_to_arduino_clock (thread_data *my_data_logic, std::string msg){
 
     while (go_while)
     {
@@ -117,8 +117,9 @@ std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg){
     }
 
     return msg;
-} //end send_to_arduino
-std::string send_to_arduino (thread_data *my_data_logic, std::string msg){
+} //end send_to_arduino_clock
+
+std::string useful_F::send_to_arduino (thread_data *my_data_logic, std::string msg){
 
     while (go_while)
     {
@@ -157,7 +158,7 @@ std::string send_to_arduino (thread_data *my_data_logic, std::string msg){
     return msg;
 } //end send_to_arduino
 
-std::string  sek_to_uptime(long long secy )
+std::string  useful_F::sek_to_uptime(long long secy )
 {
     const int min = 60; //s
     const int houry = 3600; //s
@@ -179,7 +180,7 @@ std::string  sek_to_uptime(long long secy )
 }
 
 ////// watek sleeper
-void sleeper_mpd (thread_data  *my_data)
+void useful_F::sleeper_mpd (thread_data  *my_data)
 {
     blockQueue char_queue; // kolejka polecen
     for (; my_data->sleeper >0 ; my_data->sleeper-- ){
@@ -214,7 +215,7 @@ void sleeper_mpd (thread_data  *my_data)
     log_file_mutex.mutex_unlock();
 
 }
-void tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text){
+void useful_F::tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text){
     std::string temp;
 
     for(char n: text) { // the initializer may be an array
@@ -246,7 +247,7 @@ void tokenizer ( std::vector <std::string> &command, std::string separator, std:
     }
 }
 
-std::string RSHash(int offset  )
+std::string useful_F::RSHash(int offset  )
 {
     offset = 9; // because warning
     time_t act_time;
@@ -272,7 +273,7 @@ std::string RSHash(int offset  )
     return std::to_string((hash & 0x7FFFFFFF));
 }
 
-void write_to_mkfifo(  std::string msg)
+void useful_F::write_to_mkfifo(  std::string msg)
 {
     int fd = open("/mnt/ramdisk/cmd", O_WRONLY);
     write(fd, msg.c_str(), msg.size());
@@ -280,7 +281,7 @@ void write_to_mkfifo(  std::string msg)
 }
 
 
-std::string read_from_mkfifo()
+std::string useful_F::read_from_mkfifo()
 {
     char buf[10];
     /* open, read, and display the message from the FIFO */
@@ -291,7 +292,7 @@ std::string read_from_mkfifo()
 }
 
 //wysylanie pliku
-std::string l_send_file(std::string path, std::string find  , bool reverse )
+std::string useful_F::l_send_file(std::string path, std::string find  , bool reverse )
 {
     std::string str_buf;
     if(find.empty()==true)
@@ -353,7 +354,7 @@ std::string l_send_file(std::string path, std::string find  , bool reverse )
     return str_buf;
 }
 
-std::vector<std::string> split(const std::string& s, char separator ){
+std::vector<std::string> useful_F::split(const std::string& s, char separator ){
     std::vector<std::string> output;
 
     std::string::size_type prev_pos = 0, pos = 0;

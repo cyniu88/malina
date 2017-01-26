@@ -29,7 +29,7 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
                 {
                     if ( con_counter!=MAX_CONNECTION -1)
                     {
-                        my_data->main_THREAD_arr[con_counter].thread = std::thread(sleeper_mpd,my_data);
+                        my_data->main_THREAD_arr[con_counter].thread = std::thread(useful_F::sleeper_mpd,my_data);
                         my_data->main_THREAD_arr[con_counter].thread_name="Sleeper  MPD ";
                         my_data->main_THREAD_arr[con_counter].thread_ID = my_data->main_THREAD_arr[con_counter].thread.get_id();
                         //my_data->main_THREAD_arr[con_counter].thread.detach();

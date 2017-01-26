@@ -149,7 +149,7 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
 
 std::string iDomTOOLS::getTextToSpeach()
 {
-    std::vector<std::string> dayL = split(getDayLenght(),':');
+    std::vector<std::string> dayL = useful_F::split(getDayLenght(),':');
     std::string  text;
     std::string smogText = getSmog();
     int smogInt = std::stoi(smogText);
@@ -172,13 +172,13 @@ std::string iDomTOOLS::getTextToSpeach()
 
 std::vector<std::string> iDomTOOLS::getTemperature()
 {
-    std::vector<std::string>  vect = split(send_to_arduino(my_data,"temperature:22;"),':');
+    std::vector<std::string>  vect = useful_F::split(useful_F::send_to_arduino(my_data,"temperature:22;"),':');
     return vect;
 }
 
 std::string iDomTOOLS::getTemperatureString()
 {
-    return send_to_arduino(my_data,"temperature:22;");
+    return useful_F::send_to_arduino(my_data,"temperature:22;");
 }
 
 Clock iDomTOOLS::getTime()
@@ -335,15 +335,15 @@ std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std
 
 std::string iDomTOOLS::ledOFF()
 {
-    return send_to_arduino(my_data,"LED_STOP:2;");
+    return useful_F::send_to_arduino(my_data,"LED_STOP:2;");
 }
 
 std::string iDomTOOLS::ledClear()
 {
-    return send_to_arduino(my_data,"LED_CLEAR:2;");
+    return useful_F::send_to_arduino(my_data,"LED_CLEAR:2;");
 }
 
 std::string iDomTOOLS::ledOn(LED_Strip ledColor)
 {
-    return send_to_arduino(my_data,ledColor.get());
+    return useful_F::send_to_arduino(my_data,ledColor.get());
 }

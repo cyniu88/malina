@@ -11,7 +11,7 @@ std::string command_UPTIME::execute(std::vector<std::string> &v, thread_data *my
     std::string str_buf;
     time(&my_data->now_time);
     str_buf ="uptime: ";
-    str_buf +=  sek_to_uptime(difftime(my_data->now_time,my_data->start) );
+    str_buf +=  useful_F::sek_to_uptime(difftime(my_data->now_time,my_data->start) );
     return str_buf;
 }
 
