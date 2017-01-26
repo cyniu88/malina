@@ -107,7 +107,15 @@ std::string iDomTOOLS::getSystemInfo()
     ret+=  std::to_string(minutes)+ " minutes ";
     ret+=  std::to_string(seconds)+ " seconds ";
     ret.append("\n");
-    ret+= std::to_string(info.freeram);
+    ret+= "Load: ";
+    ret+= std::to_string(info.loads[0]/65536)+"% - 1 min, "+ std::to_string(info.loads[1]/65536)+"% - 5 min, "+
+            std::to_string(info.loads[2]/65536)+"% - 15 min.\n ";
+
+    std::stringstream k;
+    k <<"load average : " << (info.loads[0] ) <<" 5min: "
+                                                          <<(info.loads[1] ) << " 15min: "
+                                                                                  <<(info.loads[2] )<<std::endl;
+   puts(k.str().c_str());
     return ret;
 }
 

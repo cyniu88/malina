@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <sys/sysinfo.h>
 //#include "idomtools.h"
 
 using namespace std;
@@ -16,7 +17,7 @@ int main(int argc, char *argv[])
         cin >> newValue;
         if (newValue >= reference && oldValue < reference){
 
-          cout  << "przejscie w gore " << reference <<endl;
+            cout  << "przejscie w gore " << reference <<endl;
         }
         else if (newValue <= reference && oldValue > reference){
             cout << " przejscie w dol " << reference << endl;
@@ -27,6 +28,19 @@ int main(int argc, char *argv[])
 
         oldValue = newValue;
     }
+
+    struct sysinfo info;
+    sysinfo(&info);
+float shiftfloat=(float)(1<<SI_LOAD_SHIFT);
+
+
+    std::cout <<"load average : 1min: "
+              << ((float)info.loads[0]/shiftfloat*100 )
+              <<" 5min: "
+              <<((float)info.loads[1]/shiftfloat*10 )
+              << " 15min: "
+              <<((float)info.loads[2]/shiftfloat)
+              <<std::endl;
 
     return 0;
 }
