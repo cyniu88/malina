@@ -373,3 +373,8 @@ std::vector<std::string> useful_F::split(const std::string& s, char separator ){
     return output;
 }
 
+void useful_F::button_interrupt_f()
+{
+    puts("przerwanie z przycisku");
+}
+

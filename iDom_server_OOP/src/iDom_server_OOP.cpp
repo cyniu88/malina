@@ -78,7 +78,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
 //////////// watek do obslugi polaczeni miedzy nodami  //////////////
 
 void f_serv_con_node (thread_data  *my_data){
-     my_data->myEventHandler.run("node")->addEvent("start and stop node");
+    my_data->myEventHandler.run("node")->addEvent("start and stop node");
 } //  koniec f_serv_con_node
 /////////////////////  watek do obslugi irda //////////////////////////////
 
@@ -160,11 +160,11 @@ void Server_connectivity_thread(thread_data  *my_data){
         // ###########################  analia wiadomoscu ####################################//
         if ( client->c_analyse(recvSize) == false )   // stop runing idom_server
         {
-//            my_data->mainLCD->set_print_song_state(0);
-//            my_data->mainLCD->set_lcd_STATE(2);
-//            my_data->mainLCD->clear();
-//            my_data->mainLCD->noBacklight();
-//            sleep (3);
+            //            my_data->mainLCD->set_print_song_state(0);
+            //            my_data->mainLCD->set_lcd_STATE(2);
+            //            my_data->mainLCD->clear();
+            //            my_data->mainLCD->noBacklight();
+            //            sleep (3);
             go_while = false;
             break;
         }
@@ -202,7 +202,7 @@ int main()
     Thread_array_struc thread_array[MAX_CONNECTION];
     for (int i =0 ; i< MAX_CONNECTION;++i){
         thread_array[i].thread_name="  -empty-  ";
-       // thread_array[i].thread_ID=0;
+        // thread_array[i].thread_ID=0;
         thread_array[i].thread_socket=0;
     }
 
@@ -230,9 +230,14 @@ int main()
     ///////////////////////////////////////////////  koniec logowania do poliku  ///////////////////////////////////////////////////
 
     ///////////////////////////////////////////////  start wiringPi  //////////////////////////////////////////////
-    if (wiringPiSetup () == -1)
+    if (wiringPiSetup () == -1){
         exit (1) ;
-
+    }
+    if (wiringPiISR (BUTTON_PIN, INT_EDGE_FALLING, &useful_F::button_interrupt_f) < 0 ) {
+        log_file_cout.mutex_lock();
+        log_file_cout << CRITICAL <<"Unable to setup ISR "<<std::endl;
+        log_file_cout.mutex_unlock();
+    }
     pinMode(BUZZER, OUTPUT); 		// BUZZER  na wyjscie  GPIO
     digitalWrite(BUZZER,LOW);
     pinMode(GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow

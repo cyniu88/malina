@@ -16,7 +16,7 @@ public:
     // void binary(int val);
     //std::string intToStr(int n);
     //////////////
-    static   std::string send_to_arduino (thread_data *my_data_logic, std::string msg);
+    static  std::string send_to_arduino (thread_data *my_data_logic, std::string msg);
     static  std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg);
     static  std::string  sek_to_uptime(long long secy );
     static  void sleeper_mpd(thread_data  *my_data);
@@ -26,5 +26,6 @@ public:
     static  std::string read_from_mkfifo();
     static  std::string l_send_file(std::string path, std::string find  , bool reverse =false );
     static  std::vector<std::string> split(const std::string& s, char separator );
+    static  void button_interrupt_f();
 };
 #endif // FUNCTIONS_H
