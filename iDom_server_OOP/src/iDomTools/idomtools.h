@@ -38,8 +38,8 @@ public:
     TEMPERATURE_STATE hasTemperatureChange(std::string thermometerName, int reference);
     void sendSMSifTempChanged(std::string thermomethernName, int reference);
 
-    void turnOnSpeakers();
-    void turnOffSpeakers();
+    static void turnOnSpeakers();
+    static void turnOffSpeakers();
 
     std::string getSunrise(bool extend = false);
     std::string getSunset(bool extend = false);

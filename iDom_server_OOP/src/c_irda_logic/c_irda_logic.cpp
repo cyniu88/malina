@@ -149,28 +149,24 @@ void c_irda_logic::_add(char X)
                 char_queue._add('t');
             }
             else {
-                my_data_logic->main_iDomTools->turnOffSpeakers();
+                iDomTOOLS::turnOffSpeakers();
                 my_data_logic->mainLCD->set_print_song_state(0); // off display
                 my_data_logic->mainLCD->set_lcd_STATE(0);
             }
-            //   std::cout << "koniec sterowania  projektorem" << std::endl;
         }
 
         else if (X=='+')
         {
-            //system("echo -n + > /mnt/ramdisk/cmd");  // podglasniamy
             useful_F::write_to_mkfifo("+");
         }
         else if (X=='-')
         {
-            //system("echo -n - > /mnt/ramdisk/cmd");  // wyciszamy
             useful_F::write_to_mkfifo("-");
         }
         else if (X=='O')
         {
             my_data_logic->mainLCD->set_print_song_state(1000);
             my_data_logic->mainLCD->printString(false,0,0,"ODTWARZAM VIDEO");
-            //system("echo -n p > /mnt/ramdisk/cmd");  //pauza play
             useful_F::write_to_mkfifo("p");
         }
         else if (X=='P')
@@ -250,7 +246,7 @@ void c_irda_logic::_add(char X)
                     char_queue._add('A'); // projektor wlaczony wiec pauzuje radio
                 }
                 else{
-                    my_data_logic->main_iDomTools->turnOnSpeakers();
+                    iDomTOOLS::turnOnSpeakers();
                     puts("wlaczam glosnik do filmu");
                 }
             }

@@ -238,7 +238,6 @@ void main_mpd_cli(thread_data* my_data )
     if(!work)
     {
         char buffer;
-        int button_counter =0;
         do{
             if(char_queue._size() > 0)
             {
@@ -334,31 +333,6 @@ break;*/
             mpd_status_update(obj);
             my_data->mainLCD->checkState();
 
-            if ( digitalRead(BUTTON_PIN) == HIGH )
-            {
-                std::cout << " wcisnieta pin !" << std::endl;
-                if (check_title_song_to == true && button_counter ==4)
-                {
-                    char_queue._add('P');
-                    std::cout << " \n\ngasze !" << std::endl;
-                }
-                else if (check_title_song_to == false && button_counter ==4)
-                {
-                    char_queue._add('t');
-                    std::cout << " \n\n\n zapalam !" << std::endl;
-                }
-                else if (check_title_song_to == false && button_counter ==10)
-                {
-                    std::cout << " \n\n\n koniec programu z przyciska !" << std::endl;
-                    go_while = false;
-                }
-                std::cout << " \n\n\n licznik guzika wskazuje "<< button_counter << std::endl;
-                ++button_counter;
-            }
-            else
-            {
-                button_counter =0;
-            }
 
             std::this_thread::sleep_for( std::chrono::milliseconds(500) );
         } while( go_while);

@@ -19,7 +19,7 @@ void iDomTOOLS::setTemperature(std::string name, float value)
 
 TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName,int reference )
 {
-    reference+=0.0002;
+    reference+=0.0055;
     auto cur = thermometer.find(thermometerName);
     if (cur->second.newTemp >= reference && cur->second.oldTemp < reference){
         return TEMPERATURE_STATE::Over;

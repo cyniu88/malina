@@ -113,6 +113,8 @@ std::string command_mpd::help()
     help.append("\n");
     help.append("\tget volume - get volume %");
     help.append("\n");
+    help.append("\tget info - get info about current song");
+    help.append("\n");
     help.append("\tvolume up/down - increase/decrease volume 1%");
     help.append("\n");
     return help;

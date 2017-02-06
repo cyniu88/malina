@@ -8,7 +8,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     cout << "== Start test ===" << endl;
-    double newValue = 0;
+    double newValue = 9;
     double oldValue = 0;
     double reference= 0.002;
     while (newValue != 100)
@@ -35,11 +35,11 @@ float shiftfloat=(float)(1<<SI_LOAD_SHIFT);
 
 
     std::cout <<"load average : 1min: "
-              << ((float)info.loads[0]/shiftfloat*100 )
+              << (info.loads[0]*shiftfloat)
               <<" 5min: "
-              <<((float)info.loads[1]/shiftfloat*10 )
+              <<(info.loads[1]*shiftfloat )
               << " 15min: "
-              <<((float)info.loads[2]/shiftfloat)
+              <<(info.loads[2]*shiftfloat)
               <<std::endl;
 
     return 0;

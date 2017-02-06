@@ -13,11 +13,11 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     if (v[1]=="speakers")
     {
         if (v[2] =="ON"){
-            my_data->main_iDomTools->turnOnSpeakers();
+            iDomTOOLS::turnOnSpeakers();
             return "speakers ON";
         }
         else if (v[2]=="OFF"){
-            my_data->main_iDomTools->turnOffSpeakers();
+            iDomTOOLS::turnOffSpeakers();
             return "speakers OFF";
         }
         else{

@@ -372,9 +372,20 @@ std::vector<std::string> useful_F::split(const std::string& s, char separator ){
 
     return output;
 }
-
-void useful_F::button_interrupt_f()
+std::chrono::time_point <std::chrono::system_clock>  useful_F::timer = std::chrono::system_clock::now();
+void useful_F::button_interrupt_rising()
 {
-    puts("przerwanie z przycisku");
+    puts("przerwanie z przycisku - rosnace");
+    useful_F::timer = std::chrono::system_clock::now();
 }
+
+void useful_F::button_interrupt_falling()
+{
+    puts("przerwanie z przycisku opadajace");
+    auto timerEnd = std::chrono::system_clock::now();
+    std::cout << "process took: "
+        << std::chrono::duration_cast<std::chrono::milliseconds>(timerEnd - useful_F::timer).count()
+        << " milliseconds\n";
+}
+
 

@@ -4,12 +4,14 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
+#include <chrono>
 #include <string>
 #include "../iDom_server_OOP.h"
 #include "../c_connection/c_connection.h"
 
 class useful_F {
 public:
+    static  std::chrono::time_point <std::chrono::system_clock>  timer;
     static  std::string conv_dns (std::string temp);
     /////// not used now
     // void ChangeEndianness(int32_t * value, int MAX_MSG_LEN_INT);
@@ -26,6 +28,7 @@ public:
     static  std::string read_from_mkfifo();
     static  std::string l_send_file(std::string path, std::string find  , bool reverse =false );
     static  std::vector<std::string> split(const std::string& s, char separator );
-    static  void button_interrupt_f();
+    static  void button_interrupt_rising();
+    static  void button_interrupt_falling();
 };
 #endif // FUNCTIONS_H

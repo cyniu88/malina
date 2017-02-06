@@ -233,9 +233,14 @@ int main()
     if (wiringPiSetup () == -1){
         exit (1) ;
     }
-    if (wiringPiISR (BUTTON_PIN, INT_EDGE_FALLING, &useful_F::button_interrupt_f) < 0 ) {
+    if (wiringPiISR (BUTTON_PIN, INT_EDGE_FALLING, &useful_F::button_interrupt_falling) < 0 ) {
         log_file_cout.mutex_lock();
-        log_file_cout << CRITICAL <<"Unable to setup ISR "<<std::endl;
+        log_file_cout << CRITICAL <<"Unable to setup ISR FALLING "<<std::endl;
+        log_file_cout.mutex_unlock();
+    }
+    if (wiringPiISR (BUTTON_PIN, INT_EDGE_RISING, &useful_F::button_interrupt_rising) < 0 ) {
+        log_file_cout.mutex_lock();
+        log_file_cout << CRITICAL <<"Unable to setup ISR RISING "<<std::endl;
         log_file_cout.mutex_unlock();
     }
     pinMode(BUZZER, OUTPUT); 		// BUZZER  na wyjscie  GPIO
@@ -464,7 +469,7 @@ int main()
 
 
     //send_to_arduino_clock(node_data,"STOP"); // ustawia stop zamiast czasu  na koniec pracy servera
-    node_data.main_iDomTools->turnOffSpeakers();
+    iDomTOOLS::turnOffSpeakers();
     node_data.mainLCD->set_print_song_state(0);
     node_data.mainLCD->set_lcd_STATE(2);
     node_data.mainLCD->clear();
