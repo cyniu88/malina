@@ -3,7 +3,7 @@
 #include "../functions/functions.h"
 #include "../CRON/cron.hpp"
 
-iDomTOOLS::iDomTOOLS(thread_data *myData)
+iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
 {
     my_data = myData;
     thermometer["inside"];
@@ -243,8 +243,8 @@ void iDomTOOLS::send_temperature_thingSpeak()
     std::string in = _temperature.substr(0,_temperature.find_last_of(':'));
     std::string out = _temperature.substr(_temperature.find_last_of(':')+1,_temperature.size());
 
-    setTemperature("inside",std::stof(in));
-    setTemperature("outside",std::stof(out));
+    setTemperature("inside",std::stod(in));
+    setTemperature("outside",std::stod(out));
     sendSMSifTempChanged("outside",0);
     sendSMSifTempChanged("inside",24);
     //printf("o=inside: %f outside %f\n",   std::stof(in)   ,std::stof(out) );

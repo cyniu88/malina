@@ -4,7 +4,6 @@
 std::mutex C_connection::mutex_buf;
 std::mutex C_connection::mutex_who;
 
-// konstruktor
 C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_sock),
     c_from(my_data->from),recv_size(0)  ,mainCommandHandler(my_data)
 {
@@ -16,8 +15,6 @@ C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_so
     log_file_mutex.mutex_unlock();
 }
 
-
-// destruktor
 C_connection::~C_connection()
 {
     shutdown( c_socket, SHUT_RDWR );
@@ -64,12 +61,12 @@ int C_connection::c_send(int para)
         return -1;
     }
 
-     int len_send = str_buf.length();
+     auto len_send = str_buf.length();
     // len_temp =0;
 
     while (len_send > 0)
     {
-        int len_temp = send( c_socket, str_buf.c_str() ,str_buf.length(), para ) ;
+        auto len_temp = send( c_socket, str_buf.c_str() ,str_buf.length(), para ) ;
         std::cout <<"wyslalem bajtow: " << len_temp <<std::endl;
         if(len_temp  <= 0 )
         {
@@ -80,11 +77,7 @@ int C_connection::c_send(int para)
         std::cout << "zostalo wyslac: " << len_send <<std::endl;
 
         str_buf.erase(0,len_temp);
-
     }
-
-
-
 
 return 0;
 }

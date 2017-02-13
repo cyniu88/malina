@@ -109,9 +109,8 @@ struct config{
     std::string MOVIES_DB_PATH;
     std::string MENU_PATH;
     unsigned int ID_server;
-    std::vector <addresses_mac> A_MAC;
+    std::string TS_KEY= " gg ";
     int v_delay  ;
-    std::vector <address_another_servers> AAS;
 };
 
 struct LED_Strip{

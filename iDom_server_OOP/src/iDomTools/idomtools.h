@@ -18,8 +18,8 @@ enum class TEMPERATURE_STATE{
     Unknown
 };
 struct temperature {
-    float newTemp = 0.0001;
-    float oldTemp = 0.0001;
+    double newTemp = 0.0001;
+    double oldTemp = 0.0001;
 };
 
 class iDomTOOLS
@@ -27,8 +27,7 @@ class iDomTOOLS
     std::map <std::string ,temperature> thermometer;
     thread_data *my_data;
     SunRiseSet sun;
-    //TODO  przenisc do konfigu
-    std::string key = "47XSQ0J9CPJ4BO2O";
+    std::string key;
 
 public:
     std::vector <std::string> textToSpeachVector;

@@ -101,10 +101,6 @@ void f_master_CRON (thread_data  *my_data){
 
 void Server_connectivity_thread(thread_data  *my_data){
 
-    //my_data = (thread_data*)my_data2;
-
-    //pthread_detach( pthread_self () );
-
     C_connection *client = new C_connection( my_data);
     bool key_ok=false;
     std::string tm = inet_ntoa( my_data->from.sin_addr);
@@ -160,11 +156,6 @@ void Server_connectivity_thread(thread_data  *my_data){
         // ###########################  analia wiadomoscu ####################################//
         if ( client->c_analyse(recvSize) == false )   // stop runing idom_server
         {
-            //            my_data->mainLCD->set_print_song_state(0);
-            //            my_data->mainLCD->set_lcd_STATE(2);
-            //            my_data->mainLCD->clear();
-            //            my_data->mainLCD->noBacklight();
-            //            sleep (3);
             go_while = false;
             break;
         }
@@ -186,23 +177,19 @@ void Server_connectivity_thread(thread_data  *my_data){
 
 int main()
 {
-    //pthread_mutex_init(&C_connection::mutex_buf, NULL);
-    //pthread_mutex_init(&C_connection::mutex_who, NULL);
-    //pthread_mutex_init(&blockQueue::mutex_queue_char, NULL);
     pthread_mutex_init(&Logger::mutex_log, NULL);
 
-    config server_settings   =  read_config ( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfigu
+    config server_settings   =  read_config ( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfig
     struct sockaddr_in server;
     int v_socket;
 
     thread_data node_data; // przekazywanie do watku
-
+    node_data.server_settings=&server_settings;
     time(&node_data.start);
 
     Thread_array_struc thread_array[MAX_CONNECTION];
     for (int i =0 ; i< MAX_CONNECTION;++i){
         thread_array[i].thread_name="  -empty-  ";
-        // thread_array[i].thread_ID=0;
         thread_array[i].thread_socket=0;
     }
 
@@ -216,13 +203,8 @@ int main()
     log_file_cout << INFO  << "BaudRate RS232\t"<< server_settings.BaudRate << std::endl;
     log_file_cout << INFO  << "port TCP \t"<< server_settings.PORT << std::endl;
     log_file_cout << INFO  << "serwer ip \t"<< server_settings.SERVER_IP  <<std::endl;
-    log_file_cout << INFO  << "dodatkowe NODY w sieci:\n"  <<std::endl;
-
-    for (u_int i=0;i<server_settings.AAS.size();++i){
-        log_file_cout << INFO << server_settings.AAS[i].id<<" "<< server_settings.AAS[i].SERVER_IP <<std::endl;
-    }
-
     log_file_cout << INFO  << "baza z filami \t"<< server_settings.MOVIES_DB_PATH << std::endl;
+    log_file_cout << INFO  << "klucz ThingSpeak \t"<<server_settings.TS_KEY << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
     log_file_mutex.mutex_unlock();
@@ -252,7 +234,7 @@ int main()
     MPD_info my_MPD_info;
     /////////////////////////////// iDom Tools ///////////////////////
     iDomTOOLS my_iDomTools(&node_data);
-    /////////////////////////////// LCD ///////////////////////////////
+    /////////////////////////////// LCD //////////////////////////////
     LCD_c mainLCD(0x27,16,2);
     //////////////     przegladanie plikow ////////////////////
 
@@ -298,8 +280,6 @@ int main()
     int SERVER_PORT = std::stoi(server_settings.PORT );
     server_settings.SERVER_IP = useful_F::conv_dns(server_settings.SERVER_IP);
     const char *SERVER_IP = server_settings.SERVER_IP.c_str();
-
-    node_data.server_settings=&server_settings;
     //node_data.pointer.ptr_buf=bufor;
     node_data.pointer.ptr_who=who;
     node_data.mainLCD=&mainLCD;
