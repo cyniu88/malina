@@ -17,21 +17,32 @@ void iDomTOOLS::setTemperature(std::string name, float value)
     cur->second.newTemp = value;
 }
 
-TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName,int reference )
+TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, double reference )
 {
     reference+=0.0055;
     auto cur = thermometer.find(thermometerName);
     if (cur->second.newTemp >= reference && cur->second.oldTemp < reference){
+        my_data->myEventHandler.run("test")->addEvent("over: new "+std::to_string(cur->second.newTemp)+" old: "
+                                                      +std::to_string(cur->second.oldTemp)+" ref: "+std::to_string(reference));
+
         return TEMPERATURE_STATE::Over;
     }
     else if (cur->second.newTemp <= reference && cur->second.oldTemp > reference )
     {
+        my_data->myEventHandler.run("test")->addEvent("under: new "+std::to_string(cur->second.newTemp)+" old: "
+                                                      +std::to_string(cur->second.oldTemp)+" ref: "+std::to_string(reference));
         return TEMPERATURE_STATE::Under;
     }
     else
     {
+        my_data->myEventHandler.run("test")->addEvent("noChanges: new "+std::to_string(cur->second.newTemp)+" old: "
+                                                      +std::to_string(cur->second.oldTemp)+" ref: "+std::to_string(reference));
+
         return TEMPERATURE_STATE::NoChanges;
     }
+    my_data->myEventHandler.run("test")->addEvent("unknown: new "+std::to_string(cur->second.newTemp)+" old: "
+                                                  +std::to_string(cur->second.oldTemp)+" ref: "+std::to_string(reference));
+
     return TEMPERATURE_STATE::Unknown;
 }
 

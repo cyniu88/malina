@@ -34,7 +34,7 @@ public:
     iDomTOOLS(thread_data *myData);
 
     void setTemperature (std::string name, float value);
-    TEMPERATURE_STATE hasTemperatureChange(std::string thermometerName, int reference);
+    TEMPERATURE_STATE hasTemperatureChange(std::string thermometerName, double reference);
     void sendSMSifTempChanged(std::string thermomethernName, int reference);
 
     static void turnOnSpeakers();

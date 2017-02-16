@@ -236,6 +236,7 @@ int main()
     iDomTOOLS my_iDomTools(&node_data);
     /////////////////////////////// LCD //////////////////////////////
     LCD_c mainLCD(0x27,16,2);
+
     //////////////     przegladanie plikow ////////////////////
 
     files_tree main_tree( server_settings.MOVIES_DB_PATH, &mainLCD);
