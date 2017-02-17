@@ -1,4 +1,3 @@
-
 #include "functions.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,18 +26,17 @@ std::string useful_F::conv_dns (std::string temp){
         herror( "gethostbyname" );
         return "- 1";
     }
-
     // print information about this host:
     printf( "Official name is: %s\n", he->h_name );
     printf( "IP addresses: " );
     addr_list =( struct in_addr ** ) he->h_addr_list;
+
     for( i = 0; addr_list[ i ] != NULL; i++ )
     {
         printf( "%s ", inet_ntoa( * addr_list[ i ] ) );
         s_ip += inet_ntoa( * addr_list[ i ] );
     }
     printf( "\n" );
-
     return s_ip;
 }
 
@@ -82,8 +80,8 @@ std::string useful_F::send_to_arduino_clock (thread_data *my_data_logic, std::st
     while (go_while)
     {
         std::this_thread::sleep_for( std::chrono::milliseconds(50) );
-        //pthread_mutex_lock(&C_connection::mutex_who);
         C_connection::mutex_who.lock();
+
         if (my_data_logic->pointer.ptr_who[0] == FREE)
         {
             C_connection::mutex_buf.lock();
@@ -99,10 +97,9 @@ std::string useful_F::send_to_arduino_clock (thread_data *my_data_logic, std::st
 
     while (go_while)
     {
-
         std::this_thread::sleep_for( std::chrono::milliseconds(50) );
-
         C_connection::mutex_who.lock();
+
         if (my_data_logic->pointer.ptr_who[0] == pthread_self())
         {
             C_connection::mutex_buf.lock();
@@ -115,7 +112,6 @@ std::string useful_F::send_to_arduino_clock (thread_data *my_data_logic, std::st
         }
         C_connection::mutex_who.unlock();
     }
-
     return msg;
 } //end send_to_arduino_clock
 
@@ -184,7 +180,8 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
 {
     blockQueue char_queue; // kolejka polecen
     for (; my_data->sleeper >0 ; my_data->sleeper-- ){
-        sleep (60);
+        //sleep (60);
+        std::this_thread::sleep_for( std::chrono::seconds(60) );
     }
 
     char_queue._add('P');
@@ -237,7 +234,6 @@ void useful_F::tokenizer ( std::vector <std::string> &command, std::string separ
             if (!temp.empty())
             {
                 command.push_back( temp);
-                ////std::cout << "in loop"<<std::endl;
                 temp="";
             }
         }
@@ -356,20 +352,15 @@ std::string useful_F::l_send_file(std::string path, std::string find  , bool rev
 
 std::vector<std::string> useful_F::split(const std::string& s, char separator ){
     std::vector<std::string> output;
-
     std::string::size_type prev_pos = 0, pos = 0;
 
     while((pos = s.find(separator, pos)) != std::string::npos)
     {
         std::string substring( s.substr(prev_pos, pos-prev_pos) );
-
         output.push_back(substring);
-
         prev_pos = ++pos;
     }
-
     output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
-
     return output;
 }
 std::chrono::time_point <std::chrono::system_clock>  useful_F::timer = std::chrono::system_clock::now();
@@ -387,5 +378,3 @@ void useful_F::button_interrupt_falling()
         << std::chrono::duration_cast<std::chrono::milliseconds>(timerEnd - useful_F::timer).count()
         << " milliseconds\n";
 }
-
-

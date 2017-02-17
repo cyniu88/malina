@@ -225,8 +225,7 @@ int main()
         log_file_cout << CRITICAL <<"Unable to setup ISR RISING "<<std::endl;
         log_file_cout.mutex_unlock();
     }
-    pinMode(BUZZER, OUTPUT); 		// BUZZER  na wyjscie  GPIO
-    digitalWrite(BUZZER,LOW);
+
     pinMode(GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
     digitalWrite(GPIO_SPIK,HIGH);
     pinMode(BUTTON_PIN, INPUT);   //  gpio pin przycisku
@@ -249,15 +248,12 @@ int main()
     data_rs232.BaudRate = server_settings.BaudRate;
     data_rs232.portRS232 = server_settings.portRS232;
     data_rs232.portRS232_clock = server_settings.portRS232_clock;
-
     data_rs232.pointer.ptr_who=who;
 
     ///  start watku do komunikacji rs232
     thread_array[2].thread = std::thread (Send_Recieve_rs232_thread,&data_rs232);
     thread_array[2].thread_name="RS232_thread";
     thread_array[2].thread_ID = thread_array[2].thread.get_id();
-    //thread_array[2].thread.detach();
-
     /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
 
     int temp;
@@ -313,8 +309,6 @@ int main()
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "watek wystartowal klient mpd "<< thread_array[1].thread_ID << std::endl;
     log_file_mutex.mutex_unlock();
-    //
-    //thread_array[1].thread.detach();
 
     // start watku CRONa
     thread_array[3].thread = std::thread(f_master_CRON, &node_data);
@@ -333,7 +327,6 @@ int main()
         log_file_cout << INFO << "watek wystartowal dla NODA MASTERA "<< thread_array[4].thread_ID << std::endl;
         log_file_mutex.mutex_unlock();
     }
-
     else
     {
         log_file_mutex.mutex_lock();
@@ -387,8 +380,6 @@ int main()
         perror( "listen() ERROR" );
         exit( - 1 );
     }
-    //std::cout <<" przed while \n";
-
     struct sockaddr_in from;
     int v_sock_ind = 0;
 
@@ -418,16 +409,13 @@ int main()
                     node_data.s_client_sock =v_sock_ind;
                     node_data.from=from;
 
-                    //pthread_create (&thread_array[con_counter].thread_ID, NULL,&Server_connectivity_thread,&node_data);
                     thread_array[con_counter].thread = std::thread(Server_connectivity_thread, &node_data);
                     thread_array[con_counter].thread_name = inet_ntoa(node_data.from.sin_addr);
                     thread_array[con_counter].thread_socket=v_sock_ind;
                     thread_array[con_counter].thread_ID = thread_array[con_counter].thread.get_id();
-                    //thread_array[con_counter].thread.detach();
                     log_file_mutex.mutex_lock();
                     log_file_cout << INFO << "watek wystartowal  "<< thread_array[con_counter].thread_ID << std::endl;
                     log_file_mutex.mutex_unlock();
-
                     break;
                 }
                 else
@@ -448,8 +436,6 @@ int main()
     } // while
     // zamykam gniazdo
 
-
-    //send_to_arduino_clock(node_data,"STOP"); // ustawia stop zamiast czasu  na koniec pracy servera
     iDomTOOLS::turnOffSpeakers();
     node_data.mainLCD->set_print_song_state(0);
     node_data.mainLCD->set_lcd_STATE(2);
@@ -465,12 +451,6 @@ int main()
 
     std::this_thread::sleep_for( std::chrono::milliseconds(50) );
 
-    //pthread_join(main_th ,NULL);
     pthread_mutex_destroy(&Logger::mutex_log);
-    //pthread_mutex_destroy(&C_connection::mutex_buf);
-    //pthread_mutex_destroy(&C_connection::mutex_who);
-    //pthread_mutex_destroy(&blockQueue::mutex_queue_char);
-
     return 0;
 }
-

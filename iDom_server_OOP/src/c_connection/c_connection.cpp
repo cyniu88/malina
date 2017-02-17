@@ -141,7 +141,7 @@ int C_connection::c_analyse(int recvSize)
             //std::cout << " jest stop";
             if (command[1]=="server")
             {
-                //std::cout <<"wychodze!!!!";
+                useful_F::send_to_arduino_clock(my_data,"STOP");
                 c_send("\nCLOSE.\n");
                 return false;
             }

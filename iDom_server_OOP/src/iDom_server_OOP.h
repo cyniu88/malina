@@ -34,7 +34,6 @@
 #include "../libs/event_counter_test/event_counters/event_counters_handler.h"
 #include "iDomTools/idomtools.h"
 
-constexpr int MAX_MSG_LEN= 18;
 constexpr int MAX_CONNECTION =10;
 constexpr int FREE =1;
 constexpr int RS232 =11;
@@ -44,20 +43,17 @@ constexpr int ok   =  0;
 #define log_file_cout  f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na ekran
 #define log_file_mutex f_log
 
-constexpr int ON =1;
-constexpr int OFF =0;
-
-constexpr int BUZZER =7;
+//constexpr int ON =1;
+//constexpr int OFF =0;
+//extern int max_msg  ;
+//constexpr int BUZZER =7;
 constexpr int GPIO_SPIK =21;
 constexpr int BUTTON_PIN =25;
 
 extern std::string  _logfile  ;
-
 extern Logger log_file_mutex;
-
 extern std::string buffer;
 
-//extern int max_msg  ;
 
 extern bool go_while  ;
 enum class TEMPERATURE_STATE;

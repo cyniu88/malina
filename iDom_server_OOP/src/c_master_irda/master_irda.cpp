@@ -108,7 +108,6 @@ void master_irda::run()
             }
             //Need to free up code before the next loop
             free(code);
-            digitalWrite(BUZZER,OFF);
         }
         //Frees the data structures associated with config.
         lirc_freeconfig(config);
