@@ -1,5 +1,6 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -12,7 +13,6 @@
 #include <netinet/in.h>
 #include <vector>
 #include <thread>
-
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <unistd.h>
@@ -21,11 +21,11 @@
 #include <errno.h>
 #include <signal.h>
 #include <time.h>
-#include "KEY/key.h"
 #include <wiringPi.h>
 #include <chrono>
 
 // MOJE BIBLIOTEKI
+#include "KEY/key.h"
 #include "logger/logger.hpp"
 #include "files_tree/files_tree.h"
 #include "menu_tree/menu_tree.h"
@@ -34,37 +34,34 @@
 #include "../libs/event_counter_test/event_counters/event_counters_handler.h"
 #include "iDomTools/idomtools.h"
 
-constexpr int MAX_CONNECTION =10;
-constexpr int FREE =1;
-constexpr int RS232 =11;
-constexpr int CLOCK =12;
-constexpr int ok   =  0;
-
 #define log_file_cout  f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na ekran
 #define log_file_mutex f_log
 
-//constexpr int ON =1;
-//constexpr int OFF =0;
-//extern int max_msg  ;
-//constexpr int BUZZER =7;
-constexpr int GPIO_SPIK =21;
-constexpr int BUTTON_PIN =25;
+namespace iDomConst
+{
+constexpr int MAX_CONNECTION = 10;
+constexpr int FREE  = 1;
+constexpr int RS232 = 11;
+constexpr int CLOCK = 12;
+constexpr int ok    =  0;
+constexpr int GPIO_SPIK  = 21;
+constexpr int BUTTON_PIN = 25;
+}
 
 extern std::string  _logfile  ;
 extern Logger log_file_mutex;
 extern std::string buffer;
 
-
-extern bool go_while  ;
 enum class TEMPERATURE_STATE;
+
 struct MPD_info{
-    std::string title   ="NULL";
-    std::string radio   ="NULL";
-    std::string artist  ="NULL";
-    int volume  =0;
-    bool isPlay =false;
+    std::string title   = "NULL";
+    std::string radio   = "NULL";
+    std::string artist  = "NULL";
+    int volume  = 0;
+    bool isPlay = false;
     int currentSongID = 0;
-    std::vector <std::string> songList ={"NULL"};
+    std::vector <std::string> songList = {"NULL"};
 };
 struct s_pointer{
     unsigned int *ptr_who;

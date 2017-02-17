@@ -137,7 +137,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             check_title_song_to=true;
             my_data->mainLCD->play_Y_N=true;
             my_data->ptr_MPD_info->isPlay=true;
-            digitalWrite(GPIO_SPIK, LOW);
+            digitalWrite(iDomConst::GPIO_SPIK, LOW);
             my_data->mainLCD->set_lcd_STATE(1);
             my_data->mainLCD->song_printstr();
             updatePlayList(mi,my_data);
@@ -158,7 +158,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             my_data->mainLCD->play_Y_N=false;
             my_data->ptr_MPD_info->isPlay=false;
             my_data->ptr_MPD_info->title="* * * *";
-            digitalWrite(GPIO_SPIK,HIGH);
+            digitalWrite(iDomConst::GPIO_SPIK,HIGH);
             my_data->mainLCD->noBacklight();
             sleep(1);
             my_data->myEventHandler.run("mpd")->addEvent("MPD stopped");
@@ -333,7 +333,7 @@ break;*/
 
 
             std::this_thread::sleep_for( std::chrono::milliseconds(500) );
-        } while( go_while);
+        } while( useful_F::go_while);
 
         mpd_player_stop(obj); //wylaczanie mpd na koniec
 

@@ -13,7 +13,10 @@
 #include <time.h>
 #include <netdb.h>
 #include <chrono>
+
 // przerobka  adresu na ip . //////////////////////////////////
+bool useful_F::go_while = true;
+
 std::string useful_F::conv_dns (std::string temp){
 
     int i;
@@ -82,10 +85,10 @@ std::string useful_F::send_to_arduino_clock (thread_data *my_data_logic, std::st
         std::this_thread::sleep_for( std::chrono::milliseconds(50) );
         C_connection::mutex_who.lock();
 
-        if (my_data_logic->pointer.ptr_who[0] == FREE)
+        if (my_data_logic->pointer.ptr_who[0] == iDomConst::FREE)
         {
             C_connection::mutex_buf.lock();
-            my_data_logic->pointer.ptr_who[0]=CLOCK;
+            my_data_logic->pointer.ptr_who[0]=iDomConst::CLOCK;
             my_data_logic->pointer.ptr_who[1]= pthread_self();
             buffer=msg;
             C_connection::mutex_buf.unlock();
@@ -103,7 +106,7 @@ std::string useful_F::send_to_arduino_clock (thread_data *my_data_logic, std::st
         if (my_data_logic->pointer.ptr_who[0] == pthread_self())
         {
             C_connection::mutex_buf.lock();
-            my_data_logic->pointer.ptr_who[0]=FREE;
+            my_data_logic->pointer.ptr_who[0]=iDomConst::FREE;
             my_data_logic->pointer.ptr_who[1]= 0;
             msg=buffer;
             C_connection::mutex_buf.unlock();
@@ -121,10 +124,10 @@ std::string useful_F::send_to_arduino (thread_data *my_data_logic, std::string m
     {
         std::this_thread::sleep_for( std::chrono::milliseconds(50) );
         C_connection::mutex_who.lock();
-        if (my_data_logic->pointer.ptr_who[0] == FREE)
+        if (my_data_logic->pointer.ptr_who[0] == iDomConst::FREE)
         {
             C_connection::mutex_buf.lock();
-            my_data_logic->pointer.ptr_who[0]=RS232;
+            my_data_logic->pointer.ptr_who[0]=iDomConst::RS232;
             my_data_logic->pointer.ptr_who[1]= pthread_self();
             buffer=msg;
             C_connection::mutex_buf.unlock();
@@ -141,7 +144,7 @@ std::string useful_F::send_to_arduino (thread_data *my_data_logic, std::string m
         if (my_data_logic->pointer.ptr_who[0] == pthread_self())
         {
             C_connection::mutex_buf.lock();
-            my_data_logic->pointer.ptr_who[0]=FREE;
+            my_data_logic->pointer.ptr_who[0]=iDomConst::FREE;
             my_data_logic->pointer.ptr_who[1]= 0;
             msg=buffer;
             C_connection::mutex_buf.unlock();
@@ -190,7 +193,7 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     log_file_cout << INFO<< "zaczynam procedure konca watku SLEEP_MPD" <<  std::endl;
     log_file_mutex.mutex_unlock();
     try {
-        for (int i =0 ; i< MAX_CONNECTION;++i)
+        for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
         {
             if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
             {
@@ -250,9 +253,6 @@ std::string useful_F::RSHash(int offset  )
     struct tm * act_date;
     time(&act_time);
     act_date = localtime(&act_time);
-    //std::string str="";
-    //str = std::to_string(act_date->tm_min+offset)+ std::to_string(act_date->tm_hour)+std::to_string(act_date->tm_wday);
-
     char buffer[10];
     strftime(buffer,10,"%M%H%w",act_date);
     std::string str(buffer);

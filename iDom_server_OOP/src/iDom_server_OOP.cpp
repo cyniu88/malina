@@ -8,8 +8,6 @@ std::string  _logfile  = "/mnt/ramdisk/iDom_log.log";
 std::string buffer ;
 Logger log_file_mutex(_logfile);
 
-bool go_while = true;
-
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
 void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
 
@@ -27,21 +25,21 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
     log_file_cout << INFO <<"otwarcie portu RS232_clock " <<  data_rs232->portRS232_clock <<" "<< data_rs232->BaudRate <<std::endl;
     log_file_mutex.mutex_unlock();
 
-    while (go_while)
+    while (useful_F::go_while)
     {
         std::this_thread::sleep_for( std::chrono::milliseconds(50) );
         C_connection::mutex_who.lock();
-        if (data_rs232->pointer.ptr_who[0] == RS232)
+        if (data_rs232->pointer.ptr_who[0] == iDomConst::RS232)
         {
             C_connection::mutex_buf.lock();
 
             data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
-            data_rs232->pointer.ptr_who[1]= RS232;
+            data_rs232->pointer.ptr_who[1]= iDomConst::RS232;
             serial_ardu.print(buffer.c_str());
 
             buffer.erase();
 
-            while ( go_while){
+            while ( useful_F::go_while){
                 if (serial_ardu.available()>0){
                     buffer+=serial_ardu.read();
                 }
@@ -53,16 +51,16 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
             }
             C_connection::mutex_buf.unlock();
         }
-        else if (data_rs232->pointer.ptr_who[0] == CLOCK){
+        else if (data_rs232->pointer.ptr_who[0] == iDomConst::CLOCK){
             C_connection::mutex_buf.lock();
 
             data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
-            data_rs232->pointer.ptr_who[1]= RS232;
+            data_rs232->pointer.ptr_who[1]= iDomConst::RS232;
             serial_ardu_clock.print(buffer.c_str());
 
             buffer.erase();
 
-            while ( go_while){
+            while ( useful_F::go_while){
                 if (serial_ardu_clock.available()>0){
                     buffer+=serial_ardu_clock.read();
                     buffer+=serial_ardu_clock.read();
@@ -146,7 +144,7 @@ void Server_connectivity_thread(thread_data  *my_data){
     }
 
 
-    while (go_while && key_ok)
+    while (useful_F::go_while && key_ok)
     {
         int recvSize = client->c_recv(0) ;
         if( recvSize == -1 )  {
@@ -156,7 +154,7 @@ void Server_connectivity_thread(thread_data  *my_data){
         // ###########################  analia wiadomoscu ####################################//
         if ( client->c_analyse(recvSize) == false )   // stop runing idom_server
         {
-            go_while = false;
+            useful_F::go_while = false;
             break;
         }
         // ###############################  koniec analizy   wysylanie wyniku do RS232 lub  TCP ########################
@@ -187,13 +185,13 @@ int main()
     node_data.server_settings=&server_settings;
     time(&node_data.start);
 
-    Thread_array_struc thread_array[MAX_CONNECTION];
-    for (int i =0 ; i< MAX_CONNECTION;++i){
+    Thread_array_struc thread_array[iDomConst::MAX_CONNECTION];
+    for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i){
         thread_array[i].thread_name="  -empty-  ";
         thread_array[i].thread_socket=0;
     }
 
-    unsigned int who[2]={FREE, FREE};
+    unsigned int who[2]={iDomConst::FREE, iDomConst::FREE};
     ///////////////////////////////////////////  zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
@@ -215,20 +213,20 @@ int main()
     if (wiringPiSetup () == -1){
         exit (1) ;
     }
-    if (wiringPiISR (BUTTON_PIN, INT_EDGE_FALLING, &useful_F::button_interrupt_falling) < 0 ) {
+    if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_FALLING, &useful_F::button_interrupt_falling) < 0 ) {
         log_file_cout.mutex_lock();
         log_file_cout << CRITICAL <<"Unable to setup ISR FALLING "<<std::endl;
         log_file_cout.mutex_unlock();
     }
-    if (wiringPiISR (BUTTON_PIN, INT_EDGE_RISING, &useful_F::button_interrupt_rising) < 0 ) {
+    if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_RISING, &useful_F::button_interrupt_rising) < 0 ) {
         log_file_cout.mutex_lock();
         log_file_cout << CRITICAL <<"Unable to setup ISR RISING "<<std::endl;
         log_file_cout.mutex_unlock();
     }
 
-    pinMode(GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
-    digitalWrite(GPIO_SPIK,HIGH);
-    pinMode(BUTTON_PIN, INPUT);   //  gpio pin przycisku
+    pinMode(iDomConst::GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
+    digitalWrite(iDomConst::GPIO_SPIK,HIGH);
+    pinMode(iDomConst::BUTTON_PIN, INPUT);   //  gpio pin przycisku
     /////////////////////////////// MPD info /////////////////////////
     MPD_info my_MPD_info;
     /////////////////////////////// iDom Tools ///////////////////////
@@ -372,7 +370,7 @@ int main()
         exit( - 1 );
     }
 
-    if( listen( v_socket, MAX_CONNECTION ) < 0 )
+    if( listen( v_socket, iDomConst::MAX_CONNECTION ) < 0 )
     {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "Listen problem: " <<  strerror(  errno )<< std::endl;
@@ -388,7 +386,7 @@ int main()
     while (1)
     {
         memset( &from,0, sizeof( from ) );
-        if (!go_while) {
+        if (!useful_F::go_while) {
             break;
         }
 
@@ -400,11 +398,11 @@ int main()
         }
 
         ////////////////////////   jest połacznie   wiec wstawiamy je  do nowego watku  i  umieszczamy id watku w tablicy  w pierwszym wolnym miejscy ////////////////////
-        for (int con_counter=0; con_counter< MAX_CONNECTION; ++con_counter)
+        for (int con_counter=0; con_counter< iDomConst::MAX_CONNECTION; ++con_counter)
         {
             if ( node_data.main_THREAD_arr[con_counter].thread.joinable() == false  )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
             {
-                if ( con_counter!=MAX_CONNECTION -1)
+                if ( con_counter!=iDomConst::MAX_CONNECTION -1)
                 {
                     node_data.s_client_sock =v_sock_ind;
                     node_data.from=from;

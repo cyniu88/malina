@@ -47,7 +47,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
                 else{
                     str_buf.erase();
                     std::stringstream ss;
-                    for (int i =0 ; i< MAX_CONNECTION;++i)
+                    for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
                     {
                         ss.clear();
                         ss = std::stringstream();

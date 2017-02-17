@@ -22,12 +22,12 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
             }
 
             my_data->sleeper = sleep;
-            for (int con_counter=0; con_counter< MAX_CONNECTION; ++con_counter)
+            for (int con_counter=0; con_counter< iDomConst::MAX_CONNECTION; ++con_counter)
             {
                 if (   my_data->main_THREAD_arr[con_counter].thread.joinable() == false )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
 
                 {
-                    if ( con_counter!=MAX_CONNECTION -1)
+                    if ( con_counter!=iDomConst::MAX_CONNECTION -1)
                     {
                         my_data->main_THREAD_arr[con_counter].thread = std::thread(useful_F::sleeper_mpd,my_data);
                         my_data->main_THREAD_arr[con_counter].thread_name="Sleeper  MPD ";

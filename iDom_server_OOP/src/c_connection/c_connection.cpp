@@ -18,7 +18,7 @@ C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_so
 C_connection::~C_connection()
 {
     shutdown( c_socket, SHUT_RDWR );
-    for (int i =0 ; i< MAX_CONNECTION;++i)
+    for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
     {
         if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
         {

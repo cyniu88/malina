@@ -30,5 +30,6 @@ public:
     static  std::vector<std::string> split(const std::string& s, char separator );
     static  void button_interrupt_rising();
     static  void button_interrupt_falling();
+    static  bool go_while ;
 };
 #endif // FUNCTIONS_H

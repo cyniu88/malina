@@ -14,7 +14,7 @@ void CRON::run()
     int min =0 ;
     char buffer[5];
 
-    while (go_while) {
+    while (useful_F::go_while) {
         sleep(10);
         time(&act_time);
         act_date = localtime(&act_time);
