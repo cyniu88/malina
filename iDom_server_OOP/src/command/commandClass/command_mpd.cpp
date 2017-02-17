@@ -15,7 +15,7 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
     {
         if (v.size()>2){
             if (std::stoi(v[2] ) > 0){
-                my_data->currentSongID = std::stoi(v[2]);
+                my_data->ptr_MPD_info->currentSongID = std::stoi(v[2]);
                 char_queue._add('I');
                 sleep(1);
                 str_buf=my_data->ptr_MPD_info->songList[std::stoi(v[2])-1];
@@ -26,7 +26,6 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
             sleep(1);
             str_buf=my_data->ptr_MPD_info->title;
         }
-
     }
     else if (v[1]=="stop")
     {
@@ -68,8 +67,6 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
         sleep(1);
         str_buf=std::to_string(   my_data->ptr_MPD_info->volume);
     }
-
-
     else if (v[1]=="get")
     {
         if(v[2]=="volume"){
@@ -80,7 +77,6 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
             str_buf = my_data->ptr_MPD_info->radio + " : "+ my_data->ptr_MPD_info->title;
         }
     }
-
     else if (v[1]=="list")
     {
         for (auto i : my_data->ptr_MPD_info->songList)

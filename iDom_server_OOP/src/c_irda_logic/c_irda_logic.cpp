@@ -38,8 +38,8 @@ void c_irda_logic::_add(char X)
         {
             my_data_logic->mainLCD->set_lcd_STATE(10);
             my_data_logic->mainLCD->printString(true,0,0,"ZAPALAM LEDy");
-            std::string temp_str="";
-            temp_str += my_data_logic->main_iDomTools->ledOn(my_data_logic->ptr_pilot_led->colorLED[my_data_logic->ptr_pilot_led->counter]);
+            std::string temp_str = my_data_logic->ptr_pilot_led->colorLED[my_data_logic->ptr_pilot_led->counter].getColorName();
+            my_data_logic->main_iDomTools->ledOn(my_data_logic->ptr_pilot_led->colorLED[my_data_logic->ptr_pilot_led->counter]);
 
             if (++my_data_logic->ptr_pilot_led->counter >  my_data_logic->ptr_pilot_led->colorLED.size()-1 )
             {

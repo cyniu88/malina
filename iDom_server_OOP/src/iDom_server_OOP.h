@@ -62,12 +62,13 @@ extern std::string buffer;
 extern bool go_while  ;
 enum class TEMPERATURE_STATE;
 struct MPD_info{
-    std::string title="NULL";
-    std::string radio="NULL";
-    std::string artist="NULL";
-    int volume=0;
-    bool isPlay=false;
-    std::vector <std::string> songList={"NULL"};
+    std::string title   ="NULL";
+    std::string radio   ="NULL";
+    std::string artist  ="NULL";
+    int volume  =0;
+    bool isPlay =false;
+    int currentSongID = 0;
+    std::vector <std::string> songList ={"NULL"};
 };
 struct s_pointer{
     unsigned int *ptr_who;
@@ -79,19 +80,6 @@ struct Thread_array_struc {
     std::thread::id thread_ID;
     std::string thread_name;
     int thread_socket;
-};
-
-
-struct addresses_mac{
-    std::string name_MAC;
-    std::string MAC;
-    bool state;
-    int option1;
-    int option2;
-    int option3;
-    int option4;
-    int option5;
-    int option6;
 };
 
 struct address_another_servers {
@@ -119,43 +107,54 @@ struct LED_Strip{
     std::string R ;
     std::string G ;
     std::string B ;
+    std::string colorName;
 
-    LED_Strip (int from, int to, int r, int g, int b):from(std::to_string(from)),
+    LED_Strip (int from, int to, int r, int g, int b, std::string colorName = "NULL"):from(std::to_string(from)),
         to(std::to_string(to)),
         R(std::to_string(r)),
         G(std::to_string(g)),
-        B(std::to_string(b))
+        B(std::to_string(b)),
+        colorName(colorName)
     {
 
     }
-    LED_Strip (std::string from, std::string to, std::string r, std::string g, std::string b):
+    LED_Strip (std::string from, std::string to, std::string r, std::string g, std::string b, std::string colorName = "NULL"):
         from(from),
         to(to),
         R(r),
         G(g),
-        B(b)
+        B(b),
+        colorName(colorName)
     {
 
     }
 
-    void set (std::string from, std::string to, std::string r, std::string g, std::string b){
+    void set (std::string from, std::string to, std::string r, std::string g, std::string b, std::string colorName = "NULL"){
         this->from =from;
         this->to = to;
         R = r;
         G = g;
         B = b;
+        this->colorName =colorName;
     }
-    void set (int from, int to, int r, int g, int b){
+
+    void set (int from, int to, int r, int g, int b, std::string colorName = "NULL"){
         this->from =std::to_string(from);
         this->to = std::to_string(to);
         R = std::to_string(r);
         G = std::to_string(g);
         B = std::to_string(b);
+        this->colorName =colorName;
+    }
+
+    std::string getColorName(){
+        return colorName;
     }
 
     std::string get() const{
         return "LED:["+from+"-"+to+"-"+R+"-"+G+"-"+B+"];";
     }
+
     static std::string makeCommand(std::string from, std::string to, std::string R, std::string G, std::string B){
         return "LED:["+from+"-"+to+"-"+R+"-"+G+"-"+B+"];";
     }
@@ -163,16 +162,17 @@ struct LED_Strip{
 
 struct pilot_led{
     unsigned int counter=0;
-    std::vector<LED_Strip> colorLED   = { LED_Strip(1,60,255,192,0),
-                                          LED_Strip(1,60,255,0,0),
-                                          LED_Strip(1,60,0,255,0),
-                                          LED_Strip(1,60,0,0,255),
-                                          LED_Strip(1,60,255,255,255),
-                                          LED_Strip(1,60,255,255,0),
-                                          LED_Strip(1,60,0,255,255),
-                                          LED_Strip(1,60,255,0,255)
+    std::vector<LED_Strip> colorLED   = { LED_Strip(1,60,237,145,33 ,"carrot orange"),
+                                          LED_Strip(1,60,255,0,0    ,"red"),
+                                          LED_Strip(1,60,0,255,0    ,"green"),
+                                          LED_Strip(1,60,0,0,255    ,"blue"),
+                                          LED_Strip(1,60,255,255,255,"white"),
+                                          LED_Strip(1,60,255,255,0  ,"yellow"),
+                                          LED_Strip(1,60,0,255,255  ,"cyan"),
+                                          LED_Strip(1,60,255,0,255  ,"magenta")
                                         };
 };
+
 class command ;  // for struc thread_data req
 class iDomTOOLS;
 
@@ -184,6 +184,7 @@ struct thread_data{
     LCD_c *mainLCD;
     files_tree *main_tree;
     menu_tree *main_MENU;
+    iDomTOOLS *main_iDomTools;
     Thread_array_struc *main_THREAD_arr;
     time_t start;
     time_t now_time;
@@ -192,10 +193,8 @@ struct thread_data{
     MPD_info *ptr_MPD_info;
     pilot_led * ptr_pilot_led;
     std::map <std::string, std::unique_ptr<command> > *commandMapPtr;
-    int currentSongID = 0;
     event_counters_handler myEventHandler;
     std::string encriptionKey = "40%";
-    iDomTOOLS *main_iDomTools;
 };
 
 struct thread_data_rs232{

@@ -9,7 +9,6 @@
 #include "commandClass/commandexit.h"
 #include "commandClass/commandtest.h"
 
-
 class commandHandler
 {
     thread_data * my_data;

@@ -272,7 +272,6 @@ void main_mpd_cli(thread_data* my_data )
                 case 's':
                     mpd_player_set_random(obj, !mpd_player_get_random(obj));
                     break;
-
                 case 'p':
                     /*if(char_queue._size() > 0)
 {
@@ -282,7 +281,6 @@ printf(GREEN"Playing:"RESET" %i\n", id);
 mpd_player_play_id(obj,id);
 }
 break;*/
-
                 case '+':
                     mpd_status_set_volume(obj, mpd_status_get_volume(obj)+1);
                     break;
@@ -297,7 +295,7 @@ break;*/
                     printf( "Debug:"" %s\n", (debug_level >0)? "Enabled":"Disabled");
                     break;
                 case 'I':
-                    mpd_player_play_id(obj,my_data->currentSongID);
+                    mpd_player_play_id(obj,my_data->ptr_MPD_info->currentSongID);
                     break;
                 case 'h':
                     printf("\th:\t\tHelp\n"\
