@@ -135,6 +135,15 @@ void loop() {
 
   }
   ////////////////////////////////////////////////////////////////////
+  if (command == "getRS232")
+  {
+    Serial.print("ok;");
+    delay(1000);
+    Serial.print("test msg comand;");
+    command="z";
+    valueINT=0; 
+  }
+  ////////////////////////////////////////////////////////////////////
   if (command=="temperature")
   {
     valueINT = value.toInt();
@@ -160,11 +169,9 @@ void loop() {
     Serial.print(';');  
     command="z";
     valueINT=0;
-
   }
   if (command=="temperature_error")
   {
-
     Serial.print("Temperature error counter: OUT - ");
     Serial.print(String(errorTemperatureOutCounter));
     Serial.print(" | IN - ");
@@ -172,7 +179,6 @@ void loop() {
     Serial.print(';');  
     command="z";
     valueINT=0;
-
   }
   if (command=="test")
   {
@@ -187,14 +193,14 @@ void loop() {
     valueINT=0;
 
   }
-    if (command=="clean")
+  if (command=="clean")
   {
-   // valueINT = value.toInt();
-   // ++valueINT;
+    // valueINT = value.toInt();
+    // ++valueINT;
     //++valueINT;
     //Serial.print("return:");
     //sprintf(c,valueINT);
-   // Serial.print(String(valueINT));
+    // Serial.print(String(valueINT));
     //Serial.print(';');  
     command="z";
     valueINT=0;
@@ -299,4 +305,6 @@ uint32_t Wheel(byte WheelPos) {
   WheelPos -= 170;
   return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
+
+
 

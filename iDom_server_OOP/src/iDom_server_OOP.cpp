@@ -69,6 +69,24 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
             }
             C_connection::mutex_buf.unlock();
         }
+        else if (data_rs232->pointer.ptr_who[0] == iDomConst::FREE){
+            char t = '*';
+            if (serial_ardu.available()>0) {
+                while (useful_F::go_while){
+                    if (serial_ardu.available()>0){
+                        t = serial_ardu.read();
+                        if (t == ';'){
+                            serial_ardu.flush();
+                            break;
+                        }
+                        else{
+                            printf("%c",t);
+                        }
+                    }
+                }
+                puts("\n");
+            }
+        }
         C_connection::mutex_who.unlock();
     }
     //pthread_exit(NULL);
@@ -81,24 +99,19 @@ void f_serv_con_node (thread_data  *my_data){
 /////////////////////  watek do obslugi irda //////////////////////////////
 
 void f_master_irda (thread_data  *my_data){
-
     master_irda irda(my_data);
     irda.run();
-
 } //  koniec master_irda
 ///////////  watek wymiany polaczenia /////////////////////
 
 
 /////////////////////  watek CRON //////////////////////////////
-
-
 void f_master_CRON (thread_data  *my_data){
     CRON my_CRON(my_data);
     my_CRON.run();
 } //  koniec CRON
 
 void Server_connectivity_thread(thread_data  *my_data){
-
     C_connection *client = new C_connection( my_data);
     bool key_ok=false;
     std::string tm = inet_ntoa( my_data->from.sin_addr);
@@ -123,11 +136,9 @@ void Server_connectivity_thread(thread_data  *my_data){
     client->setEncriptionKey(KEY_OWN);
     if (   KEY_rec == KEY_OWN    )   // stop runing idom_server
     {
-        //std::cout<< "klucze rowne"<< std::endl;
         key_ok=true;
         if( client->c_send("OK" ) == -1 )
         {
-
             key_ok=false;
         }
     }
@@ -143,14 +154,12 @@ void Server_connectivity_thread(thread_data  *my_data){
         }
     }
 
-
     while (useful_F::go_while && key_ok)
     {
         int recvSize = client->c_recv(0) ;
         if( recvSize == -1 )  {
             break;
         }
-
         // ###########################  analia wiadomoscu ####################################//
         if ( client->c_analyse(recvSize) == false )   // stop runing idom_server
         {
@@ -158,14 +167,12 @@ void Server_connectivity_thread(thread_data  *my_data){
             break;
         }
         // ###############################  koniec analizy   wysylanie wyniku do RS232 lub  TCP ########################
-
         if( client->c_send(0 ) == -1 )
         {
             perror( "send() ERROR" );
             break;
         }
     }
-
     my_data->mainLCD->set_print_song_state(0);
     my_data->mainLCD->set_lcd_STATE(2);
     sleep (3);
@@ -176,7 +183,6 @@ void Server_connectivity_thread(thread_data  *my_data){
 int main()
 {
     pthread_mutex_init(&Logger::mutex_log, NULL);
-
     config server_settings   =  read_config ( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfig
     struct sockaddr_in server;
     int v_socket;
