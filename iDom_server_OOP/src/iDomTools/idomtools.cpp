@@ -310,7 +310,8 @@ std::string iDomTOOLS::find_tag(std::string temp)
    return value;
 }
 
-std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std::string number, std::string msg,int silentFrom , int silentTo  )
+std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std::string number,
+                                        std::string msg,int silentFrom , int silentTo  )
 {
     if (silentFrom !=0 && silentTo !=0){
         // TODO

@@ -219,6 +219,10 @@ int main()
     if (wiringPiSetup () == -1){
         exit (1) ;
     }
+    pinMode(iDomConst::GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
+    digitalWrite(iDomConst::GPIO_SPIK,HIGH);
+    pinMode(iDomConst::BUTTON_PIN, INPUT);   //  gpio pin przycisku
+
     if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_FALLING, &useful_F::button_interrupt_falling) < 0 ) {
         log_file_cout.mutex_lock();
         log_file_cout << CRITICAL <<"Unable to setup ISR FALLING "<<std::endl;
@@ -230,9 +234,6 @@ int main()
         log_file_cout.mutex_unlock();
     }
 
-    pinMode(iDomConst::GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
-    digitalWrite(iDomConst::GPIO_SPIK,HIGH);
-    pinMode(iDomConst::BUTTON_PIN, INPUT);   //  gpio pin przycisku
     /////////////////////////////// MPD info /////////////////////////
     MPD_info my_MPD_info;
     /////////////////////////////// iDom Tools ///////////////////////

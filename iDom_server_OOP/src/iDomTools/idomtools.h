@@ -18,8 +18,8 @@ enum class TEMPERATURE_STATE{
     Unknown
 };
 struct temperature {
-    double newTemp = 0.0001;
-    double oldTemp = 0.0001;
+    double newTemp = 0.0101;
+    double oldTemp = 0.0101;
 };
 
 class iDomTOOLS
