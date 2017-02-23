@@ -3,16 +3,16 @@
 
 #include <map>
 #include <string>
+#include <chrono>
 #include "../iDom_server_OOP.h"
 #include "../../libs/sunrise-sunset/sunriseset.h"
 #include "sys/sysinfo.h"
-#include <chrono>
 
 struct thread_data;
 struct LED_Strip;
 
 enum class TEMPERATURE_STATE{
-    Under ,
+    Under,
     Over,
     NoChanges,
     Unknown

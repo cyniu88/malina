@@ -177,7 +177,6 @@ void Server_connectivity_thread(thread_data  *my_data){
     my_data->mainLCD->set_lcd_STATE(2);
     sleep (3);
     delete client;
-    //pthread_exit(NULL);
 }
 
 int main()
@@ -201,14 +200,14 @@ int main()
     ///////////////////////////////////////////  zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
-    log_file_cout << INFO  << "ID serwera\t"<< server_settings.ID_server << std::endl;
-    log_file_cout << INFO  << "PortRS232\t"<< server_settings.portRS232 << std::endl;
-    log_file_cout << INFO  << "PortRS232_clock\t"<< server_settings.portRS232_clock << std::endl;
-    log_file_cout << INFO  << "BaudRate RS232\t"<< server_settings.BaudRate << std::endl;
-    log_file_cout << INFO  << "port TCP \t"<< server_settings.PORT << std::endl;
-    log_file_cout << INFO  << "serwer ip \t"<< server_settings.SERVER_IP  <<std::endl;
-    log_file_cout << INFO  << "baza z filami \t"<< server_settings.MOVIES_DB_PATH << std::endl;
-    log_file_cout << INFO  << "klucz ThingSpeak \t"<<server_settings.TS_KEY << std::endl;
+    log_file_cout << INFO << "ID serwera\t"<< server_settings.ID_server << std::endl;
+    log_file_cout << INFO << "PortRS232\t"<< server_settings.portRS232 << std::endl;
+    log_file_cout << INFO << "PortRS232_clock\t"<< server_settings.portRS232_clock << std::endl;
+    log_file_cout << INFO << "BaudRate RS232\t"<< server_settings.BaudRate << std::endl;
+    log_file_cout << INFO << "port TCP \t"<< server_settings.PORT << std::endl;
+    log_file_cout << INFO << "serwer ip \t"<< server_settings.SERVER_IP  <<std::endl;
+    log_file_cout << INFO << "baza z filami \t"<< server_settings.MOVIES_DB_PATH << std::endl;
+    log_file_cout << INFO << "klucz ThingSpeak \t"<<server_settings.TS_KEY << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
     log_file_mutex.mutex_unlock();
@@ -223,12 +222,7 @@ int main()
     digitalWrite(iDomConst::GPIO_SPIK,HIGH);
     pinMode(iDomConst::BUTTON_PIN, INPUT);   //  gpio pin przycisku
 
-    if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_FALLING, &useful_F::button_interrupt_falling) < 0 ) {
-        log_file_cout.mutex_lock();
-        log_file_cout << CRITICAL <<"Unable to setup ISR FALLING "<<std::endl;
-        log_file_cout.mutex_unlock();
-    }
-    if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_RISING, &useful_F::button_interrupt_rising) < 0 ) {
+    if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_BOTH, &useful_F::button_interrupt) < 0 ) {
         log_file_cout.mutex_lock();
         log_file_cout << CRITICAL <<"Unable to setup ISR RISING "<<std::endl;
         log_file_cout.mutex_unlock();

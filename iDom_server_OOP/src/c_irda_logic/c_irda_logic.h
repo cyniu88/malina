@@ -4,13 +4,12 @@
 #include <pthread.h>
 #include <queue>
 #include <iostream>
+#include <wiringPi.h>
 #include <string.h>
 #include "../blockQueue/blockqueue.h"   // brak
 #include "../files_tree/files_tree.h"   //brak
 #include "../c_connection/c_connection.h"
 #include "../functions/functions.h"
-#include <wiringPi.h>
-
 
 class c_irda_logic
 {
@@ -19,7 +18,6 @@ private:
     blockQueue char_queue;
     char who;
     thread_data *my_data_logic;
-    // static std::string main_tree;
 
 public:
     c_irda_logic(thread_data *my_data);

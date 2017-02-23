@@ -363,18 +363,36 @@ std::vector<std::string> useful_F::split(const std::string& s, char separator ){
     output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
     return output;
 }
-std::chrono::time_point <std::chrono::system_clock>  useful_F::timer = std::chrono::system_clock::now();
-void useful_F::button_interrupt_rising()
-{
-    puts("przerwanie z przycisku - rosnace");
-    useful_F::timer = std::chrono::system_clock::now();
-}
 
-void useful_F::button_interrupt_falling()
+volatile unsigned int  useful_F::lastInterruptTime = 0;
+std::mutex useful_F::mut;
+
+
+
+void useful_F::button_interrupt( )
 {
-    puts("przerwanie z przycisku opadajace");
-    auto timerEnd = std::chrono::system_clock::now();
-    std::cout << "process took: "
-        << std::chrono::duration_cast<std::chrono::milliseconds>(timerEnd - useful_F::timer).count()
-        << " milliseconds\n";
+   static int counter = 0;
+   counter++;
+   //TODO delete counter it is not needed
+   std::lock_guard <std::mutex > lock(useful_F::mut);
+   volatile unsigned int m = millis();
+   volatile auto a = m - useful_F::lastInterruptTime;
+    if (a > 50){
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO<< "przerwanie przycisku " <<  std::endl;
+        log_file_mutex.mutex_unlock();
+        printf ("przerwanie %d - %d = %d\n", m, useful_F::lastInterruptTime, a);
+        printf("counter %d \n status is %d\n",counter,digitalRead(iDomConst::BUTTON_PIN));
+         blockQueue char_queue;
+        if (digitalRead(iDomConst::BUTTON_PIN)==HIGH){
+
+            puts("start");
+
+        }
+        else{
+            puts("stop");
+            char_queue._add('P');
+        }
+        useful_F::lastInterruptTime = millis();
+    }
 }
