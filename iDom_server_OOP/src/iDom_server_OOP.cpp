@@ -273,6 +273,8 @@ int main()
 
     //////////////////////////////////////////////////////////////////////
 
+    useful_F::setStaticData(&node_data);
+    /////////////////////////////////////////////////////////
     int SERVER_PORT = std::stoi(server_settings.PORT );
     server_settings.SERVER_IP = useful_F::conv_dns(server_settings.SERVER_IP);
     const char *SERVER_IP = server_settings.SERVER_IP.c_str();

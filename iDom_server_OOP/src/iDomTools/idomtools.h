@@ -40,6 +40,9 @@ public:
     static void turnOnSpeakers();
     static void turnOffSpeakers();
 
+    static void playMPD(thread_data *my_data);
+    static void stopMPD(thread_data* my_data);
+
     std::string getSunrise(bool extend = false);
     std::string getSunset(bool extend = false);
     std::string getDayLenght(bool extend = false);

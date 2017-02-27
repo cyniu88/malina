@@ -31,5 +31,8 @@ public:
     static  std::vector<std::string> split(const std::string& s, char separator );
     static  void button_interrupt();
     static  bool go_while ;
+
+    static thread_data* myStaticData;
+    static void setStaticData(thread_data* my_dataPtr);
 };
 #endif // FUNCTIONS_H

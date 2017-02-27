@@ -2,6 +2,7 @@
 #include "idomtools.h"
 #include "../functions/functions.h"
 #include "../CRON/cron.hpp"
+#include "../blockQueue/blockqueue.h"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
 {
@@ -73,6 +74,18 @@ void iDomTOOLS::turnOnSpeakers()
 void iDomTOOLS::turnOffSpeakers()
 {
     digitalWrite(iDomConst::GPIO_SPIK, HIGH);
+}
+
+void iDomTOOLS::playMPD(thread_data* my_data)
+{\
+    blockQueue _q;
+    _q._add('t');
+}
+
+void iDomTOOLS::stopMPD(thread_data* my_data)
+{
+    blockQueue _q;
+    _q._add('P');
 }
 
 std::string iDomTOOLS::getSunrise(bool extend )

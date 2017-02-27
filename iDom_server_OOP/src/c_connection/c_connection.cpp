@@ -61,7 +61,7 @@ int C_connection::c_send(int para)
         return -1;
     }
 
-     auto len_send = str_buf.length();
+    auto len_send = str_buf.length();
     // len_temp =0;
 
     while (len_send > 0)
@@ -79,7 +79,7 @@ int C_connection::c_send(int para)
         str_buf.erase(0,len_temp);
     }
 
-return 0;
+    return 0;
 }
 
 int C_connection::c_send(std::string command )
@@ -135,25 +135,22 @@ int C_connection::c_analyse(int recvSize)
     }
     str_buf  = mainCommandHandler.run(command,my_data);
 
-
-        if(command[0]=="stop")
+    if(command[0]=="stop")
+    {
+        //std::cout << " jest stop";
+        if (command[1]=="server")
         {
-            //std::cout << " jest stop";
-            if (command[1]=="server")
-            {
-                useful_F::send_to_arduino_clock(my_data,"STOP");
+            useful_F::send_to_arduino_clock(my_data,"STOP");
 
-                c_send("\nCLOSE.\n");
-                return false;
-            }
-            else
-            {   str_buf="stop what? \n";
-
-            }
+            c_send("\nCLOSE.\n");
+            return false;
         }
+        else
+        {   str_buf="stop what? \n";
 
-
-   return true;
+        }
+    }
+    return true;
 }
 
 

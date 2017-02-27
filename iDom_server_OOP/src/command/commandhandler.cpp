@@ -15,7 +15,6 @@
 #include "commandClass/command_event.h"
 #include "commandClass/command_idom.h"
 
-
 commandHandler::commandHandler(thread_data * my_data)
 {
     std::unique_ptr <command> test(new commandTEST("test") );
@@ -71,7 +70,7 @@ commandHandler::commandHandler(thread_data * my_data)
 
     this->my_data = my_data;
     this->my_data->commandMapPtr = &commandMap;
-   }
+}
 
 std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_data)
 {
@@ -79,6 +78,6 @@ std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_dat
         return "unknown command: "+ v[0];
     }
     else{
-    return  commandMap[v[0]]->execute(v,my_data);
+        return  commandMap[v[0]]->execute(v,my_data);
     }
 }

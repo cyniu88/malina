@@ -363,35 +363,58 @@ std::vector<std::string> useful_F::split(const std::string& s, char separator ){
     output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
     return output;
 }
+thread_data* useful_F::myStaticData = NULL;
+void useful_F::setStaticData(thread_data *my_dataPtr)
+{
+    myStaticData = my_dataPtr;
+}
 
 volatile unsigned int  useful_F::lastInterruptTime = 0;
 std::mutex useful_F::mut;
 
-
-
 void useful_F::button_interrupt( )
 {
-   static int counter = 0;
-   counter++;
-   //TODO delete counter it is not needed
-   std::lock_guard <std::mutex > lock(useful_F::mut);
-   volatile unsigned int m = millis();
-   volatile auto a = m - useful_F::lastInterruptTime;
+    static int counter = 0;
+    counter++;
+    //TODO delete counter it is not needed
+    std::lock_guard <std::mutex > lock(useful_F::mut);
+    volatile unsigned int m = millis();
+    volatile auto a = m - useful_F::lastInterruptTime;
     if (a > 50){
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO<< "przerwanie przycisku " <<  std::endl;
+        log_file_cout << INFO << "przerwanie przycisku " <<counter<< std::endl;
         log_file_mutex.mutex_unlock();
+        useful_F::myStaticData->myEventHandler.run("interrupt")->addEvent("przerwanie z przycisku");
         printf ("przerwanie %d - %d = %d\n", m, useful_F::lastInterruptTime, a);
         printf("counter %d \n status is %d\n",counter,digitalRead(iDomConst::BUTTON_PIN));
-         blockQueue char_queue;
+
         if (digitalRead(iDomConst::BUTTON_PIN)==HIGH){
-
-            puts("start");
-
+            //iDomTOOLS::playMPD(useful_F::myStaticData);
+            unsigned int menuCounter = 0;
+            while (digitalRead(iDomConst::BUTTON_PIN)==HIGH){
+                menuCounter++;
+                if(menuCounter==6){
+                    useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
+                    useful_F::myStaticData->mainLCD->printString(true,0,0,"MUSIC");
+                    puts("MUSIC");
+                }
+                if (menuCounter==90000000){
+                    useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
+                    useful_F::myStaticData->mainLCD->printString(true,0,0,"LED");
+                    puts("LED");
+                }
+                if (menuCounter==190000000){
+                    useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
+                    useful_F::myStaticData->mainLCD->printString(true,0,0,"SERVER");
+                    puts("SERVER");
+                }
+            }
         }
         else{
-            puts("stop");
-            char_queue._add('P');
+
+            useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
+            useful_F::myStaticData->mainLCD->printString(true,0,0,"DONE");
+            puts("DONE");
         }
         useful_F::lastInterruptTime = millis();
     }
