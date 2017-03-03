@@ -37,18 +37,15 @@ DeviceAddress outsideThermometer   = {
   // 0x28, 0x8F, 0x9F, 0x63, 0x4, 0x0, 0x0, 0x8E };
   0x28, 0xFF, 0x07, 0x04, 0x81, 0x16, 0x03, 0x7A};
 
-
-String command="z";
-
-String value="0";
-int valueINT=0;
+String command  = "z";
+String value    = "0";
+int valueINT    = 0;
 int errorTemperatureInCounter  = 0 ;
 int errorTemperatureOutCounter = 0 ;
-
-double insideTemp = 0;
-double outsideTemp =0;
-double insideTempOld = 0;
-double outsideTempOld =0;
+double insideTemp     = 0;
+double outsideTemp    = 0;
+double insideTempOld  = 0;
+double outsideTempOld = 0;
 
 bool LED_state = false;
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
@@ -67,9 +64,8 @@ void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
 
-
   sensors.begin();
-  sensors.setResolution(insideThermometer, TEMPERATURE_PRECISION);
+  sensors.setResolution(insideThermometer , TEMPERATURE_PRECISION);
   sensors.setResolution(outsideThermometer, TEMPERATURE_PRECISION);
 
 }
@@ -78,34 +74,29 @@ void loop() {
   if (Serial.available () > 4 )
   {
     command = Serial.readStringUntil(':');
-    //Serial.println(command);
     value = Serial.readStringUntil(';');
-
   }
 
   if (command == "LED")
   {
-
     int from,to,r, g, b;
 
     if (sscanf( value.c_str() , "[%d-%d-%d-%d-%d]", &from, &to,&r,&g,&b) == 5) {
-
       // do something with r, g, b
       LED_state = true;
       Serial.print("LEDY START ");  
       Serial.print(';');
       delay(100);
-      colorWipe(strip.Color(r, g, b), 5,from ,to); // Red
+      colorWipe(strip.Color(r, g, b), 5,from ,to);
     }
     else {
-
       Serial.print("LED START - ERROR");  
       Serial.print(';'); 
     } 
     command="z";
     valueINT=0;
-
   }
+  ////////////////////////////////////////////////////////////////////////
   if (command == "LED_STOP")
   {
     Serial.print("LED STOP");  
@@ -116,7 +107,6 @@ void loop() {
     LED_state = false;
     command="z";
     valueINT=0;
-
   }
   ///////////////////////////////////////////////////////////////////////
   if (command == "LED_CLEAR")
@@ -129,7 +119,6 @@ void loop() {
       strip.show();
       delay(100);
     }
-
     command="z";
     valueINT=0;
 
@@ -149,7 +138,7 @@ void loop() {
     valueINT = value.toInt();
     sensors.requestTemperatures(); // Send the command to get temperatures
 
-      insideTemp =sensors.getTempC(insideThermometer);
+    insideTemp  = sensors.getTempC(insideThermometer);
     outsideTemp = sensors.getTempC(outsideThermometer);
     if ( insideTemp< -60 ||  insideTemp > 100)
     {
@@ -170,6 +159,7 @@ void loop() {
     command="z";
     valueINT=0;
   }
+  /////////////////////////////////////////////////////////////
   if (command=="temperature_error")
   {
     Serial.print("Temperature error counter: OUT - ");
@@ -180,6 +170,7 @@ void loop() {
     command="z";
     valueINT=0;
   }
+  //////////////////////////////////////////////////////////////
   if (command=="test")
   {
     valueINT = value.toInt();
@@ -193,6 +184,7 @@ void loop() {
     valueINT=0;
 
   }
+  //////////////////////////////////////////////////////////////
   if (command=="clean")
   {
     // valueINT = value.toInt();
@@ -204,8 +196,8 @@ void loop() {
     //Serial.print(';');  
     command="z";
     valueINT=0;
-
   }
+  //////////////////////////////////////////////////////////////
   if (command !="z")
   {
     Serial.print ("unknown RS232 command: ");
@@ -215,6 +207,7 @@ void loop() {
   }
   command="z";
 }
+/////////////////// end loop  //////////////////////////////////
 
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait,int from,int to) {
