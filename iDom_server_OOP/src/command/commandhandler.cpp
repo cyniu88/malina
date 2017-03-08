@@ -14,11 +14,15 @@
 #include "commandClass/command_show.h"
 #include "commandClass/command_event.h"
 #include "commandClass/command_idom.h"
+#include "commandClass/command_stop.h"
 
 commandHandler::commandHandler(thread_data * my_data)
 {
     std::unique_ptr <command> test(new commandTEST("test") );
     commandMap.insert( std::make_pair(test->getCommandName(),std::move( test )) );
+
+    std::unique_ptr <command> stop(new command_stop("stop") );
+    commandMap.insert( std::make_pair(stop->getCommandName(),std::move( stop )) );
 
     std::unique_ptr <command> eexit(new commandEXIT("exit"));
     commandMap.insert( std::make_pair(eexit->getCommandName(),std::move( eexit )) );

@@ -10,16 +10,18 @@ int main(int argc, char *argv[])
     cout << "== Start test ===" << endl;
     double newValue = 9;
     double oldValue = 0;
+    double histereza = 1
+            ;
     double reference= 0.002;
     while (newValue != 100)
     {
         cout << "podaj wartosc ";
         cin >> newValue;
-        if (newValue >= reference && oldValue < reference){
+        if (newValue >= reference + histereza && oldValue < reference + histereza){
 
             cout  << "przejscie w gore " << reference <<endl;
         }
-        else if (newValue <= reference && oldValue > reference){
+        else if (newValue <= reference - histereza && oldValue > reference - histereza){
             cout << " przejscie w dol " << reference << endl;
         }
         else {

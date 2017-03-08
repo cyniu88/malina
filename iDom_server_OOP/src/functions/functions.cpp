@@ -411,7 +411,6 @@ void useful_F::button_interrupt( )
             }
         }
         else{
-
             useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
             useful_F::myStaticData->mainLCD->printString(true,0,0,"DONE");
             puts("DONE");

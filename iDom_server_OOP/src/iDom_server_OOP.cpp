@@ -111,7 +111,7 @@ void f_master_CRON (thread_data  *my_data){
     my_CRON.run();
 } //  koniec CRON
 
-void Server_connectivity_thread(thread_data  *my_data){
+void Server_connectivity_thread(thread_data  *my_data){  
     C_connection *client = new C_connection( my_data);
     bool key_ok=false;
     std::string tm = inet_ntoa( my_data->from.sin_addr);

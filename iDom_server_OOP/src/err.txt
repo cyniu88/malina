@@ -1,12 +1,16 @@
+[iDom_server_OOP.h:143]: (style, inconclusive) Technically the member function 'LED_Strip::getColorName' can be const.
 [blockQueue/blockqueue.cpp:8] -> [blockQueue/blockqueue.h:23]: (performance, inconclusive) Technically the member function 'blockQueue::_add' can be static.
 [blockQueue/blockqueue.cpp:14] -> [blockQueue/blockqueue.h:24]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
 [blockQueue/blockqueue.cpp:28] -> [blockQueue/blockqueue.h:25]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
+[functions/functions.cpp:388]: (warning) %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
+[functions/functions.cpp:388]: (warning) %d in format string (no. 2) requires 'int' but the argument type is 'unsigned int'.
 [functions/mpd_cli.cpp:202] -> [functions/mpd_cli.cpp:203]: (warning) Possible null pointer dereference: hostname - otherwise it is redundant to check it against null.
-[iDomTools/idomtools.cpp:94] -> [iDomTools/idomtools.h:46]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSystemInfo' can be static.
-[iDomTools/idomtools.cpp:122] -> [iDomTools/idomtools.h:48]: (style, inconclusive) Technically the member function 'iDomTOOLS::textToSpeach' can be const.
-[iDomTools/idomtools.cpp:184] -> [iDomTools/idomtools.h:53]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getTime' can be static.
-[iDomTools/idomtools.cpp:194] -> [iDomTools/idomtools.h:54]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSmog' can be static.
-[iDomTools/idomtools.cpp:302] -> [iDomTools/idomtools.h:59]: (performance, inconclusive) Technically the member function 'iDomTOOLS::sendSMStoPlusGSM' can be static.
+[iDomTools/idomtools.cpp:125] -> [iDomTools/idomtools.h:50]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSystemInfo' can be static.
+[iDomTools/idomtools.cpp:153] -> [iDomTools/idomtools.h:52]: (style, inconclusive) Technically the member function 'iDomTOOLS::textToSpeach' can be const.
+[iDomTools/idomtools.cpp:215] -> [iDomTools/idomtools.h:57]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getTime' can be static.
+[iDomTools/idomtools.cpp:225] -> [iDomTools/idomtools.h:58]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSmog' can be static.
+[iDomTools/idomtools.cpp:333] -> [iDomTools/idomtools.h:63]: (performance, inconclusive) Technically the member function 'iDomTOOLS::sendSMStoPlusGSM' can be static.
+[iDom_server_OOP.cpp:73]: (style) The scope of the variable 't' can be reduced.
 [logger/logger.cc:122]: (style) Obsolete function 'asctime' called. It is recommended to use the function 'strftime' instead.
 [logger/logger.cc:78]: (style) The function 'set_level' is never used.
 (information) Cppcheck cannot find all the include files (use --check-config for details)

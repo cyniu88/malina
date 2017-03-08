@@ -133,6 +133,7 @@ int C_connection::c_analyse(int recvSize)
     {
         str_buf+=t+" ";
     }
+
     str_buf  = mainCommandHandler.run(command,my_data);
 
     if(command[0]=="stop")

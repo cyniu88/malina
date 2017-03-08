@@ -18,8 +18,9 @@ enum class TEMPERATURE_STATE{
     Unknown
 };
 struct temperature {
-    double newTemp = 0.0101;
-    double oldTemp = 0.0101;
+    double newTemp = 1.0101;
+    double oldTemp = 1.0101;
+    TEMPERATURE_STATE lastState = TEMPERATURE_STATE::Unknown;
 };
 
 class iDomTOOLS
@@ -34,7 +35,7 @@ public:
     iDomTOOLS(thread_data *myData);
 
     void setTemperature (std::string name, float value);
-    TEMPERATURE_STATE hasTemperatureChange(std::string thermometerName, double reference);
+    TEMPERATURE_STATE hasTemperatureChange(std::string thermometerName, double reference, double histereza);
     void sendSMSifTempChanged(std::string thermomethernName, int reference);
 
     static void turnOnSpeakers();
@@ -57,7 +58,7 @@ public:
     std::string getSmog();
     void send_temperature_thingSpeak();
     static size_t  WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
-    static std::string find_tag (std::string temp);
+    static std::string find_tag (const std::string &temp);
 
     std::string sendSMStoPlusGSM(std::string login, std::string pass, std::string number, std::string msg, int silentFrom = 0, int silentTo =0);
 

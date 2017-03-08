@@ -140,7 +140,7 @@ struct LED_Strip{
         this->colorName =colorName;
     }
 
-    std::string getColorName(){
+    std::string getColorName() const{
         return colorName;
     }
 

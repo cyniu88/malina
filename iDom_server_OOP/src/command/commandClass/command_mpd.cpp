@@ -22,14 +22,14 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
             }
         }
         else {
-            char_queue._add('t');
+            iDomTOOLS::playMPD(my_data);
             sleep(1);
             str_buf=my_data->ptr_MPD_info->title;
         }
     }
     else if (v[1]=="stop")
     {
-        char_queue._add('P');
+        iDomTOOLS::stopMPD(my_data);
         str_buf="stoped!";
     }
     else if (v[1]=="next")

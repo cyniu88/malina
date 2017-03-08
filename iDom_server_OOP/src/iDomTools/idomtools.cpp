@@ -18,20 +18,27 @@ void iDomTOOLS::setTemperature(std::string name, float value)
     cur->second.newTemp = value;
 }
 
-TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, double reference )
+TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, double reference, double histereza )
 {
     reference+=0.0055;
     auto cur = thermometer.find(thermometerName);
-    if (cur->second.newTemp >= reference && cur->second.oldTemp < reference){
+
+    if (cur->second.newTemp >= reference + histereza &&
+        cur->second.oldTemp < reference + histereza &&
+        cur->second.lastState != TEMPERATURE_STATE::Over)
+    {
         my_data->myEventHandler.run("test")->addEvent("over: new "+std::to_string(cur->second.newTemp)+" old: "
                                                       +std::to_string(cur->second.oldTemp)+" ref: "+std::to_string(reference));
-
+        cur->second.lastState = TEMPERATURE_STATE::Over;
         return TEMPERATURE_STATE::Over;
     }
-    else if (cur->second.newTemp <= reference && cur->second.oldTemp > reference )
+    else if (cur->second.newTemp <= reference - histereza &&
+             cur->second.oldTemp > reference - histereza &&
+             cur->second.lastState != TEMPERATURE_STATE::Under)
     {
         my_data->myEventHandler.run("test")->addEvent("under: new "+std::to_string(cur->second.newTemp)+" old: "
                                                       +std::to_string(cur->second.oldTemp)+" ref: "+std::to_string(reference));
+        cur->second.lastState = TEMPERATURE_STATE::Under;
         return TEMPERATURE_STATE::Under;
     }
     else
@@ -49,7 +56,7 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, d
 
 void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int reference)
 {
-    TEMPERATURE_STATE status = hasTemperatureChange(thermomethernName,reference);
+    TEMPERATURE_STATE status = hasTemperatureChange(thermomethernName,reference,1);
     std::string m = "temperature "+thermomethernName+" over ^"+ std::to_string(reference);
 
     if (status == TEMPERATURE_STATE::Over){
@@ -77,7 +84,7 @@ void iDomTOOLS::turnOffSpeakers()
 }
 
 void iDomTOOLS::playMPD(thread_data* my_data)
-{\
+{
     blockQueue _q;
     _q._add('t');
 }
@@ -137,9 +144,9 @@ std::string iDomTOOLS::getSystemInfo()
 
     std::stringstream k;
     k <<"load average : " << (info.loads[0] ) <<" 5min: "
-                                                          <<(info.loads[1] ) << " 15min: "
-                                                                                  <<(info.loads[2] )<<std::endl;
-   puts(k.str().c_str());
+                                             <<(info.loads[1] ) << " 15min: "
+                                                                <<(info.loads[2] )<<std::endl;
+    puts(k.str().c_str());
     return ret;
 }
 
@@ -305,22 +312,22 @@ size_t iDomTOOLS::WriteCallback(void *contents, size_t size, size_t nmemb, void 
     return size * nmemb;
 }
 
-std::string iDomTOOLS::find_tag(std::string temp)
+std::string iDomTOOLS::find_tag(const std::string& temp)
 {
     std::string value="";
-   for (unsigned int i = 0; i<temp.size();++i){
+    for (unsigned int i = 0; i<temp.size();++i){
 
-       if (temp.at(i) =='>')
-       {  int z = i+1;
-           while (temp.at(z)!='<')
-           {
-               value+= temp.at(z);
-               ++z;
-           }
-           break;
-       }
-   }
-   return value;
+        if (temp.at(i) =='>')
+        {  int z = i+1;
+            while (temp.at(z)!='<')
+            {
+                value+= temp.at(z);
+                ++z;
+            }
+            break;
+        }
+    }
+    return value;
 }
 
 std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std::string number,
