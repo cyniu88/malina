@@ -70,11 +70,10 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
             C_connection::mutex_buf.unlock();
         }
         else if (data_rs232->pointer.ptr_who[0] == iDomConst::FREE){
-            char t = '*';
             if (serial_ardu.available()>0) {
                 while (useful_F::go_while){
                     if (serial_ardu.available()>0){
-                        t = serial_ardu.read();
+                        char t = serial_ardu.read();
                         if (t == ';'){
                             serial_ardu.flush();
                             break;

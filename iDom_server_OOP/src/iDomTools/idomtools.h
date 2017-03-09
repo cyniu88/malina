@@ -65,7 +65,6 @@ public:
     std::string ledOn(LED_Strip ledColor);
 
     //////////////////// MPD part //////////////////////////
-
     static void MPD_play();
     static void MPD_stop();
     static void MPD_next();

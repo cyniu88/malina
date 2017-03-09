@@ -172,20 +172,20 @@ class iDomTOOLS;
 struct thread_data{
     int s_client_sock;
     struct sockaddr_in from;
-    struct config *server_settings;
+    struct config *server_settings = NULL;
     struct s_pointer pointer;
-    LCD_c *mainLCD;
-    files_tree *main_tree;
-    menu_tree *main_MENU;
-    iDomTOOLS *main_iDomTools;
-    Thread_array_struc *main_THREAD_arr;
+    LCD_c *mainLCD = NULL;
+    files_tree *main_tree = NULL;
+    menu_tree *main_MENU = NULL;
+    iDomTOOLS *main_iDomTools = NULL;
+    Thread_array_struc *main_THREAD_arr = NULL;
     time_t start;
     time_t now_time;
     int sleeper;
     std::map <std::string, std::unique_ptr <KEY>  > key_map;
-    MPD_info *ptr_MPD_info;
-    pilot_led * ptr_pilot_led;
-    std::map <std::string, std::unique_ptr<command> > *commandMapPtr;
+    MPD_info *ptr_MPD_info = NULL;
+    pilot_led * ptr_pilot_led = NULL;
+    std::map <std::string, std::unique_ptr<command> > *commandMapPtr = NULL;
     event_counters_handler myEventHandler;
     std::string encriptionKey = "40%";
 };
@@ -197,8 +197,4 @@ struct thread_data_rs232{
     struct s_pointer pointer;
 };
 
-//int parser_bufor ( int32_t bufor_tmp[]);
-/*
-
-*/
 #endif // GLOBAL_H

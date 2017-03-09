@@ -81,12 +81,9 @@ void master_irda::run()
                     //////////////////////////////////////////////////////////////
                     //Check to see if the string "KEY_1" appears anywhere within the string 'code'.
 
-
                     CodeString= code;
-
                     CodeString.erase(0,  ( CodeString.find("KEY"))) ;
                     CodeString.erase(  CodeString.find(" "), CodeString.size());
-
 
                     my_data2->myEventHandler.run("pilot")->addEvent("press: "+CodeString);
                     irda_queue._add( my_data2->key_map[CodeString]->getValue() );
