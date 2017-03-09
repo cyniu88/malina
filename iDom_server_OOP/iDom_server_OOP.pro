@@ -49,7 +49,8 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     src/iDomTools/idomtools.cpp \
     src/command/commandClass/command_idom.cpp \
     libs/sunrise-sunset/sunriseset.cpp \
-    src/command/commandClass/command_stop.cpp
+    src/command/commandClass/command_stop.cpp \
+    src/iDomTools/idomtools_mpd.cpp
 
 
 HEADERS += src/parser/parser.hpp  \

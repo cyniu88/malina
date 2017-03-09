@@ -146,7 +146,7 @@ void c_irda_logic::_add(char X)
         {   my_data_logic->mainLCD->set_print_song_state(0);
             who = '!';
             if(my_data_logic->ptr_MPD_info->isPlay == true){
-                char_queue._add('t');
+                iDomTOOLS::MPD_play();
             }
             else {
                 iDomTOOLS::turnOffSpeakers();
@@ -238,12 +238,11 @@ void c_irda_logic::_add(char X)
                 my_data_logic->mainLCD->printString(true,0,0,"odtwarzam film");
                 my_data_logic->mainLCD->printString(false,0,1,my_data_logic->main_tree->show_list());
                 who='r';
-                //char_queue._add('A');
                 log_file_mutex.mutex_lock();
                 log_file_cout << INFO << "odtwarzam film "<< my_data_logic->ptr_MPD_info->isPlay << std::endl;
                 log_file_mutex.mutex_unlock();
                 if (my_data_logic->ptr_MPD_info->isPlay == true){
-                    char_queue._add('A'); // projektor wlaczony wiec pauzuje radio
+                    iDomTOOLS::MPD_pause(); // projektor wlaczony wiec pauzuje radio
                 }
                 else{
                     iDomTOOLS::turnOnSpeakers();

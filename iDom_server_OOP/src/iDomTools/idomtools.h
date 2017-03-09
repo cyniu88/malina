@@ -41,9 +41,6 @@ public:
     static void turnOnSpeakers();
     static void turnOffSpeakers();
 
-    static void playMPD(thread_data *my_data);
-    static void stopMPD(thread_data* my_data);
-
     std::string getSunrise(bool extend = false);
     std::string getSunset(bool extend = false);
     std::string getDayLenght(bool extend = false);
@@ -66,6 +63,18 @@ public:
     std::string ledOFF();
     std::string ledClear();
     std::string ledOn(LED_Strip ledColor);
+
+    //////////////////// MPD part //////////////////////////
+
+    static void MPD_play();
+    static void MPD_stop();
+    static void MPD_next();
+    static void MPD_prev();
+    static void MPD_pause();
+    static void MPD_volumeUp();
+    static void MPD_volumeDown();
+    static void MPD_volumeSet(thread_data* my_data, int vol);
+    static void MPD_playId(thread_data* my_data,int id);
 };
 
 #endif // IDOMTOOLS_H
