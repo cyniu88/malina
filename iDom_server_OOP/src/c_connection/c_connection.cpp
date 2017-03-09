@@ -62,23 +62,17 @@ int C_connection::c_send(int para)
     }
 
     auto len_send = str_buf.length();
-    // len_temp =0;
 
     while (len_send > 0)
     {
         auto len_temp = send( c_socket, str_buf.c_str() ,str_buf.length(), para ) ;
-        std::cout <<"wyslalem bajtow: " << len_temp <<std::endl;
         if(len_temp  <= 0 )
         {
             return -1;
         }
         len_send -= len_temp;
-
-        std::cout << "zostalo wyslac: " << len_send <<std::endl;
-
         str_buf.erase(0,len_temp);
     }
-
     return 0;
 }
 
@@ -122,13 +116,13 @@ int C_connection::c_analyse(int recvSize)
     for (int i = 0 ; i < recvSize; ++i){
         buf+= c_buffer[i];
     }
+
     my_data->myEventHandler.run("command")->addEvent(buf);
     std::vector <std::string> command;
-
     useful_F::tokenizer(command," \n,", buf);  // podzia  zdania na wyrazy
     str_buf=command[command.size()-1];
-
     str_buf= "unknown command\n";
+
     for(std::string  t : command)
     {
         str_buf+=t+" ";
@@ -136,24 +130,5 @@ int C_connection::c_analyse(int recvSize)
 
     str_buf  = mainCommandHandler.run(command,my_data);
 
-    if(command[0]=="stop")
-    {
-        //std::cout << " jest stop";
-        if (command[1]=="server")
-        {
-            useful_F::send_to_arduino_clock(my_data,"STOP");
-
-            c_send("\nCLOSE.\n");
-            return false;
-        }
-        else
-        {   str_buf="stop what? \n";
-
-        }
-    }
     return true;
 }
-
-
-
-

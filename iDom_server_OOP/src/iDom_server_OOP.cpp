@@ -157,15 +157,23 @@ void Server_connectivity_thread(thread_data  *my_data){
     while (useful_F::go_while && key_ok)
     {
         int recvSize = client->c_recv(0) ;
-        if( recvSize == -1 )  {
+        if( recvSize == -1 )
+        {
             break;
         }
         // ###########################  analia wiadomoscu ####################################//
-        if ( client->c_analyse(recvSize) == false )   // stop runing idom_server
+        try
         {
+            client->c_analyse(recvSize);
+        }
+        catch (...)
+        {
+            puts("close server");
             useful_F::go_while = false;
+            client->c_send("CLOSE");
             break;
         }
+
         // ###############################  koniec analizy   wysylanie wyniku do RS232 lub  TCP ########################
         if( client->c_send(0 ) == -1 )
         {
@@ -278,7 +286,6 @@ int main()
     int SERVER_PORT = std::stoi(server_settings.PORT );
     server_settings.SERVER_IP = useful_F::conv_dns(server_settings.SERVER_IP);
     const char *SERVER_IP = server_settings.SERVER_IP.c_str();
-    //node_data.pointer.ptr_buf=bufor;
     node_data.pointer.ptr_who=who;
     node_data.mainLCD=&mainLCD;
     node_data.main_tree=&main_tree;
@@ -409,7 +416,6 @@ int main()
                 {
                     node_data.s_client_sock =v_sock_ind;
                     node_data.from=from;
-
                     thread_array[con_counter].thread = std::thread(Server_connectivity_thread, &node_data);
                     thread_array[con_counter].thread_name = inet_ntoa(node_data.from.sin_addr);
                     thread_array[con_counter].thread_socket=v_sock_ind;

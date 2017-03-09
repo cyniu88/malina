@@ -1,4 +1,5 @@
 #include "command_stop.h"
+#include "../../functions/functions.h"
 
 command_stop::command_stop(std::string name):command(name)
 {
@@ -8,13 +9,18 @@ command_stop::command_stop(std::string name):command(name)
 std::string command_stop::execute(std::vector<std::string> &v, thread_data *my_data)
 {
     std::string ret = "dummy";
+    if (v.size() <2 )
+    {
+        return "stop what?";
+    }
     if (v[1]=="server")
     {
-       // throw "close";
+        useful_F::send_to_arduino_clock(my_data, "STOP");
+        throw "close server";
     }
     else
     {
-        ret = "stop wath?";
+        ret = "stop what? - "+ v[1];
     }
     return ret;
 }

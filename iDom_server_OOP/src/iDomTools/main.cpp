@@ -10,8 +10,7 @@ int main(int argc, char *argv[])
     cout << "== Start test ===" << endl;
     double newValue = 9;
     double oldValue = 0;
-    double histereza = 1
-            ;
+    double histereza = 1;            ;
     double reference= 0.002;
     while (newValue != 100)
     {
