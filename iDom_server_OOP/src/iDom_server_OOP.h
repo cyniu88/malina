@@ -185,7 +185,7 @@ struct thread_data{
     std::map <std::string, std::unique_ptr <KEY>  > key_map;
     MPD_info *ptr_MPD_info = NULL;
     pilot_led * ptr_pilot_led = NULL;
-    std::map <std::string, std::unique_ptr<command> > *commandMapPtr = NULL;
+    std::map <std::string, std::unique_ptr<command> >* commandMapPtr = NULL;
     event_counters_handler myEventHandler;
     std::string encriptionKey = "40%";
 };

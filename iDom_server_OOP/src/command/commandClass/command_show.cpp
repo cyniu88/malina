@@ -56,8 +56,9 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
                         str_buf  += "\t ID: ";
                         ss << my_data->main_THREAD_arr[i].thread_ID;
                         str_buf  += ss.str();
+                        int idSocket = my_data->main_THREAD_arr[i].thread_socket;
 
-                        if (my_data->main_THREAD_arr[i].thread_socket !=0){
+                        if (idSocket != 0 && idSocket != 1){
                             str_buf  += " socket: ";
                             str_buf  += std::to_string(my_data->main_THREAD_arr[i].thread_socket);
                         }

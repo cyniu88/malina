@@ -1,8 +1,5 @@
 #include "key.h"
-
 #include "../iDom_server_OOP.h"
-
-
 
 KEY::KEY(char value, std::string name) : char_value{value},key_name{name}
 {
@@ -11,7 +8,7 @@ KEY::KEY(char value, std::string name) : char_value{value},key_name{name}
 
 KEY::~KEY()
 {
-    std::cout << "destruktor KEY" << std::endl;
+   printf("destruktor KEY\n" );
 }
 
 std::string KEY::getName() const
@@ -24,28 +21,7 @@ char KEY::getValue() const
     return char_value;
 }
 
-map_key::map_key() //: key_map (key_map)
-{
-   // std::cout << "konstruktor map_key"<<std::endl;
-}
-map_key::~map_key( )
-{
-    std::cout << "destruktor map_key"<<std::endl;
-}
-
-
 void pilot::setup(){
-    /*
-    std::unique_ptr <KEY> power_off ( new KEY("POWER_OFF"));
-    key_map->insert(std::make_pair(power_off->getName(), std::move(power_off)) );
-    std::unique_ptr <KEY> volume_up ( new KEY("VOLUME_UP"));
-    key_map->insert(std::make_pair(volume_up->getName(), std::move(volume_up)) );
-
-    std::unique_ptr <KEY> key_0 ( new KEY("KEY_0"));
-    key_map->insert(std::make_pair(key_0->getName(), std::move(key_0)) );
-    std::unique_ptr <KEY> key_1 ( new KEY("KEY_1"));
-    key_map->insert(std::make_pair(key_1->getName(), std::move(key_1)) );
-    */
     std::unique_ptr <KEY> KEY_POWER 		( new SuperKEY('P', "KEY_POWER","wcisnieto POWER"));
     std::unique_ptr <KEY> KEY_AUDIO			( new SuperKEY('A', "KEY_AUDIO","wcisnieto PAUSE"));
     std::unique_ptr <KEY> KEY_EPG     		( new SuperKEY('E', "KEY_EPG",  "przegladanie katalogu z filmami"));
@@ -79,7 +55,6 @@ void pilot::setup(){
     std::unique_ptr <KEY> KEY_VOLUMEDOWN	( new KEY('-', "KEY_VOLUMEDOWN"));
     std::unique_ptr <KEY> KEY_VOLUMEUP		( new KEY('+', "KEY_VOLUMEUP"));
 
-
     key_map->insert(std::make_pair(KEY_POWER->getName(), 	 std::move(KEY_POWER)));
     key_map->insert(std::make_pair(KEY_0->getName(), 	 std::move(KEY_0)));
     key_map->insert(std::make_pair(KEY_1->getName(), 	 std::move(KEY_1)));
@@ -112,33 +87,30 @@ void pilot::setup(){
     key_map->insert(std::make_pair(KEY_UP->getName(),            std::move(KEY_UP)));
     key_map->insert(std::make_pair(KEY_VOLUMEDOWN->getName(), 	 std::move(KEY_VOLUMEDOWN)));
     key_map->insert(std::make_pair(KEY_VOLUMEUP->getName(), 	 std::move(KEY_VOLUMEUP)));
-
 }
 
 pilot::pilot(std::map <std::string , std::unique_ptr <KEY>  > *key_map) : key_map (key_map)
 {
-    std::cout << "konstruktor pilot"<<std::endl;
+    puts("konstruktor pilot");
 }
 pilot::~pilot( )
 {
-    std::cout << "destruktor pilot"<<std::endl;
+    //delete key_map->find("KEY_UP");
+    puts("destruktor pilot\n");
 }
-
 
 char SuperKEY::getValue() const
 {
-
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< " " <<LogName<<  std::endl;
     log_file_mutex.mutex_unlock();
     return char_value;
 }
 
-
 SuperKEY::SuperKEY (char v, std::string n, std::string LogName ) : KEY(v,n) , LogName(LogName)
 {
-    std::cout << "konstruktos SuperKEY =)" << std::endl;
+    puts("konstruktos SuperKEY =)" );
 }
 SuperKEY::~SuperKEY() {
-    std::cout << "destruktor SuperKEY " << std::endl;
+    puts( "destruktor SuperKEY \n" );
 }

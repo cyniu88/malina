@@ -5,6 +5,11 @@ command_hello::command_hello(std::string name):command(name)
 
 }
 
+command_hello::~command_hello()
+{
+    puts("destruktor HELLO!\n");
+}
+
 std::string command_hello::execute(std::vector<std::string> &v, thread_data *my_data)
 {
     return "\nHI You User!\n";
