@@ -38,7 +38,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
                     std::stringstream ss;
                     ss << my_data->main_THREAD_arr[std::stoi(v[2])].thread_ID;
                     str_buf  = my_data->main_THREAD_arr[std::stoi(v[2])].thread_name;
-                    str_buf  += " ID: ";
+                    str_buf  += "ID: ";
                     str_buf  += ss.str();
                     str_buf  += " socket: ";
                     str_buf  += std::to_string(my_data->main_THREAD_arr[std::stoi(v[2])].thread_socket);
@@ -51,7 +51,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
                     {
                         ss.clear();
                         ss = std::stringstream();
-                        str_buf  += std::to_string(i)+"\t";
+                        str_buf  += std::to_string(i)+"   ";
                         str_buf  += my_data->main_THREAD_arr[i].thread_name;
                         str_buf  += "\t ID: ";
                         ss << my_data->main_THREAD_arr[i].thread_ID;
