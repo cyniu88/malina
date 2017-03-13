@@ -365,12 +365,12 @@ void updatePlayList(MpdObj *mi,thread_data *my_data)
                     if ( data->song->name != NULL){
                         buffor +=std::string(data->song->name)+" ";
                     }
-                    if (data->song->artist != NULL){
-                        buffor += std::string(data->song->artist)+" ";
-                    }
-                    if  ( data->song->title != NULL ){
-                        buffor +=std::string(data->song->title)+" ";
-                    }
+//                    if (data->song->artist != NULL){
+//                        buffor += std::string(data->song->artist)+" ";
+//                    }
+//                    if  ( data->song->title != NULL ){
+//                        buffor +=std::string(data->song->title)+" ";
+//                    }
                     my_data->ptr_MPD_info->songList.push_back(buffor);
                 }
                 data = mpd_data_get_next(data);

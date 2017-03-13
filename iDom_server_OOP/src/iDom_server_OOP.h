@@ -53,6 +53,7 @@ extern Logger log_file_mutex;
 extern std::string buffer;
 
 enum class TEMPERATURE_STATE;
+enum class PILOT_KEY;
 
 struct MPD_info{
     std::string title   = "NULL";

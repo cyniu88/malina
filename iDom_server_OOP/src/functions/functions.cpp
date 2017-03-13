@@ -398,23 +398,23 @@ void useful_F::button_interrupt( )
                     useful_F::myStaticData->mainLCD->printString(true,0,0,"MUSIC");
                     puts("MUSIC");
                 }
-                if (menuCounter==90000000){
+                if (menuCounter==60000000){
                     useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
                     useful_F::myStaticData->mainLCD->printString(true,0,0,"LED");
                     puts("LED");
                 }
-                if (menuCounter==190000000){
+                if (menuCounter==120000000){
                     useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
                     useful_F::myStaticData->mainLCD->printString(true,0,0,"SERVER");
                     puts("SERVER");
                 }
             }
         }
-        else{
-            useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
-            useful_F::myStaticData->mainLCD->printString(true,0,0,"DONE");
-            puts("DONE");
-        }
+//        else{
+//            useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
+//            useful_F::myStaticData->mainLCD->printString(true,0,0,"DONE");
+//            puts("DONE");
+//        }
         useful_F::lastInterruptTime = millis();
     }
 }
