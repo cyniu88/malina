@@ -4,23 +4,20 @@ blockQueue::blockQueue()
 {
 }
 std::mutex blockQueue::mutex_queue_char;
-std::queue < char > blockQueue::_charQ;
-void blockQueue::_add(char X)
+std::queue < MPD_COMMAND> blockQueue::_MPD_CommandQ;
+void blockQueue::_add(MPD_COMMAND X)
 {
     std::lock_guard <std::mutex>  lock (mutex_queue_char);
-    _charQ.push(X);
+    _MPD_CommandQ.push(X);
 }
 
-char blockQueue::_get( )
+MPD_COMMAND blockQueue::_get( )
 {
-    char temp;
+    MPD_COMMAND temp = MPD_COMMAND::NULL_;
     std::lock_guard <std::mutex>  lock (mutex_queue_char);
-    if (_charQ.empty() == false){
-        temp = _charQ.front();
-        _charQ.pop();
-    }
-    else{
-        return 'a';
+    if (_MPD_CommandQ.empty() == false){
+        temp = _MPD_CommandQ.front();
+        _MPD_CommandQ.pop();
     }
     return temp;
 }
@@ -28,5 +25,5 @@ char blockQueue::_get( )
 int blockQueue::_size()
 {
     std::lock_guard <std::mutex>  lock (mutex_queue_char);
-    return _charQ.size();
+    return _MPD_CommandQ.size();
 }

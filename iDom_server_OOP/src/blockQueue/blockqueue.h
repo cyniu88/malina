@@ -6,11 +6,23 @@
 #include <pthread.h>
 #include <iostream>
 #include <mutex>
-//#include <wiringPi.h>
-
 #include "../logger/logger.hpp"
-//extern Logger log_file_mutex;
-//extern char * _logfile;
+
+enum class MPD_COMMAND {
+    PLAY,
+    PLAY_ID,
+    PAUSE,
+    STOP,
+    NEXT,
+    PREV,
+    VOLUP,
+    VOLDOWN,
+    VOLSET,
+    REPEATE,
+    RANDOM,
+    DEBUG,
+    NULL_
+};
 
 class blockQueue
 {
@@ -18,12 +30,11 @@ public:
     blockQueue();
     static std::mutex mutex_queue_char ;
 
-    static std::queue < char > _charQ;
+    static std::queue < MPD_COMMAND > _MPD_CommandQ;
 
-    void _add(char X);
-    char _get();
+    void _add(MPD_COMMAND X);
+    MPD_COMMAND _get();
     int  _size();
-
 };
 
 #endif // BLOCQUEUE_H

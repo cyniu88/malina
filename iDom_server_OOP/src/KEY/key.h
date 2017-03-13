@@ -36,30 +36,32 @@ enum class PILOT_KEY{
     KEY_TEXT,
     KEY_UP,
     KEY_VOLUMEDOWN,
-    KEY_VOLUMEUP
+    KEY_VOLUMEUP,
+    SLEEPER,
+    DUMMY
 };
 
 class KEY
 {
 public:
-    KEY(char value, std::string name) ;
+    KEY(PILOT_KEY value, std::string name) ;
     virtual ~KEY() ;
     std::string getName() const;
-    virtual  char getValue() const;
+    virtual  PILOT_KEY getValue() const;
 
 protected:
-    char char_value;
+    PILOT_KEY _value;
     std::string key_name;
 };
 
 class SuperKEY : public KEY
 {
 public:
-    SuperKEY (char v, std::string n,std::string LogName) ;
+    SuperKEY (PILOT_KEY v, std::string n,std::string LogName) ;
     virtual ~SuperKEY() ;
-    char getValue() const;
-protected:
+    PILOT_KEY getValue() const;
 
+protected:
     std::string LogName;
 };
 

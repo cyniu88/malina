@@ -1,14 +1,15 @@
-[blockQueue/blockqueue.cpp:8] -> [blockQueue/blockqueue.h:23]: (performance, inconclusive) Technically the member function 'blockQueue::_add' can be static.
-[blockQueue/blockqueue.cpp:14] -> [blockQueue/blockqueue.h:24]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
-[blockQueue/blockqueue.cpp:28] -> [blockQueue/blockqueue.h:25]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
-[functions/functions.cpp:388]: (warning) %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
-[functions/functions.cpp:388]: (warning) %d in format string (no. 2) requires 'int' but the argument type is 'unsigned int'.
+[blockQueue/blockqueue.cpp:8] -> [blockQueue/blockqueue.h:35]: (performance, inconclusive) Technically the member function 'blockQueue::_add' can be static.
+[blockQueue/blockqueue.cpp:14] -> [blockQueue/blockqueue.h:36]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
+[blockQueue/blockqueue.cpp:25] -> [blockQueue/blockqueue.h:37]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
+[functions/functions.cpp:389]: (warning) %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
+[functions/functions.cpp:389]: (warning) %d in format string (no. 2) requires 'int' but the argument type is 'unsigned int'.
 [functions/mpd_cli.cpp:202] -> [functions/mpd_cli.cpp:203]: (warning) Possible null pointer dereference: hostname - otherwise it is redundant to check it against null.
 [iDomTools/idomtools.cpp:112] -> [iDomTools/idomtools.h:47]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSystemInfo' can be static.
 [iDomTools/idomtools.cpp:140] -> [iDomTools/idomtools.h:49]: (style, inconclusive) Technically the member function 'iDomTOOLS::textToSpeach' can be const.
 [iDomTools/idomtools.cpp:202] -> [iDomTools/idomtools.h:54]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getTime' can be static.
 [iDomTools/idomtools.cpp:212] -> [iDomTools/idomtools.h:55]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSmog' can be static.
 [iDomTools/idomtools.cpp:320] -> [iDomTools/idomtools.h:60]: (performance, inconclusive) Technically the member function 'iDomTOOLS::sendSMStoPlusGSM' can be static.
+[iDom_server_OOP.cpp:403]: (style) The scope of the variable 'v_sock_ind' can be reduced.
 [logger/logger.cc:122]: (style) Obsolete function 'asctime' called. It is recommended to use the function 'strftime' instead.
 [logger/logger.cc:78]: (style) The function 'set_level' is never used.
 (information) Cppcheck cannot find all the include files (use --check-config for details)

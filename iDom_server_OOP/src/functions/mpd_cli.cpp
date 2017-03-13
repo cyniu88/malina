@@ -237,7 +237,7 @@ void main_mpd_cli(thread_data* my_data )
 
     if(!work)
     {
-        char buffer;
+        MPD_COMMAND buffer;
         do{
             if(char_queue._size() > 0)
             {
@@ -245,74 +245,43 @@ void main_mpd_cli(thread_data* my_data )
                 buffer = char_queue._get();
                 switch(buffer)
                 {
-                case '\n':
-                    break;
-                case 'D':
+                case MPD_COMMAND::NEXT:
                     mpd_player_next(obj);
                     break;
-                case 'U':
+                case MPD_COMMAND::PREV:
                     mpd_player_prev(obj);
                     break;
-                case 't':
+                case MPD_COMMAND::PLAY:
                     mpd_player_play(obj);
                     break;
-                case 'A':
+                case MPD_COMMAND::PAUSE:
                     mpd_player_pause(obj);
                     break;
-                case 'P':
+                case MPD_COMMAND::STOP:
                     mpd_player_pause(obj);
                     mpd_player_stop(obj);
                     break;
-                case 'q':
-                    printf("Quitting....\n");
-                    break;
-                case 'R':
+                case MPD_COMMAND::REPEATE:
                     mpd_player_set_repeat(obj, !mpd_player_get_repeat(obj));
                     break;
-                case 's':
+                case MPD_COMMAND::RANDOM:
                     mpd_player_set_random(obj, !mpd_player_get_random(obj));
                     break;
-                case 'p':
-                    /*if(char_queue._size() > 0)
-{
-buffer = char_queue._get();
-int id = atoi(buffer);
-printf(GREEN"Playing:"RESET" %i\n", id);
-mpd_player_play_id(obj,id);
-}
-break;*/
-                case '+':
+                case MPD_COMMAND::VOLUP:
                     mpd_status_set_volume(obj, mpd_status_get_volume(obj)+1);
                     break;
-                case '-':
+                case MPD_COMMAND::VOLDOWN:
                     mpd_status_set_volume(obj, mpd_status_get_volume(obj)-1);
                     break;
-                case '%':
+                case MPD_COMMAND::VOLSET:
                     mpd_status_set_volume(obj, my_data->ptr_MPD_info->volume);
                     break;
-                case '2':
+                case MPD_COMMAND::DEBUG:
                     debug_level = (debug_level > 0)?0:3;
                     printf( "Debug:"" %s\n", (debug_level >0)? "Enabled":"Disabled");
                     break;
-                case 'I':
+                case MPD_COMMAND::PLAY_ID:
                     mpd_player_play_id(obj,my_data->ptr_MPD_info->currentSongID);
-                    break;
-                case 'h':
-                    printf("\th:\t\tHelp\n"\
-                           "\td:\t\tToggle debug on/off\n"\
-                           "\t+:\t\tIncrease volume\n"\
-                           "\t-:\t\tDecrease volume\n"\
-                           "\ta <pass>:\t Authentificate with pass\n"\
-                           "\tp <id>:\t Play song with id\n"\
-                           "\tl:\t\tList the playlist\n"\
-                           "\ts:\t\tToggle shuffle mode\n"\
-                           "\tr:\t\tToggle repeat\n"\
-                           "\tq:\t\tQuit\n"\
-                           "\tv:\t\tStop\n"\
-                           "\tc:\t\tPause\n"\
-                           "\tx:\t\tPlay\n"\
-                           "\tz:\t\tPrevious\n"\
-                           "\tb:\t\tNext\n");
                     break;
                 default:
                     printf("buffer: %c\n", buffer);

@@ -3,27 +3,61 @@
 #include   <unistd.h>
 
 
+void c_irda_logic::irdaMPD(PILOT_KEY X)
+{
+    switch (X){
+    case PILOT_KEY::KEY_POWER:
+        mpd_queue._add(MPD_COMMAND::STOP);
+        break;
+    case PILOT_KEY::KEY_TV:
+        mpd_queue._add(MPD_COMMAND::PLAY);
+        break;
+    case PILOT_KEY::KEY_VOLUMEDOWN:
+        mpd_queue._add(MPD_COMMAND::VOLDOWN);
+        break;
+    case PILOT_KEY::KEY_VOLUMEUP:
+        mpd_queue._add(MPD_COMMAND::VOLUP);
+        break;
+    case PILOT_KEY::KEY_AUDIO:
+        mpd_queue._add(MPD_COMMAND::PAUSE);
+        break;
+    case PILOT_KEY::KEY_UP:
+        mpd_queue._add(MPD_COMMAND::NEXT);
+        break;
+    case PILOT_KEY::KEY_DOWN:
+        mpd_queue._add(MPD_COMMAND::PREV);
+        break;
+    default:
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "nieznana komenda MPD z pilota "<< std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+}
+
 c_irda_logic::c_irda_logic(thread_data *my_data)
 {
     my_data_logic = my_data;
-    who='!';
+    who=PILOT_STATE::MPD;
 }
 
-void c_irda_logic::_add(char X)
+void c_irda_logic::_add(PILOT_KEY X)
 {
 
-    if (who=='!')
+    if (who==PILOT_STATE::MPD)
     {
-        if (X!='M'&& X!='r'&& X!='E' && X!='s' && X!='c' && X!='S' && X!='L')
+        if (X!=PILOT_KEY::KEY_MENU && X!=PILOT_KEY::KEY_RADIO && X!=PILOT_KEY::KEY_EPG
+                && X!=PILOT_KEY::KEY_SAT && X!=PILOT_KEY::SLEEPER && X!=PILOT_KEY::KEY_SUBTITLE
+                && X!=PILOT_KEY::KEY_LANGUAGE)
         {
-            char_queue._add(X);
+          irdaMPD(X);
         }
 
-        else if (X=='r')
+        else if (X == PILOT_KEY::KEY_RADIO)
         {
-            who = 'r';
+            who = PILOT_STATE::PROJECTOR;
+            _add(PILOT_KEY::DUMMY);
         }
-        else if (X=='S')
+        else if (X == PILOT_KEY::KEY_SUBTITLE)
         {
             my_data_logic->mainLCD->set_lcd_STATE(10);
             my_data_logic->mainLCD->printString(true,0,0,"GASZE LEDy");
@@ -32,9 +66,9 @@ void c_irda_logic::_add(char X)
             temp_str += my_data_logic->main_iDomTools->ledOFF();
             my_data_logic->mainLCD->printString(false,0,1,temp_str);
 
-            who='!';
+            who=PILOT_STATE::MPD;
         }
-        else if (X=='L')
+        else if (X==PILOT_KEY::KEY_LANGUAGE)
         {
             my_data_logic->mainLCD->set_lcd_STATE(10);
             my_data_logic->mainLCD->printString(true,0,0,"ZAPALAM LEDy");
@@ -47,11 +81,10 @@ void c_irda_logic::_add(char X)
             }
 
             my_data_logic->mainLCD->printString(false,0,1,temp_str);
-            who='!';
+            who=PILOT_STATE::MPD;
         }
-        else if (X=='s')
+        else if (X== PILOT_KEY::KEY_SAT)
         {
-            CRON temp_cron(my_data_logic);
             my_data_logic->mainLCD->set_lcd_STATE(10);
             my_data_logic->mainLCD->printString(true,0,0,"SMOG: "+my_data_logic->main_iDomTools->getSmog()+" mg/m^3");
             std::string temp_str = "I:";
@@ -62,59 +95,59 @@ void c_irda_logic::_add(char X)
             temp_str.erase(temp_str.find_last_of(':'),1);
             temp_str.erase(temp_str.size()-2,temp_str.size());
             my_data_logic->mainLCD->printString(false,0,1,temp_str+" c");
-            who='!';
+            who=PILOT_STATE::MPD;
         }
-        else if (X=='E')
+        else if (X==PILOT_KEY::KEY_EPG)
         {
-            who = 'E';
+            who = PILOT_STATE::MOVIE;
             my_data_logic->main_tree->show_list(); //printuje pierwszy element
             my_data_logic->mainLCD->set_print_song_state(100);
             //my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
         }
         else {
-            who = 'M';
+            who = PILOT_STATE::MENU;
             my_data_logic->main_MENU->show_list();
             my_data_logic->mainLCD->set_print_song_state(100);
         }
     }
     //////////////////////////////////////  automatyczne wylaczanie muzyki /////////////////////
 
-    else if (who=='c')
+    else if (who==PILOT_STATE::SLEEPER)
     { my_data_logic->mainLCD->set_print_song_state(100);
 
         my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
-        if ( X=='e')
+        if ( X==PILOT_KEY::KEY_EXIT)
         {
             my_data_logic->sleeper=0;
             my_data_logic->mainLCD->set_print_song_state(0);
-            who = '!';
+            who = PILOT_STATE::MPD;
             //   std::cout << "koniec sterowania  projektorem" << std::endl;
         }
-        else if (X=='U')
+        else if (X==PILOT_KEY::KEY_UP)
         {
             ++my_data_logic->sleeper;
             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
         }
-        else if (X=='D')
+        else if (X==PILOT_KEY::KEY_DOWN)
         {
             --my_data_logic->sleeper;
             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
         }
-        else if (X=='^')
+        else if (X==PILOT_KEY::KEY_CHANNELUP)
         {
             my_data_logic->sleeper+=10;
             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
         }
-        else if (X=='/')
+        else if (X==PILOT_KEY::KEY_CHANNELDOWN)
         {
             my_data_logic->sleeper-=10;
             my_data_logic->mainLCD->printString(true,0,0,std::to_string(my_data_logic->sleeper)+" minut");
         }
-        else if (X=='O')
+        else if (X==PILOT_KEY::KEY_OK)
         {
             for (int con_counter=0; con_counter< iDomConst::MAX_CONNECTION; ++con_counter)
             {
-                if (   my_data_logic->main_THREAD_arr[con_counter].thread.joinable() == false )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
+                if (   my_data_logic->main_THREAD_arr[con_counter].thread_socket == 0 )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
 
                 {
                     if ( con_counter!=iDomConst::MAX_CONNECTION -1)
@@ -129,7 +162,7 @@ void c_irda_logic::_add(char X)
                         // my_data_logic->sleeper=0;
                         my_data_logic->mainLCD->printString(true,1,0,"SLEEPer START");
                         my_data_logic->mainLCD->set_print_song_state(0);
-                        who = '!';
+                        who = PILOT_STATE::MPD;
                         break;
                     }
                 }
@@ -137,14 +170,14 @@ void c_irda_logic::_add(char X)
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////////////// obsluga projektora
-    else if (who=='r')
+    else if (who==PILOT_STATE::PROJECTOR)
     {
-        //std::cout << "jestem w projektorze  " << std::endl;
         my_data_logic->mainLCD->set_print_song_state(100);
         my_data_logic->mainLCD->printString(false,2,1,"  PROJEKTOR   ");
-        if ( X=='e')
+
+        if ( X==PILOT_KEY::KEY_EXIT)
         {   my_data_logic->mainLCD->set_print_song_state(0);
-            who = '!';
+            who = PILOT_STATE::MPD;
             if(my_data_logic->ptr_MPD_info->isPlay == true){
                 iDomTOOLS::MPD_play();
             }
@@ -155,41 +188,44 @@ void c_irda_logic::_add(char X)
             }
         }
 
-        else if (X=='+')
+        else if (X==PILOT_KEY::DUMMY){
+
+        }
+        else if (X==PILOT_KEY::KEY_VOLUMEUP)
         {
             useful_F::write_to_mkfifo("+");
         }
-        else if (X=='-')
+        else if (X==PILOT_KEY::KEY_VOLUMEDOWN)
         {
             useful_F::write_to_mkfifo("-");
         }
-        else if (X=='O')
+        else if (X==PILOT_KEY::KEY_OK)
         {
             my_data_logic->mainLCD->set_print_song_state(1000);
             my_data_logic->mainLCD->printString(false,0,0,"ODTWARZAM VIDEO");
             useful_F::write_to_mkfifo("p");
         }
-        else if (X=='P')
+        else if (X==PILOT_KEY::KEY_POWER)
         {
             //system("echo -n q > /mnt/ramdisk/cmd &");  // zamykanie omxplayera
             useful_F::write_to_mkfifo("q");
         }
-        else if (X=='D')
+        else if (X==PILOT_KEY::KEY_DOWN)
         {
             system("echo -n $'\x1b\x5b\x43' > /mnt/ramdisk/cmd");  // do przodu
             //write_to_mkfifo("$'\x1b\x5b\x43'");
         }
-        else if (X=='U')
+        else if (X==PILOT_KEY::KEY_UP)
         {
             system("echo -n $'\x1b\x5b\x44' > /mnt/ramdisk/cmd");  // do tylu
             //   write_to_mkfifo("$'\x1b\x5b\x44'");
         }
-        else if (X=='^')
+        else if (X==PILOT_KEY::KEY_CHANNELUP)
         {
             //system("echo -n o > /mnt/ramdisk/cmd");  // do przodu
             useful_F::write_to_mkfifo("o");
         }
-        else if (X=='/')
+        else if (X==PILOT_KEY::KEY_CHANNELDOWN)
         {
             //system("echo -n i > /mnt/ramdisk/cmd");  // do tylu
             useful_F::write_to_mkfifo("i");
@@ -198,25 +234,24 @@ void c_irda_logic::_add(char X)
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////// przegladanie katalogow
-    else if (who=='E')
+    else if (who==PILOT_STATE::MOVIE)
     {
-
-        if ( X=='e')
+        if ( X==PILOT_KEY::KEY_EXIT)
         {
             my_data_logic->mainLCD->set_print_song_state(0);
             my_data_logic->mainLCD->set_lcd_STATE(2);
-            who = '!';  // koniec przegladania katalogow
+            who = PILOT_STATE::MPD;  // koniec przegladania katalogow
 
         }
-        else if (X=='+')
+        else if (X==PILOT_KEY::KEY_VOLUMEUP)
         {
             my_data_logic->main_tree->next();  // naspteny katalog
         }
-        else if (X=='-')
+        else if (X==PILOT_KEY::KEY_VOLUMEDOWN)
         {
             my_data_logic->main_tree->previous(); //poprzedni katalog
         }
-        else if (X=='O')
+        else if (X == PILOT_KEY::KEY_OK)
         {
             // whodze w katalog lub odtwarzma plik
 
@@ -237,7 +272,7 @@ void c_irda_logic::_add(char X)
                 my_data_logic->mainLCD->set_lcd_STATE(-1);
                 my_data_logic->mainLCD->printString(true,0,0,"odtwarzam film");
                 my_data_logic->mainLCD->printString(false,0,1,my_data_logic->main_tree->show_list());
-                who='r';
+                who=PILOT_STATE::PROJECTOR;
                 log_file_mutex.mutex_lock();
                 log_file_cout << INFO << "odtwarzam film "<< my_data_logic->ptr_MPD_info->isPlay << std::endl;
                 log_file_mutex.mutex_unlock();
@@ -250,10 +285,9 @@ void c_irda_logic::_add(char X)
                 }
             }
         }
-        else if (X=='U')
+        else if (X == PILOT_KEY::KEY_UP)
         {
             my_data_logic->main_tree->back_dir();
-
         }
         my_data_logic->main_tree->show_list();
         // my_data_logic->mainLCD->printString(0,0,my_data_logic->main_tree->show_list().substr(16));
@@ -261,25 +295,25 @@ void c_irda_logic::_add(char X)
     }
     /////////////////////////////////////////////////////////////////////////////////////////////  oblsuga menu
 
-    else if (who=='M')
+    else if (who == PILOT_STATE::MENU)
     {
 
-        if ( X=='e')
+        if ( X == PILOT_KEY::KEY_EXIT)
         {
             my_data_logic->mainLCD->set_print_song_state(0);
             my_data_logic->mainLCD->set_lcd_STATE(2);
-            who = '!';  // koniec przegladania katalogow
+            who = PILOT_STATE::MPD;  // koniec przegladania katalogow
 
         }
-        else if (X=='+')
+        else if (X == PILOT_KEY::KEY_VOLUMEUP)
         {
             my_data_logic->main_MENU->next();  // naspteny katalog
         }
-        else if (X=='-')
+        else if (X == PILOT_KEY::KEY_VOLUMEDOWN)
         {
             my_data_logic->main_MENU->previous(); //poprzedni katalog
         }
-        else if (X=='O')
+        else if (X == PILOT_KEY::KEY_OK)
         {
             // whodze w katalog lub odtwarzma plik
 
@@ -293,22 +327,22 @@ void c_irda_logic::_add(char X)
                 // menu start
                 if (my_data_logic->main_MENU->show_list() == "5.SLEEPer" ){
                     std::cout << " POBUDKA!!!!" << std::endl;
-                    who='c';
+                    who=PILOT_STATE::SLEEPER;
                 }
                 else if (my_data_logic->main_MENU->show_list() == "2.TEMPERATURA" ){
                     std::cout << " temperatura !!!!" << std::endl;
-                    who='!';
-                    _add('s');
+                    who=PILOT_STATE::MPD;
+                    _add(PILOT_KEY::KEY_SAT);
                 }
                 else if (my_data_logic->main_MENU->show_list() == "4.PLIKI" ){
                     std::cout << " do filmow" << std::endl;
-                    who='!';
-                    _add('E');
-                    _add('+');
+                    who=PILOT_STATE::MPD;
+                    _add(PILOT_KEY::KEY_EPG);
+                    _add(PILOT_KEY::KEY_VOLUMEUP);
                 }
             }
         }
-        else if (X=='U')
+        else if (X==PILOT_KEY::KEY_UP)
         {
             my_data_logic->main_MENU->back_dir();
         }
@@ -317,15 +351,12 @@ void c_irda_logic::_add(char X)
 }
 
 
-char c_irda_logic::_get( )
+PILOT_KEY c_irda_logic::_get( )
 {
-    char temp;
+    PILOT_KEY temp = PILOT_KEY::DUMMY;
     if (irda_queue.empty() == false){
         temp = irda_queue.front();
         irda_queue.pop();
-    }
-    else{
-        return 'a';
     }
     return temp;
 }

@@ -11,18 +11,29 @@
 #include "../c_connection/c_connection.h"
 #include "../functions/functions.h"
 
+enum class PILOT_STATE{
+    MPD,
+    LED,
+    MENU,
+    PROJECTOR,
+    TEMPERATURE,
+    MOVIE,
+    SLEEPER
+};
+
 class c_irda_logic
 {
 private:
-    std::queue <char> irda_queue;
-    blockQueue char_queue;
-    char who;
+    std::queue <PILOT_KEY> irda_queue;
+    blockQueue mpd_queue;
+    PILOT_STATE who;
     thread_data *my_data_logic;
+    void irdaMPD(PILOT_KEY X);
 
 public:
     c_irda_logic(thread_data *my_data);
-    void _add(char X);
-    char _get();
+    void _add(PILOT_KEY X);
+    PILOT_KEY _get();
     int  _size()  const ;
 };
 

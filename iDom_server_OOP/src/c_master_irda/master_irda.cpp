@@ -76,7 +76,7 @@ void master_irda::run()
                         log_file_cout << INFO<< " timeout menu " <<  std::endl;
                         log_file_mutex.mutex_unlock();
                         buttonMENU=0;  // flaga na 0  nie wejdze juz do timeout
-                        irda_queue._add('e');
+                        irda_queue._add(PILOT_KEY::KEY_EXIT);
                     }
                     //////////////////////////////////////////////////////////////
                     //Check to see if the string "KEY_1" appears anywhere within the string 'code'.
@@ -89,7 +89,7 @@ void master_irda::run()
                     irda_queue._add( my_data2->key_map[CodeString]->getValue() );
                     buttonTimer = millis();
 
-                      if(strstr (code,"KEY_EPG")){
+                    if(strstr (code,"KEY_EPG")){
                         buttonMENU=1;
                     }
                     else if(strstr (code,"KEY_OK")){
