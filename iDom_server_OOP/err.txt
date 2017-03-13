@@ -1,0 +1,43 @@
+[libs/alarm clock/alarmClockTEST/alarm_clock.h:26]: (performance, inconclusive) Technically the member function 'Clock::split' can be static.
+[libs/config_files/config_files.cpp:19] -> [libs/config_files/config_files.h:13]: (performance, inconclusive) Technically the member function 'config_Files::writeToFile' can be static.
+[libs/event_counter_test/event_counters/event_counters.cpp:52] -> [libs/event_counter_test/event_counters/event_counters.h:31]: (style, inconclusive) Technically the member function 'event_counters::getEventName' can be const.
+[libs/sunrise-sunset/sunriseset.cpp:99] -> [libs/sunrise-sunset/sunriseset.cpp:104]: (performance) Variable 'tzone' is reassigned a value before the old one has been used.
+[libs/sunrise-sunset/sunriseset.cpp:278] -> [libs/sunrise-sunset/sunriseset.cpp:282]: (performance) Variable 'tzone' is reassigned a value before the old one has been used.
+[libs/sunrise-sunset/sunriseset.cpp:392] -> [libs/sunrise-sunset/sunriseset.cpp:396]: (performance) Variable 'tzone' is reassigned a value before the old one has been used.
+[libs/sunrise-sunset/sunriseset.cpp:69]: (warning) Member variable 'SunRiseSet::L' is not initialized in the constructor.
+[libs/sunrise-sunset/sunriseset.cpp:69]: (warning) Member variable 'SunRiseSet::g' is not initialized in the constructor.
+[libs/sunrise-sunset/sunriseset.cpp:69]: (warning) Member variable 'SunRiseSet::daylen' is not initialized in the constructor.
+[libs/sunrise-sunset/sunriseset.cpp:3] -> [libs/sunrise-sunset/sunriseset.h:54]: (performance, inconclusive) Technically the member function 'SunRiseSet::FNday' can be static.
+[libs/sunrise-sunset/sunriseset.cpp:12] -> [libs/sunrise-sunset/sunriseset.h:59]: (style, inconclusive) Technically the member function 'SunRiseSet::FNrange' can be const.
+[libs/sunrise-sunset/sunriseset.cpp:56] -> [libs/sunrise-sunset/sunriseset.h:72]: (performance, inconclusive) Technically the member function 'SunRiseSet::gethrmn' can be static.
+[libs/sunrise-sunset/sunriseset.cpp:200] -> [libs/sunrise-sunset/sunriseset.h:78]: (performance, inconclusive) Technically the member function 'SunRiseSet::getYear' can be static.
+[libs/sunrise-sunset/sunriseset.cpp:218] -> [libs/sunrise-sunset/sunriseset.h:79]: (performance, inconclusive) Technically the member function 'SunRiseSet::getMounth' can be static.
+[libs/sunrise-sunset/sunriseset.cpp:236] -> [libs/sunrise-sunset/sunriseset.h:80]: (performance, inconclusive) Technically the member function 'SunRiseSet::getDay' can be static.
+[src/blockQueue/blockqueue.cpp:8] -> [src/blockQueue/blockqueue.h:35]: (performance, inconclusive) Technically the member function 'blockQueue::_add' can be static.
+[src/blockQueue/blockqueue.cpp:14] -> [src/blockQueue/blockqueue.h:36]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
+[src/blockQueue/blockqueue.cpp:25] -> [src/blockQueue/blockqueue.h:37]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
+[src/functions/functions.cpp:389]: (warning) %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
+[src/functions/functions.cpp:389]: (warning) %d in format string (no. 2) requires 'int' but the argument type is 'unsigned int'.
+[src/functions/mpd_cli.cpp:202] -> [src/functions/mpd_cli.cpp:203]: (warning) Possible null pointer dereference: hostname - otherwise it is redundant to check it against null.
+[src/iDomTools/idomtools.cpp:112] -> [src/iDomTools/idomtools.h:47]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSystemInfo' can be static.
+[src/iDomTools/idomtools.cpp:140] -> [src/iDomTools/idomtools.h:49]: (style, inconclusive) Technically the member function 'iDomTOOLS::textToSpeach' can be const.
+[src/iDomTools/idomtools.cpp:202] -> [src/iDomTools/idomtools.h:54]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getTime' can be static.
+[src/iDomTools/idomtools.cpp:212] -> [src/iDomTools/idomtools.h:55]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSmog' can be static.
+[src/iDomTools/idomtools.cpp:320] -> [src/iDomTools/idomtools.h:60]: (performance, inconclusive) Technically the member function 'iDomTOOLS::sendSMStoPlusGSM' can be static.
+[src/logger/logger.cc:122]: (style) Obsolete function 'asctime' called. It is recommended to use the function 'strftime' instead.
+[libs/alarm clock/alarmClockTEST/alarm_clock.cpp:20]: (style) The function 'addAlarm' is never used.
+[arduino/arduino_iDom/LED.cpp:35]: (style) The function 'colorWipe' is never used.
+[libs/alarm clock/alarmClockTEST/alarm_clock.cpp:32]: (style) The function 'listAlarm' is never used.
+[libs/sgvTEST/eye.cpp:23]: (style) The function 'on_doubleSpinBox_valueChanged' is never used.
+[arduino/arduino_iDom/LED.cpp:43]: (style) The function 'rainbow' is never used.
+[arduino/arduino_iDom/LED.cpp:56]: (style) The function 'rainbowCycle' is never used.
+[libs/config_files/config_files.cpp:45]: (style) The function 'readFromFile' is never used.
+[libs/alarm clock/alarmClockTEST/alarm_clock.cpp:26]: (style) The function 'removeAlarm' is never used.
+[libs/alarm clock/alarmClockTEST/alarm_clock.cpp:8]: (style) The function 'setAlarm' is never used.
+[libs/sgvTEST/thermometerSVG/thermometer.cpp:9]: (style) The function 'setColor' is never used.
+[libs/sunrise-sunset/sunriseset.cpp:193]: (style) The function 'setPosition' is never used.
+[src/logger/logger.cc:78]: (style) The function 'set_level' is never used.
+[arduino/arduino_iDom/LED.cpp:13]: (style) The function 'stop_led' is never used.
+[arduino/arduino_iDom/LED.cpp:69]: (style) The function 'theaterChase' is never used.
+[arduino/arduino_iDom/LED.cpp:87]: (style) The function 'theaterChaseRainbow' is never used.
+(information) Cppcheck cannot find all the include files (use --check-config for details)

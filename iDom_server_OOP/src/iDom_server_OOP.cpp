@@ -400,12 +400,12 @@ int main()
         exit( - 1 );
     }
     struct sockaddr_in from;
-    int v_sock_ind = 0;
 
     ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
 
     while (1)
     {
+        int v_sock_ind = 0;
         memset( &from,0, sizeof( from ) );
         if (!useful_F::go_while) {
             break;
