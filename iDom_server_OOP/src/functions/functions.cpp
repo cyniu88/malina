@@ -197,7 +197,7 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
         {
             if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
             {
-                my_data->main_THREAD_arr[i].thread.detach();
+                //my_data->main_THREAD_arr[i].thread.detach();
                 my_data->main_THREAD_arr[i].thread_name ="  -empty-  ";
                 my_data->main_THREAD_arr[i].thread_ID =  std::thread::id();
                 my_data->main_THREAD_arr[i].thread_socket = 0;

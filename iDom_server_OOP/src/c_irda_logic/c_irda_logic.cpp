@@ -49,7 +49,7 @@ void c_irda_logic::_add(PILOT_KEY X)
                 && X!=PILOT_KEY::KEY_SAT && X!=PILOT_KEY::SLEEPER && X!=PILOT_KEY::KEY_SUBTITLE
                 && X!=PILOT_KEY::KEY_LANGUAGE)
         {
-          irdaMPD(X);
+            irdaMPD(X);
         }
 
         else if (X == PILOT_KEY::KEY_RADIO)
@@ -148,23 +148,20 @@ void c_irda_logic::_add(PILOT_KEY X)
             for (int con_counter=0; con_counter< iDomConst::MAX_CONNECTION; ++con_counter)
             {
                 if (   my_data_logic->main_THREAD_arr[con_counter].thread_socket == 0 )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
-
                 {
-                    if ( con_counter!=iDomConst::MAX_CONNECTION -1)
-                    {
-                        my_data_logic->main_THREAD_arr[con_counter].thread = std::thread(useful_F::sleeper_mpd,my_data_logic);
-                        my_data_logic->main_THREAD_arr[con_counter].thread_name="Sleeper  MPD ";
-                        my_data_logic->main_THREAD_arr[con_counter].thread_ID = my_data_logic->main_THREAD_arr[con_counter].thread.get_id();
-                        my_data_logic->main_THREAD_arr[con_counter].thread.detach();
-                        log_file_mutex.mutex_lock();
-                        log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data_logic->main_THREAD_arr[con_counter].thread_ID << std::endl;
-                        log_file_mutex.mutex_unlock();
-                        // my_data_logic->sleeper=0;
-                        my_data_logic->mainLCD->printString(true,1,0,"SLEEPer START");
-                        my_data_logic->mainLCD->set_print_song_state(0);
-                        who = PILOT_STATE::MPD;
-                        break;
-                    }
+                    my_data_logic->main_THREAD_arr[con_counter].thread      = std::thread(useful_F::sleeper_mpd,my_data_logic);
+                    my_data_logic->main_THREAD_arr[con_counter].thread_name = "Sleeper  MPD ";
+                    my_data_logic->main_THREAD_arr[con_counter].thread_ID   = my_data_logic->main_THREAD_arr[con_counter].thread.get_id();
+                    my_data_logic->main_THREAD_arr[con_counter].thread_socket = 1;
+                    my_data_logic->main_THREAD_arr[con_counter].thread.detach();
+                    log_file_mutex.mutex_lock();
+                    log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data_logic->main_THREAD_arr[con_counter].thread_ID << std::endl;
+                    log_file_mutex.mutex_unlock();
+                    my_data_logic->mainLCD->printString(true,1,0,"SLEEPer START");
+                    my_data_logic->mainLCD->set_print_song_state(0);
+                    who = PILOT_STATE::MPD;
+                    break;
+
                 }
             }
         }
