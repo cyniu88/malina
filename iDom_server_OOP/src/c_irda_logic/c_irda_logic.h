@@ -29,6 +29,10 @@ private:
     PILOT_STATE who;
     thread_data *my_data_logic;
     void irdaMPD(PILOT_KEY X);
+    void sleeperLogic(PILOT_KEY X);
+    void projectorLogic(PILOT_KEY X);
+    void movieLogic(PILOT_KEY X);
+    void menuLogic(PILOT_KEY X);
 
 public:
     c_irda_logic(thread_data *my_data);
