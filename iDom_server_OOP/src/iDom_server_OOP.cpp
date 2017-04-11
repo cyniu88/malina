@@ -71,6 +71,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
         }
         else if (data_rs232->pointer.ptr_who[0] == iDomConst::FREE){
             if (serial_ardu.available()>0) {
+                std::string bufor ="";
                 while (useful_F::go_while){
                     if (serial_ardu.available()>0){
                         char t = serial_ardu.read();
@@ -80,10 +81,15 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
                         }
                         else{
                             printf("%c",t);
+                            bufor.push_back(t);
                         }
                     }
                 }
                 puts("\n");
+                useful_F::myStaticData->myEventHandler.run("RS232")->addEvent("RS232 error event: "+bufor);
+                log_file_mutex.mutex_lock();
+                log_file_cout << WARNING<< "RS232 ERROR event: " << bufor <<  std::endl;
+                log_file_mutex.mutex_unlock();
             }
         }
         C_connection::mutex_who.unlock();

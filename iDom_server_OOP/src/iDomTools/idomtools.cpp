@@ -23,8 +23,8 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, d
     auto cur = thermometer.find(thermometerName);
 
     if (cur->second.newTemp >= reference + histereza &&
-        cur->second.oldTemp < reference + histereza &&
-        cur->second.lastState != TEMPERATURE_STATE::Over)
+            cur->second.oldTemp  < reference + histereza &&
+            cur->second.lastState != TEMPERATURE_STATE::Over)
     {
         my_data->myEventHandler.run("test")->addEvent("over: new "+std::to_string(cur->second.newTemp)+" old: "
                                                       +std::to_string(cur->second.oldTemp)+" ref: "+std::to_string(reference));
@@ -32,7 +32,7 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, d
         return TEMPERATURE_STATE::Over;
     }
     else if (cur->second.newTemp <= reference - histereza &&
-             cur->second.oldTemp > reference - histereza &&
+             cur->second.oldTemp >  reference - histereza &&
              cur->second.lastState != TEMPERATURE_STATE::Under)
     {
         my_data->myEventHandler.run("test")->addEvent("under: new "+std::to_string(cur->second.newTemp)+" old: "
@@ -55,7 +55,7 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, d
 
 void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int reference)
 {
-    TEMPERATURE_STATE status = hasTemperatureChange(thermomethernName,reference,1);
+    TEMPERATURE_STATE status = hasTemperatureChange(thermomethernName,reference,0.5);
     std::string m = "temperature "+thermomethernName+" over ^"+ std::to_string(reference);
 
     if (status == TEMPERATURE_STATE::Over){
@@ -130,9 +130,9 @@ std::string iDomTOOLS::getSystemInfo()
             std::to_string(info.loads[2]/65536)+"% - 15 min.\n ";
 
     std::stringstream k;
-    k <<"load average : " << (info.loads[0] ) <<" 5min: "
-                                             <<(info.loads[1] ) << " 15min: "
-                                                                <<(info.loads[2] )<<std::endl;
+    k <<"load average : "<<(info.loads[0] )
+            <<" 5min: "  <<(info.loads[1] )
+            <<" 15min: " <<(info.loads[2] )<<std::endl;
     puts(k.str().c_str());
     return ret;
 }
@@ -177,7 +177,6 @@ std::string iDomTOOLS::getTextToSpeach()
     text += ". \nDługość dnia: "+ dayL[0]+" godzin "+dayL[1]+" minut";
     text +=". \n";
     dayL = getTemperature();
-    dayL[1] = dayL[1].substr(0, dayL[1].size()-2);
     text += "Temperatura na zewnątrz: "+ dayL[1]+" stopnia. \n";
     text += "Temperatura w pokoju: "+ dayL[0]+" stopnia. \n";
     text += "Smog: "+ smogText +" mg/m^3. \n";
@@ -204,19 +203,17 @@ Clock iDomTOOLS::getTime()
     Clock t;
     time_t now = time(0);
     tm *ltm = localtime(&now);
-
     t.set( ltm->tm_hour ,ltm->tm_min );
     return t;
 }
 
 std::string iDomTOOLS::getSmog()
 {
-
     CURL *curl;
     CURLcode res;
     std::string readBuffer;
-
     curl = curl_easy_init();
+
     if(curl) {
         curl_easy_setopt(curl, CURLOPT_URL, "www.smog.krakow.pl");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
@@ -232,7 +229,15 @@ std::string iDomTOOLS::getSmog()
     }
     curl_global_cleanup();
     int start = readBuffer.find("<h2 class=\"polution\">");
-    readBuffer = readBuffer.substr(start, 40);
+    try {
+        readBuffer = readBuffer.substr(start, 40);
+    }
+    catch (...){
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "wyjatek substr() e getSmog() !!!!!!"<< std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+
     readBuffer = find_tag(readBuffer);
 
     return readBuffer;
@@ -240,26 +245,22 @@ std::string iDomTOOLS::getSmog()
 
 void iDomTOOLS::send_temperature_thingSpeak()
 {
-
     CURL *curl;
     CURLcode res;
-    std::string _temperature = getTemperatureString();
-
+    std::vector<std::string> _temperature = getTemperature();
     std::string addres = "api.thingspeak.com/update?key=";
     addres+=key;
     addres+="&field1=";
-    addres+= _temperature;
-    addres.erase(addres.size()-2,addres.size());
-    addres.insert(addres.find_last_of(':'),"&field3=");
-    addres.erase(addres.find_last_of(':'),1);
+    addres+= _temperature.at(0);
+    // addres.erase(addres.size()-2,addres.size());
+    addres+= "&field3="+_temperature.at(1);
     addres+="&field2="+getSmog();
-
     //////////////////////////////// pozyskanie temperatury
     ///
     ///
-    _temperature.erase(_temperature.size()-2,_temperature.size());
-    std::string in = _temperature.substr(0,_temperature.find_last_of(':'));
-    std::string out = _temperature.substr(_temperature.find_last_of(':')+1,_temperature.size());
+    //_temperature.erase(_temperature.size()-2,_temperature.size());
+    std::string in = _temperature.at(0);
+    std::string out = _temperature.at(1);
 
     setTemperature("inside",std::stod(in));
     setTemperature("outside",std::stod(out));

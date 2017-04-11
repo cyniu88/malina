@@ -33,6 +33,7 @@ private:
     void projectorLogic(PILOT_KEY X);
     void movieLogic(PILOT_KEY X);
     void menuLogic(PILOT_KEY X);
+    void mainPilotHandler(PILOT_KEY X);
 
 public:
     c_irda_logic(thread_data *my_data);

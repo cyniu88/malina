@@ -32,20 +32,25 @@ DallasTemperature sensors(&oneWire);
 // Adresy czujników
 // arrays to hold device addresses
 DeviceAddress insideThermometer = { 
-  0x28, 0x80, 0x3E, 0x64, 0x4, 0x0, 0x0, 0xD2 };
+    0x28, 0x80, 0x3E, 0x64, 0x4, 0x0, 0x0, 0xD2 };
 DeviceAddress outsideThermometer   = { 
-  // 0x28, 0x8F, 0x9F, 0x63, 0x4, 0x0, 0x0, 0x8E };
-  0x28, 0xFF, 0x07, 0x04, 0x81, 0x16, 0x03, 0x7A};
+    // 0x28, 0x8F, 0x9F, 0x63, 0x4, 0x0, 0x0, 0x8E };
+    0x28, 0xFF, 0x07, 0x04, 0x81, 0x16, 0x03, 0x7A};
+struct TEMPERATURE{
+    double actual = 0;
+    double old    = 0;
+    int errorCounter = 0;
+    bool sendEventFlag = false;
+    double badValue = 0;
+};
 
 String command  = "z";
 String value    = "0";
 int valueINT    = 0;
-int errorTemperatureInCounter  = 0 ;
-int errorTemperatureOutCounter = 0 ;
-double insideTemp     = 0;
-double outsideTemp    = 0;
-double insideTempOld  = 0;
-double outsideTempOld = 0;
+
+TEMPERATURE insideTemp;
+TEMPERATURE outsideTemp;
+
 
 bool LED_state = false;
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
@@ -54,249 +59,269 @@ bool LED_state = false;
 // on a live circuit...if you must, connect GND first.
 
 void setup() {
-  // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
+    // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
 #if defined (__AVR_ATtiny85__)
-  if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
+    if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
 #endif
-  // End of trinket special code
+    // End of trinket special code
 
-  Serial.begin(9600);
-  strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
+    Serial.begin(9600);
+    strip.begin();
+    strip.show(); // Initialize all pixels to 'off'
 
-  sensors.begin();
-  sensors.setResolution(insideThermometer , TEMPERATURE_PRECISION);
-  sensors.setResolution(outsideThermometer, TEMPERATURE_PRECISION);
+    sensors.begin();
+    sensors.setResolution(insideThermometer , TEMPERATURE_PRECISION);
+    sensors.setResolution(outsideThermometer, TEMPERATURE_PRECISION);
 
 }
 
 void loop() {
-  if (Serial.available () > 4 )
-  {
-    command = Serial.readStringUntil(':');
-    value = Serial.readStringUntil(';');
-  }
-
-  if (command == "LED")
-  {
-    int from,to,r, g, b;
-
-    if (sscanf( value.c_str() , "[%d-%d-%d-%d-%d]", &from, &to,&r,&g,&b) == 5) {
-      // do something with r, g, b
-      LED_state = true;
-      Serial.print("LEDY START ");  
-      Serial.print(';');
-      delay(100);
-      colorWipe(strip.Color(r, g, b), 5,from ,to);
+    if (insideTemp.sendEventFlag == true){
+        insideTemp.sendEventFlag = false;
+        Serial.print("Temperature error inside: ");
+        Serial.print(insideTemp.badValue);
+        Serial.print(";");
+        delay(1000);
     }
-    else {
-      Serial.print("LED START - ERROR");  
-      Serial.print(';'); 
-    } 
-    command="z";
-    valueINT=0;
-  }
-  ////////////////////////////////////////////////////////////////////////
-  if (command == "LED_STOP")
-  {
-    Serial.print("LED STOP");  
-    Serial.print(';'); 
-    strip.clear();
-    strip.show();
-    delay(100);
-    LED_state = false;
-    command="z";
-    valueINT=0;
-  }
-  ///////////////////////////////////////////////////////////////////////
-  if (command == "LED_CLEAR")
-  {
-    Serial.print("LED CLEAR");  
-    Serial.print(';'); 
-    if (LED_state == false){
-      delay(1000);
-      strip.clear();
-      strip.show();
-      delay(100);
+    if (outsideTemp.sendEventFlag == true){
+        outsideTemp.sendEventFlag = false;
+        Serial.print("Temperature error inside: ");
+        Serial.print(outsideTemp.badValue);
+        Serial.print(";");
+        delay(1000);
     }
-    command="z";
-    valueINT=0;
 
-  }
-  ////////////////////////////////////////////////////////////////////
-  if (command == "getRS232")
-  {
-    Serial.print("ok;");
-    delay(1000);
-    Serial.print("test msg comand;");
-    command="z";
-    valueINT=0; 
-  }
-  ////////////////////////////////////////////////////////////////////
-  if (command=="temperature")
-  {
-    valueINT = value.toInt();
-    sensors.requestTemperatures(); // Send the command to get temperatures
-
-    insideTemp  = sensors.getTempC(insideThermometer);
-    outsideTemp = sensors.getTempC(outsideThermometer);
-    if ( insideTemp< -60 ||  insideTemp > 100)
+    if (Serial.available () > 4 )
     {
-      insideTemp = insideTempOld+0.005;
-      ++errorTemperatureInCounter;
+        command = Serial.readStringUntil(':');
+        value = Serial.readStringUntil(';');
     }
-    if ( outsideTemp< -60 ||  outsideTemp > 100)
-    {
-      outsideTemp = outsideTempOld;
-      ++errorTemperatureOutCounter;
-    }
-    outsideTempOld =  outsideTemp;
-    insideTempOld  = insideTemp; 
-    Serial.print(insideTemp);
-    Serial.print(':');  
-    Serial.println(outsideTemp);
-    Serial.print(';');  
-    command="z";
-    valueINT=0;
-  }
-  /////////////////////////////////////////////////////////////
-  if (command=="temperature_error")
-  {
-    Serial.print("Temperature error counter: OUT - ");
-    Serial.print(String(errorTemperatureOutCounter));
-    Serial.print(" | IN - ");
-    Serial.print(String(errorTemperatureInCounter));
-    Serial.print(';');  
-    command="z";
-    valueINT=0;
-  }
-  //////////////////////////////////////////////////////////////
-  if (command=="test")
-  {
-    valueINT = value.toInt();
-    ++valueINT;
-    ++valueINT;
-    Serial.print("return:");
-    //sprintf(c,valueINT);
-    Serial.print(String(valueINT));
-    Serial.print(';');  
-    command="z";
-    valueINT=0;
 
-  }
-  //////////////////////////////////////////////////////////////
-  if (command=="clean")
-  {
-    // valueINT = value.toInt();
-    // ++valueINT;
-    //++valueINT;
-    //Serial.print("return:");
-    //sprintf(c,valueINT);
-    // Serial.print(String(valueINT));
-    //Serial.print(';');  
+    if (command == "LED")
+    {
+        int from,to,r, g, b;
+
+        if (sscanf( value.c_str() , "[%d-%d-%d-%d-%d]", &from, &to,&r,&g,&b) == 5) {
+            // do something with r, g, b
+            LED_state = true;
+            Serial.print("LEDY START ");
+            Serial.print(';');
+            delay(100);
+            colorWipe(strip.Color(r, g, b), 5,from ,to);
+        }
+        else {
+            Serial.print("LED START - ERROR");
+            Serial.print(';');
+        }
+        command="z";
+        valueINT=0;
+    }
+    ////////////////////////////////////////////////////////////////////////
+    if (command == "LED_STOP")
+    {
+        Serial.print("LED STOP");
+        Serial.print(';');
+        strip.clear();
+        strip.show();
+        delay(100);
+        LED_state = false;
+        command="z";
+        valueINT=0;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    if (command == "LED_CLEAR")
+    {
+        Serial.print("LED CLEAR");
+        Serial.print(';');
+        if (LED_state == false){
+            delay(1000);
+            strip.clear();
+            strip.show();
+            delay(100);
+        }
+        command="z";
+        valueINT=0;
+
+    }
+    ////////////////////////////////////////////////////////////////////
+    if (command == "getRS232")
+    {
+        Serial.print("ok;");
+        delay(1000);
+        Serial.print("test msg comand;");
+        outsideTemp.sendEventFlag = true;
+        command="z";
+        valueINT=0;
+    }
+    ////////////////////////////////////////////////////////////////////
+    if (command=="temperature")
+    {
+        valueINT = value.toInt();
+        sensors.requestTemperatures(); // Send the command to get temperatures
+
+        insideTemp.actual  = sensors.getTempC(insideThermometer);
+        outsideTemp.actual = sensors.getTempC(outsideThermometer);
+        if ( insideTemp.actual< -60 ||  insideTemp.actual > 100)
+        {
+            insideTemp.badValue = insideTemp.actual;
+            insideTemp.actual = insideTemp.old+0.005;
+            ++insideTemp.errorCounter;
+            insideTemp.sendEventFlag = true;
+        }
+        if ( outsideTemp.actual < -60 ||  outsideTemp.actual > 100)
+        {
+            outsideTemp.badValue = outsideTemp.actual;
+            outsideTemp.actual = outsideTemp.old;
+            ++outsideTemp.errorCounter;
+            outsideTemp.sendEventFlag = true;
+        }
+        outsideTemp.old =  outsideTemp.actual;
+        insideTemp.old  = insideTemp.actual;
+        Serial.print(insideTemp.actual);
+        Serial.print(':');
+        Serial.print(outsideTemp.actual);
+        Serial.print(';');
+        command="z";
+        valueINT=0;
+    }
+    /////////////////////////////////////////////////////////////
+    if (command=="temperature_error")
+    {
+        Serial.print("Temperature error counter: OUT - ");
+        Serial.print(String(outsideTemp.errorCounter));
+        Serial.print(" | IN - ");
+        Serial.print(String(insideTemp.errorCounter));
+        Serial.print(';');
+        command="z";
+        valueINT=0;
+    }
+    //////////////////////////////////////////////////////////////
+    if (command=="test")
+    {
+        valueINT = value.toInt();
+        ++valueINT;
+        ++valueINT;
+        Serial.print("return:");
+        //sprintf(c,valueINT);
+        Serial.print(String(valueINT));
+        Serial.print(';');
+        command="z";
+        valueINT=0;
+
+    }
+    //////////////////////////////////////////////////////////////
+    if (command=="clean")
+    {
+        // valueINT = value.toInt();
+        // ++valueINT;
+        //++valueINT;
+        //Serial.print("return:");
+        //sprintf(c,valueINT);
+        // Serial.print(String(valueINT));
+        //Serial.print(';');
+        command="z";
+        valueINT=0;
+    }
+    //////////////////////////////////////////////////////////////
+    if (command !="z")
+    {
+        Serial.print ("unknown RS232 command: ");
+        Serial.println (command);
+        Serial.print(';');
+        //delay(2000);
+    }
     command="z";
-    valueINT=0;
-  }
-  //////////////////////////////////////////////////////////////
-  if (command !="z")
-  {
-    Serial.print ("unknown RS232 command: ");
-    Serial.println (command);
-    Serial.print(';');
-    //delay(2000);
-  }
-  command="z";
 }
 /////////////////// end loop  //////////////////////////////////
 
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait,int from,int to) {
 
-  if (to>strip.numPixels())
-  {
-    to = strip.numPixels();
-  }
-  for(uint16_t i=from; i<to; i++) {
-    strip.setPixelColor(i, c);
-    strip.show();
-    delay(wait);
-  }
+    if (to>strip.numPixels())
+    {
+        to = strip.numPixels();
+    }
+    for(uint16_t i=from; i<to; i++) {
+        strip.setPixelColor(i, c);
+        strip.show();
+        delay(wait);
+    }
 }
 
 void rainbow(uint8_t wait) {
-  uint16_t i, j;
+    uint16_t i, j;
 
-  for(j=0; j<256; j++) {
-    for(i=0; i<strip.numPixels(); i++) {
-      strip.setPixelColor(i, Wheel((i+j) & 255));
+    for(j=0; j<256; j++) {
+        for(i=0; i<strip.numPixels(); i++) {
+            strip.setPixelColor(i, Wheel((i+j) & 255));
+        }
+        strip.show();
+        delay(wait);
     }
-    strip.show();
-    delay(wait);
-  }
 }
 
 // Slightly different, this makes the rainbow equally distributed throughout
 void rainbowCycle(uint8_t wait) {
-  uint16_t i, j;
+    uint16_t i, j;
 
-  for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
-    for(i=0; i< strip.numPixels(); i++) {
-      strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
+    for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
+        for(i=0; i< strip.numPixels(); i++) {
+            strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
+        }
+        strip.show();
+        delay(wait);
     }
-    strip.show();
-    delay(wait);
-  }
 }
 
 //Theatre-style crawling lights.
 void theaterChase(uint32_t c, uint8_t wait) {
-  for (int j=0; j<10; j++) {  //do 10 cycles of chasing
-    for (int q=0; q < 3; q++) {
-      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
-        strip.setPixelColor(i+q, c);    //turn every third pixel on
-      }
-      strip.show();
+    for (int j=0; j<10; j++) {  //do 10 cycles of chasing
+        for (int q=0; q < 3; q++) {
+            for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
+                strip.setPixelColor(i+q, c);    //turn every third pixel on
+            }
+            strip.show();
 
-      delay(wait);
+            delay(wait);
 
-      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
-        strip.setPixelColor(i+q, 0);        //turn every third pixel off
-      }
+            for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
+                strip.setPixelColor(i+q, 0);        //turn every third pixel off
+            }
+        }
     }
-  }
 }
 
 //Theatre-style crawling lights with rainbow effect
 void theaterChaseRainbow(uint8_t wait) {
-  for (int j=0; j < 256; j++) {     // cycle all 256 colors in the wheel
-    for (int q=0; q < 3; q++) {
-      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
-        strip.setPixelColor(i+q, Wheel( (i+j) % 255));    //turn every third pixel on
-      }
-      strip.show();
+    for (int j=0; j < 256; j++) {     // cycle all 256 colors in the wheel
+        for (int q=0; q < 3; q++) {
+            for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
+                strip.setPixelColor(i+q, Wheel( (i+j) % 255));    //turn every third pixel on
+            }
+            strip.show();
 
-      delay(wait);
+            delay(wait);
 
-      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
-        strip.setPixelColor(i+q, 0);        //turn every third pixel off
-      }
+            for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
+                strip.setPixelColor(i+q, 0);        //turn every third pixel off
+            }
+        }
     }
-  }
 }
 
 // Input a value 0 to 255 to get a color value.
 // The colours are a transition r - g - b - back to r.
 uint32_t Wheel(byte WheelPos) {
-  WheelPos = 255 - WheelPos;
-  if(WheelPos < 85) {
-    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
-  }
-  if(WheelPos < 170) {
-    WheelPos -= 85;
-    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
-  }
-  WheelPos -= 170;
-  return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+    WheelPos = 255 - WheelPos;
+    if(WheelPos < 85) {
+        return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+    }
+    if(WheelPos < 170) {
+        WheelPos -= 85;
+        return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+    }
+    WheelPos -= 170;
+    return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
 
 

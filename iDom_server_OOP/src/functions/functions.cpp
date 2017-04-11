@@ -153,7 +153,6 @@ std::string useful_F::send_to_arduino (thread_data *my_data_logic, std::string m
         }
         C_connection::mutex_who.unlock();
     }
-
     return msg;
 } //end send_to_arduino
 
@@ -183,7 +182,6 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
 {
     blockQueue MPD_queue; // kolejka polecen
     for (; my_data->sleeper >0 ; my_data->sleeper-- ){
-        //sleep (60);
         std::this_thread::sleep_for( std::chrono::seconds(60) );
     }
 
@@ -223,27 +221,27 @@ void useful_F::tokenizer ( std::vector <std::string> &command, std::string separ
         bool is_sep = false;
         for(char m: separator){
             
-            if (n==m)
+            if (n == m)
             {
                 is_sep = true;
             }
         }
         
-        if (is_sep== false){
+        if (is_sep == false){
 
-            temp+=n;
+            temp += n;
         }
         else
         {
             if (!temp.empty())
             {
                 command.push_back( temp);
-                temp="";
+                temp = "";
             }
         }
     }
     if (!temp.empty()){
-        command.push_back( temp);
+        command.push_back(temp);
     }
 }
 
@@ -276,7 +274,6 @@ void useful_F::write_to_mkfifo(  std::string msg)
     write(fd, msg.c_str(), msg.size());
     close(fd);
 }
-
 
 std::string useful_F::read_from_mkfifo()
 {
@@ -361,7 +358,14 @@ std::vector<std::string> useful_F::split(const std::string& s, char separator ){
         output.push_back(substring);
         prev_pos = ++pos;
     }
+    try {
     output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
+    }
+    catch (...){
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "wyjatek substr() w useful_F::split() !!!!!!"<< std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     return output;
 }
 thread_data* useful_F::myStaticData = NULL;

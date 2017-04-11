@@ -35,6 +35,7 @@ KEY_VOLUMEUP        +
  */
 #include "master_irda.h"
 #include "../c_irda_logic/c_irda_logic.h"
+
 master_irda::master_irda(thread_data *my_data):buttonTimer(millis()), buttonMENU(0), my_data2(my_data)
 {
     if(  lirc_init(const_cast< char*>("lirc"),1)  ==  -1 )
@@ -52,7 +53,7 @@ void master_irda::run()
     {
         // std::cout << " jestem w iflirc_readconfig(NULL,&config,NULL)==0 \n ";
         //Do stuff while LIRC socket is open  0=open  -1=closed.
-        while(lirc_nextcode(&code )==0 )
+        while(lirc_nextcode(&code )== 0 )
         {
             std::cout << " w while \n";
             if (useful_F::go_while==false)     /// TO NIE DZIALA DO POPRAWY
@@ -75,15 +76,15 @@ void master_irda::run()
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO<< " timeout menu " <<  std::endl;
                         log_file_mutex.mutex_unlock();
-                        buttonMENU=0;  // flaga na 0  nie wejdze juz do timeout
+                        buttonMENU = 0;  // flaga na 0  nie wejdze juz do timeout
                         irda_queue._add(PILOT_KEY::KEY_EXIT);
                     }
                     //////////////////////////////////////////////////////////////
                     //Check to see if the string "KEY_1" appears anywhere within the string 'code'.
 
-                    CodeString= code;
-                    CodeString.erase(0,  ( CodeString.find("KEY"))) ;
-                    CodeString.erase(  CodeString.find(" "), CodeString.size());
+                    CodeString = code;
+                    CodeString.erase(0,(CodeString.find("KEY"))) ;
+                    CodeString.erase(   CodeString.find(" "), CodeString.size());
 
                     my_data2->myEventHandler.run("pilot")->addEvent("press: "+CodeString);
                     irda_queue._add( my_data2->key_map[CodeString]->getValue() );

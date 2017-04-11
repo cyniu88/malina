@@ -102,7 +102,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                 my_data->mainLCD->printRadioName(true,0,0,_msg);
                 my_data->mainLCD->set_lcd_STATE(5);
                 std::string temp_str = my_data->main_iDomTools->getTemperatureString(); // send_to_arduino(my_data,"temperature:2;");
-                temp_str.erase(temp_str.size()-2,temp_str.size());
+                //temp_str.erase(temp_str.size()-1,temp_str.size()); //TODO check
                 my_data->mainLCD->printString(false,0,1,"temp:"+temp_str+" c");
 
                 updatePlayList(mi,my_data);
@@ -134,9 +134,9 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
         {
         case MPD_PLAYER_PLAY:
             printf("Playing\n");
-            check_title_song_to=true;
-            my_data->mainLCD->play_Y_N=true;
-            my_data->ptr_MPD_info->isPlay=true;
+            check_title_song_to =   true;
+            my_data->mainLCD->play_Y_N  =   true;
+            my_data->ptr_MPD_info->isPlay   =   true;
             digitalWrite(iDomConst::GPIO_SPIK, LOW);
             my_data->mainLCD->set_lcd_STATE(1);
             my_data->mainLCD->song_printstr();
@@ -151,7 +151,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             break;
         case MPD_PLAYER_STOP:
             printf("Stopped\n");
-            if (my_data->ptr_MPD_info->isPlay ==true){
+            if (my_data->ptr_MPD_info->isPlay == true){
                 my_data->main_iDomTools->ledClear();
             }
             check_title_song_to=false;
@@ -293,6 +293,7 @@ void main_mpd_cli(thread_data* my_data )
                 log_file_cout << WARNING << "utracono polacznie z  MPD "<<   std::endl;
                 log_file_cout << INFO << "restart MPD" << std::endl;
                 log_file_mutex.mutex_unlock();
+                std::this_thread::sleep_for( std::chrono::milliseconds(500) );
                 system ("service mpd restart");
                 mpd_connect(obj);
             }

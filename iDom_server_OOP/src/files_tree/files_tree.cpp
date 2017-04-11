@@ -116,8 +116,6 @@ std::string files_tree::show_list(     )
             mainLCD->printString(false,10,1,movie_database_vector[i].files_name.substr( movie_database_vector[i].files_name.size()-4,movie_database_vector[i].files_name.size()));
             //std::cout << " NIEEEEEE SERIAL!!!!!!!!!!!!!!!!!!!!!!!!!!1" << std::endl;
         }
-
-
     }
     else {
         //std::cout << "wypisuje sciezke katalogu " << movie_database_vector[i].path << std::endl;
