@@ -293,7 +293,7 @@ void main_mpd_cli(thread_data* my_data )
                 log_file_cout << WARNING << "utracono polacznie z  MPD "<<   std::endl;
                 log_file_cout << INFO << "restart MPD" << std::endl;
                 log_file_mutex.mutex_unlock();
-                std::this_thread::sleep_for( std::chrono::milliseconds(500) );
+                std::this_thread::sleep_for( std::chrono::milliseconds(1000) );
                 system ("service mpd restart");
                 mpd_connect(obj);
             }

@@ -85,7 +85,7 @@ void loop() {
     }
     if (outsideTemp.sendEventFlag == true){
         outsideTemp.sendEventFlag = false;
-        Serial.print("Temperature error inside: ");
+        Serial.print("Temperature error outside: ");
         Serial.print(outsideTemp.badValue);
         Serial.print(";");
         delay(1000);
