@@ -17,9 +17,21 @@ enum class TEMPERATURE_STATE{
     NoChanges,
     Unknown
 };
+enum class USER_LEVEL{
+    ROOT,
+    USER
+};
+
 struct temperature {
+    //temperature(std::string name) : thermometrName(name){};
     double newTemp = 1.0101;
     double oldTemp = 1.0101;
+    double maxValue = 0;
+    std::string maxDate;
+    double minValue = 0;
+    std::string minDate;
+    std::string thermometrName;
+
     TEMPERATURE_STATE lastState = TEMPERATURE_STATE::Unknown;
 };
 

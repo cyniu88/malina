@@ -1,7 +1,7 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
-QMAKE_CXXFLAGS += -O3 -stdlib=libstdc++  -std=c++14
+QMAKE_CXXFLAGS += -O3   -std=c++14
 LIBS +=   -L/usr/local/lib   -lwiringPiDev -lwiringPi   -lmpd   -llirc_client   -lrt -lpthread  -lcurl
 
 SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
@@ -50,7 +50,8 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     src/command/commandClass/command_idom.cpp \
     libs/sunrise-sunset/sunriseset.cpp \
     src/command/commandClass/command_stop.cpp \
-    src/iDomTools/idomtools_mpd.cpp
+    src/iDomTools/idomtools_mpd.cpp \
+    src/command/commandhandlerroot.cpp
 
 
 HEADERS += src/parser/parser.hpp  \
@@ -100,5 +101,6 @@ HEADERS += src/parser/parser.hpp  \
     src/iDomTools/idomtools.h \
     src/command/commandClass/command_idom.h \
     libs/sunrise-sunset/sunriseset.h \
-    src/command/commandClass/command_stop.h
+    src/command/commandClass/command_stop.h \
+    src/command/commandhandlerroot.h
 

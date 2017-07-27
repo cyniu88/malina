@@ -158,7 +158,20 @@ void Server_connectivity_thread(thread_data  *my_data){
             key_ok=false;
         }
     }
+    /// ///////////////////////user level
+    {
+        int recvSize = client->c_recv(0);
+        if( recvSize == -1 )  {
 
+        }
+        else {
+
+        }
+        std::string userLevel = client->c_read_buf(recvSize);
+        client->c_send("OK you are "+ userLevel );
+        puts("user level to:");
+        puts(userLevel.c_str());
+    }
     while (useful_F::go_while && key_ok)
     {
         int recvSize = client->c_recv(0) ;

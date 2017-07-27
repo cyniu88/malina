@@ -15,6 +15,7 @@ void iDomTOOLS::setTemperature(std::string name, float value)
     auto cur = thermometer.find(name);
     cur->second.oldTemp = cur->second.newTemp ;
     cur->second.newTemp = value;
+    //TODO   dodac ustawianie temperetury i daty
 }
 
 TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, double reference, double histereza )

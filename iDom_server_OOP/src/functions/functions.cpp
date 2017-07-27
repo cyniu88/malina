@@ -220,15 +220,12 @@ void useful_F::tokenizer ( std::vector <std::string> &command, std::string separ
     for(char n: text) { // the initializer may be an array
         bool is_sep = false;
         for(char m: separator){
-            
             if (n == m)
             {
                 is_sep = true;
             }
         }
-        
         if (is_sep == false){
-
             temp += n;
         }
         else
@@ -245,9 +242,8 @@ void useful_F::tokenizer ( std::vector <std::string> &command, std::string separ
     }
 }
 
-std::string useful_F::RSHash(int offset  )
+std::string useful_F::RSHash(std::string data, unsigned int b, unsigned int a)
 {
-    offset = 9; // because warning
     time_t act_time;
     struct tm * act_date;
     time(&act_time);
@@ -255,9 +251,7 @@ std::string useful_F::RSHash(int offset  )
     char buffer[10];
     strftime(buffer,10,"%M%H%w",act_date);
     std::string str(buffer);
-    //std::cout<<str<<std::endl;
-    unsigned int b    = 378551;
-    unsigned int a    = 63689;
+    str+=data;
     unsigned int hash = 0;
 
     for(std::size_t i = 0; i < str.length(); i++)
@@ -270,7 +264,7 @@ std::string useful_F::RSHash(int offset  )
 
 void useful_F::write_to_mkfifo(  std::string msg)
 {
-    int fd = open("/mnt/ramdisk/cmd", O_WRONLY);
+    int fd = open("/mnt/ramdisk/cmd", O_WRONLY| O_NONBLOCK);
     write(fd, msg.c_str(), msg.size());
     close(fd);
 }
@@ -279,7 +273,7 @@ std::string useful_F::read_from_mkfifo()
 {
     char buf[10];
     /* open, read, and display the message from the FIFO */
-    int fd = open("/mnt/ramdisk/cmd", O_RDONLY);
+    int fd = open("/mnt/ramdisk/cmd", O_RDONLY | O_NONBLOCK);
     read(fd, buf, 10);
     close(fd);
     return (std::string(buf));
@@ -359,7 +353,7 @@ std::vector<std::string> useful_F::split(const std::string& s, char separator ){
         prev_pos = ++pos;
     }
     try {
-    output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
+        output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
     }
     catch (...){
         log_file_mutex.mutex_lock();
@@ -415,11 +409,11 @@ void useful_F::button_interrupt( )
                 }
             }
         }
-//        else{
-//            useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
-//            useful_F::myStaticData->mainLCD->printString(true,0,0,"DONE");
-//            puts("DONE");
-//        }
+        //        else{
+        //            useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
+        //            useful_F::myStaticData->mainLCD->printString(true,0,0,"DONE");
+        //            puts("DONE");
+        //        }
         useful_F::lastInterruptTime = millis();
     }
 }
