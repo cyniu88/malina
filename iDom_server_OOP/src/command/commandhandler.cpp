@@ -4,7 +4,6 @@
 #include "commandClass/command_uptime.h"
 #include "commandClass/command_big.h"
 #include "commandClass/command_clock.h"
-#include "commandClass/command_cmd.h"
 #include "commandClass/command_hello.h"
 #include "commandClass/command_help.h"
 #include "commandClass/command_ip.h"
@@ -12,9 +11,10 @@
 #include "commandClass/command_sleep.h"
 #include "commandClass/command_ok.h"
 #include "commandClass/command_show.h"
-#include "commandClass/command_event.h"
 #include "commandClass/command_idom.h"
 #include "commandClass/command_stop.h"
+#include "commandClass/commandexit.h"
+#include "commandClass/commandtest.h"
 
 commandHandler::commandHandler(thread_data * my_data)
 {
@@ -42,9 +42,6 @@ commandHandler::commandHandler(thread_data * my_data)
     std::unique_ptr <command> clock (new command_clock("clock"));
     commandMap.insert(std::make_pair(clock->getCommandName(), std::move(clock)));
 
-    std::unique_ptr <command> cmd (new command_cmd("cmd"));
-    commandMap.insert(std::make_pair(cmd->getCommandName(), std::move(cmd)));
-
     std::unique_ptr <command> hello (new command_hello("hello"));
     commandMap.insert(std::make_pair(hello->getCommandName(), std::move(hello)));
 
@@ -66,14 +63,16 @@ commandHandler::commandHandler(thread_data * my_data)
     std::unique_ptr <command> put (new command_put("put"));
     commandMap.insert(std::make_pair(put->getCommandName(), std::move(put)));
 
-    std::unique_ptr <command> event (new command_event("event"));
-    commandMap.insert(std::make_pair(event->getCommandName(), std::move(event)));
-
     std::unique_ptr <command> iDom (new command_iDom("iDom"));
     commandMap.insert(std::make_pair(iDom->getCommandName(), std::move(iDom)));
 
     this->my_data = my_data;
     this->my_data->commandMapPtr = &commandMap;
+}
+
+commandHandler::~commandHandler()
+{
+    puts("koniec destruktor command handler klasa bazowa");
 }
 
 std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_data)

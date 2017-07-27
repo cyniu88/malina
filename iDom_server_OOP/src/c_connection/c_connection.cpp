@@ -5,7 +5,7 @@ std::mutex C_connection::mutex_buf;
 std::mutex C_connection::mutex_who;
 
 C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_sock),
-    c_from(my_data->from),recv_size(0)  ,mainCommandHandler(my_data)
+    c_from(my_data->from),recv_size(0)
 {
     this -> pointer = &my_data->pointer;
     this -> my_data = my_data;
@@ -17,6 +17,7 @@ C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_so
 
 C_connection::~C_connection()
 {
+    delete mainCommandHandler;
     shutdown( c_socket, SHUT_RDWR );
     for (int i = 0 ; i< iDomConst::MAX_CONNECTION;++i)
     {
@@ -128,7 +129,7 @@ int C_connection::c_analyse(int recvSize)
         str_buf+=t+" ";
     }
 
-    str_buf  = mainCommandHandler.run(command,my_data);
+    str_buf  = mainCommandHandler->run(command,my_data);
 
     return true;
 }

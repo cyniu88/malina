@@ -6,7 +6,7 @@
 #include "../functions/functions.h"                 // brak
 #include "../CRON/cron.hpp"
 #include "../functions/mpd_cli.h"
-#include "../command/commandhandler.h"
+#include "../command/commandhandlerroot.h"
 
 
 
@@ -45,12 +45,13 @@ public:
     //void c_recv_send_master();
     void setEncriptionKey(std::string key);
 
+    commandHandler *mainCommandHandler;
+
 private:
     //std::string temporary_str;
     std::string  str_buf;
     blockQueue char_queue;
     int counter = 0;
-    commandHandler mainCommandHandler;
     std::string encriptionKey;
 
 };
