@@ -1,3 +1,4 @@
+#include <curl/curl.h>
 #include "command_idom.h"
 
 command_iDom::command_iDom(std::string name):command(name)
@@ -86,6 +87,30 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else if (v[1]=="smog"){
         return my_data->main_iDomTools->getSmog()+" mg/m^3";
+    }
+
+    else if (v[1]=="wifi"){
+        CURL *curl;
+        CURLcode res;
+        std::string readBuffer;
+        curl = curl_easy_init();
+
+        if(curl) {
+            curl_easy_setopt(curl, CURLOPT_URL, "http://cyniu88.no-ip.pl/cgi-bin/kto_wifi.sh");
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, iDomTOOLS::WriteCallback);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+            res = curl_easy_perform(curl);
+            /* Check for errors */
+            if(res != CURLE_OK)
+                fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                        curl_easy_strerror(res));
+
+            /* always cleanup */
+            curl_easy_cleanup(curl);
+        }
+        curl_global_cleanup();
+
+        return readBuffer;
     }
     return "iDom - unknown parameter: "+ v[1];
 }

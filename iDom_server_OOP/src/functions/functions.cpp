@@ -368,6 +368,21 @@ void useful_F::setStaticData(thread_data *my_dataPtr)
     myStaticData = my_dataPtr;
 }
 
+void useful_F::clearThreadArray(thread_data* my_data)
+{
+    for (int i = 0 ; i< iDomConst::MAX_CONNECTION;++i)
+    {
+        if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
+        {
+            //my_data->main_THREAD_arr[i].thread.detach();
+            my_data->main_THREAD_arr[i].thread_name   = "  -empty-  ";
+            my_data->main_THREAD_arr[i].thread_socket = 0;
+            my_data->main_THREAD_arr[i].thread_ID     = std::thread::id();
+            break;
+        }
+    }
+}
+
 volatile unsigned int  useful_F::lastInterruptTime = 0;
 std::mutex useful_F::mut;
 

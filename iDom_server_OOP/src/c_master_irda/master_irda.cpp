@@ -39,8 +39,8 @@ KEY_VOLUMEUP        +
 master_irda::master_irda(thread_data *my_data):buttonTimer(millis()), buttonMENU(0), my_data2(my_data)
 {
     if(  lirc_init(const_cast< char*>("lirc"),1)  ==  -1 )
-        exit(EXIT_FAILURE);
-    std::cout << " jestem po uruchominiu lirc \n";
+       // exit(EXIT_FAILURE);
+    puts(" jestem po uruchominiu lirc \n");
 
     //// tu chyba sa glupoty  zle
 }
@@ -55,7 +55,7 @@ void master_irda::run()
         //Do stuff while LIRC socket is open  0=open  -1=closed.
         while(lirc_nextcode(&code )== 0 )
         {
-            std::cout << " w while \n";
+           // std::cout << " w while \n";
             if (useful_F::go_while==false)     /// TO NIE DZIALA DO POPRAWY
             {
                 break;  // koncze petle zamykam wątek
@@ -63,7 +63,7 @@ void master_irda::run()
             //If code = NULL, meaning nothing was returned from LIRC socket,
             //then skip lines below and start while loop again.
             if(code==NULL) {
-                std::cout << " kontynuuje\n";
+                //std::cout << " kontynuuje\n";
                 continue;
             }
             else

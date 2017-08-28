@@ -1,8 +1,7 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
-LIBS += -L/usr/local/lib    -lwiringPi -lmpd
-
+LIBS += -L/usr/local/lib    -lwiringPi  -lmpdclient
 SOURCES += main.cpp \
     c_mpd_cli.cpp
 

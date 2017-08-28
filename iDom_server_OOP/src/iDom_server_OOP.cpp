@@ -94,7 +94,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
         }
         C_connection::mutex_who.unlock();
     }
-    //pthread_exit(NULL);
+
 }
 //////////// watek do obslugi polaczeni miedzy nodami  //////////////
 
@@ -106,6 +106,7 @@ void f_serv_con_node (thread_data  *my_data){
 void f_master_irda (thread_data  *my_data){
     master_irda irda(my_data);
     irda.run();
+    useful_F::clearThreadArray(my_data);
 } //  koniec master_irda
 ///////////  watek wymiany polaczenia /////////////////////
 
@@ -114,6 +115,7 @@ void f_master_irda (thread_data  *my_data){
 void f_master_CRON (thread_data  *my_data){
     CRON my_CRON(my_data);
     my_CRON.run();
+    useful_F::clearThreadArray(my_data);
 } //  koniec CRON
 
 void Server_connectivity_thread(thread_data  *my_data){  
@@ -431,6 +433,7 @@ int main()
 
     while (1)
     {
+
         int v_sock_ind = 0;
         memset( &from,0, sizeof( from ) );
         if (!useful_F::go_while) {

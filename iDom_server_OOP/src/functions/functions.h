@@ -34,5 +34,6 @@ public:
     static  bool go_while ;
     static  thread_data* myStaticData;
     static  void setStaticData(thread_data* my_dataPtr);
+    static void clearThreadArray(thread_data *my_data);
 };
 #endif // FUNCTIONS_H

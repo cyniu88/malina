@@ -2,7 +2,7 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
 QMAKE_CXXFLAGS += -O3   -std=c++14
-LIBS +=   -L/usr/local/lib   -lwiringPiDev -lwiringPi   -lmpd   -llirc_client   -lrt -lpthread  -lcurl
+LIBS +=   -L/usr/local/lib   -lwiringPiDev -lwiringPi -llirc_client   -lrt -lpthread  -lcurl  -lmpd
 
 SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
  src/c_connection/c_connection.cpp \

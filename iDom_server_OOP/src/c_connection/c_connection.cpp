@@ -19,17 +19,7 @@ C_connection::~C_connection()
 {
     delete mainCommandHandler;
     shutdown( c_socket, SHUT_RDWR );
-    for (int i = 0 ; i< iDomConst::MAX_CONNECTION;++i)
-    {
-        if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
-        {
-            //my_data->main_THREAD_arr[i].thread.detach();
-            my_data->main_THREAD_arr[i].thread_name   = "  -empty-  ";
-            my_data->main_THREAD_arr[i].thread_socket = 0;
-            my_data->main_THREAD_arr[i].thread_ID     = std::thread::id();
-            break;
-        }
-    }
+    useful_F::clearThreadArray(my_data);
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< "koniec komunikacji - kasuje obiekt" <<  std::endl;
     log_file_mutex.mutex_unlock();
