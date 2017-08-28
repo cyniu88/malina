@@ -93,9 +93,11 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         CURL *curl;
         CURLcode res;
         std::string readBuffer;
+        int iTimeoutSeconds = 10;
         curl = curl_easy_init();
 
         if(curl) {
+            curl_easy_setopt(curl, CURLOPT_TIMEOUT, iTimeoutSeconds);
             curl_easy_setopt(curl, CURLOPT_URL, "http://cyniu88.no-ip.pl/cgi-bin/kto_wifi.sh");
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, iDomTOOLS::WriteCallback);
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
