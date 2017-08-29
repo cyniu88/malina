@@ -180,13 +180,12 @@ std::string  useful_F::sek_to_uptime(long long secy )
 ////// watek sleeper
 void useful_F::sleeper_mpd (thread_data  *my_data)
 {
-    blockQueue MPD_queue; // kolejka polecen
+
     for (; my_data->sleeper >0 ; my_data->sleeper-- ){
         std::this_thread::sleep_for( std::chrono::seconds(60) );
     }
-
-    MPD_queue._add(MPD_COMMAND::STOP);
-    send_to_arduino(my_data,"LED_STOP:22;");
+    my_data->main_iDomTools->ledOFF();
+    my_data->main_iDomTools->MPD_stop();
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< "zaczynam procedure konca watku SLEEP_MPD" <<  std::endl;
     log_file_mutex.mutex_unlock();

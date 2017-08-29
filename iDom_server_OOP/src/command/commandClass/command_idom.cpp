@@ -71,7 +71,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
                 return my_data->main_iDomTools->ledOFF();
             }
             else{
-            return "need more parameter from-to-R-G-B";
+                return "need more parameter from-to-R-G-B";
             }
         }
         else {
@@ -114,6 +114,14 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
 
         return readBuffer;
     }
+    else if (v[1]=="kill"){
+
+        if (v[2]=="thread"){
+            my_data->main_THREAD_arr[std::stoi(v[3]) ].thread.~thread();
+
+            return "done!";
+        }
+    }
     return "iDom - unknown parameter: "+ v[1];
 }
 
@@ -131,5 +139,6 @@ std::string command_iDom::help()
     ret.append("iDom LED OFF    - led off\n");
     ret.append("iDom temperature - get temperature from all termomether\n");
     ret.append("iDom smog       - get current SMOG level (KRAKOW)\n");
+    ret.append("iDom kill thread <ID>  - kill thread\n");
     return ret;
 }
