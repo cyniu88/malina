@@ -294,8 +294,7 @@ int main()
     thread_array[2].thread.detach();
     /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
 
-    int temp;
-    temp = mkfifo("/mnt/ramdisk/cmd",0666);
+    int temp = mkfifo("/mnt/ramdisk/cmd",0666);
 
     if (temp == 0 )
     {
@@ -380,7 +379,6 @@ int main()
         log_file_cout << INFO << "NIE startuje NODA MASTERA do polaczen z innymi " << std::endl;
         log_file_mutex.mutex_unlock();
     }
-
     memset(&server, 0, sizeof( server ) );
 
     server.sin_family = AF_INET;
@@ -433,7 +431,6 @@ int main()
 
     while (1)
     {
-
         int v_sock_ind = 0;
         memset( &from,0, sizeof( from ) );
         if (!useful_F::go_while) {

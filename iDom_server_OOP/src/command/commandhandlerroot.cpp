@@ -10,6 +10,7 @@ commandHandlerRoot::commandHandlerRoot(thread_data * my_data): commandHandler(my
 
     std::unique_ptr <command> event (new command_event("event"));
     commandMap.insert(std::make_pair(event->getCommandName(), std::move(event)));
+
 }
 
 commandHandlerRoot::~commandHandlerRoot()

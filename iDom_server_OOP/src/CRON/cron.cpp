@@ -18,10 +18,11 @@ void CRON::run()
         sleep(10);
         time(&act_time);
         act_date = localtime(&act_time);
-        //std::cout << "dzien tygodnia " << act_date->tm_wday << " godzina " << act_date->tm_hour <<" minuta " << act_date->tm_min <<std::endl;
+
         if (act_date->tm_min % 15 == 0 )
         {
-            if (check_temperature==TRUE){                
+            if (check_temperature==TRUE)
+            {
                 my_data->main_iDomTools->send_temperature_thingSpeak();
             }
             check_temperature=FALSE;
@@ -30,13 +31,12 @@ void CRON::run()
         {
             check_temperature=TRUE;
         }
-        if (min != act_date->tm_min  ){
 
+        if (min != act_date->tm_min  )
+        {
             strftime(buffer,5,"%H%M",act_date);
-            // serial_ardu.print(buffer );
             useful_F::send_to_arduino_clock(my_data,buffer);
             min = act_date->tm_min;
-            //std::cout << "czas "<< buffer <<" arduino "<<send_to_arduino_clock(my_data,buffer)<< std::endl;
         }
     }
 }

@@ -51,7 +51,8 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     libs/sunrise-sunset/sunriseset.cpp \
     src/command/commandClass/command_stop.cpp \
     src/iDomTools/idomtools_mpd.cpp \
-    src/command/commandhandlerroot.cpp
+    src/command/commandhandlerroot.cpp \
+    src/command/commandClass/command_log.cpp
 
 
 HEADERS += src/parser/parser.hpp  \
@@ -102,5 +103,6 @@ HEADERS += src/parser/parser.hpp  \
     src/command/commandClass/command_idom.h \
     libs/sunrise-sunset/sunriseset.h \
     src/command/commandClass/command_stop.h \
-    src/command/commandhandlerroot.h
+    src/command/commandhandlerroot.h \
+    src/command/commandClass/command_log.h
 

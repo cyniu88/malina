@@ -15,6 +15,7 @@
 #include "commandClass/command_stop.h"
 #include "commandClass/commandexit.h"
 #include "commandClass/commandtest.h"
+#include "commandClass/command_log.h"
 
 commandHandler::commandHandler(thread_data * my_data)
 {
@@ -65,6 +66,9 @@ commandHandler::commandHandler(thread_data * my_data)
 
     std::unique_ptr <command> iDom (new command_iDom("iDom"));
     commandMap.insert(std::make_pair(iDom->getCommandName(), std::move(iDom)));
+
+    std::unique_ptr <command> log (new command_log("log"));
+    commandMap.insert(std::make_pair(log->getCommandName(), std::move(log)));
 
     this->my_data = my_data;
     this->my_data->commandMapPtr = &commandMap;
