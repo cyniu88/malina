@@ -1,4 +1,5 @@
 #include "mpd_cli.h"
+#include "../TASKER/tasker.h"
 
 extern int debug_level;
 bool check_title_song_to = false;
@@ -189,8 +190,10 @@ mpd_status_get_elapsed_song_time(mi)%60);
 void main_mpd_cli(thread_data* my_data )
 {
     blockQueue char_queue; // kolejka polecen
+    ////////////////////////////// TASKER PART ////////////////////////
+    TASKER mainTasker(my_data);
 
-    ////////////////////////////// LCD PART ///////////////////////
+    ////////////////////////////// LCD PART ///////////////////////////
     my_data->mainLCD->set_print_song_state(0);
     ///////////////////////////////////////////////////////////////////
     int   iport = 6600;
@@ -299,7 +302,10 @@ void main_mpd_cli(thread_data* my_data )
             }
 
             mpd_status_update(obj);
-            my_data->mainLCD->checkState();
+
+            ///////////////////////////////////// TASKER //////////////////////////////////////////
+            ///  call Tasker
+            mainTasker.runTasker();
 
 
             std::this_thread::sleep_for( std::chrono::milliseconds(500) );
@@ -335,12 +341,12 @@ void updatePlayList(MpdObj *mi,thread_data *my_data)
                     if ( data->song->name != NULL){
                         buffor +=std::string(data->song->name)+" ";
                     }
-//                    if (data->song->artist != NULL){
-//                        buffor += std::string(data->song->artist)+" ";
-//                    }
-//                    if  ( data->song->title != NULL ){
-//                        buffor +=std::string(data->song->title)+" ";
-//                    }
+                    //                    if (data->song->artist != NULL){
+                    //                        buffor += std::string(data->song->artist)+" ";
+                    //                    }
+                    //                    if  ( data->song->title != NULL ){
+                    //                        buffor +=std::string(data->song->title)+" ";
+                    //                    }
                     my_data->ptr_MPD_info->songList.push_back(buffor);
                 }
                 data = mpd_data_get_next(data);

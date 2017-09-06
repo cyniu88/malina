@@ -76,7 +76,9 @@ void setup() {
 }
 
 void loop() {
-    if (insideTemp.sendEventFlag == true){
+  
+  if (Serial.available() == 0){
+    if (insideTemp.sendEventFlag == true ){
         insideTemp.sendEventFlag = false;
         Serial.print("Temperature error inside: ");
         Serial.print(insideTemp.badValue);
@@ -90,7 +92,7 @@ void loop() {
         Serial.print(";");
         delay(1000);
     }
-
+  }
     if (Serial.available () > 4 )
     {
         command = Serial.readStringUntil(':');
