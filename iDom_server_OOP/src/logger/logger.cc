@@ -89,7 +89,7 @@ void Logger::flush()
   }
   else
   {
-      _log << get_time() << "  " << str();
+      _log << get_time() << " -- [" << level_str(_line_level) << "] -- " << str();
       _log.flush();
   }
 

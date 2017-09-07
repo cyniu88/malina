@@ -8,6 +8,7 @@ public:
     TASKER(thread_data *my_data);
 
     void runTasker();
+    void dataFromRS232(std::string bufor);
 private:
      thread_data * my_data;
 };

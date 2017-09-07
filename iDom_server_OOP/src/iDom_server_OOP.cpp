@@ -3,6 +3,7 @@
 #include "parser/parser.hpp"
 #include <wiringPi.h>
 #include "c_connection/c_connection.h"
+#include "TASKER/tasker.h"
 
 std::string  _logfile  = "/mnt/ramdisk/iDom_log.log";
 std::string buffer ;
@@ -86,10 +87,8 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
                     }
                 }
                 puts("\n");
-                useful_F::myStaticData->myEventHandler.run("RS232")->addEvent("RS232 error event: "+bufor);
-                log_file_mutex.mutex_lock();
-                log_file_cout << WARNING<< "RS232 ERROR event: " << bufor <<  std::endl;
-                log_file_mutex.mutex_unlock();
+                TASKER mainTasker(useful_F::myStaticData);
+                mainTasker.dataFromRS232(bufor);
             }
         }
         C_connection::mutex_who.unlock();
