@@ -90,8 +90,13 @@ struct config{
     std::string MPD_IP;
     std::string MOVIES_DB_PATH;
     std::string MENU_PATH;
-    unsigned int ID_server;
+    std::string THREAD_MPD   = "NULL";
+    std::string THREAD_IRDA  = "NULL";
+    std::string THREAD_CRON  = "NULL";
+    std::string THREAD_RS232 = "NULL";
+    std::string THREAD_DUMMY = "NULL";
     std::string TS_KEY= " gg ";
+    int ID_server = 0;
     int v_delay  ;
 };
 

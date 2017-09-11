@@ -29,6 +29,8 @@
 [blockQueue/blockqueue.cpp:14] -> [blockQueue/blockqueue.h:36]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
 [blockQueue/blockqueue.cpp:25] -> [blockQueue/blockqueue.h:37]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
 [c_connection/c_connection.cpp:7]: (warning) Member variable 'C_connection::mainCommandHandler' is not initialized in the constructor.
+[c_irda_logic/c_irda_logic.cpp:390]: (warning) Redundant assignment of 'my_data' to itself.
+[c_irda_logic/c_irda_logic.cpp:388]: (warning) Member variable 'c_irda_logic::my_data' is not initialized in the constructor.
 [c_master_irda/master_irda.h:22]: (style) Class 'master_irda' has a constructor with 1 argument that is not explicit.
 [command/command.cpp:3]: (performance) Function parameter 'commandName' should be passed by reference.
 [command/commandClass/command_big.h:12]: (style) Class 'command_big' has a constructor with 1 argument that is not explicit.

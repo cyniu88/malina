@@ -218,7 +218,7 @@ void Server_connectivity_thread(thread_data  *my_data){
 int main()
 {
     pthread_mutex_init(&Logger::mutex_log, NULL);
-    config server_settings   =  read_config ( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfig
+    config server_settings   =  read_config( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfig
     struct sockaddr_in server;
     int v_socket;
 
@@ -244,6 +244,11 @@ int main()
     log_file_cout << INFO << "serwer ip \t"<< server_settings.SERVER_IP  <<std::endl;
     log_file_cout << INFO << "baza z filami \t"<< server_settings.MOVIES_DB_PATH << std::endl;
     log_file_cout << INFO << "klucz ThingSpeak \t"<<server_settings.TS_KEY << std::endl;
+    log_file_cout << INFO << "thread MPD \t" << server_settings.THREAD_MPD << std::endl;
+    log_file_cout << INFO << "thread CRON \t" << server_settings.THREAD_CRON << std::endl;
+    log_file_cout << INFO << "thread IRDA \t" << server_settings.THREAD_IRDA << std::endl;
+    log_file_cout << INFO << "thread RS232 \t" << server_settings.THREAD_RS232 << std::endl;
+    log_file_cout << INFO << "thread DUMMY \t" << server_settings.THREAD_DUMMY << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
     log_file_mutex.mutex_unlock();
@@ -288,12 +293,18 @@ int main()
     ///  start watku do komunikacji rs232
 
     int freeSlotID = useful_F::findFreeThreadSlot(thread_array);
-    thread_array[freeSlotID].thread = std::thread (Send_Recieve_rs232_thread,&data_rs232);
-    thread_array[freeSlotID].thread_name="RS232_thread";
-    thread_array[freeSlotID].thread_socket = 1;
-    thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
-    thread_array[freeSlotID].thread.detach();
 
+    if (server_settings.THREAD_RS232 == "YES")
+    {
+        thread_array[freeSlotID].thread = std::thread (Send_Recieve_rs232_thread,&data_rs232);
+        thread_array[freeSlotID].thread_name="RS232_thread";
+        thread_array[freeSlotID].thread_socket = 1;
+        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
+        thread_array[freeSlotID].thread.detach();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "watek wystartowal  RS232 "<< thread_array[freeSlotID].thread_ID << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 
     /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
 
@@ -336,39 +347,48 @@ int main()
     pilotPTR->setup();
 
     // start watku irda
-    freeSlotID = useful_F::findFreeThreadSlot(thread_array);
-    thread_array[freeSlotID].thread = std::thread (f_master_irda, &node_data);
-    thread_array[freeSlotID].thread_name="IRDA_master";
-    thread_array[freeSlotID].thread_socket = 1;
-    thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
-    thread_array[freeSlotID].thread.detach();
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "watek wystartowal polaczenie irda "<< thread_array[freeSlotID].thread_ID << std::endl;
-    log_file_mutex.mutex_unlock();
+    if (server_settings.THREAD_IRDA == "YES")
+    {
+        freeSlotID = useful_F::findFreeThreadSlot(thread_array);
+        thread_array[freeSlotID].thread = std::thread (f_master_irda, &node_data);
+        thread_array[freeSlotID].thread_name="IRDA_master";
+        thread_array[freeSlotID].thread_socket = 1;
+        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
+        thread_array[freeSlotID].thread.detach();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "watek wystartowal polaczenie irda "<< thread_array[freeSlotID].thread_ID << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 
     // start watku  mpd_cli
-    freeSlotID = useful_F::findFreeThreadSlot(thread_array);
-    thread_array[freeSlotID].thread = std::thread (main_mpd_cli, &node_data);
-    thread_array[freeSlotID].thread_name="MPD_client";
-    thread_array[freeSlotID].thread_socket = 1;
-    thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
-    thread_array[freeSlotID].thread.detach();
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "watek wystartowal klient mpd "<< thread_array[freeSlotID].thread_ID << std::endl;
-    log_file_mutex.mutex_unlock();
+    if (server_settings.THREAD_MPD == "YES")
+    {
+        freeSlotID = useful_F::findFreeThreadSlot(thread_array);
+        thread_array[freeSlotID].thread = std::thread (main_mpd_cli, &node_data);
+        thread_array[freeSlotID].thread_name="MPD_client";
+        thread_array[freeSlotID].thread_socket = 1;
+        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
+        thread_array[freeSlotID].thread.detach();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "watek wystartowal klient mpd "<< thread_array[freeSlotID].thread_ID << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 
     // start watku CRONa
-    freeSlotID = useful_F::findFreeThreadSlot(thread_array);
-    thread_array[freeSlotID].thread = std::thread(f_master_CRON, &node_data);
-    thread_array[freeSlotID].thread_name = "CRON_master";
-    thread_array[freeSlotID].thread_socket = 1;
-    thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
-    thread_array[freeSlotID].thread.detach();
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "watek CRON wystartowal "<< thread_array[freeSlotID].thread_ID << std::endl;
-    log_file_mutex.mutex_unlock();
+    if (server_settings.THREAD_CRON == "YES")
+    {
+        freeSlotID = useful_F::findFreeThreadSlot(thread_array);
+        thread_array[freeSlotID].thread = std::thread(f_master_CRON, &node_data);
+        thread_array[freeSlotID].thread_name = "CRON_master";
+        thread_array[freeSlotID].thread_socket = 1;
+        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
+        thread_array[freeSlotID].thread.detach();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "watek CRON wystartowal "<< thread_array[freeSlotID].thread_ID << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 
-    if (server_settings.ID_server == 1001){    ///  jesli  id 1001  to wystartuj watek do polaczeni z innym nodem masterem
+    if (server_settings.THREAD_DUMMY == "YES"){    ///  jesli  id 1001  to wystartuj watek do polaczeni z innym nodem masterem
 
         freeSlotID = useful_F::findFreeThreadSlot(thread_array);
         thread_array[freeSlotID].thread = std::thread(f_serv_con_node, &node_data);

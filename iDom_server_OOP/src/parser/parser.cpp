@@ -77,7 +77,7 @@ config read_config  ( const char* file_path    )
         if (variable == "MPD_IP")
         {
             v_set.MPD_IP= v_value;
-        }       
+        }
         if (variable == "BaudRate")
         {
             v_set.BaudRate= v_value;
@@ -90,11 +90,32 @@ config read_config  ( const char* file_path    )
         {
             v_set.PORT= v_value;
         }
+        //// thread
+        if (variable == "THREAD_MPD")
+        {
+            v_set.THREAD_MPD = v_value;
+        }
+        if (variable == "THREAD_RS232")
+        {
+            v_set.THREAD_RS232 = v_value;
+        }
+        if (variable == "THREAD_CRON")
+        {
+            v_set.THREAD_CRON = v_value;
+        }
+        if (variable == "THREAD_IRDA")
+        {
+            v_set.THREAD_IRDA = v_value;
+        }
+        if (variable == "THREAD_DUMMY")
+        {
+            v_set.THREAD_DUMMY = v_value;
+        }
 
         variable = v_value = "";
     }
 
-   config_file.close();
+    config_file.close();
 
     return v_set;
 }

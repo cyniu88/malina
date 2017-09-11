@@ -71,25 +71,6 @@ void c_irda_logic::sleeperLogic(PILOT_KEY X)
     }
     case PILOT_KEY::KEY_OK:
     {
-        //        for (int con_counter=0; con_counter< iDomConst::MAX_CONNECTION; ++con_counter)
-        //        {
-        //            //TODO  zmina na funckje szukania watku
-        //            if (   my_data_logic->main_THREAD_arr[con_counter].thread_socket == 0 )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
-        //            {
-        //                my_data_logic->main_THREAD_arr[con_counter].thread      = std::thread(useful_F::sleeper_mpd,my_data_logic);
-        //                my_data_logic->main_THREAD_arr[con_counter].thread_name = "Sleeper  MPD ";
-        //                my_data_logic->main_THREAD_arr[con_counter].thread_ID   = my_data_logic->main_THREAD_arr[con_counter].thread.get_id();
-        //                my_data_logic->main_THREAD_arr[con_counter].thread_socket = 1;
-        //                my_data_logic->main_THREAD_arr[con_counter].thread.detach();
-        //                log_file_mutex.mutex_lock();
-        //                log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data_logic->main_THREAD_arr[con_counter].thread_ID << std::endl;
-        //                log_file_mutex.mutex_unlock();
-        //                my_data_logic->mainLCD->printString(true,1,0,"SLEEPer START");
-        //                my_data_logic->mainLCD->set_print_song_state(0);
-        //                who = PILOT_STATE::MPD;
-        //                break;
-        //            }
-        //        }
         int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
 
         if ( freeSlotID != -1)
