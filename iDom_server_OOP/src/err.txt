@@ -1,15 +1,97 @@
+[KEY/key.h:72]: (style) Class 'pilot' has a constructor with 1 argument that is not explicit.
+[logger/logger.hpp:74]: (style) Class 'Logger' has a constructor with 1 argument that is not explicit.
+[logger/logger.hpp:75]: (style) Class 'Logger' has a constructor with 1 argument that is not explicit.
+[command/command.h:18]: (style) Class 'command' has a constructor with 1 argument that is not explicit.
+[iDomTools/idomtools.h:47]: (style) Class 'iDomTOOLS' has a constructor with 1 argument that is not explicit.
+[c_irda_logic/c_irda_logic.h:39]: (style) Class 'c_irda_logic' has a constructor with 1 argument that is not explicit.
+[command/commandhandler.h:17]: (style) Class 'commandHandler' has a constructor with 1 argument that is not explicit.
+[command/commandhandlerroot.h:8]: (style) Class 'commandHandlerRoot' has a constructor with 1 argument that is not explicit.
+[c_connection/c_connection.h:17]: (style) Class 'C_connection' has a constructor with 1 argument that is not explicit.
+[CRON/cron.hpp:12]: (style) Class 'CRON' has a constructor with 1 argument that is not explicit.
+[iDom_server_OOP.h:106]: (performance) Function parameter 'colorName' should be passed by reference.
+[iDom_server_OOP.h:115]: (performance) Function parameter 'from' should be passed by reference.
+[iDom_server_OOP.h:115]: (performance) Function parameter 'to' should be passed by reference.
+[iDom_server_OOP.h:115]: (performance) Function parameter 'r' should be passed by reference.
+[iDom_server_OOP.h:115]: (performance) Function parameter 'g' should be passed by reference.
+[iDom_server_OOP.h:115]: (performance) Function parameter 'b' should be passed by reference.
+[iDom_server_OOP.h:115]: (performance) Function parameter 'colorName' should be passed by reference.
+[iDom_server_OOP.h:152]: (performance) Function parameter 'from' should be passed by reference.
+[iDom_server_OOP.h:152]: (performance) Function parameter 'to' should be passed by reference.
+[iDom_server_OOP.h:152]: (performance) Function parameter 'R' should be passed by reference.
+[iDom_server_OOP.h:152]: (performance) Function parameter 'G' should be passed by reference.
+[iDom_server_OOP.h:152]: (performance) Function parameter 'B' should be passed by reference.
+[KEY/key.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
+[KEY/key.cpp:110]: (performance) Function parameter 'n' should be passed by reference.
+[KEY/key.cpp:110]: (performance) Function parameter 'LogName' should be passed by reference.
+[TASKER/tasker.h:8]: (style) Class 'TASKER' has a constructor with 1 argument that is not explicit.
+[command/commandhandlerrs232.h:8]: (style) Class 'commandHandlerRS232' has a constructor with 1 argument that is not explicit.
 [blockQueue/blockqueue.cpp:8] -> [blockQueue/blockqueue.h:35]: (performance, inconclusive) Technically the member function 'blockQueue::_add' can be static.
 [blockQueue/blockqueue.cpp:14] -> [blockQueue/blockqueue.h:36]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
 [blockQueue/blockqueue.cpp:25] -> [blockQueue/blockqueue.h:37]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
-[functions/functions.cpp:389]: (warning) %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
-[functions/functions.cpp:389]: (warning) %d in format string (no. 2) requires 'int' but the argument type is 'unsigned int'.
-[functions/mpd_cli.cpp:202] -> [functions/mpd_cli.cpp:203]: (warning) Possible null pointer dereference: hostname - otherwise it is redundant to check it against null.
-[iDomTools/idomtools.cpp:112] -> [iDomTools/idomtools.h:47]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSystemInfo' can be static.
-[iDomTools/idomtools.cpp:140] -> [iDomTools/idomtools.h:49]: (style, inconclusive) Technically the member function 'iDomTOOLS::textToSpeach' can be const.
-[iDomTools/idomtools.cpp:202] -> [iDomTools/idomtools.h:54]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getTime' can be static.
-[iDomTools/idomtools.cpp:212] -> [iDomTools/idomtools.h:55]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSmog' can be static.
-[iDomTools/idomtools.cpp:320] -> [iDomTools/idomtools.h:60]: (performance, inconclusive) Technically the member function 'iDomTOOLS::sendSMStoPlusGSM' can be static.
-[iDom_server_OOP.cpp:403]: (style) The scope of the variable 'v_sock_ind' can be reduced.
-[logger/logger.cc:122]: (style) Obsolete function 'asctime' called. It is recommended to use the function 'strftime' instead.
-[logger/logger.cc:78]: (style) The function 'set_level' is never used.
+[c_connection/c_connection.cpp:7]: (warning) Member variable 'C_connection::mainCommandHandler' is not initialized in the constructor.
+[c_master_irda/master_irda.h:22]: (style) Class 'master_irda' has a constructor with 1 argument that is not explicit.
+[command/command.cpp:3]: (performance) Function parameter 'commandName' should be passed by reference.
+[command/commandClass/command_big.h:12]: (style) Class 'command_big' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_big.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_clock.h:12]: (style) Class 'command_clock' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_clock.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_cmd.h:12]: (style) Class 'command_cmd' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_cmd.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_event.h:11]: (style) Class 'command_event' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_event.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_hello.h:12]: (style) Class 'command_hello' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_hello.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_help.h:12]: (style) Class 'command_help' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_help.cpp:5]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_idom.cpp:96]: (style) The scope of the variable 'iTimeoutSeconds' can be reduced.
+[command/commandClass/command_idom.h:11]: (style) Class 'command_iDom' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_idom.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_ip.h:12]: (style) Class 'command_ip' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_ip.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_log.cpp:27] -> [command/commandClass/command_log.h:16]: (performance, inconclusive) Technically the member function 'command_log::logLevel' can be static.
+[command/commandClass/command_log.h:12]: (style) Class 'command_log' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_log.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_log.cpp:27]: (performance) Function parameter 'level' should be passed by reference.
+[command/commandClass/command_mpd.h:9]: (style) Class 'command_mpd' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_mpd.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_ok.h:11]: (style) Class 'command_ok' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_ok.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_put.h:12]: (style) Class 'command_put' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_put.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_show.h:12]: (style) Class 'command_show' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_show.cpp:5]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_sleep.h:12]: (style) Class 'command_sleep' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_sleep.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_stop.h:12]: (style) Class 'command_stop' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_stop.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_uptime.h:13]: (style) Class 'command_UPTIME' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_uptime.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/commandexit.h:11]: (style) Class 'commandEXIT' has a constructor with 1 argument that is not explicit.
+[command/commandClass/commandexit.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/commandrs232.h:13]: (style) Class 'commandRS232' has a constructor with 1 argument that is not explicit.
+[command/commandClass/commandrs232.cpp:5]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/commandtest.h:12]: (style) Class 'commandTEST' has a constructor with 1 argument that is not explicit.
+[command/commandClass/commandtest.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
+[files_tree/files_tree.cpp:7]: (performance) Function parameter 'path' should be passed by reference.
+[files_tree/files_tree.cpp:79]: (performance) Function parameter 'path' should be passed by reference.
+[functions/functions.cpp:417]: (warning) %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
+[functions/functions.cpp:417]: (warning) %d in format string (no. 2) requires 'int' but the argument type is 'unsigned int'.
+[functions/functions.cpp:244]: (performance) Function parameter 'data' should be passed by reference.
+[functions/mpd_cli.cpp:205] -> [functions/mpd_cli.cpp:206]: (warning) Either the condition 'hostname==0' is redundant or there is possible null pointer dereference: hostname.
+[iDomTools/idomtools.cpp:113] -> [iDomTools/idomtools.h:59]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSystemInfo' can be static.
+[iDomTools/idomtools.cpp:141] -> [iDomTools/idomtools.h:61]: (style, inconclusive) Technically the member function 'iDomTOOLS::textToSpeach' can be const.
+[iDomTools/idomtools.cpp:202] -> [iDomTools/idomtools.h:66]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getTime' can be static.
+[iDomTools/idomtools.cpp:211] -> [iDomTools/idomtools.h:67]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSmog' can be static.
+[iDomTools/idomtools.cpp:322] -> [iDomTools/idomtools.h:72]: (performance, inconclusive) Technically the member function 'iDomTOOLS::sendSMStoPlusGSM' can be static.
+[iDomTools/idomtools.cpp:57]: (performance) Function parameter 'thermomethernName' should be passed by reference.
+[iDomTools/idomtools.cpp:322]: (performance) Function parameter 'login' should be passed by reference.
+[iDomTools/idomtools.cpp:322]: (performance) Function parameter 'pass' should be passed by reference.
+[iDomTools/idomtools.cpp:322]: (performance) Function parameter 'number' should be passed by reference.
+[iDomTools/idomtools.cpp:367]: (performance) Function parameter 'ledColor' should be passed by reference.
+[iDomTools/main.cpp:15]: (style) Condition 'newValue!=100' is always true
+[../libs/event_counter_test/event_counters/event_counters.h:25]: (style) Class 'event_counters' has a constructor with 1 argument that is not explicit.
+[logger/logger.cc:90] -> [logger/logger.cc:86]: (style, inconclusive) Found duplicate branches for 'if' and 'else'.
+[logger/logger.cc:122]: (style) Obsolete function 'asctime' called. It is recommended to use 'strftime' instead.
+[menu_tree/menu_tree.cpp:4]: (performance) Function parameter 'path' should be passed by reference.
+[menu_tree/menu_tree.cpp:91]: (performance) Function parameter 'path' should be passed by reference.
 (information) Cppcheck cannot find all the include files (use --check-config for details)

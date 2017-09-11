@@ -27,7 +27,7 @@ private:
     std::queue <PILOT_KEY> irda_queue;
     blockQueue mpd_queue;
     PILOT_STATE who;
-    thread_data *my_data_logic;
+    thread_data *my_data;
     void irdaMPD(PILOT_KEY X);
     void sleeperLogic(PILOT_KEY X);
     void projectorLogic(PILOT_KEY X);

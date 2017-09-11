@@ -288,10 +288,6 @@ int main()
     ///  start watku do komunikacji rs232
 
     int freeSlotID = useful_F::findFreeThreadSlot(thread_array);
-    puts("slot int");
-    puts(std::to_string(freeSlotID).c_str());
-
-    sleep(3);
     thread_array[freeSlotID].thread = std::thread (Send_Recieve_rs232_thread,&data_rs232);
     thread_array[freeSlotID].thread_name="RS232_thread";
     thread_array[freeSlotID].thread_socket = 1;
@@ -456,39 +452,38 @@ int main()
         }
 
         ////////////////////////   jest połacznie   wiec wstawiamy je  do nowego watku  i  umieszczamy id watku w tablicy  w pierwszym wolnym miejscy ////////////////////
-        for (int con_counter = 0; con_counter< iDomConst::MAX_CONNECTION; ++con_counter)
-        {
-            if ( node_data.main_THREAD_arr[con_counter].thread_socket == 0   )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
-            {
-                if ( con_counter!=iDomConst::MAX_CONNECTION -1)
-                {
-                    node_data.s_client_sock =v_sock_ind;
-                    node_data.from=from;
-                    thread_array[con_counter].thread = std::thread(Server_connectivity_thread, &node_data);
-                    thread_array[con_counter].thread_name   = inet_ntoa(node_data.from.sin_addr);
-                    thread_array[con_counter].thread_socket = v_sock_ind;
-                    thread_array[con_counter].thread_ID     = thread_array[con_counter].thread.get_id();
-                    thread_array[con_counter].thread.detach();
-                    log_file_mutex.mutex_lock();
-                    log_file_cout << INFO << "watek wystartowal  "<< thread_array[con_counter].thread_ID << std::endl;
-                    log_file_mutex.mutex_unlock();
-                    break;
-                }
-                else
-                {
-                    log_file_mutex.mutex_lock();
-                    log_file_cout << INFO << "za duzo klientow "<< thread_array[con_counter].thread_ID << std::endl;
-                    log_file_mutex.mutex_unlock();
 
-                    if(( send( v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT ) ) <= 0 )
-                    {
-                        perror( "send() ERROR" );
-                        break;
-                    }
-                    continue;
-                }
-            }
+        int freeSlotID = useful_F::findFreeThreadSlot(thread_array);
+
+        if ( freeSlotID != -1)
+
+        {
+            node_data.s_client_sock =v_sock_ind;
+            node_data.from=from;
+            thread_array[freeSlotID].thread = std::thread(Server_connectivity_thread, &node_data);
+            thread_array[freeSlotID].thread_name   = inet_ntoa(node_data.from.sin_addr);
+            thread_array[freeSlotID].thread_socket = v_sock_ind;
+            thread_array[freeSlotID].thread_ID     = thread_array[freeSlotID].thread.get_id();
+            thread_array[freeSlotID].thread.detach();
+            log_file_mutex.mutex_lock();
+            log_file_cout << INFO << "watek wystartowal  "<< thread_array[freeSlotID].thread_ID << std::endl;
+            log_file_mutex.mutex_unlock();
+
         }
+        else
+        {
+            log_file_mutex.mutex_lock();
+            log_file_cout << INFO << "za duzo klientow "<< thread_array[freeSlotID].thread_ID << std::endl;
+            log_file_mutex.mutex_unlock();
+
+            if(( send( v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT ) ) <= 0 )
+            {
+                perror( "send() ERROR" );
+                break;
+            }
+            continue;
+        }
+
     } // while
     // zamykam gniazdo
 

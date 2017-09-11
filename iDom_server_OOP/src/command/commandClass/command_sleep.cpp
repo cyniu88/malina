@@ -18,29 +18,25 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
                 sleep = std::stoi(v[2]);
             }
             catch (...){
-                 return "system need intiger > 0 not: " +v[2];
+                return "system need intiger > 0 not: " +v[2];
             }
 
             my_data->sleeper = sleep;
-            for (int con_counter=0; con_counter< iDomConst::MAX_CONNECTION; ++con_counter)
+
+            int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
+
+            if ( freeSlotID != -1)
             {
-                if (   my_data->main_THREAD_arr[con_counter].thread_socket == 0 )   // jesli pozycja jest wolna (0)  to wstaw tam  jesli jest zjęta wyslij sygnal i sprawdz czy waŧek żyje ///
+                my_data->main_THREAD_arr[freeSlotID].thread        = std::thread(useful_F::sleeper_mpd,my_data);
+                my_data->main_THREAD_arr[freeSlotID].thread_name   ="Sleeper  MPD ";
+                my_data->main_THREAD_arr[freeSlotID].thread_ID     = my_data->main_THREAD_arr[freeSlotID].thread.get_id();
+                my_data->main_THREAD_arr[freeSlotID].thread_socket = 1;
+                my_data->main_THREAD_arr[freeSlotID].thread.detach();
+                log_file_mutex.mutex_lock();
+                log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data->main_THREAD_arr[freeSlotID].thread_ID << std::endl;
+                log_file_mutex.mutex_unlock();
 
-                {
-                    if ( con_counter!=iDomConst::MAX_CONNECTION -1)
-                    {
-                        my_data->main_THREAD_arr[con_counter].thread        = std::thread(useful_F::sleeper_mpd,my_data);
-                        my_data->main_THREAD_arr[con_counter].thread_name   ="Sleeper  MPD ";
-                        my_data->main_THREAD_arr[con_counter].thread_ID     = my_data->main_THREAD_arr[con_counter].thread.get_id();
-                        my_data->main_THREAD_arr[con_counter].thread_socket = 1;
-                        my_data->main_THREAD_arr[con_counter].thread.detach();
-                        log_file_mutex.mutex_lock();
-                        log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data->main_THREAD_arr[con_counter].thread_ID << std::endl;
-                        log_file_mutex.mutex_unlock();
-
-                        return "DONE \n sleep has set to: "+v[2];
-                    }
-                }
+                return "DONE \n sleep has set to: "+v[2];
             }
             return "not free space to new thread";
         }
