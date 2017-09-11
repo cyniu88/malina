@@ -260,7 +260,7 @@ int main()
         exit (1) ;
     }
     pinMode(iDomConst::GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
-    digitalWrite(iDomConst::GPIO_SPIK,HIGH);
+    digitalWrite(iDomConst::GPIO_SPIK,LOW);
     pinMode(iDomConst::BUTTON_PIN, INPUT);   //  gpio pin przycisku
 
     if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_BOTH, &useful_F::button_interrupt) < 0 ) {

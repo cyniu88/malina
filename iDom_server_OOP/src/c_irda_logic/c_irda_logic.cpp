@@ -385,9 +385,9 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
     }
 }
 
-c_irda_logic::c_irda_logic(thread_data *my_data)
+c_irda_logic::c_irda_logic(thread_data *my_data):my_data(my_data)
 {
-    my_data = my_data;
+   // my_data = my_data;
     who = PILOT_STATE::MPD;
 }
 

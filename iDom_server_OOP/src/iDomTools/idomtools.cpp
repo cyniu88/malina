@@ -75,12 +75,12 @@ void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int referenc
 
 void iDomTOOLS::turnOnSpeakers()
 {
-    digitalWrite(iDomConst::GPIO_SPIK, LOW);
+    digitalWrite(iDomConst::GPIO_SPIK, HIGH);
 }
 
 void iDomTOOLS::turnOffSpeakers()
 {
-    digitalWrite(iDomConst::GPIO_SPIK, HIGH);
+    digitalWrite(iDomConst::GPIO_SPIK, LOW);
 }
 
 std::string iDomTOOLS::getSunrise(bool extend )

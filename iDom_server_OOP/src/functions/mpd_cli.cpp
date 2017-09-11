@@ -138,7 +138,8 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             check_title_song_to =   true;
             my_data->mainLCD->play_Y_N  =   true;
             my_data->ptr_MPD_info->isPlay   =   true;
-            digitalWrite(iDomConst::GPIO_SPIK, LOW);
+            //digitalWrite(iDomConst::GPIO_SPIK, LOW);
+            my_data->main_iDomTools->turnOnSpeakers();
             my_data->mainLCD->set_lcd_STATE(1);
             my_data->mainLCD->song_printstr();
             updatePlayList(mi,my_data);
@@ -159,7 +160,8 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             my_data->mainLCD->play_Y_N=false;
             my_data->ptr_MPD_info->isPlay=false;
             my_data->ptr_MPD_info->title="* * * *";
-            digitalWrite(iDomConst::GPIO_SPIK,HIGH);
+            my_data->main_iDomTools->turnOffSpeakers();
+            //digitalWrite(iDomConst::GPIO_SPIK,HIGH);
             my_data->mainLCD->noBacklight();
             sleep(1);
             my_data->myEventHandler.run("mpd")->addEvent("MPD stopped");
