@@ -382,6 +382,22 @@ void useful_F::clearThreadArray(thread_data* my_data)
     }
 }
 
+int useful_F::findFreeThreadSlot(Thread_array_struc *array)
+{
+    for (int i = 0 ; i< iDomConst::MAX_CONNECTION;  ++i)
+    {
+        puts("szukam pierwszy slot");
+        puts(std::to_string(i).c_str());
+        puts(std::to_string(array->thread_socket).c_str());
+        puts(  array->thread_name.c_str());
+        if (array->thread_socket == 0)
+        {
+            return i;
+        }
+    }
+    return 0;
+}
+
 volatile unsigned int  useful_F::lastInterruptTime = 0;
 std::mutex useful_F::mut;
 

@@ -35,5 +35,6 @@ public:
     static  thread_data* myStaticData;
     static  void setStaticData(thread_data* my_dataPtr);
     static void clearThreadArray(thread_data *my_data);
+    static int findFreeThreadSlot(Thread_array_struc *array);
 };
 #endif // FUNCTIONS_H
