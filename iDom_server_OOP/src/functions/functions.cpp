@@ -403,10 +403,11 @@ std::mutex useful_F::mut;
 
 void useful_F::button_interrupt( )
 {
+    std::lock_guard <std::mutex > lock(useful_F::mut);
     static int counter = 0;
     counter++;
     //TODO delete counter it is not needed
-    std::lock_guard <std::mutex > lock(useful_F::mut);
+
     volatile unsigned int m = millis();
     volatile auto a = m - useful_F::lastInterruptTime;
     if (a > 50){

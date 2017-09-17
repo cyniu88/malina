@@ -8,6 +8,18 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
     my_data = myData;
     thermometer["inside"];
     thermometer["outside"];
+
+    pinMode(iDomConst::GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
+    digitalWrite(iDomConst::GPIO_SPIK,LOW);
+    pinMode(iDomConst::GPIO_PRINTER,OUTPUT);  /// gpio pin do zsilania drukarki
+    digitalWrite(iDomConst::GPIO_PRINTER,LOW);
+    pinMode(iDomConst::BUTTON_PIN, INPUT);   //  gpio pin przycisku
+
+    if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_BOTH, &useful_F::button_interrupt) < 0 ) {
+        log_file_cout.mutex_lock();
+        log_file_cout << CRITICAL <<"Unable to setup ISR RISING "<<std::endl;
+        log_file_cout.mutex_unlock();
+    }
 }
 
 void iDomTOOLS::setTemperature(std::string name, float value)
@@ -81,6 +93,51 @@ void iDomTOOLS::turnOnSpeakers()
 void iDomTOOLS::turnOffSpeakers()
 {
     digitalWrite(iDomConst::GPIO_SPIK, LOW);
+}
+
+void iDomTOOLS::turnOnPrinter()
+{
+    digitalWrite(iDomConst::GPIO_PRINTER,HIGH);
+}
+
+void iDomTOOLS::turnOffPrinter()
+{
+    digitalWrite(iDomConst::GPIO_PRINTER,LOW);
+}
+
+PIN_STATE iDomTOOLS::getPinState(int pin_number)
+{
+    int pin_state = digitalRead(pin_number);
+
+    switch (pin_state){
+    case 0:
+        return PIN_STATE::LOW_STATE;
+    case 1:
+        return PIN_STATE::HIGH_STATE;
+    default:
+        return PIN_STATE::UNKNOWN_STATE;
+    }
+}
+
+void iDomTOOLS::turnOnOffPrinter()
+{
+    PIN_STATE pinState = getPinState(iDomConst::GPIO_PRINTER);
+    switch (pinState){
+    case PIN_STATE::HIGH_STATE:
+        turnOffPrinter();
+        my_data->mainLCD->set_lcd_STATE(10);
+        my_data->mainLCD->printString(true,0,0,"230V OFF");
+        break;
+    case PIN_STATE::LOW_STATE:
+        turnOnPrinter();
+        my_data->mainLCD->set_lcd_STATE(10);
+        my_data->mainLCD->printString(true,0,0,"230V ON");
+        break;
+    default:
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << " blad odczytu stanu pinu zasilania drukarki "<<   std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 }
 
 std::string iDomTOOLS::getSunrise(bool extend )

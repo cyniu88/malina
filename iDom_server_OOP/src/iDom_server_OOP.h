@@ -45,6 +45,7 @@ constexpr int RS232 = 11;
 constexpr int CLOCK = 12;
 constexpr int ok    =  0;
 constexpr int GPIO_SPIK  = 21;
+constexpr int GPIO_PRINTER = 22;
 constexpr int BUTTON_PIN = 25;
 }
 

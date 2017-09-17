@@ -8,7 +8,10 @@ std::queue < MPD_COMMAND> blockQueue::_MPD_CommandQ;
 void blockQueue::_add(MPD_COMMAND X)
 {
     std::lock_guard <std::mutex>  lock (mutex_queue_char);
-    _MPD_CommandQ.push(X);
+    if(_MPD_CommandQ.size() < 10)
+    {
+        _MPD_CommandQ.push(X);
+    }
 }
 
 MPD_COMMAND blockQueue::_get( )

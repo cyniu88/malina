@@ -56,7 +56,7 @@ void master_irda::run()
         while(lirc_nextcode(&code )== 0 )
         {
            // std::cout << " w while \n";
-            if (useful_F::go_while==false)     /// TO NIE DZIALA DO POPRAWY
+            if (useful_F::go_while==false)     //TODO NIE DZIALA DO POPRAWY
             {
                 break;  // koncze petle zamykam wątek
             }

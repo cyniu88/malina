@@ -379,7 +379,9 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
         my_data->main_MENU->show_list();
         my_data->mainLCD->set_print_song_state(100);
         break;
-
+    case PILOT_KEY::KEY_FAVORITES:
+        my_data->main_iDomTools->turnOnOffPrinter();
+        break;
     default:
         irdaMPD(X);
     }

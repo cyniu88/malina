@@ -191,7 +191,7 @@ mpd_status_get_elapsed_song_time(mi)%60);
 
 void main_mpd_cli(thread_data* my_data )
 {
-    blockQueue char_queue; // kolejka polecen
+    blockQueue mpdQueue; // kolejka polecen
     ////////////////////////////// TASKER PART ////////////////////////
     TASKER mainTasker(my_data);
 
@@ -244,10 +244,10 @@ void main_mpd_cli(thread_data* my_data )
     {
         MPD_COMMAND buffer;
         do{
-            if(char_queue._size() > 0)
+            if(mpdQueue._size() > 0)
             {
                 //digitalWrite(LED7,1);
-                buffer = char_queue._get();
+                buffer = mpdQueue._get();
                 switch(buffer)
                 {
                 case MPD_COMMAND::NEXT:

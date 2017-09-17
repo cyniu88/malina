@@ -11,6 +11,12 @@
 struct thread_data;
 struct LED_Strip;
 
+enum class PIN_STATE{
+    LOW_STATE = 0,
+    HIGH_STATE = 1,
+    UNKNOWN_STATE = 2
+};
+
 enum class TEMPERATURE_STATE{
     Under,
     Over,
@@ -52,6 +58,10 @@ public:
 
     static void turnOnSpeakers();
     static void turnOffSpeakers();
+    static void turnOnPrinter();
+    static void turnOffPrinter();
+    static PIN_STATE getPinState(int pin_number);
+    void turnOnOffPrinter();
 
     std::string getSunrise(bool extend = false);
     std::string getSunset(bool extend = false);
