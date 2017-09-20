@@ -88,7 +88,19 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1]=="smog"){
         return my_data->main_iDomTools->getSmog()+" mg/m^3";
     }
-
+    else if (v[1]=="230V"){
+        if (v.size() > 2 && v[2]=="ON"){
+            my_data->main_iDomTools->turnOnPrinter();
+            return "230V ON";
+        }
+        else if(v.size() > 2 && v[2]=="OFF"){
+            my_data->main_iDomTools->turnOffPrinter();
+            return "230V OFF";
+        }
+        else {
+            return "wrong paramiter";
+        }
+    }
     else if (v[1]=="wifi"){
         CURL *curl;
         CURLcode res;
@@ -128,6 +140,7 @@ std::string command_iDom::help()
 {
     std::string ret = "iDom - for control smart home\n";
     ret.append("iDom speakers ON/OFF - to on or off speakers\n");
+    ret.append("iDom 230v ON/OFF     - to on or off printers");
     ret.append("iDom sunset/sunrise/day lenght  - to show those parameters\n");
     ret.append("iDom sun        - get sunrise, sunset and day lenght\n");
     ret.append("iDom sysinfo    - get system info \n");

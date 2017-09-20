@@ -36,25 +36,16 @@ public:
     std::string c_read_buf (int recvSize);
     void c_send_recv_MASTER ();
     int c_analyse(int recvSize);
-    bool c_analyse_exit();
     void c_set_buf (int what);
-
-
-    // metody dla noda
-    // void c_start_master();
-    //void c_recv_send_master();
     void setEncriptionKey(std::string key);
 
     commandHandler *mainCommandHandler;
 
 private:
-    //std::string temporary_str;
     std::string  str_buf;
     blockQueue char_queue;
     int counter = 0;
     std::string encriptionKey;
-
 };
-
 
 #endif // C_CONNECTION_H

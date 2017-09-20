@@ -98,11 +98,13 @@ void iDomTOOLS::turnOffSpeakers()
 void iDomTOOLS::turnOnPrinter()
 {
     digitalWrite(iDomConst::GPIO_PRINTER,HIGH);
+    my_data->myEventHandler.run("230V")->addEvent("230v drukarki ON");
 }
 
 void iDomTOOLS::turnOffPrinter()
 {
     digitalWrite(iDomConst::GPIO_PRINTER,LOW);
+    my_data->myEventHandler.run("230V")->addEvent("230v drukarki OFF");
 }
 
 PIN_STATE iDomTOOLS::getPinState(int pin_number)

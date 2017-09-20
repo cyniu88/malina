@@ -386,16 +386,19 @@ int useful_F::findFreeThreadSlot(Thread_array_struc *array)
 {
     for (int i = 0 ; i< iDomConst::MAX_CONNECTION;  ++i)
     {
-//        puts("szukam pierwszy slot");
-//        puts(std::to_string(i).c_str());
-//        puts(std::to_string(array[i].thread_socket).c_str());
-//        puts(  array->thread_name.c_str());
         if (array[i].thread_socket == 0)
         {
             return i;
         }
     }
-   return -1;
+    return -1;
+}
+
+void useful_F::encryptDecrypt(std::string &txt, std::string key)
+{
+    for (unsigned int i = 0; i < txt.size(); i++){
+        txt[i] = txt[i] ^ key[i % (sizeof(key) / sizeof(char))];
+    }
 }
 
 volatile unsigned int  useful_F::lastInterruptTime = 0;

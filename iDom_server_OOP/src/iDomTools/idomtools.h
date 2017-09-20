@@ -58,8 +58,8 @@ public:
 
     static void turnOnSpeakers();
     static void turnOffSpeakers();
-    static void turnOnPrinter();
-    static void turnOffPrinter();
+    void turnOnPrinter();
+    void turnOffPrinter();
     static PIN_STATE getPinState(int pin_number);
     void turnOnOffPrinter();
 

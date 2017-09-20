@@ -124,8 +124,8 @@ void Server_connectivity_thread(thread_data  *my_data){
     std::string tm = inet_ntoa( my_data->from.sin_addr);
     if ("192.168.1.1" != tm && my_data->ptr_MPD_info->isPlay  == false) {
         my_data->mainLCD->set_print_song_state(32);
-        my_data->mainLCD->printString(true,0,0,"TRYB SERWISOWY!");
-        my_data->mainLCD->printString(false,0,1,  tm   );
+        my_data->mainLCD->printString(true,0,0,"USER CONNECTED!");
+        my_data->mainLCD->printString(false,0,1,tm);
     }
 
     log_file_mutex.mutex_lock();
