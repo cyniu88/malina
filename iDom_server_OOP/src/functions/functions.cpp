@@ -394,13 +394,6 @@ int useful_F::findFreeThreadSlot(Thread_array_struc *array)
     return -1;
 }
 
-void useful_F::encryptDecrypt(std::string &txt, std::string key)
-{
-    for (unsigned int i = 0; i < txt.size(); i++){
-        txt[i] = txt[i] ^ key[i % (sizeof(key) / sizeof(char))];
-    }
-}
-
 volatile unsigned int  useful_F::lastInterruptTime = 0;
 std::mutex useful_F::mut;
 

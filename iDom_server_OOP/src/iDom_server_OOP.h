@@ -99,6 +99,7 @@ struct config{
     std::string TS_KEY= " gg ";
     int ID_server = 0;
     int v_delay  ;
+    bool encrypted = true;
 };
 
 struct LED_Strip{

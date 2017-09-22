@@ -36,6 +36,6 @@ public:
     static  void setStaticData(thread_data* my_dataPtr);
     static void clearThreadArray(thread_data *my_data);
     static int findFreeThreadSlot(Thread_array_struc *array);
-    static void encryptDecrypt(std::string &txt, std::string key);
+
 };
 #endif // FUNCTIONS_H

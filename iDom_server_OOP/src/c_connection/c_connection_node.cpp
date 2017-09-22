@@ -46,5 +46,26 @@
 
 void C_connection::setEncriptionKey(std::string key)
 {
-     encriptionKey = key;
+    encriptionKey = key;
+}
+
+void C_connection::crypto(std::string &toEncrypt, std::string key, bool encrypted)
+{
+    if (!encrypted){
+          return;
+      }
+    unsigned int keySize = key.size();
+
+    for (unsigned int i = 0; i < toEncrypt.size (); i++)
+    {
+        toEncrypt[i] ^=  key[keySize];
+        //std::cout << key[keySize];
+
+        if (keySize==0){
+            keySize = key.size();
+        }
+        else{
+            --keySize;
+        }
+    }
 }

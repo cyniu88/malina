@@ -138,9 +138,10 @@ void Server_connectivity_thread(thread_data  *my_data){
         key_ok = false;
     }
     //std::cout <<"WYNIK:"<< client->c_read_buf().size()<<"a to wlasny" << RSHash().size()<<"!"<<std::endl;
-    std::string KEY_rec = client->c_read_buf(recvSize);
     std::string KEY_OWN = useful_F::RSHash() ;
     client->setEncriptionKey(KEY_OWN);
+    std::string KEY_rec = client->c_read_buf(recvSize);
+
     if (   KEY_rec  == KEY_OWN    )   // stop runing idom_server
     {
         key_ok = true;

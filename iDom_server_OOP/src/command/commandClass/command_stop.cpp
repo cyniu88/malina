@@ -28,6 +28,6 @@ std::string command_stop::execute(std::vector<std::string> &v, thread_data *my_d
 
 std::string command_stop::help()
 {
-    std::string help = "stop server - close iDom servre";
+    std::string help = "stop server - close iDom server\n";
     return help;
 }

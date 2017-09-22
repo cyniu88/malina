@@ -9,6 +9,7 @@ C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_so
 {
     this -> pointer = &my_data->pointer;
     this -> my_data = my_data;
+    this->m_encrypted = my_data->server_settings->encrypted; //BUG do naprawy
     std::fill(std::begin(c_buffer),std::end(c_buffer),',');
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< "konstruuje nowy obiekt do komunikacj na gniezdzie " << c_socket <<  std::endl;
@@ -28,8 +29,9 @@ C_connection::~C_connection()
 
 int C_connection::c_send(int para)
 {
-    std::string  len = std::to_string( str_buf.length());
-
+    crypto(str_buf,encriptionKey,m_encrypted); //BUG  - naprawic czytanie flagi  z parametru klasy
+    std::string  len = std::to_string( str_buf.size());
+    crypto(len,encriptionKey,m_encrypted);
     if(( send( c_socket, len.c_str() ,len.length(), para ) ) <= 0 )
     {
         return -1;
@@ -70,6 +72,7 @@ int C_connection::c_send(int para)
 int C_connection::c_send(std::string command )
 {
     str_buf = command;
+    //crypto(str_buf,encriptionKey);
     c_send(0);
     return 0;
 }
@@ -104,10 +107,10 @@ int C_connection::c_analyse(int recvSize)
 {
     std::string buf;
 
-    for (int i = 0 ; i < recvSize; ++i){
-        buf+= c_buffer[i];
-    }
-
+//    for (int i = 0 ; i < recvSize; ++i){
+//        buf+= c_buffer[i];
+//    }
+    buf = c_read_buf(recvSize);
     my_data->myEventHandler.run("command")->addEvent(buf);
     std::vector <std::string> command;
     useful_F::tokenizer(command," \n,", buf);  // podzia  zdania na wyrazy
