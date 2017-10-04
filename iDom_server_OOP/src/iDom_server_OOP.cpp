@@ -127,6 +127,10 @@ void Server_connectivity_thread(thread_data  *my_data){
         my_data->mainLCD->printString(true,0,0,"USER CONNECTED!");
         my_data->mainLCD->printString(false,0,1,tm);
     }
+    if ("192.168.1.1" == tm)
+    {
+        client->setEncrypted(false);
+    }
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"polaczenie z adresu  " <<  tm   <<std::endl;

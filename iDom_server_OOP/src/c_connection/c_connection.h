@@ -28,17 +28,14 @@ public:
     static std::mutex mutex_who;
 
     int c_send(int para);
-   // int c_send(std::string msg,int para);
     int c_send(std::string command);
     int c_recv(int para);
-    //void c_get(int32_t buffor, int i);
     void c_send_recv_RS232 ();
     std::string c_read_buf (int recvSize);
     void c_send_recv_MASTER ();
     int c_analyse(int recvSize);
-    //void c_set_buf (int what);
     void setEncriptionKey(std::string key);
-
+    void setEncrypted(bool flag);
     commandHandler *mainCommandHandler;
 
 private:
