@@ -204,7 +204,7 @@ void Server_connectivity_thread(thread_data  *my_data){
             puts("close server");
             useful_F::go_while = false;
             client->c_send("CLOSE");
-            delete client;
+            //delete client;
             break;
         }
 
@@ -217,6 +217,7 @@ void Server_connectivity_thread(thread_data  *my_data){
     }
     my_data->mainLCD->set_print_song_state(0);
     my_data->mainLCD->set_lcd_STATE(2);
+    client->onStopConnection();
     sleep (3);
     delete client;
 }

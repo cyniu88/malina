@@ -37,6 +37,8 @@ public:
     void setEncriptionKey(std::string key);
     void setEncrypted(bool flag);
     commandHandler *mainCommandHandler;
+    void onStartConnection();
+    void onStopConnection();
 
 private:
     std::string  str_buf;
@@ -45,6 +47,7 @@ private:
     std::string encriptionKey;
     bool m_encrypted;
     void crypto(std::string &toEncrypt, std::string key, bool encrypted);
+
 };
 
 #endif // C_CONNECTION_H

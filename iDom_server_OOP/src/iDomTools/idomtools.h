@@ -80,7 +80,11 @@ public:
     static std::string find_tag (const std::string &temp);
 
     std::string sendSMStoPlusGSM(std::string login, std::string pass, std::string number, std::string msg, int silentFrom = 0, int silentTo =0);
-
+    //////////////////// camera part ///////////////////////
+    void cameraLedON(std::string link);
+    void cameraLedOFF(std::string link);
+    //////////////////// HTTP req //////////////////////////
+    std::string httpPost(std::string url);
     //////////////////// LED part //////////////////////////
     std::string ledOFF();
     std::string ledClear();

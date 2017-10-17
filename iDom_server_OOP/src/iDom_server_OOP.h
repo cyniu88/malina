@@ -97,6 +97,8 @@ struct config{
     std::string THREAD_RS232 = "NULL";
     std::string THREAD_DUMMY = "NULL";
     std::string TS_KEY= " gg ";
+    std::string cameraLedON = "";
+    std::string cameraLedOFF ="";
     int ID_server = 0;
     int v_delay  ;
     bool encrypted = true;

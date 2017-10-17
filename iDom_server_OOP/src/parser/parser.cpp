@@ -111,7 +111,15 @@ config read_config  ( const char* file_path    )
         {
             v_set.THREAD_DUMMY = v_value;
         }
-
+        ///// camera
+        if (variable == "CAMERA_LED_ON")
+        {
+            v_set.cameraLedON = v_value;
+        }
+        if (variable == "CAMERA_LED_OFF")
+        {
+            v_set.cameraLedOFF = v_value;
+        }
         variable = v_value = "";
     }
 

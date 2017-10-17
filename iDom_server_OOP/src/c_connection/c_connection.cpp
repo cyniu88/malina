@@ -11,9 +11,7 @@ C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_so
     this -> my_data = my_data;
     this->m_encrypted = my_data->server_settings->encrypted;
     std::fill(std::begin(c_buffer),std::end(c_buffer),',');
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "konstruuje nowy obiekt do komunikacj na gniezdzie " << c_socket <<  std::endl;
-    log_file_mutex.mutex_unlock();
+    onStartConnection();
 }
 
 C_connection::~C_connection()

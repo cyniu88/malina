@@ -133,6 +133,18 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             return "done!";
         }
     }
+    else if (v[1]=="camera"){
+
+        if (v.size() < 4){
+            return "not enough parameters";
+        }
+        if (v[2]=="LED" && v[3] == "ON"){
+           my_data->main_iDomTools->cameraLedON(my_data->server_settings->cameraLedON);
+        }
+        else if (v[2]=="LED" && v[3] == "OFF"){
+            my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->cameraLedOFF);
+        }
+    }
     return "iDom - unknown parameter: "+ v[1];
 }
 
@@ -152,5 +164,6 @@ std::string command_iDom::help()
     ret.append("iDom temperature - get temperature from all termomether\n");
     ret.append("iDom smog       - get current SMOG level (KRAKOW)\n");
     ret.append("iDom kill thread <ID>  - kill thread\n");
+    ret.append("iDom camera LED ON/OFF - LED camera work ");
     return ret;
 }

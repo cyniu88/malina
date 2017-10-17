@@ -413,6 +413,52 @@ std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std
     return readBuffer +"\n"+address;
 }
 
+void iDomTOOLS::cameraLedON(std::string link)
+{
+    Clock t = getTime();
+    SunRiseSet sun;
+    Clock sunRise, sunSet;
+    sunRise = sun.getSunRise();
+    sunSet = sun.getSunSet();
+
+    if (t.h <= sunRise.h || t.h >= sunSet.h){
+        if ( t.min < sunRise.min || t.min > sunSet.min){
+            httpPost(link);
+        }
+    }
+
+}
+
+void iDomTOOLS::cameraLedOFF(std::string link)
+{
+    httpPost(link);
+}
+
+std::string iDomTOOLS::httpPost(std::string url)
+{
+    CURL *curl;
+    CURLcode res;
+    std::string readBuffer;
+    curl = curl_easy_init();
+
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                    curl_easy_strerror(res));
+
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_global_cleanup();
+
+    return readBuffer;
+}
+
 std::string iDomTOOLS::ledOFF()
 {
     return useful_F::send_to_arduino(my_data,"LED_STOP:2;");
