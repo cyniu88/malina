@@ -11,8 +11,8 @@ int main( int argc, char* argv[] )
         const unsigned int num_layers = 4;
         const unsigned int num_neurons_hidden = 8;
         const float desired_error = (const float) 0.0000001;
-        const unsigned int max_epochs = 500000;
-        const unsigned int epochs_between_reports = 1000 ;
+        const unsigned int max_epochs = 900000;
+        const unsigned int epochs_between_reports = 10000 ;
 
         struct fann *ann = fann_create_standard(num_layers, num_input, num_neurons_hidden, num_neurons_hidden-3, num_output);
 

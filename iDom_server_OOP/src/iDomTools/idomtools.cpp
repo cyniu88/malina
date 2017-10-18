@@ -231,7 +231,7 @@ std::string iDomTOOLS::getTextToSpeach()
     std::string  text;
     std::string smogText = getSmog();
     int smogInt = std::stoi(smogText);
-    text =  "Godzina: "+ getTime().getString();
+    text =  "Godzina: "+ Clock::getTime().getString();
     text += ". \nWschód słońca: "+getSunrise();
     text += ". \nZachód słońca: "+getSunset();
     text += ". \nDługość dnia: "+ dayL[0]+" godzin "+dayL[1]+" minut";
@@ -256,15 +256,6 @@ std::vector<std::string> iDomTOOLS::getTemperature()
 std::string iDomTOOLS::getTemperatureString()
 {
     return useful_F::send_to_arduino(my_data,"temperature:22;");
-}
-
-Clock iDomTOOLS::getTime()
-{
-    Clock t;
-    time_t now = time(0);
-    tm *ltm = localtime(&now);
-    t.set( ltm->tm_hour ,ltm->tm_min );
-    return t;
 }
 
 std::string iDomTOOLS::getSmog()
@@ -415,18 +406,15 @@ std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std
 
 void iDomTOOLS::cameraLedON(std::string link)
 {
-    Clock t = getTime();
+    Clock t = Clock::getTime();
     SunRiseSet sun;
     Clock sunRise, sunSet;
     sunRise = sun.getSunRise();
     sunSet = sun.getSunSet();
 
-    if (t.h <= sunRise.h || t.h >= sunSet.h){
-        if ( t.min < sunRise.min || t.min > sunSet.min){
+    if (t <= sunRise || t >= sunSet){
             httpPost(link);
-        }
     }
-
 }
 
 void iDomTOOLS::cameraLedOFF(std::string link)

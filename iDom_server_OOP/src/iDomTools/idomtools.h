@@ -73,7 +73,6 @@ public:
 
     std::vector <std::string> getTemperature();
     std::string getTemperatureString();
-    Clock getTime();
     std::string getSmog();
     void send_temperature_thingSpeak();
     static size_t  WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);

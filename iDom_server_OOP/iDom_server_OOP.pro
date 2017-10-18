@@ -108,5 +108,6 @@ HEADERS += src/parser/parser.hpp  \
     src/command/commandhandlerroot.h \
     src/command/commandClass/command_log.h \
     src/TASKER/tasker.h \
-    src/command/commandhandlerrs232.h
+    src/command/commandhandlerrs232.h \
+    libs/useful/useful.h
 
