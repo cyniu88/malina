@@ -144,6 +144,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         else if (v[2]=="LED" && v[3] == "OFF"){
             my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->cameraLedOFF);
         }
+        return "led DONE";
     }
     return "iDom - unknown parameter: "+ v[1];
 }
