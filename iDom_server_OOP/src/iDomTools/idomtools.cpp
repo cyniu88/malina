@@ -413,10 +413,10 @@ void iDomTOOLS::cameraLedON(std::string link)
     sunSet = sun.getSunSet();
 
     if (t <= sunRise || t >= sunSet){
-        printf("zapalam leda!");
+        //printf("zapalam leda!\n");
         httpPost(link);
     }
-    printf("nie odpalam leda!");
+   // printf("nie odpalam leda!\n");
 }
 
 void iDomTOOLS::cameraLedOFF(std::string link)
