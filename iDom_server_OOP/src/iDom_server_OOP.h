@@ -99,6 +99,7 @@ struct config{
     std::string TS_KEY= " gg ";
     std::string cameraLedON = "";
     std::string cameraLedOFF ="";
+    std::string facebookAccessToken = "";
     int ID_server = 0;
     int v_delay  ;
     bool encrypted = true;

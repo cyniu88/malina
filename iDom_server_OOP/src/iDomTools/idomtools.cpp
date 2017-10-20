@@ -372,6 +372,7 @@ std::string iDomTOOLS::find_tag(const std::string& temp)
 std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std::string number,
                                         std::string msg,int silentFrom , int silentTo  )
 {
+    postOnFacebook(msg);
     if (silentFrom !=0 && silentTo !=0){
         // TODO
     }
@@ -422,6 +423,32 @@ void iDomTOOLS::cameraLedON(std::string link)
 void iDomTOOLS::cameraLedOFF(std::string link)
 {
     httpPost(link);
+}
+
+std::string iDomTOOLS::postOnFacebook(std::string msg)
+{
+    CURL *curl;
+    CURLcode res;
+    std::string readBuffer;
+    std::string data = "message="+msg;
+    std::string address = "https://graph.facebook.com/v2.10/me/feed?access_token="+my_data->server_settings->facebookAccessToken;
+    curl = curl_easy_init();
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                    curl_easy_strerror(res));
+
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_global_cleanup();
+    return readBuffer;
 }
 
 std::string iDomTOOLS::httpPost(std::string url)

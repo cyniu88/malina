@@ -82,6 +82,8 @@ public:
     //////////////////// camera part ///////////////////////
     void cameraLedON(std::string link);
     void cameraLedOFF(std::string link);
+    //////////////////// facebook //////////////////////////
+    std::string postOnFacebook(std::string msg);
     //////////////////// HTTP req //////////////////////////
     std::string httpPost(std::string url);
     //////////////////// LED part //////////////////////////

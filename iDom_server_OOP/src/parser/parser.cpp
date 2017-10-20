@@ -120,6 +120,11 @@ config read_config  ( const char* file_path    )
         {
             v_set.cameraLedOFF = v_value;
         }
+        ////// facebook
+        if (variable == "FB_ACCESS_TOKEN")
+        {
+            v_set.facebookAccessToken = v_value;
+        }
         variable = v_value = "";
     }
 
