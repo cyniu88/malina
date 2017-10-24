@@ -144,12 +144,14 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             my_data->mainLCD->song_printstr();
             updatePlayList(mi,my_data);
             my_data->myEventHandler.run("mpd")->addEvent("MPD playing");
+            my_data->main_iDomStatus->setObjectState("music",STATE::PLAY);
             break;
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
             my_data->mainLCD->set_lcd_STATE( -1);
             my_data->mainLCD->printString(true ,0,1,"    PAUSE");
             my_data->myEventHandler.run("mpd")->addEvent("MPD pause");
+            my_data->main_iDomStatus->setObjectState("music",STATE::PAUSE);
             break;
         case MPD_PLAYER_STOP:
             printf("Stopped\n");
@@ -165,6 +167,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             my_data->mainLCD->noBacklight();
             sleep(1);
             my_data->myEventHandler.run("mpd")->addEvent("MPD stopped");
+            my_data->main_iDomStatus->setObjectState("music",STATE::STOP);
             break;
         default:
             break;

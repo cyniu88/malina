@@ -133,9 +133,13 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             return "done!";
         }
     }
-    else if (v[1]=="state"){
-
-       return my_data->main_iDomStatus->getAllObjectsStateString();
+    else if (v[1]=="facebook"){
+        std::string msg;
+        for (unsigned int i = 2 ; i < v.size(); ++i){
+            msg+=" ";
+            msg+=v[i];
+        }
+       return my_data->main_iDomTools->postOnFacebook(msg);
     }
     else if (v[1]=="camera"){
 
@@ -170,6 +174,5 @@ std::string command_iDom::help()
     ret.append("iDom smog       - get current SMOG level (KRAKOW)\n");
     ret.append("iDom kill thread <ID>  - kill thread\n");
     ret.append("iDom camera LED ON/OFF - LED camera work ");
-    ret.append("iDom state     - return all iDom status string");
     return ret;
 }

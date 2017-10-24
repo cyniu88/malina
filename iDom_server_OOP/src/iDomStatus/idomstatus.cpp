@@ -43,20 +43,18 @@ std::string iDomSTATUS::getObjectStateString(std::string name)
     if (i != m_stateMAP.end()){
         return stateToString( i->second) ;
     }
-
-    return stateToString(STATE::ERROR);
+    return stateToString(STATE::ERROR) + " "+name;
 }
 
 std::string iDomSTATUS::getAllObjectsStateString()
 {
-    std::string st="state:";
-    std::lock_guard < std::mutex > lock ( m_lockGuard);
+    std::string st="state: ";
+    std::lock_guard < std::mutex > lock( m_lockGuard);
     for (auto elm : m_stateMAP){
         st.append(elm.first);
         st.append("=");
         st.append(stateToString(elm.second));
-        st.append("&");
+        st.append(" ");
     }
-
     return st;
 }

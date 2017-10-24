@@ -20,7 +20,9 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
         log_file_cout << CRITICAL <<"Unable to setup ISR RISING "<<std::endl;
         log_file_cout.mutex_unlock();
     }
-    my_data->main_iDomStatus->setObjectState("cameraLED",STATE::UNKNOWN);
+    my_data->main_iDomStatus->addObject("cameraLED",STATE::UNKNOWN);
+    my_data->main_iDomStatus->addObject("printer",STATE::OFF);
+    my_data->main_iDomStatus->addObject("speakers",STATE::OFF);
 }
 
 void iDomTOOLS::setTemperature(std::string name, float value)
@@ -89,23 +91,27 @@ void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int referenc
 void iDomTOOLS::turnOnSpeakers()
 {
     digitalWrite(iDomConst::GPIO_SPIK, HIGH);
+    useful_F::myStaticData->main_iDomStatus->setObjectState("speakers",STATE::ON);
 }
 
 void iDomTOOLS::turnOffSpeakers()
 {
     digitalWrite(iDomConst::GPIO_SPIK, LOW);
+    useful_F::myStaticData->main_iDomStatus->setObjectState("speakers",STATE::OFF);
 }
 
 void iDomTOOLS::turnOnPrinter()
 {
     digitalWrite(iDomConst::GPIO_PRINTER,HIGH);
     my_data->myEventHandler.run("230V")->addEvent("230v drukarki ON");
+    my_data->main_iDomStatus->setObjectState("printer",STATE::ON);
 }
 
 void iDomTOOLS::turnOffPrinter()
 {
     digitalWrite(iDomConst::GPIO_PRINTER,LOW);
     my_data->myEventHandler.run("230V")->addEvent("230v drukarki OFF");
+    my_data->main_iDomStatus->setObjectState("printer",STATE::OFF);
 }
 
 PIN_STATE iDomTOOLS::getPinState(int pin_number)
@@ -419,7 +425,7 @@ void iDomTOOLS::cameraLedON(std::string link)
         std::string s = httpPost(link);
         if (s == "ok.\n"){
             my_data->main_iDomStatus->setObjectState("cameraLED",STATE::ON);
-            printf("w ifie\n");
+          //  printf("w ifie\n");
         }
     }
    // printf("nie odpalam leda!\n");

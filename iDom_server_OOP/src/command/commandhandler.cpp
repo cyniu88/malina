@@ -16,6 +16,7 @@
 #include "commandClass/commandexit.h"
 #include "commandClass/commandtest.h"
 #include "commandClass/command_log.h"
+#include "commandClass/command_state.h"
 
 commandHandler::commandHandler(thread_data * my_data)
 {
@@ -69,6 +70,9 @@ commandHandler::commandHandler(thread_data * my_data)
 
     std::unique_ptr <command> log (new command_log("log"));
     commandMap.insert(std::make_pair(log->getCommandName(), std::move(log)));
+
+    std::unique_ptr <command> state (new command_state("state"));
+    commandMap.insert(std::make_pair(state->getCommandName(), std::move(state)));
 
     this->my_data = my_data;
     this->my_data->commandMapPtr = &commandMap;

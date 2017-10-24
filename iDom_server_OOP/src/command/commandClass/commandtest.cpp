@@ -10,7 +10,7 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_da
     std::string msg="test - for test ";
 
     if (v.size() >1){
-    msg += my_data->main_iDomTools->postOnFacebook(v[1]+" to jest post z serwera iDom");
+    msg += my_data->main_iDomTools->postOnFacebook(v[1]+" \n"+ my_data->main_iDomTools->getTextToSpeach());
     }
     return msg;
 }
