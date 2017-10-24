@@ -54,7 +54,9 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     src/command/commandhandlerroot.cpp \
     src/command/commandClass/command_log.cpp \
     src/TASKER/tasker.cpp \
-    src/command/commandhandlerrs232.cpp
+    src/command/commandhandlerrs232.cpp \
+    src/iDomStatus/idomstatus.cpp \
+    libs/useful/usefull.cpp
 
 
 HEADERS += src/parser/parser.hpp  \
@@ -109,5 +111,6 @@ HEADERS += src/parser/parser.hpp  \
     src/command/commandClass/command_log.h \
     src/TASKER/tasker.h \
     src/command/commandhandlerrs232.h \
-    libs/useful/useful.h
+    libs/useful/useful.h \
+    src/iDomStatus/idomstatus.h
 

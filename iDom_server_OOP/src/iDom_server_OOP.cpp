@@ -270,6 +270,9 @@ int main()
 
     /////////////////////////////// MPD info /////////////////////////
     MPD_info my_MPD_info;
+    /////////////////////////////// iDom Status //////////////////////
+    iDomSTATUS my_iDomStatus;
+    node_data.main_iDomStatus = &my_iDomStatus;
     /////////////////////////////// iDom Tools ///////////////////////
     iDomTOOLS my_iDomTools(&node_data);
     /////////////////////////////// LCD //////////////////////////////
@@ -341,7 +344,6 @@ int main()
     node_data.ptr_pilot_led = &mainPilotLED;
     //dodanie pilota
     node_data.main_iDomTools = &my_iDomTools;
-
     std::unique_ptr <pilot> pilotPTR( new pilot(&node_data.key_map));
     pilotPTR->setup();
 

@@ -20,6 +20,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
         log_file_cout << CRITICAL <<"Unable to setup ISR RISING "<<std::endl;
         log_file_cout.mutex_unlock();
     }
+    my_data->main_iDomStatus->setObjectState("cameraLED",STATE::UNKNOWN);
 }
 
 void iDomTOOLS::setTemperature(std::string name, float value)
@@ -415,14 +416,23 @@ void iDomTOOLS::cameraLedON(std::string link)
 
     if (t <= sunRise || t >= sunSet){
         //printf("zapalam leda!\n");
-        httpPost(link);
+        std::string s = httpPost(link);
+        if (s == "ok.\n"){
+            my_data->main_iDomStatus->setObjectState("cameraLED",STATE::ON);
+            printf("w ifie\n");
+        }
     }
    // printf("nie odpalam leda!\n");
 }
 
 void iDomTOOLS::cameraLedOFF(std::string link)
 {
-    httpPost(link);
+    std::string s = httpPost(link);
+    //printf (" camera response '%s' \n", s.c_str());
+    if (s == "ok.\n"){
+        my_data->main_iDomStatus->setObjectState("cameraLED",STATE::OFF);
+        printf("w ifie\n");
+    }
 }
 
 std::string iDomTOOLS::postOnFacebook(std::string msg)

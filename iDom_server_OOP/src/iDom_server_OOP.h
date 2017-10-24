@@ -33,6 +33,7 @@
 #include "command/command.h"
 #include "../libs/event_counter_test/event_counters/event_counters_handler.h"
 #include "iDomTools/idomtools.h"
+#include "iDomStatus/idomstatus.h"
 
 #define log_file_cout  f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na ekran
 #define log_file_mutex f_log
@@ -199,6 +200,7 @@ struct thread_data{
     std::map <std::string, std::unique_ptr<command> >* commandMapPtr = NULL;
     event_counters_handler myEventHandler;
     std::string encriptionKey = "40%";
+    iDomSTATUS *main_iDomStatus;
 };
 
 struct thread_data_rs232{
