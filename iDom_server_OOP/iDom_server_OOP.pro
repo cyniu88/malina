@@ -57,7 +57,9 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     src/command/commandhandlerrs232.cpp \
     src/iDomStatus/idomstatus.cpp \
     libs/useful/usefull.cpp \
-    src/command/commandClass/command_state.cpp
+    src/command/commandClass/command_state.cpp \
+    libs/viberAPI/viber_api.cpp \
+    libs/facebookAPI/facebookAPI.cpp
 
 
 HEADERS += src/parser/parser.hpp  \
@@ -114,5 +116,10 @@ HEADERS += src/parser/parser.hpp  \
     src/command/commandhandlerrs232.h \
     libs/useful/useful.h \
     src/iDomStatus/idomstatus.h \
-    src/command/commandClass/command_state.h
+    src/command/commandClass/command_state.h \
+    libs/viberAPI/viber_api.h \
+    libs/facebookAPI/facebookAPI.h
+
+DISTFILES += \
+    libs/README.md
 

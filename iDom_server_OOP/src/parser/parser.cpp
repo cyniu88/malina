@@ -125,6 +125,23 @@ config read_config  ( const char* file_path    )
         {
             v_set.facebookAccessToken = v_value;
         }
+        //////////// viber
+        if (variable == "VIBER_TOKEN")
+        {
+            v_set.viberToken = v_value;
+        }
+        if (variable == "VIBER_AVATAR")
+        {
+            v_set.viberAvatar = v_value;
+        }
+        if (variable == "VIBER_RECEIVER")
+        {
+            v_set.viberReceiver = v_value;
+        }
+        if (variable == "VIBER_SENDER")
+        {
+            v_set.viberSender = v_value;
+        }
         variable = v_value = "";
     }
 

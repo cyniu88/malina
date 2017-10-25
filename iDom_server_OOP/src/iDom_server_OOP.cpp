@@ -256,6 +256,10 @@ int main()
     log_file_cout << INFO << "thread IRDA \t" << server_settings.THREAD_IRDA << std::endl;
     log_file_cout << INFO << "thread RS232 \t" << server_settings.THREAD_RS232 << std::endl;
     log_file_cout << INFO << "thread DUMMY \t" << server_settings.THREAD_DUMMY << std::endl;
+    log_file_cout << INFO << "VIBER_TOKEN  \t" << server_settings.viberToken << std::endl;
+    log_file_cout << INFO << "VIBER_AVATAR  \t" << server_settings.viberAvatar << std::endl;
+    log_file_cout << INFO << "VIBER_RECEIVER  \t" << server_settings.viberReceiver << std::endl;
+    log_file_cout << INFO << "FACEBOOK_TOKEN  \t" << server_settings.facebookAccessToken << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
     log_file_mutex.mutex_unlock();
@@ -454,7 +458,8 @@ int main()
         exit( - 1 );
     }
     struct sockaddr_in from;
-
+    /////////////////////////////////////////////////// INFO PART //////////////////////////////////////////////////
+    node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings.viberReceiver,server_settings.viberSender);
     ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
 
     while (1)

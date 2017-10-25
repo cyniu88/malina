@@ -23,6 +23,13 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
     my_data->main_iDomStatus->addObject("cameraLED",STATE::UNKNOWN);
     my_data->main_iDomStatus->addObject("printer",STATE::OFF);
     my_data->main_iDomStatus->addObject("speakers",STATE::OFF);
+
+    ///////// setup viber api
+    m_viber.setAvatar(my_data->server_settings->viberAvatar);
+    m_viber.setAccessToken(my_data->server_settings->viberToken);
+    m_viber.setURL("https://chatapi.viber.com/pa/send_message");
+    ///////// setup faceboook api
+    m_facebook.setAccessToken(my_data->server_settings->facebookAccessToken);
 }
 
 void iDomTOOLS::setTemperature(std::string name, float value)
@@ -441,30 +448,14 @@ void iDomTOOLS::cameraLedOFF(std::string link)
     }
 }
 
+std::string iDomTOOLS::sendViberMsg(std::string msg, std::string receiver, std::string senderName, std::string accessToken, std::string url)
+{
+   return  m_viber.sendViberMSG(msg,receiver,senderName);
+}
+
 std::string iDomTOOLS::postOnFacebook(std::string msg)
 {
-    CURL *curl;
-    CURLcode res;
-    std::string readBuffer;
-    std::string data = "message="+msg;
-    std::string address = "https://graph.facebook.com/v2.10/me/feed?access_token="+my_data->server_settings->facebookAccessToken;
-    curl = curl_easy_init();
-    if(curl) {
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if(res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                    curl_easy_strerror(res));
-
-        /* always cleanup */
-        curl_easy_cleanup(curl);
-    }
-    curl_global_cleanup();
-    return readBuffer;
+   return  m_facebook.postTxtOnWall(msg);
 }
 
 std::string iDomTOOLS::httpPost(std::string url)

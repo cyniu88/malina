@@ -6,6 +6,8 @@
 #include <chrono>
 #include "../iDom_server_OOP.h"
 #include "../../libs/sunrise-sunset/sunriseset.h"
+#include "../../libs/viberAPI/viber_api.h"
+#include "../../libs/facebookAPI/facebookAPI.h"
 #include "sys/sysinfo.h"
 
 struct thread_data;
@@ -47,6 +49,8 @@ class iDomTOOLS
     thread_data *my_data;
     SunRiseSet sun;
     std::string key;
+    viber_API m_viber;
+    FACEBOOK_API m_facebook;
 
 public:
     std::vector <std::string> textToSpeachVector;
@@ -82,6 +86,8 @@ public:
     //////////////////// camera part ///////////////////////
     void cameraLedON(std::string link);
     void cameraLedOFF(std::string link);
+    //////////////////// viber msg /////////////////////////
+    std::string sendViberMsg(std::string msg, std::string receiver, std::string senderName,std::string accessToken = "NULL",std::string url = "NULL");
     //////////////////// facebook //////////////////////////
     std::string postOnFacebook(std::string msg);
     //////////////////// HTTP req //////////////////////////
