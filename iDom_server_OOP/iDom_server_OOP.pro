@@ -120,6 +120,5 @@ HEADERS += src/parser/parser.hpp  \
     libs/viberAPI/viber_api.h \
     libs/facebookAPI/facebookAPI.h
 
-DISTFILES += \
-    libs/README.md
+DISTFILES +=
 

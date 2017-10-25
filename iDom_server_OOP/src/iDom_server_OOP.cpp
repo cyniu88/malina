@@ -120,6 +120,7 @@ void f_master_CRON (thread_data  *my_data){
 
 void Server_connectivity_thread(thread_data  *my_data){  
     C_connection *client = new C_connection( my_data);
+    static unsigned int connectionCounter = 0;
     bool key_ok = false;
     std::string tm = inet_ntoa( my_data->from.sin_addr);
     if ("192.168.1.1" != tm && my_data->ptr_MPD_info->isPlay  == false) {
@@ -129,7 +130,16 @@ void Server_connectivity_thread(thread_data  *my_data){
     }
     if ("192.168.1.1" == tm)
     {
+        if ( ++connectionCounter > 9){
+            connectionCounter = 0;
+            my_data->main_iDomTools->sendViberMsg("ktoś kombinuje z polaczeniem do serwera!",
+                                                  my_data->server_settings->viberReceiver,
+                                                  my_data->server_settings->viberSender+"ALERT!");
+        }
         client->setEncrypted(false);
+    }
+    else {
+        connectionCounter = 0;
     }
 
     log_file_mutex.mutex_lock();
@@ -256,10 +266,6 @@ int main()
     log_file_cout << INFO << "thread IRDA \t" << server_settings.THREAD_IRDA << std::endl;
     log_file_cout << INFO << "thread RS232 \t" << server_settings.THREAD_RS232 << std::endl;
     log_file_cout << INFO << "thread DUMMY \t" << server_settings.THREAD_DUMMY << std::endl;
-    log_file_cout << INFO << "VIBER_TOKEN  \t" << server_settings.viberToken << std::endl;
-    log_file_cout << INFO << "VIBER_AVATAR  \t" << server_settings.viberAvatar << std::endl;
-    log_file_cout << INFO << "VIBER_RECEIVER  \t" << server_settings.viberReceiver << std::endl;
-    log_file_cout << INFO << "FACEBOOK_TOKEN  \t" << server_settings.facebookAccessToken << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
     log_file_mutex.mutex_unlock();

@@ -80,7 +80,7 @@ commandHandler::commandHandler(thread_data * my_data)
 
 commandHandler::~commandHandler()
 {
-    puts("koniec destruktor command handler klasa bazowa");
+    //puts("koniec destruktor command handler klasa bazowa");
 }
 
 std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_data)

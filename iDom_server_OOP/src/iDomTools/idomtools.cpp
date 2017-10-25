@@ -83,12 +83,21 @@ void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int referenc
 
     if (status == TEMPERATURE_STATE::Over){
         my_data->myEventHandler.run("temperature")->addEvent(m);
-        sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
+        //sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
+        sendViberMsg(m,my_data->server_settings->viberReceiver,my_data->server_settings->viberSender);
     }
     else if (status == TEMPERATURE_STATE::Under){
         m ="temperature " + thermomethernName+" under \\/"+std::to_string(reference);
         my_data->myEventHandler.run("temperature")->addEvent(m);
-        sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
+        //sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
+        if (reference < 2){
+            sendViberPicture(m,"http://canacopegdl.com/images/cold/cold-14.jpg",
+                             my_data->server_settings->viberReceiver,my_data->server_settings->viberSender);
+            postOnFacebook(m,"http://canacopegdl.com/images/cold/cold-14.jpg");
+        }
+        else {
+            sendViberMsg(m,my_data->server_settings->viberReceiver,my_data->server_settings->viberSender);
+        }
     }
     else{
         //my_data->myEventHandler.run("unknown")->addEvent("temperatura nie przeszla przez "+std::to_string(reference));
@@ -386,7 +395,6 @@ std::string iDomTOOLS::find_tag(const std::string& temp)
 std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std::string number,
                                         std::string msg,int silentFrom , int silentTo  )
 {
-    postOnFacebook(msg);
     if (silentFrom !=0 && silentTo !=0){
         // TODO
     }
@@ -432,10 +440,10 @@ void iDomTOOLS::cameraLedON(std::string link)
         std::string s = httpPost(link);
         if (s == "ok.\n"){
             my_data->main_iDomStatus->setObjectState("cameraLED",STATE::ON);
-          //  printf("w ifie\n");
+            //  printf("w ifie\n");
         }
     }
-   // printf("nie odpalam leda!\n");
+    // printf("nie odpalam leda!\n");
 }
 
 void iDomTOOLS::cameraLedOFF(std::string link)
@@ -444,18 +452,39 @@ void iDomTOOLS::cameraLedOFF(std::string link)
     //printf (" camera response '%s' \n", s.c_str());
     if (s == "ok.\n"){
         my_data->main_iDomStatus->setObjectState("cameraLED",STATE::OFF);
-        printf("w ifie\n");
+        //printf("w ifie\n");
     }
 }
 
-std::string iDomTOOLS::sendViberMsg(std::string msg, std::string receiver, std::string senderName, std::string accessToken, std::string url)
+std::string iDomTOOLS::sendViberMsg(std::string msg,
+                                    std::string receiver,
+                                    std::string senderName,
+                                    std::string accessToken,
+                                    std::string url)
 {
-   return  m_viber.sendViberMSG(msg,receiver,senderName);
+    std::lock_guard<std::mutex>  lock(m_msgMutex);
+    return  m_viber.sendViberMSG(msg,receiver,senderName,accessToken,url);
 }
 
-std::string iDomTOOLS::postOnFacebook(std::string msg)
+std::string iDomTOOLS::sendViberPicture(std::string msg,
+                                        std::string image,
+                                        std::string receiver,
+                                        std::string senderName,
+                                        std::string accessToken,
+                                        std::string url)
 {
-   return  m_facebook.postTxtOnWall(msg);
+    std::lock_guard<std::mutex>  lock(m_msgMutex);
+    return  m_viber.sendViberPicture(msg,image,receiver,senderName,accessToken,url);
+}
+
+std::string iDomTOOLS::postOnFacebook(std::string msg,std::string image)
+{
+    std::lock_guard<std::mutex>  lock(m_msgMutex);
+    if (image != "NULL"){
+      return m_facebook.postPhotoOnWall(image,msg);
+    }
+
+    return  m_facebook.postTxtOnWall(msg);
 }
 
 std::string iDomTOOLS::httpPost(std::string url)

@@ -11,8 +11,9 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_da
     std::string txt = my_data->main_iDomTools->getTextToSpeach();
     if (v.size() >1){
     msg += my_data->main_iDomTools->postOnFacebook(v[1]+" \n"+ txt);
-    msg += " viber: ";
-    msg += my_data->main_iDomTools->sendViberMsg(v[1]+" \n",
+    msg += " \nviber: ";
+    msg += my_data->main_iDomTools->sendViberPicture(v[1],
+            "http://canacopegdl.com/images/cold/cold-14.jpg",
             my_data->server_settings->viberReceiver,
             my_data->server_settings->viberSender);
     }

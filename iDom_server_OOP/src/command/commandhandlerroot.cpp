@@ -4,7 +4,7 @@
 
 commandHandlerRoot::commandHandlerRoot(thread_data * my_data): commandHandler(my_data)
 {
-    puts("konstruktor command handler root");
+    //puts("konstruktor command handler root");
     std::unique_ptr <command> cmd (new command_cmd("cmd"));
     commandMap.insert(std::make_pair(cmd->getCommandName(), std::move(cmd)));
 
@@ -15,5 +15,5 @@ commandHandlerRoot::commandHandlerRoot(thread_data * my_data): commandHandler(my
 
 commandHandlerRoot::~commandHandlerRoot()
 {
-    puts("koniec destruktor command handler root");
+   // puts("koniec destruktor command handler root");
 }

@@ -8,7 +8,7 @@ KEY::KEY(PILOT_KEY value, std::string name) : _value{value},key_name{name}
 
 KEY::~KEY()
 {
-    printf("destruktor KEY\n" );
+    //printf("destruktor KEY\n" );
 }
 
 std::string KEY::getName() const
@@ -91,12 +91,12 @@ void pilot::setup(){
 
 pilot::pilot(std::map <std::string , std::unique_ptr <KEY>  > *key_map) : key_map (key_map)
 {
-    puts("konstruktor pilot");
+   // puts("konstruktor pilot");
 }
 pilot::~pilot( )
 {
     //delete key_map->find("KEY_UP");
-    puts("destruktor pilot\n");
+   // puts("destruktor pilot\n");
 }
 
 PILOT_KEY SuperKEY::getValue() const
@@ -109,8 +109,8 @@ PILOT_KEY SuperKEY::getValue() const
 
 SuperKEY::SuperKEY (PILOT_KEY v, std::string n, std::string LogName ) : KEY(v,n) , LogName(LogName)
 {
-    puts("konstruktos SuperKEY =)" );
+    //puts("konstruktos SuperKEY =)" );
 }
 SuperKEY::~SuperKEY() {
-    puts( "destruktor SuperKEY \n" );
+   // puts( "destruktor SuperKEY \n" );
 }

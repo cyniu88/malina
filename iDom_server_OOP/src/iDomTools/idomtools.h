@@ -51,6 +51,7 @@ class iDomTOOLS
     std::string key;
     viber_API m_viber;
     FACEBOOK_API m_facebook;
+    std::mutex m_msgMutex;
 
 public:
     std::vector <std::string> textToSpeachVector;
@@ -82,14 +83,29 @@ public:
     static size_t  WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
     static std::string find_tag (const std::string &temp);
 
-    std::string sendSMStoPlusGSM(std::string login, std::string pass, std::string number, std::string msg, int silentFrom = 0, int silentTo =0);
+    std::string sendSMStoPlusGSM(std::string login,
+                                 std::string pass,
+                                 std::string number,
+                                 std::string msg,
+                                 int silentFrom = 0,
+                                 int silentTo =0);
     //////////////////// camera part ///////////////////////
     void cameraLedON(std::string link);
     void cameraLedOFF(std::string link);
     //////////////////// viber msg /////////////////////////
-    std::string sendViberMsg(std::string msg, std::string receiver, std::string senderName,std::string accessToken = "NULL",std::string url = "NULL");
+    std::string sendViberMsg(std::string msg,
+                             std::string receiver,
+                             std::string senderName,
+                             std::string accessToken = "NULL",
+                             std::string url = "NULL");
+    std::string sendViberPicture(std::string msg,
+                                 std::string image,
+                                 std::string receiver,
+                                 std::string senderName,
+                                 std::string accessToken = "NULL",
+                                 std::string url = "NULL");
     //////////////////// facebook //////////////////////////
-    std::string postOnFacebook(std::string msg);
+    std::string postOnFacebook(std::string msg, std::string image ="NULL");
     //////////////////// HTTP req //////////////////////////
     std::string httpPost(std::string url);
     //////////////////// LED part //////////////////////////

@@ -141,6 +141,14 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
        return my_data->main_iDomTools->postOnFacebook(msg);
     }
+    else if (v[1]=="viber"){
+        std::string msg;
+        for (unsigned int i = 2 ; i < v.size(); ++i){
+            msg+=" ";
+            msg+=v[i];
+        }
+       return my_data->main_iDomTools->sendViberMsg(msg, my_data->server_settings->viberReceiver,my_data->server_settings->viberSender);
+    }
     else if (v[1]=="camera"){
 
         if (v.size() < 4){
@@ -173,6 +181,8 @@ std::string command_iDom::help()
     ret.append("iDom temperature - get temperature from all termomether\n");
     ret.append("iDom smog       - get current SMOG level (KRAKOW)\n");
     ret.append("iDom kill thread <ID>  - kill thread\n");
-    ret.append("iDom camera LED ON/OFF - LED camera work ");
+    ret.append("iDom camera LED ON/OFF - LED camera work\n");
+    ret.append("iDom facebook ... - post on facebook wall\n");
+    ret.append("iDom viber ...   - send viber msg\n");
     return ret;
 }

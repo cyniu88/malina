@@ -2,7 +2,7 @@
 
 command::command(std::string commandName ) : commandName(commandName)
 {
-    std::cout << "konstruktor command"<<std::endl;
+   // std::cout << "konstruktor command"<<std::endl;
 }
 
 command::~command()
