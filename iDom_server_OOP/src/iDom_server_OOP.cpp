@@ -170,6 +170,14 @@ void Server_connectivity_thread(thread_data  *my_data){
         log_file_cout << CRITICAL <<"AUTHENTICATION FAILED! " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
         log_file_cout << CRITICAL <<"KEY RECIVED: " << KEY_rec << " KEY SERVER: "<< KEY_OWN   <<std::endl;
         log_file_mutex.mutex_unlock();
+        std::string s = "AUTHENTICATION FAILED! ";
+        s.append(inet_ntoa( my_data->from.sin_addr));
+        s.append(" KEY RECIVED: ");
+        s.append(KEY_rec);
+        s.append(" KEY SERVER: ");
+        s.append(KEY_OWN );
+        my_data->main_iDomTools->sendViberMsg(s, my_data->server_settings->viberReceiver,
+                                              my_data->server_settings->viberSender+"ALERT!");
         if( client->c_send("\nFAIL\n" )  == -1 )
         {
             key_ok = false;
