@@ -107,7 +107,7 @@ public:
     //////////////////// facebook //////////////////////////
     std::string postOnFacebook(std::string msg, std::string image ="NULL");
     //////////////////// HTTP req //////////////////////////
-    std::string httpPost(std::string url);
+    std::string httpPost(std::string url, int timeoutSeconds );
     //////////////////// LED part //////////////////////////
     std::string ledOFF();
     std::string ledClear();

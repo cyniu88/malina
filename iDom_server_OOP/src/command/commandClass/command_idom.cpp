@@ -102,28 +102,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
     }
     else if (v[1]=="wifi"){
-        CURL *curl;
-        CURLcode res;
-        std::string readBuffer;
-        int iTimeoutSeconds = 10;
-        curl = curl_easy_init();
-
-        if(curl) {
-            curl_easy_setopt(curl, CURLOPT_TIMEOUT, iTimeoutSeconds);
-            curl_easy_setopt(curl, CURLOPT_URL, "http://cyniu88.no-ip.pl/cgi-bin/kto_wifi.sh");
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, iDomTOOLS::WriteCallback);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-            res = curl_easy_perform(curl);
-            /* Check for errors */
-            if(res != CURLE_OK)
-                fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                        curl_easy_strerror(res));
-
-            /* always cleanup */
-            curl_easy_cleanup(curl);
-        }
-        curl_global_cleanup();
-
+        std::string readBuffer = my_data->main_iDomTools->httpPost("http://cyniu88.no-ip.pl/cgi-bin/kto_wifi.sh",10);
         return readBuffer;
     }
     else if (v[1]=="kill"){
@@ -139,7 +118,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             msg+=" ";
             msg+=v[i];
         }
-       return my_data->main_iDomTools->postOnFacebook(msg);
+        return my_data->main_iDomTools->postOnFacebook(msg);
     }
     else if (v[1]=="viber"){
         std::string msg;
@@ -147,7 +126,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             msg+=" ";
             msg+=v[i];
         }
-       return my_data->main_iDomTools->sendViberMsg(msg, my_data->server_settings->viberReceiver,my_data->server_settings->viberSender);
+        return my_data->main_iDomTools->sendViberMsg(msg, my_data->server_settings->viberReceiver,my_data->server_settings->viberSender);
     }
     else if (v[1]=="camera"){
 
@@ -155,7 +134,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             return "not enough parameters";
         }
         if (v[2]=="LED" && v[3] == "ON"){
-           my_data->main_iDomTools->cameraLedON(my_data->server_settings->cameraLedON);
+            my_data->main_iDomTools->cameraLedON(my_data->server_settings->cameraLedON);
         }
         else if (v[2]=="LED" && v[3] == "OFF"){
             my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->cameraLedOFF);

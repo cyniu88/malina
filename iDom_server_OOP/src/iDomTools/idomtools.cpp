@@ -437,7 +437,7 @@ void iDomTOOLS::cameraLedON(std::string link)
 
     if (t <= sunRise || t >= sunSet){
         //printf("zapalam leda!\n");
-        std::string s = httpPost(link);
+        std::string s = httpPost(link,10);
         if (s == "ok.\n"){
             my_data->main_iDomStatus->setObjectState("cameraLED",STATE::ON);
             //  printf("w ifie\n");
@@ -448,7 +448,7 @@ void iDomTOOLS::cameraLedON(std::string link)
 
 void iDomTOOLS::cameraLedOFF(std::string link)
 {
-    std::string s = httpPost(link);
+    std::string s = httpPost(link,10);
     //printf (" camera response '%s' \n", s.c_str());
     if (s == "ok.\n"){
         my_data->main_iDomStatus->setObjectState("cameraLED",STATE::OFF);
@@ -487,7 +487,7 @@ std::string iDomTOOLS::postOnFacebook(std::string msg,std::string image)
     return  m_facebook.postTxtOnWall(msg);
 }
 
-std::string iDomTOOLS::httpPost(std::string url)
+std::string iDomTOOLS::httpPost(std::string url, int timeoutSeconds)
 {
     CURL *curl;
     CURLcode res;
@@ -495,6 +495,7 @@ std::string iDomTOOLS::httpPost(std::string url)
     curl = curl_easy_init();
 
     if(curl) {
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeoutSeconds);
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
