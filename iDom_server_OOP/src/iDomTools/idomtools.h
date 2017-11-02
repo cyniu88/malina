@@ -67,11 +67,12 @@ public:
     void turnOffPrinter();
     static PIN_STATE getPinState(int pin_number);
     void turnOnOffPrinter();
-
+    //////////////////////////// weather /////////////////////////
     std::string getSunrise(bool extend = false);
     std::string getSunset(bool extend = false);
     std::string getDayLenght(bool extend = false);
     std::string getSystemInfo();
+    std::string getWeatherEvent(std::string city, unsigned int radius );
 
     void textToSpeach(std::vector <std::string> *textVector);
     std::string getTextToSpeach();

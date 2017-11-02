@@ -1,4 +1,3 @@
-#include <curl/curl.h>
 #include "command_idom.h"
 
 command_iDom::command_iDom(std::string name):command(name)
@@ -141,6 +140,13 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
         return "led DONE";
     }
+    else if (v[1]=="weather"){
+
+        if (v.size() < 4){
+            return "not enough parameters";
+        }
+        return my_data->main_iDomTools->getWeatherEvent(v[2],std::stoi(v[3]));
+    }
     return "iDom - unknown parameter: "+ v[1];
 }
 
@@ -163,5 +169,6 @@ std::string command_iDom::help()
     ret.append("iDom camera LED ON/OFF - LED camera work\n");
     ret.append("iDom facebook ... - post on facebook wall\n");
     ret.append("iDom viber ...   - send viber msg\n");
+    ret.append("iDom weather <city> <radius>  - get weather alert\n");
     return ret;
 }

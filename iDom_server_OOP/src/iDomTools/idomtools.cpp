@@ -220,6 +220,15 @@ std::string iDomTOOLS::getSystemInfo()
     return ret;
 }
 
+std::string iDomTOOLS::getWeatherEvent(std::string city, unsigned int radius)
+{
+    std::string url = "http://burze.dzis.net/ramka.php?miejscowosc=";
+    url.append(city);
+    url.append("&promien=");
+    url.append(std::to_string(radius));
+    return httpPost(url, 10);
+}
+
 void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
 {
     if (textVector->empty() ){
@@ -434,7 +443,7 @@ void iDomTOOLS::cameraLedON(std::string link)
     Clock sunRise, sunSet;
     sunRise = sun.getSunRise();
     sunSet = sun.getSunSet();
-
+    sunSet += Clock(23,30); // +23:30 == -00:30
     if (t <= sunRise || t >= sunSet){
         //printf("zapalam leda!\n");
         std::string s = httpPost(link,10);
@@ -481,7 +490,7 @@ std::string iDomTOOLS::postOnFacebook(std::string msg,std::string image)
 {
     std::lock_guard<std::mutex>  lock(m_msgMutex);
     if (image != "NULL"){
-      return m_facebook.postPhotoOnWall(image,msg);
+        return m_facebook.postPhotoOnWall(image,msg);
     }
 
     return  m_facebook.postTxtOnWall(msg);
