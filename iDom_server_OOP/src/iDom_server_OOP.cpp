@@ -134,7 +134,7 @@ void Server_connectivity_thread(thread_data  *my_data){
             connectionCounter = 0;
             my_data->main_iDomTools->sendViberMsg("ktoś kombinuje z polaczeniem do serwera!",
                                                   my_data->server_settings->viberReceiver,
-                                                  my_data->server_settings->viberSender+"ALERT!");
+                                                  my_data->server_settings->viberSender+"_ALERT!");
         }
         client->setEncrypted(false);
     }
@@ -176,8 +176,8 @@ void Server_connectivity_thread(thread_data  *my_data){
         s.append(KEY_rec);
         s.append(" KEY SERVER: ");
         s.append(KEY_OWN );
-        my_data->main_iDomTools->sendViberMsg(s, my_data->server_settings->viberReceiver,
-                                              my_data->server_settings->viberSender+"ALERT!");
+        my_data->main_iDomTools->sendViberMsg("podano zły klucz autentykacji - sprawdz logi", my_data->server_settings->viberReceiver,
+                                              my_data->server_settings->viberSender+"_ALERT!");
         if( client->c_send("\nFAIL\n" )  == -1 )
         {
             key_ok = false;
