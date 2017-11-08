@@ -2,6 +2,9 @@
 #include "functions/functions.h"            // brak
 #include "parser/parser.hpp"
 #include <wiringPi.h>
+#include <stdio.h>
+#include <fstream>
+#include <iostream>
 #include "c_connection/c_connection.h"
 #include "TASKER/tasker.h"
 
@@ -26,6 +29,30 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
     log_file_cout << INFO <<"otwarcie portu RS232_clock " <<  data_rs232->portRS232_clock <<" "<< data_rs232->BaudRate <<std::endl;
     log_file_mutex.mutex_unlock();
 
+    /////////////////////////////////////////////////// RESET ARDUINO AFTER RESTART ////////////////////////////////
+    puts("restart arduino\n");
+    C_connection::mutex_who.lock();
+    buffer = "reset:00;";
+    serial_ardu.print(buffer.c_str());
+
+   // buffer.erase();
+
+    /*while ( useful_F::go_while){
+        if (serial_ardu.available()>0){
+            buffer += serial_ardu.read();
+        }
+        if (buffer[buffer.size()-1]  == ';')
+        {
+            buffer.erase(buffer.end()-1);
+            break;
+        }
+        */
+        puts(buffer.c_str());
+        puts(" \n");
+   // }
+    C_connection::mutex_who.unlock();
+    puts("po restarcie\n");
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     while (useful_F::go_while)
     {
         std::this_thread::sleep_for( std::chrono::milliseconds(50) );
@@ -242,6 +269,11 @@ void Server_connectivity_thread(thread_data  *my_data){
 
 int main()
 {
+    std::ofstream pidFile;
+    pidFile.open("/mnt/ramdisk/pid-iDom.txt");
+    pidFile << getpid();
+    pidFile.close();
+
     pthread_mutex_init(&Logger::mutex_log, NULL);
     config server_settings = read_config( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfig
     struct sockaddr_in server;

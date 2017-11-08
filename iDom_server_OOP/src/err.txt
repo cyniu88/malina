@@ -1,36 +1,44 @@
+[CRON/cron.cpp:52] -> [CRON/cron.hpp:18]: (performance, inconclusive) Technically the member function 'CRON::runEveryOne5min' can be static.
+[CRON/cron.cpp:63] -> [CRON/cron.hpp:20]: (performance, inconclusive) Technically the member function 'CRON::runEveryOne30min' can be static.
+[CRON/cron.cpp:68] -> [CRON/cron.hpp:21]: (performance, inconclusive) Technically the member function 'CRON::runEveryOne1h' can be static.
 [KEY/key.h:72]: (style) Class 'pilot' has a constructor with 1 argument that is not explicit.
 [logger/logger.hpp:74]: (style) Class 'Logger' has a constructor with 1 argument that is not explicit.
 [logger/logger.hpp:75]: (style) Class 'Logger' has a constructor with 1 argument that is not explicit.
 [command/command.h:18]: (style) Class 'command' has a constructor with 1 argument that is not explicit.
-[iDomTools/idomtools.h:47]: (style) Class 'iDomTOOLS' has a constructor with 1 argument that is not explicit.
+[CRON/libs/facebookAPI/facebookAPI.h:9]: (style) Class 'FACEBOOK_API' has a constructor with 1 argument that is not explicit.
+[iDomTools/idomtools.h:58]: (style) Class 'iDomTOOLS' has a constructor with 1 argument that is not explicit.
 [c_irda_logic/c_irda_logic.h:39]: (style) Class 'c_irda_logic' has a constructor with 1 argument that is not explicit.
 [command/commandhandler.h:17]: (style) Class 'commandHandler' has a constructor with 1 argument that is not explicit.
 [command/commandhandlerroot.h:8]: (style) Class 'commandHandlerRoot' has a constructor with 1 argument that is not explicit.
 [c_connection/c_connection.h:17]: (style) Class 'C_connection' has a constructor with 1 argument that is not explicit.
-[CRON/cron.hpp:12]: (style) Class 'CRON' has a constructor with 1 argument that is not explicit.
-[iDom_server_OOP.h:106]: (performance) Function parameter 'colorName' should be passed by reference.
-[iDom_server_OOP.h:115]: (performance) Function parameter 'from' should be passed by reference.
-[iDom_server_OOP.h:115]: (performance) Function parameter 'to' should be passed by reference.
-[iDom_server_OOP.h:115]: (performance) Function parameter 'r' should be passed by reference.
-[iDom_server_OOP.h:115]: (performance) Function parameter 'g' should be passed by reference.
-[iDom_server_OOP.h:115]: (performance) Function parameter 'b' should be passed by reference.
-[iDom_server_OOP.h:115]: (performance) Function parameter 'colorName' should be passed by reference.
-[iDom_server_OOP.h:152]: (performance) Function parameter 'from' should be passed by reference.
-[iDom_server_OOP.h:152]: (performance) Function parameter 'to' should be passed by reference.
-[iDom_server_OOP.h:152]: (performance) Function parameter 'R' should be passed by reference.
-[iDom_server_OOP.h:152]: (performance) Function parameter 'G' should be passed by reference.
-[iDom_server_OOP.h:152]: (performance) Function parameter 'B' should be passed by reference.
+[CRON/cron.hpp:11]: (style) Class 'CRON' has a constructor with 1 argument that is not explicit.
+[iDom_server_OOP.h:121]: (performance) Function parameter 'colorName' should be passed by reference.
+[iDom_server_OOP.h:130]: (performance) Function parameter 'from' should be passed by reference.
+[iDom_server_OOP.h:130]: (performance) Function parameter 'to' should be passed by reference.
+[iDom_server_OOP.h:130]: (performance) Function parameter 'r' should be passed by reference.
+[iDom_server_OOP.h:130]: (performance) Function parameter 'g' should be passed by reference.
+[iDom_server_OOP.h:130]: (performance) Function parameter 'b' should be passed by reference.
+[iDom_server_OOP.h:130]: (performance) Function parameter 'colorName' should be passed by reference.
+[iDom_server_OOP.h:167]: (performance) Function parameter 'from' should be passed by reference.
+[iDom_server_OOP.h:167]: (performance) Function parameter 'to' should be passed by reference.
+[iDom_server_OOP.h:167]: (performance) Function parameter 'R' should be passed by reference.
+[iDom_server_OOP.h:167]: (performance) Function parameter 'G' should be passed by reference.
+[iDom_server_OOP.h:167]: (performance) Function parameter 'B' should be passed by reference.
+[KEY/libs/facebookAPI/facebookAPI.h:9]: (style) Class 'FACEBOOK_API' has a constructor with 1 argument that is not explicit.
 [KEY/key.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
 [KEY/key.cpp:110]: (performance) Function parameter 'n' should be passed by reference.
 [KEY/key.cpp:110]: (performance) Function parameter 'LogName' should be passed by reference.
+[TASKER/libs/facebookAPI/facebookAPI.h:9]: (style) Class 'FACEBOOK_API' has a constructor with 1 argument that is not explicit.
 [TASKER/tasker.h:8]: (style) Class 'TASKER' has a constructor with 1 argument that is not explicit.
 [command/commandhandlerrs232.h:8]: (style) Class 'commandHandlerRS232' has a constructor with 1 argument that is not explicit.
 [blockQueue/blockqueue.cpp:8] -> [blockQueue/blockqueue.h:35]: (performance, inconclusive) Technically the member function 'blockQueue::_add' can be static.
-[blockQueue/blockqueue.cpp:14] -> [blockQueue/blockqueue.h:36]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
-[blockQueue/blockqueue.cpp:25] -> [blockQueue/blockqueue.h:37]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
-[c_connection/c_connection.cpp:7]: (warning) Member variable 'C_connection::mainCommandHandler' is not initialized in the constructor.
-[c_irda_logic/c_irda_logic.cpp:390]: (warning) Redundant assignment of 'my_data' to itself.
-[c_irda_logic/c_irda_logic.cpp:388]: (warning) Member variable 'c_irda_logic::my_data' is not initialized in the constructor.
+[blockQueue/blockqueue.cpp:17] -> [blockQueue/blockqueue.h:36]: (performance, inconclusive) Technically the member function 'blockQueue::_get' can be static.
+[blockQueue/blockqueue.cpp:28] -> [blockQueue/blockqueue.h:37]: (performance, inconclusive) Technically the member function 'blockQueue::_size' can be static.
+[c_connection/libs/facebookAPI/facebookAPI.h:9]: (style) Class 'FACEBOOK_API' has a constructor with 1 argument that is not explicit.
+[c_connection/c_connection_node.cpp:78] -> [c_connection/c_connection.h:40]: (style, inconclusive) Technically the member function 'C_connection::onStartConnection' can be const.
+[c_connection/c_connection_node.cpp:57] -> [c_connection/c_connection.h:49]: (performance, inconclusive) Technically the member function 'C_connection::crypto' can be static.
+[c_irda_logic/libs/facebookAPI/facebookAPI.h:9]: (style) Class 'FACEBOOK_API' has a constructor with 1 argument that is not explicit.
+[c_master_irda/libs/facebookAPI/facebookAPI.h:9]: (style) Class 'FACEBOOK_API' has a constructor with 1 argument that is not explicit.
 [c_master_irda/master_irda.h:22]: (style) Class 'master_irda' has a constructor with 1 argument that is not explicit.
 [command/command.cpp:3]: (performance) Function parameter 'commandName' should be passed by reference.
 [command/commandClass/command_big.h:12]: (style) Class 'command_big' has a constructor with 1 argument that is not explicit.
@@ -45,9 +53,8 @@
 [command/commandClass/command_hello.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
 [command/commandClass/command_help.h:12]: (style) Class 'command_help' has a constructor with 1 argument that is not explicit.
 [command/commandClass/command_help.cpp:5]: (performance) Function parameter 'name' should be passed by reference.
-[command/commandClass/command_idom.cpp:96]: (style) The scope of the variable 'iTimeoutSeconds' can be reduced.
 [command/commandClass/command_idom.h:11]: (style) Class 'command_iDom' has a constructor with 1 argument that is not explicit.
-[command/commandClass/command_idom.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_idom.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
 [command/commandClass/command_ip.h:12]: (style) Class 'command_ip' has a constructor with 1 argument that is not explicit.
 [command/commandClass/command_ip.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
 [command/commandClass/command_log.cpp:27] -> [command/commandClass/command_log.h:16]: (performance, inconclusive) Technically the member function 'command_log::logLevel' can be static.
@@ -64,7 +71,10 @@
 [command/commandClass/command_show.cpp:5]: (performance) Function parameter 'name' should be passed by reference.
 [command/commandClass/command_sleep.h:12]: (style) Class 'command_sleep' has a constructor with 1 argument that is not explicit.
 [command/commandClass/command_sleep.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
+[command/commandClass/command_state.h:8]: (style) Class 'command_state' has a constructor with 1 argument that is not explicit.
+[command/commandClass/command_state.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
 [command/commandClass/command_stop.h:12]: (style) Class 'command_stop' has a constructor with 1 argument that is not explicit.
+[command/libs/facebookAPI/facebookAPI.h:9]: (style) Class 'FACEBOOK_API' has a constructor with 1 argument that is not explicit.
 [command/commandClass/command_stop.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
 [command/commandClass/command_uptime.h:13]: (style) Class 'command_UPTIME' has a constructor with 1 argument that is not explicit.
 [command/commandClass/command_uptime.cpp:4]: (performance) Function parameter 'name' should be passed by reference.
@@ -76,24 +86,29 @@
 [command/commandClass/commandtest.cpp:3]: (performance) Function parameter 'name' should be passed by reference.
 [files_tree/files_tree.cpp:7]: (performance) Function parameter 'path' should be passed by reference.
 [files_tree/files_tree.cpp:79]: (performance) Function parameter 'path' should be passed by reference.
-[functions/functions.cpp:417]: (warning) %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
-[functions/functions.cpp:417]: (warning) %d in format string (no. 2) requires 'int' but the argument type is 'unsigned int'.
+[functions/functions.cpp:414]: (warning) %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
+[functions/functions.cpp:414]: (warning) %d in format string (no. 2) requires 'int' but the argument type is 'unsigned int'.
+[functions/libs/facebookAPI/facebookAPI.h:9]: (style) Class 'FACEBOOK_API' has a constructor with 1 argument that is not explicit.
 [functions/functions.cpp:244]: (performance) Function parameter 'data' should be passed by reference.
-[functions/mpd_cli.cpp:205] -> [functions/mpd_cli.cpp:206]: (warning) Either the condition 'hostname==0' is redundant or there is possible null pointer dereference: hostname.
-[iDomTools/idomtools.cpp:113] -> [iDomTools/idomtools.h:59]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSystemInfo' can be static.
-[iDomTools/idomtools.cpp:141] -> [iDomTools/idomtools.h:61]: (style, inconclusive) Technically the member function 'iDomTOOLS::textToSpeach' can be const.
-[iDomTools/idomtools.cpp:202] -> [iDomTools/idomtools.h:66]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getTime' can be static.
-[iDomTools/idomtools.cpp:211] -> [iDomTools/idomtools.h:67]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSmog' can be static.
-[iDomTools/idomtools.cpp:322] -> [iDomTools/idomtools.h:72]: (performance, inconclusive) Technically the member function 'iDomTOOLS::sendSMStoPlusGSM' can be static.
-[iDomTools/idomtools.cpp:57]: (performance) Function parameter 'thermomethernName' should be passed by reference.
-[iDomTools/idomtools.cpp:322]: (performance) Function parameter 'login' should be passed by reference.
-[iDomTools/idomtools.cpp:322]: (performance) Function parameter 'pass' should be passed by reference.
-[iDomTools/idomtools.cpp:322]: (performance) Function parameter 'number' should be passed by reference.
-[iDomTools/idomtools.cpp:367]: (performance) Function parameter 'ledColor' should be passed by reference.
+[functions/mpd_cli.cpp:210] -> [functions/mpd_cli.cpp:211]: (warning) Either the condition 'hostname==0' is redundant or there is possible null pointer dereference: hostname.
+[iDomTools/idomtools.cpp:195] -> [iDomTools/idomtools.h:74]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSystemInfo' can be static.
+[iDomTools/idomtools.cpp:232] -> [iDomTools/idomtools.h:77]: (style, inconclusive) Technically the member function 'iDomTOOLS::textToSpeach' can be const.
+[iDomTools/idomtools.cpp:293] -> [iDomTools/idomtools.h:82]: (performance, inconclusive) Technically the member function 'iDomTOOLS::getSmog' can be static.
+[iDomTools/idomtools.cpp:404] -> [iDomTools/idomtools.h:87]: (performance, inconclusive) Technically the member function 'iDomTOOLS::sendSMStoPlusGSM' can be static.
+[iDomTools/idomtools.cpp:499] -> [iDomTools/idomtools.h:111]: (performance, inconclusive) Technically the member function 'iDomTOOLS::httpPost' can be static.
+[iDomTools/libs/facebookAPI/facebookAPI.h:9]: (style) Class 'FACEBOOK_API' has a constructor with 1 argument that is not explicit.
+[iDomTools/idomtools.cpp:79]: (performance) Function parameter 'thermomethernName' should be passed by reference.
+[iDomTools/idomtools.cpp:404]: (performance) Function parameter 'login' should be passed by reference.
+[iDomTools/idomtools.cpp:404]: (performance) Function parameter 'pass' should be passed by reference.
+[iDomTools/idomtools.cpp:404]: (performance) Function parameter 'number' should be passed by reference.
+[iDomTools/idomtools.cpp:439]: (performance) Function parameter 'link' should be passed by reference.
+[iDomTools/idomtools.cpp:458]: (performance) Function parameter 'link' should be passed by reference.
+[iDomTools/idomtools.cpp:535]: (performance) Function parameter 'ledColor' should be passed by reference.
 [iDomTools/main.cpp:15]: (style) Condition 'newValue!=100' is always true
 [../libs/event_counter_test/event_counters/event_counters.h:25]: (style) Class 'event_counters' has a constructor with 1 argument that is not explicit.
 [logger/logger.cc:90] -> [logger/logger.cc:86]: (style, inconclusive) Found duplicate branches for 'if' and 'else'.
 [logger/logger.cc:122]: (style) Obsolete function 'asctime' called. It is recommended to use 'strftime' instead.
 [menu_tree/menu_tree.cpp:4]: (performance) Function parameter 'path' should be passed by reference.
 [menu_tree/menu_tree.cpp:91]: (performance) Function parameter 'path' should be passed by reference.
+[parser/libs/facebookAPI/facebookAPI.h:9]: (style) Class 'FACEBOOK_API' has a constructor with 1 argument that is not explicit.
 (information) Cppcheck cannot find all the include files (use --check-config for details)

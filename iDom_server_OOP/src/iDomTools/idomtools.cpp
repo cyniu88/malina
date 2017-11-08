@@ -240,7 +240,7 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
         txt += a;
     }
     /////////// start thread  TTS - python use ////////////////////////
-    std::string command = " python /home/pi/programowanie/PYTON/gadacz.py ";
+    std::string command = " python /home/pi/programowanie/iDom_server_OOP/script/PYTHON/gadacz.py ";
     command += "\""+ txt +"\"";
     if(my_data->ptr_MPD_info->isPlay){
 

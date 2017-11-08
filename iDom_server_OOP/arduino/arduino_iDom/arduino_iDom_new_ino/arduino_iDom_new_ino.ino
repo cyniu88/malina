@@ -212,6 +212,15 @@ void loop() {
 
   }
   //////////////////////////////////////////////////////////////
+  if (command == "reset")
+  {
+    outsideTemp.errorCounter = 0;
+    insideTemp.errorCounter = 0;
+    Serial.print("reset done:00;");  
+    command="z";
+    valueINT=0;
+  } 
+  //////////////////////////////////////////////////////////////
   if (command=="clean")
   {
     // valueINT = value.toInt();

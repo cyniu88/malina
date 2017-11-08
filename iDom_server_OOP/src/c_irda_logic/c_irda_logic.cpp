@@ -212,7 +212,7 @@ void c_irda_logic::movieLogic(PILOT_KEY X)
         {
             std::cout << " URUCHAMIAM PLIK! " <<my_data->main_tree->show_list() <<std::endl;
 
-            std::string command = "/home/pi/programowanie/PYTON/iDom_movie.py ";
+            std::string command = "/home/pi/programowanie/iDom_server_OOP/script/PYTHON/iDom_movie.py ";
             command+=my_data->main_tree->show_list();
             system(command.c_str());
             std::cout << " WYSTARTOWALEM!!";
