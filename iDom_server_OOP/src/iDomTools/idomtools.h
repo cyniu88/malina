@@ -113,7 +113,8 @@ public:
     std::string ledOFF();
     std::string ledClear();
     std::string ledOn(LED_Strip ledColor);
-
+    ////////////////////   ALERT  //////////////////////////
+    void checkAlarm();
     //////////////////// MPD part //////////////////////////
     static void MPD_play();
     static void MPD_stop();

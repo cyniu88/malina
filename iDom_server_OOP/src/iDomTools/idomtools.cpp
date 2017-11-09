@@ -23,6 +23,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
     my_data->main_iDomStatus->addObject("cameraLED",STATE::UNKNOWN);
     my_data->main_iDomStatus->addObject("printer",STATE::OFF);
     my_data->main_iDomStatus->addObject("speakers",STATE::OFF);
+    my_data->main_iDomStatus->addObject("alarm",STATE::DEACTIVE);
 
     ///////// setup viber api
     m_viber.setAvatar(my_data->server_settings->viberAvatar);
@@ -535,4 +536,15 @@ std::string iDomTOOLS::ledClear()
 std::string iDomTOOLS::ledOn(LED_Strip ledColor)
 {
     return useful_F::send_to_arduino(my_data,ledColor.get());
+}
+
+void iDomTOOLS::checkAlarm()
+{
+    Clock now = Clock::getTime();
+    if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
+        my_data->alarmTime.state = STATE::DEACTIVE;
+        MPD_volumeSet(my_data, 50);
+        MPD_play();
+        my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
+    }
 }

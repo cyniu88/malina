@@ -49,6 +49,11 @@ constexpr int GPIO_SPIK  = 21;
 constexpr int GPIO_PRINTER = 22;
 constexpr int BUTTON_PIN = 25;
 }
+struct ALERT
+{
+    Clock time;
+    STATE state = STATE::DEACTIVE;
+};
 
 extern std::string  _logfile  ;
 extern Logger log_file_mutex;
@@ -205,6 +210,7 @@ struct thread_data{
     event_counters_handler myEventHandler;
     std::string encriptionKey = "40%";
     iDomSTATUS *main_iDomStatus;
+    ALERT alarmTime;
 };
 
 struct thread_data_rs232{
