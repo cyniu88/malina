@@ -134,9 +134,13 @@ config read_config  ( const char* file_path    )
         {
             v_set.viberAvatar = v_value;
         }
+        if (variable == "VIBER_RECEIVER_ROOT")
+        {
+            v_set.viberReceiver.insert(v_set.viberReceiver.begin(),v_value);
+        }
         if (variable == "VIBER_RECEIVER")
         {
-            v_set.viberReceiver = v_value;
+            v_set.viberReceiver.push_back(v_value);
         }
         if (variable == "VIBER_SENDER")
         {

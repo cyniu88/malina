@@ -34,24 +34,8 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
     C_connection::mutex_who.lock();
     buffer = "reset:00;";
     serial_ardu.print(buffer.c_str());
-
-   // buffer.erase();
-
-    /*while ( useful_F::go_while){
-        if (serial_ardu.available()>0){
-            buffer += serial_ardu.read();
-        }
-        if (buffer[buffer.size()-1]  == ';')
-        {
-            buffer.erase(buffer.end()-1);
-            break;
-        }
-        */
-        puts(buffer.c_str());
-        puts(" \n");
-   // }
     C_connection::mutex_who.unlock();
-    puts("po restarcie\n");
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     while (useful_F::go_while)
     {
@@ -160,7 +144,7 @@ void Server_connectivity_thread(thread_data  *my_data){
         if ( ++connectionCounter > 9){
             connectionCounter = 0;
             my_data->main_iDomTools->sendViberMsg("ktoś kombinuje z polaczeniem do serwera!",
-                                                  my_data->server_settings->viberReceiver,
+                                                  my_data->server_settings->viberReceiver.at(0),
                                                   my_data->server_settings->viberSender+"_ALERT!");
         }
         client->setEncrypted(false);
@@ -203,7 +187,8 @@ void Server_connectivity_thread(thread_data  *my_data){
         s.append(KEY_rec);
         s.append(" KEY SERVER: ");
         s.append(KEY_OWN );
-        my_data->main_iDomTools->sendViberMsg("podano zły klucz autentykacji - sprawdz logi", my_data->server_settings->viberReceiver,
+        my_data->main_iDomTools->sendViberMsg("podano zły klucz autentykacji - sprawdz logi",
+                                              my_data->server_settings->viberReceiver.at(0),
                                               my_data->server_settings->viberSender+"_ALERT!");
         if( client->c_send("\nFAIL\n" )  == -1 )
         {
@@ -317,7 +302,6 @@ int main()
         exit (1) ;
     }
 
-
     /////////////////////////////// MPD info /////////////////////////
     MPD_info my_MPD_info;
     /////////////////////////////// iDom Status //////////////////////
@@ -327,13 +311,9 @@ int main()
     iDomTOOLS my_iDomTools(&node_data);
     /////////////////////////////// LCD //////////////////////////////
     LCD_c mainLCD(0x27,16,2);
-
     //////////////     przegladanie plikow ////////////////////
-
     files_tree main_tree( server_settings.MOVIES_DB_PATH, &mainLCD);
-
     ///////////////////////////////// MENU /////////////////////////////////
-
     menu_tree main_MENU(server_settings.MENU_PATH, &mainLCD);
     /////////////////////////////////////////////////   wypelniam  struktury przesylane do watkow  ////////////////////////
     thread_data_rs232 data_rs232;
@@ -505,7 +485,7 @@ int main()
     }
     struct sockaddr_in from;
     /////////////////////////////////////////////////// INFO PART //////////////////////////////////////////////////
-    node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings.viberReceiver,server_settings.viberSender);
+    node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings.viberReceiver.at(0),server_settings.viberSender);
     ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
 
     while (1)

@@ -14,7 +14,7 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_da
     msg += " \nviber: ";
     msg += my_data->main_iDomTools->sendViberPicture(v[1],
             "http://canacopegdl.com/images/cold/cold-14.jpg",
-            my_data->server_settings->viberReceiver,
+            my_data->server_settings->viberReceiver.at(0),
             my_data->server_settings->viberSender);
     }
     return msg;

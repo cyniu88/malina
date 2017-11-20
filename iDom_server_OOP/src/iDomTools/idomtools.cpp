@@ -85,7 +85,7 @@ void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int referenc
     if (status == TEMPERATURE_STATE::Over){
         my_data->myEventHandler.run("temperature")->addEvent(m);
         //sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
-        sendViberMsg(m,my_data->server_settings->viberReceiver,my_data->server_settings->viberSender);
+        sendViberMsg(m,my_data->server_settings->viberReceiver.at(0),my_data->server_settings->viberSender);
     }
     else if (status == TEMPERATURE_STATE::Under){
         m ="temperature " + thermomethernName+" under \\/"+std::to_string(reference);
@@ -93,11 +93,16 @@ void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int referenc
         //sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
         if (reference < 2){
             sendViberPicture(m,"http://canacopegdl.com/images/cold/cold-14.jpg",
-                             my_data->server_settings->viberReceiver,my_data->server_settings->viberSender);
+                             my_data->server_settings->viberReceiver.at(0),
+                             my_data->server_settings->viberSender);
+            sendViberPicture(m,"http://canacopegdl.com/images/cold/cold-14.jpg",
+                             my_data->server_settings->viberReceiver.at(1),
+                             my_data->server_settings->viberSender);
             postOnFacebook(m,"http://canacopegdl.com/images/cold/cold-14.jpg");
         }
         else {
-            sendViberMsg(m,my_data->server_settings->viberReceiver,my_data->server_settings->viberSender);
+            sendViberMsg(m,my_data->server_settings->viberReceiver.at(0),
+                         my_data->server_settings->viberSender);
         }
     }
     else{

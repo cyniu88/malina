@@ -108,7 +108,7 @@ struct config{
     std::string facebookAccessToken = "";
     std::string viberToken = "NULL";
     std::string viberAvatar;
-    std::string viberReceiver;
+    std::vector <std::string> viberReceiver;
     std::string viberSender;
     int ID_server = 0;
     int v_delay  ;

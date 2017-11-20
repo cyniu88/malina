@@ -125,7 +125,8 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             msg+=" ";
             msg+=v[i];
         }
-        return my_data->main_iDomTools->sendViberMsg(msg, my_data->server_settings->viberReceiver,my_data->server_settings->viberSender);
+        return my_data->main_iDomTools->sendViberMsg(msg, my_data->server_settings->viberReceiver.at(0),
+                                                     my_data->server_settings->viberSender);
     }
     else if (v[1]=="camera"){
 

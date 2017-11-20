@@ -33,7 +33,7 @@ STATE iDomSTATUS::getObjectState(std::string name)
         return i->second ;
     }
 
-    return STATE::ERROR;
+    return STATE::UNKNOWN;
 }
 
 std::string iDomSTATUS::getObjectStateString(std::string name)
@@ -43,7 +43,7 @@ std::string iDomSTATUS::getObjectStateString(std::string name)
     if (i != m_stateMAP.end()){
         return stateToString( i->second) ;
     }
-    return stateToString(STATE::ERROR) + " "+name;
+    return stateToString(STATE::UNKNOWN) + " "+name;
 }
 
 std::string iDomSTATUS::getAllObjectsStateString()
