@@ -449,7 +449,7 @@ void iDomTOOLS::cameraLedON(std::string link)
     Clock sunRise, sunSet;
     sunRise = sun.getSunRise();
     sunSet = sun.getSunSet();
-    //sunSet += Clock(23,30); // +23:30 == -00:30
+    sunSet += Clock(23,30); // +23:30 == -00:30
     if (t <= sunRise || t >= sunSet){
         //printf("zapalam leda!\n");
         std::string s = httpPost(link,10);

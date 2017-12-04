@@ -16,14 +16,14 @@ Logger log_file_mutex(_logfile);
 void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
 
     SerialPi serial_ardu(strdup( data_rs232->portRS232.c_str()));
-    serial_ardu.begin( std::stoi( data_rs232->BaudRate ));
+    serial_ardu.begin( std::stoi( data_rs232->BaudRate));
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"otwarcie portu RS232 " <<  data_rs232->portRS232 << "  " <<data_rs232->BaudRate<<std::endl;
     log_file_mutex.mutex_unlock();
 
     SerialPi serial_ardu_clock(strdup( data_rs232->portRS232_clock.c_str()));
-    serial_ardu_clock.begin( std::stoi( data_rs232->BaudRate ));
+    serial_ardu_clock.begin( std::stoi( data_rs232->BaudRate));
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"otwarcie portu RS232_clock " <<  data_rs232->portRS232_clock <<" "<< data_rs232->BaudRate <<std::endl;
@@ -37,11 +37,11 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
     C_connection::mutex_who.unlock();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    while (useful_F::go_while)
+    while(useful_F::go_while)
     {
-        std::this_thread::sleep_for( std::chrono::milliseconds(50) );
+        std::this_thread::sleep_for( std::chrono::milliseconds(50));
         C_connection::mutex_who.lock();
-        if (data_rs232->pointer.ptr_who[0]  == iDomConst::RS232)
+        if(data_rs232->pointer.ptr_who[0] == iDomConst::RS232)
         {
             C_connection::mutex_buf.lock();
 
@@ -51,11 +51,11 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
 
             buffer.erase();
 
-            while ( useful_F::go_while){
-                if (serial_ardu.available()>0){
+            while(useful_F::go_while){
+                if(serial_ardu.available()>0){
                     buffer += serial_ardu.read();
                 }
-                if (buffer[buffer.size()-1]  == ';')
+                if(buffer[buffer.size()-1] == ';')
                 {
                     buffer.erase(buffer.end()-1);
                     break;
@@ -63,7 +63,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
             }
             C_connection::mutex_buf.unlock();
         }
-        else if (data_rs232->pointer.ptr_who[0]  == iDomConst::CLOCK){
+        else if(data_rs232->pointer.ptr_who[0] == iDomConst::CLOCK){
             C_connection::mutex_buf.lock();
 
             data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
@@ -72,8 +72,8 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
 
             buffer.erase();
 
-            while ( useful_F::go_while){
-                if (serial_ardu_clock.available()>0){
+            while(useful_F::go_while){
+                if(serial_ardu_clock.available()>0){
                     buffer += serial_ardu_clock.read();
                     buffer += serial_ardu_clock.read();
                     break;
@@ -81,13 +81,13 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
             }
             C_connection::mutex_buf.unlock();
         }
-        else if (data_rs232->pointer.ptr_who[0]  == iDomConst::FREE){
-            if (serial_ardu.available()>0) {
+        else if(data_rs232->pointer.ptr_who[0] == iDomConst::FREE){
+            if(serial_ardu.available()>0) {
                 std::string bufor = "";
                 while (useful_F::go_while){
-                    if (serial_ardu.available()>0){
+                    if(serial_ardu.available()>0){
                         char t = serial_ardu.read();
-                        if (t  == ';'){
+                        if(t == ';'){
                             serial_ardu.flush();
                             break;
                         }
@@ -134,14 +134,14 @@ void Server_connectivity_thread(thread_data  *my_data){
     static unsigned int connectionCounter = 0;
     bool key_ok = false;
     std::string tm = inet_ntoa( my_data->from.sin_addr);
-    if ("192.168.1.1" != tm && my_data->ptr_MPD_info->isPlay  == false) {
+    if("192.168.1.1" != tm && my_data->ptr_MPD_info->isPlay == false) {
         my_data->mainLCD->set_print_song_state(32);
         my_data->mainLCD->printString(true,0,0,"USER CONNECTED!");
         my_data->mainLCD->printString(false,0,1,tm);
     }
-    if ("192.168.1.1" == tm)
+    if("192.168.1.1" == tm)
     {
-        if ( ++connectionCounter > 9){
+        if( ++connectionCounter > 9){
             connectionCounter = 0;
             my_data->main_iDomTools->sendViberMsg("ktoś kombinuje z polaczeniem do serwera!",
                                                   my_data->server_settings->viberReceiver.at(0),
@@ -159,7 +159,7 @@ void Server_connectivity_thread(thread_data  *my_data){
     my_data->myEventHandler.run("connections")->addEvent(tm);
 
     int recvSize = client->c_recv(0);
-    if( recvSize  == -1 )  {
+    if(recvSize == -1)  {
         key_ok = false;
     }
     //std::cout <<"WYNIK:"<< client->c_read_buf().size()<<"a to wlasny" << RSHash().size()<<"!"<<std::endl;
@@ -167,10 +167,10 @@ void Server_connectivity_thread(thread_data  *my_data){
     client->setEncriptionKey(KEY_OWN);
     std::string KEY_rec = client->c_read_buf(recvSize);
 
-    if (   KEY_rec  == KEY_OWN    )   // stop runing idom_server
+    if(KEY_rec == KEY_OWN)   // stop runing idom_server
     {
         key_ok = true;
-        if( client->c_send("OK" )  == -1 )
+        if(client->c_send("OK") == -1)
         {
             key_ok = false;
         }
@@ -181,16 +181,12 @@ void Server_connectivity_thread(thread_data  *my_data){
         log_file_cout << CRITICAL <<"AUTHENTICATION FAILED! " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
         log_file_cout << CRITICAL <<"KEY RECIVED: " << KEY_rec << " KEY SERVER: "<< KEY_OWN   <<std::endl;
         log_file_mutex.mutex_unlock();
-        std::string s = "AUTHENTICATION FAILED! ";
-        s.append(inet_ntoa( my_data->from.sin_addr));
-        s.append(" KEY RECIVED: ");
-        s.append(KEY_rec);
-        s.append(" KEY SERVER: ");
-        s.append(KEY_OWN );
+
         my_data->main_iDomTools->sendViberMsg("podano zły klucz autentykacji - sprawdz logi",
                                               my_data->server_settings->viberReceiver.at(0),
                                               my_data->server_settings->viberSender+"_ALERT!");
-        if( client->c_send("\nFAIL\n" )  == -1 )
+
+        if(client->c_send("\nFAIL\n") == -1)
         {
             key_ok = false;
         }
@@ -198,18 +194,18 @@ void Server_connectivity_thread(thread_data  *my_data){
     /// ///////////////////////user level
     {
         int recvSize = client->c_recv(0);
-        if( recvSize  == -1 )  {
+        if(recvSize == -1)  {
 
         }
         else {
 
         }
         std::string userLevel = client->c_read_buf(recvSize);
-        client->c_send("OK you are "+ userLevel );
+        client->c_send("OK you are "+ userLevel);
         puts("user level to:");
         puts(userLevel.c_str());
 
-        if (userLevel  == "ROOT"){
+        if(userLevel == "ROOT"){
             client->mainCommandHandler = new commandHandlerRoot(my_data);
         }
         else{
@@ -219,7 +215,7 @@ void Server_connectivity_thread(thread_data  *my_data){
     while (useful_F::go_while && key_ok)
     {
         int recvSize = client->c_recv(0) ;
-        if( recvSize  == -1 )
+        if(recvSize == -1)
         {
             puts("klient sie rozlaczyl");
             break;
@@ -239,9 +235,9 @@ void Server_connectivity_thread(thread_data  *my_data){
         }
 
         // ###############################  koniec analizy   wysylanie wyniku do RS232 lub  TCP ########################
-        if( client->c_send(0 )  == -1 )
+        if( client->c_send(0) == -1)
         {
-            perror( "send() ERROR" );
+            perror("send() ERROR");
             break;
         }
     }
@@ -260,7 +256,7 @@ int main()
     pidFile.close();
 
     pthread_mutex_init(&Logger::mutex_log, NULL);
-    config server_settings = read_config( "/etc/config/iDom_SERVER/iDom_server"    );     // strukruta z informacjami z pliku konfig
+    config server_settings = read_config("/etc/config/iDom_SERVER/iDom_server");     // strukruta z informacjami z pliku konfig
     struct sockaddr_in server;
     int v_socket;
 
@@ -298,8 +294,8 @@ int main()
     ///////////////////////////////////////////////  koniec logowania do poliku  ///////////////////////////////////////////////////
 
     ///////////////////////////////////////////////  start wiringPi  //////////////////////////////////////////////
-    if (wiringPiSetup ()  == -1){
-        exit (1) ;
+    if(wiringPiSetup() == -1){
+        exit(1) ;
     }
 
     /////////////////////////////// MPD info /////////////////////////
@@ -326,9 +322,9 @@ int main()
 
     int freeSlotID = useful_F::findFreeThreadSlot(thread_array);
 
-    if (server_settings.THREAD_RS232  == "YES")
+    if(server_settings.THREAD_RS232 == "YES")
     {
-        thread_array[freeSlotID].thread = std::thread (Send_Recieve_rs232_thread,&data_rs232);
+        thread_array[freeSlotID].thread = std::thread(Send_Recieve_rs232_thread,&data_rs232);
         thread_array[freeSlotID].thread_name = "RS232_thread";
         thread_array[freeSlotID].thread_socket = 1;
         thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
@@ -342,16 +338,16 @@ int main()
 
     int temp = mkfifo("/mnt/ramdisk/cmd",0666);
 
-    if (temp  == 0 )
+    if(temp == 0)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "mkfifo - plik stworzony "<<strerror(  errno ) << std::endl;
+        log_file_cout << INFO << "mkfifo - plik stworzony "<<strerror(errno) << std::endl;
         log_file_mutex.mutex_unlock();
     }
-    else if (temp  == -1)
+    else if(temp == -1)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << "mkfifo - "<<strerror(  errno ) << std::endl;
+        log_file_cout << ERROR << "mkfifo - "<<strerror(errno) << std::endl;
         log_file_mutex.mutex_unlock();
     }
 
@@ -359,7 +355,7 @@ int main()
 
     useful_F::setStaticData(&node_data);
     /////////////////////////////////////////////////////////
-    int SERVER_PORT = std::stoi(server_settings.PORT );
+    int SERVER_PORT = std::stoi(server_settings.PORT);
     server_settings.SERVER_IP = useful_F::conv_dns(server_settings.SERVER_IP);
     const char *SERVER_IP = server_settings.SERVER_IP.c_str();
     node_data.pointer.ptr_who = who;
@@ -378,7 +374,7 @@ int main()
     pilotPTR->setup();
 
     // start watku irda
-    if (server_settings.THREAD_IRDA  == "YES")
+    if(server_settings.THREAD_IRDA == "YES")
     {
         freeSlotID = useful_F::findFreeThreadSlot(thread_array);
         thread_array[freeSlotID].thread = std::thread (f_master_irda, &node_data);
@@ -392,7 +388,7 @@ int main()
     }
 
     // start watku  mpd_cli
-    if (server_settings.THREAD_MPD  == "YES")
+    if(server_settings.THREAD_MPD == "YES")
     {
         freeSlotID = useful_F::findFreeThreadSlot(thread_array);
         thread_array[freeSlotID].thread = std::thread (main_mpd_cli, &node_data);
@@ -406,7 +402,7 @@ int main()
     }
 
     // start watku CRONa
-    if (server_settings.THREAD_CRON  == "YES")
+    if(server_settings.THREAD_CRON == "YES")
     {
         freeSlotID = useful_F::findFreeThreadSlot(thread_array);
         thread_array[freeSlotID].thread = std::thread(f_master_CRON, &node_data);
@@ -419,7 +415,7 @@ int main()
         log_file_mutex.mutex_unlock();
     }
 
-    if (server_settings.THREAD_DUMMY  == "YES"){
+    if(server_settings.THREAD_DUMMY == "YES"){
 
         freeSlotID = useful_F::findFreeThreadSlot(thread_array);
         thread_array[freeSlotID].thread = std::thread(f_serv_con_node, &node_data);
@@ -437,51 +433,51 @@ int main()
         log_file_cout << INFO << "NIE startuje NODA MASTERA do polaczen z innymi " << std::endl;
         log_file_mutex.mutex_unlock();
     }
-    memset(&server, 0, sizeof( server ) );
+    memset(&server, 0, sizeof(server));
 
     server.sin_family = AF_INET;
-    server.sin_port = htons( SERVER_PORT );
-    if( inet_pton( AF_INET, SERVER_IP, & server.sin_addr ) <= 0 )
+    server.sin_port = htons(SERVER_PORT);
+    if(inet_pton(AF_INET, SERVER_IP, & server.sin_addr) <= 0)
     {
-        perror( "inet_pton() ERROR" );
-        exit( - 1 );
+        perror("inet_pton() ERROR");
+        exit(-1);
     }
 
-    if(( v_socket = socket( AF_INET, SOCK_STREAM, 0 ) ) < 0 )
+    if((v_socket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
-        perror( "socket() ERROR" );
-        exit( - 1 );
+        perror("socket() ERROR");
+        exit(-1);
     }
 
-    if( fcntl( v_socket, F_SETFL, O_NONBLOCK ) < 0 ) // fcntl()
+    if(fcntl(v_socket, F_SETFL, O_NONBLOCK) < 0) // fcntl()
     {
-        perror( "fcntl() ERROR" );
-        exit( - 1 );
+        perror("fcntl() ERROR");
+        exit(-1);
     }
     // zgub wkurzający komunikat błędu "address already in use"
     int yes = 1;
-    if( setsockopt( v_socket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof( int ) )  == - 1 ) {
-        perror( "setsockopt" );
-        exit( 1 );
+    if(setsockopt(v_socket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == - 1) {
+        perror("setsockopt");
+        exit(1);
     }
-    socklen_t len = sizeof( server );
-    if( bind( v_socket,( struct sockaddr * ) & server, len ) < 0 )
+    socklen_t len = sizeof(server);
+    if(bind(v_socket,( struct sockaddr *) & server, len) < 0)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "BIND problem: " <<  strerror(  errno )<< std::endl;
-        log_file_cout << CRITICAL << "awaryjne ! zamykanie gniazda  "  << shutdown( v_socket, SHUT_RDWR )<< std::endl;
+        log_file_cout << CRITICAL << "BIND problem: " <<  strerror(errno)<< std::endl;
+        log_file_cout << CRITICAL << "awaryjne ! zamykanie gniazda  " << shutdown(v_socket, SHUT_RDWR) << std::endl;
         log_file_mutex.mutex_unlock();
-        perror( "bind() ERROR" );
-        exit( - 1 );
+        perror("bind() ERROR");
+        exit(-1);
     }
 
-    if( listen( v_socket, iDomConst::MAX_CONNECTION ) < 0 )
+    if(listen(v_socket, iDomConst::MAX_CONNECTION) < 0)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "Listen problem: " <<  strerror(  errno )<< std::endl;
+        log_file_cout << CRITICAL << "Listen problem: " <<  strerror(errno)<< std::endl;
         log_file_mutex.mutex_unlock();
-        perror( "listen() ERROR" );
-        exit( - 1 );
+        perror("listen() ERROR");
+        exit(-1);
     }
     struct sockaddr_in from;
     /////////////////////////////////////////////////// INFO PART //////////////////////////////////////////////////
@@ -491,14 +487,14 @@ int main()
     while (1)
     {
         int v_sock_ind = 0;
-        memset( &from,0, sizeof( from ) );
-        if (!useful_F::go_while) {
+        memset( &from,0, sizeof(from));
+        if(!useful_F::go_while) {
             break;
         }
 
-        std::this_thread::sleep_for( std::chrono::milliseconds(500) );
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-        if(( v_sock_ind = accept( v_socket,( struct sockaddr * ) & from, & len ) ) < 0 )
+        if(( v_sock_ind = accept( v_socket,(struct sockaddr *) & from, & len)) < 0)
         {
             continue;
         }
@@ -507,15 +503,15 @@ int main()
 
         int freeSlotID = useful_F::findFreeThreadSlot(thread_array);
 
-        if ( freeSlotID != -1)
+        if( freeSlotID != -1)
 
         {
             node_data.s_client_sock = v_sock_ind;
             node_data.from = from;
             thread_array[freeSlotID].thread = std::thread(Server_connectivity_thread, &node_data);
-            thread_array[freeSlotID].thread_name  = inet_ntoa(node_data.from.sin_addr);
+            thread_array[freeSlotID].thread_name = inet_ntoa(node_data.from.sin_addr);
             thread_array[freeSlotID].thread_socket = v_sock_ind;
-            thread_array[freeSlotID].thread_ID    = thread_array[freeSlotID].thread.get_id();
+            thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
             thread_array[freeSlotID].thread.detach();
             log_file_mutex.mutex_lock();
             log_file_cout << INFO << "watek wystartowal  "<< thread_array[freeSlotID].thread_ID << std::endl;
@@ -528,14 +524,13 @@ int main()
             log_file_cout << INFO << "za duzo klientow "<< thread_array[freeSlotID].thread_ID << std::endl;
             log_file_mutex.mutex_unlock();
 
-            if(( send( v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT ) ) <= 0 )
+            if( (send(v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT)) <= 0)
             {
-                perror( "send() ERROR" );
+                perror("send() ERROR");
                 break;
             }
             continue;
         }
-
     } // while
     // zamykam gniazdo
 
@@ -545,12 +540,12 @@ int main()
     node_data.mainLCD->clear();
     node_data.mainLCD->noBacklight();
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "zamykanie gniazda wartosc "  << shutdown( v_socket, SHUT_RDWR )<< std::endl;
-    log_file_cout << ERROR << "gniazdo ind  "<<strerror(  errno ) << std::endl;
+    log_file_cout << INFO << "zamykanie gniazda wartosc "  << shutdown(v_socket, SHUT_RDWR)<< std::endl;
+    log_file_cout << ERROR << "gniazdo ind  "<<strerror(errno) << std::endl;
     log_file_cout << INFO << "koniec programu  "<<   std::endl;
     log_file_mutex.mutex_unlock();
 
-    std::this_thread::sleep_for( std::chrono::milliseconds(50) );
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
     pthread_mutex_destroy(&Logger::mutex_log);
     return 0;
