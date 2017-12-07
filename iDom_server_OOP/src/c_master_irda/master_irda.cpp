@@ -38,11 +38,10 @@ KEY_VOLUMEUP        +
 
 master_irda::master_irda(thread_data *my_data):buttonTimer(millis()), buttonMENU(0), my_data2(my_data)
 {
-    if(  lirc_init(const_cast< char*>("lirc"),1)  ==  -1 )
-       // exit(EXIT_FAILURE);
-    puts(" jestem po uruchominiu lirc \n");
-
-    //// tu chyba sa glupoty  zle
+    if(  lirc_init(const_cast< char*>("lirc"),1) != -1)
+    {
+        puts(" jestem po uruchominiu lirc \n");
+    }
 }
 
 void master_irda::run()
@@ -53,26 +52,25 @@ void master_irda::run()
     {
         // std::cout << " jestem w iflirc_readconfig(NULL,&config,NULL)==0 \n ";
         //Do stuff while LIRC socket is open  0=open  -1=closed.
-        while(lirc_nextcode(&code )== 0 )
+        while(lirc_nextcode(&code) == 0)
         {
-           // std::cout << " w while \n";
-            if (useful_F::go_while==false)     //TODO NIE DZIALA DO POPRAWY
+            // std::cout << " w while \n";
+            if (useful_F::go_while == false)     //TODO NIE DZIALA DO POPRAWY
             {
                 break;  // koncze petle zamykam wątek
             }
             //If code = NULL, meaning nothing was returned from LIRC socket,
             //then skip lines below and start while loop again.
             if(code==NULL) {
-                //std::cout << " kontynuuje\n";
                 continue;
             }
             else
             {
                 //Make sure there is a 400ms gap before detecting button presses.
-                if (millis() - buttonTimer  > 400 ){
+                if(millis() - buttonTimer > 400){
 
                     // time out   OK menu
-                    if (millis() - buttonTimer  > 30000 && buttonMENU == 1){
+                    if(millis() - buttonTimer > 30000 && buttonMENU == 1){
                         log_file_mutex.mutex_lock();
                         log_file_cout << INFO<< " timeout menu " <<  std::endl;
                         log_file_mutex.mutex_unlock();

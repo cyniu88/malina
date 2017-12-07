@@ -79,9 +79,10 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
     }
     else if (v[1]=="say"){
-        if (v.size()<3){
+        if (v.size() > 3){
             std::vector<std::string> vTTS ={ my_data->main_iDomTools->getTextToSpeach()};
             my_data->main_iDomTools->textToSpeach(&vTTS);
+            return "sad";
         }
     }
     else if (v[1]=="smog"){

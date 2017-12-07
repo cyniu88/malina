@@ -93,7 +93,7 @@ pilot::pilot(std::map <std::string , std::unique_ptr <KEY>  > *key_map) : key_ma
 {
    // puts("konstruktor pilot");
 }
-pilot::~pilot( )
+pilot::~pilot()
 {
     //delete key_map->find("KEY_UP");
    // puts("destruktor pilot\n");
@@ -107,7 +107,7 @@ PILOT_KEY SuperKEY::getValue() const
     return _value;
 }
 
-SuperKEY::SuperKEY (PILOT_KEY v, std::string n, std::string LogName ) : KEY(v,n) , LogName(LogName)
+SuperKEY::SuperKEY (PILOT_KEY v, std::string n, std::string LogName) : KEY(v,n) , LogName(LogName)
 {
     //puts("konstruktos SuperKEY =)" );
 }
