@@ -56,3 +56,8 @@ void iDomTOOLS::MPD_playId(thread_data *my_data, int id)
     blockQueue _q;
     _q._add(MPD_COMMAND::PLAY_ID);
 }
+
+int iDomTOOLS::MPD_getVolume(thread_data *my_data)
+{
+    return my_data->ptr_MPD_info->volume;
+}
