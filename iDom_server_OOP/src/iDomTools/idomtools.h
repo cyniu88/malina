@@ -8,7 +8,9 @@
 #include "../../libs/sunrise-sunset/sunriseset.h"
 #include "../../libs/viberAPI/viber_api.h"
 #include "../../libs/facebookAPI/facebookAPI.h"
+#include "../../libs/Statistic/statistic.h"
 #include "sys/sysinfo.h"
+#include "../THERMOMETER_CONTAINER/thermometer_container.h"
 
 struct thread_data;
 struct LED_Strip;
@@ -19,33 +21,15 @@ enum class PIN_STATE{
     UNKNOWN_STATE = 2
 };
 
-enum class TEMPERATURE_STATE{
-    Under,
-    Over,
-    NoChanges,
-    Unknown
-};
 enum class USER_LEVEL{
     ROOT,
     USER
 };
 
-struct temperature {
-    //temperature(std::string name) : thermometrName(name){};
-    double newTemp = 1.0101;
-    double oldTemp = 1.0101;
-    double maxValue = 0;
-    std::string maxDate;
-    double minValue = 0;
-    std::string minDate;
-    std::string thermometrName;
-
-    TEMPERATURE_STATE lastState = TEMPERATURE_STATE::Unknown;
-};
-
 class iDomTOOLS
 {
-    std::map <std::string ,temperature> thermometer;
+    THERMOMETER_CONTAINER allThermometer;
+
     thread_data *my_data;
     SunRiseSet sun;
     std::string key;
@@ -57,7 +41,6 @@ public:
     std::vector <std::string> textToSpeachVector;
     iDomTOOLS(thread_data *myData);
 
-    void setTemperature (std::string name, float value);
     TEMPERATURE_STATE hasTemperatureChange(std::string thermometerName, double reference, double histereza);
     void sendSMSifTempChanged(std::string thermomethernName, int reference);
 

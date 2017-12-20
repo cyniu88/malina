@@ -6,9 +6,11 @@
 iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
 {
     my_data = myData;
-    thermometer["inside"];
-    thermometer["outside"];
+    //////////////////////////////////// temeprature /////////////////
 
+    allThermometer.add("inside");
+    allThermometer.add("outside");
+    /////////////////////////////////////////////////////////////////
     pinMode(iDomConst::GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
     digitalWrite(iDomConst::GPIO_SPIK,LOW);
     pinMode(iDomConst::GPIO_PRINTER,OUTPUT);  /// gpio pin do zsilania drukarki
@@ -33,46 +35,39 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
     m_facebook.setAccessToken(my_data->server_settings->facebookAccessToken);
 }
 
-void iDomTOOLS::setTemperature(std::string name, float value)
-{
-    auto cur = thermometer.find(name);
-    cur->second.oldTemp = cur->second.newTemp ;
-    cur->second.newTemp = value;
-    //TODO   dodac ustawianie temperetury i daty
-}
-
 TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, double reference, double histereza )
 {
-    reference+=0.0055;
-    auto cur = thermometer.find(thermometerName);
-
-    if (cur->second.newTemp >= reference + histereza &&
-            cur->second.oldTemp  < reference + histereza &&
-            cur->second.lastState != TEMPERATURE_STATE::Over)
+    reference += 0.0055;
+    const auto newTemp = allThermometer.getTemp(thermometerName);
+    const auto oldTemp = allThermometer.getOldTemp(thermometerName);
+    const auto lastState = allThermometer.getLastState(thermometerName);
+    if (newTemp >= reference + histereza &&
+            oldTemp  < reference + histereza &&
+            lastState != TEMPERATURE_STATE::Over)
     {
-        my_data->myEventHandler.run("test")->addEvent("over: new "+std::to_string(cur->second.newTemp)+" old: "
-                                                      +std::to_string(cur->second.oldTemp)+" ref: "+std::to_string(reference));
-        cur->second.lastState = TEMPERATURE_STATE::Over;
+        my_data->myEventHandler.run("test")->addEvent("over: new "+std::to_string(newTemp)+" old: "
+                                                      +std::to_string(oldTemp)+" ref: "+std::to_string(reference));
+        allThermometer.setState(thermometerName, TEMPERATURE_STATE::Over);
         return TEMPERATURE_STATE::Over;
     }
-    else if (cur->second.newTemp <= reference - histereza &&
-             cur->second.oldTemp >  reference - histereza &&
-             cur->second.lastState != TEMPERATURE_STATE::Under)
+    else if (newTemp <= reference - histereza &&
+             oldTemp >  reference - histereza &&
+             lastState != TEMPERATURE_STATE::Under)
     {
-        my_data->myEventHandler.run("test")->addEvent("under: new "+std::to_string(cur->second.newTemp)+" old: "
-                                                      +std::to_string(cur->second.oldTemp)+" ref: "+std::to_string(reference));
-        cur->second.lastState = TEMPERATURE_STATE::Under;
+        my_data->myEventHandler.run("test")->addEvent("under: new "+std::to_string(newTemp)+" old: "
+                                                      +std::to_string(oldTemp)+" ref: "+std::to_string(reference));
+        allThermometer.setState(thermometerName, TEMPERATURE_STATE::Under);
         return TEMPERATURE_STATE::Under;
     }
     else
     {
-        my_data->myEventHandler.run("test")->addEvent("noChanges: new "+std::to_string(cur->second.newTemp)+" old: "
-                                                      +std::to_string(cur->second.oldTemp)+" ref: "+std::to_string(reference));
+        my_data->myEventHandler.run("test")->addEvent("noChanges: new "+std::to_string(newTemp)+" old: "
+                                                      +std::to_string(oldTemp)+" ref: "+std::to_string(reference));
 
         return TEMPERATURE_STATE::NoChanges;
     }
-    my_data->myEventHandler.run("test")->addEvent("unknown: new "+std::to_string(cur->second.newTemp)+" old: "
-                                                  +std::to_string(cur->second.oldTemp)+" ref: "+std::to_string(reference));
+    my_data->myEventHandler.run("test")->addEvent("unknown: new "+std::to_string(newTemp)+" old: "
+                                                  +std::to_string(oldTemp)+" ref: "+std::to_string(reference));
 
     return TEMPERATURE_STATE::Unknown;
 }
@@ -334,8 +329,6 @@ std::string iDomTOOLS::getSmog()
 
 void iDomTOOLS::send_temperature_thingSpeak()
 {
-    CURL *curl;
-    CURLcode res;
     std::vector<std::string> _temperature = getTemperature();
     std::string addres = "api.thingspeak.com/update?key=";
     addres+=key;
@@ -348,39 +341,12 @@ void iDomTOOLS::send_temperature_thingSpeak()
     ///
     ///
     //_temperature.erase(_temperature.size()-2,_temperature.size());
-    std::string in = _temperature.at(0);
-    std::string out = _temperature.at(1);
 
-    setTemperature("inside",std::stod(in));
-    setTemperature("outside",std::stod(out));
+    allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);
     sendSMSifTempChanged("inside",24);
-    //printf("o=inside: %f outside %f\n",   std::stof(in)   ,std::stof(out) );
-    /* In windows, this will init the winsock stuff */
-    curl_global_init(CURL_GLOBAL_ALL);
 
-    /* get a curl handle */
-    curl = curl_easy_init();
-    if(curl) {
-        /* First set the URL that is about to receive our POST. This URL can
-           just as well be a https:// URL if that is what should receive the
-           data. */
-        std::string dummyString;
-        curl_easy_setopt(curl, CURLOPT_URL, addres.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &dummyString);
-
-        /* Perform the request, res will get the return code */
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if(res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                    curl_easy_strerror(res));
-
-        /* always cleanup */
-        curl_easy_cleanup(curl);
-    }
-    curl_global_cleanup();
+    httpPost(addres,10);
 }
 
 size_t iDomTOOLS::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
@@ -417,25 +383,9 @@ std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std
     std::string address = "http://darsonserver.5v.pl/bramkaPlus?login=";
     address +=login+"&password="+pass+"&sender=iDom&number="+number+"&message="+msg;
 
-    CURL *curl;
-    CURLcode res;
-    std::string readBuffer;
+    std::string readBuffer = httpPost(address,10);
 
-    curl = curl_easy_init();
-    if(curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if(res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                    curl_easy_strerror(res));
 
-        /* always cleanup */
-        curl_easy_cleanup(curl);
-    }
-    curl_global_cleanup();
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"wysłano SMSa otreśći: " <<  msg<<std::endl;
     log_file_mutex.mutex_unlock();
@@ -556,10 +506,10 @@ void iDomTOOLS::checkAlarm()
     if (my_data->alarmTime.state == STATE::WORKING){
         int vol = MPD_getVolume(my_data) + 1;
         if (vol < 59){
-           MPD_volumeSet(my_data, vol);
+            MPD_volumeSet(my_data, vol);
         }
         else{
-           my_data->alarmTime.state = STATE::DEACTIVE;
+            my_data->alarmTime.state = STATE::DEACTIVE;
         }
     }
 }

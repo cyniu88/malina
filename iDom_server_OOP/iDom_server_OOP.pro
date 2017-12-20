@@ -59,7 +59,8 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     libs/useful/usefull.cpp \
     src/command/commandClass/command_state.cpp \
     libs/viberAPI/viber_api.cpp \
-    libs/facebookAPI/facebookAPI.cpp
+    libs/facebookAPI/facebookAPI.cpp \
+    src/THERMOMETER_CONTAINER/thermometer_container.cpp
 
 
 HEADERS += src/parser/parser.hpp  \
@@ -118,7 +119,9 @@ HEADERS += src/parser/parser.hpp  \
     src/iDomStatus/idomstatus.h \
     src/command/commandClass/command_state.h \
     libs/viberAPI/viber_api.h \
-    libs/facebookAPI/facebookAPI.h
+    libs/facebookAPI/facebookAPI.h \
+    libs/Statistic/statistic.h \
+    src/THERMOMETER_CONTAINER/thermometer_container.h
 
 DISTFILES +=
 
