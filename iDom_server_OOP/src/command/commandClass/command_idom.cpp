@@ -47,7 +47,21 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         return my_data->main_iDomTools->getSystemInfo();
     }
     else if (v[1]=="temperature"){
-        return my_data->main_iDomTools->getTemperatureString();
+        if ( v.size() < 3){
+            return my_data->main_iDomTools->getTemperatureString();
+        }
+        else {
+            if (v[2] == "stats"){
+                std::string ret;
+                try{
+                 ret = my_data->main_iDomTools->getThermoStats(v[3]);
+                }
+                catch (std::string obj){
+                    ret = obj +" "+v[3];
+                }
+               return ret;
+            }
+        }
     }
     else if (v[1]=="sms"){
         if (v.size() <3){
@@ -184,6 +198,7 @@ std::string command_iDom::help()
     ret.append("iDom LED <FROM> <TO> <R> <G> <B> - set RGB LED strip\n");
     ret.append("iDom LED OFF    - led off\n");
     ret.append("iDom temperature - get temperature from all termomether\n");
+    ret.append("iDom temperature stats <name> - get temperature stats from termomether <name>\n");
     ret.append("iDom smog       - get current SMOG level (KRAKOW)\n");
     ret.append("iDom kill thread <ID>  - kill thread\n");
     ret.append("iDom camera LED ON/OFF - LED camera work\n");

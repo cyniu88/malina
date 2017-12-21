@@ -43,6 +43,8 @@ public:
 
     TEMPERATURE_STATE hasTemperatureChange(std::string thermometerName, double reference, double histereza);
     void sendSMSifTempChanged(std::string thermomethernName, int reference);
+    std::string getThermoStats(std::string name);
+    void updateTemperatureStats();
 
     static void turnOnSpeakers();
     static void turnOffSpeakers();

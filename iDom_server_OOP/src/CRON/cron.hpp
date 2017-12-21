@@ -14,11 +14,11 @@ private:
     bool check_temperature;
     thread_data * my_data;
     void send_time();
-    void runEveryOne1min(struct tm *act_date);
-    void runEveryOne5min();
-    void runEveryOne15min();
-    void runEveryOne30min();
-    void runEveryOne1h();
+    void runEveryone_1min(struct tm *act_date);
+    void runEveryone_5min();
+    void runEveryone_15min();
+    void runEveryone_30min();
+    void runEveryone_1h();
 };
 
 #endif // CRON_HPP

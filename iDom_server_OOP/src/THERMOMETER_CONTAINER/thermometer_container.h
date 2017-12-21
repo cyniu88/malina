@@ -2,6 +2,7 @@
 #define THERMOMETER_CONTAINER_H
 #include <map>
 #include <vector>
+#include "../../libs/Statistic/statistic.h"
 
 enum class TEMPERATURE_STATE{
     Under,
@@ -24,7 +25,10 @@ struct temperature {
 };
 class THERMOMETER {
 public:
-    temperature t;
+    THERMOMETER(int iter);
+
+    temperature m_thermometer;
+    STATISTIC<double> m_stats;
 };
 
 class THERMOMETER_CONTAINER
@@ -39,6 +43,8 @@ public:
     TEMPERATURE_STATE getLastState(std::string name);
     void setState(std::string name, TEMPERATURE_STATE state);
     void updateAll(std::vector<std::string>* vectorThermo);
+    void updateStats(std::string name);
+    std::string getStatsByName(std::string name);
 };
 
 #endif // THERMOMETER_CONTAINER_H

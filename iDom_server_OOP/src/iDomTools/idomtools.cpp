@@ -105,6 +105,19 @@ void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int referenc
     }
 }
 
+std::string iDomTOOLS::getThermoStats(std::string name)
+{
+    return  allThermometer.getStatsByName(name);
+}
+
+void iDomTOOLS::updateTemperatureStats()
+{
+    auto v = getTemperature();
+    allThermometer.updateAll(&v);
+    allThermometer.updateStats("outside");
+    allThermometer.updateStats("inside");
+}
+
 void iDomTOOLS::turnOnSpeakers()
 {
     digitalWrite(iDomConst::GPIO_SPIK, HIGH);
