@@ -1,4 +1,5 @@
 #include "command_idom.h"
+#include "../../functions/functions.h"
 
 command_iDom::command_iDom(std::string name):command(name)
 {
@@ -116,7 +117,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
     }
     else if (v[1]=="wifi"){
-        std::string readBuffer = my_data->main_iDomTools->httpPost("http://cyniu88.no-ip.pl/cgi-bin/kto_wifi.sh",10);
+        std::string readBuffer = useful_F::httpPost("http://cyniu88.no-ip.pl/cgi-bin/kto_wifi.sh",10);
         return readBuffer;
     }
     else if (v[1]=="kill"){

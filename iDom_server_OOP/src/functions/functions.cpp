@@ -13,6 +13,7 @@
 #include <time.h>
 #include <netdb.h>
 #include <chrono>
+#include <curl/curl.h>
 
 // przerobka  adresu na ip . //////////////////////////////////
 bool useful_F::go_while = true;
@@ -392,6 +393,52 @@ int useful_F::findFreeThreadSlot(Thread_array_struc *array)
         }
     }
     return -1;
+}
+
+std::string useful_F::httpPost(std::string url, int timeoutSeconds)
+{
+    CURL *curl;
+    CURLcode res;
+    std::string readBuffer;
+    curl = curl_easy_init();
+
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeoutSeconds);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, iDomTOOLS::WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                    curl_easy_strerror(res));
+
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_global_cleanup();
+
+    return readBuffer;
+}
+
+void useful_F::downloadFile(std::string url, std::string path, int timeoutSeconds)
+{
+    CURL *curl;
+    FILE *fp;
+    CURLcode res;
+
+    curl = curl_easy_init();
+    if (curl) {
+        fp = fopen(path.c_str(),"wb");
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeoutSeconds);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+        res = curl_easy_perform(curl);
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+        fclose(fp);
+    }
 }
 
 volatile unsigned int  useful_F::lastInterruptTime = 0;

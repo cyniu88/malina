@@ -36,6 +36,9 @@ public:
     static  void setStaticData(thread_data* my_dataPtr);
     static void clearThreadArray(thread_data *my_data);
     static int findFreeThreadSlot(Thread_array_struc *array);
+    //////////////////// HTTP req //////////////////////////
+    static std::string httpPost(std::string url, int timeoutSeconds );
+    static void downloadFile(std::string url, std::string path, int timeoutSeconds);
 
 };
 #endif // FUNCTIONS_H

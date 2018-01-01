@@ -1,60 +1,72 @@
-#include <iostream>
-#include <curl/curl.h>
+//#include <iostream>
+//#include <curl/curl.h>
+//#include <stdio.h>
+//#include <string.h>
+//#include <fstream>
+
+//size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
+//{
+//    ((std::string*)userp)->append((char*)contents, size * nmemb);
+//    return size * nmemb;
+//}
+
+//void downloadFile(std::string url, std::string path)
+//{
+//    CURL *curl;
+//    char *fp;
+//    CURLcode res;
+//    curl = curl_easy_init();
+//    if (curl) {
+//        std::ofstream file(path);
+//        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+//        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+//        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+//        res = curl_easy_perform(curl);
+//        file << fp;
+//        /* always cleanup */
+//        curl_easy_cleanup(curl);
+//        file.close();
+//    }
+//}
+
+//int main(int argc, char *argv[])
+//{
+//    downloadFile("http://www.telegraph.co.uk/content/dam/Travel/Destinations/Europe/France/Nice/Nice%2C%20france-xlarge.jpg",
+//                                              "/home/pi/plik.jpg");
+
+
+//    return 0;
+//}
+
 #include <stdio.h>
-#include <string.h>
-size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
-{
-    ((std::string*)userp)->append((char*)contents, size * nmemb);
-    return size * nmemb;
+#include <curl/curl.h>
+/* For older cURL versions you will also need
+#include <curl/types.h>
+#include <curl/easy.h>
+*/
+#include <string>
+
+size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
+    size_t written = fwrite(ptr, size, nmemb, stream);
+    return written;
 }
 
-
-
-int main(int argc, char *argv[])
-{
-    std::cout << "Hello World!" << std::endl;
-
-
+int main(void) {
     CURL *curl;
+    FILE *fp;
     CURLcode res;
-    std::string readBuffer;
-    std::string data = "message="+msg;
-    std::string address = "https://graph.facebook.com/v2.10/me/feed?access_token=EAAHkO5uKQ4YBAHDdy7d34k86c4b9g95WYm0YntDQkDiGaReWZCqr0taqXCNyjSICXeIATZCn9aDG4LGhnY7aS78xAqg5ZBwlqCZBHN8YC3r2GwkIuJDossx2ot6rIjoHuDZA0QjlBU5cHLptZBaAXuTOLJ6w9ySNPedwZAaDpyQLrjvqeOOemF2x";
+    char *url = "http://www.telegraph.co.uk/content/dam/Travel/Destinations/Europe/France/Nice/Nice%2C%20france-xlarge.jpg";
+    char outfilename[FILENAME_MAX] = "/home/pi/zgjecie.jpg";
     curl = curl_easy_init();
-    if(curl) {
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+    if (curl) {
+        fp = fopen(outfilename,"wb");
+        curl_easy_setopt(curl, CURLOPT_URL, url);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
         res = curl_easy_perform(curl);
-        /* Check for errors */
-        if(res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                    curl_easy_strerror(res));
-
         /* always cleanup */
         curl_easy_cleanup(curl);
+        fclose(fp);
     }
-    curl_global_cleanup();
-
-    std::cout << "bufor" << std::endl;
-    std::cout << readBuffer<< std::endl;
-
-//   CURL *curl = curl_easy_init();
-
-//    char *data="message=Posting from C&";
-//    strcat(data, "link=http://placekitten.com&");
-//    strcat(data, "picture=http://placekitten.com/90/90&");
-//    strcat(data, "name=Meow&");
-//    strcat(data, "caption={*actor*} places kittens on the wall&");
-//    strcat(data, "description=Some description&");
-//    strcat(data, "access_token=EAAHkO5uKQ4YBAHDdy7d34k86c4b9g95WYm0YntDQkDiGaReWZCqr0taqXCNyjSICXeIATZCn9aDG4LGhnY7aS78xAqg5ZBwlqCZBHN8YC3r2GwkIuJDossx2ot6rIjoHuDZA0QjlBU5cHLptZBaAXuTOLJ6w9ySNPedwZAaDpyQLrjvqeOOemF2x");
-
-//    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
-//    curl_easy_setopt(curl, CURLOPT_URL, "https://graph.facebook.com/me/feed");
-//    /* Disable SSL check (only for testing) */
-//    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
-
-//    curl_easy_perform(curl); /* post */
     return 0;
 }

@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <fstream>
+
 #include "idomtools.h"
 #include "../functions/functions.h"
 #include "../CRON/cron.hpp"
@@ -240,7 +242,7 @@ std::string iDomTOOLS::getWeatherEvent(std::string city, unsigned int radius)
     url.append(city);
     url.append("&promien=");
     url.append(std::to_string(radius));
-    return httpPost(url, 10);
+    return useful_F::httpPost(url, 10);
 }
 
 void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
@@ -359,7 +361,7 @@ void iDomTOOLS::send_temperature_thingSpeak()
     sendSMSifTempChanged("outside",0);
     sendSMSifTempChanged("inside",24);
 
-    httpPost(addres,10);
+    useful_F::httpPost(addres,10);
 }
 
 size_t iDomTOOLS::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
@@ -396,7 +398,7 @@ std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std
     std::string address = "http://darsonserver.5v.pl/bramkaPlus?login=";
     address +=login+"&password="+pass+"&sender=iDom&number="+number+"&message="+msg;
 
-    std::string readBuffer = httpPost(address,10);
+    std::string readBuffer = useful_F::httpPost(address,10);
 
 
     log_file_mutex.mutex_lock();
@@ -415,7 +417,7 @@ void iDomTOOLS::cameraLedON(std::string link)
     sunSet += Clock(23,30); // +23:30 == -00:30
     if (t <= sunRise || t >= sunSet){
         //printf("zapalam leda!\n");
-        std::string s = httpPost(link,10);
+        std::string s = useful_F::httpPost(link,10);
         if (s == "ok.\n"){
             my_data->main_iDomStatus->setObjectState("cameraLED",STATE::ON);
             //  printf("w ifie\n");
@@ -426,7 +428,7 @@ void iDomTOOLS::cameraLedON(std::string link)
 
 void iDomTOOLS::cameraLedOFF(std::string link)
 {
-    std::string s = httpPost(link,10);
+    std::string s = useful_F::httpPost(link,10);
     //printf (" camera response '%s' \n", s.c_str());
     if (s == "ok.\n"){
         my_data->main_iDomStatus->setObjectState("cameraLED",STATE::OFF);
@@ -463,32 +465,6 @@ std::string iDomTOOLS::postOnFacebook(std::string msg,std::string image)
     }
 
     return  m_facebook.postTxtOnWall(msg);
-}
-
-std::string iDomTOOLS::httpPost(std::string url, int timeoutSeconds)
-{
-    CURL *curl;
-    CURLcode res;
-    std::string readBuffer;
-    curl = curl_easy_init();
-
-    if(curl) {
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeoutSeconds);
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if(res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                    curl_easy_strerror(res));
-
-        /* always cleanup */
-        curl_easy_cleanup(curl);
-    }
-    curl_global_cleanup();
-
-    return readBuffer;
 }
 
 std::string iDomTOOLS::ledOFF()
