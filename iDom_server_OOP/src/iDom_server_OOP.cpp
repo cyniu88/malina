@@ -1,12 +1,12 @@
 #include "iDom_server_OOP.h"
 #include "functions/functions.h"            // brak
-#include "parser/parser.hpp"
 #include <wiringPi.h>
 #include <stdio.h>
 #include <fstream>
 #include <iostream>
 #include "c_connection/c_connection.h"
 #include "TASKER/tasker.h"
+#include "c_master_irda/master_irda.h"
 
 std::string  _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer ;
@@ -256,7 +256,7 @@ int main()
     pidFile.close();
 
     pthread_mutex_init(&Logger::mutex_log, NULL);
-    config server_settings = read_config("/etc/config/iDom_SERVER/iDom_server");     // strukruta z informacjami z pliku konfig
+    config server_settings = useful_F::configFileToStruct();
     struct sockaddr_in server;
     int v_socket;
 
@@ -355,7 +355,7 @@ int main()
 
     useful_F::setStaticData(&node_data);
     /////////////////////////////////////////////////////////
-    int SERVER_PORT = std::stoi(server_settings.PORT);
+    int SERVER_PORT = server_settings.PORT;
     server_settings.SERVER_IP = useful_F::conv_dns(server_settings.SERVER_IP);
     const char *SERVER_IP = server_settings.SERVER_IP.c_str();
     node_data.pointer.ptr_who = who;

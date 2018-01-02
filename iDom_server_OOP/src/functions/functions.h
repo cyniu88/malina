@@ -20,6 +20,7 @@ public:
     // void binary(int val);
     //std::string intToStr(int n);
     //////////////
+    static  config configFileToStruct ();
     static  std::string send_to_arduino (thread_data *my_data_logic, std::string msg);
     static  std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg);
     static  std::string  sek_to_uptime(long long secy );

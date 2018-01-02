@@ -14,6 +14,7 @@
 #include <netdb.h>
 #include <chrono>
 #include <curl/curl.h>
+#include "../../libs/config_parser/parser.hpp"
 
 // przerobka  adresu na ip . //////////////////////////////////
 bool useful_F::go_while = true;
@@ -40,8 +41,66 @@ std::string useful_F::conv_dns (std::string temp){
         printf( "%s ", inet_ntoa( * addr_list[ i ] ) );
         s_ip += inet_ntoa( * addr_list[ i ] );
     }
-    printf( "\n" );
+    printf( "\ndone " );
     return s_ip;
+}
+
+config useful_F::configFileToStruct()
+{
+    std::map<std::string, std::string>  confMap = read_config("/etc/config/iDom_SERVER/iDom_server.cfg");     // strukruta z informacjami z pliku konfig
+    config confStruct;
+
+    confStruct.portRS232       = confMap["portRS232"];
+    confStruct.portRS232_clock = confMap["portRS232_clock" ];
+    confStruct.BaudRate  = confMap["BaudRate"];
+
+    ///// camera
+    confStruct.cameraLedOFF = confMap["CAMERA_LED_OFF"];
+    confStruct.cameraLedON  = confMap["CAMERA_LED_ON"];
+    confStruct.cameraURL    = confMap["CAMERA_SNAPSHOT"];
+
+    confStruct.ID_server = std::stoi(confMap["ID"]);
+    confStruct.SERVER_IP = confMap["SERVER_IP"];
+
+    confStruct.MOVIES_DB_PATH = confMap["MOVIES_DB_PATH"];
+    confStruct.MENU_PATH    = confMap["MENU_PATH"];
+
+    confStruct.TS_KEY = confMap["TS_KEY"];
+    confStruct.MPD_IP = confMap["MPD_IP"];
+
+    confStruct.v_delay = std::stoi(confMap["DELAY"]);
+    confStruct.PORT = std::stoi(confMap["PORT"]);
+
+    //// thread
+    confStruct.THREAD_MPD = confMap["THREAD_MPD"];
+    confStruct.THREAD_RS232 = confMap["THREAD_RS232"];
+    confStruct.THREAD_CRON = confMap["THREAD_CRON"];
+    confStruct.THREAD_IRDA = confMap["THREAD_IRDA"];
+    confStruct.THREAD_DUMMY = confMap["THREAD_DUMMY"];
+
+    ////// facebook
+    confStruct.facebookAccessToken = confMap["FB_ACCESS_TOKEN"];
+
+    //////////// viber
+    confStruct.viberToken = confMap["VIBER_TOKEN"];
+    confStruct.viberAvatar = confMap["VIBER_AVATAR"];
+    confStruct.viberReceiver.insert(confStruct.viberReceiver.begin(), confMap["VIBER_RECEIVER_ROOT"]);
+    confStruct.viberReceiver.push_back(confMap["VIBER_RECEIVER"]);
+    confStruct.viberSender = confMap["VIBER_SENDER"];
+
+    ///////// FTP server
+    confStruct.ftpServer.URL = confMap["FTP_URL"];
+    confStruct.ftpServer.user = confMap["FTP_LOGIN"];
+    confStruct.ftpServer.pass = confMap["FTP_PASS"];
+    //    confStruct = confMap[];
+    //    confStruct = confMap[];
+    //    confStruct = confMap[];
+    for(auto n : confMap){
+        std::cout << "variable:" << n.first << "\tvalue:|" << n.second <<"|"<< std::endl;
+    }
+    puts("koniec");
+
+    return confStruct;
 }
 
 ////////////////////////////////////////// not used now

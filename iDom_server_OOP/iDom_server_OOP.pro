@@ -1,12 +1,12 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
-QMAKE_CXXFLAGS += -O3   -std=c++14
+QMAKE_CXXFLAGS += -O3   -std=c++14 -DNOSSL
 LIBS +=   -L/usr/local/lib   -lwiringPiDev -lwiringPi -llirc_client   -lrt -lpthread  -lcurl  -lmpd
 
-SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
- src/c_connection/c_connection.cpp \
- src/functions/functions.cpp \
+SOURCES += src/iDom_server_OOP.cpp\
+     src/c_connection/c_connection.cpp \
+    src/functions/functions.cpp \
     src/c_connection/c_connection2.cpp \
     src/c_connection/c_connection_node.cpp \
     src/logger/logger.cc \
@@ -60,12 +60,13 @@ SOURCES += src/iDom_server_OOP.cpp src/parser/parser.cpp \
     src/command/commandClass/command_state.cpp \
     libs/viberAPI/viber_api.cpp \
     libs/facebookAPI/facebookAPI.cpp \
-    src/THERMOMETER_CONTAINER/thermometer_container.cpp
+    src/THERMOMETER_CONTAINER/thermometer_container.cpp \
+    libs/config_parser/parser.cpp \
+    ftplibpp/ftplib.cpp
 
 
-HEADERS += src/parser/parser.hpp  \
- src/c_connection/c_connection.h \
- src/functions/functions.h \
+HEADERS += src/c_connection/c_connection.h \
+    src/functions/functions.h \
     src/logger/logger.hpp \
     src/iDom_server_OOP.h \
     src/c_master_irda/master_irda.h \
@@ -121,7 +122,9 @@ HEADERS += src/parser/parser.hpp  \
     libs/viberAPI/viber_api.h \
     libs/facebookAPI/facebookAPI.h \
     libs/Statistic/statistic.h \
-    src/THERMOMETER_CONTAINER/thermometer_container.h
+    src/THERMOMETER_CONTAINER/thermometer_container.h \
+    libs/config_parser/parser.hpp \
+    ftplibpp/ftplib.h
 
 DISTFILES +=
 

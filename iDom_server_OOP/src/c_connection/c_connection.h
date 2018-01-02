@@ -7,7 +7,7 @@
 #include "../CRON/cron.hpp"
 #include "../functions/mpd_cli.h"
 #include "../command/commandhandlerroot.h"
-
+#include "../iDom_server_OOP.h"
 
 
 constexpr int MAX_buf = 32768;

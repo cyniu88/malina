@@ -38,6 +38,7 @@
 #define log_file_cout  f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na ekran
 #define log_file_mutex f_log
 
+
 namespace iDomConst
 {
 constexpr int MAX_CONNECTION = 10;
@@ -88,11 +89,17 @@ struct address_another_servers {
     std::string SERVER_IP;
 };
 
+struct FTP_SERVER{
+    std::string URL;
+    std::string user;
+    std::string pass;
+};
+
 struct config{
     std::string portRS232;
     std::string portRS232_clock;
     std::string BaudRate;
-    std::string PORT;
+    int PORT;
     std::string SERVER_IP;
     std::string MPD_IP;
     std::string MOVIES_DB_PATH;
@@ -105,6 +112,7 @@ struct config{
     std::string TS_KEY= " gg ";
     std::string cameraLedON = "";
     std::string cameraLedOFF ="";
+    std::string cameraURL="";
     std::string facebookAccessToken = "";
     std::string viberToken = "NULL";
     std::string viberAvatar;
@@ -113,6 +121,8 @@ struct config{
     int ID_server = 0;
     int v_delay  ;
     bool encrypted = true;
+
+    FTP_SERVER ftpServer;
 };
 
 struct LED_Strip{
