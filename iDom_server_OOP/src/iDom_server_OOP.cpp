@@ -182,9 +182,12 @@ void Server_connectivity_thread(thread_data  *my_data){
         log_file_cout << CRITICAL <<"KEY RECIVED: " << KEY_rec << " KEY SERVER: "<< KEY_OWN   <<std::endl;
         log_file_mutex.mutex_unlock();
 
-        my_data->main_iDomTools->sendViberMsg("podano zły klucz autentykacji - sprawdz logi",
+        std::string msg ="podano zły klucz autentykacji - sprawdz logi " ;
+        msg.append(inet_ntoa( my_data->from.sin_addr));
+        my_data->main_iDomTools->sendViberMsg(msg,
                                               my_data->server_settings->viberReceiver.at(0),
                                               my_data->server_settings->viberSender+"_ALERT!");
+        KEY_rec.clear();
 
         if(client->c_send("\nFAIL\n") == -1)
         {

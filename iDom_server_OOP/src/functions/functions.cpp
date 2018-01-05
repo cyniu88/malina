@@ -1,19 +1,5 @@
-#include "functions.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <string.h>
-#include <strings.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <iostream>
-#include <time.h>
 #include <netdb.h>
-#include <chrono>
-#include <curl/curl.h>
+#include "functions.h"
 #include "../../libs/config_parser/parser.hpp"
 
 // przerobka  adresu na ip . //////////////////////////////////
@@ -50,62 +36,55 @@ config useful_F::configFileToStruct()
     std::map<std::string, std::string>  confMap = read_config("/etc/config/iDom_SERVER/iDom_server.cfg");     // strukruta z informacjami z pliku konfig
     config confStruct;
 
-    confStruct.portRS232       = confMap["portRS232"];
-    confStruct.portRS232_clock = confMap["portRS232_clock" ];
-    confStruct.BaudRate  = confMap["BaudRate"];
+    confStruct.BaudRate  = confMap.at("BaudRate");
+    confStruct.portRS232 = confMap.at("portRS232");
+    confStruct.portRS232_clock = confMap.at("portRS232_clock");
 
     ///// camera
-    confStruct.cameraLedOFF = confMap["CAMERA_LED_OFF"];
-    confStruct.cameraLedON  = confMap["CAMERA_LED_ON"];
-    confStruct.cameraURL    = confMap["CAMERA_SNAPSHOT"];
+    confStruct.cameraLedOFF = confMap.at("CAMERA_LED_OFF");
+    confStruct.cameraLedON  = confMap.at("CAMERA_LED_ON");
+    confStruct.cameraURL    = confMap.at("CAMERA_SNAPSHOT");
 
-    confStruct.ID_server = std::stoi(confMap["ID"]);
-    confStruct.SERVER_IP = confMap["SERVER_IP"];
+    confStruct.ID_server = std::stoi(confMap.at("ID"));
+    confStruct.SERVER_IP = confMap.at("SERVER_IP");
 
-    confStruct.MOVIES_DB_PATH = confMap["MOVIES_DB_PATH"];
-    confStruct.MENU_PATH    = confMap["MENU_PATH"];
+    confStruct.MOVIES_DB_PATH = confMap.at("MOVIES_DB_PATH");
+    confStruct.MENU_PATH    = confMap.at("MENU_PATH");
 
-    confStruct.TS_KEY = confMap["TS_KEY"];
-    confStruct.MPD_IP = confMap["MPD_IP"];
+    confStruct.TS_KEY = confMap.at("TS_KEY");
+    confStruct.MPD_IP = confMap.at("MPD_IP");
 
-    confStruct.v_delay = std::stoi(confMap["DELAY"]);
-    confStruct.PORT = std::stoi(confMap["PORT"]);
+    confStruct.v_delay = std::stoi(confMap.at("DELAY"));
+    confStruct.PORT = std::stoi(confMap.at("PORT"));
 
     //// thread
-    confStruct.THREAD_MPD = confMap["THREAD_MPD"];
-    confStruct.THREAD_RS232 = confMap["THREAD_RS232"];
-    confStruct.THREAD_CRON = confMap["THREAD_CRON"];
-    confStruct.THREAD_IRDA = confMap["THREAD_IRDA"];
-    confStruct.THREAD_DUMMY = confMap["THREAD_DUMMY"];
+    confStruct.THREAD_MPD   = confMap.at("THREAD_MPD");
+    confStruct.THREAD_RS232 = confMap.at("THREAD_RS232");
+    confStruct.THREAD_CRON  = confMap.at("THREAD_CRON");
+    confStruct.THREAD_IRDA  = confMap.at("THREAD_IRDA");
+    confStruct.THREAD_DUMMY = confMap.at("THREAD_DUMMY");
 
     ////// facebook
-    confStruct.facebookAccessToken = confMap["FB_ACCESS_TOKEN"];
+    confStruct.facebookAccessToken = confMap.at("FB_ACCESS_TOKEN");
 
     //////////// viber
-    confStruct.viberToken = confMap["VIBER_TOKEN"];
-    confStruct.viberAvatar = confMap["VIBER_AVATAR"];
-    confStruct.viberReceiver.insert(confStruct.viberReceiver.begin(), confMap["VIBER_RECEIVER_ROOT"]);
-    confStruct.viberReceiver.push_back(confMap["VIBER_RECEIVER"]);
-    confStruct.viberSender = confMap["VIBER_SENDER"];
+    confStruct.viberSender = confMap.at("VIBER_SENDER");
+    confStruct.viberToken  = confMap.at("VIBER_TOKEN");
+    confStruct.viberAvatar = confMap.at("VIBER_AVATAR");
+    //confStruct.viberReceiver.insert(confStruct.viberReceiver.begin(), confMap.at("VIBER_RECEIVER_ROOT"));
+    confStruct.viberReceiver = split(confMap.at("VIBER_RECEIVER"), '|');
 
     ///////// FTP server
-    confStruct.ftpServer.URL = confMap["FTP_URL"];
-    confStruct.ftpServer.user = confMap["FTP_LOGIN"];
-    confStruct.ftpServer.pass = confMap["FTP_PASS"];
-    //    confStruct = confMap[];
-    //    confStruct = confMap[];
-    //    confStruct = confMap[];
-    for(auto n : confMap){
-        std::cout << "variable:" << n.first << "\tvalue:|" << n.second <<"|"<< std::endl;
-    }
-    puts("koniec");
-
+    confStruct.ftpServer.URL  = confMap.at("FTP_URL");
+    confStruct.ftpServer.user = confMap.at("FTP_LOGIN");
+    confStruct.ftpServer.pass = confMap.at("FTP_PASS");
+    //    confStruct = confMap.at();
+    //    confStruct = confMap.at();
+    //    confStruct = confMap.at();
     return confStruct;
 }
 
 ////////////////////////////////////////// not used now
-///
-///
 /*
 void ChangeEndianness(int32_t * value,int MAX_MSG_LEN_INT)
 {
