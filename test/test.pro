@@ -8,4 +8,5 @@ SOURCES += main.cpp \
     ../iDom_server_OOP/ftplibpp/ftplib.cpp
 
 HEADERS += \
-    ../iDom_server_OOP/ftplibpp/ftplib.h
+    ../iDom_server_OOP/ftplibpp/ftplib.h \
+    ../iDom_server_OOP/libs/useful/useful.h

@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <fstream>
+#include <string>
 
 #include "idomtools.h"
 #include "../functions/functions.h"
@@ -47,8 +48,8 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, d
             oldTemp  < reference + histereza &&
             lastState != TEMPERATURE_STATE::Over)
     {
-        my_data->myEventHandler.run("test")->addEvent("over: new "+std::to_string(newTemp)+" old: "
-                                                      +std::to_string(oldTemp)+" ref: "+std::to_string(reference));
+        my_data->myEventHandler.run("test")->addEvent("over: new "+  to_string_with_precision(newTemp)+" old: "
+                                                      +to_string_with_precision(oldTemp)+" ref: "+to_string_with_precision(reference));
         allThermometer.setState(thermometerName, TEMPERATURE_STATE::Over);
         return TEMPERATURE_STATE::Over;
     }
@@ -56,20 +57,20 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, d
              oldTemp >  reference - histereza &&
              lastState != TEMPERATURE_STATE::Under)
     {
-        my_data->myEventHandler.run("test")->addEvent("under: new "+std::to_string(newTemp)+" old: "
-                                                      +std::to_string(oldTemp)+" ref: "+std::to_string(reference));
+        my_data->myEventHandler.run("test")->addEvent("under: new "+to_string_with_precision(newTemp)+" old: "
+                                                      +to_string_with_precision(oldTemp)+" ref: "+to_string_with_precision(reference));
         allThermometer.setState(thermometerName, TEMPERATURE_STATE::Under);
         return TEMPERATURE_STATE::Under;
     }
     else
     {
-        my_data->myEventHandler.run("test")->addEvent("noChanges: new "+std::to_string(newTemp)+" old: "
-                                                      +std::to_string(oldTemp)+" ref: "+std::to_string(reference));
+        my_data->myEventHandler.run("test")->addEvent("noChanges: new "+to_string_with_precision(newTemp)+" old: "
+                                                      +to_string_with_precision(oldTemp)+" ref: "+to_string_with_precision(reference));
 
         return TEMPERATURE_STATE::NoChanges;
     }
-    my_data->myEventHandler.run("test")->addEvent("unknown: new "+std::to_string(newTemp)+" old: "
-                                                  +std::to_string(oldTemp)+" ref: "+std::to_string(reference));
+    my_data->myEventHandler.run("test")->addEvent("unknown: new "+to_string_with_precision(newTemp)+" old: "
+                                                  +to_string_with_precision(oldTemp)+" ref: "+to_string_with_precision(reference));
 
     return TEMPERATURE_STATE::Unknown;
 }
@@ -77,7 +78,7 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, d
 void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int reference)
 {
     TEMPERATURE_STATE status = hasTemperatureChange(thermomethernName,reference,0.5);
-    std::string m = "temperature "+thermomethernName+" over ^"+ std::to_string(reference);
+    std::string m = "temperature "+thermomethernName+" over ^"+ to_string_with_precision(reference);
 
     if (status == TEMPERATURE_STATE::Over){
         my_data->myEventHandler.run("temperature")->addEvent(m);
@@ -85,7 +86,7 @@ void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int referenc
         sendViberMsg(m,my_data->server_settings->viberReceiver.at(0),my_data->server_settings->viberSender);
     }
     else if (status == TEMPERATURE_STATE::Under){
-        m ="temperature " + thermomethernName+" under \\/"+std::to_string(reference);
+        m ="temperature " + thermomethernName+" under \\/"+to_string_with_precision(reference);
         my_data->myEventHandler.run("temperature")->addEvent(m);
         //sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
         if (reference < 2){
@@ -103,7 +104,7 @@ void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int referenc
         }
     }
     else{
-        //my_data->myEventHandler.run("unknown")->addEvent("temperatura nie przeszla przez "+std::to_string(reference));
+        //my_data->myEventHandler.run("unknown")->addEvent("temperatura nie przeszla przez "+to_string_with_precision(reference));
     }
 }
 
@@ -118,6 +119,47 @@ void iDomTOOLS::updateTemperatureStats()
     allThermometer.updateAll(&v);
     allThermometer.updateStats("outside");
     allThermometer.updateStats("inside");
+
+    if( true == allThermometer.isMoreDiff("outside",2.1)){
+        auto  data = allThermometer.getLast2("outside");
+        std::string msg = "alarm roznicy temeratur na polu! " + to_string_with_precision(data.first) +" na "+
+                to_string_with_precision(data.second);
+
+        if (data.first > data.second){
+            msg += " temperatura maleje";
+        }
+        else{
+            msg += " temperatura rośnie";
+        }
+
+        sendViberMsg(msg  ,
+                     my_data->server_settings->viberReceiver.at(0),
+                     my_data->server_settings->viberSender);
+
+        log_file_mutex.mutex_lock();
+        log_file_cout << WARNING << msg << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+    if( true == allThermometer.isMoreDiff("inside",2.1)){
+        auto  data = allThermometer.getLast2("inside");
+        std::string msg = "alarm roznicy temeratur na mieszkaniu! " + to_string_with_precision(data.first) +" na "+
+                to_string_with_precision(data.second);
+
+        if (data.first > data.second){
+            msg += " temperatura maleje";
+        }
+        else{
+            msg += " temperatura rośnie";
+        }
+
+        sendViberMsg(msg  ,
+                     my_data->server_settings->viberReceiver.at(0),
+                     my_data->server_settings->viberSender);
+
+        log_file_mutex.mutex_lock();
+        log_file_cout << WARNING << msg << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 }
 
 void iDomTOOLS::turnOnSpeakers()
@@ -232,7 +274,7 @@ std::string iDomTOOLS::getSystemInfo()
     k <<"load average : "<<(info.loads[0] )
             <<" 5min: "  <<(info.loads[1] )
             <<" 15min: " <<(info.loads[2] )<<std::endl;
-    puts(k.str().c_str());
+   // puts(k.str().c_str());
     return ret;
 }
 

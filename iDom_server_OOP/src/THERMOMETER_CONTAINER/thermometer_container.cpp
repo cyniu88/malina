@@ -105,6 +105,32 @@ std::string THERMOMETER_CONTAINER::getStatsByName(std::string name)
     }
 }
 
+bool THERMOMETER_CONTAINER::isMoreDiff(std::string name, double diff)
+{
+    auto m = thermoMap.find(name);
+    if (m != thermoMap.end()){
+
+        return m->second.m_stats.isMoreDiff(diff);
+    }
+    else
+    {
+        throw std::string("theromometr not found");
+    }
+}
+
+std::pair<double, double> THERMOMETER_CONTAINER::getLast2(std::string name)
+{
+    auto m = thermoMap.find(name);
+    if (m != thermoMap.end()){
+
+        return m->second.m_stats.getLast2();
+    }
+    else
+    {
+        throw std::string("theromometr not found");
+    }
+}
+
 THERMOMETER::THERMOMETER(int iter):m_stats(iter)
 {
 

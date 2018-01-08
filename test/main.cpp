@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <curl/curl.h>
+#include <iostream>
 /* For older cURL versions you will also need
 #include <curl/types.h>
 #include <curl/easy.h>
@@ -7,18 +8,11 @@
 #include <string>
 
 #include "../iDom_server_OOP/ftplibpp/ftplib.h"
+#include "../iDom_server_OOP/libs/useful/useful.h"
 
 int main(void) {
-    ///////////// ftp
-    ///
-    ///
-    ftplib myFTP;
+double d = 38.123456789;
 
-    myFTP.Connect("192.168.1.1:21");
-    myFTP.Login("cyniu","$506cyniU");
-
-    myFTP.Put("/home/pi/plik.jpg","/twardziel/iDom/mojFTPplik.jpg", ftplib::image);
-
-    myFTP.Quit();
+    std::cout << "start " << to_string_with_precision(d,4) << std::endl;
     return 0;
 }

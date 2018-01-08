@@ -45,6 +45,9 @@ public:
     void updateAll(std::vector<std::string>* vectorThermo);
     void updateStats(std::string name);
     std::string getStatsByName(std::string name);
+
+    bool isMoreDiff(std::string name, double diff);
+    std::pair<double,double> getLast2(std::string name);
 };
 
 #endif // THERMOMETER_CONTAINER_H
