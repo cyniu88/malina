@@ -4,6 +4,7 @@
 
 #include "idomtools.h"
 #include "../functions/functions.h"
+#include "../../libs/emoji/emoji.h"
 #include "../CRON/cron.hpp"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
@@ -78,17 +79,17 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, d
 void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int reference)
 {
     TEMPERATURE_STATE status = hasTemperatureChange(thermomethernName,reference,0.5);
-    std::string m = "temperature "+thermomethernName+" over ^"+ to_string_with_precision(reference);
+    std::string m = "temperature "+thermomethernName+" over "+ EMOJI::emoji(E_emoji::NORTH_EAST_ARROW)
+            + to_string_with_precision(reference);
 
     if (status == TEMPERATURE_STATE::Over){
         my_data->myEventHandler.run("temperature")->addEvent(m);
-        //sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
         sendViberMsg(m,my_data->server_settings->viberReceiver.at(0),my_data->server_settings->viberSender);
     }
     else if (status == TEMPERATURE_STATE::Under){
-        m ="temperature " + thermomethernName+" under \\/"+to_string_with_precision(reference);
+        m ="temperature " + thermomethernName+" under "+EMOJI::emoji(E_emoji::SOUTH_EAST_ARROW)
+                +to_string_with_precision(reference);
         my_data->myEventHandler.run("temperature")->addEvent(m);
-        //sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
         if (reference < 2){
             sendViberPicture(m,"http://canacopegdl.com/images/cold/cold-14.jpg",
                              my_data->server_settings->viberReceiver.at(0),
@@ -126,10 +127,10 @@ void iDomTOOLS::updateTemperatureStats()
                 to_string_with_precision(data.second);
 
         if (data.first > data.second){
-            msg += " temperatura maleje";
+            msg += " temperatura maleje " + EMOJI::emoji(E_emoji::CHART_WITH_DOWNWARDS_TREND);
         }
         else{
-            msg += " temperatura rośnie";
+            msg += " temperatura rośnie " + EMOJI::emoji(E_emoji::CHART_WITH_UPWARDS_TREND);
         }
 
         sendViberMsg(msg  ,
@@ -146,10 +147,10 @@ void iDomTOOLS::updateTemperatureStats()
                 to_string_with_precision(data.second);
 
         if (data.first > data.second){
-            msg += " temperatura maleje";
+            msg += " temperatura maleje " + EMOJI::emoji(E_emoji::CHART_WITH_DOWNWARDS_TREND);
         }
         else{
-            msg += " temperatura rośnie";
+            msg += " temperatura rośnie " + EMOJI::emoji(E_emoji::CHART_WITH_UPWARDS_TREND);
         }
 
         sendViberMsg(msg  ,

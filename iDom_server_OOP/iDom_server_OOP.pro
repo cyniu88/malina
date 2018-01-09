@@ -62,7 +62,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     libs/facebookAPI/facebookAPI.cpp \
     src/THERMOMETER_CONTAINER/thermometer_container.cpp \
     libs/config_parser/parser.cpp \
-    ftplibpp/ftplib.cpp
+    ftplibpp/ftplib.cpp \
+    libs/emoji/emoji.cpp
 
 
 HEADERS += src/c_connection/c_connection.h \
@@ -124,7 +125,8 @@ HEADERS += src/c_connection/c_connection.h \
     libs/Statistic/statistic.h \
     src/THERMOMETER_CONTAINER/thermometer_container.h \
     libs/config_parser/parser.hpp \
-    ftplibpp/ftplib.h
+    ftplibpp/ftplib.h \
+    libs/emoji/emoji.h
 
 DISTFILES +=
 
