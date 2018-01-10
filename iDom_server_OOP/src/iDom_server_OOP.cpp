@@ -315,8 +315,8 @@ int main()
     files_tree main_tree( server_settings.MOVIES_DB_PATH, &mainLCD);
     /////////////////////////////// RC 433MHz ////////////////////
     RADIO_EQ_CONTAINER rc433MHz(&node_data);
-    rc433MHz.addRadioEq("LZ", RADIO_EQ_TYPE::SWITCH);
-    //rc433MHz.addRadioEq("dummy", RADIO_EQ_TYPE::SWITCH);
+    rc433MHz.addRadioEq("LZ","1450", RADIO_EQ_TYPE::SWITCH);
+    rc433MHz.addRadioEq("dummy","1460", RADIO_EQ_TYPE::SWITCH);
 
     ///////////////////////////////// MENU /////////////////////////////////
     menu_tree main_MENU(server_settings.MENU_PATH, &mainLCD);

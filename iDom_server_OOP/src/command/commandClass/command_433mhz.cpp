@@ -16,8 +16,6 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
 
         }
         else if (v[1] == "switch"){
-            puts("pointer w command ");
-            std::cout << my_data << std::endl;
             try{
                 RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_RSC->getEqPointer(v[2]));
 

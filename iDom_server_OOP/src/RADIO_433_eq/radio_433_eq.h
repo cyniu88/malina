@@ -11,8 +11,11 @@ enum class RADIO_EQ_TYPE{
 
 class RADIO_EQ{
 public:
-    //RADIO_EQ();
+    RADIO_EQ();
     virtual ~RADIO_EQ();
+    virtual STATE getState() = 0;
+    virtual std::string getName() = 0;
+    virtual std::string getID() = 0;
 };
 
 class RADIO_SWITCH: public RADIO_EQ
@@ -22,23 +25,27 @@ class RADIO_SWITCH: public RADIO_EQ
     int m_offCode = 2008;
     int m_onFor15secCode = 2020;
     std::string m_name;
-    std::string m_nameHEX = "1433";
+    std::string m_id;
     STATE m_state = STATE::UNDEFINE;
 public:
-    RADIO_SWITCH(thread_data * my_data,std::string m_name);
+    RADIO_SWITCH(thread_data * my_data, std::string m_name, std::string id);
     ~RADIO_SWITCH();
     void on();
     void off();
     void onFor15sec();
+    STATE getState();
+    std::string getName();
+    std::string getID();
 };
 
 class RADIO_EQ_CONTAINER
 {
-    std::map <std::string, RADIO_EQ > m_radioEqMap;
+    std::map <std::string, RADIO_EQ* > m_radioEqMap;
     thread_data * my_data;
 public:
     RADIO_EQ_CONTAINER(thread_data * my_data);
-    void addRadioEq(std::string name, RADIO_EQ_TYPE type);
+    ~RADIO_EQ_CONTAINER();
+    void addRadioEq(std::string name, std::string id, RADIO_EQ_TYPE type);
     RADIO_EQ *getEqPointer(std::string name);
     std::string listAllName();
 };
