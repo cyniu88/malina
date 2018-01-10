@@ -1,10 +1,16 @@
+#include <RCSwitch.h>
+
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
 #include <avr/power.h>
 #endif
 
-#define PIN 11
 
+//PINs
+#define ONE_WIRE_BUS 2
+#define PIN 11
+#define Radio_433_Tx 10
+#define Radio_433_Rx 3
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
 // Parameter 3 = pixel type flags, add together as needed:
@@ -14,12 +20,14 @@
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, PIN, NEO_GRB + NEO_KHZ800);
+RCSwitch mySwitch = RCSwitch();
+
 
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-// Data wire is plugged into port 2 on the Arduino
-#define ONE_WIRE_BUS 2
+
+
 
 // Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
 OneWire oneWire(ONE_WIRE_BUS);
@@ -46,7 +54,7 @@ struct TEMPERATURE{
 
 String command  = "z";
 String value    = "0";
-int valueINT    = 0;
+long int valueINT    = 0;
 
 TEMPERATURE insideTemp;
 TEMPERATURE outsideTemp;
@@ -72,6 +80,9 @@ void setup() {
   sensors.begin();
   sensors.setResolution(insideThermometer , TEMPERATURE_PRECISION);
   sensors.setResolution(outsideThermometer, TEMPERATURE_PRECISION);
+  
+  // Transmitter is connected to Arduino Pin #10 = Radio_433_TX 
+mySwitch.enableTransmit(Radio_433_Tx);
 
 }
 
@@ -194,6 +205,17 @@ void loop() {
     Serial.print(" | IN - ");
     Serial.print(String(insideTemp.errorCounter));
     Serial.print(';');
+    command="z";
+    valueINT=0;
+  }
+  /////////////////////////////////////////////////////////////
+  if (command=="433MHz")
+  {
+    valueINT = value.toInt();
+    mySwitch.send(valueINT, 24);
+    Serial.print("send:");
+    Serial.print(String(valueINT));
+    Serial.print(";");
     command="z";
     valueINT=0;
   }

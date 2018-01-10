@@ -15,9 +15,10 @@ std::string command_stop::execute(std::vector<std::string> &v, thread_data *my_d
     }
     if (v[1]=="server")
     {
+        std::string s ="close server";
         useful_F::send_to_arduino_clock(my_data, "STOP");
         iDomTOOLS::MPD_stop();
-        throw "close server";
+        throw s;
     }
     else
     {

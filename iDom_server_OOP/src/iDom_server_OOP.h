@@ -34,6 +34,7 @@
 #include "../libs/event_counter_test/event_counters/event_counters_handler.h"
 #include "iDomTools/idomtools.h"
 #include "iDomStatus/idomstatus.h"
+//#include "RADIO_SWITCH/radio_switch.h"
 
 #define log_file_cout  f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na ekran
 #define log_file_mutex f_log
@@ -199,6 +200,7 @@ struct pilot_led{
 
 class command ;  // for struc thread_data req
 class iDomTOOLS;
+class RADIO_EQ_CONTAINER;
 
 struct thread_data{
     int s_client_sock;
@@ -221,6 +223,7 @@ struct thread_data{
     std::string encriptionKey = "40%";
     iDomSTATUS *main_iDomStatus;
     ALERT alarmTime;
+    RADIO_EQ_CONTAINER *main_RSC;
 };
 
 struct thread_data_rs232{

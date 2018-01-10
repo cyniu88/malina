@@ -159,6 +159,9 @@ std::string useful_F::send_to_arduino_clock (thread_data *my_data_logic, std::st
 
 std::string useful_F::send_to_arduino (thread_data *my_data_logic, std::string msg){
 
+    //puts("w send to arduino ");
+    //std::cout <<  my_data_logic<< std::endl;
+    //puts("|end");
     while (go_while)
     {
         std::this_thread::sleep_for( std::chrono::milliseconds(50) );

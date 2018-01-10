@@ -7,6 +7,7 @@
 #include "c_connection/c_connection.h"
 #include "TASKER/tasker.h"
 #include "c_master_irda/master_irda.h"
+#include "RADIO_433_eq//radio_433_eq.h"
 
 std::string  _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer ;
@@ -228,9 +229,9 @@ void Server_connectivity_thread(thread_data  *my_data){
         {
             client->c_analyse(recvSize);
         }
-        catch (...)
+        catch (std::string s)
         {
-            puts("close server");
+            puts("close server - throw");
             useful_F::go_while = false;
             client->c_send("CLOSE");
             //delete client;
@@ -312,6 +313,11 @@ int main()
     LCD_c mainLCD(0x27,16,2);
     //////////////     przegladanie plikow ////////////////////
     files_tree main_tree( server_settings.MOVIES_DB_PATH, &mainLCD);
+    /////////////////////////////// RC 433MHz ////////////////////
+    RADIO_EQ_CONTAINER rc433MHz(&node_data);
+    rc433MHz.addRadioEq("LZ", RADIO_EQ_TYPE::SWITCH);
+    //rc433MHz.addRadioEq("dummy", RADIO_EQ_TYPE::SWITCH);
+
     ///////////////////////////////// MENU /////////////////////////////////
     menu_tree main_MENU(server_settings.MENU_PATH, &mainLCD);
     /////////////////////////////////////////////////   wypelniam  struktury przesylane do watkow  ////////////////////////
@@ -368,6 +374,7 @@ int main()
     node_data.main_THREAD_arr = &thread_array[0];
     node_data.sleeper = 0;
     node_data.ptr_MPD_info = &my_MPD_info;
+    node_data.main_RSC = &rc433MHz;
 
     pilot_led mainPilotLED;
     node_data.ptr_pilot_led = &mainPilotLED;
@@ -485,6 +492,7 @@ int main()
     struct sockaddr_in from;
     /////////////////////////////////////////////////// INFO PART //////////////////////////////////////////////////
     node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings.viberReceiver.at(0),server_settings.viberSender);
+
     ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
 
     while (1)

@@ -63,7 +63,10 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/THERMOMETER_CONTAINER/thermometer_container.cpp \
     libs/config_parser/parser.cpp \
     ftplibpp/ftplib.cpp \
-    libs/emoji/emoji.cpp
+    libs/emoji/emoji.cpp \
+    src/433MHz/rc_433mhz.cpp \
+    src/RADIO_433_eq/radio_433_eq.cpp \
+    src/command/commandClass/command_433mhz.cpp
 
 
 HEADERS += src/c_connection/c_connection.h \
@@ -126,7 +129,10 @@ HEADERS += src/c_connection/c_connection.h \
     src/THERMOMETER_CONTAINER/thermometer_container.h \
     libs/config_parser/parser.hpp \
     ftplibpp/ftplib.h \
-    libs/emoji/emoji.h
+    libs/emoji/emoji.h \
+    src/433MHz/rc_433mhz.h \
+    src/RADIO_433_eq/radio_433_eq.h \
+    src/command/commandClass/command_433mhz.h
 
 DISTFILES +=
 
