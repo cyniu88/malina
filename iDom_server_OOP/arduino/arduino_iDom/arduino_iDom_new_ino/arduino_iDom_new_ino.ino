@@ -10,7 +10,7 @@
   #define ONE_WIRE_BUS 3
   #define PIN 11
   #define Radio_433_Tx 10
-  #define Radio_433_Rx 2
+  #define Radio_433_Rx 0
   // Parameter 1 = number of pixels in strip
   // Parameter 2 = Arduino pin number (most are valid)
   // Parameter 3 = pixel type flags, add together as needed:
@@ -68,9 +68,9 @@
   
   void setup() {
     // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
-  #if defined (__AVR_ATtiny85__)
-    if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
-  #endif
+//  #if defined (__AVR_ATtiny85__)
+//    if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
+//  #endif
     // End of trinket special code
   
     Serial.begin(9600);
@@ -270,7 +270,7 @@
     //////////////////////////////// receive 433mhz
  
       if (mySwitch.available()) {
-        Serial.print("433MHz:");
+        Serial.print("ardu 433MHz ");
         Serial.print(mySwitch.getReceivedValue());
         Serial.print(';');
         mySwitch.resetAvailable();

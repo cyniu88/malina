@@ -66,7 +66,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     libs/emoji/emoji.cpp \
     src/433MHz/rc_433mhz.cpp \
     src/RADIO_433_eq/radio_433_eq.cpp \
-    src/command/commandClass/command_433mhz.cpp
+    src/command/commandClass/command_433mhz.cpp \
+    src/command/commandClass/command_ardu.cpp
 
 
 HEADERS += src/c_connection/c_connection.h \
@@ -132,7 +133,8 @@ HEADERS += src/c_connection/c_connection.h \
     libs/emoji/emoji.h \
     src/433MHz/rc_433mhz.h \
     src/RADIO_433_eq/radio_433_eq.h \
-    src/command/commandClass/command_433mhz.h
+    src/command/commandClass/command_433mhz.h \
+    src/command/commandClass/command_ardu.h
 
 DISTFILES +=
 
