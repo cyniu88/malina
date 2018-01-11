@@ -8,6 +8,14 @@ enum class RADIO_EQ_TYPE{
     PIR,
     GATE,
 };
+struct RADIO_EQ_CONFIG{
+    std::string name;
+    std::string ID;
+    std::string type;
+    int onCode;
+    int offCode;
+    int on15sec;
+};
 
 class RADIO_EQ{
 public:
@@ -36,6 +44,7 @@ public:
     STATE getState();
     std::string getName();
     std::string getID();
+    void setCode(int on, int off, int for15sec);
 };
 
 class RADIO_EQ_CONTAINER
@@ -46,8 +55,9 @@ public:
     RADIO_EQ_CONTAINER(thread_data * my_data);
     ~RADIO_EQ_CONTAINER();
     void addRadioEq(std::string name, std::string id, RADIO_EQ_TYPE type);
-    RADIO_EQ *getEqPointer(std::string name);
+    RADIO_EQ* getEqPointer(std::string name);
     std::string listAllName();
+    void loadConfig(std::string filePath);
 };
 
 

@@ -3,17 +3,15 @@
 
 command_433MHz::command_433MHz(std::string name):command(name)
 {
-
 }
 
 std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my_data)
 {
     std::string str_buf = "command 433MHz - wrong paramiter: ";
-    if (v.size() > 3){
+    if (v.size() > 2){
         //////////////////////////// switch
-        if (v[1] == "show" && v[2] == "switch"){
+        if (v[1] == "show" && v[2] == "all"){
                str_buf = my_data->main_RSC->listAllName();
-
         }
         else if (v[1] == "switch"){
             try{
@@ -36,13 +34,10 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
                     str_buf = "unknown paramiter: ";
                     str_buf.append(v[3]);
                 }
-
             }
             catch (std::string error){
                 str_buf = error;
             }
-
-
         }
         /////////////////////////////////////////////
     }
@@ -52,7 +47,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
 std::string command_433MHz::help()
 {
     std::string ret;
-    ret.append("433MHz show switch list - list all switch by name\n");
+    ret.append("433MHz show all - list all equipment by name\n");
     ret.append("433MHz switch <name> ON/OFF/15s - change switch state\n");
     return ret;
 }

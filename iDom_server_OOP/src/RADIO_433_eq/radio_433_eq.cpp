@@ -1,3 +1,6 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include "radio_433_eq.h"
 
 RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, std::string name, std::string id):
@@ -44,7 +47,15 @@ std::string RADIO_SWITCH::getName()
 
 std::string RADIO_SWITCH::getID()
 {
-   return m_id;
+    return m_id;
+}
+
+void RADIO_SWITCH::setCode(int on, int off, int for15sec)
+{
+    m_onCode = on;
+    m_offCode = off;
+    m_onFor15secCode = for15sec;
+    //m_id.clear();
 }
 
 RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_data *my_data)
@@ -70,7 +81,7 @@ void RADIO_EQ_CONTAINER::addRadioEq(std::string name,std::string id, RADIO_EQ_TY
     }
 }
 
-RADIO_EQ *RADIO_EQ_CONTAINER::getEqPointer(std::string name)
+RADIO_EQ* RADIO_EQ_CONTAINER::getEqPointer(std::string name)
 {
     auto m = m_radioEqMap.find(name);
     if (m != m_radioEqMap.end()){
@@ -98,6 +109,37 @@ std::string RADIO_EQ_CONTAINER::listAllName()
     }
 
     return allName;
+}
+
+void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
+{
+
+    std::stringstream lineStream;
+    std::string line;
+    RADIO_EQ_CONFIG cfg;
+
+    std::ifstream myfile (filePath);
+    if (myfile.is_open())
+    {
+        while ( getline (myfile, line) )
+        {
+            std::cout << line << std::endl;
+            if (line.front() != '#'){
+                lineStream << line;
+
+                lineStream >> cfg.type >> cfg.name >> cfg.ID >> cfg.onCode >>cfg.offCode >> cfg.on15sec ;
+                if (cfg.type == "switch"){
+                    addRadioEq(cfg.name,cfg.ID,RADIO_EQ_TYPE::SWITCH);
+                    dynamic_cast<RADIO_SWITCH*>(getEqPointer(cfg.name))->setCode(cfg.onCode,cfg.offCode,cfg.on15sec);
+                }
+                //TODO add more type
+            }
+            lineStream.clear();
+        }
+        myfile.close();
+    }
+
+    else std::cout << "Unable to open file";
 }
 
 RADIO_EQ::RADIO_EQ()

@@ -119,6 +119,7 @@ struct config{
     std::string viberAvatar;
     std::vector <std::string> viberReceiver;
     std::string viberSender;
+    std::string radio433MHzConfigFile;
     int ID_server = 0;
     int v_delay  ;
     bool encrypted = true;

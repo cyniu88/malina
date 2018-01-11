@@ -81,6 +81,10 @@ config useful_F::configFileToStruct()
     //    confStruct = confMap.at();
     //    confStruct = confMap.at();
     //    confStruct = confMap.at();
+    ///////////// RADIO 433
+    confStruct.radio433MHzConfigFile = confMap.at("433MHz_config");
+
+
     return confStruct;
 }
 
