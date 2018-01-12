@@ -382,6 +382,9 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
     case PILOT_KEY::KEY_FAVORITES:
         my_data->main_iDomTools->turnOnOffPrinter();
         break;
+    case PILOT_KEY::KEY_TEXT:
+        my_data->main_iDomTools->turnOnOff433MHzSwitch("listwa");
+        break;
     default:
         irdaMPD(X);
     }

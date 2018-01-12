@@ -19,5 +19,4 @@ void TASKER::dataFromRS232(std::string bufor)
     commandHandlerRS232 rs232(my_data);
 
     rs232.run(v,my_data);
-
 }

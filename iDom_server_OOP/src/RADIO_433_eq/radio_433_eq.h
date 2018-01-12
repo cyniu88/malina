@@ -24,6 +24,8 @@ public:
     virtual STATE getState() = 0;
     virtual std::string getName() = 0;
     virtual std::string getID() = 0;
+protected:
+    thread_data *m_my_data;
 };
 
 class RADIO_SWITCH: public RADIO_EQ
@@ -59,6 +61,5 @@ public:
     std::string listAllName();
     void loadConfig(std::string filePath);
 };
-
 
 #endif // RADIO_SWITCH_H

@@ -6,6 +6,7 @@
 #include "../functions/functions.h"
 #include "../../libs/emoji/emoji.h"
 #include "../CRON/cron.hpp"
+#include "../RADIO_433_eq/radio_433_eq.h"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
 {
@@ -224,6 +225,34 @@ void iDomTOOLS::turnOnOffPrinter()
     }
 }
 
+void iDomTOOLS::turnOnOff433MHzSwitch(std::string name)
+{
+    STATE listwaState = my_data->main_iDomStatus->getObjectState(name);
+    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_RSC->getEqPointer(name));
+    if (listwaState == STATE::ON){
+        my_data->mainLCD->set_lcd_STATE(10);
+        my_data->mainLCD->printString(true,0,0,"230V OFF "+name);
+        m_switch->off();
+    }
+    else if (listwaState == STATE::OFF){
+        my_data->mainLCD->set_lcd_STATE(10);
+        my_data->mainLCD->printString(true,0,0,"230V ON "+name);
+        m_switch->on();
+    }
+}
+
+void iDomTOOLS::turnOn433MHzSwitch(std::string name)
+{
+    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_RSC->getEqPointer(name));
+    m_switch->on();
+}
+
+void iDomTOOLS::turnOff433MHzSwitch(std::string name)
+{
+    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_RSC->getEqPointer(name));
+    m_switch->off();
+}
+
 std::string iDomTOOLS::getSunrise(bool extend )
 {
     Clock tt = sun.getSunRise();
@@ -240,6 +269,16 @@ std::string iDomTOOLS::getSunset(bool extend )
         return  "Sunset time: "+tt.getString();
     }
     return tt.getString();
+}
+
+Clock iDomTOOLS::getSunsetClock()
+{
+    return sun.getSunSet();
+}
+
+Clock iDomTOOLS::getSunriseClock()
+{
+    return sun.getSunRise();
 }
 
 std::string iDomTOOLS::getDayLenght(bool extend )
@@ -542,6 +581,7 @@ void iDomTOOLS::checkAlarm()
         }
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
+            my_data->main_iDomTools->turnOn433MHzSwitch("listwa");
         }
     }
 }

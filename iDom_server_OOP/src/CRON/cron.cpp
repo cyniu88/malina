@@ -49,6 +49,16 @@ void CRON::runEveryone_1min(struct tm *act_date)
     useful_F::send_to_arduino_clock(my_data,buffer);
     my_data->main_iDomTools->checkAlarm();
     my_data->main_iDomTools->updateTemperatureStats();
+
+    Clock now;
+    now = Clock::getTime();
+
+    if(now == my_data->main_iDomTools->getSunset() ){
+        runOnSunSet();
+    }
+    if(now == my_data->main_iDomTools->getSunrise() ){
+       runOnSunRise();
+    }
 }
 
 void CRON::runEveryone_5min()
@@ -69,5 +79,19 @@ void CRON::runEveryone_30min()
 
 void CRON::runEveryone_1h()
 {
-  //  printf("co godzine! \n");
+    //  printf("co godzine! \n");
+}
+
+void CRON::runOnSunSet()
+{
+    log_file_mutex.mutex_lock();
+    log_file_cout << DEBUG << "zachod slonca " << std::endl;
+    log_file_mutex.mutex_unlock();
+}
+
+void CRON::runOnSunRise()
+{
+    log_file_mutex.mutex_lock();
+    log_file_cout << DEBUG << "wschod slonca" << std::endl;
+    log_file_mutex.mutex_unlock();
 }

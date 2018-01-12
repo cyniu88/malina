@@ -19,7 +19,6 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
 
                 if (v[3] == "ON") {
                     m_switch->on();
-                    puts("zrobione ON");
                     str_buf = " done ";
                 }
                 else if (v[3] == "OFF"){

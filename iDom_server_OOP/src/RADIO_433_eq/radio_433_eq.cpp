@@ -9,7 +9,7 @@ RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, std::string name, std::string i
     m_id(id)
 {
     puts(" konstruktor RADIO_SWITCH");
-
+    RADIO_EQ::m_my_data = my_data;
 }
 
 RADIO_SWITCH::~RADIO_SWITCH()
@@ -21,12 +21,14 @@ void RADIO_SWITCH::on()
 {
     main433MHz.sendCode(m_id + std::to_string(m_onCode));
     m_state = STATE::ON;
+    RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(m_name,STATE::ON);
 }
 
 void RADIO_SWITCH::off()
 {
     main433MHz.sendCode(m_id + std::to_string(m_offCode));
     m_state = STATE::OFF;
+    RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(m_name,STATE::OFF);
 }
 
 void RADIO_SWITCH::onFor15sec()

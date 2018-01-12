@@ -52,9 +52,14 @@ public:
     void turnOffPrinter();
     static PIN_STATE getPinState(int pin_number);
     void turnOnOffPrinter();
+    void turnOnOff433MHzSwitch(std::string name);
+    void turnOn433MHzSwitch(std::string name);
+    void turnOff433MHzSwitch(std::string name);
     //////////////////////////// weather /////////////////////////
     std::string getSunrise(bool extend = false);
     std::string getSunset(bool extend = false);
+    Clock getSunsetClock();
+    Clock getSunriseClock();
     std::string getDayLenght(bool extend = false);
     std::string getSystemInfo();
     std::string getWeatherEvent(std::string city, unsigned int radius );

@@ -316,8 +316,8 @@ int main()
     /////////////////////////////// RC 433MHz ////////////////////
     RADIO_EQ_CONTAINER rc433MHz(&node_data);
     rc433MHz.loadConfig(server_settings.radio433MHzConfigFile);
-    rc433MHz.addRadioEq("LZ","1450", RADIO_EQ_TYPE::SWITCH);
-    rc433MHz.addRadioEq("dummy","1460", RADIO_EQ_TYPE::SWITCH);
+    //rc433MHz.addRadioEq("LZ","1450", RADIO_EQ_TYPE::SWITCH);
+    //rc433MHz.addRadioEq("dummy","1460", RADIO_EQ_TYPE::SWITCH);
 
     ///////////////////////////////// MENU /////////////////////////////////
     menu_tree main_MENU(server_settings.MENU_PATH, &mainLCD);

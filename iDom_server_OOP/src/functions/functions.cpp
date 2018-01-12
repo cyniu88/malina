@@ -232,6 +232,7 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     }
     my_data->main_iDomTools->ledOFF();
     my_data->main_iDomTools->MPD_stop();
+    my_data->main_iDomTools->turnOff433MHzSwitch("listwa");
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< "zaczynam procedure konca watku SLEEP_MPD" <<  std::endl;
     log_file_mutex.mutex_unlock();
