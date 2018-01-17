@@ -34,6 +34,7 @@ public:
 class THERMOMETER_CONTAINER
 {
     std::map<std::string,THERMOMETER>  thermoMap;
+    THERMOMETER *returnThermometerPtr(std::string name);
 public:
     THERMOMETER_CONTAINER();
     void add(std::string name);

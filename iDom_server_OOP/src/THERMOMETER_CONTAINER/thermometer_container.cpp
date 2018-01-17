@@ -1,5 +1,17 @@
 #include "thermometer_container.h"
 
+THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(std::string name)
+{
+    auto m = thermoMap.find(name);
+    if (m != thermoMap.end()){
+        return &(m->second);
+    }
+    else{
+        throw std::string("thermometer not found!");
+    }
+
+}
+
 THERMOMETER_CONTAINER::THERMOMETER_CONTAINER()
 {
 
@@ -13,62 +25,29 @@ void THERMOMETER_CONTAINER::add(std::string name)
 
 void THERMOMETER_CONTAINER::setTemp(std::string name, double value)
 {
-    auto m = thermoMap.find(name);
-    if (m != thermoMap.end()){
-        m->second.m_thermometer.oldTemp = m->second.m_thermometer.newTemp;
-        m->second.m_thermometer.newTemp = value;
-    }
-    else{
-        throw std::string("theromometr not found");
-    }
+        returnThermometerPtr(name)->m_thermometer.oldTemp = returnThermometerPtr(name)->m_thermometer.newTemp;
+        returnThermometerPtr(name)->m_thermometer.newTemp = value;
+
 }
 
 double THERMOMETER_CONTAINER::getTemp(std::string name)
 {
-    auto m = thermoMap.find(name);
-    if (m != thermoMap.end()){
-        return m->second.m_thermometer.newTemp;
-    }
-    else
-    {
-        throw std::string("theromometr not found");
-    }
+    return returnThermometerPtr(name)->m_thermometer.newTemp;
 }
 
 double THERMOMETER_CONTAINER::getOldTemp(std::string name)
 {
-    auto m = thermoMap.find(name);
-    if (m != thermoMap.end()){
-        return m->second.m_thermometer.oldTemp;
-    }
-    else
-    {
-        throw std::string("theromometr not found");
-    }
+    return returnThermometerPtr(name)->m_thermometer.oldTemp;
 }
 
 TEMPERATURE_STATE THERMOMETER_CONTAINER::getLastState(std::string name)
 {
-    auto m = thermoMap.find(name);
-    if (m != thermoMap.end()){
-        return m->second.m_thermometer.lastState;
-    }
-    else
-    {
-        throw std::string("theromometr not found");
-    }
+    return returnThermometerPtr(name)->m_thermometer.lastState;
 }
 
 void THERMOMETER_CONTAINER::setState(std::string name, TEMPERATURE_STATE state)
 {
-    auto m = thermoMap.find(name);
-    if (m != thermoMap.end()){
-        m->second.m_thermometer.lastState = state;
-    }
-    else
-    {
-        throw std::string("theromometr not found");
-    }
+    returnThermometerPtr(name)->m_thermometer.lastState = state;
 }
 
 void THERMOMETER_CONTAINER::updateAll(std::vector<std::string> *vectorThermo)
@@ -81,54 +60,22 @@ void THERMOMETER_CONTAINER::updateAll(std::vector<std::string> *vectorThermo)
 
 void THERMOMETER_CONTAINER::updateStats(std::string name)
 {
-    auto m = thermoMap.find(name);
-    if (m != thermoMap.end()){
-
-        m->second.m_stats.push_back(m->second.m_thermometer.newTemp);
-    }
-    else
-    {
-        throw std::string("theromometr not found");
-    }
+    returnThermometerPtr(name)->m_stats.push_back(returnThermometerPtr(name)->m_thermometer.newTemp);
 }
 
 std::string THERMOMETER_CONTAINER::getStatsByName(std::string name)
 {
-    auto m = thermoMap.find(name);
-    if (m != thermoMap.end()){
-
-        return m->second.m_stats.stats();
-    }
-    else
-    {
-        throw std::string("theromometr not found");
-    }
+    return returnThermometerPtr(name)->m_stats.stats();
 }
 
 bool THERMOMETER_CONTAINER::isMoreDiff(std::string name, double diff)
 {
-    auto m = thermoMap.find(name);
-    if (m != thermoMap.end()){
-
-        return m->second.m_stats.isMoreDiff(diff);
-    }
-    else
-    {
-        throw std::string("theromometr not found");
-    }
+    return returnThermometerPtr(name)->m_stats.isMoreDiff(diff);
 }
 
 std::pair<double, double> THERMOMETER_CONTAINER::getLast2(std::string name)
 {
-    auto m = thermoMap.find(name);
-    if (m != thermoMap.end()){
-
-        return m->second.m_stats.getLast2();
-    }
-    else
-    {
-        throw std::string("theromometr not found");
-    }
+    return returnThermometerPtr(name)->m_stats.getLast2();
 }
 
 THERMOMETER::THERMOMETER(int iter):m_stats(iter)
