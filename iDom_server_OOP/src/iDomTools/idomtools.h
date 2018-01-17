@@ -29,6 +29,7 @@ enum class USER_LEVEL{
 class iDomTOOLS
 {
     THERMOMETER_CONTAINER allThermometer;
+    THERMOMETER_CONTAINER allThermometerUpdate;
 
     thread_data *my_data;
     SunRiseSet sun;

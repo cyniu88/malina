@@ -15,6 +15,8 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
 
     allThermometer.add("inside");
     allThermometer.add("outside");
+    allThermometerUpdate.add("inside");
+    allThermometerUpdate.add("outside");
     /////////////////////////////////////////////////////////////////
     pinMode(iDomConst::GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
     digitalWrite(iDomConst::GPIO_SPIK,LOW);
@@ -112,18 +114,18 @@ void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int referenc
 
 std::string iDomTOOLS::getThermoStats(std::string name)
 {
-    return  allThermometer.getStatsByName(name);
+    return  allThermometerUpdate.getStatsByName(name);
 }
 
 void iDomTOOLS::updateTemperatureStats()
 {
     auto v = getTemperature();
-    allThermometer.updateAll(&v);
-    allThermometer.updateStats("outside");
-    allThermometer.updateStats("inside");
+    allThermometerUpdate.updateAll(&v);
+    allThermometerUpdate.updateStats("outside");
+    allThermometerUpdate.updateStats("inside");
 
-    if( true == allThermometer.isMoreDiff("outside",2.1)){
-        auto  data = allThermometer.getLast2("outside");
+    if( true == allThermometerUpdate.isMoreDiff("outside",2.1)){
+        auto  data = allThermometerUpdate.getLast2("outside");
         std::string msg = "alarm roznicy temeratur na polu! " + to_string_with_precision(data.first) +" na "+
                 to_string_with_precision(data.second);
 
@@ -142,8 +144,8 @@ void iDomTOOLS::updateTemperatureStats()
         log_file_cout << WARNING << msg << std::endl;
         log_file_mutex.mutex_unlock();
     }
-    if( true == allThermometer.isMoreDiff("inside",2.1)){
-        auto  data = allThermometer.getLast2("inside");
+    if( true == allThermometerUpdate.isMoreDiff("inside",2.1)){
+        auto  data = allThermometerUpdate.getLast2("inside");
         std::string msg = "alarm roznicy temeratur na mieszkaniu! " + to_string_with_precision(data.first) +" na "+
                 to_string_with_precision(data.second);
 
