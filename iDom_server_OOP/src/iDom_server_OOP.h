@@ -224,7 +224,7 @@ struct thread_data{
     std::string encriptionKey = "40%";
     iDomSTATUS *main_iDomStatus;
     ALERT alarmTime;
-    RADIO_EQ_CONTAINER *main_RSC;
+    RADIO_EQ_CONTAINER *main_REC;
 };
 
 struct thread_data_rs232{

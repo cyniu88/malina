@@ -3,13 +3,14 @@
 #include <sstream>
 #include "radio_433_eq.h"
 
-RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, std::string name, std::string id):
+RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, std::string name, std::string id, RADIO_EQ_TYPE type):
     main433MHz(my_data),
     m_name(name),
     m_id(id)
 {
     puts(" konstruktor RADIO_SWITCH");
     RADIO_EQ::m_my_data = my_data;
+    RADIO_EQ::m_type = type;
 }
 
 RADIO_SWITCH::~RADIO_SWITCH()
@@ -52,12 +53,29 @@ std::string RADIO_SWITCH::getID()
     return m_id;
 }
 
-void RADIO_SWITCH::setCode(int on, int off, int for15sec)
+void RADIO_SWITCH::setCode(RADIO_EQ_CONFIG cfg)
 {
-    m_onCode = on;
-    m_offCode = off;
-    m_onFor15secCode = for15sec;
-    //m_id.clear();
+    if(cfg.onCode > 0){
+        m_onCode = cfg.onCode;
+    }
+    if(cfg.offCode > 0){
+        m_offCode = cfg.offCode;
+    }
+    if(cfg.on15sec > 0){
+        m_onFor15secCode = cfg.on15sec;
+    }
+    if(cfg.sunset == "on"){
+        m_sunset = STATE::ON;
+    }
+    if(cfg.sunset == "off"){
+        m_sunset = STATE::OFF;
+    }
+    if(cfg.sunrise == "on"){
+        m_sunrise = STATE::ON;
+    }
+    if(cfg.sunrise == "off"){
+        m_sunrise = STATE::OFF;
+    }
 }
 
 RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_data *my_data)
@@ -76,7 +94,7 @@ void RADIO_EQ_CONTAINER::addRadioEq(std::string name,std::string id, RADIO_EQ_TY
 {
     switch (type) {
     case RADIO_EQ_TYPE::SWITCH:
-        m_radioEqMap.insert(std::make_pair(name, new RADIO_SWITCH(this->my_data, name, id)  )    );
+        m_radioEqMap.insert(std::make_pair(name, new RADIO_SWITCH(this->my_data, name, id, type)  )    );
         break;
     default:
         break;
@@ -94,6 +112,19 @@ RADIO_EQ* RADIO_EQ_CONTAINER::getEqPointer(std::string name)
     {
         throw std::string("433MHz equipment not found "+name);
     }
+}
+
+std::vector<RADIO_SWITCH *> RADIO_EQ_CONTAINER::getSwitchPointerVector()
+{
+    std::vector<RADIO_SWITCH*> switchVector;
+
+    for (auto it : m_radioEqMap){
+        if (it.second->getType() == RADIO_EQ_TYPE::SWITCH){
+            puts("\n to jest switch\n");
+            switchVector.push_back(static_cast<RADIO_SWITCH*>(it.second));
+        }
+    }
+    return switchVector;
 }
 
 std::string RADIO_EQ_CONTAINER::listAllName()
@@ -128,13 +159,13 @@ void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
             std::cout << line << std::endl;
             if (line.front() != '#'){
                 lineStream << line;
-
-                lineStream >> cfg.type >> cfg.name >> cfg.ID >> cfg.onCode >>cfg.offCode >> cfg.on15sec ;
+                std::string sunrise, sunset;
+                lineStream >> cfg.type >> cfg.name >> cfg.ID >> cfg.onCode >>cfg.offCode >> cfg.on15sec >> cfg.sunrise >> cfg.sunset ;
                 if (cfg.type == "switch"){
                     addRadioEq(cfg.name,cfg.ID,RADIO_EQ_TYPE::SWITCH);
-                    dynamic_cast<RADIO_SWITCH*>(getEqPointer(cfg.name))->setCode(cfg.onCode,cfg.offCode,cfg.on15sec);
+                    dynamic_cast<RADIO_SWITCH*>(getEqPointer(cfg.name))->setCode(cfg);
                 }
-                //TODO add more type
+                //NOTE add more type
             }
             lineStream.clear();
         }
@@ -152,4 +183,9 @@ RADIO_EQ::RADIO_EQ()
 RADIO_EQ::~RADIO_EQ()
 {
     puts("destruktor ~RADIO_EQ()");
+}
+
+RADIO_EQ_TYPE RADIO_EQ::getType()
+{
+    return m_type;
 }

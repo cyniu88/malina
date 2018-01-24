@@ -375,7 +375,7 @@ int main()
     node_data.main_THREAD_arr = &thread_array[0];
     node_data.sleeper = 0;
     node_data.ptr_MPD_info = &my_MPD_info;
-    node_data.main_RSC = &rc433MHz;
+    node_data.main_REC = &rc433MHz;
 
     pilot_led mainPilotLED;
     node_data.ptr_pilot_led = &mainPilotLED;

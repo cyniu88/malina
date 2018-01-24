@@ -230,7 +230,7 @@ void iDomTOOLS::turnOnOffPrinter()
 void iDomTOOLS::turnOnOff433MHzSwitch(std::string name)
 {
     STATE listwaState = my_data->main_iDomStatus->getObjectState(name);
-    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_RSC->getEqPointer(name));
+    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(name));
     if (listwaState == STATE::ON){
         my_data->mainLCD->set_lcd_STATE(10);
         my_data->mainLCD->printString(true,0,0,"230V OFF "+name);
@@ -245,13 +245,13 @@ void iDomTOOLS::turnOnOff433MHzSwitch(std::string name)
 
 void iDomTOOLS::turnOn433MHzSwitch(std::string name)
 {
-    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_RSC->getEqPointer(name));
+    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(name));
     m_switch->on();
 }
 
 void iDomTOOLS::turnOff433MHzSwitch(std::string name)
 {
-    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_RSC->getEqPointer(name));
+    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(name));
     m_switch->off();
 }
 
