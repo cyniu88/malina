@@ -255,6 +255,22 @@ void iDomTOOLS::turnOff433MHzSwitch(std::string name)
     m_switch->off();
 }
 
+void iDomTOOLS::runOnSunset()
+{
+    ////switch 433mhz
+    for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
+        m_switch->onSunset();
+    }
+}
+
+void iDomTOOLS::runOnSunrise()
+{
+    ////switch 433mhz
+    for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
+        m_switch->onSunrise();
+    }
+}
+
 std::string iDomTOOLS::getSunrise(bool extend )
 {
     Clock tt = sun.getSunRise();
@@ -301,7 +317,7 @@ std::string iDomTOOLS::getSystemInfo()
     auto hours = (input_seconds / 60 / 60) % 24;
     auto minutes = (input_seconds / 60) % 60;
     auto seconds = input_seconds % 60;
-    
+
     std::string  ret;
     ret=  "System uptime: " + std::to_string(days)+" day ";
     ret+=  std::to_string(hours) +" hours " ;
@@ -316,7 +332,7 @@ std::string iDomTOOLS::getSystemInfo()
     k <<"load average : "<<(info.loads[0] )
             <<" 5min: "  <<(info.loads[1] )
             <<" 15min: " <<(info.loads[2] )<<std::endl;
-   // puts(k.str().c_str());
+    // puts(k.str().c_str());
     return ret;
 }
 
@@ -335,7 +351,7 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
         return;
     }
     std::string txt;
-    
+
     for (auto a : *textVector){
         txt += a;
     }

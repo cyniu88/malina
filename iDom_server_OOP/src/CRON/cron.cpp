@@ -52,29 +52,28 @@ void CRON::runEveryone_1min(struct tm *act_date)
 
     Clock now;
     now = Clock::getTime();
-
     if(now == my_data->main_iDomTools->getSunset() ){
-        runOnSunSet();
+        runOnSunset();
     }
     if(now == my_data->main_iDomTools->getSunrise() ){
-       runOnSunRise();
+        runOnSunrise();
     }
 }
 
 void CRON::runEveryone_5min()
 {
-   // printf("co 5 minut! \n");
+    // printf("co 5 minut! \n");
 }
 
 void CRON::runEveryone_15min()
 {
-  //  printf("co 15 minut! \n");
+    //  printf("co 15 minut! \n");
     my_data->main_iDomTools->send_temperature_thingSpeak();
 }
 
 void CRON::runEveryone_30min()
 {
-   // printf("co 30 minut! \n");
+    // printf("co 30 minut! \n");
 }
 
 void CRON::runEveryone_1h()
@@ -82,16 +81,20 @@ void CRON::runEveryone_1h()
     //  printf("co godzine! \n");
 }
 
-void CRON::runOnSunSet()
+void CRON::runOnSunset()
 {
     log_file_mutex.mutex_lock();
     log_file_cout << DEBUG << "zachod slonca " << std::endl;
     log_file_mutex.mutex_unlock();
+
+    my_data->main_iDomTools->runOnSunset();
+
 }
 
-void CRON::runOnSunRise()
+void CRON::runOnSunrise()
 {
     log_file_mutex.mutex_lock();
     log_file_cout << DEBUG << "wschod slonca" << std::endl;
     log_file_mutex.mutex_unlock();
+    my_data->main_iDomTools->runOnSunrise();
 }

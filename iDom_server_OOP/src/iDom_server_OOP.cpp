@@ -375,12 +375,13 @@ int main()
     node_data.main_THREAD_arr = &thread_array[0];
     node_data.sleeper = 0;
     node_data.ptr_MPD_info = &my_MPD_info;
-    node_data.main_REC = &rc433MHz;
 
     pilot_led mainPilotLED;
     node_data.ptr_pilot_led = &mainPilotLED;
     //dodanie pilota
     node_data.main_iDomTools = &my_iDomTools;
+    node_data.main_REC = &rc433MHz;
+
     std::unique_ptr <pilot> pilotPTR( new pilot(&node_data.key_map));
     pilotPTR->setup();
 

@@ -48,6 +48,8 @@ public:
     void on();
     void off();
     void onFor15sec();
+    void onSunrise();
+    void onSunset();
     STATE getState();
     std::string getName();
     std::string getID();

@@ -38,6 +38,30 @@ void RADIO_SWITCH::onFor15sec()
     m_state = STATE::WORKING;
 }
 
+void RADIO_SWITCH::onSunrise()
+{
+    if(m_sunrise == STATE::ON ){
+        on();
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+m_name + "ON due to sunrise");
+    }
+    else if(m_sunrise == STATE::OFF){
+        off();
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+m_name + "OFF due to sunrise");
+    }
+}
+
+void RADIO_SWITCH::onSunset()
+{
+    if(m_sunset == STATE::ON ){
+        on();
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+m_name + " ON due to sunset");
+    }
+    else if(m_sunset == STATE::OFF){
+        off();
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+m_name + " OFF due to sunset");
+    }
+}
+
 STATE RADIO_SWITCH::getState()
 {
     return m_state;
@@ -120,7 +144,6 @@ std::vector<RADIO_SWITCH *> RADIO_EQ_CONTAINER::getSwitchPointerVector()
 
     for (auto it : m_radioEqMap){
         if (it.second->getType() == RADIO_EQ_TYPE::SWITCH){
-            puts("\n to jest switch\n");
             switchVector.push_back(static_cast<RADIO_SWITCH*>(it.second));
         }
     }
@@ -159,7 +182,6 @@ void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
             std::cout << line << std::endl;
             if (line.front() != '#'){
                 lineStream << line;
-                std::string sunrise, sunset;
                 lineStream >> cfg.type >> cfg.name >> cfg.ID >> cfg.onCode >>cfg.offCode >> cfg.on15sec >> cfg.sunrise >> cfg.sunset ;
                 if (cfg.type == "switch"){
                     addRadioEq(cfg.name,cfg.ID,RADIO_EQ_TYPE::SWITCH);
@@ -171,7 +193,6 @@ void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
         }
         myfile.close();
     }
-
     else std::cout << "Unable to open file";
 }
 

@@ -56,6 +56,8 @@ public:
     void turnOnOff433MHzSwitch(std::string name);
     void turnOn433MHzSwitch(std::string name);
     void turnOff433MHzSwitch(std::string name);
+    void runOnSunset();
+    void runOnSunrise();
     //////////////////////////// weather /////////////////////////
     std::string getSunrise(bool extend = false);
     std::string getSunset(bool extend = false);

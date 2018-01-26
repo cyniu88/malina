@@ -19,8 +19,8 @@ private:
     void runEveryone_15min();
     void runEveryone_30min();
     void runEveryone_1h();
-    void runOnSunSet();
-    void runOnSunRise();
+    void runOnSunset();
+    void runOnSunrise();
 };
 
 #endif // CRON_HPP
