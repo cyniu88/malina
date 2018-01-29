@@ -95,6 +95,10 @@ struct FTP_SERVER{
     std::string user;
     std::string pass;
 };
+struct iDOM_STATE{
+    STATE houseState = STATE::UNDEFINE;
+
+};
 
 struct config{
     std::string portRS232;
@@ -222,7 +226,8 @@ struct thread_data{
     std::map <std::string, std::unique_ptr<command> >* commandMapPtr = NULL;
     event_counters_handler myEventHandler;
     std::string encriptionKey = "40%";
-    iDomSTATUS *main_iDomStatus;
+    iDomSTATUS *main_iDomStatus;  
+    iDOM_STATE idom_all_state;
     ALERT alarmTime;
     RADIO_EQ_CONTAINER *main_REC;
 };

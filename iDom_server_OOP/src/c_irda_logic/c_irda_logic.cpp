@@ -110,7 +110,7 @@ void c_irda_logic::projectorLogic(PILOT_KEY X)
         who = PILOT_STATE::MPD;
 
         if(my_data->ptr_MPD_info->isPlay == true){
-            iDomTOOLS::MPD_play();
+            iDomTOOLS::MPD_play(my_data);
         }
         else {
             iDomTOOLS::turnOffSpeakers();

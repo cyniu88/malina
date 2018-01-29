@@ -321,6 +321,8 @@ int main()
 
     ///////////////////////////////// MENU /////////////////////////////////
     menu_tree main_MENU(server_settings.MENU_PATH, &mainLCD);
+    //////////////////////////////// SETTINGS //////////////////////////////
+    node_data.main_iDomStatus->addObject("house",node_data.idom_all_state.houseState);
     /////////////////////////////////////////////////   wypelniam  struktury przesylane do watkow  ////////////////////////
     thread_data_rs232 data_rs232;
     data_rs232.BaudRate = server_settings.BaudRate;

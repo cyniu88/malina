@@ -20,7 +20,7 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
             }
         }
         else {
-            iDomTOOLS::MPD_play();
+            iDomTOOLS::MPD_play(my_data);
             sleep(1);
             str_buf=my_data->ptr_MPD_info->title;
         }

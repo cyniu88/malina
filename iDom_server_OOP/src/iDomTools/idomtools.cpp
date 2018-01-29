@@ -168,8 +168,16 @@ void iDomTOOLS::updateTemperatureStats()
 
 void iDomTOOLS::turnOnSpeakers()
 {
-    digitalWrite(iDomConst::GPIO_SPIK, HIGH);
-    useful_F::myStaticData->main_iDomStatus->setObjectState("speakers",STATE::ON);
+    if (useful_F::myStaticData->idom_all_state.houseState == STATE::UNLOCK)
+    {
+        digitalWrite(iDomConst::GPIO_SPIK, HIGH);
+        useful_F::myStaticData->main_iDomStatus->setObjectState("speakers",STATE::ON);
+    }
+    else{
+        useful_F::myStaticData->myEventHandler.run("speakers")->addEvent("speakers can not start due to home state: "+
+                                                                         stateToString(useful_F::myStaticData->idom_all_state.houseState));
+    }
+
 }
 
 void iDomTOOLS::turnOffSpeakers()
@@ -180,9 +188,16 @@ void iDomTOOLS::turnOffSpeakers()
 
 void iDomTOOLS::turnOnPrinter()
 {
-    digitalWrite(iDomConst::GPIO_PRINTER,HIGH);
-    my_data->myEventHandler.run("230V")->addEvent("230v drukarki ON");
-    my_data->main_iDomStatus->setObjectState("printer",STATE::ON);
+    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
+    {
+        digitalWrite(iDomConst::GPIO_PRINTER,HIGH);
+        my_data->myEventHandler.run("230V")->addEvent("230v drukarki ON");
+        my_data->main_iDomStatus->setObjectState("printer",STATE::ON);
+    }
+    else{
+        my_data->myEventHandler.run("230V")->addEvent("Printer can not start due to home state: "+
+                                                      stateToString(my_data->idom_all_state.houseState));
+    }
 }
 
 void iDomTOOLS::turnOffPrinter()
@@ -257,18 +272,58 @@ void iDomTOOLS::turnOff433MHzSwitch(std::string name)
 
 void iDomTOOLS::runOnSunset()
 {
-    ////switch 433mhz
-    for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
-        m_switch->onSunset();
+    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
+    {
+        ////switch 433mhz
+        for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
+            m_switch->onSunset();
+        }
+    }
+    else{
+        my_data->myEventHandler.run("433MHz")->addEvent("433MHz can not start due to home state: "+
+                                                        stateToString(my_data->idom_all_state.houseState));
     }
 }
 
 void iDomTOOLS::runOnSunrise()
 {
-    ////switch 433mhz
-    for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
-        m_switch->onSunrise();
+    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
+    {
+        ////switch 433mhz
+        for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
+            m_switch->onSunrise();
+        }
     }
+    else{
+        my_data->myEventHandler.run("433MHz")->addEvent("433MHz can not start due to home state: "+
+                                                        stateToString(my_data->idom_all_state.houseState));
+    }
+}
+
+void iDomTOOLS::lockHome()
+{
+    my_data->idom_all_state.houseState = STATE::LOCK;
+    my_data->main_iDomStatus->setObjectState("house", STATE::LOCK);
+    my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
+                                              "http://cyniu88.no-ip.pl/images/iDom/iDom/lock.jpg",
+                                              my_data->server_settings->viberReceiver.at(0),
+                                              my_data->server_settings->viberSender);
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<<   std::endl;
+    log_file_mutex.mutex_unlock();
+}
+
+void iDomTOOLS::unlockHome()
+{
+    my_data->idom_all_state.houseState = STATE::UNLOCK;
+    my_data->main_iDomStatus->setObjectState("house", STATE::UNLOCK);
+    my_data->main_iDomTools->sendViberPicture("dom odblokownay!",
+                                              "http://cyniu88.no-ip.pl/images/iDom/iDom/unlock.jpg",
+                                              my_data->server_settings->viberReceiver.at(0),
+                                              my_data->server_settings->viberSender);
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<<   std::endl;
+    log_file_mutex.mutex_unlock();
 }
 
 std::string iDomTOOLS::getSunrise(bool extend )
@@ -579,7 +634,15 @@ std::string iDomTOOLS::ledClear()
 
 std::string iDomTOOLS::ledOn(LED_Strip ledColor)
 {
-    return useful_F::send_to_arduino(my_data,ledColor.get());
+    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
+    {
+        return useful_F::send_to_arduino(my_data,ledColor.get());
+    }
+    else{
+        my_data->myEventHandler.run("LED")->addEvent("LED can not start due to home state: "+
+                                                     stateToString(my_data->idom_all_state.houseState));
+    }
+    return "iDom LOCKED!";
 }
 
 void iDomTOOLS::checkAlarm()
@@ -588,7 +651,7 @@ void iDomTOOLS::checkAlarm()
     if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
         my_data->alarmTime.state = STATE::WORKING;
         MPD_volumeSet(my_data, 50);
-        MPD_play();
+        MPD_play(my_data);
         my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
     }
 

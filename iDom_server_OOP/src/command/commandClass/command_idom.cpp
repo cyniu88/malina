@@ -79,6 +79,14 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1]=="text"){
         return my_data->main_iDomTools->getTextToSpeach();
     }
+    else if (v[1] == "lock"){
+        my_data->main_iDomTools->lockHome();
+        return "hous locked";
+    }
+    else if (v[1] == "unlock"){
+        my_data->main_iDomTools->unlockHome();
+        return "hous unlocked";
+    }
     else if (v[1]=="LED"){
         if (v.size() != 7){
             if (v[2]=="OFF"){
@@ -206,6 +214,8 @@ std::string command_iDom::help()
     ret.append("iDom facebook ... - post on facebook wall\n");
     ret.append("iDom viber ...   - send viber msg\n");
     ret.append("iDom weather <city> <radius>  - get weather alert\n");
-    ret.append("iDom alarm ON/OFF hh:mm - set larm clock ");
+    ret.append("iDom alarm ON/OFF hh:mm - set larm clock \n");
+    ret.append("iDom lock   - lock home\n");
+    ret.append("iDom unlock - unlock home\n");
     return ret;
 }

@@ -58,6 +58,8 @@ public:
     void turnOff433MHzSwitch(std::string name);
     void runOnSunset();
     void runOnSunrise();
+    void lockHome();
+    void unlockHome();
     //////////////////////////// weather /////////////////////////
     std::string getSunrise(bool extend = false);
     std::string getSunset(bool extend = false);
@@ -108,7 +110,7 @@ public:
     ////////////////////   ALERT  //////////////////////////
     void checkAlarm();
     //////////////////// MPD part //////////////////////////
-    static void MPD_play();
+    static void MPD_play(thread_data* my_data);
     static void MPD_stop();
     static void MPD_next();
     static void MPD_prev();
