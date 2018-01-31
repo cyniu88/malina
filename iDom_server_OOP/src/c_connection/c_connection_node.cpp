@@ -77,9 +77,9 @@ void C_connection::crypto(std::string &toEncrypt, std::string key, bool encrypte
 
 void C_connection::onStartConnection()
 {
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "konstruuje nowy obiekt do komunikacj na gniezdzie " << c_socket <<  std::endl;
-    log_file_mutex.mutex_unlock();
+//    log_file_mutex.mutex_lock();
+//    log_file_cout << INFO<< "konstruuje nowy obiekt do komunikacj na gniezdzie " << c_socket <<  std::endl;
+//    log_file_mutex.mutex_unlock();
 }
 
 void C_connection::onStopConnection()

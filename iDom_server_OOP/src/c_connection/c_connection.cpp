@@ -19,9 +19,9 @@ C_connection::~C_connection()
     delete mainCommandHandler;
     shutdown( c_socket, SHUT_RDWR );
     useful_F::clearThreadArray(my_data);
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "koniec komunikacji - kasuje obiekt" <<  std::endl;
-    log_file_mutex.mutex_unlock();
+//    log_file_mutex.mutex_lock();
+//    log_file_cout << INFO<< "koniec komunikacji - kasuje obiekt" <<  std::endl;
+//    log_file_mutex.mutex_unlock();
 }
 
 
@@ -46,9 +46,9 @@ int C_connection::c_send(int para)
     }
     else if (recv_size == 0)
     {
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "gniazdo zamkniete" <<   std::endl;
-        log_file_mutex.mutex_unlock();
+//        log_file_mutex.mutex_lock();
+//        log_file_cout << INFO << "gniazdo zamkniete" <<   std::endl;
+//        log_file_mutex.mutex_unlock();
         return -1;
     }
 
@@ -93,9 +93,9 @@ int C_connection::c_recv(int para)
     }
     else if (recv_size == 0)
     {
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "gniazdo zamkniete" <<   std::endl;
-        log_file_mutex.mutex_unlock();
+//        log_file_mutex.mutex_lock();
+//        log_file_cout << INFO << "gniazdo zamkniete" <<   std::endl;
+//        log_file_mutex.mutex_unlock();
         return -1;
     }
     return recv_size;

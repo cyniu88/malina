@@ -43,7 +43,7 @@ class RADIO_SWITCH: public RADIO_EQ
     std::string m_id;
     STATE m_state = STATE::UNDEFINE;
 public:
-    RADIO_SWITCH(thread_data * my_data, std::string m_name, std::string id, RADIO_EQ_TYPE type);
+    RADIO_SWITCH(thread_data * my_data, std::string name, std::string id, RADIO_EQ_TYPE type);
     ~RADIO_SWITCH();
     void on();
     void off();

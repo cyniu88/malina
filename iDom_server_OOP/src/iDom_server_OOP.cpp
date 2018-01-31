@@ -129,8 +129,9 @@ void f_master_CRON (thread_data  *my_data){
     my_CRON.run();
     useful_F::clearThreadArray(my_data);
 } //  koniec CRON
+//////////////////////////////////////////////////////////
 
-void Server_connectivity_thread(thread_data  *my_data){  
+void Server_connectivity_thread(thread_data  *my_data){
     C_connection *client = new C_connection( my_data);
     static unsigned int connectionCounter = 0;
     bool key_ok = false;

@@ -67,7 +67,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/433MHz/rc_433mhz.cpp \
     src/RADIO_433_eq/radio_433_eq.cpp \
     src/command/commandClass/command_433mhz.cpp \
-    src/command/commandClass/command_ardu.cpp
+    src/command/commandClass/command_ardu.cpp \
+    src/RADIO_433_eq/radio_button.cpp
 
 
 HEADERS += src/c_connection/c_connection.h \
@@ -134,7 +135,8 @@ HEADERS += src/c_connection/c_connection.h \
     src/433MHz/rc_433mhz.h \
     src/RADIO_433_eq/radio_433_eq.h \
     src/command/commandClass/command_433mhz.h \
-    src/command/commandClass/command_ardu.h
+    src/command/commandClass/command_ardu.h \
+    src/RADIO_433_eq/radio_button.h
 
 DISTFILES +=
 
