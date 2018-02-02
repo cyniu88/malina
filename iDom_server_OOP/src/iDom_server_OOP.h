@@ -181,11 +181,14 @@ struct LED_Strip{
         return colorName;
     }
 
-    std::string get() const{
+    std::string get(unsigned int _from, unsigned int _to) const{
+        if (_from != 0 || _to != 60){
+          return "LED:["+std::to_string(_from)+"-"+std::to_string(to)+"-"+R+"-"+G+"-"+B+"];";
+        }
         return "LED:["+from+"-"+to+"-"+R+"-"+G+"-"+B+"];";
     }
 
-    static std::string makeCommand(std::string from, std::string to, std::string R, std::string G, std::string B){
+    std::string makeCommand(std::string from, std::string to, std::string R, std::string G, std::string B){
         return "LED:["+from+"-"+to+"-"+R+"-"+G+"-"+B+"];";
     }
 };

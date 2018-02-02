@@ -106,7 +106,7 @@ public:
     //////////////////// LED part //////////////////////////
     std::string ledOFF();
     std::string ledClear();
-    std::string ledOn(LED_Strip ledColor);
+    std::string ledOn(LED_Strip ledColor, unsigned int from = 0, unsigned int to = 60);
     ////////////////////   ALERT  //////////////////////////
     void checkAlarm();
     //////////////////// MPD part //////////////////////////

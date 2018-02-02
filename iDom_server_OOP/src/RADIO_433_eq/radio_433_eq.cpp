@@ -42,11 +42,11 @@ void RADIO_SWITCH::onSunrise()
 {
     if(m_sunrise == STATE::ON ){
         on();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+m_name + "ON due to sunrise");
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+m_name + " ON due to sunrise");
     }
     else if(m_sunrise == STATE::OFF){
         off();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+m_name + "OFF due to sunrise");
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+m_name + " OFF due to sunrise");
     }
 }
 

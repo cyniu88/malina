@@ -632,11 +632,11 @@ std::string iDomTOOLS::ledClear()
     return useful_F::send_to_arduino(my_data,"LED_CLEAR:2;");
 }
 
-std::string iDomTOOLS::ledOn(LED_Strip ledColor)
+std::string iDomTOOLS::ledOn(LED_Strip ledColor, unsigned int from, unsigned int to)
 {
     if (my_data->idom_all_state.houseState == STATE::UNLOCK)
     {
-        return useful_F::send_to_arduino(my_data,ledColor.get());
+        return useful_F::send_to_arduino(my_data,ledColor.get(from, to));
     }
     else{
         my_data->myEventHandler.run("LED")->addEvent("LED can not start due to home state: "+
@@ -662,7 +662,10 @@ void iDomTOOLS::checkAlarm()
         }
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
-            my_data->main_iDomTools->turnOn433MHzSwitch("listwa");
+            if(now < iDomTOOLS::getSunriseClock() || now > iDomTOOLS::getSunsetClock()){
+                my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
+                my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[0],59,vol);
+            }
         }
     }
 }
