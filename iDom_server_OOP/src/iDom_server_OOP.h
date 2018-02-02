@@ -183,7 +183,7 @@ struct LED_Strip{
 
     std::string get(unsigned int _from, unsigned int _to) const{
         if (_from != 0 || _to != 60){
-          return "LED:["+std::to_string(_from)+"-"+std::to_string(to)+"-"+R+"-"+G+"-"+B+"];";
+            return "LED:["+std::to_string(_from)+"-"+std::to_string(_to)+"-"+R+"-"+G+"-"+B+"];";
         }
         return "LED:["+from+"-"+to+"-"+R+"-"+G+"-"+B+"];";
     }
@@ -229,7 +229,7 @@ struct thread_data{
     std::map <std::string, std::unique_ptr<command> >* commandMapPtr = NULL;
     event_counters_handler myEventHandler;
     std::string encriptionKey = "40%";
-    iDomSTATUS *main_iDomStatus;  
+    iDomSTATUS *main_iDomStatus;
     iDOM_STATE idom_all_state;
     ALERT alarmTime;
     RADIO_EQ_CONTAINER *main_REC;

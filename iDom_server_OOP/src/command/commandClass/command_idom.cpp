@@ -92,6 +92,13 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             if (v[2]=="OFF"){
                 return my_data->main_iDomTools->ledOFF();
             }
+            else if(v[2] == "set"){
+               return  my_data->main_iDomTools->ledOn(
+                            my_data->ptr_pilot_led->colorLED[2],
+                            std::stoi(v[3]),
+                            std::stoi(v[4])
+                            );
+            }
             else{
                 return "need more parameter from-to-R-G-B";
             }
@@ -206,6 +213,7 @@ std::string command_iDom::help()
     ret.append("iDom sms <text> - send sms<text> \n");
     ret.append("iDom LED <FROM> <TO> <R> <G> <B> - set RGB LED strip\n");
     ret.append("iDom LED OFF    - led off\n");
+    ret.append("iDom LED set <from> <to> - set green led from to\n");
     ret.append("iDom temperature - get temperature from all termomether\n");
     ret.append("iDom temperature stats <name> - get temperature stats from termomether <name>\n");
     ret.append("iDom smog       - get current SMOG level (KRAKOW)\n");

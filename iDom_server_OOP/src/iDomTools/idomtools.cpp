@@ -658,13 +658,13 @@ void iDomTOOLS::checkAlarm()
     if (my_data->alarmTime.state == STATE::WORKING){
         int vol = MPD_getVolume(my_data) + 1;
         if (vol < 59){
-            MPD_volumeSet(my_data, vol);
+            MPD_volumeSet(my_data, vol);        
+            my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[2],49,vol);
         }
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
             if(now < iDomTOOLS::getSunriseClock() || now > iDomTOOLS::getSunsetClock()){
                 my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
-                my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[0],59,vol);
             }
         }
     }
