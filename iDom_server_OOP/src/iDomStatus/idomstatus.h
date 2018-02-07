@@ -4,7 +4,7 @@
 #include <map>
 #include <mutex>
 #include <string>
-#include "libs/useful/useful.h"
+#include "/home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h"
 
 class iDomSTATUS
 {

@@ -1,5 +1,5 @@
 #include "command_clock.h"
-#include "../iDom_server_OOP/src/functions/functions.h"
+#include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
 
 command_clock::command_clock(std::string name):command(name)
 {

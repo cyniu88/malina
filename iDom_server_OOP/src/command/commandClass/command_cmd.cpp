@@ -1,5 +1,5 @@
 #include "command_cmd.h"
-#include "../iDom_server_OOP/src/functions/functions.h"
+#include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
 
 command_cmd::command_cmd(std::string name):command(name)
 {

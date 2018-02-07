@@ -1,5 +1,5 @@
 #include "command_put.h"
-#include "../iDom_server_OOP/src/CRON/cron.hpp"
+#include "/home/pi/programowanie/iDom_server_OOP/src/CRON/cron.hpp"
 
 command_put::command_put(std::string name):command(name)
 {

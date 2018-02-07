@@ -1,47 +1,31 @@
-
-#include <iostream>
-#include <sys/sysinfo.h>
-//#include "idomtools.h"
-
-using namespace std;
-
-int main(int argc, char *argv[])
-{
-    cout << "== Start test ===" << endl;
-    double newValue = 9;
-    double oldValue = 0;
-    double histereza = 1;            ;
-    double reference= 0.002;
-    while (newValue != 100)
-    {
-        cout << "podaj wartosc ";
-        cin >> newValue;
-        if (newValue >= reference + histereza && oldValue < reference + histereza){
-
-            cout  << "przejscie w gore " << reference <<endl;
-        }
-        else if (newValue <= reference - histereza && oldValue > reference - histereza){
-            cout << " przejscie w dol " << reference << endl;
-        }
-        else {
-            cout << "bez zmian "<<endl;
-        }
-
-        oldValue = newValue;
-    }
-
-    struct sysinfo info;
-    sysinfo(&info);
-float shiftfloat=(float)(1<<SI_LOAD_SHIFT);
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include "idomtools_useful.h"
+#include "idomtools.h"
+#include "../../libs/useful/useful.h"
 
 
-    std::cout <<"load average : 1min: "
-              << (info.loads[0]*shiftfloat)
-              <<" 5min: "
-              <<(info.loads[1]*shiftfloat )
-              << " 15min: "
-              <<(info.loads[2]*shiftfloat)
-              <<std::endl;
 
-    return 0;
-}
+  TEST(ClockClass, clock_obj) {
+      Clock f(13,57);
+      Clock g(23,59);
+      Clock r = f+g;
+      EXPECT_EQ(r.getString(), "13:56");
+      EXPECT_EQ(f<g, true);
+      r+=Clock("04:04");
+      EXPECT_EQ(r.getString(),"18:00");
+  }
+
+  TEST(idomTOOLsClass, tc_hasTemperatureChange) {
+
+      //iDomTOOLS::hasTemperatureChange
+      iDomTOOLS test_iDomTOOLS(NULL);
+
+
+      EXPECT_EQ(1,1);
+  }
+
+  int main(int argc, char **argv) {
+      ::testing::InitGoogleTest( &argc, argv );
+      return RUN_ALL_TESTS();
+  }

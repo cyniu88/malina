@@ -8,7 +8,7 @@
 #include "../CRON/cron.hpp"
 #include "../RADIO_433_eq/radio_433_eq.h"
 
-iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
+iDomTOOLS::iDomTOOLS(thread_data *myData)// : key(myData->server_settings->TS_KEY)
 {
     my_data = myData;
     //////////////////////////////////// temeprature /////////////////
@@ -18,17 +18,21 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
     allThermometerUpdate.add("inside");
     allThermometerUpdate.add("outside");
     /////////////////////////////////////////////////////////////////
+#ifndef BT_TEST
     pinMode(iDomConst::GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
     digitalWrite(iDomConst::GPIO_SPIK,LOW);
     pinMode(iDomConst::GPIO_PRINTER,OUTPUT);  /// gpio pin do zsilania drukarki
     digitalWrite(iDomConst::GPIO_PRINTER,LOW);
     pinMode(iDomConst::BUTTON_PIN, INPUT);   //  gpio pin przycisku
-
+//#endif
     if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_BOTH, &useful_F::button_interrupt) < 0 ) {
+
         log_file_cout.mutex_lock();
         log_file_cout << CRITICAL <<"Unable to setup ISR RISING "<<std::endl;
         log_file_cout.mutex_unlock();
+
     }
+    #endif
     my_data->main_iDomStatus->addObject("cameraLED",STATE::UNKNOWN);
     my_data->main_iDomStatus->addObject("printer",STATE::OFF);
     my_data->main_iDomStatus->addObject("speakers",STATE::OFF);
@@ -40,6 +44,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : key(myData->server_settings->TS_KEY)
     m_viber.setURL("https://chatapi.viber.com/pa/send_message");
     ///////// setup faceboook api
     m_facebook.setAccessToken(my_data->server_settings->facebookAccessToken);
+
 }
 
 TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, double reference, double histereza )
@@ -139,10 +144,11 @@ void iDomTOOLS::updateTemperatureStats()
         sendViberMsg(msg  ,
                      my_data->server_settings->viberReceiver.at(0),
                      my_data->server_settings->viberSender);
-
+#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << msg << std::endl;
         log_file_mutex.mutex_unlock();
+#endif
     }
     if( true == allThermometerUpdate.isMoreDiff("inside",2.1)){
         auto  data = allThermometerUpdate.getLast2("inside");
@@ -159,10 +165,11 @@ void iDomTOOLS::updateTemperatureStats()
         sendViberMsg(msg  ,
                      my_data->server_settings->viberReceiver.at(0),
                      my_data->server_settings->viberSender);
-
+#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << msg << std::endl;
         log_file_mutex.mutex_unlock();
+#endif
     }
 }
 
@@ -236,9 +243,12 @@ void iDomTOOLS::turnOnOffPrinter()
         my_data->mainLCD->printString(true,0,0,"230V ON");
         break;
     default:
+        puts("def");
+#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " blad odczytu stanu pinu zasilania drukarki "<<   std::endl;
         log_file_mutex.mutex_unlock();
+#endif
     }
 }
 
@@ -309,9 +319,11 @@ void iDomTOOLS::lockHome()
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/lock.jpg",
                                               my_data->server_settings->viberReceiver.at(0),
                                               my_data->server_settings->viberSender);
+#ifndef BT_TEST
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<<   std::endl;
     log_file_mutex.mutex_unlock();
+#endif
 }
 
 void iDomTOOLS::unlockHome()
@@ -322,9 +334,11 @@ void iDomTOOLS::unlockHome()
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/unlock.jpg",
                                               my_data->server_settings->viberReceiver.at(0),
                                               my_data->server_settings->viberSender);
+#ifndef BT_TEST
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<<   std::endl;
     log_file_mutex.mutex_unlock();
+#endif
 }
 
 std::string iDomTOOLS::getSunrise(bool extend )
@@ -488,9 +502,11 @@ std::string iDomTOOLS::getSmog()
         readBuffer = readBuffer.substr(start, 40);
     }
     catch (...){
+#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "wyjatek substr() e getSmog() !!!!!!"<< std::endl;
         log_file_mutex.mutex_unlock();
+#endif
     }
 
     readBuffer = find_tag(readBuffer);
@@ -510,8 +526,6 @@ void iDomTOOLS::send_temperature_thingSpeak()
     addres+="&field2="+getSmog();
     //////////////////////////////// pozyskanie temperatury
     ///
-    ///
-    //_temperature.erase(_temperature.size()-2,_temperature.size());
 
     allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);
@@ -556,10 +570,11 @@ std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std
 
     std::string readBuffer = useful_F::httpPost(address,10);
 
-
+#ifndef BT_TEST
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"wysłano SMSa otreśći: " <<  msg<<std::endl;
     log_file_mutex.mutex_unlock();
+#endif
     return readBuffer +"\n"+address;
 }
 

@@ -11,20 +11,10 @@
 #include "../../libs/Statistic/statistic.h"
 #include "sys/sysinfo.h"
 #include "../THERMOMETER_CONTAINER/thermometer_container.h"
+#include "idomtools_useful.h"
 
 struct thread_data;
 struct LED_Strip;
-
-enum class PIN_STATE{
-    LOW_STATE = 0,
-    HIGH_STATE = 1,
-    UNKNOWN_STATE = 2
-};
-
-enum class USER_LEVEL{
-    ROOT,
-    USER
-};
 
 class iDomTOOLS
 {
