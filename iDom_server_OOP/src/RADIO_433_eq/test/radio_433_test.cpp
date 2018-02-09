@@ -10,13 +10,14 @@ void RC_433MHz::receiveCode(std::string code){
 
 }
 
-void iDomSTATUS::setObjectState(std::string name, STATE s){
 
-}
 
 TEST(Switch_Class, getSwitchPointerVector)
 {
     thread_data test_my_data;
+    iDomSTATUS test_status;
+    test_my_data.main_iDomStatus = &test_status;
+
     RADIO_EQ_CONTAINER test_radio_cont(&test_my_data);
 
     test_radio_cont.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
@@ -28,6 +29,8 @@ TEST(Switch_Class, getSwitchPointerVector)
 TEST(Switch_Class, switch_alarm_on)
 {
     thread_data test_my_data;
+    iDomSTATUS test_status;
+    test_my_data.main_iDomStatus = &test_status;
     RADIO_EQ_CONTAINER test_radio_cont(&test_my_data);
 
     test_radio_cont.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");

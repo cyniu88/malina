@@ -3,7 +3,7 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 QMAKE_CXXFLAGS += -O3   -std=c++14 -DNOSSL -DBT_TEST
-LIBS +=   -L/usr/local/lib -lgtest -lgtest_main  -lwiringPiDev -lwiringPi -llirc_client   -lrt -lpthread  -lcurl  -lmpd
+LIBS +=   -L/usr/local/lib -lgtest -lgtest_main -lgmock -lwiringPiDev -lwiringPi -llirc_client   -lrt -lpthread  -lcurl  -lmpd
 
 SOURCES += main.cpp \
     ../../libs/useful/usefull.cpp \
@@ -26,7 +26,8 @@ SOURCES += main.cpp \
     ../../src/iDomTools/idomtools_mpd.cpp \
     ../../libs/emoji/emoji.cpp \
     ../../src/blockQueue/blockqueue.cpp \
-    ../../src/functions/functions2.cpp
+    ../../src/functions/functions2.cpp \
+    ../../src/iDomStatus/idomstatus.cpp
 
 
 HEADERS += \

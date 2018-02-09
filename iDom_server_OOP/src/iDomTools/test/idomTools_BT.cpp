@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 #include "../idomtools.h"
 #include "../../src/functions/functions.h"
+#include "../../RADIO_433_eq/radio_433_eq.h"
 
 void useful_F::button_interrupt(){}
 //
@@ -52,9 +53,9 @@ void FACEBOOK_API::setAccessToken(std::string token){}
 void LCD_c::set_lcd_STATE(int i){}
 void LCD_c::printString(bool clear, int col, int row, std::string str){}
 
-iDomSTATUS::iDomSTATUS(){};
-void iDomSTATUS::addObject(std::string name, STATE s){}
-STATE iDomSTATUS::getObjectState(std::string name){return STATE::UNKNOWN;}
+//iDomSTATUS::iDomSTATUS(){};
+//void iDomSTATUS::addObject(std::string name, STATE s){}
+//STATE iDomSTATUS::getObjectState(std::string name){return STATE::UNKNOWN;}
 
 TEST(iDomTOOLS_Class, smog)
 {
@@ -81,6 +82,7 @@ TEST(iDomTOOLS_Class, smog)
 TEST(iDomTOOLS_Class, hasTemperatureChange)
 {
     thread_data test_my_data;
+
     config test_server_set;
     test_server_set.TS_KEY = "key test";
     test_server_set.viberSender = "test sender";
@@ -109,4 +111,82 @@ TEST(iDomTOOLS_Class, hasTemperatureChange)
     test_idomTOOLS.send_temperature_thingSpeak();
     s = test_idomTOOLS.hasTemperatureChange("inside",0,0.5);
     EXPECT_EQ(s,TEMPERATURE_STATE::NoChanges);
+}
+
+
+TEST(iDomTOOLS_Class, weatherAlert)
+{
+    std::string test_data_from_www = "    <div style=\"margin:0;padding:0;width:350px;font:0.8em Lucida,Arial,sans-seri                                                                  f;background:#FFC\">\
+            <p style=\"margin:1px;padding:1px;text-align:center;background:#FF9;borde \                                                                 r:1px dotted\"><b><a href=\"http://burze.dzis.net?page=wyszukiwarka&amp;miejscowos\                                                                  c=krakow\" target=\"_blank\" style=\"color:#00E\">krakow</a></b>\
+            <i>(50°03'N 19°57'E)</i>\
+            </p>\
+            <dl style=\"margin:1px 1px 0 1px;padding:0;cl                                                                  ear:both;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:\                                                                  center\">Brak wyładowań atmosferycznych\
+            w promieniu 40km\
+            </dl>\
+            \
+            <dl style=\"margin:1px 1px 0 1px;padding:0;cl                                                                  ear:both;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:  \                                                                center\">Mróz, brak ostrzeżeń</dl>\
+            \
+            <dl style=\"margin:1px 1px 0 1px;padding:0;clear:both                                                                  ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  \                                                                Upał, brak ostrzeżeń</dl>\
+            \
+            <dl style=\"margin:1px 1px 0 1px;padding:0;clear:both                                                                  ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  \                                                                Wiatr, brak ostrzeżeń</dl>\
+            \
+            <dl style=\"margin:1px 1px 0 1px;padding:0;clear:both                                                                  ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  \                                                                Opady, brak ostrzeżeń</dl>\
+            \
+            <dl style=\"margin:1px 1px 0 1px;padding:0;clear:both                                                                  ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  \                                                                Burze, brak ostrzeżeń</dl>\
+            \
+            <dl style=\"margin:1px 1px 0 1px;padding:0;clear:both                                                                  ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  \                                                                Trąby powietrzne, brak ostrzeżeń</dl>\
+            </div>";
+            thread_data test_my_data;
+    config test_server_set;
+    iDomSTATUS test_status;
+    test_my_data.main_iDomStatus = &test_status;
+
+    test_server_set.TS_KEY = "key test";
+    test_server_set.viberSender = "test sender";
+    test_server_set.viberReceiver = {"R1","R2"};
+    test_my_data.server_settings = &test_server_set;
+
+    iDomTOOLS test_idomTOOLS(&test_my_data);
+
+    test_idomTOOLS.getAlert(test_idomTOOLS.getWeatherEvent("Krakow",40));
+    //test_idomTOOLS.getAlert(test_data_from_www);
+    EXPECT_LT(2,3);
+
+}
+
+TEST(iDomTOOLS_Class, checkAlarm)
+{
+    thread_data test_my_data;
+    config test_server_set;
+    test_server_set.TS_KEY = "key test";
+    test_server_set.viberSender = "test sender";
+    test_server_set.viberReceiver = {"R1","R2"};
+    test_my_data.server_settings = &test_server_set;
+    MPD_info test_ptr_MPD;
+    test_ptr_MPD.volume = 5;
+    test_my_data.ptr_MPD_info = &test_ptr_MPD;
+
+    iDomSTATUS test_status;
+    test_my_data.main_iDomStatus = &test_status;
+
+    ALERT alarmTime;
+    RADIO_EQ_CONTAINER_STUB stub_rec(&test_my_data);
+    //test_my_data.main_REC = &stub_rec;
+    test_my_data.alarmTime.time = Clock::getTime();
+    test_my_data.alarmTime.state = STATE::ACTIVE;
+
+    iDomTOOLS test_idomTOOLS(&test_my_data);
+
+    EXPECT_EQ(test_my_data.alarmTime.state, STATE::ACTIVE);
+
+    for(unsigned int i = 50; i<58;++i){
+        test_idomTOOLS.checkAlarm();
+
+        EXPECT_EQ(test_my_data.alarmTime.state, STATE::WORKING);
+        EXPECT_EQ(test_my_data.ptr_MPD_info->volume, i+1);
+    }
+    test_idomTOOLS.checkAlarm();
+
+    EXPECT_EQ(test_my_data.alarmTime.state, STATE::DEACTIVE);
+    EXPECT_EQ(test_my_data.ptr_MPD_info->volume, 58);
 }

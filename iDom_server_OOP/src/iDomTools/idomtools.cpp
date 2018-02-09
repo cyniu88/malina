@@ -415,6 +415,13 @@ std::string iDomTOOLS::getWeatherEvent(std::string city, unsigned int radius)
     return useful_F::httpPost(url, 10);
 }
 
+std::vector<WEATHER_ALER> iDomTOOLS::getAlert(std::string data)
+{
+    std::string d = useful_F::removeHtmlTag(data);
+    std::cout<< "dane: "<< d<<std::endl;
+    return {WEATHER_ALER()};
+}
+
 void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
 {
     if (textVector->empty() ){
@@ -681,9 +688,9 @@ void iDomTOOLS::checkAlarm()
         }
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
-            if(now < iDomTOOLS::getSunriseClock() || now > iDomTOOLS::getSunsetClock()){
+           // if(now < iDomTOOLS::getSunriseClock() || now > iDomTOOLS::getSunsetClock()){
                 my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
-            }
+           // }
         }
     }
 }

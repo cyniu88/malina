@@ -40,6 +40,8 @@ public:
     //////////////////// HTTP req //////////////////////////
     static std::string httpPost(std::string url, int timeoutSeconds );
     static void downloadFile(std::string url, std::string path, int timeoutSeconds);
+    static std::string replaceAll(std::string str, const std::string& from, const std::string& to);
+    static std::string removeHtmlTag(std::string &data);
 
 };
 #endif // FUNCTIONS_H

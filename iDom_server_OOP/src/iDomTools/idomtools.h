@@ -59,6 +59,8 @@ public:
     std::string getSystemInfo();
     std::string getWeatherEvent(std::string city, unsigned int radius );
 
+    std::vector<WEATHER_ALER> getAlert(std::string data);
+
     void textToSpeach(std::vector <std::string> *textVector);
     std::string getTextToSpeach();
 

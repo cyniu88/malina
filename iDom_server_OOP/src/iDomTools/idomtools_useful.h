@@ -19,5 +19,4 @@ struct WEATHER_ALER{
     bool sended = false;
 };
 
-
 #endif // IDOMTOOLS_USEFULL_H

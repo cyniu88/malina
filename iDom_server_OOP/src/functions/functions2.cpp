@@ -1,3 +1,9 @@
+#include <iostream>
+#include <fstream>
+#include <regex>
+#include <iterator>
+#include <vector>
+
 #include "functions.h"
 
 std::vector<std::string> useful_F::split(const std::string& s, char separator ){
@@ -52,4 +58,43 @@ std::string useful_F::httpPost(std::string url, int timeoutSeconds)
     curl_global_cleanup();
 
     return readBuffer;
+}
+
+std::string useful_F::replaceAll(std::string str, const std::string& from, const std::string& to) {
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+    }
+    return str;
+}
+
+std::string useful_F::removeHtmlTag(std::string &data)
+{
+    data = useful_F::replaceAll(data,"</dl>","\n");
+
+    //data = useful_F::replaceAll(data,"    "," ");
+    bool copy = true;
+    std::string plainString = "";
+    std::stringstream convertStream;
+
+    // remove all xml tags
+    for (unsigned int i=0; i < data.length(); i++)
+    {
+        convertStream << data[i];
+
+        if(convertStream.str().compare("<") == 0) copy = false;
+        else if(convertStream.str().compare(">") == 0)
+        {
+            copy = true;
+            convertStream.str(std::string());
+            continue;
+        }
+
+        if(copy) plainString.append(convertStream.str());
+
+        convertStream.str(std::string());
+    }
+
+    return plainString;
 }
