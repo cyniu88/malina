@@ -1,11 +1,12 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
+//#include <gmock/gmock.h>
 #include "../idomtools.h"
-#include "../../src/functions/functions.h"
+#include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
 
 void useful_F::button_interrupt(){}
-//
+void digitalWrite(int pin, int mode){}
+int digitalRead(int pin){    return 0;}
 std::string useful_F::send_to_arduino(thread_data *my_data,std::string d){
     static int i = 0;
     i++;
@@ -165,15 +166,20 @@ TEST(iDomTOOLS_Class, checkAlarm)
     MPD_info test_ptr_MPD;
     test_ptr_MPD.volume = 5;
     test_my_data.ptr_MPD_info = &test_ptr_MPD;
-
+    RADIO_EQ* test_RS = new RADIO_SWITCH(&test_my_data,"ALARM","209888",RADIO_EQ_TYPE::SWITCH);
     iDomSTATUS test_status;
     test_my_data.main_iDomStatus = &test_status;
 
-    ALERT alarmTime;
+    iDomTOOLS test_iDom_TOOLS(&test_my_data);
+    test_my_data.main_iDomTools = &test_iDom_TOOLS;
+
     RADIO_EQ_CONTAINER_STUB stub_rec(&test_my_data);
-    //test_my_data.main_REC = &stub_rec;
+    test_my_data.main_REC = (&stub_rec);
     test_my_data.alarmTime.time = Clock::getTime();
     test_my_data.alarmTime.state = STATE::ACTIVE;
+
+    pilot_led test_pilot_led;
+    test_my_data.ptr_pilot_led = &test_pilot_led;
 
     iDomTOOLS test_idomTOOLS(&test_my_data);
 
@@ -185,8 +191,11 @@ TEST(iDomTOOLS_Class, checkAlarm)
         EXPECT_EQ(test_my_data.alarmTime.state, STATE::WORKING);
         EXPECT_EQ(test_my_data.ptr_MPD_info->volume, i+1);
     }
-    test_idomTOOLS.checkAlarm();
+    EXPECT_CALL(stub_rec, getEqPointer("ALARM")).WillRepeatedly(testing::Return(test_RS));
+    test_idomTOOLS.checkAlarm();  
 
     EXPECT_EQ(test_my_data.alarmTime.state, STATE::DEACTIVE);
     EXPECT_EQ(test_my_data.ptr_MPD_info->volume, 58);
+
+    delete test_RS;
 }

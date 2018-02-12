@@ -68,7 +68,7 @@ public:
     RADIO_EQ_CONTAINER(thread_data * my_data);
     virtual ~RADIO_EQ_CONTAINER();
     void addRadioEq(std::string name, std::string id, RADIO_EQ_TYPE type);
-    RADIO_EQ* getEqPointer(std::string name);
+    virtual RADIO_EQ* getEqPointer(std::string name);
     std::vector<RADIO_SWITCH *> getSwitchPointerVector();
     std::string listAllName();
     void loadConfig(std::string filePath);
@@ -77,11 +77,13 @@ public:
 class RADIO_EQ_CONTAINER_STUB : public RADIO_EQ_CONTAINER
 {
 
+    thread_data * k;
 public:
-    RADIO_EQ_CONTAINER_STUB(thread_data * k):RADIO_EQ_CONTAINER(k){}
+    RADIO_EQ_CONTAINER_STUB(thread_data * k):RADIO_EQ_CONTAINER(k){this->k = k;}
 
     virtual ~RADIO_EQ_CONTAINER_STUB(){}
-    MOCK_METHOD0(getEqPointer, RADIO_EQ*());
+    //RADIO_EQ* getEqPointer(std::string name){return new RADIO_SWITCH(k,"ALARM","321456",RADIO_EQ_TYPE::SWITCH);}
+    MOCK_METHOD1(getEqPointer, RADIO_EQ*(std::string name));
 };
 
 #endif // RADIO_SWITCH_H

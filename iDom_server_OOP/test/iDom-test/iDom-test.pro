@@ -1,9 +1,9 @@
 TEMPLATE = app
-CONFIG += console c++11
+CONFIG += console c++14
 CONFIG -= app_bundle
 CONFIG -= qt
 QMAKE_CXXFLAGS += -O3   -std=c++14 -DNOSSL -DBT_TEST
-LIBS +=   -L/usr/local/lib -lgtest -lgtest_main -lgmock -lwiringPiDev -lwiringPi -llirc_client   -lrt -lpthread  -lcurl  -lmpd
+LIBS +=  -lgmock -L/usr/local/lib  -lgtest -lgtest_main  -lwiringPiDev -lwiringPi -llirc_client   -lrt -lpthread  -lcurl  -lmpd
 
 SOURCES += main.cpp \
     ../../libs/useful/usefull.cpp \

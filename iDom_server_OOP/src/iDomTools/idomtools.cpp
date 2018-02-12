@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <fstream>
 #include <string>
+#include <typeinfo>
 
 #include "idomtools.h"
 #include "../functions/functions.h"
@@ -11,6 +12,7 @@
 iDomTOOLS::iDomTOOLS(thread_data *myData)// : key(myData->server_settings->TS_KEY)
 {
     my_data = myData;
+
     //////////////////////////////////// temeprature /////////////////
 
     allThermometer.add("inside");
@@ -24,7 +26,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData)// : key(myData->server_settings->TS_KE
     pinMode(iDomConst::GPIO_PRINTER,OUTPUT);  /// gpio pin do zsilania drukarki
     digitalWrite(iDomConst::GPIO_PRINTER,LOW);
     pinMode(iDomConst::BUTTON_PIN, INPUT);   //  gpio pin przycisku
-//#endif
+    //#endif
     if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_BOTH, &useful_F::button_interrupt) < 0 ) {
 
         log_file_cout.mutex_lock();
@@ -32,7 +34,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData)// : key(myData->server_settings->TS_KE
         log_file_cout.mutex_unlock();
 
     }
-    #endif
+#endif
     my_data->main_iDomStatus->addObject("cameraLED",STATE::UNKNOWN);
     my_data->main_iDomStatus->addObject("printer",STATE::OFF);
     my_data->main_iDomStatus->addObject("speakers",STATE::OFF);
@@ -670,6 +672,7 @@ std::string iDomTOOLS::ledOn(LED_Strip ledColor, unsigned int from, unsigned int
 
 void iDomTOOLS::checkAlarm()
 {
+
     Clock now = Clock::getTime();
     if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
         my_data->alarmTime.state = STATE::WORKING;
@@ -688,9 +691,9 @@ void iDomTOOLS::checkAlarm()
         }
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
-           // if(now < iDomTOOLS::getSunriseClock() || now > iDomTOOLS::getSunsetClock()){
+            if(now < iDomTOOLS::getSunriseClock() || now > iDomTOOLS::getSunsetClock()){
                 my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
-           // }
+            }
         }
     }
 }
