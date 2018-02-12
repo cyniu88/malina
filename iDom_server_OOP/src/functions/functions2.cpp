@@ -69,6 +69,34 @@ std::string useful_F::replaceAll(std::string str, const std::string& from, const
     return str;
 }
 
+void useful_F::tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text){
+    std::string temp;
+
+    for(char n: text) { // the initializer may be an array
+        bool is_sep = false;
+        for(char m: separator){
+            if (n == m)
+            {
+                is_sep = true;
+            }
+        }
+        if (is_sep == false){
+            temp += n;
+        }
+        else
+        {
+            if (!temp.empty())
+            {
+                command.push_back( temp);
+                temp = "";
+            }
+        }
+    }
+    if (!temp.empty()){
+        command.push_back(temp);
+    }
+}
+
 std::string useful_F::removeHtmlTag(std::string &data)
 {
     data = useful_F::replaceAll(data,"</dl>","\n");

@@ -9,7 +9,7 @@
 #include "../CRON/cron.hpp"
 #include "../RADIO_433_eq/radio_433_eq.h"
 
-iDomTOOLS::iDomTOOLS(thread_data *myData)// : key(myData->server_settings->TS_KEY)
+iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
 {
     my_data = myData;
 
@@ -26,7 +26,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData)// : key(myData->server_settings->TS_KE
     pinMode(iDomConst::GPIO_PRINTER,OUTPUT);  /// gpio pin do zsilania drukarki
     digitalWrite(iDomConst::GPIO_PRINTER,LOW);
     pinMode(iDomConst::BUTTON_PIN, INPUT);   //  gpio pin przycisku
-    //#endif
+
     if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_BOTH, &useful_F::button_interrupt) < 0 ) {
 
         log_file_cout.mutex_lock();
@@ -539,7 +539,6 @@ void iDomTOOLS::send_temperature_thingSpeak()
     allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);
     sendSMSifTempChanged("inside",24);
-
     useful_F::httpPost(addres,10);
 }
 

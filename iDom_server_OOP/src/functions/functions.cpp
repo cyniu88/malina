@@ -260,34 +260,6 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     log_file_mutex.mutex_unlock();
 
 }
-void useful_F::tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text){
-    std::string temp;
-
-    for(char n: text) { // the initializer may be an array
-        bool is_sep = false;
-        for(char m: separator){
-            if (n == m)
-            {
-                is_sep = true;
-            }
-        }
-        if (is_sep == false){
-            temp += n;
-        }
-        else
-        {
-            if (!temp.empty())
-            {
-                command.push_back( temp);
-                temp = "";
-            }
-        }
-    }
-    if (!temp.empty()){
-        command.push_back(temp);
-    }
-}
-
 std::string useful_F::RSHash(std::string data, unsigned int b, unsigned int a)
 {
     time_t act_time;

@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-//#include <gmock/gmock.h>
 #include "../idomtools.h"
 #include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
@@ -155,6 +154,21 @@ TEST(iDomTOOLS_Class, weatherAlert)
 
 }
 
+TEST(iDomTOOLS_Class, send_temperature_thingSpeak){
+    thread_data test_my_data;
+    config test_server_set;
+    iDomSTATUS test_status;
+    test_my_data.main_iDomStatus = &test_status;
+
+    test_server_set.TS_KEY = "key_test";
+    test_server_set.viberSender = "test sender";
+    test_server_set.viberReceiver = {"R1","R2"};
+    test_my_data.server_settings = &test_server_set;
+
+    iDomTOOLS test_idomTOOLS(&test_my_data);
+    test_idomTOOLS.send_temperature_thingSpeak();
+}
+
 TEST(iDomTOOLS_Class, checkAlarm)
 {
     thread_data test_my_data;
@@ -192,7 +206,7 @@ TEST(iDomTOOLS_Class, checkAlarm)
         EXPECT_EQ(test_my_data.ptr_MPD_info->volume, i+1);
     }
     EXPECT_CALL(stub_rec, getEqPointer("ALARM")).WillRepeatedly(testing::Return(test_RS));
-    test_idomTOOLS.checkAlarm();  
+    test_idomTOOLS.checkAlarm();
 
     EXPECT_EQ(test_my_data.alarmTime.state, STATE::DEACTIVE);
     EXPECT_EQ(test_my_data.ptr_MPD_info->volume, 58);

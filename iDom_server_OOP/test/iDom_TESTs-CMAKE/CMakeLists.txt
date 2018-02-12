@@ -25,6 +25,7 @@ set(SOURCE_FILES  "main.cpp"
     "../../libs/emoji/emoji.cpp"
     "../../src/blockQueue/blockqueue.cpp"
     "../../src/functions/functions2.cpp"
+    "../../src/functions/tests/functions_BT.cpp"
     "../../src/iDomStatus/idomstatus.cpp"
     "../../src/iDomTools/test/idomTools_BT.cpp"
     )
