@@ -255,6 +255,7 @@ void Server_connectivity_thread(thread_data  *my_data){
 
 int main()
 {
+
     std::ofstream pidFile;
     pidFile.open("/mnt/ramdisk/pid-iDom.txt");
     pidFile << getpid();

@@ -6,7 +6,6 @@
 void useful_F::button_interrupt(){}
 void digitalWrite(int pin, int mode){}
 int digitalRead(int pin){ return 0; }
-<<<<<<< HEAD
 
 namespace TEST_DATA{
 static std::string return_send_to_arduino = "-2:-2";
@@ -15,16 +14,6 @@ static std::string return_httpPost_expect = "";
 static std::string return_viber_msg = "";
 }
 
-=======
-
-namespace TEST_DATA{
-static std::string return_send_to_arduino = "-2:-2";
-static std::string return_httpPost = "";
-static std::string return_httpPost_expect = "";
-static std::string return_viber_msg = "";
-}
-
->>>>>>> a8b17aac18706a1e139b5c58d7ec97061b72daf9
 std::string useful_F::send_to_arduino(thread_data *my_data,std::string d){
     return TEST_DATA::return_send_to_arduino;
 }
@@ -59,17 +48,9 @@ void FACEBOOK_API::setAccessToken(std::string token){}
 
 void LCD_c::set_lcd_STATE(int i){}
 void LCD_c::printString(bool clear, int col, int row, std::string str){
-<<<<<<< HEAD
-
     std::cout << "LCD_c::printString() "<< str  << std::endl;
 }
 
-=======
-
-    std::cout << "LCD_c::printString() "<< str  << std::endl;
-}
-
->>>>>>> a8b17aac18706a1e139b5c58d7ec97061b72daf9
 std::string useful_F::httpPost(std::string url, int timeoutSeconds){
 
     std::cout << "url: "<< url << std::endl;
@@ -343,7 +324,6 @@ TEST(iDomTOOLS_Class, buttonPressed)
 
     test_my_data.main_iDomTools = &test_idomTOOLS;
 
-<<<<<<< HEAD
     std::string pressedButtonName = test_idomTOOLS.buttonPressed(button433MHz_id);
     EXPECT_EQ(1, test_my_data.main_REC->getButtonPointerVector().size());
     EXPECT_STREQ(std::to_string(button433MHz_id).c_str(),
@@ -398,6 +378,8 @@ TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerLock)
     blockQueue test_q;
     test_q._clearAll();
 
+    pilot_led test_pilot_led;
+    test_my_data.ptr_pilot_led = &test_pilot_led;
     RADIO_EQ_CONTAINER test_rec(&test_my_data);
     test_my_data.main_REC = (&test_rec);
     config test_server_set;
@@ -417,7 +399,7 @@ TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerLock)
 
     test_my_data.main_iDomTools = &test_idomTOOLS;
 
-    //test_idomTOOLS.lockHome();
+    //test_idomTOOLS.unlockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNDEFINE);
 
     test_idomTOOLS.button433MHzPressedAction("locker");
@@ -426,13 +408,6 @@ TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerLock)
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
-}
-=======
-    test_idomTOOLS.buttonPressed(button433MHz_id);
-    EXPECT_EQ(1, test_my_data.main_REC->getButtonPointerVector().size());
-    EXPECT_STREQ(std::to_string(button433MHz_id), test_my_data.main_REC->getButtonPointerVector().at(0)->getID());
 
-    std::cout << " test ID: " << test_my_data.main_REC->getButtonPointerVector().at(0)->getID() <<std::endl;
 }
 
->>>>>>> a8b17aac18706a1e139b5c58d7ec97061b72daf9
