@@ -7,7 +7,7 @@ int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );
 
     //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.hasTemperatureChange";
-    //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.checkAlarm";
+    ::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.buttonPressed";
 
     return RUN_ALL_TESTS();
 }

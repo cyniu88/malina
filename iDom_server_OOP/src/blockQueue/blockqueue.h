@@ -35,6 +35,7 @@ public:
     void _add(MPD_COMMAND X);
     MPD_COMMAND _get();
     int  _size();
+    void _clearAll();
 };
 
 #endif // BLOCQUEUE_H

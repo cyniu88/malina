@@ -47,6 +47,8 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
     ///////// setup faceboook api
     m_facebook.setAccessToken(my_data->server_settings->facebookAccessToken);
 
+    //////// button 433MHz
+    buttonPointerVector = my_data->main_REC->getButtonPointerVector();
 }
 
 TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, double reference, double histereza )
@@ -60,7 +62,8 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, d
             lastState != TEMPERATURE_STATE::Over)
     {
         my_data->myEventHandler.run("test")->addEvent("over: new "+  to_string_with_precision(newTemp)+" old: "
-                                                      +to_string_with_precision(oldTemp)+" ref: "+to_string_with_precision(reference));
+                                                      +to_string_with_precision(oldTemp)+" ref: "
+                                                      +to_string_with_precision(reference));
         allThermometer.setState(thermometerName, TEMPERATURE_STATE::Over);
         return TEMPERATURE_STATE::Over;
     }
@@ -69,7 +72,8 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, d
              lastState != TEMPERATURE_STATE::Under)
     {
         my_data->myEventHandler.run("test")->addEvent("under: new "+to_string_with_precision(newTemp)+" old: "
-                                                      +to_string_with_precision(oldTemp)+" ref: "+to_string_with_precision(reference));
+                                                      +to_string_with_precision(oldTemp)+" ref: "
+                                                      +to_string_with_precision(reference));
         allThermometer.setState(thermometerName, TEMPERATURE_STATE::Under);
         return TEMPERATURE_STATE::Under;
     }
@@ -78,6 +82,7 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, d
         my_data->myEventHandler.run("test")->addEvent("noChanges: new "+to_string_with_precision(newTemp)+" old: "
                                                       +to_string_with_precision(oldTemp)+" ref: "+to_string_with_precision(reference));
 
+        allThermometer.setState(thermometerName, TEMPERATURE_STATE::NoChanges);
         return TEMPERATURE_STATE::NoChanges;
     }
     my_data->myEventHandler.run("test")->addEvent("unknown: new "+to_string_with_precision(newTemp)+" old: "
@@ -94,7 +99,13 @@ void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int referenc
 
     if (status == TEMPERATURE_STATE::Over){
         my_data->myEventHandler.run("temperature")->addEvent(m);
-        sendViberMsg(m,my_data->server_settings->viberReceiver.at(0),my_data->server_settings->viberSender);
+        if (reference < 2){
+            sendViberMsg(m,my_data->server_settings->viberReceiver.at(0),my_data->server_settings->viberSender);
+            sendViberMsg(m,my_data->server_settings->viberReceiver.at(1),my_data->server_settings->viberSender);
+        }
+        else{
+            sendViberMsg(m,my_data->server_settings->viberReceiver.at(0),my_data->server_settings->viberSender);
+        }
     }
     else if (status == TEMPERATURE_STATE::Under){
         m ="temperature " + thermomethernName+" under "+EMOJI::emoji(E_emoji::SOUTH_EAST_ARROW)
@@ -343,6 +354,39 @@ void iDomTOOLS::unlockHome()
 #endif
 }
 
+void iDomTOOLS::buttonPressed(int id)
+{
+    std::cout << "ID: " << id <<std::endl;
+    std::cout << "buttonPreessed() vektor size: " << buttonPointerVector.size() << std::endl;
+}
+
+void iDomTOOLS::buttonLockHome()
+{
+    ledOFF();
+    MPD_stop();
+    turnOffPrinter();
+    lockHome();
+}
+
+void iDomTOOLS::buttonUnlockHome()
+{
+    unlockHome();
+    MPD_play(my_data);
+    if(isItDay() == false){
+        ledOn(my_data->ptr_pilot_led->colorLED[2]);
+    }
+}
+
+bool iDomTOOLS::isItDay()
+{
+    Clock now = Clock::getTime();
+    if(now < iDomTOOLS::getSunriseClock() || now > iDomTOOLS::getSunsetClock()){
+        return false;
+    }
+
+    return true;
+}
+
 std::string iDomTOOLS::getSunrise(bool extend )
 {
     Clock tt = sun.getSunRise();
@@ -534,12 +578,16 @@ void iDomTOOLS::send_temperature_thingSpeak()
     addres+= "&field3="+_temperature.at(1);
     addres+="&field2="+getSmog();
     //////////////////////////////// pozyskanie temperatury
-    ///
-
     allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);
     sendSMSifTempChanged("inside",24);
-    useful_F::httpPost(addres,10);
+    if(useful_F::httpPost(addres,10) == "0"){
+#ifndef BT_TEST
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << " bład wysyłania temoeratury na thingspeak "<<   std::endl;
+        log_file_mutex.mutex_unlock();
+#endif
+    }
 }
 
 size_t iDomTOOLS::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
@@ -671,7 +719,6 @@ std::string iDomTOOLS::ledOn(LED_Strip ledColor, unsigned int from, unsigned int
 
 void iDomTOOLS::checkAlarm()
 {
-
     Clock now = Clock::getTime();
     if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
         my_data->alarmTime.state = STATE::WORKING;

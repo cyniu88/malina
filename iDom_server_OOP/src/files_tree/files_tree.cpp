@@ -8,10 +8,10 @@ files_tree::files_tree (std::string path, LCD_c *mainLCD_PTR):database_path(path
 
 {
     //database_path = path;
-    mainLCD=mainLCD_PTR;
+    mainLCD = mainLCD_PTR;
     //tree_stack.push(database_path);
     i_stack.push(0);
-    i=0;
+    i = 0;
     get_list( database_path  );
 
 }
@@ -19,15 +19,7 @@ bool files_tree::is_file(  ) const
 {
     return movie_database_vector[i].is_file;
 }
-//std::string files_tree::return_path( int i) const
-//{
-//    return movie_database_vector[i].path;
-//}
 
-//void files_tree::get_main_list()
-//{
-//    get_list( database_path );
-//}
 void files_tree::next(  )
 {   
     ++i;
@@ -109,37 +101,29 @@ std::string files_tree::show_list(     )
         {
             mainLCD->printString(false,10,1,movie_database_vector[i].files_name.substr( movie_database_vector[i].files_name.size()-4,movie_database_vector[i].files_name.size()));
             mainLCD->printString(false, 1,1,result[0]);
-            //std::cout << " SERIAL!!!!!!!!!!!!!!!!!!!!!!!!!!1" << result[0] << std::endl;
         }
         else
         {
             mainLCD->printString(false,10,1,movie_database_vector[i].files_name.substr( movie_database_vector[i].files_name.size()-4,movie_database_vector[i].files_name.size()));
-            //std::cout << " NIEEEEEE SERIAL!!!!!!!!!!!!!!!!!!!!!!!!!!1" << std::endl;
         }
     }
     else {
-        //std::cout << "wypisuje sciezke katalogu " << movie_database_vector[i].path << std::endl;
         mainLCD->printString(true,0,0,movie_database_vector[i].files_name+"/");
     }
     return movie_database_vector[i].path;
 }
 
-
 void files_tree::get_list( std::string path  ) {
     tree_stack.push(path);
     vector_clear();    // czyscimy vector
-    //  i=0;
     std::string  path2 =path;
     std::string v_path ,tmp_string ;
 
     if(sciezka = opendir( path.c_str() ))  {
 
-
         while(( plik = readdir( sciezka ) ) )
         {
             path2 =path;
-
-            //	//std::cout << " SCIEZKA TO " << path << std::endl;
             if (  static_cast<int>(plik->d_type) == 4 /*&&   strcmp( plik->d_name, ".." ) && strcmp( plik->d_name, "." )*/  )
             {
                 temp.is_file=false;
