@@ -1,4 +1,4 @@
-#include "radio_button.h"
+#include "radio_433_eq.h"
 
 RADIO_BUTTON::RADIO_BUTTON(thread_data *my_data, std::string name, std::string id, RADIO_EQ_TYPE type):
     m_name(name),

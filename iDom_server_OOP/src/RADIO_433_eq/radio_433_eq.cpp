@@ -120,6 +120,9 @@ void RADIO_EQ_CONTAINER::addRadioEq(std::string name,std::string id, RADIO_EQ_TY
     case RADIO_EQ_TYPE::SWITCH:
         m_radioEqMap.insert(std::make_pair(name, new RADIO_SWITCH(this->my_data, name, id, type)  )    );
         break;
+    case RADIO_EQ_TYPE::BUTTON:
+        m_radioEqMap.insert(std::make_pair(name, new RADIO_BUTTON(this->my_data, name, id, type)  )    );
+        break;
     default:
         break;
     }
@@ -129,7 +132,6 @@ RADIO_EQ* RADIO_EQ_CONTAINER::getEqPointer(std::string name)
 {
     auto m = m_radioEqMap.find(name);
     if (m != m_radioEqMap.end()){
-
         return (m->second);
     }
     else
@@ -148,6 +150,18 @@ std::vector<RADIO_SWITCH *> RADIO_EQ_CONTAINER::getSwitchPointerVector()
         }
     }
     return switchVector;
+}
+
+std::vector<RADIO_BUTTON *> RADIO_EQ_CONTAINER::getButtonPointerVector()
+{
+    std::vector<RADIO_BUTTON*> buttonVector;
+
+    for (auto it : m_radioEqMap){
+        if (it.second->getType() == RADIO_EQ_TYPE::BUTTON){
+            buttonVector.push_back(static_cast<RADIO_BUTTON*>(it.second));
+        }
+    }
+    return buttonVector;
 }
 
 std::string RADIO_EQ_CONTAINER::listAllName()
@@ -186,6 +200,9 @@ void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
                 if (cfg.type == "switch"){
                     addRadioEq(cfg.name,cfg.ID,RADIO_EQ_TYPE::SWITCH);
                     dynamic_cast<RADIO_SWITCH*>(getEqPointer(cfg.name))->setCode(cfg);
+                }
+                else if (cfg.type == "button"){
+                    addRadioEq(cfg.name, cfg.ID, RADIO_EQ_TYPE::BUTTON);
                 }
                 //NOTE add more type
             }

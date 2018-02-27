@@ -137,7 +137,6 @@ HEADERS += src/c_connection/c_connection.h \
     src/RADIO_433_eq/radio_433_eq.h \
     src/command/commandClass/command_433mhz.h \
     src/command/commandClass/command_ardu.h \
-    src/RADIO_433_eq/radio_button.h \
     src/iDomTools/idomtools_useful.h
 
 DISTFILES +=

@@ -15,18 +15,24 @@
 
 struct thread_data;
 struct LED_Strip;
+class RADIO_BUTTON;
 
 class iDomTOOLS
 {
+#ifdef BT_TEST
+public:
+#endif
     THERMOMETER_CONTAINER allThermometer;
     THERMOMETER_CONTAINER allThermometerUpdate;
-
+private:
     thread_data *my_data;
     SunRiseSet sun;
     std::string key;
     viber_API m_viber;
     FACEBOOK_API m_facebook;
     std::mutex m_msgMutex;
+    std::vector<RADIO_BUTTON*> buttonPointerVector;
+    Clock lastButton433MHzLockUnlockTime;
 
 public:
     std::vector <std::string> textToSpeachVector;
@@ -50,6 +56,14 @@ public:
     void runOnSunrise();
     void lockHome();
     void unlockHome();
+    //////////////////////////// 433MHz button ///////////////////
+    std::string buttonPressed(int id);
+    void button433MHzPressedAction(std::string name);
+    void button433mhzLockerPressed();
+    void buttonLockHome();
+    void buttonUnlockHome();
+    //////////////////////////// useful  /////////////////////////
+    bool isItDay();
     //////////////////////////// weather /////////////////////////
     std::string getSunrise(bool extend = false);
     std::string getSunset(bool extend = false);

@@ -6,6 +6,7 @@
 #include <vector>
 #include <chrono>
 #include <string>
+
 #include "../iDom_server_OOP.h"
 #include "../c_connection/c_connection.h"
 
@@ -44,4 +45,5 @@ public:
     static std::string removeHtmlTag(std::string &data);
 
 };
+
 #endif // FUNCTIONS_H
