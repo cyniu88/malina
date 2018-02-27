@@ -49,7 +49,9 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
 
     //////// button 433MHz
     buttonPointerVector = my_data->main_REC->getButtonPointerVector();
+
     lastButton433MHzLockUnlockTime = Clock::getTime() + Clock(23,58);
+
 }
 
 TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, double reference, double histereza )
@@ -355,6 +357,7 @@ void iDomTOOLS::unlockHome()
 #endif
 }
 
+
 std::string iDomTOOLS::buttonPressed(int id)
 {
     for (auto n : buttonPointerVector){
@@ -388,6 +391,7 @@ void iDomTOOLS::button433mhzLockerPressed()
             buttonUnlockHome();
         }
     }
+
 }
 
 void iDomTOOLS::buttonLockHome()

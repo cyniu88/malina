@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include "radio_433_eq.h"
+#include "radio_button.h"
 
 RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, std::string name, std::string id, RADIO_EQ_TYPE type):
     main433MHz(my_data),

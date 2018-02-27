@@ -34,6 +34,7 @@ private:
     std::vector<RADIO_BUTTON*> buttonPointerVector;
     Clock lastButton433MHzLockUnlockTime;
 
+
 public:
     std::vector <std::string> textToSpeachVector;
     iDomTOOLS(thread_data *myData);
@@ -57,9 +58,11 @@ public:
     void lockHome();
     void unlockHome();
     //////////////////////////// 433MHz button ///////////////////
+
     std::string buttonPressed(int id);
     void button433MHzPressedAction(std::string name);
     void button433mhzLockerPressed();
+
     void buttonLockHome();
     void buttonUnlockHome();
     //////////////////////////// useful  /////////////////////////
