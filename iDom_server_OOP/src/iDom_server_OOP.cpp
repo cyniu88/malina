@@ -299,6 +299,10 @@ int main()
 
     ///////////////////////////////////////////////  koniec logowania do poliku  ///////////////////////////////////////////////////
 
+    /////////////////////////////// RC 433MHz ////////////////////
+    RADIO_EQ_CONTAINER rc433MHz(&node_data);
+    rc433MHz.loadConfig(server_settings.radio433MHzConfigFile);
+    node_data.main_REC = &rc433MHz;
     ///////////////////////////////////////////////  start wiringPi  //////////////////////////////////////////////
     if(wiringPiSetup() == -1){
         exit(1) ;
@@ -309,18 +313,12 @@ int main()
     /////////////////////////////// iDom Status //////////////////////
     iDomSTATUS my_iDomStatus;
     node_data.main_iDomStatus = &my_iDomStatus;
-    /////////////////////////////// iDom Tools ///////////////////////
-    iDomTOOLS my_iDomTools(&node_data);
     /////////////////////////////// LCD //////////////////////////////
     LCD_c mainLCD(0x27,16,2);
     //////////////     przegladanie plikow ////////////////////
     files_tree main_tree( server_settings.MOVIES_DB_PATH, &mainLCD);
-    /////////////////////////////// RC 433MHz ////////////////////
-    RADIO_EQ_CONTAINER rc433MHz(&node_data);
-    rc433MHz.loadConfig(server_settings.radio433MHzConfigFile);
-    //rc433MHz.addRadioEq("LZ","1450", RADIO_EQ_TYPE::SWITCH);
-    //rc433MHz.addRadioEq("dummy","1460", RADIO_EQ_TYPE::SWITCH);
-
+    /////////////////////////////// iDom Tools ///////////////////////
+    iDomTOOLS my_iDomTools(&node_data);
     ///////////////////////////////// MENU /////////////////////////////////
     menu_tree main_MENU(server_settings.MENU_PATH, &mainLCD);
     //////////////////////////////// SETTINGS //////////////////////////////
@@ -384,7 +382,6 @@ int main()
     node_data.ptr_pilot_led = &mainPilotLED;
     //dodanie pilota
     node_data.main_iDomTools = &my_iDomTools;
-    node_data.main_REC = &rc433MHz;
 
     std::unique_ptr <pilot> pilotPTR( new pilot(&node_data.key_map));
     pilotPTR->setup();

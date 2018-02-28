@@ -11,6 +11,7 @@
 
 iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
 {
+    puts("iDomTOOLS::iDomTOOLS()");
     my_data = myData;
 
     //////////////////////////////////// temeprature /////////////////

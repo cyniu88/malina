@@ -104,6 +104,7 @@ void RADIO_SWITCH::setCode(RADIO_EQ_CONFIG cfg)
 
 RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_data *my_data)
 {
+    puts("RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER()");
     this->my_data = my_data;
 }
 
