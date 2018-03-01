@@ -7,7 +7,7 @@ int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );
 
     //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.hasTemperatureChange";
-    //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.button433MHzPressedAction_lockerLock";
+    //::testing::GTEST_FLAG(filter) = "rs232_thread.send_Recieve_rs232_thread";
     return RUN_ALL_TESTS();
 }
 

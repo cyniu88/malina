@@ -28,6 +28,8 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/functions/tests/functions_BT.cpp"
     "../../src/iDomStatus/idomstatus.cpp"
     "../../src/iDomTools/test/idomTools_BT.cpp"
+    "../../src/thread_functions/rs232_thread.h"
+    "../../src/thread_functions/TEST/rs232_thread_BT.cpp"
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -DBT_TEST -DNOSSL")

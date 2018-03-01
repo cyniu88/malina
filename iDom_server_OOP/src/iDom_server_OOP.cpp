@@ -8,6 +8,7 @@
 #include "TASKER/tasker.h"
 #include "c_master_irda/master_irda.h"
 #include "RADIO_433_eq//radio_433_eq.h"
+#include "thread_functions/rs232_thread.h"
 
 std::string  _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer ;
@@ -18,29 +19,31 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
 
     SerialPi serial_ardu(strdup( data_rs232->portRS232.c_str()));
     serial_ardu.begin( std::stoi( data_rs232->BaudRate));
-
+#ifndef BT_TEST
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"otwarcie portu RS232 " <<  data_rs232->portRS232 << "  " <<data_rs232->BaudRate<<std::endl;
     log_file_mutex.mutex_unlock();
-
+#endif
     SerialPi serial_ardu_clock(strdup( data_rs232->portRS232_clock.c_str()));
     serial_ardu_clock.begin( std::stoi( data_rs232->BaudRate));
-
+#ifndef BT_TEST
     log_file_mutex.mutex_lock();
     log_file_cout << INFO <<"otwarcie portu RS232_clock " <<  data_rs232->portRS232_clock <<" "<< data_rs232->BaudRate <<std::endl;
     log_file_mutex.mutex_unlock();
-
+#endif
     /////////////////////////////////////////////////// RESET ARDUINO AFTER RESTART ////////////////////////////////
     puts("restart arduino\n");
     C_connection::mutex_who.lock();
     buffer = "reset:00;";
     serial_ardu.print(buffer.c_str());
     C_connection::mutex_who.unlock();
-
+    puts("test testo po lock");
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     while(useful_F::go_while)
     {
+        //puts("test");
         std::this_thread::sleep_for( std::chrono::milliseconds(50));
+        //puts("test testo po lock");
         C_connection::mutex_who.lock();
         if(data_rs232->pointer.ptr_who[0] == iDomConst::RS232)
         {
@@ -63,6 +66,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
                 }
             }
             C_connection::mutex_buf.unlock();
+            // C_connection::mutex_who.unlock();
         }
         else if(data_rs232->pointer.ptr_who[0] == iDomConst::CLOCK){
             C_connection::mutex_buf.lock();
@@ -81,31 +85,45 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
                 }
             }
             C_connection::mutex_buf.unlock();
+            // C_connection::mutex_who.unlock();
         }
         else if(data_rs232->pointer.ptr_who[0] == iDomConst::FREE){
+            // C_connection::mutex_buf.lock();
             if(serial_ardu.available()>0) {
                 std::string bufor = "";
                 while (useful_F::go_while){
+                    // std::cout << "serial_ardu.available(): "<<serial_ardu.available()<<std::endl;
                     if(serial_ardu.available()>0){
                         char t = serial_ardu.read();
+                        // std::cout << "t: "<<t<<std::endl;
                         if(t == ';'){
                             serial_ardu.flush();
+#ifdef BT_TEST
+                            useful_F::go_while = false;
+                            return;
+#endif
                             break;
                         }
                         else{
-                            printf("%c",t);
+                            // printf("%c",t);
                             bufor.push_back(t);
                         }
                     }
+                    else{
+#ifdef BT_TEST
+                        useful_F::go_while = false;
+                        return;
+#endif
+                    }
                 }
-                puts("\n");
+                //C_connection::mutex_buf.unlock();
+                C_connection::mutex_who.unlock();
                 TASKER mainTasker(useful_F::myStaticData);
                 mainTasker.dataFromRS232(bufor);
             }
         }
         C_connection::mutex_who.unlock();
     }
-
 }
 //////////// watek do obslugi polaczeni miedzy nodami  //////////////
 

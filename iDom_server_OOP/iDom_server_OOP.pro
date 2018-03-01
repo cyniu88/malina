@@ -137,7 +137,8 @@ HEADERS += src/c_connection/c_connection.h \
     src/RADIO_433_eq/radio_433_eq.h \
     src/command/commandClass/command_433mhz.h \
     src/command/commandClass/command_ardu.h \
-    src/iDomTools/idomtools_useful.h
+    src/iDomTools/idomtools_useful.h \
+    src/thread_functions/rs232_thread.h
 
 DISTFILES +=
 

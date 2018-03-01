@@ -358,7 +358,6 @@ void iDomTOOLS::unlockHome()
 #endif
 }
 
-
 std::string iDomTOOLS::buttonPressed(int id)
 {
     for (auto n : buttonPointerVector){
@@ -378,19 +377,28 @@ void iDomTOOLS::button433MHzPressedAction(std::string name)
 
 void iDomTOOLS::button433mhzLockerPressed()
 {
+    static unsigned int counter = 0;
 #ifdef BT_TEST
     std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()" <<std::endl;
 #endif
     if (lastButton433MHzLockUnlockTime < Clock::getTime()){
 
         lastButton433MHzLockUnlockTime = Clock::getTime();
-
-        if(my_data->idom_all_state.houseState == STATE::UNLOCK){
-            buttonLockHome();
+        counter = 0;
+        if(my_data->idom_all_state.houseState != STATE::UNLOCK){
+            //buttonUnlockHome();
+            puts("odblokuje dom");
         }
-        else{
-            buttonUnlockHome();
+    }
+    else{
+        ++counter;
+        if (counter == 5){
+            //buttonLockHome();
+            puts("zablokuje dom");
         }
+#ifdef BT_TEST
+    std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()- counter: "<<counter <<std::endl;
+#endif
     }
 
 }

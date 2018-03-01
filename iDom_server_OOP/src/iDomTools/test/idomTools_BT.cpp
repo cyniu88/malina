@@ -99,7 +99,7 @@ TEST(iDomTOOLS_Class, hasTemperatureChange)
     test_my_data.main_iDomStatus = &test_status;
 
     iDomTOOLS test_idomTOOLS(&test_my_data);
-// inside outside
+    // inside outside
 
     std::cout << "##################################### 0" <<std::endl;
 
@@ -163,7 +163,7 @@ TEST(iDomTOOLS_Class, weatherAlert)
             \
             <dl style=\"margin:1px 1px 0 1px;padding:0;clear:both                                                                  ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  \                                                                Trąby powietrzne, brak ostrzeżeń</dl>\
             </div>";
-    thread_data test_my_data;
+            thread_data test_my_data;
 
     RADIO_EQ_CONTAINER test_rec(&test_my_data);
     test_my_data.main_REC = (&test_rec);
@@ -363,7 +363,9 @@ TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerUnlock)
     test_idomTOOLS.unlockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
 
-    test_idomTOOLS.button433MHzPressedAction("locker");
+    for(auto i : {1,2,3,4,5,6}){
+        test_idomTOOLS.button433MHzPressedAction("locker");
+    }
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
 
     EXPECT_EQ(test_q._size(),1);
@@ -408,6 +410,5 @@ TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerLock)
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
-
 }
 
