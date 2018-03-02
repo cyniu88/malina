@@ -89,8 +89,9 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
             }
             else if(data_rs232->pointer.ptr_who[0] == iDomConst::FREE)
             {
+                std::string bufor = "";
                 if(serial_ardu.available()>0) {
-                    std::string bufor = "";
+
                     while (useful_F::go_while){
                         // std::cout << "serial_ardu.available(): "<<serial_ardu.available()<<std::endl;
                         if(serial_ardu.available()>0){
@@ -116,11 +117,14 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
 #endif
                         }
                     }
+                    lockWho.~lock_guard();
                     TASKER mainTasker(useful_F::myStaticData);
                     mainTasker.dataFromRS232(bufor);
+                    continue;
                 }
             }
-        }// end mutex who //C_connection::mutex_who.unlock();
+
+        }
     }
 }
 //////////// watek do obslugi polaczeni miedzy nodami  //////////////
@@ -157,7 +161,7 @@ void Server_connectivity_thread(thread_data  *my_data){
         my_data->mainLCD->printString(true,0,0,"USER CONNECTED!");
         my_data->mainLCD->printString(false,0,1,tm);
     }
-    if("192.168.1.1" == tm)
+    if("192.168.1.1" == tm || "192.168.1.144" == tm)
     {
         if( ++connectionCounter > 9){
             connectionCounter = 0;

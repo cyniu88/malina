@@ -381,20 +381,26 @@ void iDomTOOLS::button433mhzLockerPressed()
 #ifdef BT_TEST
     std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()" <<std::endl;
 #endif
-    if (lastButton433MHzLockUnlockTime < Clock::getTime()){
+    if (lastButton433MHzLockUnlockTime < Clock::getTime())
+    {
 
         lastButton433MHzLockUnlockTime = Clock::getTime();
         counter = 0;
         if(my_data->idom_all_state.houseState != STATE::UNLOCK){
-            //buttonUnlockHome();
-            puts("odblokuje dom");
+            buttonUnlockHome();
+            puts("\nodblokuje dom\n");
+        }
+        else{
+            ledOFF();
+            MPD_stop();
+            turnOffPrinter();
         }
     }
     else{
         ++counter;
         if (counter == 5){
-            //buttonLockHome();
-            puts("zablokuje dom");
+            buttonLockHome();
+            puts("\nzablokuje dom\n");
         }
 #ifdef BT_TEST
     std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()- counter: "<<counter <<std::endl;

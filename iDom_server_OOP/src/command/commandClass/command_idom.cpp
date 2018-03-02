@@ -217,7 +217,7 @@ std::string command_iDom::help()
     ret.append("iDom temperature - get temperature from all termomether\n");
     ret.append("iDom temperature stats <name> - get temperature stats from termomether <name>\n");
     ret.append("iDom smog       - get current SMOG level (KRAKOW)\n");
-    ret.append("iDom kill thread <ID>  - kill thread\n");
+    ret.append("iDom kill thread <ID>  - kill thread but denger!\n");
     ret.append("iDom camera LED ON/OFF - LED camera work\n");
     ret.append("iDom facebook ... - post on facebook wall\n");
     ret.append("iDom viber ...   - send viber msg\n");
