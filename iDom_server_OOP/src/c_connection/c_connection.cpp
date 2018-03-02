@@ -1,9 +1,6 @@
 #include "c_connection.h"
 #include <iostream>
 
-std::mutex C_connection::mutex_buf;
-std::mutex C_connection::mutex_who;
-
 C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_sock),
     c_from(my_data->from),recv_size(0)
 {

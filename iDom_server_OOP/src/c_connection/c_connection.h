@@ -24,8 +24,6 @@ public:
     char  c_buffer[MAX_buf];
     int recv_size;
     struct s_pointer *pointer;
-    static std::mutex mutex_buf;
-    static std::mutex mutex_who;
 
     int c_send(int para);
     int c_send(std::string command);

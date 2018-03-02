@@ -2,9 +2,11 @@
 #include "functions.h"
 #include "../../libs/config_parser/parser.hpp"
 
-// przerobka  adresu na ip . //////////////////////////////////
 bool useful_F::go_while = true;
+std::mutex useful_F::mutex_buf;
+std::mutex useful_F::mutex_who;
 
+// przerobka  adresu na ip . //////////////////////////////////
 std::string useful_F::conv_dns (std::string temp){
 
     int i;
@@ -126,78 +128,79 @@ std::string useful_F::send_to_arduino_clock (thread_data *my_data_logic, std::st
     while (go_while)
     {
         std::this_thread::sleep_for( std::chrono::milliseconds(50) );
-        C_connection::mutex_who.lock();
-
-        if (my_data_logic->pointer.ptr_who[0] == iDomConst::FREE)
         {
-            C_connection::mutex_buf.lock();
-            my_data_logic->pointer.ptr_who[0]=iDomConst::CLOCK;
-            my_data_logic->pointer.ptr_who[1]= pthread_self();
-            buffer=msg;
-            C_connection::mutex_buf.unlock();
-            C_connection::mutex_who.unlock();
-            break;
+            std::lock_guard<std::mutex> lockWho(useful_F::mutex_who);
+
+            if (my_data_logic->pointer.ptr_who[0] == iDomConst::FREE)
+            {
+                {
+                    std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
+                    my_data_logic->pointer.ptr_who[0]=iDomConst::CLOCK;
+                    my_data_logic->pointer.ptr_who[1]= pthread_self();
+                    buffer=msg;
+                }
+                break;
+            }
         }
-        C_connection::mutex_who.unlock();
     }
 
     while (go_while)
     {
         std::this_thread::sleep_for( std::chrono::milliseconds(50) );
-        C_connection::mutex_who.lock();
-
-        if (my_data_logic->pointer.ptr_who[0] == pthread_self())
         {
-            C_connection::mutex_buf.lock();
-            my_data_logic->pointer.ptr_who[0]=iDomConst::FREE;
-            my_data_logic->pointer.ptr_who[1]= 0;
-            msg=buffer;
-            C_connection::mutex_buf.unlock();
-            C_connection::mutex_who.unlock();
-            break;
+            std::lock_guard<std::mutex> lockWho(useful_F::mutex_who);
+            if (my_data_logic->pointer.ptr_who[0] == pthread_self())
+            {
+                {
+                    std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
+                    //C_connection::mutex_buf.lock();
+                    my_data_logic->pointer.ptr_who[0]=iDomConst::FREE;
+                    my_data_logic->pointer.ptr_who[1]= 0;
+                    msg=buffer;
+                }
+                break;
+            }
         }
-        C_connection::mutex_who.unlock();
     }
     return msg;
 } //end send_to_arduino_clock
 
 std::string useful_F::send_to_arduino (thread_data *my_data_logic, std::string msg){
 
-    //puts("w send to arduino ");
-    //std::cout <<  my_data_logic<< std::endl;
-    //puts("|end");
     while (go_while)
     {
         std::this_thread::sleep_for( std::chrono::milliseconds(50) );
-        C_connection::mutex_who.lock();
-        if (my_data_logic->pointer.ptr_who[0] == iDomConst::FREE)
         {
-            C_connection::mutex_buf.lock();
-            my_data_logic->pointer.ptr_who[0]=iDomConst::RS232;
-            my_data_logic->pointer.ptr_who[1]= pthread_self();
-            buffer=msg;
-            C_connection::mutex_buf.unlock();
-            C_connection::mutex_who.unlock();
-            break;
+            std::lock_guard<std::mutex> lockWho(useful_F::mutex_who);
+            if (my_data_logic->pointer.ptr_who[0] == iDomConst::FREE)
+            {
+                {
+                    std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
+                    my_data_logic->pointer.ptr_who[0]=iDomConst::RS232;
+                    my_data_logic->pointer.ptr_who[1]= pthread_self();
+                    buffer=msg;
+                }
+                break;
+            }
         }
-        C_connection::mutex_who.unlock();
     }
 
     while (go_while)
     {
         std::this_thread::sleep_for( std::chrono::milliseconds(50) );
-        C_connection::mutex_who.lock();
-        if (my_data_logic->pointer.ptr_who[0] == pthread_self())
         {
-            C_connection::mutex_buf.lock();
-            my_data_logic->pointer.ptr_who[0]=iDomConst::FREE;
-            my_data_logic->pointer.ptr_who[1]= 0;
-            msg=buffer;
-            C_connection::mutex_buf.unlock();
-            C_connection::mutex_who.unlock();
-            break;
+            std::lock_guard<std::mutex> lockWho(useful_F::mutex_who);
+            if (my_data_logic->pointer.ptr_who[0] == pthread_self())
+            {
+                {
+                    std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
+                    my_data_logic->pointer.ptr_who[0]=iDomConst::FREE;
+                    my_data_logic->pointer.ptr_who[1]= 0;
+                    msg=buffer;
+                }
+                break;
+            }
         }
-        C_connection::mutex_who.unlock();
     }
     return msg;
 } //end send_to_arduino

@@ -6,6 +6,7 @@
 #include <vector>
 #include <chrono>
 #include <string>
+#include <mutex>
 
 #include "../iDom_server_OOP.h"
 #include "../c_connection/c_connection.h"
@@ -43,7 +44,8 @@ public:
     static void downloadFile(std::string url, std::string path, int timeoutSeconds);
     static std::string replaceAll(std::string str, const std::string& from, const std::string& to);
     static std::string removeHtmlTag(std::string &data);
-
+    static std::mutex mutex_buf;
+    static std::mutex mutex_who;
 };
 
 #endif // FUNCTIONS_H
