@@ -8,7 +8,7 @@ class RC_433MHz
 public:
     RC_433MHz(thread_data * my_data);
     void sendCode(std::string code);
-    void receiveCode(std::string code);
+    std::string receiveCode();
 };
 
 #endif // RC_433MHZ_H

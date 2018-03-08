@@ -6,11 +6,9 @@ RC_433MHz::RC_433MHz(thread_data *test_my_data){
 }
 void RC_433MHz::sendCode(std::string code){
 }
-void RC_433MHz::receiveCode(std::string code){
-
+std::string RC_433MHz::receiveCode(){
+    return "test";
 }
-
-
 
 TEST(Switch_Class, getSwitchPointerVector)
 {
@@ -36,7 +34,6 @@ TEST(Switch_Class, getButtonPointerVector)
     test_radio_cont.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
     auto v = test_radio_cont.getButtonPointerVector();
     EXPECT_EQ(v.size(),1);
-
 }
 
 TEST(Switch_Class, switch_alarm_on)
@@ -47,7 +44,7 @@ TEST(Switch_Class, switch_alarm_on)
     RADIO_EQ_CONTAINER test_radio_cont(&test_my_data);
 
     test_radio_cont.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-     RADIO_SWITCH* ptr = dynamic_cast<RADIO_SWITCH*>(test_radio_cont.getEqPointer("ALARM"));
+    RADIO_SWITCH* ptr = dynamic_cast<RADIO_SWITCH*>(test_radio_cont.getEqPointer("ALARM"));
 
     EXPECT_EQ(ptr->getType(),RADIO_EQ_TYPE::SWITCH);
     puts("radio switch type");

@@ -38,22 +38,22 @@ bool RFLinkHandler::init()
     }
 }
 
-void RFLinkHandler::run()
-{
-    std::string msg;
-    while (useful_F::go_while){
-        std::this_thread::sleep_for( std::chrono::milliseconds(50));
-        {
-            std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
+//void RFLinkHandler::run()
+//{
+//    std::string msg;
+//    while (useful_F::go_while){
+//        std::this_thread::sleep_for( std::chrono::milliseconds(50));
+//        {
+//            std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
 
-            msg = readFromRS232();
+//            msg = readFromRS232();
 
-            puts("odebrane od RFLinka:");
-            puts(msg.c_str());
-            //TODO  dodac obsluge;
-        }
-    }
-}
+//            puts("odebrane od RFLinka:");
+//            puts(msg.c_str());
+//            //TODO  dodac obsluge;
+//        }
+//    }
+//}
 
 void RFLinkHandler::sendCommand(std::string cmd)
 {
@@ -65,14 +65,19 @@ std::string RFLinkHandler::sendCommandAndWaitForReceive(std::string cmd)
 {
     std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
     serial_RFLink.print(cmd.c_str());
-    return readFromRS232();
+    return internalReadFromRS232();
 }
 
 std::string RFLinkHandler::readFromRS232()
 {
+    std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
+    return internalReadFromRS232();
+}
+
+std::string RFLinkHandler::internalReadFromRS232()
+{
     std::string buf;
     char b;
-
     while (serial_RFLink.available() > 0){
         b = serial_RFLink.read();
 

@@ -17,11 +17,12 @@ public:
     RFLinkHandler(thread_data *my_data);
 
     bool init();
-    void run();
+    //    void run();
     void sendCommand(std::string cmd);
     std::string sendCommandAndWaitForReceive(std::string cmd);
-private:
     std::string readFromRS232();
+private:
+    std::string internalReadFromRS232();
 };
 
 #endif // RFLINKHANDLER_H

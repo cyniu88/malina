@@ -132,7 +132,18 @@ Logger log_file_mutex(_logfile);
 //////////////// watek RFLink //////////////////////////////////
 
 void RFLinkHandlerRUN(thread_data  *my_data){
-    my_data->main_RFLink->run();
+    std::string msgFromRFLink;
+    RC_433MHz rc433(my_data);
+
+    while(useful_F::go_while){
+        std::this_thread::sleep_for( std::chrono::milliseconds(50));
+
+        msgFromRFLink = rc433.receiveCode();
+
+        puts("odebrane od RFLinka:");
+        puts(msgFromRFLink.c_str());
+        //TODO  dodac obsluge;
+    }
 }
 //////////// watek do obslugi polaczeni miedzy nodami  //////////////
 
