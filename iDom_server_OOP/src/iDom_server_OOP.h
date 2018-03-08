@@ -104,6 +104,8 @@ struct config{
     std::string portRS232;
     std::string portRS232_clock;
     std::string BaudRate;
+    std::string RFLinkPort;
+    std::string RFLinkBaudRate;
     int PORT;
     std::string SERVER_IP;
     std::string MPD_IP;

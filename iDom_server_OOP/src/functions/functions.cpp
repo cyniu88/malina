@@ -37,55 +37,64 @@ config useful_F::configFileToStruct()
 {
     std::map<std::string, std::string>  confMap = read_config("/etc/config/iDom_SERVER/iDom_server.cfg");     // strukruta z informacjami z pliku konfig
     config confStruct;
+    try
+    {
+        confStruct.BaudRate  = confMap.at("BaudRate");
+        confStruct.portRS232 = confMap.at("portRS232");
+        confStruct.portRS232_clock = confMap.at("portRS232_clock");
 
-    confStruct.BaudRate  = confMap.at("BaudRate");
-    confStruct.portRS232 = confMap.at("portRS232");
-    confStruct.portRS232_clock = confMap.at("portRS232_clock");
+        ///// RFLink
+        confStruct.RFLinkPort = confMap.at("RFLinkPort");
+        confStruct.RFLinkBaudRate = confMap.at("RFLinkBaudRate");
 
-    ///// camera
-    confStruct.cameraLedOFF = confMap.at("CAMERA_LED_OFF");
-    confStruct.cameraLedON  = confMap.at("CAMERA_LED_ON");
-    confStruct.cameraURL    = confMap.at("CAMERA_SNAPSHOT");
+        ///// camera
+        confStruct.cameraLedOFF = confMap.at("CAMERA_LED_OFF");
+        confStruct.cameraLedON  = confMap.at("CAMERA_LED_ON");
+        confStruct.cameraURL    = confMap.at("CAMERA_SNAPSHOT");
 
-    confStruct.ID_server = std::stoi(confMap.at("ID"));
-    confStruct.SERVER_IP = confMap.at("SERVER_IP");
+        confStruct.ID_server = std::stoi(confMap.at("ID"));
+        confStruct.SERVER_IP = confMap.at("SERVER_IP");
 
-    confStruct.MOVIES_DB_PATH = confMap.at("MOVIES_DB_PATH");
-    confStruct.MENU_PATH    = confMap.at("MENU_PATH");
+        confStruct.MOVIES_DB_PATH = confMap.at("MOVIES_DB_PATH");
+        confStruct.MENU_PATH    = confMap.at("MENU_PATH");
 
-    confStruct.TS_KEY = confMap.at("TS_KEY");
-    confStruct.MPD_IP = confMap.at("MPD_IP");
+        confStruct.TS_KEY = confMap.at("TS_KEY");
+        confStruct.MPD_IP = confMap.at("MPD_IP");
 
-    confStruct.v_delay = std::stoi(confMap.at("DELAY"));
-    confStruct.PORT = std::stoi(confMap.at("PORT"));
+        confStruct.v_delay = std::stoi(confMap.at("DELAY"));
+        confStruct.PORT = std::stoi(confMap.at("PORT"));
 
-    //// thread
-    confStruct.THREAD_MPD   = confMap.at("THREAD_MPD");
-    confStruct.THREAD_RS232 = confMap.at("THREAD_RS232");
-    confStruct.THREAD_CRON  = confMap.at("THREAD_CRON");
-    confStruct.THREAD_IRDA  = confMap.at("THREAD_IRDA");
-    confStruct.THREAD_DUMMY = confMap.at("THREAD_DUMMY");
+        //// thread
+        confStruct.THREAD_MPD   = confMap.at("THREAD_MPD");
+        confStruct.THREAD_RS232 = confMap.at("THREAD_RS232");
+        confStruct.THREAD_CRON  = confMap.at("THREAD_CRON");
+        confStruct.THREAD_IRDA  = confMap.at("THREAD_IRDA");
+        confStruct.THREAD_DUMMY = confMap.at("THREAD_DUMMY");
 
-    ////// facebook
-    confStruct.facebookAccessToken = confMap.at("FB_ACCESS_TOKEN");
+        ////// facebook
+        confStruct.facebookAccessToken = confMap.at("FB_ACCESS_TOKEN");
 
-    //////////// viber
-    confStruct.viberSender = confMap.at("VIBER_SENDER");
-    confStruct.viberToken  = confMap.at("VIBER_TOKEN");
-    confStruct.viberAvatar = confMap.at("VIBER_AVATAR");
-    //confStruct.viberReceiver.insert(confStruct.viberReceiver.begin(), confMap.at("VIBER_RECEIVER_ROOT"));
-    confStruct.viberReceiver = split(confMap.at("VIBER_RECEIVER"), '|');
+        //////////// viber
+        confStruct.viberSender = confMap.at("VIBER_SENDER");
+        confStruct.viberToken  = confMap.at("VIBER_TOKEN");
+        confStruct.viberAvatar = confMap.at("VIBER_AVATAR");
+        //confStruct.viberReceiver.insert(confStruct.viberReceiver.begin(), confMap.at("VIBER_RECEIVER_ROOT"));
+        confStruct.viberReceiver = split(confMap.at("VIBER_RECEIVER"), '|');
 
-    ///////// FTP server
-    confStruct.ftpServer.URL  = confMap.at("FTP_URL");
-    confStruct.ftpServer.user = confMap.at("FTP_LOGIN");
-    confStruct.ftpServer.pass = confMap.at("FTP_PASS");
-    //    confStruct = confMap.at();
-    //    confStruct = confMap.at();
-    //    confStruct = confMap.at();
-    ///////////// RADIO 433
-    confStruct.radio433MHzConfigFile = confMap.at("433MHz_config");
-
+        ///////// FTP server
+        confStruct.ftpServer.URL  = confMap.at("FTP_URL");
+        confStruct.ftpServer.user = confMap.at("FTP_LOGIN");
+        confStruct.ftpServer.pass = confMap.at("FTP_PASS");
+        //    confStruct = confMap.at();
+        //    confStruct = confMap.at();
+        //    confStruct = confMap.at();
+        ///////////// RADIO 433
+        confStruct.radio433MHzConfigFile = confMap.at("433MHz_config");
+    }
+    catch(...)
+    {
+        std::cout << "Config load error: please check" <<std::endl;
+    }
 
     return confStruct;
 }

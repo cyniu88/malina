@@ -127,7 +127,7 @@ public:
     static void MPD_volumeUp();
     static void MPD_volumeDown();
     static void MPD_volumeSet(thread_data* my_data, int vol);
-    static void MPD_playId(thread_data* my_data,int id);
+    static void MPD_play(thread_data* my_data,int id);
     static int  MPD_getVolume(thread_data *my_data);
 };
 

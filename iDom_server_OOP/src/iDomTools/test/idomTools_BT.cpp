@@ -1,4 +1,8 @@
 #include <gtest/gtest.h>
+
+
+#include "/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/test_data.h"
+
 #include "../idomtools.h"
 #include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
@@ -7,12 +11,6 @@ void useful_F::button_interrupt(){}
 void digitalWrite(int pin, int mode){}
 int digitalRead(int pin){ return 0; }
 
-namespace TEST_DATA{
-static std::string return_send_to_arduino = "-2:-2";
-static std::string return_httpPost = "";
-static std::string return_httpPost_expect = "";
-static std::string return_viber_msg = "";
-}
 
 std::string useful_F::send_to_arduino(thread_data *my_data,std::string d){
     return TEST_DATA::return_send_to_arduino;
@@ -368,6 +366,8 @@ TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerUnlock)
     }
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
 
+    EXPECT_EQ(test_q._size(),2);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);

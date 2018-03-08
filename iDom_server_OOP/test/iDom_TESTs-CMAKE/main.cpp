@@ -6,8 +6,8 @@
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );
 
-    //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.hasTemperatureChange";
     //::testing::GTEST_FLAG(filter) = "rs232_thread.send_Recieve_rs232_thread";
+    //::testing::GTEST_FLAG(filter) = "RFLinkHandler_Class.main";
     return RUN_ALL_TESTS();
 }
 

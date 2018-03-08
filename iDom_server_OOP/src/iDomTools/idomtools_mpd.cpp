@@ -57,7 +57,7 @@ void iDomTOOLS::MPD_volumeSet(thread_data *my_data, int vol)
     _q._add(MPD_COMMAND::VOLSET);
 }
 
-void iDomTOOLS::MPD_playId(thread_data *my_data, int id)
+void iDomTOOLS::MPD_play(thread_data *my_data, int id)
 {
     if(my_data->idom_all_state.houseState == STATE::UNLOCK){
         my_data->ptr_MPD_info->currentSongID = id;

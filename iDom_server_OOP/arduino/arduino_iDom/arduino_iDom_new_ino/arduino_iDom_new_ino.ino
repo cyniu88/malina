@@ -82,9 +82,8 @@
     sensors.setResolution(outsideThermometer, TEMPERATURE_PRECISION);
     
     // Transmitter is connected to Arduino Pin #10 = Radio_433_TX 
-  mySwitch.enableTransmit(Radio_433_Tx);
-  mySwitch.enableReceive(Radio_433_Rx);  // Receiver on interrupt 0 => that is pin #2
-  
+    mySwitch.enableTransmit(Radio_433_Tx);
+    mySwitch.enableReceive(Radio_433_Rx);  // Receiver on interrupt 0 => that is pin #2
   }
   
   void loop() {

@@ -4,6 +4,7 @@ LINK_DIRECTORIES(/usr/local/lib )
 project(iDom_TESTs-CMAKE)
 
 set(SOURCE_FILES  "main.cpp"
+    "test_data.h"
     "../../libs/useful/usefull.cpp"
     "../../libs/useful/useful_bt.cpp"
     "../../libs/Statistic/statistic_test/statistic_BT.cpp"
@@ -30,6 +31,8 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/iDomTools/test/idomTools_BT.cpp"
     "../../src/thread_functions/rs232_thread.h"
     "../../src/thread_functions/TEST/rs232_thread_BT.cpp"
+    "../../src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp"
+    "../../src/433MHz/RFLink/rflinkhandler.cpp"
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -DBT_TEST -DNOSSL")

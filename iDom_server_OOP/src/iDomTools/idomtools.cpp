@@ -432,7 +432,6 @@ bool iDomTOOLS::isItDay()
     if(now < iDomTOOLS::getSunriseClock() || now > iDomTOOLS::getSunsetClock()){
         return false;
     }
-
     return true;
 }
 
@@ -772,7 +771,7 @@ void iDomTOOLS::checkAlarm()
     if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
         my_data->alarmTime.state = STATE::WORKING;
         MPD_volumeSet(my_data, 50);
-        MPD_play(my_data);
+        MPD_play(my_data,12);
         my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
     }
 
@@ -780,13 +779,14 @@ void iDomTOOLS::checkAlarm()
         int vol = MPD_getVolume(my_data) + 1;
         if (vol < 59){
             MPD_volumeSet(my_data, vol);
-            if(now < iDomTOOLS::getSunriseClock() || now > iDomTOOLS::getSunsetClock()){
+
+            if(iDomTOOLS::isItDay() == false){
                 my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[2],49,vol);
             }
         }
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
-            if(now < iDomTOOLS::getSunriseClock() || now > iDomTOOLS::getSunsetClock()){
+            if(iDomTOOLS::isItDay() == false){
                 my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
             }
         }

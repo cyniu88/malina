@@ -14,7 +14,7 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
     {
         if (v.size()>2){
             if (std::stoi(v[2] ) > 0){
-                iDomTOOLS::MPD_playId(my_data,std::stoi(v[2]));
+                iDomTOOLS::MPD_play(my_data,std::stoi(v[2]));
                 sleep(1);
                 str_buf=my_data->ptr_MPD_info->songList[std::stoi(v[2])-1];
             }
