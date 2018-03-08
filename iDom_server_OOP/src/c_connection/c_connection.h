@@ -9,7 +9,6 @@
 #include "../command/commandhandlerroot.h"
 #include "../iDom_server_OOP.h"
 
-
 constexpr int MAX_buf = 32768;
 class C_connection
 {
@@ -42,10 +41,9 @@ private:
     std::string  str_buf;
     blockQueue char_queue;
     int counter = 0;
-    std::string encriptionKey;
+    std::string m_encriptionKey;
     bool m_encrypted;
     void crypto(std::string &toEncrypt, std::string key, bool encrypted);
-
 };
 
 #endif // C_CONNECTION_H

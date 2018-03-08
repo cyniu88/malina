@@ -34,7 +34,6 @@
 #include "../libs/event_counter_test/event_counters/event_counters_handler.h"
 #include "iDomTools/idomtools.h"
 #include "iDomStatus/idomstatus.h"
-//#include "RADIO_SWITCH/radio_switch.h"
 
 #define log_file_cout  f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na ekran
 #define log_file_mutex f_log
@@ -211,6 +210,7 @@ struct pilot_led{
 class command ;  // for struc thread_data req
 class iDomTOOLS;
 class RADIO_EQ_CONTAINER;
+class RFLinkHandler;
 
 struct thread_data{
     int s_client_sock;
@@ -221,6 +221,7 @@ struct thread_data{
     files_tree *main_tree = NULL;
     menu_tree *main_MENU = NULL;
     iDomTOOLS *main_iDomTools = NULL;
+    RFLinkHandler *main_RFLink = NULL;
     Thread_array_struc *main_THREAD_arr = NULL;
     time_t start;
     time_t now_time;

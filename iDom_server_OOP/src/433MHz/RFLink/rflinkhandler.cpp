@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "rflinkhandler.h"
 #include "../../functions/functions.h"
 
@@ -15,17 +16,26 @@ RFLinkHandler::RFLinkHandler(thread_data *my_data):
 
 bool RFLinkHandler::init()
 {
-
-    serial_RFLink.begin( std::stoi(my_data->server_settings->RFLinkBaudRate));
+    if( access( my_data->server_settings->RFLinkPort.c_str(), F_OK ) != -1 )
+    {
+        serial_RFLink.begin( std::stoi(my_data->server_settings->RFLinkBaudRate));
 #ifndef BT_TEST
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO <<"otwarcie portu RS232 RFLink " << my_data->server_settings->RFLinkPort << "  "
-                  <<my_data->server_settings->RFLinkBaudRate<<std::endl;
-    log_file_mutex.mutex_unlock();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO <<"otwarcie portu RS232 RFLink " << my_data->server_settings->RFLinkPort << "  "
+                      <<my_data->server_settings->RFLinkBaudRate<<std::endl;
+        log_file_mutex.mutex_unlock();
 #endif
-
-    return true;
-
+        return true;
+    }
+    else
+    {
+#ifndef BT_TEST
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR <<"brak portu RS232 RFLink " << my_data->server_settings->RFLinkPort<<std::endl;
+        log_file_mutex.mutex_unlock();
+#endif
+        return false;
+    }
 }
 
 void RFLinkHandler::run()

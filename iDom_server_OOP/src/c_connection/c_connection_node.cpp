@@ -46,7 +46,7 @@
 
 void C_connection::setEncriptionKey(std::string key)
 {
-    encriptionKey = key;
+    m_encriptionKey = key;
 }
 
 void C_connection::setEncrypted(bool flag)

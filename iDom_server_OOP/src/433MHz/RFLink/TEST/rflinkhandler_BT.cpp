@@ -27,3 +27,20 @@ TEST(RFLinkHandler_Class, main)
     r = test_RFLink.sendCommandAndWaitForReceive("ok");
     EXPECT_STREQ(r.c_str()," a=4:b=10;");
 }
+
+TEST(RFLinkHandler_Class, port_does_not_exist)
+{
+    thread_data test_my_data;
+    config test_server_set;
+    test_server_set.TS_KEY = "key test";
+    test_server_set.RFLinkBaudRate = "57600";
+    test_server_set.RFLinkPort = "/dev/fakePortRS232";
+    test_my_data.server_settings = &test_server_set;
+
+    iDomSTATUS test_status;
+    test_my_data.main_iDomStatus = &test_status;
+    RFLinkHandler test_RFLink(&test_my_data);
+
+    bool result =  test_RFLink.init();
+    EXPECT_FALSE(result);
+}

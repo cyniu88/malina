@@ -9,6 +9,7 @@
 #include "c_master_irda/master_irda.h"
 #include "RADIO_433_eq//radio_433_eq.h"
 #include "thread_functions/rs232_thread.h"
+#include "433MHz/RFLink/rflinkhandler.h"
 
 std::string  _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer ;
@@ -127,6 +128,12 @@ Logger log_file_mutex(_logfile);
 //        }
 //    }
 //}
+
+//////////////// watek RFLink //////////////////////////////////
+
+void RFLinkHandlerRUN(thread_data  *my_data){
+    my_data->main_RFLink->run();
+}
 //////////// watek do obslugi polaczeni miedzy nodami  //////////////
 
 void f_serv_con_node (thread_data  *my_data){
@@ -304,6 +311,8 @@ int main()
     log_file_cout << INFO << "PortRS232\t"<< server_settings.portRS232 << std::endl;
     log_file_cout << INFO << "PortRS232_clock\t"<< server_settings.portRS232_clock << std::endl;
     log_file_cout << INFO << "BaudRate RS232\t"<< server_settings.BaudRate << std::endl;
+    log_file_cout << INFO << "RFLinkPort\t"<< server_settings.RFLinkPort << std::endl;
+    log_file_cout << INFO << "RFLinkBaudRate\t"<< server_settings.RFLinkBaudRate << std::endl;
     log_file_cout << INFO << "port TCP \t"<< server_settings.PORT << std::endl;
     log_file_cout << INFO << "serwer ip \t"<< server_settings.SERVER_IP  <<std::endl;
     log_file_cout << INFO << "baza z filami \t"<< server_settings.MOVIES_DB_PATH << std::endl;
@@ -323,6 +332,23 @@ int main()
     RADIO_EQ_CONTAINER rc433MHz(&node_data);
     rc433MHz.loadConfig(server_settings.radio433MHzConfigFile);
     node_data.main_REC = &rc433MHz;
+
+    RFLinkHandler rflinkHandler(&node_data);
+    bool rflink_work = rflinkHandler.init();
+    node_data.main_RFLink = &rflinkHandler;
+
+    if (rflink_work == true){
+        //start watku czytania RFLinka
+        int freeSlotID = useful_F::findFreeThreadSlot(thread_array);
+        thread_array[freeSlotID].thread = std::thread(RFLinkHandlerRUN, &node_data);
+        thread_array[freeSlotID].thread_name = "RFLink_thread";
+        thread_array[freeSlotID].thread_socket = 1;
+        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
+        thread_array[freeSlotID].thread.detach();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "watek wystartowal  RFLink"<< thread_array[freeSlotID].thread_ID << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     ///////////////////////////////////////////////  start wiringPi  //////////////////////////////////////////////
     if(wiringPiSetup() == -1){
         exit(1) ;

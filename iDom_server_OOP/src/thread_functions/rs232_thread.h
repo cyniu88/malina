@@ -4,6 +4,8 @@
 #include "../c_connection/c_connection.h"
 #include "../TASKER/tasker.h"
 
+
+
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
 void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
 
