@@ -299,7 +299,7 @@ TEST(iDomTOOLS_Class, homeLockPlayStopMusic)
 
 TEST(iDomTOOLS_Class, buttonPressed)
 {
-    int button433MHz_id = 1997793;
+    std::string button433MHz_id = "01e7be";
     thread_data test_my_data;
 
     RADIO_EQ_CONTAINER test_rec(&test_my_data);
@@ -328,7 +328,7 @@ TEST(iDomTOOLS_Class, buttonPressed)
                  test_my_data.main_REC->getButtonPointerVector().at(0)->getID().c_str());
     EXPECT_STREQ(pressedButtonName.c_str(), "locker");
 
-    EXPECT_THROW(test_idomTOOLS.buttonPressed(button433MHz_id+1),
+    EXPECT_THROW(test_idomTOOLS.buttonPressed(button433MHz_id+"a"),
                  std::string);
 }
 

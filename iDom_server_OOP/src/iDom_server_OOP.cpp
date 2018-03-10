@@ -130,8 +130,7 @@ Logger log_file_mutex(_logfile);
 //}
 
 //////////////// watek RFLink //////////////////////////////////
-
-void RFLinkHandlerRUN(thread_data  *my_data){
+void RFLinkHandlerRUN(thread_data *my_data){
     std::string msgFromRFLink;
     RC_433MHz rc433(my_data);
 
@@ -139,27 +138,40 @@ void RFLinkHandlerRUN(thread_data  *my_data){
         std::this_thread::sleep_for( std::chrono::milliseconds(50));
 
         msgFromRFLink = rc433.receiveCode();
+        if (msgFromRFLink.size() > 0){
 
-        puts("odebrane od RFLinka:");
-        puts(msgFromRFLink.c_str());
+            try{
+                my_data->main_RFLink->
+                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
+                                                                                      "ID")].counter();
+                my_data->main_RFLink->
+                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
+                                                                                      "ID")].msg = msgFromRFLink;
+            }
+            catch(std::string e){
+                std::cout << "wyjatek w szukaniu: " << e<<std::endl;
+            }
+
+            my_data->myEventHandler.run("433MHz")->addEvent("RFLink "+msgFromRFLink);
+        }
         //TODO  dodac obsluge;
     }
 }
-//////////// watek do obslugi polaczeni miedzy nodami  //////////////
 
+//////////// watek do obslugi polaczeni miedzy nodami  //////////////
 void f_serv_con_node (thread_data  *my_data){
     my_data->myEventHandler.run("node")->addEvent("start and stop node");
     useful_F::clearThreadArray(my_data);
 } //  koniec f_serv_con_node
-/////////////////////  watek do obslugi irda //////////////////////////////
 
+/////////////////////  watek do obslugi irda //////////////////////////////
 void f_master_irda (thread_data  *my_data){
     master_irda irda(my_data);
     irda.run();
     useful_F::clearThreadArray(my_data);
 } //  koniec master_irda
-///////////  watek wymiany polaczenia /////////////////////
 
+///////////  watek wymiany polaczenia /////////////////////
 
 /////////////////////  watek CRON //////////////////////////////
 void f_master_CRON (thread_data  *my_data){
@@ -167,8 +179,8 @@ void f_master_CRON (thread_data  *my_data){
     my_CRON.run();
     useful_F::clearThreadArray(my_data);
 } //  koniec CRON
-//////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////
 void Server_connectivity_thread(thread_data  *my_data){
     C_connection *client = new C_connection( my_data);
     static unsigned int connectionCounter = 0;
@@ -293,7 +305,6 @@ void Server_connectivity_thread(thread_data  *my_data){
 
 int main()
 {
-
     std::ofstream pidFile;
     pidFile.open("/mnt/ramdisk/pid-iDom.txt");
     pidFile << getpid();

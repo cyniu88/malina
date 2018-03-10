@@ -1,6 +1,9 @@
-  #include <RCSwitch.h>
+ 
   
+  #include <OneWire.h>
+  #include <DallasTemperature.h>
   #include <Adafruit_NeoPixel.h>
+  
   #ifdef __AVR__
   #include <avr/power.h>
   #endif
@@ -9,8 +12,7 @@
   //PINs
   #define ONE_WIRE_BUS 3
   #define PIN 11
-  #define Radio_433_Tx 10
-  #define Radio_433_Rx 0
+
   // Parameter 1 = number of pixels in strip
   // Parameter 2 = Arduino pin number (most are valid)
   // Parameter 3 = pixel type flags, add together as needed:
@@ -20,14 +22,6 @@
   //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
   //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
   Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, PIN, NEO_GRB + NEO_KHZ800);
-  RCSwitch mySwitch = RCSwitch();
-  
-  
-  #include <OneWire.h>
-  #include <DallasTemperature.h>
-  
-  
-  
   
   // Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
   OneWire oneWire(ONE_WIRE_BUS);
@@ -80,10 +74,7 @@
     sensors.begin();
     sensors.setResolution(insideThermometer , TEMPERATURE_PRECISION);
     sensors.setResolution(outsideThermometer, TEMPERATURE_PRECISION);
-    
-    // Transmitter is connected to Arduino Pin #10 = Radio_433_TX 
-    mySwitch.enableTransmit(Radio_433_Tx);
-    mySwitch.enableReceive(Radio_433_Rx);  // Receiver on interrupt 0 => that is pin #2
+ 
   }
   
   void loop() {
@@ -208,17 +199,6 @@
       command="z";
       valueINT=0;
     }
-    /////////////////////////////////////////////////////////////
-    if (command=="433MHz")
-    {
-      valueINT = value.toInt();
-      mySwitch.send(valueINT, 24);
-      Serial.print("send:");
-      Serial.print(String(valueINT));
-      Serial.print(";");
-      command="z";
-      valueINT=0;
-    }
     //////////////////////////////////////////////////////////////
     if (command=="test")
     {
@@ -264,16 +244,7 @@
       //delay(2000);
     }
     command="z";
-    
-    
-    //////////////////////////////// receive 433mhz
- 
-      if (mySwitch.available()) {
-        Serial.print("ardu 433MHz ");
-        Serial.print(mySwitch.getReceivedValue());
-        Serial.print(';');
-        mySwitch.resetAvailable();
-      }
+
   }
   /////////////////// end loop  //////////////////////////////////
   

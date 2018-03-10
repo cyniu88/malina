@@ -17,9 +17,9 @@ struct RADIO_EQ_CONFIG{
     std::string name;
     std::string ID;
     std::string type;
-    int onCode;
-    int offCode;
-    int on15sec;
+    std::string onCode;
+    std::string offCode;
+    std::string on15sec;
     std::string sunrise;
     std::string sunset;
 };
@@ -42,8 +42,8 @@ class RADIO_BUTTON: public RADIO_EQ
     std::string m_name;
     std::string m_id;
     STATE m_state = STATE::UNDEFINE;
-    int m_onCode =  2004;
-    int m_offCode = 2008;
+    std::string m_onCode =  "2004";
+    std::string m_offCode = "2008";
 public:
     RADIO_BUTTON(thread_data * my_data, std::string name, std::string id, RADIO_EQ_TYPE type);
     ~RADIO_BUTTON();
@@ -56,9 +56,9 @@ public:
 class RADIO_SWITCH: public RADIO_EQ
 {
     RC_433MHz main433MHz;
-    int m_onCode =  2004;
-    int m_offCode = 2008;
-    int m_onFor15secCode = 2020;
+    std::string m_onCode =  "null";
+    std::string m_offCode = "null";
+    std::string m_onFor15secCode = "null";
     std::string m_name;
     std::string m_id;
     STATE m_state = STATE::UNDEFINE;

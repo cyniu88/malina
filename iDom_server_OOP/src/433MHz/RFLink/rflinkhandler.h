@@ -2,8 +2,20 @@
 #define RFLINKHANDLER_H
 
 //#include <mutex>
+#include <map>
 #include "../../iDom_server_OOP.h"
 
+struct RFLink_DEV{
+    int m_counter = 0;
+    std::string msg;
+    void counter(){
+        ++m_counter;
+    }
+
+    std::string read(){
+        return std::to_string(m_counter) + " \t"+ msg;
+    }
+};
 
 class RFLinkHandler
 {
@@ -14,6 +26,10 @@ public:
 
     static std::mutex sm_RFLink_MUTEX;
     static std::string sm_RFLink_BUFOR;
+
+    ////// temporarnie //////
+    std::map<std::string, RFLink_DEV> rflinkMAP;
+    /////////////////////////////
     RFLinkHandler(thread_data *my_data);
 
     bool init();
@@ -23,6 +39,10 @@ public:
     std::string readFromRS232();
 private:
     std::string internalReadFromRS232();
+//#ifdef BT_TEST
+public:
+//#endif
+    std::string getArgumentValueFromRFLinkMSG(std::string msg, std::string var);
 };
 
 #endif // RFLINKHANDLER_H

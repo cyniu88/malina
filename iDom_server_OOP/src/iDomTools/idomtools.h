@@ -59,7 +59,7 @@ public:
     void unlockHome();
     //////////////////////////// 433MHz button ///////////////////
 
-    std::string buttonPressed(int id);
+    std::string buttonPressed(std::string id);
     void button433MHzPressedAction(std::string name);
     void button433mhzLockerPressed();
 

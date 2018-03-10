@@ -1,5 +1,6 @@
 #include "command_433mhz.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
+#include "../../433MHz/RFLink/rflinkhandler.h"
 
 command_433MHz::command_433MHz(std::string name):command(name)
 {
@@ -18,6 +19,21 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
                 m_switch->off();
             }
+        }
+        else if (v[1] == "show" && v[2] == "aether"){
+            str_buf.clear();
+            for(auto itr = my_data->main_RFLink->rflinkMAP.begin();
+                itr != my_data->main_RFLink->rflinkMAP.end();
+                itr++)
+            {
+                str_buf += itr->second.read();
+                str_buf += '\n';
+            }
+        }
+        else if (v[1] == "send" ){
+            str_buf = "sended!;";
+            my_data->main_RFLink->sendCommand(v[2]);
+
         }
         else if (v[1] == "switch"){
             try{
@@ -54,5 +70,7 @@ std::string command_433MHz::help()
     std::string ret;
     ret.append("433MHz show all - list all equipment by name\n");
     ret.append("433MHz switch <name> ON/OFF/15s - change switch state\n");
+    ret.append("433MHz show aether   - show aether devices by ID\n");
+    ret.append("433MHz send <msg>    - send command\n");
     return ret;
 }

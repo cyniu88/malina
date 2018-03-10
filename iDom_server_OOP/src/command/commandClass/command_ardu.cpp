@@ -23,7 +23,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
             my_data->myEventHandler.run("433MHz")->addEvent("odebrano kod 433MHz test: "+msg);
             try{
                my_data->main_iDomTools->button433MHzPressedAction(
-                            my_data->main_iDomTools->buttonPressed(std::stoi(v[2]))
+                            my_data->main_iDomTools->buttonPressed(v[2])
                         );
             }
            catch(std::string e){

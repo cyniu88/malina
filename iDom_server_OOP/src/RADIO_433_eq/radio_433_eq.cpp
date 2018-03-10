@@ -20,21 +20,21 @@ RADIO_SWITCH::~RADIO_SWITCH()
 
 void RADIO_SWITCH::on()
 {
-    main433MHz.sendCode(m_id + std::to_string(m_onCode));
+    main433MHz.sendCode( m_onCode);
     m_state = STATE::ON;
     RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(m_name,STATE::ON);
 }
 
 void RADIO_SWITCH::off()
 {
-    main433MHz.sendCode(m_id + std::to_string(m_offCode));
+    main433MHz.sendCode(m_offCode);
     m_state = STATE::OFF;
     RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(m_name,STATE::OFF);
 }
 
 void RADIO_SWITCH::onFor15sec()
 {
-    main433MHz.sendCode(m_id + std::to_string(m_onFor15secCode));
+    main433MHz.sendCode(m_onFor15secCode);
     m_state = STATE::WORKING;
 }
 
@@ -79,15 +79,15 @@ std::string RADIO_SWITCH::getID()
 
 void RADIO_SWITCH::setCode(RADIO_EQ_CONFIG cfg)
 {
-    if(cfg.onCode > 0){
+   // if(cfg.onCode > 0){
         m_onCode = cfg.onCode;
-    }
-    if(cfg.offCode > 0){
+   // }
+   // if(cfg.offCode > 0){
         m_offCode = cfg.offCode;
-    }
-    if(cfg.on15sec > 0){
+    //}
+    //if(cfg.on15sec > 0){
         m_onFor15secCode = cfg.on15sec;
-    }
+   // }
     if(cfg.sunset == "on"){
         m_sunset = STATE::ON;
     }

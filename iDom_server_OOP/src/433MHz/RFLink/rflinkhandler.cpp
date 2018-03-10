@@ -38,32 +38,17 @@ bool RFLinkHandler::init()
     }
 }
 
-//void RFLinkHandler::run()
-//{
-//    std::string msg;
-//    while (useful_F::go_while){
-//        std::this_thread::sleep_for( std::chrono::milliseconds(50));
-//        {
-//            std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
-
-//            msg = readFromRS232();
-
-//            puts("odebrane od RFLinka:");
-//            puts(msg.c_str());
-//            //TODO  dodac obsluge;
-//        }
-//    }
-//}
-
 void RFLinkHandler::sendCommand(std::string cmd)
 {
     std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
+    cmd.append("\n\r"); // add NL & CR
     serial_RFLink.print(cmd.c_str());
 }
 
 std::string RFLinkHandler::sendCommandAndWaitForReceive(std::string cmd)
 {
     std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
+    cmd.append("\n\r"); // add NL & CR
     serial_RFLink.print(cmd.c_str());
     return internalReadFromRS232();
 }
@@ -78,13 +63,43 @@ std::string RFLinkHandler::internalReadFromRS232()
 {
     std::string buf;
     char b;
-    while (serial_RFLink.available() > 0){
-        b = serial_RFLink.read();
+    if(serial_RFLink.available() > 0){
+        //puts("jest cos na rflinku");
+        while (true){
 
-        if (b == '\n'){
-            break;
+            b = serial_RFLink.read();
+            if (b == '\n'){
+                break;
+            }
+            buf += b;
         }
-        buf += b;
     }
     return buf;
+}
+
+std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(std::string msg, std::string var)
+{
+    std::string id;
+    char t;
+
+    int pos = msg.find(var+"=");
+    if (pos == -1 ){
+        throw "argument \""+var+"\" not found";
+    }
+    if (msg.at(0) != '2' || msg.at(1) != '0'){
+        throw "wrong message format \""+msg+"\"";
+    }
+#ifdef BT_TEST
+    std::cout << "znaleziono " << var <<" na pozycji " << pos <<std::endl;
+#endif
+
+    for (int i = 1+pos+var.size();;++i ){
+        t = msg.at(i);
+        if (t ==';'){
+            break;
+        }
+        id += t;
+    }
+    return id;
+
 }

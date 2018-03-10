@@ -358,10 +358,10 @@ void iDomTOOLS::unlockHome()
 #endif
 }
 
-std::string iDomTOOLS::buttonPressed(int id)
+std::string iDomTOOLS::buttonPressed(std::string id)
 {
     for (auto n : buttonPointerVector){
-        if (id == std::stoi(n->getID())){
+        if (id == n->getID()){
             return n->getName();
         }
     }
