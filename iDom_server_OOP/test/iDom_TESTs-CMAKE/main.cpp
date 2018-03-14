@@ -6,7 +6,7 @@
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );
 
-    //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.buttonPressed";
+    ::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.button433MHzPressedAction_lockerUnlock";
     //::testing::GTEST_FLAG(filter) = "RFLinkHandler_Class.getValue";
     return RUN_ALL_TESTS();
 }

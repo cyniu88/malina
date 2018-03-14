@@ -14,7 +14,7 @@ void TASKER::runTasker()
 
 void TASKER::dataFromRS232(std::string bufor)
 {
-    std::cout <<" TASKER::dataFromRS232()- " << bufor << " " << Clock::getTime().toSeconds() <<std::endl;
+   // std::cout <<" TASKER::dataFromRS232()- " << bufor << " " << Clock::getTime().toSeconds() <<std::endl;
     std::vector <std::string> v;
     useful_F::tokenizer(v," \n, ", bufor);
     commandHandlerRS232 rs232(my_data);

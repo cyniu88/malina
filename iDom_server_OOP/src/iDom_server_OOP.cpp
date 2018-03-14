@@ -134,6 +134,9 @@ void RFLinkHandlerRUN(thread_data *my_data){
     std::string msgFromRFLink;
     RC_433MHz rc433(my_data);
 
+    std::vector <RADIO_BUTTON*> buttonVec = my_data->main_REC->getButtonPointerVector();
+    TASKER mainTasker(my_data);
+
     while(useful_F::go_while){
         std::this_thread::sleep_for( std::chrono::milliseconds(50));
 
@@ -154,7 +157,18 @@ void RFLinkHandlerRUN(thread_data *my_data){
 
             my_data->myEventHandler.run("433MHz")->addEvent("RFLink "+msgFromRFLink);
         }
-        //TODO  dodac obsluge;
+
+        if (msgFromRFLink.size() > 0){
+            std::string ID;
+            try{
+                ID = my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink, "ID");
+
+                mainTasker.dataFromRS232("ardu 433MHz "+ ID);
+                //std::cout << "DUPA"<<std::endl;
+            }
+            catch(...){}
+        }
+
     }
 }
 
