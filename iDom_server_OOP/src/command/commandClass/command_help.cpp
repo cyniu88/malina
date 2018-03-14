@@ -13,7 +13,7 @@ std::string command_help::execute(std::vector<std::string> &v, thread_data *my_d
     if (v.size() ==2){
 
         if (my_data->commandMapPtr->find(v[1]) == my_data->commandMapPtr->end()){
-            return "unknown command: "+ v[1];
+            return "unknown command: "+ v[1]+" help note not found";
         }
         else{
             return  my_data->commandMapPtr->find(v[1])->second->help();

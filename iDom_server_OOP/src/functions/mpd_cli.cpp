@@ -312,8 +312,7 @@ void main_mpd_cli(thread_data* my_data )
             ///  call Tasker
             mainTasker.runTasker();
 
-
-            std::this_thread::sleep_for( std::chrono::milliseconds(500) );
+            std::this_thread::sleep_for( std::chrono::milliseconds(250) );
         } while( useful_F::go_while);
 
         mpd_player_stop(obj); //wylaczanie mpd na koniec

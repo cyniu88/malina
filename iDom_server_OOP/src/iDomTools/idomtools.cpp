@@ -391,11 +391,18 @@ void iDomTOOLS::button433mhzLockerPressed()
             buttonUnlockHome();
             puts("\nodblokuje dom\n");
         }
-        else
+        else if (my_data->main_iDomStatus->getObjectState("music") == STATE::PLAY)
         {
             ledOFF();
             MPD_stop();
             turnOffPrinter();
+        }
+        else if (my_data->main_iDomStatus->getObjectState("music") == STATE::STOP)
+        {
+            MPD_play(my_data);
+            if(isItDay() == false){
+                ledOn(my_data->ptr_pilot_led->colorLED[2]);
+            }
         }
     }
     else

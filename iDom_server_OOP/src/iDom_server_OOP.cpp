@@ -133,7 +133,7 @@ Logger log_file_mutex(_logfile);
 void RFLinkHandlerRUN(thread_data *my_data){
     std::string msgFromRFLink;
     RC_433MHz rc433(my_data);
-
+    my_data->main_RFLink->flush();
     std::vector <RADIO_BUTTON*> buttonVec = my_data->main_REC->getButtonPointerVector();
     TASKER mainTasker(my_data);
 

@@ -366,11 +366,9 @@ TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerUnlock)
     }
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
 
-    EXPECT_EQ(test_q._size(),2);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
-    EXPECT_EQ(test_q._size(),0);
+
 }
 
 TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerLock)

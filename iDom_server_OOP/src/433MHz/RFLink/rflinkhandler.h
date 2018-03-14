@@ -34,6 +34,7 @@ public:
 
     bool init();
     //    void run();
+    void flush();
     void sendCommand(std::string cmd);
     std::string sendCommandAndWaitForReceive(std::string cmd);
     std::string readFromRS232();

@@ -38,6 +38,11 @@ bool RFLinkHandler::init()
     }
 }
 
+void RFLinkHandler::flush()
+{
+    serial_RFLink.flush();
+}
+
 void RFLinkHandler::sendCommand(std::string cmd)
 {
     std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
