@@ -8,14 +8,14 @@ RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, std::string name, std::string i
     m_name(name),
     m_id(id)
 {
-    puts(" konstruktor RADIO_SWITCH");
+    puts("RADIO_SWITCH::RADIO_SWITCH()");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
 }
 
 RADIO_SWITCH::~RADIO_SWITCH()
 {
-    puts("\ndestruktor ~RADIO_SWITCH()\n");
+    puts("RADIO_SWITCH::~RADIO_SWITCH()");
 }
 
 void RADIO_SWITCH::on()
@@ -113,6 +113,7 @@ RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()
     for(auto it = m_radioEqMap.begin(); it != m_radioEqMap.end(); ++it) {
         delete it->second;
     }
+    puts("RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()");
 }
 
 void RADIO_EQ_CONTAINER::addRadioEq(std::string name,std::string id, RADIO_EQ_TYPE type)
@@ -124,6 +125,8 @@ void RADIO_EQ_CONTAINER::addRadioEq(std::string name,std::string id, RADIO_EQ_TY
     case RADIO_EQ_TYPE::BUTTON:
         m_radioEqMap.insert(std::make_pair(name, new RADIO_BUTTON(this->my_data, name, id, type)  )    );
         break;
+    case RADIO_EQ_TYPE::WEATHER_S:
+        m_radioEqMap.insert(std::make_pair(name, new RADIO_WEATHER_STATION(this->my_data, name, id, type) ) );
     default:
         break;
     }
@@ -163,6 +166,17 @@ std::vector<RADIO_BUTTON *> RADIO_EQ_CONTAINER::getButtonPointerVector()
         }
     }
     return buttonVector;
+}
+
+std::vector<RADIO_WEATHER_STATION*> RADIO_EQ_CONTAINER::getWeather_StationPtrVector()
+{
+    std::vector<RADIO_WEATHER_STATION*> weatherStVe;
+    for (auto it : m_radioEqMap){
+        if (it.second->getType() == RADIO_EQ_TYPE::WEATHER_S){
+            weatherStVe.push_back(static_cast<RADIO_WEATHER_STATION*>(it.second));
+        }
+    }
+    return weatherStVe;
 }
 
 std::string RADIO_EQ_CONTAINER::listAllName()
@@ -205,6 +219,9 @@ void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
                 else if (cfg.type == "button"){
                     addRadioEq(cfg.name, cfg.ID, RADIO_EQ_TYPE::BUTTON);
                 }
+                else if (cfg.type == "weather"){
+                    addRadioEq(cfg.name, cfg.ID, RADIO_EQ_TYPE::WEATHER_S);
+                }
                 //NOTE add more type
             }
             lineStream.clear();
@@ -216,15 +233,44 @@ void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
 
 RADIO_EQ::RADIO_EQ()
 {
-    puts("konstruktor RADIO_EQ()");
+    puts("RADIO_EQ::RADIO_EQ()");
 }
 
 RADIO_EQ::~RADIO_EQ()
 {
-    puts("destruktor ~RADIO_EQ()");
+    puts("RADIO_EQ::~RADIO_EQ()");
 }
 
 RADIO_EQ_TYPE RADIO_EQ::getType()
 {
     return m_type;
+}
+
+RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *my_data, std::string name, std::string id, RADIO_EQ_TYPE type):
+    m_name(name),
+    m_id(id)
+{
+    puts("RADIO_WEATHER_STATION::RADIO_WEATHER_STATION()");
+    RADIO_EQ::m_my_data = my_data;
+    RADIO_EQ::m_type = type;
+}
+
+RADIO_WEATHER_STATION::~RADIO_WEATHER_STATION()
+{
+    puts("RADIO_WEATHER_STATION::~RADIO_WEATHER_STATION()");
+}
+
+STATE RADIO_WEATHER_STATION::getState()
+{
+    return m_state;
+}
+
+std::string RADIO_WEATHER_STATION::getName()
+{
+    return m_name;
+}
+
+std::string RADIO_WEATHER_STATION::getID()
+{
+    return m_id;
 }

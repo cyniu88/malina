@@ -19,7 +19,6 @@
 #include "commandClass/commandtest.h"
 #include "commandClass/command_log.h"
 #include "commandClass/command_state.h"
-#include "commandClass/command_ardu.h"
 
 commandHandler::commandHandler(thread_data * my_data)
 {
@@ -77,12 +76,8 @@ commandHandler::commandHandler(thread_data * my_data)
     std::unique_ptr <command> state (new command_state("state"));
     commandMap.insert(std::make_pair(state->getCommandName(), std::move(state)));
 
-    std::unique_ptr <command> ardu (new command_ardu("ardu"));
-    commandMap.insert(std::make_pair(ardu->getCommandName(), std::move(ardu)));
-
     this->my_data = my_data;
     this->my_data->commandMapPtr = &commandMap;
-    puts(" command handler klasa bazowa");
 }
 
 commandHandler::~commandHandler()

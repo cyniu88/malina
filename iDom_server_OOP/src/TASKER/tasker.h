@@ -5,14 +5,12 @@
 
 class TASKER
 {
-    commandHandlerRS232 rs232;
+    std::vector <std::string> v;
 public:
     TASKER(thread_data *my_data);
-
     void runTasker();
-    void dataFromRS232(std::string bufor);
 private:
-     thread_data * my_data;
+    thread_data * my_data;
 };
 
 #endif // TASKER_H

@@ -4,9 +4,14 @@
 #include <string>
 #include <vector>
 #include "../command.h"
+#include "../../RADIO_433_eq/radio_433_eq.h"
 
 class command_ardu : public command
 {
+    std::vector<RADIO_BUTTON*> m_button433MHzVector;
+    RADIO_BUTTON* m_mainRadioButton;
+    std::vector<RADIO_WEATHER_STATION*> m_weatherStVe;
+    RADIO_WEATHER_STATION* m_mainWeatherStation;
 public:
     command_ardu(std::string name);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
