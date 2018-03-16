@@ -33,9 +33,6 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/thread_functions/TEST/rs232_thread_BT.cpp"
     "../../src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp"
     "../../src/433MHz/RFLink/rflinkhandler.cpp"
-    "../../src/command/command.cpp"
-    "../../src/command/commandClass/command_ardu.cpp"
-    "../../src/command/commandClass/TEST/command_ardu_BT.cpp"
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -DBT_TEST -DNOSSL")

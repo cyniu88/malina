@@ -27,14 +27,14 @@ RADIO_BUTTON::RADIO_BUTTON(thread_data *my_data, std::string name, std::string i
     m_name(name),
     m_id(id)
 {
-    puts("RADIO_BUTTON::RADIO_BUTTON()");
+    puts(" konstruktor RADIO_BUTTON");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
 }
 
 RADIO_BUTTON::~RADIO_BUTTON()
 {
-    puts("RADIO_BUTTON::~RADIO_BUTTON()");
+    puts("\ndestruktor ~RADIO_BUTTON()\n");
 }
 
 STATE RADIO_BUTTON::getState()

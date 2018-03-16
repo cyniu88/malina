@@ -134,38 +134,41 @@ void RFLinkHandlerRUN(thread_data *my_data){
     std::string msgFromRFLink;
     RC_433MHz rc433(my_data);
     my_data->main_RFLink->flush();
-    std::vector <std::string>  v;
-    v.push_back("ardu");
-    v.push_back("433MHz");
-    commandHandlerRoot commandHandler(my_data);
+    std::vector <RADIO_BUTTON*> buttonVec = my_data->main_REC->getButtonPointerVector();
+    TASKER mainTasker(my_data);
 
-    while(useful_F::go_while)
-    {
+    while(useful_F::go_while){
         std::this_thread::sleep_for( std::chrono::milliseconds(50));
 
         msgFromRFLink = rc433.receiveCode();
-//        if (msgFromRFLink.size() > 0){
+        if (msgFromRFLink.size() > 0){
 
-//            try{
-//                my_data->main_RFLink->
-//                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
-//                                                                                      "ID")].counter();
-//                my_data->main_RFLink->
-//                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
-//                                                                                      "ID")].msg = msgFromRFLink;
-//            }
-//            catch(std::string e){
-//                std::cout << "wyjatek w szukaniu: " << e<<std::endl;
-//            }
-//            my_data->myEventHandler.run("433MHz")->addEvent("RFLink "+msgFromRFLink);
-//        }
+            try{
+                my_data->main_RFLink->
+                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
+                                                                                      "ID")].counter();
+                my_data->main_RFLink->
+                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
+                                                                                      "ID")].msg = msgFromRFLink;
+            }
+            catch(std::string e){
+                std::cout << "wyjatek w szukaniu: " << e<<std::endl;
+            }
 
-        if (msgFromRFLink.size() > 0)
-        {
-            //TODO add command
-            v[2] = msgFromRFLink;
-            commandHandler.run(v,my_data);
+            my_data->myEventHandler.run("433MHz")->addEvent("RFLink "+msgFromRFLink);
         }
+
+        if (msgFromRFLink.size() > 0){
+            std::string ID;
+            try{
+                ID = my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink, "ID");
+
+                mainTasker.dataFromRS232("ardu 433MHz "+ ID);
+                //std::cout << "DUPA"<<std::endl;
+            }
+            catch(...){}
+        }
+
     }
 }
 
@@ -294,7 +297,6 @@ void Server_connectivity_thread(thread_data  *my_data){
         catch (std::string s)
         {
             puts("close server - throw");
-            puts(s.c_str());
             useful_F::go_while = false;
             client->c_send("CLOSE");
             //delete client;
