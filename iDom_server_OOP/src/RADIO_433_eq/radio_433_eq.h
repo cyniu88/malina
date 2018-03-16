@@ -11,7 +11,8 @@ enum class RADIO_EQ_TYPE{
     SWITCH = 1,
     PIR,
     GATE,
-    BUTTON
+    BUTTON,
+    WEATHER_S
 };
 struct RADIO_EQ_CONFIG{
     std::string name;
@@ -36,7 +37,20 @@ protected:
     thread_data *m_my_data;
     RADIO_EQ_TYPE m_type;
 };
-
+class RADIO_WEATHER_STATION: public RADIO_EQ
+{
+    std::string m_name;
+    std::string m_id;
+    STATE m_state = STATE::UNDEFINE;
+    std::string m_onCode =  "2004";
+    std::string m_offCode = "2008";
+public:
+    RADIO_WEATHER_STATION(thread_data * my_data, std::string name, std::string id, RADIO_EQ_TYPE type);
+    ~RADIO_WEATHER_STATION();
+    STATE getState();
+    std::string getName();
+    std::string getID();
+};
 class RADIO_BUTTON: public RADIO_EQ
 {
     std::string m_name;
@@ -89,6 +103,7 @@ public:
     virtual RADIO_EQ* getEqPointer(std::string name);
     std::vector<RADIO_SWITCH*> getSwitchPointerVector();
     std::vector<RADIO_BUTTON*> getButtonPointerVector();
+    std::vector<RADIO_WEATHER_STATION *> getWeather_StationPtrVector();
     std::string listAllName();
     void loadConfig(std::string filePath);
 };
