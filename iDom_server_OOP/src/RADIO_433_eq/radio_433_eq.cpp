@@ -8,14 +8,14 @@ RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, std::string name, std::string i
     m_name(name),
     m_id(id)
 {
-    puts(" konstruktor RADIO_SWITCH");
+    puts("RADIO_SWITCH::RADIO_SWITCH()");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
 }
 
 RADIO_SWITCH::~RADIO_SWITCH()
 {
-    puts("\ndestruktor ~RADIO_SWITCH()\n");
+    puts("RADIO_SWITCH::~RADIO_SWITCH()");
 }
 
 void RADIO_SWITCH::on()
@@ -79,15 +79,15 @@ std::string RADIO_SWITCH::getID()
 
 void RADIO_SWITCH::setCode(RADIO_EQ_CONFIG cfg)
 {
-   // if(cfg.onCode > 0){
-        m_onCode = cfg.onCode;
-   // }
-   // if(cfg.offCode > 0){
-        m_offCode = cfg.offCode;
+    // if(cfg.onCode > 0){
+    m_onCode = cfg.onCode;
+    // }
+    // if(cfg.offCode > 0){
+    m_offCode = cfg.offCode;
     //}
     //if(cfg.on15sec > 0){
-        m_onFor15secCode = cfg.on15sec;
-   // }
+    m_onFor15secCode = cfg.on15sec;
+    // }
     if(cfg.sunset == "on"){
         m_sunset = STATE::ON;
     }
@@ -113,6 +113,7 @@ RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()
     for(auto it = m_radioEqMap.begin(); it != m_radioEqMap.end(); ++it) {
         delete it->second;
     }
+    puts("RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()");
 }
 
 void RADIO_EQ_CONTAINER::addRadioEq(std::string name,std::string id, RADIO_EQ_TYPE type)
@@ -216,12 +217,12 @@ void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
 
 RADIO_EQ::RADIO_EQ()
 {
-    puts("konstruktor RADIO_EQ()");
+    puts("RADIO_EQ::RADIO_EQ()");
 }
 
 RADIO_EQ::~RADIO_EQ()
 {
-    puts("destruktor ~RADIO_EQ()");
+    puts("RADIO_EQ::~RADIO_EQ()");
 }
 
 RADIO_EQ_TYPE RADIO_EQ::getType()
