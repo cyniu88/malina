@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include "../command.h"
+#include "../../RADIO_433_eq/radio_433_eq.h"
+#include "../../433MHz/RFLink/rflinkhandler.h"
 
 class command_ardu : public command
 {

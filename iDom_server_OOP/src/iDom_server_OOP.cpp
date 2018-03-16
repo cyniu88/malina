@@ -143,22 +143,22 @@ void RFLinkHandlerRUN(thread_data *my_data){
         std::this_thread::sleep_for( std::chrono::milliseconds(50));
 
         msgFromRFLink = rc433.receiveCode();
-        if (msgFromRFLink.size() > 0){
+//        if (msgFromRFLink.size() > 0){
 
-            try{
-                my_data->main_RFLink->
-                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
-                                                                                      "ID")].counter();
-                my_data->main_RFLink->
-                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
-                                                                                      "ID")].msg = msgFromRFLink;
-            }
-            catch(std::string e){
-                std::cout << "wyjatek w szukaniu: " << e<<std::endl;
-            }
+//            try{
+//                my_data->main_RFLink->
+//                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
+//                                                                                      "ID")].counter();
+//                my_data->main_RFLink->
+//                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
+//                                                                                      "ID")].msg = msgFromRFLink;
+//            }
+//            catch(std::string e){
+//                std::cout << "wyjatek w szukaniu: " << e<<std::endl;
+//            }
 
-            my_data->myEventHandler.run("433MHz")->addEvent("RFLink "+msgFromRFLink);
-        }
+//            my_data->myEventHandler.run("433MHz")->addEvent("RFLink "+msgFromRFLink);
+//        }
 
         if (msgFromRFLink.size() > 0){
             //TODO command
