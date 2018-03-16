@@ -82,7 +82,6 @@ commandHandler::commandHandler(thread_data * my_data)
 
     this->my_data = my_data;
     this->my_data->commandMapPtr = &commandMap;
-    puts(" command handler klasa bazowa");
 }
 
 commandHandler::~commandHandler()

@@ -163,7 +163,7 @@ void RFLinkHandlerRUN(thread_data *my_data){
             try{
                 ID = my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink, "ID");
 
-                mainTasker.dataFromRS232("ardu 433MHz "+ ID);
+                //mainTasker.dataFromRS232("ardu 433MHz "+ ID);
                 //std::cout << "DUPA"<<std::endl;
             }
             catch(...){}
