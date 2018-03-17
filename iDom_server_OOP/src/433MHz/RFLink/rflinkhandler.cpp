@@ -1,9 +1,11 @@
 #include <unistd.h>
+
 #include "rflinkhandler.h"
 #include "../../functions/functions.h"
 
 std::mutex RFLinkHandler::sm_RFLink_MUTEX;
 std::string RFLinkHandler::sm_RFLink_BUFOR;
+
 
 RFLinkHandler::RFLinkHandler(thread_data *my_data):
     serial_RFLink(strdup( my_data->server_settings->RFLinkPort.c_str()))
@@ -92,7 +94,7 @@ std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(std::string msg, std::s
         throw "argument \""+var+"\" not found";
     }
     if (msg.at(0) != '2' || msg.at(1) != '0'){
-        throw "wrong message format \""+msg+"\"";
+        throw WRONG_FORMAT();
     }
 #ifdef BT_TEST
     std::cout << "znaleziono " << var <<" na pozycji " << pos <<std::endl;

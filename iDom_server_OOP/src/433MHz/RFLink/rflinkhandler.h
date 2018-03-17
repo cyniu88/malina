@@ -4,6 +4,11 @@
 //#include <mutex>
 #include <map>
 #include "../../iDom_server_OOP.h"
+#include <exception>
+
+class WRONG_FORMAT : public std::exception{
+
+};
 
 struct RFLink_DEV{
     int m_counter = 0;
