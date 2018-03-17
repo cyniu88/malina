@@ -46,10 +46,6 @@ char SerialPi::read(){
 TASKER::TASKER(thread_data *my_data){
     std::cout << "TASKER::TASKER()"<< std::endl;
 }
-void TASKER::dataFromRS232(std::string bufor)
-{
-    std::cout << "TASKER::dataFromRS232()"<< bufor<< std::endl;
-}
 
 bool useful_F::go_while = true;
 
