@@ -15,7 +15,8 @@ class command_ardu : public command
     RADIO_WEATHER_STATION* m_mainWeatherStation;
 public:
     command_ardu(std::string name);
-    std::string execute(std::vector <std::string> &v,thread_data * my_data);
+    command_ardu(std::string name,thread_data* my_data );
+    std::string execute(std::vector <std::string> &v,thread_data* my_data);
     std::string help();
 };
 

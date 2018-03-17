@@ -139,7 +139,9 @@ void RFLinkHandlerRUN(thread_data *my_data){
     v.push_back("ardu");
     v.push_back("433MHz");
     v.push_back("");
-    command_ardu workerRFLink("ardu");
+
+    std::this_thread::sleep_for( std::chrono::seconds(5));
+    command_ardu workerRFLink("ardu",my_data);
 
     while(useful_F::go_while){
         std::this_thread::sleep_for( std::chrono::milliseconds(50));
