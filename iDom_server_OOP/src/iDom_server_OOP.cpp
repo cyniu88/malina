@@ -10,6 +10,7 @@
 #include "RADIO_433_eq//radio_433_eq.h"
 #include "thread_functions/rs232_thread.h"
 #include "433MHz/RFLink/rflinkhandler.h"
+#include "command/commandClass/command_ardu.h"
 
 std::string  _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer ;
@@ -137,33 +138,33 @@ void RFLinkHandlerRUN(thread_data *my_data){
     std::vector <std::string>  v;
     v.push_back("ardu");
     v.push_back("433MHz");
-    //commandHandler commandHandler(my_data);
+    v.push_back("");
+    command_ardu workerRFLink("ardu");
 
     while(useful_F::go_while){
         std::this_thread::sleep_for( std::chrono::milliseconds(50));
 
         msgFromRFLink = rc433.receiveCode();
+//        if (msgFromRFLink.size() > 0){
+
+//            try{
+//                my_data->main_RFLink->
+//                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
+//                                                                                      "ID")].counter();
+//                my_data->main_RFLink->
+//                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
+//                                                                                      "ID")].msg = msgFromRFLink;
+//            }
+//            catch(std::string e){
+//                std::cout << "wyjatek w szukaniu: " << e<<std::endl;
+//            }
+
+//            my_data->myEventHandler.run("433MHz")->addEvent("RFLink "+msgFromRFLink);
+//        }
+
         if (msgFromRFLink.size() > 0){
-
-            try{
-                my_data->main_RFLink->
-                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
-                                                                                      "ID")].counter();
-                my_data->main_RFLink->
-                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(msgFromRFLink,
-                                                                                      "ID")].msg = msgFromRFLink;
-            }
-            catch(std::string e){
-                std::cout << "wyjatek w szukaniu: " << e<<std::endl;
-            }
-
-            my_data->myEventHandler.run("433MHz")->addEvent("RFLink "+msgFromRFLink);
-        }
-
-        if (msgFromRFLink.size() > 0){
-            //TODO command
-           // v[2] = msgFromRFLink;
-            //commandHandler.run(v,my_data);
+            v[2] = msgFromRFLink;
+            workerRFLink.execute(v,my_data);
         }
 
     }

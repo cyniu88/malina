@@ -10,7 +10,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
     std::string str_buf = " only for internal usage!";
     if (v.size() > 1){
         if(v[1] == "433MHz"){
-            my_data->myEventHandler.run("433MHz")->addEvent("odebrano ID 433MHz : "+v[2]);
+            my_data->myEventHandler.run("433MHz")->addEvent("RFLink: "+v[2]);
             try {
                 my_data->main_RFLink->
                         rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],
