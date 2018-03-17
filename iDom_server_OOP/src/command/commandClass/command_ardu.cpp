@@ -2,7 +2,8 @@
 
 command_ardu::command_ardu(std::string name):command(name)
 {
-
+    //    m_button433MHzVector = useful_F::myStaticData->main_REC->getButtonPointerVector();
+    //    m_mainRadioButton = static_cast<RADIO_BUTTON*>(useful_F::myStaticData->main_REC->getEqPointer("locker"));
 }
 
 std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_data)
@@ -22,7 +23,16 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
             catch(std::string e){
                 std::cout << "wyjatek w szukaniu: " << e <<std::endl;
             }
-
+            //TODO  add command
+            try {
+                if ("01e7be" == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
+                {
+                    my_data->main_iDomTools->button433mhzLockerPressed();
+                }
+            }
+            catch (std::string e){
+                std::cout << "wyjatek pracy: " << e <<std::endl;
+            }
         }
     }
     return str_buf;
