@@ -137,7 +137,7 @@ void RFLinkHandlerRUN(thread_data *my_data){
     std::vector <std::string>  v;
     v.push_back("ardu");
     v.push_back("433MHz");
-    commandHandlerRoot commandHandler(my_data);
+    //commandHandler commandHandler(my_data);
 
     while(useful_F::go_while){
         std::this_thread::sleep_for( std::chrono::milliseconds(50));
@@ -162,8 +162,8 @@ void RFLinkHandlerRUN(thread_data *my_data){
 
         if (msgFromRFLink.size() > 0){
             //TODO command
-            v[2] = msgFromRFLink;
-            commandHandler.run(v,my_data);
+           // v[2] = msgFromRFLink;
+            //commandHandler.run(v,my_data);
         }
 
     }
