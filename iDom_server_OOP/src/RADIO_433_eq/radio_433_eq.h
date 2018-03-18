@@ -6,6 +6,12 @@
 #include "../iDomStatus/idomstatus.h"
 
 #include "../433MHz/rc_433mhz.h"
+struct WEATHER_STRUCT{
+    unsigned int humidity = 0;
+    int temperature = 0;
+    unsigned int barometricPressure = 0;
+
+};
 
 enum class RADIO_EQ_TYPE{
     SWITCH = 1,
@@ -50,6 +56,8 @@ public:
     STATE getState();
     std::string getName();
     std::string getID();
+    // data
+    WEATHER_STRUCT data;
 };
 class RADIO_BUTTON: public RADIO_EQ
 {

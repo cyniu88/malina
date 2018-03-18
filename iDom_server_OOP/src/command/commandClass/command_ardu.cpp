@@ -27,17 +27,32 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
             }
             catch(std::string e){
                 std::cout << "wyjatek w szukaniu: " << e <<std::endl;
+                std::cout << "co jest: " << m_mainRadioButton->getID() <<
+                             " powinno być 01e7be" <<std::endl;
             }
             //TODO  add command
             try {
                 if (m_mainRadioButton->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
                 {
+                    std::cout << "jest zgodne " << m_mainRadioButton->getID() <<
+                               " i drugie " << my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID")<<
+                                 " powinno być 01e7be" <<std::endl;
+
                     my_data->main_iDomTools->button433mhzLockerPressed();
                 }
             }
-            catch (std::string e){
-                std::cout << "wyjatek pracy: " << e <<std::endl;
-            }
+            catch (std::string e){  }
+//            try {
+//                if (m_mainRadioButton->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
+//                {
+//                    std::cout << "jest zgodne " << m_mainRadioButton->getID() <<
+//                               " i drugie " << my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID")<<
+//                                 " powinno być 01e7be" <<std::endl;
+
+//                    my_data->main_iDomTools->button433mhzLockerPressed();
+//                }
+//            }
+//            catch (std::string e){  }
         }
     }
     return str_buf;
