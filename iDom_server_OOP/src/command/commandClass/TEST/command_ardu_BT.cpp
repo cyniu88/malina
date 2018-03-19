@@ -231,3 +231,49 @@ TEST(commandArdu_Class, stopMusic)
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);
 }
+
+TEST(commandArdu_Class, weatherStationTemp)
+{
+
+    thread_data test_my_data;
+
+    RADIO_EQ_CONTAINER test_rec(&test_my_data);
+    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
+    test_my_data.main_REC = (&test_rec);
+
+    config test_server_set;
+    test_server_set.TS_KEY = "key test";
+    test_server_set.viberSender = "test sender";
+    test_server_set.viberReceiver = {"R1","R2"};
+    test_my_data.server_settings = &test_server_set;
+
+    iDomSTATUS test_status;
+    test_status.addObject("house");
+    test_my_data.main_iDomStatus = &test_status;
+
+    iDOM_STATE main_iDomStatus;
+    test_my_data.idom_all_state = main_iDomStatus;
+
+    iDomTOOLS test_idomTOOLS(&test_my_data);
+
+    test_my_data.main_iDomTools = &test_idomTOOLS;
+    useful_F::myStaticData = &test_my_data;
+
+    RFLinkHandler test_RFLink(&test_my_data);
+    test_my_data.main_RFLink = &test_RFLink;
+
+    command_ardu test_ardu("ardu", &test_my_data);
+    std::vector<std::string> test_v= {"ardu"};
+    test_v.push_back("433MHz");
+    test_v.push_back("20;2A;LaCrosse;ID=0704;TEMP=8043;");
+    test_ardu.execute(test_v, &test_my_data);
+    RADIO_WEATHER_STATION* st = static_cast<RADIO_WEATHER_STATION*>(test_my_data.main_REC->getEqPointer("first"));
+    EXPECT_DOUBLE_EQ(-6.7, st->data.getTemperature() );
+    EXPECT_DOUBLE_EQ(0, st->data.getHumidity() );
+    test_v[2] = "20;35;LaCrosse;ID=0704;HUM=42;";
+    test_ardu.execute(test_v, &test_my_data);
+    EXPECT_DOUBLE_EQ(42, st->data.getHumidity() );
+    test_v[2] = "20;2A;LaCrosse;ID=0704;TEMP=0000;";
+    test_ardu.execute(test_v, &test_my_data);
+    EXPECT_DOUBLE_EQ(0, st->data.getTemperature() );
+}

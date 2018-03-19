@@ -4,12 +4,44 @@
 #include <gmock/gmock.h>
 #include <map>
 #include "../iDomStatus/idomstatus.h"
+#include "../433MHz/RFLink/rflinkhandler.h"
 
 #include "../433MHz/rc_433mhz.h"
 struct WEATHER_STRUCT{
-    unsigned int humidity = 0;
-    int temperature = 0;
-    unsigned int barometricPressure = 0;
+protected:
+    unsigned int m_humidity = 0;
+    double m_temperature = 0.0;
+    unsigned int m_barometricPressure = 0;
+public:
+    unsigned int getHumidity(){ return m_humidity; }
+    double getTemperature(){ return m_temperature; }
+    unsigned int getBarometricPressure(){ return m_barometricPressure; }
+    std::string getDataString(){
+        return "data:\nHumidity=" + std::to_string(getHumidity()) +"%\n"+
+              "temperature= " + to_string_with_precision(getTemperature()) + "c\n"+
+                "Pressure= " + std::to_string(getBarometricPressure())+ "kPa\n";
+    }
+
+    void putData(std::string data){
+        std::string tempStr;
+        int t = 0;
+        try{
+            m_humidity = std::stoi( RFLinkHandler::getArgumentValueFromRFLinkMSG(data, "HUM") );
+        }
+        catch (...){  }
+        try{
+            tempStr =  RFLinkHandler::getArgumentValueFromRFLinkMSG(data, "TEMP");
+            std::stringstream ss;
+            ss << std::hex << tempStr.substr(tempStr.size()-2,tempStr.size());
+            ss >> t;
+            m_temperature = t / 10.0;
+            if(tempStr.at(0) == '8'){
+                m_temperature *= -1.0;
+            }
+        }
+        catch (...){  }
+        //std::cout << "DUPA:  "<<data<<" temp=" << m_temperature<< " hum="<<m_humidity<< std::endl;
+    }
 
 };
 

@@ -18,6 +18,10 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
 {
     std::string str_buf = " only for internal usage!";
     if (v.size() > 1){
+        if(v[1] == "show"){
+            RADIO_WEATHER_STATION* st = static_cast<RADIO_WEATHER_STATION*>(my_data->main_REC->getEqPointer("first"));
+            str_buf = st->data.getDataString();
+        }
         if(v[1] == "433MHz"){
             my_data->myEventHandler.run("433MHz")->addEvent("RFLink: "+v[2]);
             try {
@@ -45,17 +49,13 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
                 }
             }
             catch (std::string e){  }
-//            try {
-//                if (m_mainRadioButton->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
-//                {
-//                    std::cout << "jest zgodne " << m_mainRadioButton->getID() <<
-//                               " i drugie " << my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID")<<
-//                                 " powinno być 01e7be" <<std::endl;
-
-//                    my_data->main_iDomTools->button433mhzLockerPressed();
-//                }
-//            }
-//            catch (std::string e){  }
+            try {
+                if (m_mainWeatherStation->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
+                {
+                     m_mainWeatherStation->data.putData(v[2]);
+                }
+            }
+            catch (std::string e){  }
         }
     }
     return str_buf;

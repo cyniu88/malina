@@ -77,7 +77,7 @@ commandHandler::commandHandler(thread_data * my_data)
     std::unique_ptr <command> state (new command_state("state"));
     commandMap.insert(std::make_pair(state->getCommandName(), std::move(state)));
 
-    std::unique_ptr <command> ardu (new command_ardu("ardu"));
+    std::unique_ptr <command> ardu (new command_ardu("ardu", my_data));
     commandMap.insert(std::make_pair(ardu->getCommandName(), std::move(ardu)));
 
     this->my_data = my_data;
