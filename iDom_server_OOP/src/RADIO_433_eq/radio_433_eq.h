@@ -8,6 +8,8 @@
 
 #include "../433MHz/rc_433mhz.h"
 struct WEATHER_STRUCT{
+private:
+    unsigned long int m_counter = 0;
 protected:
     unsigned int m_humidity = 0;
     double m_temperature = 0.0;
@@ -17,7 +19,7 @@ public:
     double getTemperature(){ return m_temperature; }
     unsigned int getBarometricPressure(){ return m_barometricPressure; }
     std::string getDataString(){
-        return "data:\nHumidity=" + std::to_string(getHumidity()) +"%\n"+
+        return "data: "+std::to_string(m_counter)+"\n"+"Humidity=" + std::to_string(getHumidity()) +"%\n"+
               "temperature= " + to_string_with_precision(getTemperature()) + "c\n"+
                 "Pressure= " + std::to_string(getBarometricPressure())+ "kPa\n";
     }
@@ -25,6 +27,7 @@ public:
     void putData(std::string data){
         std::string tempStr;
         int t = 0;
+        ++m_counter;
         try{
             m_humidity = std::stoi( RFLinkHandler::getArgumentValueFromRFLinkMSG(data, "HUM") );
         }

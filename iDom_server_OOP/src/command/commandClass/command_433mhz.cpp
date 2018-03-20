@@ -29,6 +29,8 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
                 str_buf += itr->second.read();
                 str_buf += '\n';
             }
+            str_buf += ".";
+
         }
         else if (v[1] == "send" ){
             str_buf = "sended!;";
