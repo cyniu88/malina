@@ -102,6 +102,7 @@ public:
     RADIO_BUTTON(thread_data * my_data, std::string name, std::string id, RADIO_EQ_TYPE type);
     ~RADIO_BUTTON();
     STATE getState();
+    void setState(STATE s);
     std::string getName();
     std::string getID();
 

@@ -42,6 +42,11 @@ STATE RADIO_BUTTON::getState()
     return m_state;
 }
 
+void RADIO_BUTTON::setState(STATE s)
+{
+    m_state = s;
+}
+
 std::string RADIO_BUTTON::getName()
 {
     return m_name;

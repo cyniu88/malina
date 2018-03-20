@@ -61,7 +61,7 @@ public:
 
     std::string buttonPressed(std::string id);
     void button433MHzPressedAction(std::string name);
-    void button433mhzLockerPressed();
+    void button433mhzLockerPressed(RADIO_BUTTON* radioButton);
 
     void buttonLockHome();
     void buttonUnlockHome();

@@ -17,7 +17,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
         else if (v[1] == "show" && v[2] == "switch"){
             str_buf = "testowo";
             for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
-                m_switch->off();
+                m_switch->getState();
             }
         }
         else if (v[1] == "show" && v[2] == "aether"){

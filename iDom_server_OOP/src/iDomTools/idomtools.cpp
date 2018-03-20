@@ -371,31 +371,34 @@ std::string iDomTOOLS::buttonPressed(std::string id)
 void iDomTOOLS::button433MHzPressedAction(std::string name)
 {
     if (name == "locker"){
-        button433mhzLockerPressed();
+        RADIO_BUTTON* buttonLocker = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer(name) );
+        button433mhzLockerPressed(buttonLocker);
     }
 }
 
-void iDomTOOLS::button433mhzLockerPressed()
+void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
 {
     static unsigned int counter = 0;
 
     if (lastButton433MHzLockUnlockTime < Clock::getTime())
     {
-#ifdef BT_TEST
+//#ifdef BT_TEST
         std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()" <<std::endl;
-#endif
+//#endif
         lastButton433MHzLockUnlockTime = Clock::getTime();
         counter = 0;
         if(my_data->idom_all_state.houseState != STATE::UNLOCK)
         {
             buttonUnlockHome();
             puts("\nodblokuje dom\n");
+            radioButton->setState(STATE::UNLOCK);
         }
         else if (my_data->main_iDomStatus->getObjectState("music") == STATE::PLAY)
         {
             ledOFF();
             MPD_stop();
             turnOffPrinter();
+            radioButton->setState(STATE::STOP);
         }
         else if (my_data->main_iDomStatus->getObjectState("music") == STATE::STOP)
         {
@@ -403,6 +406,7 @@ void iDomTOOLS::button433mhzLockerPressed()
             if(isItDay() == false){
                 ledOn(my_data->ptr_pilot_led->colorLED[2]);
             }
+            radioButton->setState(STATE::PLAY);
         }
     }
     else
@@ -412,10 +416,11 @@ void iDomTOOLS::button433mhzLockerPressed()
         {
             buttonLockHome();
             puts("\nzablokuje dom\n");
+            radioButton->setState(STATE::LOCK);
         }
-#ifdef BT_TEST
+//#ifdef BT_TEST
         std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()- counter: "<<counter <<std::endl;
-#endif
+//#endif
     }
 
 }

@@ -41,11 +41,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
             try {
                 if (m_mainRadioButton->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
                 {
-                    std::cout << "jest zgodne " << m_mainRadioButton->getID() <<
-                               " i drugie " << my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID")<<
-                                 " powinno być 01e7be" <<std::endl;
-
-                    my_data->main_iDomTools->button433mhzLockerPressed();
+                    my_data->main_iDomTools->button433mhzLockerPressed(m_mainRadioButton);
                 }
             }
             catch (std::string e){  }
