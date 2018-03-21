@@ -86,3 +86,8 @@ void C_connection::onStopConnection()
 {
     my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->cameraLedOFF);
 }
+
+void C_connection::cryptoLog(std::string &toEncrypt)
+{
+    crypto(toEncrypt,m_encriptionKey,m_encrypted);
+}

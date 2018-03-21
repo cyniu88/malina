@@ -36,7 +36,7 @@ public:
     commandHandler *mainCommandHandler;
     void onStartConnection();
     void onStopConnection();
-
+    void cryptoLog(std::string &toEncrypt);
 private:
     std::string  str_buf;
     blockQueue char_queue;
