@@ -380,12 +380,13 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
 {
     static unsigned int counter = 0;
 
-    if (lastButton433MHzLockUnlockTime < Clock::getTime())
+    Clock t  = Clock::getTime();
+    if (lastButton433MHzLockUnlockTime != t /*|| (lastButton433MHzLockUnlockTime + Clock(0,1)) == t*/)
     {
 //#ifdef BT_TEST
         std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()" <<std::endl;
 //#endif
-        lastButton433MHzLockUnlockTime = Clock::getTime();
+        lastButton433MHzLockUnlockTime = t;
         counter = 0;
         if(my_data->idom_all_state.houseState != STATE::UNLOCK)
         {
