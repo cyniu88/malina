@@ -8,5 +8,11 @@ TASKER::TASKER(thread_data *my_data)
 
 void TASKER::runTasker()
 {
-    my_data->mainLCD->checkState();
+    if(counter == 0){
+        my_data->mainLCD->checkState();
+        ++counter;
+    }
+    else{
+        counter = 0;
+    }
 }

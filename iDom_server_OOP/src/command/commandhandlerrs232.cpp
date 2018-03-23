@@ -10,5 +10,5 @@ commandHandlerRS232::commandHandlerRS232(thread_data *my_data):commandHandlerRoo
 
 commandHandlerRS232::~commandHandlerRS232()
 {
-
+    puts("commandHandlerRS232::~commandHandlerRS232()");
 }

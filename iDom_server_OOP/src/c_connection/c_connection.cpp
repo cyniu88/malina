@@ -16,6 +16,7 @@ C_connection::~C_connection()
     delete mainCommandHandler;
     shutdown( c_socket, SHUT_RDWR );
     useful_F::clearThreadArray(my_data);
+    puts("C_connection::~C_connection()");
 //    log_file_mutex.mutex_lock();
 //    log_file_cout << INFO<< "koniec komunikacji - kasuje obiekt" <<  std::endl;
 //    log_file_mutex.mutex_unlock();

@@ -6,6 +6,11 @@ command_433MHz::command_433MHz(std::string name):command(name)
 {
 }
 
+command_433MHz::~command_433MHz()
+{
+   // puts("command_433MHz::~command_433MHz()");
+}
+
 std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my_data)
 {
     std::string str_buf = "command 433MHz - wrong paramiter: ";

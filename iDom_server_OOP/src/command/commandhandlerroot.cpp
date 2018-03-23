@@ -17,5 +17,5 @@ commandHandlerRoot::commandHandlerRoot(thread_data * my_data): commandHandler(my
 
 commandHandlerRoot::~commandHandlerRoot()
 {
-   // puts("koniec destruktor command handler root");
+    puts("commandHandlerRoot::~commandHandlerRoot()");
 }

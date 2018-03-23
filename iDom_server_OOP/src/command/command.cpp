@@ -7,7 +7,7 @@ command::command(std::string commandName ) : commandName(commandName)
 
 command::~command()
 {
-    //puts("destruktor command");
+  // puts("command::~command()");
 }
 
 std::string command::getCommandName()

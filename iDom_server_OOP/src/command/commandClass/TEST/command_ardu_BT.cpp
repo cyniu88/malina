@@ -46,6 +46,8 @@ TEST(commandArdu_Class, UnlockHome)
 
     thread_data test_my_data;
 
+    pilot_led test_pilot_led;
+    test_my_data.ptr_pilot_led = &test_pilot_led;
     RADIO_EQ_CONTAINER test_rec(&test_my_data);
     test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
     test_my_data.main_REC = (&test_rec);
@@ -142,7 +144,8 @@ TEST(commandArdu_Class, playMusic)
     test_q._clearAll();
 
     thread_data test_my_data;
-
+    pilot_led test_pilot_led;
+    test_my_data.ptr_pilot_led = &test_pilot_led;
     RADIO_EQ_CONTAINER test_rec(&test_my_data);
     test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
     test_my_data.main_REC = (&test_rec);

@@ -5,6 +5,7 @@
 
 class TASKER
 {
+    unsigned int counter = 0;
 public:
     TASKER(thread_data *my_data);
 
