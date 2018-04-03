@@ -13,13 +13,19 @@ C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_so
 
 C_connection::~C_connection()
 {
-    delete mainCommandHandler;
+    if( mainCommandHandler != NULL){
+        puts("JEST COMMANDHANDLER - kasuje ");
+        delete mainCommandHandler;
+    }
+    else{
+        puts("command handler == NULL");
+    }
     shutdown( c_socket, SHUT_RDWR );
     useful_F::clearThreadArray(my_data);
     puts("C_connection::~C_connection()");
-//    log_file_mutex.mutex_lock();
-//    log_file_cout << INFO<< "koniec komunikacji - kasuje obiekt" <<  std::endl;
-//    log_file_mutex.mutex_unlock();
+    //    log_file_mutex.mutex_lock();
+    //    log_file_cout << INFO<< "koniec komunikacji - kasuje obiekt" <<  std::endl;
+    //    log_file_mutex.mutex_unlock();
 }
 
 
@@ -38,7 +44,7 @@ int C_connection::c_send(int para)
     {
         //perror( "recv() ERROR" );
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << "recv() error - " << strerror(  errno ) <<   std::endl;
+        log_file_cout << ERROR << "C_connection::c_send(int para) recv() error - " << strerror(  errno ) <<   std::endl;
         log_file_mutex.mutex_unlock();
         return -1;
     }
@@ -66,8 +72,8 @@ int C_connection::c_send(std::string command )
 {
     str_buf = command;
     //crypto(str_buf,encriptionKey);
-    c_send(0);
-    return 0;
+    return c_send(0);
+    //return 0;
 }
 
 int C_connection::c_recv(int para)
@@ -88,9 +94,9 @@ int C_connection::c_recv(int para)
     }
     else if (recv_size == 0)
     {
-//        log_file_mutex.mutex_lock();
-//        log_file_cout << INFO << "gniazdo zamkniete" <<   std::endl;
-//        log_file_mutex.mutex_unlock();
+        //        log_file_mutex.mutex_lock();
+        //        log_file_cout << INFO << "gniazdo zamkniete" <<   std::endl;
+        //        log_file_mutex.mutex_unlock();
         return -1;
     }
     return recv_size;
@@ -100,19 +106,19 @@ int C_connection::c_analyse(int recvSize)
 {
     std::string buf;
 
-//    for (int i = 0 ; i < recvSize; ++i){
-//        buf+= c_buffer[i];
-//    }
+    //    for (int i = 0 ; i < recvSize; ++i){
+    //        buf+= c_buffer[i];
+    //    }
     buf = c_read_buf(recvSize);
     my_data->myEventHandler.run("command")->addEvent(buf);
     std::vector <std::string> command;
     useful_F::tokenizer(command," \n,", buf);  // podzia  zdania na wyrazy
-    str_buf=command[command.size()-1];
-    str_buf= "unknown command\n";
+    str_buf = command[command.size()-1];
+    str_buf = "unknown command\n";
 
     for(std::string  t : command)
     {
-        str_buf+=t+" ";
+        str_buf += t+" ";
     }
 
     str_buf  = mainCommandHandler->run(command,my_data);

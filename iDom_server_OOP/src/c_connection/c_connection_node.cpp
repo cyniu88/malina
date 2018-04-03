@@ -66,7 +66,7 @@ void C_connection::crypto(std::string &toEncrypt, std::string key, bool encrypte
         toEncrypt[i] ^=  key[keySize];
         //std::cout << key[keySize];
 
-        if (keySize==0){
+        if (keySize == 0){
             keySize = key.size();
         }
         else{

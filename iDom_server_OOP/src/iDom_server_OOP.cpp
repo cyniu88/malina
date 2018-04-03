@@ -111,6 +111,8 @@ void Server_connectivity_thread(thread_data  *my_data){
         key_ok = true;
         if(client->c_send("OK") == -1)
         {
+
+            puts("FAKE CONNECTION  send OK");
             key_ok = false;
         }
     }
@@ -133,7 +135,13 @@ void Server_connectivity_thread(thread_data  *my_data){
         if(client->c_send("\nFAIL\n") == -1)
         {
             key_ok = false;
+            puts("FAKE CONNECTION");
+
+            delete client;
+            puts("FAKE CONNECTION END");
+            return;
         }
+
     }
     /// ///////////////////////user level
     {

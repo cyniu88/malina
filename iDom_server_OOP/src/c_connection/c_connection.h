@@ -33,7 +33,7 @@ public:
     int c_analyse(int recvSize);
     void setEncriptionKey(std::string key);
     void setEncrypted(bool flag);
-    commandHandler *mainCommandHandler;
+    commandHandler *mainCommandHandler = NULL;
     void onStartConnection();
     void onStopConnection();
     void cryptoLog(std::string &toEncrypt);

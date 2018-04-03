@@ -788,7 +788,7 @@ void iDomTOOLS::checkAlarm()
     if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
         my_data->alarmTime.state = STATE::WORKING;
         MPD_volumeSet(my_data, 50);
-        MPD_play(my_data,12);
+        MPD_play(my_data,7);
         my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
     }
 
