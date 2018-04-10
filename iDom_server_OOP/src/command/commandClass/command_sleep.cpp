@@ -49,7 +49,7 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
 
 std::string command_sleep::help()
 {
-    std::string help = "sleep - show actual time to stop play music";
+    std::string help = "sleep - show actual time to stop play music\n";
     help.append("sleep set <int> - start sleep for <int> minutes");
     help.append("\n");
 

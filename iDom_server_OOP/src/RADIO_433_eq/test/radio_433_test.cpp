@@ -57,3 +57,12 @@ TEST(Switch_Class, switch_alarm_on)
     ptr->onSunset();
     EXPECT_EQ(ptr->getState(),STATE::OFF);
 }
+
+TEST(Switch_Class, weatherStruct)
+{
+    WEATHER_STRUCT test_WS;
+    EXPECT_DOUBLE_EQ(0.0, test_WS.getTemperature())<<"Tempertura zla";
+
+    test_WS.putData("20;03;LaCrosse;ID=0506;TEMP=0137;");
+    EXPECT_DOUBLE_EQ(31.1, test_WS.getTemperature())<<"Tempertura zla";
+}

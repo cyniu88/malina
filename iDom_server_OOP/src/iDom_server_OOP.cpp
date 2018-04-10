@@ -135,10 +135,10 @@ void Server_connectivity_thread(thread_data  *my_data){
         if(client->c_send("\nFAIL\n") == -1)
         {
             key_ok = false;
-            puts("FAKE CONNECTION");
+            //puts("FAKE CONNECTION");
 
             delete client;
-            puts("FAKE CONNECTION END");
+            //puts("FAKE CONNECTION END");
             return;
         }
 

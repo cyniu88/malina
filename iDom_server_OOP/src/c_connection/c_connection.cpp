@@ -14,12 +14,9 @@ C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_so
 C_connection::~C_connection()
 {
     if( mainCommandHandler != NULL){
-        puts("JEST COMMANDHANDLER - kasuje ");
         delete mainCommandHandler;
     }
-    else{
-        puts("command handler == NULL");
-    }
+
     shutdown( c_socket, SHUT_RDWR );
     useful_F::clearThreadArray(my_data);
     puts("C_connection::~C_connection()");

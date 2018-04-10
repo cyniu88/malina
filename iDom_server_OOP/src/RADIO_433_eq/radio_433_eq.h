@@ -35,7 +35,7 @@ public:
         try{
             tempStr =  RFLinkHandler::getArgumentValueFromRFLinkMSG(data, "TEMP");
             std::stringstream ss;
-            ss << std::hex << tempStr.substr(tempStr.size()-2,tempStr.size());
+            ss << std::hex << tempStr.substr(tempStr.size()-3,tempStr.size());
             ss >> t;
             m_temperature = t / 10.0;
             if(tempStr.at(0) == '8'){
