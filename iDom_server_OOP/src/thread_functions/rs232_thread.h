@@ -107,8 +107,8 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
                                 bufor.push_back(t);
                             }
                         }
-
                     }
+                    useful_F::myStaticData->myEventHandler.run("RS232")->addEvent(bufor);
 
                 }
             }

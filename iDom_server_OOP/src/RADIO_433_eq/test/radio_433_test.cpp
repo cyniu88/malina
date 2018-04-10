@@ -65,4 +65,7 @@ TEST(Switch_Class, weatherStruct)
 
     test_WS.putData("20;03;LaCrosse;ID=0506;TEMP=0137;");
     EXPECT_DOUBLE_EQ(31.1, test_WS.getTemperature())<<"Tempertura zla";
+
+    test_WS.putData("20;03;LaCrosse;ID=0506;TEMP=8130;");
+    EXPECT_DOUBLE_EQ(-30.4, test_WS.getTemperature())<<"Tempertura zla";
 }
