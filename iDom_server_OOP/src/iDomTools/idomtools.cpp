@@ -528,9 +528,24 @@ std::string iDomTOOLS::getWeatherEvent(std::string city, unsigned int radius)
 
 std::vector<WEATHER_ALER> iDomTOOLS::getAlert(std::string data)
 {
+    std::vector<WEATHER_ALER> wAlert;
+    WEATHER_ALER tempWA;
     std::string d = useful_F::removeHtmlTag(data);
-    std::cout<< "dane: "<< d<<std::endl;
-    return {WEATHER_ALER()};
+    std::vector<std::string> vect;
+
+    vect =  useful_F::split(d,'\n');
+    vect.pop_back();
+    for (auto n : vect)
+    {
+        if (n.find("brak") == std::string::npos)
+        {
+            tempWA.alert = n;
+            tempWA.name = n;
+            tempWA.sended = false;
+            wAlert.push_back(tempWA);
+        }
+    }
+    return {wAlert};
 }
 
 void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)

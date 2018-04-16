@@ -40,4 +40,4 @@ set(SOURCE_FILES  "main.cpp"
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -DBT_TEST -DNOSSL")
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  pthread gtest curl rt pthread gmock )
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  pthread gtest curl rt pthread gmock)

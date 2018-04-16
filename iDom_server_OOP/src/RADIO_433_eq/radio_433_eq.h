@@ -20,7 +20,7 @@ public:
     unsigned int getBarometricPressure(){ return m_barometricPressure; }
     std::string getDataString(){
         return "data: "+std::to_string(m_counter)+"\n"+"Humidity=" + std::to_string(getHumidity()) +"%\n"+
-              "temperature= " + to_string_with_precision(getTemperature()) + "c\n"+
+                "temperature= " + to_string_with_precision(getTemperature()) + "c\n"+
                 "Pressure= " + std::to_string(getBarometricPressure())+ "kPa\n";
     }
 

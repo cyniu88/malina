@@ -85,7 +85,7 @@ int C_connection::c_recv(int para)
     if(recv_size < 0 )
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << "recv() error - " << strerror(  errno ) <<   std::endl;
+        log_file_cout << ERROR << "C_connection::c_recv(int para) recv() error - " << strerror(  errno ) <<   std::endl;
         log_file_mutex.mutex_unlock();
         return -1;
     }

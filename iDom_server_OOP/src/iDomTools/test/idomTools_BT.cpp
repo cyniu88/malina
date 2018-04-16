@@ -176,8 +176,9 @@ TEST(iDomTOOLS_Class, weatherAlert)
 
     iDomTOOLS test_idomTOOLS(&test_my_data);
 
-    test_idomTOOLS.getAlert(test_data_from_www);
-    EXPECT_LT(2,3);
+    std::vector<WEATHER_ALER> test_WA;
+    test_WA =  test_idomTOOLS.getAlert(test_data_from_www);
+    EXPECT_EQ(1,test_WA.size()) << "ZŁY ROZMIAR VEKTORA WA";
 }
 
 TEST(iDomTOOLS_Class, send_temperature_thingSpeak){

@@ -147,11 +147,15 @@ void Server_connectivity_thread(thread_data  *my_data){
     {
         int recvSize = client->c_recv(0);
         if(recvSize == -1)  {
+            my_data->mainLCD->set_print_song_state(0);
+            my_data->mainLCD->set_lcd_STATE(2);
 
+            sleep (3);
+            delete client;
+            puts("tu moze byc segv");
+            return;
         }
-        else {
 
-        }
         std::string userLevel = client->c_read_buf(recvSize);
         client->c_send("OK you are "+ userLevel);
         puts("user level to:");

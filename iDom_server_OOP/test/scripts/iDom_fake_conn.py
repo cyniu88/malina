@@ -26,32 +26,36 @@ def RSHash ():
 	
 main_loop =False
 my_bytes = " " 
+host = "192.168.1.144"
+port = 8833
+
 #droid = androidhelper.Android() 
 #print("parametry: %s" % sys.argv)
 # create a socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # get local machine name
-if len(sys.argv) >= 3 :
-    host = sys.argv[1]
-    port = int(sys.argv[2])
-    #print("podales dobre argumenty")
-else:
-    print("adres i port domyslny ")
-    host = "192.168.1.144"
-    #host = "127.0.0.1"
-    #host = "cyniu88.no-ip.pl"
-    port = int(8833)
-if len(sys.argv) >= 4 :
-     my_bytes = " ".join(sys.argv[3:])
-    #print "MOJE PODANE:", my_bytes
-	
-	
-# connection to hostname on the port.
+
+m_sleep = 0
+
+if len(sys.argv) >= 2 :
+	m_sleep = sys.argv[1]
+
+#connection to hostname on the port.
 
 s.connect((host, port))
 
 s.send("FAKE CONN");
+time.sleep(float(m_sleep))
+tm = s.recv(BufSize)
+print "pierwsze odebranie", tm
+time.sleep(float(m_sleep))
+s.send("FAKE CONN");
+tm = s.recv(BufSize)
+print "pierwsze odebranie", tm
+s.send("FAKE CONN");
 exit()
+
+#######################################   end program
 print RSHash()
 tm = s.recv(BufSize)
 print "pierwsze odebranie", tm
