@@ -170,7 +170,7 @@ struct LED_Strip{
     }
 
     void set (int from, int to, int r, int g, int b, std::string colorName = "NULL"){
-        this->from =std::to_string(from);
+        this->from = std::to_string(from);
         this->to = std::to_string(to);
         R = std::to_string(r);
         G = std::to_string(g);

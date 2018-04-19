@@ -222,17 +222,18 @@ std::string  useful_F::sek_to_uptime(long long secy )
     int number_day, number_hour, number_min, number_sec;
     int temp1, temp2, temp3;
     number_day = secy / day;
-    std::string text = "\n" +std::to_string( number_day )+ " day " ;
+    std::stringstream text;
+    text << "\n" << number_day << " day ";
     temp1 = secy % day;
     number_hour = temp1 / houry;
-    text += std::to_string( number_hour ) +" hours "  ;
+    text << number_hour << " hours ";
     temp2 = temp1 % houry;
     number_min = temp2 / min;
-    text += std::to_string(number_min)+" minutes "  ;
+    text << number_min << " minutes ";
     temp3 = temp2 % min;
     number_sec = temp3;
-    text += std::to_string( number_sec )+ " seconds " ;
-    return text;
+    text << number_sec << " seconds ";
+    return text.str();
 }
 
 ////// watek sleeper

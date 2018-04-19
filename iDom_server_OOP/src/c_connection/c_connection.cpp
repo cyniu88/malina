@@ -14,15 +14,16 @@ C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_so
 C_connection::~C_connection()
 {
     if( mainCommandHandler != NULL){
+        my_data->mainLCD->set_print_song_state(0);
+        my_data->mainLCD->set_lcd_STATE(2);
         delete mainCommandHandler;
     }
-
+    my_data->mainLCD->set_print_song_state(0);
+    my_data->mainLCD->set_lcd_STATE(2);
+    sleep (3);
     shutdown( c_socket, SHUT_RDWR );
     useful_F::clearThreadArray(my_data);
     puts("C_connection::~C_connection()");
-    //    log_file_mutex.mutex_lock();
-    //    log_file_cout << INFO<< "koniec komunikacji - kasuje obiekt" <<  std::endl;
-    //    log_file_mutex.mutex_unlock();
 }
 
 

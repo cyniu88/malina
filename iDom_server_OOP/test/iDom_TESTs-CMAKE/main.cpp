@@ -8,7 +8,7 @@ int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );
 
     //::testing::GTEST_FLAG(filter) = "commandArdu_Class.wrongMSGformat";
-    //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.weatherAlert";
+    //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.testCPU_Load";
     return RUN_ALL_TESTS();
 }
 

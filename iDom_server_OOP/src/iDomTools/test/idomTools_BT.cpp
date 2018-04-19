@@ -411,5 +411,31 @@ TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerLock)
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
+
 }
 
+TEST(iDomTOOLS_Class, testCPU_Load)
+{
+    thread_data test_my_data;
+    RADIO_EQ_CONTAINER test_rec(&test_my_data);
+    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
+    test_my_data.main_REC = (&test_rec);
+
+    config test_server_set;
+    test_server_set.TS_KEY = "key test";
+    test_server_set.viberSender = "test sender";
+    test_server_set.viberReceiver = {"R1","R2"};
+    test_my_data.server_settings = &test_server_set;
+
+    iDomSTATUS test_status;
+    test_status.addObject("house");
+    test_my_data.main_iDomStatus = &test_status;
+
+
+
+    iDomTOOLS test_idomTOOLS(&test_my_data);
+
+    test_my_data.main_iDomTools = &test_idomTOOLS;
+    std::cout <<"TEST LOAD" << std::endl;
+    std::cout << test_idomTOOLS.getSystemInfo() << std::endl;
+}

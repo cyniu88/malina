@@ -136,9 +136,10 @@ void Server_connectivity_thread(thread_data  *my_data){
         {
             key_ok = false;
             //puts("FAKE CONNECTION");
-
+            //            my_data->mainLCD->set_print_song_state(0);
+            //            my_data->mainLCD->set_lcd_STATE(2);
+            //            sleep (3);
             delete client;
-            //puts("FAKE CONNECTION END");
             return;
         }
 
@@ -147,12 +148,10 @@ void Server_connectivity_thread(thread_data  *my_data){
     {
         int recvSize = client->c_recv(0);
         if(recvSize == -1)  {
-            my_data->mainLCD->set_print_song_state(0);
-            my_data->mainLCD->set_lcd_STATE(2);
-
-            sleep (3);
+            //            my_data->mainLCD->set_print_song_state(0);
+            //            my_data->mainLCD->set_lcd_STATE(2);
+            //            sleep (3);
             delete client;
-            puts("tu moze byc segv");
             return;
         }
 
@@ -197,10 +196,10 @@ void Server_connectivity_thread(thread_data  *my_data){
             break;
         }
     }
-    my_data->mainLCD->set_print_song_state(0);
-    my_data->mainLCD->set_lcd_STATE(2);
+    //my_data->mainLCD->set_print_song_state(0);
+    //my_data->mainLCD->set_lcd_STATE(2);
     client->onStopConnection();
-    sleep (3);
+    //sleep (3);
     delete client;
 }
 

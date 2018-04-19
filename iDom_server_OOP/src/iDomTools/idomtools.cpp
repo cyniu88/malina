@@ -499,22 +499,14 @@ std::string iDomTOOLS::getSystemInfo()
     auto minutes = (input_seconds / 60) % 60;
     auto seconds = input_seconds % 60;
 
-    std::string  ret;
-    ret=  "System uptime: " + std::to_string(days)+" day ";
-    ret+=  std::to_string(hours) +" hours " ;
-    ret+=  std::to_string(minutes)+ " minutes ";
-    ret+=  std::to_string(seconds)+ " seconds ";
-    ret.append("\n");
-    ret+= "Load: ";
-    ret+= std::to_string(info.loads[0]/65536)+"% - 1 min, "+ std::to_string(info.loads[1]/65536)+"% - 5 min, "+
-            std::to_string(info.loads[2]/65536)+"% - 15 min.\n ";
+    std::stringstream  ret;
+    ret <<  "System uptime: " << days <<" day " << hours
+        <<" hours " << minutes << " minutes "
+        << seconds << " seconds " << "\n" << "Load: "
+        << (info.loads[0]/65536) << "% - 1 min, " <<(info.loads[1]/65536)
+        << "% - 5 min, "<<(info.loads[2]/65536) << "% - 15 min.\n ";
 
-    std::stringstream k;
-    k <<"load average : "<<(info.loads[0] )
-            <<" 5min: "  <<(info.loads[1] )
-            <<" 15min: " <<(info.loads[2] )<<std::endl;
-    // puts(k.str().c_str());
-    return ret;
+    return ret.str();
 }
 
 std::string iDomTOOLS::getWeatherEvent(std::string city, unsigned int radius)
