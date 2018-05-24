@@ -46,6 +46,7 @@ public:
     static std::string removeHtmlTag(std::string &data);
     static std::mutex mutex_buf;
     static std::mutex mutex_who;
+    static void sleep_1min();
 };
 
 #endif // FUNCTIONS_H

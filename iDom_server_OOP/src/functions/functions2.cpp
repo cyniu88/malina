@@ -103,3 +103,48 @@ std::string useful_F::removeHtmlTag(std::string &data)
     return plainString;
 }
 
+////// watek sleeper
+void useful_F::sleeper_mpd (thread_data  *my_data)
+{
+    unsigned int t = 60/my_data->sleeper;
+    unsigned int k = 0;
+
+    for (; my_data->sleeper >0 ; my_data->sleeper-- ){
+        useful_F::sleep_1min();
+        k += t;
+        my_data->main_iDomTools->ledClear(0,k);
+    }
+    my_data->main_iDomTools->ledOFF();
+    my_data->main_iDomTools->MPD_stop();
+    my_data->main_iDomTools->turnOff433MHzSwitch("listwa");
+#ifndef BT_TEST
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO<< "zaczynam procedure konca watku SLEEP_MPD" <<  std::endl;
+    log_file_mutex.mutex_unlock();
+#endif
+    try {
+        for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
+        {
+            if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
+            {
+                //my_data->main_THREAD_arr[i].thread.detach();
+                my_data->main_THREAD_arr[i].thread_name ="  -empty-  ";
+                my_data->main_THREAD_arr[i].thread_ID =  std::thread::id();
+                my_data->main_THREAD_arr[i].thread_socket = 0;
+                break;
+            }
+        }
+    }
+    catch (std::system_error &e){
+#ifndef BT_TEST
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR<< "zlapano wyjatek w  watku SLEEP_MPD: " << e.what()<< std::endl;
+        log_file_mutex.mutex_unlock();
+#endif
+    }
+#ifndef BT_TEST
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO<< "koniec  watku SLEEP_MPD" <<  std::endl;
+    log_file_mutex.mutex_unlock();
+#endif
+}

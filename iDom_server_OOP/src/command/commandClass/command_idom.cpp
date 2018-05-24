@@ -177,7 +177,8 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         if (v.size() < 4){
             return "not enough parameters";
         }
-        return my_data->main_iDomTools->getWeatherEvent(v[2],std::stoi(v[3]));
+        std::string tempHTML = my_data->main_iDomTools->getWeatherEvent(v[2],std::stoi(v[3]));
+        return useful_F::removeHtmlTag(tempHTML);
     }
     else if (v[1]=="alarm"){
 

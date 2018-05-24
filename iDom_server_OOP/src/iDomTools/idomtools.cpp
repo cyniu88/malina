@@ -776,6 +776,13 @@ std::string iDomTOOLS::ledClear()
     return useful_F::send_to_arduino(my_data,"LED_CLEAR:2;");
 }
 
+std::string iDomTOOLS::ledClear(unsigned int from, unsigned int to)
+{
+    LED_Strip ledColor(0,60,0,0,0,"BLACK");
+    useful_F::send_to_arduino(my_data,ledColor.get(from, to));
+    return "Led cleared";
+}
+
 std::string iDomTOOLS::ledOn(LED_Strip ledColor, unsigned int from, unsigned int to)
 {
     if (my_data->idom_all_state.houseState == STATE::UNLOCK)
@@ -794,18 +801,18 @@ void iDomTOOLS::checkAlarm()
     Clock now = Clock::getTime();
     if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
         my_data->alarmTime.state = STATE::WORKING;
-        MPD_volumeSet(my_data, 50);
+        MPD_volumeSet(my_data, 4);
         MPD_play(my_data,7);
         my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
     }
 
     if (my_data->alarmTime.state == STATE::WORKING){
         int vol = MPD_getVolume(my_data) + 1;
-        if (vol < 59){
+        if (vol < 13){
             MPD_volumeSet(my_data, vol);
 
             if(iDomTOOLS::isItDay() == false){
-                my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[2],49,vol);
+                my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[2],3,vol);
             }
         }
         else{

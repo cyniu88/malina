@@ -44,12 +44,12 @@ if len(sys.argv) >= 2 :
 
 s.connect((host, port))
 
-s.send("FAKE CONN");
+s.send(" ");
 time.sleep(float(m_sleep))
 tm = s.recv(BufSize)
 print "pierwsze odebranie", tm
 time.sleep(float(m_sleep))
-s.send("FAKE CONN");
+s.send(" ");
 tm = s.recv(BufSize)
 print "pierwsze odebranie", tm
 s.send("FAKE CONN");

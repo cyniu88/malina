@@ -236,43 +236,7 @@ std::string  useful_F::sek_to_uptime(long long secy )
     return text.str();
 }
 
-////// watek sleeper
-void useful_F::sleeper_mpd (thread_data  *my_data)
-{
 
-    for (; my_data->sleeper >0 ; my_data->sleeper-- ){
-        std::this_thread::sleep_for( std::chrono::seconds(60) );
-    }
-    my_data->main_iDomTools->ledOFF();
-    my_data->main_iDomTools->MPD_stop();
-    my_data->main_iDomTools->turnOff433MHzSwitch("listwa");
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "zaczynam procedure konca watku SLEEP_MPD" <<  std::endl;
-    log_file_mutex.mutex_unlock();
-    try {
-        for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
-        {
-            if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
-            {
-                //my_data->main_THREAD_arr[i].thread.detach();
-                my_data->main_THREAD_arr[i].thread_name ="  -empty-  ";
-                my_data->main_THREAD_arr[i].thread_ID =  std::thread::id();
-                my_data->main_THREAD_arr[i].thread_socket = 0;
-                break;
-            }
-        }
-    }
-    catch (std::system_error &e){
-        log_file_mutex.mutex_lock();
-        log_file_cout << ERROR<< "zlapano wyjatek w  watku SLEEP_MPD: " << e.what()<< std::endl;
-        log_file_mutex.mutex_unlock();
-    }
-
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "koniec  watku SLEEP_MPD" <<  std::endl;
-    log_file_mutex.mutex_unlock();
-
-}
 std::string useful_F::RSHash(std::string data, unsigned int b, unsigned int a)
 {
     time_t act_time;
@@ -495,4 +459,9 @@ void useful_F::button_interrupt( )
         //        }
         useful_F::lastInterruptTime = millis();
     }
+}
+
+void useful_F::sleep_1min()
+{
+    std::this_thread::sleep_for( std::chrono::seconds(60) );
 }

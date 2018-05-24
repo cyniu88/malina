@@ -1,8 +1,6 @@
 #include <gtest/gtest.h>
 
-
 #include "/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/test_data.h"
-
 #include "../idomtools.h"
 #include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
@@ -216,7 +214,7 @@ TEST(iDomTOOLS_Class, checkAlarm)
     test_server_set.viberReceiver = {"R1","R2"};
     test_my_data.server_settings = &test_server_set;
     MPD_info test_ptr_MPD;
-    test_ptr_MPD.volume = 5;
+    test_ptr_MPD.volume = 3;
     test_my_data.ptr_MPD_info = &test_ptr_MPD;
     RADIO_EQ* test_RS = new RADIO_SWITCH(&test_my_data,"ALARM","209888",RADIO_EQ_TYPE::SWITCH);
     iDomSTATUS test_status;
@@ -237,7 +235,8 @@ TEST(iDomTOOLS_Class, checkAlarm)
 
     EXPECT_EQ(test_my_data.alarmTime.state, STATE::ACTIVE);
 
-    for(unsigned int i = 50; i<58;++i){
+    for(unsigned int i = 4; i<12;++i)
+    {
         test_idomTOOLS.checkAlarm();
 
         EXPECT_EQ(test_my_data.alarmTime.state, STATE::WORKING);
@@ -246,8 +245,8 @@ TEST(iDomTOOLS_Class, checkAlarm)
     EXPECT_CALL(stub_rec, getEqPointer("ALARM")).WillRepeatedly(testing::Return(test_RS));
     test_idomTOOLS.checkAlarm();
 
-    EXPECT_EQ(test_my_data.alarmTime.state, STATE::DEACTIVE);
-    EXPECT_EQ(test_my_data.ptr_MPD_info->volume, 58);
+    EXPECT_EQ(test_my_data.alarmTime.state, STATE::DEACTIVE) << "nie jest STATE::DEACTIVE";
+    EXPECT_EQ(test_my_data.ptr_MPD_info->volume, 12);
 
     delete test_RS;
 }
