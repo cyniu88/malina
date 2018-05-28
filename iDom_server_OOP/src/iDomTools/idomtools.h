@@ -85,9 +85,6 @@ public:
     std::string getTemperatureString();
     std::string getSmog();
     void send_temperature_thingSpeak();
-    static size_t  WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
-    static std::string find_tag (const std::string &temp);
-
     std::string sendSMStoPlusGSM(std::string login,
                                  std::string pass,
                                  std::string number,

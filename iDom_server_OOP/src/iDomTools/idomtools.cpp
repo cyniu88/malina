@@ -610,7 +610,7 @@ std::string iDomTOOLS::getSmog()
 
     if(curl) {
         curl_easy_setopt(curl, CURLOPT_URL, "www.smog.krakow.pl");
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
         res = curl_easy_perform(curl);
         /* Check for errors */
@@ -634,7 +634,7 @@ std::string iDomTOOLS::getSmog()
 #endif
     }
 
-    readBuffer = find_tag(readBuffer);
+    readBuffer = useful_F_libs::find_tag(readBuffer);
 
     return readBuffer;
 }
@@ -660,30 +660,6 @@ void iDomTOOLS::send_temperature_thingSpeak()
         log_file_mutex.mutex_unlock();
 #endif
     }
-}
-
-size_t iDomTOOLS::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
-{
-    ((std::string*)userp)->append((char*)contents, size * nmemb);
-    return size * nmemb;
-}
-
-std::string iDomTOOLS::find_tag(const std::string& temp)
-{
-    std::string value="";
-    for (unsigned int i = 0; i<temp.size();++i){
-
-        if (temp.at(i) =='>')
-        {  int z = i+1;
-            while (temp.at(z)!='<')
-            {
-                value+= temp.at(z);
-                ++z;
-            }
-            break;
-        }
-    }
-    return value;
 }
 
 std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std::string number,

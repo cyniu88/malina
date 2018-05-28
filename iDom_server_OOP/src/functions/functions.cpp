@@ -90,6 +90,8 @@ config useful_F::configFileToStruct()
         //    confStruct = confMap.at();
         ///////////// RADIO 433
         confStruct.radio433MHzConfigFile = confMap.at("433MHz_config");
+        ////////////// omxplayer
+        confStruct.omxplayerFile = confMap.at("omxplayerFile");
     }
     catch(...)
     {
@@ -257,23 +259,6 @@ std::string useful_F::RSHash(std::string data, unsigned int b, unsigned int a)
     return std::to_string((hash & 0x7FFFFFFF));
 }
 
-void useful_F::write_to_mkfifo(  std::string msg)
-{
-    int fd = open("/mnt/ramdisk/cmd", O_WRONLY| O_NONBLOCK);
-    write(fd, msg.c_str(), msg.size());
-    close(fd);
-}
-
-std::string useful_F::read_from_mkfifo()
-{
-    char buf[10];
-    /* open, read, and display the message from the FIFO */
-    int fd = open("/mnt/ramdisk/cmd", O_RDONLY | O_NONBLOCK);
-    read(fd, buf, 10);
-    close(fd);
-    return (std::string(buf));
-}
-
 //wysylanie pliku
 std::string useful_F::l_send_file(std::string path, std::string find  , bool reverse )
 {
@@ -374,7 +359,7 @@ std::string useful_F::httpPost(std::string url, int timeoutSeconds)
     if(curl) {
         curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeoutSeconds);
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, iDomTOOLS::WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
         res = curl_easy_perform(curl);
         /* Check for errors */

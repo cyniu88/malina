@@ -125,6 +125,7 @@ struct config{
     std::vector <std::string> viberReceiver;
     std::string viberSender;
     std::string radio433MHzConfigFile;
+    std::string omxplayerFile = "NULL";
     int ID_server = 0;
     int v_delay  ;
     bool encrypted = true;
