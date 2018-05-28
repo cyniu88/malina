@@ -515,14 +515,14 @@ std::string iDomTOOLS::getWeatherEvent(std::string city, unsigned int radius)
     url.append(city);
     url.append("&promien=");
     url.append(std::to_string(radius));
-    return useful_F::httpPost(url, 10);
+    return useful_F_libs::httpPost(url, 10);
 }
 
 std::vector<WEATHER_ALER> iDomTOOLS::getAlert(std::string data)
 {
     std::vector<WEATHER_ALER> wAlert;
     WEATHER_ALER tempWA;
-    std::string d = useful_F::removeHtmlTag(data);
+    std::string d = useful_F_libs::removeHtmlTag(data);
     std::vector<std::string> vect;
 
     vect =  useful_F::split(d,'\n');
@@ -653,7 +653,7 @@ void iDomTOOLS::send_temperature_thingSpeak()
     allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);
     sendSMSifTempChanged("inside",24);
-    if(useful_F::httpPost(addres,10) == "0"){
+    if(useful_F_libs::httpPost(addres,10) == "0"){
 #ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " bład wysyłania temoeratury na thingspeak "<<   std::endl;
@@ -672,7 +672,7 @@ std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std
     std::string address = "http://darsonserver.5v.pl/bramkaPlus?login=";
     address +=login+"&password="+pass+"&sender=iDom&number="+number+"&message="+msg;
 
-    std::string readBuffer = useful_F::httpPost(address,10);
+    std::string readBuffer = useful_F_libs::httpPost(address,10);
 
 #ifndef BT_TEST
     log_file_mutex.mutex_lock();
@@ -692,7 +692,7 @@ void iDomTOOLS::cameraLedON(std::string link)
     sunSet += Clock(23,30); // +23:30 == -00:30
     if (t <= sunRise || t >= sunSet){
         //printf("zapalam leda!\n");
-        std::string s = useful_F::httpPost(link,10);
+        std::string s = useful_F_libs::httpPost(link,10);
         if (s == "ok.\n"){
             my_data->main_iDomStatus->setObjectState("cameraLED",STATE::ON);
             //  printf("w ifie\n");
@@ -703,7 +703,7 @@ void iDomTOOLS::cameraLedON(std::string link)
 
 void iDomTOOLS::cameraLedOFF(std::string link)
 {
-    std::string s = useful_F::httpPost(link,10);
+    std::string s = useful_F_libs::httpPost(link,10);
     //printf (" camera response '%s' \n", s.c_str());
     if (s == "ok.\n"){
         my_data->main_iDomStatus->setObjectState("cameraLED",STATE::OFF);

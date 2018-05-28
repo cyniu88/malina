@@ -37,11 +37,7 @@ public:
     static  void setStaticData(thread_data* my_dataPtr);
     static void clearThreadArray(thread_data *my_data);
     static int findFreeThreadSlot(Thread_array_struc *array);
-    //////////////////// HTTP req //////////////////////////
-    static std::string httpPost(std::string url, int timeoutSeconds );
-    static void downloadFile(std::string url, std::string path, int timeoutSeconds);
-    static std::string replaceAll(std::string str, const std::string& from, const std::string& to);
-    static std::string removeHtmlTag(std::string &data);
+
     static std::mutex mutex_buf;
     static std::mutex mutex_who;
     static void sleep_1min();

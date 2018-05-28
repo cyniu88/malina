@@ -47,7 +47,7 @@ void LCD_c::printString(bool clear, int col, int row, std::string str){
     std::cout << "LCD_c::printString() "<< str  << std::endl;
 }
 
-std::string useful_F::httpPost(std::string url, int timeoutSeconds){
+std::string useful_F_libs::httpPost(std::string url, int timeoutSeconds){
 
     std::cout << "url: "<< url << std::endl;
     TEST_DATA::return_httpPost_expect = "httpPost";

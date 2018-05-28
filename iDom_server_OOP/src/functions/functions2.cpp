@@ -34,17 +34,6 @@ void useful_F::setStaticData(thread_data *my_dataPtr)
     myStaticData = my_dataPtr;
 }
 
-
-
-std::string useful_F::replaceAll(std::string str, const std::string& from, const std::string& to) {
-    size_t start_pos = 0;
-    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
-        str.replace(start_pos, from.length(), to);
-        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
-    }
-    return str;
-}
-
 void useful_F::tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text){
     std::string temp;
 
@@ -71,36 +60,6 @@ void useful_F::tokenizer ( std::vector <std::string> &command, std::string separ
     if (!temp.empty()){
         command.push_back(temp);
     }
-}
-
-std::string useful_F::removeHtmlTag(std::string &data)
-{
-    data = useful_F::replaceAll(data,"</dl>","\n");
-
-    //data = useful_F::replaceAll(data,"    "," ");
-    bool copy = true;
-    std::string plainString = "";
-    std::stringstream convertStream;
-
-    // remove all xml tags
-    for (unsigned int i=0; i < data.length(); i++)
-    {
-        convertStream << data[i];
-
-        if(convertStream.str().compare("<") == 0) copy = false;
-        else if(convertStream.str().compare(">") == 0)
-        {
-            copy = true;
-            convertStream.str(std::string());
-            continue;
-        }
-
-        if(copy) plainString.append(convertStream.str());
-
-        convertStream.str(std::string());
-    }
-
-    return plainString;
 }
 
 ////// watek sleeper

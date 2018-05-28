@@ -22,7 +22,7 @@ TEST(functions_, tokenizer)
 TEST(functions_, removeHtmlTag)
 {
      std::string test_msg = "<html>test</html>";
-     std::string test_pure_str = useful_F::removeHtmlTag(test_msg);
+     std::string test_pure_str = useful_F_libs::removeHtmlTag(test_msg);
 
      EXPECT_STREQ(test_pure_str.c_str(),"test");
 }
@@ -30,7 +30,7 @@ TEST(functions_, removeHtmlTag)
 TEST(functions_, repalceAll)
 {
      std::string test_msg = "one two three";
-     std::string test_pure_str = useful_F::replaceAll(test_msg,"two","zero");
+     std::string test_pure_str = useful_F_libs::replaceAll(test_msg,"two","zero");
 
      EXPECT_STREQ(test_pure_str.c_str(),"one zero three");
 }
