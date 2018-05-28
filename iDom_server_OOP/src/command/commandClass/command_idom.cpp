@@ -190,7 +190,9 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
             return "alarm clock has been deactivated";
         }
-
+        else if (v[2] == "GET"){
+            return  my_data->alarmTime.time.getString();
+        }
         else if (v[2] == "ON" && v.size() > 3){
             my_data->alarmTime.time = Clock(v[3]);
             my_data->alarmTime.state = STATE::ACTIVE;
