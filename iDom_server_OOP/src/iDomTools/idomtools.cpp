@@ -383,9 +383,9 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
     Clock t  = Clock::getTime();
     if (lastButton433MHzLockUnlockTime != t /*|| (lastButton433MHzLockUnlockTime + Clock(0,1)) == t*/)
     {
-//#ifdef BT_TEST
+        //#ifdef BT_TEST
         std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()" <<std::endl;
-//#endif
+        //#endif
         lastButton433MHzLockUnlockTime = t;
         counter = 0;
         if(my_data->idom_all_state.houseState != STATE::UNLOCK)
@@ -419,9 +419,9 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
             puts("\nzablokuje dom\n");
             radioButton->setState(STATE::LOCK);
         }
-//#ifdef BT_TEST
+        //#ifdef BT_TEST
         std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()- counter: "<<counter <<std::endl;
-//#endif
+        //#endif
     }
 
 }
@@ -501,10 +501,10 @@ std::string iDomTOOLS::getSystemInfo()
 
     std::stringstream  ret;
     ret <<  "System uptime: " << days <<" day " << hours
-        <<" hours " << minutes << " minutes "
+         <<" hours " << minutes << " minutes "
         << seconds << " seconds " << "\n" << "Load: "
         << (info.loads[0]/65536) << "% - 1 min, " <<(info.loads[1]/65536)
-        << "% - 5 min, "<<(info.loads[2]/65536) << "% - 15 min.\n ";
+            << "% - 5 min, "<<(info.loads[2]/65536) << "% - 15 min.\n ";
 
     return ret.str();
 }
@@ -774,21 +774,25 @@ std::string iDomTOOLS::ledOn(LED_Strip ledColor, unsigned int from, unsigned int
 
 void iDomTOOLS::checkAlarm()
 {
+    unsigned int fromVol = 48;
+    unsigned int  toVol = 58;
+    unsigned int radioId = 7;
     Clock now = Clock::getTime();
+
     if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
         my_data->alarmTime.state = STATE::WORKING;
-        MPD_volumeSet(my_data, 4);
-        MPD_play(my_data,7);
+        MPD_volumeSet(my_data, fromVol);
+        MPD_play(my_data,radioId);
         my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
     }
 
     if (my_data->alarmTime.state == STATE::WORKING){
-        int vol = MPD_getVolume(my_data) + 1;
-        if (vol < 13){
+        unsigned int vol = MPD_getVolume(my_data) + 1;
+        if (vol < toVol){
             MPD_volumeSet(my_data, vol);
 
             if(iDomTOOLS::isItDay() == false){
-                my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[2],3,vol);
+                my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[2],fromVol,vol);
             }
         }
         else{
