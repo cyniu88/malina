@@ -72,6 +72,7 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/functions/functions2.cpp \
     src/433MHz/RFLink/rflinkhandler.cpp
 
+INCLUDEPATH += "/libs/json/single_include/nlohmann"
 
 HEADERS += src/c_connection/c_connection.h \
     src/functions/functions.h \

@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <curl/curl.h>
 
 #include "/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/test_data.h"
 #include "../idomtools.h"
@@ -52,6 +53,30 @@ std::string useful_F_libs::httpPost(std::string url, int timeoutSeconds){
     std::cout << "url: "<< url << std::endl;
     TEST_DATA::return_httpPost_expect = "httpPost";
     return TEST_DATA::return_httpPost;
+}
+std::string useful_F_libs::httpPost(std::string url){
+CURL *curl;
+CURLcode res;
+std::string readBuffer;
+curl = curl_easy_init();
+
+if(curl) {
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+    res = curl_easy_perform(curl);
+    /* Check for errors */
+    if(res != CURLE_OK)
+        fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                curl_easy_strerror(res));
+
+    /* always cleanup */
+    curl_easy_cleanup(curl);
+}
+curl_global_cleanup();
+
+return readBuffer;
 }
 
 TEST(iDomTOOLS_Class, smog)
@@ -204,6 +229,9 @@ TEST(iDomTOOLS_Class, send_temperature_thingSpeak){
 
 TEST(iDomTOOLS_Class, checkAlarm)
 {
+    unsigned int fromVol = 48;
+    unsigned int  toVol = 57;
+
     thread_data test_my_data;
 
     RADIO_EQ_CONTAINER test_rec(&test_my_data);
@@ -235,18 +263,18 @@ TEST(iDomTOOLS_Class, checkAlarm)
 
     EXPECT_EQ(test_my_data.alarmTime.state, STATE::ACTIVE);
 
-    for(unsigned int i = 4; i<12;++i)
+    for(unsigned int i = fromVol; i<toVol; ++i)
     {
         test_idomTOOLS.checkAlarm();
 
-        EXPECT_EQ(test_my_data.alarmTime.state, STATE::WORKING);
-        EXPECT_EQ(test_my_data.ptr_MPD_info->volume, i+1);
+        EXPECT_EQ(test_my_data.alarmTime.state, STATE::WORKING)<< "zły stan w for " << i<< " "<< toVol;
+        EXPECT_EQ(test_my_data.ptr_MPD_info->volume, i+1) << "zły poziom glosnosci w for";
     }
     EXPECT_CALL(stub_rec, getEqPointer("ALARM")).WillRepeatedly(testing::Return(test_RS));
     test_idomTOOLS.checkAlarm();
 
     EXPECT_EQ(test_my_data.alarmTime.state, STATE::DEACTIVE) << "nie jest STATE::DEACTIVE";
-    EXPECT_EQ(test_my_data.ptr_MPD_info->volume, 12);
+    EXPECT_EQ(test_my_data.ptr_MPD_info->volume, toVol)<< "nie inkrementowane?";
 
     delete test_RS;
 }
