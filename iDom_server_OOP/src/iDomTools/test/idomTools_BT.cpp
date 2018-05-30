@@ -6,6 +6,8 @@
 #include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
 
+#include "testJSON.h"
+
 void useful_F::button_interrupt(){}
 void digitalWrite(int pin, int mode){}
 int digitalRead(int pin){ return 0; }
@@ -458,11 +460,37 @@ TEST(iDomTOOLS_Class, testCPU_Load)
     test_status.addObject("house");
     test_my_data.main_iDomStatus = &test_status;
 
-
-
     iDomTOOLS test_idomTOOLS(&test_my_data);
 
     test_my_data.main_iDomTools = &test_idomTOOLS;
     std::cout <<"TEST LOAD" << std::endl;
     std::cout << test_idomTOOLS.getSystemInfo() << std::endl;
+}
+
+TEST(iDomTOOLS_Class, lightningAlert)
+{
+    TEST_JSON test_Json;
+
+    thread_data test_my_data;
+    RADIO_EQ_CONTAINER test_rec(&test_my_data);
+    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
+    test_my_data.main_REC = (&test_rec);
+
+    config test_server_set;
+    test_server_set.TS_KEY = "key test";
+    test_server_set.viberSender = "test sender";
+    test_server_set.viberReceiver = {"R1","R2"};
+    test_my_data.server_settings = &test_server_set;
+
+    iDomSTATUS test_status;
+    test_status.addObject("house");
+    test_my_data.main_iDomStatus = &test_status;
+
+
+
+    iDomTOOLS test_idomTOOLS(&test_my_data);
+
+    test_my_data.main_iDomTools = &test_idomTOOLS;
+
+    test_idomTOOLS.lightningAlert(test_Json.jj);
 }

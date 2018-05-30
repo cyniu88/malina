@@ -12,6 +12,7 @@
 #include "sys/sysinfo.h"
 #include "../THERMOMETER_CONTAINER/thermometer_container.h"
 #include "idomtools_useful.h"
+#include "json.hpp"
 
 struct thread_data;
 struct LED_Strip;
@@ -67,6 +68,8 @@ public:
     void buttonUnlockHome();
     //////////////////////////// useful  /////////////////////////
     bool isItDay();
+    //////////////////////////// lightning ////////////////////////
+    void lightningAlert(nlohmann::json jj);
     //////////////////////////// weather /////////////////////////
     std::string getSunrise(bool extend = false);
     std::string getSunset(bool extend = false);

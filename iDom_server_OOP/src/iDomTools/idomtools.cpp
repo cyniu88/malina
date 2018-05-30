@@ -452,6 +452,13 @@ bool iDomTOOLS::isItDay()
     return true;
 }
 
+void iDomTOOLS::lightningAlert(nlohmann::json jj)
+{
+   // std::cout << "printuje " << std::endl << jj.dump(4) << std::endl;
+    auto i = jj.at("success").get<bool>();
+    std::cout <<"typ z jsona: " << i << std::endl;
+}
+
 std::string iDomTOOLS::getSunrise(bool extend )
 {
     Clock tt = sun.getSunRise();
