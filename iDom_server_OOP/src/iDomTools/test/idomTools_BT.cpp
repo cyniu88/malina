@@ -466,6 +466,21 @@ TEST(iDomTOOLS_Class, testCPU_Load)
     std::cout <<"TEST LOAD" << std::endl;
     std::cout << test_idomTOOLS.getSystemInfo() << std::endl;
 }
+TEST(iDomTOOLS_Class, stringToCardinalDirectionsEnum)
+{
+    EXPECT_EQ(CARDINAL_DIRECTIONS::stringToCardinalDirectionsEnum("NWWA"),
+              CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ERROR);
+    EXPECT_EQ(CARDINAL_DIRECTIONS::stringToCardinalDirectionsEnum("N"),
+              CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::N);
+}
+
+TEST(iDomTOOLS_Class, cardinalDirectionsEnumToString)
+{
+    EXPECT_STREQ( CARDINAL_DIRECTIONS::cardinalDirectionsEnumToString(CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ERROR).c_str(),
+              "UNKNOWN DIRECTION");
+    EXPECT_STREQ( CARDINAL_DIRECTIONS::cardinalDirectionsEnumToString(CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ESE).c_str(),
+              "ESE");
+}
 
 TEST(iDomTOOLS_Class, lightningAlert)
 {
