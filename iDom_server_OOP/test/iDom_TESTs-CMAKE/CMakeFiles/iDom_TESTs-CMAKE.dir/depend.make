@@ -39,16 +39,20 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/event
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters_handler.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters_handler.cpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters_handler.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters_handler.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/sunrise-sunset/sunriseset.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/sunrise-sunset/sunriseset.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/sunrise-sunset/sunriseset.cpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/sunrise-sunset/sunriseset.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/sunrise-sunset/sunriseset.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/sunrise-sunset/sunriseset.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/useful/useful_bt.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/useful/useful_bt.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/useful/useful_bt.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/useful/useful_bt.cpp
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/useful/usefull.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/useful/usefull.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/useful/usefull.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/useful/usefull.cpp
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -73,6 +77,7 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp.o: test_data.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/rflinkhandler.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/rflinkhandler.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/rflinkhandler.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/rflinkhandler.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -104,6 +109,7 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/rflinkhandler.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/rflinkhandler.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -137,6 +143,7 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_button.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_button.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_button.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_button.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -170,6 +177,7 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_button.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_button.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/test/radio_433_test.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/test/radio_433_test.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/test/radio_433_test.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/test/radio_433_test.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -211,6 +219,7 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/blockQ
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/blockQueue/blockqueue.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/blockQueue/blockqueue.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/blockQueue/blockqueue.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/command.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/command.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/command.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/command.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -233,6 +242,7 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/comman
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/command.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/command.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/commandClass/TEST/command_ardu_BT.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/commandClass/TEST/command_ardu_BT.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/commandClass/TEST/command_ardu_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/commandClass/TEST/command_ardu_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -267,6 +277,7 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/comman
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/commandClass/TEST/command_ardu_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/commandClass/TEST/command_ardu_BT.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/commandClass/command_ardu.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/commandClass/command_ardu.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/commandClass/command_ardu.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/commandClass/command_ardu.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -301,6 +312,7 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/comman
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/commandClass/command_ardu.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/command/commandClass/command_ardu.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/functions2.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/functions2.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/functions2.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/functions2.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -331,6 +343,7 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functi
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/functions2.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/functions2.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -339,9 +352,12 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functi
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/sunrise-sunset/sunriseset.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/viberAPI/viber_api.h
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/433MHz/RFLink/rflinkhandler.h
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/433MHz/rc_433mhz.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/CRON/cron.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/KEY/key.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/LCD_c/lcd_c.h
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/THERMOMETER_CONTAINER/thermometer_container.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/blockQueue/blockqueue.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/c_connection/c_connection.h
@@ -361,10 +377,12 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functi
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.cpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/emoji/emoji.h
@@ -399,6 +417,7 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTo
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_mpd.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_mpd.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_mpd.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_mpd.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -422,6 +441,7 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTo
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_mpd.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_mpd.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -450,12 +470,14 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTo
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/testJSON.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: test_data.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/thread_functions/TEST/rs232_thread_BT.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/thread_functions/TEST/rs232_thread_BT.cpp.o: /home/pi/programowanie/arduPi/arduPi.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/thread_functions/TEST/rs232_thread_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/thread_functions/TEST/rs232_thread_BT.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
@@ -490,6 +512,7 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/thread
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/thread_functions/TEST/rs232_thread_BT.cpp.o: test_data.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/thread_functions/TEST/rs232_thread_BT.cpp.o: /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
 
+CMakeFiles/iDom_TESTs-CMAKE.dir/main.cpp.o: ../../libs/json/single_include/nlohmann/json.hpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/main.cpp.o: /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/main.cpp.o: main.cpp
 
