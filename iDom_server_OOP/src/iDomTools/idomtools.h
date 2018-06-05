@@ -19,7 +19,7 @@ struct LED_Strip;
 class RADIO_BUTTON;
 class CARDINAL_DIRECTIONS{
 public:
-    enum CARDINAL_DIRECTIONS_ENUM{
+    enum class CARDINAL_DIRECTIONS_ENUM{
         /*
            N
         NNW NNE
@@ -88,6 +88,44 @@ public:
             return "NW";
         case CARDINAL_DIRECTIONS_ENUM::NNW:
             return "NNW";
+        default:
+            return "UNKNOWN DIRECTION";
+        }
+    }
+    static std::string cardinalDirectionsEnumToHuman(CARDINAL_DIRECTIONS_ENUM e){
+        switch (e){
+        case CARDINAL_DIRECTIONS_ENUM::N:
+            return "północ";
+        case CARDINAL_DIRECTIONS_ENUM::NNE:
+            return "północ - północny wschód";
+        case CARDINAL_DIRECTIONS_ENUM:: NE:
+            return "północny wschód";
+        case CARDINAL_DIRECTIONS_ENUM::ENE:
+            return "wschód - północny wschód";
+        case CARDINAL_DIRECTIONS_ENUM::E:
+            return "wschód";
+        case CARDINAL_DIRECTIONS_ENUM::ESE:
+            return "wschód - południowy wschód";
+        case CARDINAL_DIRECTIONS_ENUM::SE:
+            return "południowy wschód";
+        case CARDINAL_DIRECTIONS_ENUM::SSE:
+            return "południe - południowy wschód";
+        case CARDINAL_DIRECTIONS_ENUM::S:
+            return "południe";
+        case CARDINAL_DIRECTIONS_ENUM::SSW:
+            return "południe - południowy zachów";
+        case CARDINAL_DIRECTIONS_ENUM::SW:
+            return "południowy zachów";
+        case CARDINAL_DIRECTIONS_ENUM::WSW:
+            return "zachód - południowy zachów";
+        case CARDINAL_DIRECTIONS_ENUM::W:
+            return "zachód";
+        case CARDINAL_DIRECTIONS_ENUM::WNW:
+            return "zachód - północny zachód";
+        case CARDINAL_DIRECTIONS_ENUM::NW:
+            return "północny zachód";
+        case CARDINAL_DIRECTIONS_ENUM::NNW:
+            return "północ - północny zachód";
         default:
             return "UNKNOWN DIRECTION";
         }

@@ -460,20 +460,22 @@ void iDomTOOLS::lightningAlert(nlohmann::json jj)
     auto size = i.size();
     STATISTIC<int> ageAver(size);
     STATISTIC<double> distanceKmAver(size);
-    STATISTIC<CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM> bearingAver(size);
+    STATISTIC<int> bearingAver(size);
     for (auto j : i){
         std::cout <<"\n distance " << j.at("relativeTo").at("bearingENG").get<std::string>() << std::endl;
         std::cout <<"distance " << j.at("relativeTo").at("distanceKM").get<double>() << std::endl;
         std::cout <<"timestamp " << j.at("age").get<int>() << std::endl;
         ageAver.push_back(j.at("age").get<int>());
         distanceKmAver.push_back(j.at("relativeTo").at("distanceKM").get<double>());
-        bearingAver.push_back(CARDINAL_DIRECTIONS::stringToCardinalDirectionsEnum(
-                                  j.at("relativeTo").at("bearing").get<std::string>()));
+        bearingAver.push_back(static_cast<int>(CARDINAL_DIRECTIONS::stringToCardinalDirectionsEnum(
+                                  j.at("relativeTo").at("bearingENG").get<std::string>()))
+                              );
     }
     std::cout << std::endl;
     std::cout << "średni czas ostatniego uderzenia pieruna: "<< ageAver.median()<<std::endl;
     std::cout << "średnia odleglosc ostatniego uderzenia pieruna: "<< distanceKmAver.average()<<std::endl;
-    std::cout << "kierunek ostatniego uderzenia pieruna: "<< bearingAver.mode()<<std::endl;
+    std::cout << "kierunek uderzen piorunów: "
+              <<CARDINAL_DIRECTIONS::cardinalDirectionsEnumToHuman(static_cast<CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM>(bearingAver.mode()))<<std::endl;
     std::cout << std::endl;
 }
 
