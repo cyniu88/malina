@@ -203,7 +203,7 @@ void Server_connectivity_thread(thread_data  *my_data){
     delete client;
 }
 
-int main()
+int iDom_main()
 {
     std::ofstream pidFile;
     pidFile.open("/mnt/ramdisk/pid-iDom.txt");
@@ -532,4 +532,9 @@ int main()
 
     pthread_mutex_destroy(&Logger::mutex_log);
     return 0;
+}
+
+int main(){
+    std::cout << "startujemy program" << std::endl;
+    return iDom_main();
 }
