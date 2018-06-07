@@ -70,7 +70,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/command/commandClass/command_ardu.cpp \
     src/RADIO_433_eq/radio_button.cpp \
     src/functions/functions2.cpp \
-    src/433MHz/RFLink/rflinkhandler.cpp
+    src/433MHz/RFLink/rflinkhandler.cpp \
+    src/iDomTools/lightning.cpp
 
 INCLUDEPATH += "/home/pi/programowanie/iDom_server_OOP/libs/json/single_include/nlohmann"
 
@@ -141,7 +142,8 @@ HEADERS += src/c_connection/c_connection.h \
     src/command/commandClass/command_ardu.h \
     src/iDomTools/idomtools_useful.h \
     src/thread_functions/rs232_thread.h \
-    src/433MHz/RFLink/rflinkhandler.h
+    src/433MHz/RFLink/rflinkhandler.h \
+    src/iDomTools/lightning.h
 
 DISTFILES +=
 
