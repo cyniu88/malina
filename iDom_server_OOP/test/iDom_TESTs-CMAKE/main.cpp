@@ -8,7 +8,7 @@ int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );
 
     //::testing::GTEST_FLAG(filter) = "StatisticClass.mode";
-    ::testing::GTEST_FLAG(filter) = "lightning_Class.lightningAlertON";
+    ::testing::GTEST_FLAG(filter) = "lightning_Class.checkLightningAlert";
     return RUN_ALL_TESTS();
 }
 

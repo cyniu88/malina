@@ -92,6 +92,8 @@ config useful_F::configFileToStruct()
         confStruct.radio433MHzConfigFile = confMap.at("433MHz_config");
         ////////////// omxplayer
         confStruct.omxplayerFile = confMap.at("omxplayerFile");
+        //////////////// LIGHTNING API
+        confStruct.lightningApiURL = confMap.at("LIGHTNING_API_URL");
     }
     catch(...)
     {

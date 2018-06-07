@@ -131,6 +131,7 @@ struct config{
     bool encrypted = true;
 
     FTP_SERVER ftpServer;
+    std::string lightningApiURL = "NULL";
 };
 
 struct LED_Strip{

@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "../../libs/Statistic/statistic.h"
+#include "../../libs/useful/useful.h"
+
 #include "idomtools_useful.h"
 #include "json.hpp"
 
@@ -134,7 +136,10 @@ public:
     LIGHTNING();
     ~LIGHTNING();
     CARDINAL_DIRECTIONS::ALARM_INFO lightningAlert(nlohmann::json jj);
-    void checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO* info);
+    bool checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO* info);
+private:
+    bool alarmState = false;
+    Clock lightningTime;
 };
 
 #endif // LIGHTNING_H

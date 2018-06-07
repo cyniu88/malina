@@ -453,6 +453,26 @@ bool iDomTOOLS::isItDay()
     return true;
 }
 
+void iDomTOOLS::checkLightning()
+{
+    nlohmann::json jj = useful_F_libs::getJson(my_data->server_settings->lightningApiURL);
+    CARDINAL_DIRECTIONS::ALARM_INFO lightningData = lightning.lightningAlert(jj);
+    bool result = lightning.checkLightningAlert(&lightningData);
+
+    if(result == true){
+        //cyniu
+
+        sendViberMsg(lightningData.data.str(),
+                     my_data->server_settings->viberReceiver.at(0),
+                     my_data->server_settings->viberSender);
+#ifndef BT_TEST
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "wysłano informacje o burzy"<< std::endl;
+        log_file_mutex.mutex_unlock();
+#endif
+    }
+}
+
 
 std::string iDomTOOLS::getSunrise(bool extend )
 {

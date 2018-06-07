@@ -70,7 +70,8 @@ public:
     //////////////////////////// useful  /////////////////////////
     bool isItDay();
     //////////////////////////// lightning ////////////////////////
-    LIGHTNING lighting;
+    LIGHTNING lightning;
+    void checkLightning();
     //////////////////////////// weather /////////////////////////
     std::string getSunrise(bool extend = false);
     std::string getSunset(bool extend = false);

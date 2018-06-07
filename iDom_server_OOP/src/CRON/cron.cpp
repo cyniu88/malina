@@ -63,6 +63,7 @@ void CRON::runEveryone_1min(struct tm *act_date)
 void CRON::runEveryone_5min()
 {
     // printf("co 5 minut! \n");
+    my_data->main_iDomTools->checkLightning();
 }
 
 void CRON::runEveryone_15min()

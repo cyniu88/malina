@@ -24,7 +24,7 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     }
 
 #ifdef BT_TEST
-    std::cout <<"\n\n data all " << i.dump(4) <<" size:"<< i.size() <<std::endl;
+    //  std::cout <<"\n\n data all " << i.dump(4) <<" size:"<< i.size() <<std::endl;
 #endif
     auto _size = i.size();
     if (_size == 0)
@@ -37,9 +37,9 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     STATISTIC<int> bearingAver(_size);
     for (auto j : i){
 #ifdef BT_TEST
-        std::cout <<"\n distance " << j.at("relativeTo").at("bearingENG").get<std::string>() << std::endl;
-        std::cout <<"distance " << j.at("relativeTo").at("distanceKM").get<double>() << std::endl;
-        std::cout <<"timestamp " << j.at("age").get<int>() << std::endl;
+        //    std::cout <<"\n distance " << j.at("relativeTo").at("bearingENG").get<std::string>() << std::endl;
+        //     std::cout <<"distance " << j.at("relativeTo").at("distanceKM").get<double>() << std::endl;
+        //    std::cout <<"timestamp " << j.at("age").get<int>() << std::endl;
 #endif
         ageAver.push_back(j.at("age").get<int>());
         distanceKmAver.push_back(j.at("relativeTo").at("distanceKM").get<double>());
@@ -56,14 +56,41 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     data.data << "kierunek uderzen piorunów: " << CARDINAL_DIRECTIONS::cardinalDirectionsEnumToHuman(data.bearingENG) <<std::endl;
 
     if(i.size() > 0){
+        std::cout << "jest size: " << i.size()<<std::endl;
         data.riseAlarm = true;
     }
 
     return data;
 }
 
-void LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
+bool LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
 {
+#ifdef BT_TEST
+    std::cout << "LIGHTNING::checkLightningAlert() bool "<< info->riseAlarm <<" local " << alarmState << std::endl
+              << " distance " << info->distance << std::endl;
+#endif
+    if(info->riseAlarm == false && alarmState == false){
+#ifdef BT_TEST
+        std::cout << "(info->riseAlarm == false || alarmState == false)"<<std::endl;
+#endif
+        return false;
+    }
+    if(info->riseAlarm == false && alarmState == true){
+#ifdef BT_TEST
+        std::cout << "(info->riseAlarm == false || alarmState == true)"<<std::endl;
+#endif
+        alarmState = false;
+        return false;
+    }
+    if(info->riseAlarm == true && alarmState == false){
 
+#ifdef BT_TEST
+        std::cout << "(info->riseAlarm == true || alarmState == false)"<<std::endl;
+#endif
+        alarmState = true;
+        lightningTime = Clock::getTime();
+        return true;
+    }
+    return false;
 }
 
