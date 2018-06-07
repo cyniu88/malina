@@ -38,6 +38,12 @@
 #define log_file_cout  f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na ekran
 #define log_file_mutex f_log
 
+enum class iDomStateEnum{
+    CLOSE = 0,
+    RELOAD,
+    ERROR,
+    WORKING
+};
 
 namespace iDomConst
 {
@@ -238,6 +244,7 @@ struct thread_data{
     iDOM_STATE idom_all_state;
     ALERT alarmTime;
     RADIO_EQ_CONTAINER *main_REC;
+    iDomStateEnum iDomProgramState = iDomStateEnum::WORKING;
 };
 
 struct thread_data_rs232{

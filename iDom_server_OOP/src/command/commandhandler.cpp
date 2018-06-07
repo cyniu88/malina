@@ -14,7 +14,7 @@
 #include "commandClass/command_ok.h"
 #include "commandClass/command_show.h"
 #include "commandClass/command_idom.h"
-#include "commandClass/command_stop.h"
+#include "commandClass/command_program.h"
 #include "commandClass/commandexit.h"
 #include "commandClass/commandtest.h"
 #include "commandClass/command_log.h"
@@ -26,8 +26,8 @@ commandHandler::commandHandler(thread_data * my_data)
     std::unique_ptr <command> test(new commandTEST("test") );
     commandMap.insert( std::make_pair(test->getCommandName(),std::move( test )) );
 
-    std::unique_ptr <command> stop(new command_stop("stop") );
-    commandMap.insert( std::make_pair(stop->getCommandName(),std::move( stop )) );
+    std::unique_ptr <command> program(new command_program("program") );
+    commandMap.insert( std::make_pair(program->getCommandName(),std::move( program )) );
 
     std::unique_ptr <command> eexit(new commandEXIT("exit"));
     commandMap.insert( std::make_pair(eexit->getCommandName(),std::move( eexit )) );

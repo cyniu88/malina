@@ -35,6 +35,7 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/command/commandClass/command_help.cpp \
     src/command/commandClass/command_ip.cpp \
     src/command/commandClass/command_ok.cpp \
+    src/command/commandClass/command_program.cpp \
     src/command/commandClass/command_put.cpp \
     src/command/commandClass/command_show.cpp \
     src/command/commandClass/command_sleep.cpp \
@@ -49,7 +50,6 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/iDomTools/idomtools.cpp \
     src/command/commandClass/command_idom.cpp \
     libs/sunrise-sunset/sunriseset.cpp \
-    src/command/commandClass/command_stop.cpp \
     src/iDomTools/idomtools_mpd.cpp \
     src/command/commandhandlerroot.cpp \
     src/command/commandClass/command_log.cpp \
@@ -107,6 +107,7 @@ HEADERS += src/c_connection/c_connection.h \
     src/command/commandClass/command_help.h \
     src/command/commandClass/command_ip.h \
     src/command/commandClass/command_ok.h \
+    src/command/commandClass/command_program.h \
     src/command/commandClass/command_put.h \
     src/command/commandClass/command_show.h \
     src/command/commandClass/command_sleep.h \

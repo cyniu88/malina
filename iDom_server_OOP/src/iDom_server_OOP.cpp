@@ -203,8 +203,10 @@ void Server_connectivity_thread(thread_data  *my_data){
     delete client;
 }
 
-int iDom_main()
+iDomStateEnum iDom_main()
 {
+    iDomStateEnum iDomStateProgram = iDomStateEnum::CLOSE;
+    useful_F::go_while = true;
     std::ofstream pidFile;
     pidFile.open("/mnt/ramdisk/pid-iDom.txt");
     pidFile << getpid();
@@ -531,10 +533,30 @@ int iDom_main()
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
     pthread_mutex_destroy(&Logger::mutex_log);
-    return 0;
+    iDomStateProgram = node_data.iDomProgramState;
+    return iDomStateProgram;
 }
 
 int main(){
+    iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
     std::cout << "startujemy program" << std::endl;
-    return iDom_main();
+    do{
+        iDomStateProgram = iDom_main();
+        if(iDomStateProgram == iDomStateEnum::RELOAD){
+            std::cout<<std::endl << "przeładowywuje program" << std::endl;
+            std::this_thread::sleep_for( std::chrono::seconds(5));
+
+
+        }
+    } while (iDomStateProgram == iDomStateEnum::RELOAD);
+
+    if(iDomStateProgram == iDomStateEnum::CLOSE){
+        std::cout << "zamykam program" << std::endl;
+        return 0;
+    }
+    else if (iDomStateProgram == iDomStateEnum::ERROR){
+        std::cout << "zamykam program z ERROREM" << std::endl;
+        return 1;
+    }
+    return 0;
 }
