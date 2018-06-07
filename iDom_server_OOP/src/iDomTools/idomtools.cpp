@@ -461,11 +461,12 @@ void iDomTOOLS::checkLightning()
 
     if(result == true){
         //cyniu
-
-        sendViberMsg(lightningData.data.str(),
+        std::string msg = lightningData.data.str();
+        sendViberMsg(msg ,
                      my_data->server_settings->viberReceiver.at(0),
                      my_data->server_settings->viberSender);
 #ifndef BT_TEST
+        std::cout << msg << std::endl;
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "wysłano informacje o burzy"<< std::endl;
         log_file_mutex.mutex_unlock();
@@ -675,10 +676,12 @@ void iDomTOOLS::send_temperature_thingSpeak()
     allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);
     sendSMSifTempChanged("inside",24);
-    if(useful_F_libs::httpPost(addres,10) == "0"){
+    std::string s = useful_F_libs::httpPost(addres,10);
+
+    if(s == "0"){
 #ifndef BT_TEST
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << " bład wysyłania temoeratury na thingspeak "<<   std::endl;
+        log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak "<<   std::endl;
         log_file_mutex.mutex_unlock();
 #endif
     }

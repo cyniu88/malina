@@ -51,9 +51,9 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     data.distance = distanceKmAver.average();
     data.timestamp = ageAver.median();
 
-    data.data << "średni czas ostatniego uderzenia pieruna: "<< data.timestamp << std::endl;
-    data.data << "średnia odleglosc ostatniego uderzenia pieruna: "<< data.distance <<std::endl;
-    data.data << "kierunek uderzen piorunów: " << CARDINAL_DIRECTIONS::cardinalDirectionsEnumToHuman(data.bearingENG) <<std::endl;
+    data.data << "średni czas ostatniego uderzenia pieruna: "<< data.timestamp << "\n";
+    data.data << "średnia odleglosc ostatniego uderzenia pieruna: "<< data.distance <<"\n";
+    data.data << "kierunek uderzen piorunów: " << CARDINAL_DIRECTIONS::cardinalDirectionsEnumToHuman(data.bearingENG) << "\n";
 
     if(i.size() > 0){
         std::cout << "jest size: " << i.size()<<std::endl;
