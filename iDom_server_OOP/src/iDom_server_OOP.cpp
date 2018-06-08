@@ -540,15 +540,28 @@ iDomStateEnum iDom_main()
 int main(){
     iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
     std::cout << "startujemy program" << std::endl;
-    do{
-        iDomStateProgram = iDom_main();
-        if(iDomStateProgram == iDomStateEnum::RELOAD){
+
+
+    do
+    {
+        try
+        {
+            iDomStateProgram = iDom_main();
+        }
+        catch (...)
+        {
+            std::cout << "złąpano wyjatek programu wiec restart"<<std::endl;
+            iDomStateProgram = iDomStateEnum::RELOAD;
+        }
+        if(iDomStateProgram == iDomStateEnum::RELOAD)
+        {
             std::cout<<std::endl << "przeładowywuje program" << std::endl;
             std::this_thread::sleep_for( std::chrono::seconds(5));
 
 
         }
     } while (iDomStateProgram == iDomStateEnum::RELOAD);
+
 
     if(iDomStateProgram == iDomStateEnum::CLOSE){
         std::cout << "zamykam program" << std::endl;

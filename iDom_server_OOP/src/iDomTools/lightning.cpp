@@ -51,6 +51,7 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     data.distance = distanceKmAver.average();
     data.timestamp = ageAver.median();
 
+    data.data << "ilość uderzeń: "<< _size << "\\n";
     data.data << "średni czas upłynięty od ostatniego uderzenia pioruna: "<< data.timestamp << " sek \\n";
     data.data << "średnia odległość ostatniego uderzenia pieruna: "<< data.distance <<" km \\n ";
     data.data << "kierunek uderzeń piorunów: " << CARDINAL_DIRECTIONS::cardinalDirectionsEnumToHuman(data.bearingENG) ;
