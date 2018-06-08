@@ -100,17 +100,28 @@ public:
     void cameraLedON(std::string link);
     void cameraLedOFF(std::string link);
     //////////////////// viber msg /////////////////////////
-    std::string sendViberMsg(std::string msg,
-                             std::string receiver,
-                             std::string senderName,
-                             std::string accessToken = "NULL",
-                             std::string url = "NULL");
-    std::string sendViberPicture(std::string msg,
-                                 std::string image,
-                                 std::string receiver,
-                                 std::string senderName,
-                                 std::string accessToken = "NULL",
-                                 std::string url = "NULL");
+    nlohmann::json sendViberMsg(std::string msg,
+                                std::string receiver,
+                                std::string senderName,
+                                std::string accessToken = "NULL",
+                                std::string url = "NULL");
+    nlohmann::json sendViberPicture(std::string msg,
+                                    std::string image,
+                                    std::string receiver,
+                                    std::string senderName,
+                                    std::string accessToken = "NULL",
+                                    std::string url = "NULL");
+    STATE sendViberMsgBool(std::string msg,
+                           std::string receiver,
+                           std::string senderName,
+                           std::string accessToken = "NULL",
+                           std::string url = "NULL");
+    STATE sendViberPictureBool(std::string msg,
+                               std::string image,
+                               std::string receiver,
+                               std::string senderName,
+                               std::string accessToken = "NULL",
+                               std::string url = "NULL");
     //////////////////// facebook //////////////////////////
     std::string postOnFacebook(std::string msg, std::string image ="NULL");
 

@@ -26,7 +26,7 @@ std::string viber_API::sendViberMSG(std::string msg,
 
     std::cout << "sendViberMSG() "<< msg <<" to: "<< receiver << std::endl;
     TEST_DATA::return_viber_msg = msg;
-    return"";
+    return"{\"message_status\":\"ok\"}";
 }
 std::string viber_API::sendViberPicture(std::string msg,
                                         std::string image,
@@ -36,7 +36,7 @@ std::string viber_API::sendViberPicture(std::string msg,
                                         std::string url){
     std::cout << "sendViberPicture() "<< msg <<" to: "<< receiver << std::endl;
     TEST_DATA::return_viber_msg = msg;
-    return"";
+    return"{\"message_status\":\"ok\"}";
 }
 FACEBOOK_API::FACEBOOK_API(){}
 std::string FACEBOOK_API::postTxtOnWall(std::string msg, std::string accessToken ){return "";}

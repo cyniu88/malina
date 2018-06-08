@@ -5,7 +5,7 @@ project(iDom_TESTs-CMAKE)
 include_directories("../../libs/json/single_include/nlohmann/")
 set(SOURCE_FILES  "main.cpp"
     "../../libs/useful/usefull.cpp"
-    "../../libs/useful/useful_bt.cpp"
+    "../../libs/useful/test/useful_bt.cpp"
     "../../libs/Statistic/statistic_test/statistic_BT.cpp"
     "../../src/RADIO_433_eq/test/radio_433_test.cpp"
     "../../libs/event_counter_test/event_counters/event_counters_handler.cpp"

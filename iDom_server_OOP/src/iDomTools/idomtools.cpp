@@ -460,17 +460,31 @@ void iDomTOOLS::checkLightning()
     bool result = lightning.checkLightningAlert(&lightningData);
 
     if(result == true){
-        //cyniu
-        std::string msg = lightningData.data.str();
-        sendViberMsg(msg ,
-                     my_data->server_settings->viberReceiver.at(0),
-                     my_data->server_settings->viberSender);
+
+        m_viber.setAvatar("http://cyniu88.no-ip.pl/avatar/lightning.jpg");
+        STATE stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! \\n\\n "+lightningData.data.str() ,
+                                          my_data->server_settings->viberReceiver.at(0),
+                                          my_data->server_settings->viberSender);
+        stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! \\n\\n "+lightningData.data.str() ,
+                                    my_data->server_settings->viberReceiver.at(1),
+                                    my_data->server_settings->viberSender);
+        m_viber.setAvatar(my_data->server_settings->viberAvatar);
+        if(stateMSG == STATE::SEND_OK)
+        {
 #ifndef BT_TEST
-        std::cout << msg << std::endl;
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "wysłano informacje o burzy"<< std::endl;
-        log_file_mutex.mutex_unlock();
+            log_file_mutex.mutex_lock();
+            log_file_cout << INFO << "wysłano informacje o burzy"<< std::endl;
+            log_file_mutex.mutex_unlock();
 #endif
+        }
+        else
+        {
+#ifndef BT_TEST
+            log_file_mutex.mutex_lock();
+            log_file_cout << ERROR << "nie wysłano informacje o burzy"<< std::endl;
+            log_file_mutex.mutex_unlock();
+#endif
+        }
     }
 }
 
@@ -736,25 +750,76 @@ void iDomTOOLS::cameraLedOFF(std::string link)
     }
 }
 
-std::string iDomTOOLS::sendViberMsg(std::string msg,
-                                    std::string receiver,
-                                    std::string senderName,
-                                    std::string accessToken,
-                                    std::string url)
+nlohmann::json iDomTOOLS::sendViberMsg(std::string msg,
+                                       std::string receiver,
+                                       std::string senderName,
+                                       std::string accessToken,
+                                       std::string url)
 {
+    nlohmann::json jj;
     std::lock_guard<std::mutex>  lock(m_msgMutex);
-    return  m_viber.sendViberMSG(msg,receiver,senderName,accessToken,url);
+    jj = nlohmann::json::parse( m_viber.sendViberMSG(msg,receiver,senderName,accessToken,url));
+    return jj;
 }
 
-std::string iDomTOOLS::sendViberPicture(std::string msg,
-                                        std::string image,
-                                        std::string receiver,
-                                        std::string senderName,
-                                        std::string accessToken,
-                                        std::string url)
+nlohmann::json iDomTOOLS::sendViberPicture(std::string msg,
+                                           std::string image,
+                                           std::string receiver,
+                                           std::string senderName,
+                                           std::string accessToken,
+                                           std::string url)
 {
+    nlohmann::json jj;
     std::lock_guard<std::mutex>  lock(m_msgMutex);
-    return  m_viber.sendViberPicture(msg,image,receiver,senderName,accessToken,url);
+    jj = nlohmann::json::parse(m_viber.sendViberPicture(msg,image,receiver,senderName,accessToken,url));
+    return jj;
+}
+
+STATE iDomTOOLS::sendViberMsgBool(std::string msg,
+                                  std::string receiver,
+                                  std::string senderName,
+                                  std::string accessToken,
+                                  std::string url)
+{
+    nlohmann::json jj = sendViberMsg(msg,receiver,senderName,accessToken,url);
+    STATE ret = STATE::SEND_NOK;
+    if(jj.at("status_message").get<std::string>() == "ok")
+    {
+        ret = STATE::SEND_OK;
+    }
+    else
+    {
+#ifndef BT_TEST
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "nie wyslanno wiadomosci viber"<< jj.dump()<< std::endl;
+        log_file_mutex.mutex_unlock();
+#endif
+    }
+    return ret;
+}
+
+STATE iDomTOOLS::sendViberPictureBool(std::string msg,
+                                      std::string image,
+                                      std::string receiver,
+                                      std::string senderName,
+                                      std::string accessToken,
+                                      std::string url)
+{
+    nlohmann::json jj = sendViberPicture(msg,image,receiver,senderName,accessToken,url);
+    STATE ret = STATE::SEND_NOK;
+    if(jj.at("status_message").get<std::string>() == "ok")
+    {
+        ret = STATE::SEND_OK;
+    }
+    else
+    {
+#ifndef BT_TEST
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "nie wyslanno wiadomosci viber"<< jj.dump()<< std::endl;
+        log_file_mutex.mutex_unlock();
+#endif
+    }
+    return ret;
 }
 
 std::string iDomTOOLS::postOnFacebook(std::string msg,std::string image)

@@ -156,10 +156,16 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             msg+=" ";
             msg+=v[i];
         }
-        return my_data->main_iDomTools->sendViberMsg(msg, my_data->server_settings->viberReceiver.at(0),
+        STATE stMSG = my_data->main_iDomTools->sendViberMsgBool(msg, my_data->server_settings->viberReceiver.at(0),
                                                      my_data->server_settings->viberSender);
+        if(stMSG == STATE::SEND_OK){
+            return "wiadomosc wyslana poprawnie";
+        }
+        else{
+            return "blad wysylania wiadomosci - sprawdz logi";
+        }
     }
-    else if (v[1]=="camera"){
+    else if (v[1] == "camera"){
 
         if (v.size() < 4){
             return "not enough parameters";
