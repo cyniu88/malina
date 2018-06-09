@@ -455,43 +455,46 @@ bool iDomTOOLS::isItDay()
 
 void iDomTOOLS::checkLightning()
 {
+    std::cout << "poberanie jsona z piorunami" << std::endl;
     nlohmann::json jj = useful_F_libs::getJson(my_data->server_settings->lightningApiURL);
+    std::cout << "poberanie jsona z piorunami" << std::endl;
     CARDINAL_DIRECTIONS::ALARM_INFO lightningData = lightning.lightningAlert(jj);
     bool result = lightning.checkLightningAlert(&lightningData);
 
     if(result == true)
     {
+
+        m_viber.setAvatar("http://cyniu88.no-ip.pl/avatar/lightning.jpg");
+        STATE stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! \\n\\n "+lightningData.data.str() ,
+                                          my_data->server_settings->viberReceiver.at(0),
+                                          my_data->server_settings->viberSender);
         try
         {
-            m_viber.setAvatar("http://cyniu88.no-ip.pl/avatar/lightning.jpg");
-            STATE stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! \\n\\n "+lightningData.data.str() ,
-                                              my_data->server_settings->viberReceiver.at(0),
-                                              my_data->server_settings->viberSender);
             stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! \\n\\n "+lightningData.data.str() ,
                                         my_data->server_settings->viberReceiver.at(1),
                                         my_data->server_settings->viberSender);
-            m_viber.setAvatar(my_data->server_settings->viberAvatar);
-            if(stateMSG == STATE::SEND_OK)
-            {
-#ifndef BT_TEST
-                log_file_mutex.mutex_lock();
-                log_file_cout << INFO << "wysłano informacje o burzy"<< std::endl;
-                log_file_mutex.mutex_unlock();
-#endif
-            }
-            else
-            {
-#ifndef BT_TEST
-                log_file_mutex.mutex_lock();
-                log_file_cout << ERROR << "nie wysłano informacje o burzy"<< std::endl;
-                log_file_mutex.mutex_unlock();
-#endif
-            }
         }
 
         catch (...)
         {
             std::cout << "WYJATEK PASKUDA !!";
+        }
+        m_viber.setAvatar(my_data->server_settings->viberAvatar);
+        if(stateMSG == STATE::SEND_OK)
+        {
+#ifndef BT_TEST
+            log_file_mutex.mutex_lock();
+            log_file_cout << INFO << "wysłano informacje o burzy"<< std::endl;
+            log_file_mutex.mutex_unlock();
+#endif
+        }
+        else
+        {
+#ifndef BT_TEST
+            log_file_mutex.mutex_lock();
+            log_file_cout << ERROR << "nie wysłano informacje o burzy"<< std::endl;
+            log_file_mutex.mutex_unlock();
+#endif
         }
     }
 }
