@@ -42,7 +42,8 @@ enum class iDomStateEnum{
     CLOSE = 0,
     RELOAD,
     ERROR,
-    WORKING
+    WORKING,
+    HARD_RELOAD
 };
 
 namespace iDomConst

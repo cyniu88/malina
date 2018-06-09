@@ -455,9 +455,9 @@ bool iDomTOOLS::isItDay()
 
 void iDomTOOLS::checkLightning()
 {
-    std::cout << "poberanie jsona z piorunami" << std::endl;
+    //std::cout << "poberanie jsona z piorunami" << std::endl;
     nlohmann::json jj = useful_F_libs::getJson(my_data->server_settings->lightningApiURL);
-    std::cout << "poberanie jsona z piorunami" << std::endl;
+    //std::cout << "poberanie jsona z piorunami" << std::endl;
     CARDINAL_DIRECTIONS::ALARM_INFO lightningData = lightning.lightningAlert(jj);
     bool result = lightning.checkLightningAlert(&lightningData);
 

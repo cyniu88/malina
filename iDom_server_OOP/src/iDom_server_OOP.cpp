@@ -537,39 +537,55 @@ iDomStateEnum iDom_main()
     return iDomStateProgram;
 }
 
-int main(){
+int main(int argc, char *argv[]){
     iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
-    std::cout << "startujemy program" << std::endl;
+    std::cout << "startujemy program iDom" << std::endl;
 
-
-    do
+    if (argc == 1)
     {
-        try
+        do
         {
-            iDomStateProgram = iDom_main();
+            try
+            {
+                iDomStateProgram = iDom_main();
+            }
+            catch (...)
+            {
+                std::cout << "złąpano wyjatek programu wiec restart"<<std::endl;
+                iDomStateProgram = iDomStateEnum::RELOAD;
+            }
+            if(iDomStateProgram == iDomStateEnum::RELOAD)
+            {
+                std::cout<<std::endl << "przeładowywuje program" << std::endl;
+                std::this_thread::sleep_for( std::chrono::seconds(5));
+
+
+            }
+        } while (iDomStateProgram == iDomStateEnum::RELOAD);
+
+
+        if(iDomStateProgram == iDomStateEnum::CLOSE){
+            std::cout << "zamykam program" << std::endl;
+            return 0;
         }
-        catch (...)
-        {
-            std::cout << "złąpano wyjatek programu wiec restart"<<std::endl;
-            iDomStateProgram = iDomStateEnum::RELOAD;
+        else if (iDomStateProgram == iDomStateEnum::ERROR){
+            std::cout << "zamykam program z ERROREM" << std::endl;
+            return 1;
         }
-        if(iDomStateProgram == iDomStateEnum::RELOAD)
-        {
-            std::cout<<std::endl << "przeładowywuje program" << std::endl;
-            std::this_thread::sleep_for( std::chrono::seconds(5));
-
-
+        else if (iDomStateProgram == iDomStateEnum::HARD_RELOAD){
+            return 2;
         }
-    } while (iDomStateProgram == iDomStateEnum::RELOAD);
-
-
-    if(iDomStateProgram == iDomStateEnum::CLOSE){
-        std::cout << "zamykam program" << std::endl;
-        return 0;
     }
-    else if (iDomStateProgram == iDomStateEnum::ERROR){
-        std::cout << "zamykam program z ERROREM" << std::endl;
-        return 1;
+    else
+    {
+        int ret = 9;
+        while (ret != 0)
+        {
+            std::cout << "nie ma parametru  wiec odpalam program "<< std::endl;
+             ret = system("/home/pi/programowanie/iDom_server_OOP-build-clang-Release/iDom_server_OOP");
+            std::cout << "system() zwraca ret " << ret <<std::endl;
+        }
+        std::cout << "ZAMYKAM NA AMEN" << std::endl;
     }
     return 0;
 }
