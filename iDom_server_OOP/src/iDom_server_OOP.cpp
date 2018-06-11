@@ -537,7 +537,8 @@ iDomStateEnum iDom_main()
     return iDomStateProgram;
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
     iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
     std::cout << "startujemy program iDom" << std::endl;
 
@@ -581,6 +582,7 @@ int main(int argc, char *argv[]){
         int ret = 9;
         while (ret != 0)
         {
+            std::this_thread::sleep_for( std::chrono::seconds(2));
             std::cout << "nie ma parametru  wiec odpalam program "<< std::endl;
              ret = system("/home/pi/programowanie/iDom_server_OOP-build-clang-Release/iDom_server_OOP");
             std::cout << "system() zwraca ret " << ret <<std::endl;
