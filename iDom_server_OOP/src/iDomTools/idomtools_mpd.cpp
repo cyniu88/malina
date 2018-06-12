@@ -13,14 +13,14 @@ void iDomTOOLS::MPD_play(thread_data* my_data)
         my_data->myEventHandler.run("MPD")->addEvent("MPD can not start due to home state: "+
                                                      stateToString(my_data->idom_all_state.houseState));
     }
-    useful_F::myStaticData->main_iDomTools->saveState_iDom();
+   // useful_F::myStaticData->main_iDomTools->saveState_iDom();
 }
 
 void iDomTOOLS::MPD_stop()
 {
     blockQueue _q;
     _q._add(MPD_COMMAND::STOP);
-    useful_F::myStaticData->main_iDomTools->saveState_iDom();
+    //useful_F::myStaticData->main_iDomTools->saveState_iDom();
 }
 
 void iDomTOOLS::MPD_next()

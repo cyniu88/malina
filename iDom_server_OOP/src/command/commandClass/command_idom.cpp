@@ -203,6 +203,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             my_data->alarmTime.time = Clock(v[3]);
             my_data->alarmTime.state = STATE::ACTIVE;
             my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
+            my_data->main_iDomTools->saveState_iDom();
             return "alarm clock has been activated";
         }
     }
