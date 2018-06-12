@@ -7,8 +7,9 @@
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );
 
-    //::testing::GTEST_FLAG(filter) = "lightning_Class.oneLightning";
-    ::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.saveState";
+    //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.saveState";
+    //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.readState";
+    //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.checkAlarm";
     return RUN_ALL_TESTS();
 }
 

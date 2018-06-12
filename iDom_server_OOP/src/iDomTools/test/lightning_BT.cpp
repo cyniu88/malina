@@ -63,5 +63,5 @@ TEST(lightning_Class, oneLightning)
     //std::cout <<std::endl << test_struct.data.str();
 
     bool test_result = test_lightning.checkLightningAlert(&test_struct);
-    EXPECT_TRUE(test_result);
+    EXPECT_FALSE(test_result);
 }

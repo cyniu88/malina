@@ -9,7 +9,7 @@
 void useful_F::button_interrupt(){}
 void digitalWrite(int pin, int mode){}
 int digitalRead(int pin){ return 0; }
-
+std::string pathSave = "/mnt/ramdisk/iDomStateTest2.save";
 
 std::string useful_F::send_to_arduino(thread_data *my_data,std::string d){
     return TEST_DATA::return_send_to_arduino;
@@ -231,23 +231,36 @@ TEST(iDomTOOLS_Class, checkAlarm)
 {
     unsigned int fromVol = 48;
     unsigned int  toVol = 57;
-
     thread_data test_my_data;
+    iDomSTATUS test_status;
+    test_my_data.main_iDomStatus = &test_status;
+    ///////////////////////////////////// to save
+    test_status.setObjectState("house",STATE::UNLOCK);
+    test_status.setObjectState("music", STATE::PLAY);
+    test_status.setObjectState("speakers", STATE::ON);
+    test_my_data.idom_all_state.houseState = STATE::LOCK;
 
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_my_data.main_REC = (&test_rec);
+    test_status.setObjectState("listwa",STATE::ON);
+
+    ALERT test_alarmTime;
+    test_alarmTime.time = Clock::getTime();
+    test_alarmTime.state = STATE::ACTIVE;
+    test_status.setObjectState("alarm", test_alarmTime.state);
+    test_my_data.alarmTime = test_alarmTime;
+    useful_F::myStaticData = &test_my_data;
     config test_server_set;
     test_server_set.TS_KEY = "key test";
     test_server_set.viberSender = "test sender";
     test_server_set.viberReceiver = {"R1","R2"};
+    test_server_set.saveFilePath = pathSave;
     test_my_data.server_settings = &test_server_set;
+    //////////////////////////////////////////////////////////////
+    RADIO_EQ_CONTAINER test_rec(&test_my_data);
+    test_my_data.main_REC = (&test_rec);
     MPD_info test_ptr_MPD;
     test_ptr_MPD.volume = 3;
     test_my_data.ptr_MPD_info = &test_ptr_MPD;
     RADIO_EQ* test_RS = new RADIO_SWITCH(&test_my_data,"ALARM","209888",RADIO_EQ_TYPE::SWITCH);
-    iDomSTATUS test_status;
-    test_my_data.main_iDomStatus = &test_status;
-
     iDomTOOLS test_iDom_TOOLS(&test_my_data);
     test_my_data.main_iDomTools = &test_iDom_TOOLS;
 
@@ -282,18 +295,31 @@ TEST(iDomTOOLS_Class, checkAlarm)
 TEST(iDomTOOLS_Class, homeLockPlayStopMusic)
 {
     thread_data test_my_data;
+    iDomSTATUS test_status;
+    test_my_data.main_iDomStatus = &test_status;
+    ///////////////////////////////////// to save
+    test_status.setObjectState("house",STATE::UNDEFINE);
+    test_status.setObjectState("music", STATE::PLAY);
+    test_status.setObjectState("speakers", STATE::ON);
+    test_my_data.idom_all_state.houseState = STATE::LOCK;
 
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_my_data.main_REC = (&test_rec);
+    test_status.setObjectState("listwa",STATE::ON);
+
+    ALERT test_alarmTime;
+    test_alarmTime.time = Clock::getTime();
+    test_alarmTime.state = STATE::ACTIVE;
+    test_status.setObjectState("alarm", test_alarmTime.state);
+    test_my_data.alarmTime = test_alarmTime;
+    useful_F::myStaticData = &test_my_data;
     config test_server_set;
     test_server_set.TS_KEY = "key test";
     test_server_set.viberSender = "test sender";
     test_server_set.viberReceiver = {"R1","R2"};
+    test_server_set.saveFilePath = pathSave;
     test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-    test_status.addObject("house");
-    test_my_data.main_iDomStatus = &test_status;
+    //////////////////////////////////////////////////////////////
+    RADIO_EQ_CONTAINER test_rec(&test_my_data);
+    test_my_data.main_REC = (&test_rec);
 
     iDOM_STATE main_iDomStatus;
     test_my_data.idom_all_state = main_iDomStatus;
@@ -483,9 +509,6 @@ TEST(iDomTOOLS_Class, cardinalDirectionsEnumToString)
 TEST(iDomTOOLS_Class, saveState)
 {
     thread_data test_my_data;
-    ALERT test_alarmTime;
-    test_alarmTime.time = Clock::getTime();
-    test_my_data.alarmTime = test_alarmTime;
     RADIO_EQ_CONTAINER test_rec(&test_my_data);
     test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
     test_my_data.main_REC = (&test_rec);
@@ -494,7 +517,7 @@ TEST(iDomTOOLS_Class, saveState)
     test_server_set.TS_KEY = "key test";
     test_server_set.viberSender = "test sender";
     test_server_set.viberReceiver = {"R1","R2"};
-    test_server_set.saveFilePath = "/mnt/ramdisk/iDomStateTest.save";
+    test_server_set.saveFilePath = pathSave;
     test_my_data.server_settings = &test_server_set;
 
     iDomSTATUS test_status;
@@ -508,11 +531,53 @@ TEST(iDomTOOLS_Class, saveState)
 
     test_status.setObjectState("house",STATE::UNLOCK);
 //////////////////// mpd
-    test_status.setObjectState("mpd", STATE::PLAY);
+    test_status.setObjectState("music", STATE::PLAY);
     test_status.setObjectState("speakers", STATE::ON);
     test_my_data.idom_all_state.houseState = STATE::LOCK;
 
     test_status.setObjectState("listwa",STATE::ON);
 
+    ALERT test_alarmTime;
+    test_alarmTime.time = Clock::getTime();
+    test_alarmTime.state = STATE::ACTIVE;
+    test_status.setObjectState("alarm", test_alarmTime.state);
+    test_my_data.alarmTime = test_alarmTime;
+
     test_idomTOOLS.saveState_iDom();
+
+    nlohmann::json testJson;
+    std::ifstream i(pathSave);
+    i >> testJson;
+    EXPECT_STREQ(test_status.getObjectStateString("music").c_str(),
+                 testJson.at("MPD").at("music").get<std::string>().c_str() );
+    EXPECT_STREQ((test_status.getObjectStateString("alarm")).c_str(),
+                 testJson.at("ALARM").at("alarm").get<std::string>().c_str() );
 }
+
+TEST(iDomTOOLS_Class, readState)
+{
+    thread_data test_my_data;
+    useful_F::myStaticData = &test_my_data;
+    ALERT test_alarmTime;
+    test_my_data.alarmTime = test_alarmTime;
+    RADIO_EQ_CONTAINER test_rec(&test_my_data);
+    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
+    test_my_data.main_REC = (&test_rec);
+
+    config test_server_set;
+    test_server_set.TS_KEY = "key test";
+    test_server_set.viberSender = "test sender";
+    test_server_set.viberReceiver = {"R1","R2"};
+    test_server_set.saveFilePath = pathSave;
+    test_my_data.server_settings = &test_server_set;
+
+    iDomSTATUS test_status;
+
+    test_my_data.main_iDomStatus = &test_status;
+
+    iDomTOOLS test_idomTOOLS(&test_my_data);
+
+    test_my_data.main_iDomTools = &test_idomTOOLS;
+    test_idomTOOLS.readState_iDom();
+}
+

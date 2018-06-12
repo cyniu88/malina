@@ -465,7 +465,8 @@ iDomStateEnum iDom_main()
     struct sockaddr_in from;
     /////////////////////////////////////////////////// INFO PART //////////////////////////////////////////////////
     node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings.viberReceiver.at(0),server_settings.viberSender);
-
+    /////////////////////////////////////////////////// RESTORE PART ///////////////////////////////////////////////
+    node_data.main_iDomTools->readState_iDom();
     ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
 
     while (1)
@@ -559,8 +560,6 @@ int main(int argc, char *argv[])
             {
                 std::cout<<std::endl << "przeładowywuje program" << std::endl;
                 std::this_thread::sleep_for( std::chrono::seconds(5));
-
-
             }
         } while (iDomStateProgram == iDomStateEnum::RELOAD);
 
@@ -582,7 +581,7 @@ int main(int argc, char *argv[])
         int ret = 9;
         while (ret != 0)
         {
-            std::this_thread::sleep_for( std::chrono::seconds(2));
+            std::this_thread::sleep_for( std::chrono::seconds(10));
             std::cout << "nie ma parametru  wiec odpalam program "<< std::endl;
              ret = system("/home/pi/programowanie/iDom_server_OOP-build-clang-Release/iDom_server_OOP");
             std::cout << "system() zwraca ret " << ret <<std::endl;

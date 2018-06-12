@@ -14,18 +14,20 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
 {
     CARDINAL_DIRECTIONS::ALARM_INFO data;
     nlohmann::json i;
-    try{
+
+#ifdef BT_TEST
+    std::cout <<"\n\n data all " << i.dump(4) <<" size:"<< i.size() <<std::endl;
+#endif
+    if (jj.find("response") != jj.end())
+    {
         i = jj.at("response").get<nlohmann::json>();
     }
-    catch (...)
+    else
     {
         std::cout << " zly JSON " <<std::endl;
         return data;
     }
 
-#ifdef BT_TEST
-    //  std::cout <<"\n\n data all " << i.dump(4) <<" size:"<< i.size() <<std::endl;
-#endif
     auto _size = i.size();
     if (_size == 0)
     {
