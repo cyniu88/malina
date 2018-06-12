@@ -1,12 +1,14 @@
 #ifndef IDOM_SAVE_STATE_H
 #define IDOM_SAVE_STATE_H
 
-#include "../iDom_server_OOP.h"
+#include <mutex>
+//#include "../iDom_server_OOP.h"
 #include "json.hpp"
 
 class iDom_SAVE_STATE
 {
 public:
+    std::mutex m_mutex;
     iDom_SAVE_STATE(std::string path);
     ~iDom_SAVE_STATE();
 

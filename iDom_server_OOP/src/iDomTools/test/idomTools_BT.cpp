@@ -479,3 +479,40 @@ TEST(iDomTOOLS_Class, cardinalDirectionsEnumToString)
     EXPECT_STREQ( CARDINAL_DIRECTIONS::cardinalDirectionsEnumToString(CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ESE).c_str(),
               "ESE");
 }
+
+TEST(iDomTOOLS_Class, saveState)
+{
+    thread_data test_my_data;
+    ALERT test_alarmTime;
+    test_alarmTime.time = Clock::getTime();
+    test_my_data.alarmTime = test_alarmTime;
+    RADIO_EQ_CONTAINER test_rec(&test_my_data);
+    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
+    test_my_data.main_REC = (&test_rec);
+
+    config test_server_set;
+    test_server_set.TS_KEY = "key test";
+    test_server_set.viberSender = "test sender";
+    test_server_set.viberReceiver = {"R1","R2"};
+    test_server_set.saveFilePath = "/mnt/ramdisk/iDomStateTest.save";
+    test_my_data.server_settings = &test_server_set;
+
+    iDomSTATUS test_status;
+    test_status.addObject("house");
+    test_my_data.main_iDomStatus = &test_status;
+
+    iDomTOOLS test_idomTOOLS(&test_my_data);
+
+    test_my_data.main_iDomTools = &test_idomTOOLS;
+
+
+    test_status.setObjectState("house",STATE::UNLOCK);
+//////////////////// mpd
+    test_status.setObjectState("mpd", STATE::PLAY);
+    test_status.setObjectState("speakers", STATE::ON);
+    test_my_data.idom_all_state.houseState = STATE::LOCK;
+
+    test_status.setObjectState("listwa",STATE::ON);
+
+    test_idomTOOLS.saveState_iDom();
+}

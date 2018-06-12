@@ -9,6 +9,7 @@
 #include "../../libs/Statistic/statistic.h"
 #include "../CRON/cron.hpp"
 #include "../RADIO_433_eq/radio_433_eq.h"
+#include "json.hpp"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
 {
@@ -202,13 +203,14 @@ void iDomTOOLS::turnOnSpeakers()
         useful_F::myStaticData->myEventHandler.run("speakers")->addEvent("speakers can not start due to home state: "+
                                                                          stateToString(useful_F::myStaticData->idom_all_state.houseState));
     }
-
+    saveState_iDom();
 }
 
 void iDomTOOLS::turnOffSpeakers()
 {
     digitalWrite(iDomConst::GPIO_SPIK, LOW);
     useful_F::myStaticData->main_iDomStatus->setObjectState("speakers",STATE::OFF);
+    saveState_iDom();
 }
 
 void iDomTOOLS::turnOnPrinter()
@@ -342,6 +344,7 @@ void iDomTOOLS::lockHome()
     log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<<   std::endl;
     log_file_mutex.mutex_unlock();
 #endif
+    saveState_iDom();
 }
 
 void iDomTOOLS::unlockHome()
@@ -357,6 +360,7 @@ void iDomTOOLS::unlockHome()
     log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<<   std::endl;
     log_file_mutex.mutex_unlock();
 #endif
+    saveState_iDom();
 }
 
 std::string iDomTOOLS::buttonPressed(std::string id)
@@ -903,3 +907,40 @@ void iDomTOOLS::checkAlarm()
         }
     }
 }
+
+void iDomTOOLS::saveState_iDom()
+{
+    iDom_SAVE_STATE info(my_data->server_settings->saveFilePath);
+    nlohmann::json jsonAlarm;
+    nlohmann::json jsonMPD;
+    nlohmann::json json_iDomLOCK;
+    nlohmann::json json433Mhz;
+//////////////////// iDom
+    json_iDomLOCK["iDomLock"] = stateToString(my_data->idom_all_state.houseState);
+//////////////////// alarm
+    jsonAlarm["Alarm"] = my_data->main_iDomStatus->getObjectStateString("alarm");
+    jsonAlarm["time"]  = my_data->alarmTime.time.getString();
+//////////////////// mpd
+    jsonMPD["music"] = my_data->main_iDomStatus->getObjectStateString("mpd");
+    jsonMPD["speakers"] = my_data->main_iDomStatus->getObjectStateString("speakers");
+    ////////////////// 433Mhz
+    json433Mhz["listwa"] = my_data->main_iDomStatus->getObjectStateString("listwa");
+    ///
+    nlohmann::json json;
+    json["iDom"] = json_iDomLOCK;
+    json["ALARM"] = jsonAlarm;
+    json["MPD"] = jsonMPD;
+    json["433Mhz"] = json433Mhz;
+    info.write(json);
+#ifdef BT_TEST
+    std::cout << " saved to " << my_data->server_settings->saveFilePath <<std::endl;
+#endif
+}
+
+STATE d;
+void iDomTOOLS::readState_iDom()
+{
+    iDom_SAVE_STATE info(my_data->server_settings->saveFilePath);
+
+}
+

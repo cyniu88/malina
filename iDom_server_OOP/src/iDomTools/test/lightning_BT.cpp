@@ -52,3 +52,16 @@ TEST(lightning_Class, checkLightningAlert)
     test_result = test_lightning.checkLightningAlert(&test_struct);
     EXPECT_FALSE(test_result) << "BRAK ALARMU";
 }
+
+TEST(lightning_Class, oneLightning)
+{
+    LIGHTNING test_lightning;
+    TEST_JSON test_Json;
+    CARDINAL_DIRECTIONS::ALARM_INFO test_struct =
+            test_lightning.lightningAlert(test_Json.jj_oneLightning);
+
+    //std::cout <<std::endl << test_struct.data.str();
+
+    bool test_result = test_lightning.checkLightningAlert(&test_struct);
+    EXPECT_TRUE(test_result);
+}

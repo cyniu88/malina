@@ -143,6 +143,10 @@ public:
     static void MPD_volumeSet(thread_data* my_data, int vol);
     static void MPD_play(thread_data* my_data,int id);
     static int  MPD_getVolume(thread_data *my_data);
+
+    /////////////////////// SAVE STATE iDOM ////////////////
+    void saveState_iDom();
+    void readState_iDom();
 };
 
 #endif // IDOMTOOLS_H

@@ -94,6 +94,8 @@ config useful_F::configFileToStruct()
         confStruct.omxplayerFile = confMap.at("omxplayerFile");
         //////////////// LIGHTNING API
         confStruct.lightningApiURL = confMap.at("LIGHTNING_API_URL");
+        ///////////////// save
+        confStruct.saveFilePath = confMap.at("saveFilePath");
     }
     catch(...)
     {
