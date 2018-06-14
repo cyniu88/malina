@@ -43,6 +43,7 @@ std::string iDomSTATUS::getObjectStateString(std::string name)
     if (i != m_stateMAP.end()){
         return stateToString( i->second) ;
     }
+    //throw "state unknown";
     return stateToString(STATE::UNKNOWN) + " "+name;
 }
 

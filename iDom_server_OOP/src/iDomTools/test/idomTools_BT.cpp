@@ -403,7 +403,7 @@ TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerUnlock)
     test_my_data.server_settings = &test_server_set;
 
     iDomSTATUS test_status;
-    test_status.addObject("house");
+    test_status.addObject("house",STATE::UNDEFINE);
     test_my_data.main_iDomStatus = &test_status;
 
     iDOM_STATE main_iDomStatus;

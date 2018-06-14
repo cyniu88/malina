@@ -210,7 +210,7 @@ void iDomTOOLS::turnOffSpeakers()
 {
     digitalWrite(iDomConst::GPIO_SPIK, LOW);
     useful_F::myStaticData->main_iDomStatus->setObjectState("speakers",STATE::OFF);
-   // useful_F::myStaticData->main_iDomTools->saveState_iDom();
+    // useful_F::myStaticData->main_iDomTools->saveState_iDom();
 }
 
 void iDomTOOLS::turnOnPrinter()
@@ -286,7 +286,7 @@ void iDomTOOLS::turnOnOff433MHzSwitch(std::string name)
         my_data->mainLCD->printString(true,0,0,"230V ON "+name);
         m_switch->on();
     }
-    //saveState_iDom();
+    saveState_iDom();
 }
 
 void iDomTOOLS::turnOn433MHzSwitch(std::string name)
@@ -927,7 +927,12 @@ void iDomTOOLS::saveState_iDom()
     jsonMPD["music"] = my_data->main_iDomStatus->getObjectStateString("music");
     jsonMPD["speakers"] = my_data->main_iDomStatus->getObjectStateString("speakers");
     ////////////////// 433Mhz
-    json433Mhz["listwa"] = my_data->main_iDomStatus->getObjectStateString("listwa");
+    auto switch433vector = my_data->main_REC->getSwitchPointerVector();
+    for (auto v : switch433vector)
+    {
+        v->getName();
+        json433Mhz[v->getName()] = stateToString(v->getState());
+    }
     ///
     nlohmann::json json;
     json["iDom"] = json_iDomLOCK;
@@ -947,12 +952,23 @@ void iDomTOOLS::readState_iDom()
     try
     {
         iDom_SAVE_STATE info(my_data->server_settings->saveFilePath);
-
-
         nlohmann::json jj = info.read();
 #ifdef BT_TEST
         std::cout << "JSON: " << jj.dump(4) << std::endl;
 #endif
+        nlohmann::json json433MHz = jj.at("433Mhz");
+
+        for (nlohmann::json::iterator it = json433MHz.begin(); it != json433MHz.end(); ++it)
+        {
+            if( it.value() == "ON"){
+                my_data->main_iDomTools->turnOn433MHzSwitch(it.key());
+            }
+            else if ( it.value() == "OFF"){
+                my_data->main_iDomTools->turnOff433MHzSwitch(it.key());
+            }
+        }
+
+
         auto iDomLock = jj.at("iDom").at("iDomLock").get<std::string>();
 
         if(iDomLock == "UNLOCK")
