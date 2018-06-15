@@ -372,7 +372,7 @@ class SerialPi {
 
 private:
 	int sd,status;
-	const char *serialPort;
+    std::string serialPort;
 	unsigned char c;
 	struct termios options;
 	int speed;

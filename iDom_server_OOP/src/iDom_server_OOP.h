@@ -87,7 +87,7 @@ struct s_pointer{
 
 struct Thread_array_struc {
     std::thread thread;
-    std::thread::id thread_ID;
+    std::thread::id thread_ID = std::thread::id(0);
     std::string thread_name;
     int thread_socket = 0;
 };

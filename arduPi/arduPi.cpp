@@ -21,7 +21,7 @@
 
 
 #include "arduPi.h"
-
+#include "iostream"
 
 struct bcm2835_peripheral gpio = {GPIO_BASE};
 struct bcm2835_peripheral bsc_rev1 = {IOBASE + 0X205000};
@@ -63,7 +63,7 @@ SerialPi::SerialPi(std::string adres){
 	REV = getBoardRev();
     //serialPort="/dev/ttyAMA0";
     //serialPort="/dev/ttyUSB0";
-    serialPort = adres.c_str();
+    serialPort = adres;
     timeOut = 1000;
 }
 
@@ -91,9 +91,8 @@ void SerialPi::begin(int serialSpeed){
 			
 	}
 
-
-	if ((sd = open(serialPort, O_RDWR | O_NOCTTY | O_NDELAY | O_NONBLOCK)) == -1){
-		fprintf(stderr,"Unable to open the serial port %s - \n", serialPort);
+    if ((sd = open(serialPort.c_str(), O_RDWR | O_NOCTTY | O_NDELAY | O_NONBLOCK)) == -1){
+        fprintf(stderr,"Unable to open the serial port %s - \n", serialPort.c_str());
 		exit(-1);
 	}
     
