@@ -91,4 +91,5 @@ TEST(functions_, sleepThread)
     useful_F::sleeper_mpd(&test_my_data);
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP)<<"NIE ZATRZYMANO MUZYKI :(";
+    delete test_RS;
 }

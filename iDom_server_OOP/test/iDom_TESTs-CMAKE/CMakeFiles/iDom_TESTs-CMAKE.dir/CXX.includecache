@@ -478,6 +478,14 @@ iostream
 ../useful/useful.h
 /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
 
+/home/pi/programowanie/iDom_server_OOP/libs/useful/test/useful_bt.cpp
+gtest/gtest.h
+-
+gmock/gmock.h
+-
+../useful.h
+/home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
+
 /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
 iostream
 -
@@ -499,14 +507,6 @@ iomanip
 -
 json.hpp
 /home/pi/programowanie/iDom_server_OOP/libs/useful/json.hpp
-
-/home/pi/programowanie/iDom_server_OOP/libs/useful/useful_bt.cpp
-gtest/gtest.h
--
-gmock/gmock.h
--
-useful.h
-/home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
 
 /home/pi/programowanie/iDom_server_OOP/libs/useful/usefull.cpp
 useful.h
@@ -866,6 +866,30 @@ gtest/gtest.h
 ../../RADIO_433_eq/radio_433_eq.h
 /home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.h
 
+/home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.cpp
+iostream
+-
+fstream
+-
+idom_save_state.h
+/home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
+
+/home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
+mutex
+-
+json.hpp
+/home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/json.hpp
+
+/home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/test/iDomSaveState_BT.cpp
+gtest/gtest.h
+-
+/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/test_data.h
+-
+../idom_save_state.h
+/home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
+json.hpp
+/home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/test/json.hpp
+
 /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.cpp
 idomstatus.h
 /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
@@ -897,10 +921,14 @@ idomtools.h
 /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
 ../../libs/emoji/emoji.h
 /home/pi/programowanie/iDom_server_OOP/libs/emoji/emoji.h
+../../libs/Statistic/statistic.h
+/home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
 ../CRON/cron.hpp
 /home/pi/programowanie/iDom_server_OOP/src/CRON/cron.hpp
 ../RADIO_433_eq/radio_433_eq.h
 /home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.h
+json.hpp
+/home/pi/programowanie/iDom_server_OOP/src/iDomTools/json.hpp
 
 /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
 map
@@ -927,16 +955,36 @@ idomtools_useful.h
 /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
 json.hpp
 /home/pi/programowanie/iDom_server_OOP/src/iDomTools/json.hpp
+lightning.h
+/home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
 
 /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_mpd.cpp
 idomtools.h
 /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
 ../blockQueue/blockqueue.h
 /home/pi/programowanie/iDom_server_OOP/src/blockQueue/blockqueue.h
+../functions/functions.h
+/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
 
 /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
 string
 -
+
+/home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.cpp
+lightning.h
+/home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
+
+/home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
+iostream
+-
+../../libs/Statistic/statistic.h
+/home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
+../../libs/useful/useful.h
+/home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
+idomtools_useful.h
+/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+json.hpp
+/home/pi/programowanie/iDom_server_OOP/src/iDomTools/json.hpp
 
 /home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp
 gtest/gtest.h
@@ -951,8 +999,16 @@ curl/curl.h
 -
 ../../RADIO_433_eq/radio_433_eq.h
 /home/pi/programowanie/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.h
+
+/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/lightning_BT.cpp
+gtest/gtest.h
+-
+/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/test_data.h
+-
 testJSON.h
 /home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/testJSON.h
+../idomtools.h
+/home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
 
 /home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/testJSON.h
 json.hpp
@@ -1021,6 +1077,8 @@ iDomTools/idomtools.h
 /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
 iDomStatus/idomstatus.h
 /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
+iDomSaveState/idom_save_state.h
+/home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
 
 /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
 fstream

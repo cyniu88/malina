@@ -475,17 +475,11 @@ void iDomTOOLS::checkLightning()
         STATE stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! \\n\\n "+lightningData.data.str() ,
                                           my_data->server_settings->viberReceiver.at(0),
                                           my_data->server_settings->viberSender);
-        try
-        {
-            stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! \\n\\n "+lightningData.data.str() ,
-                                        my_data->server_settings->viberReceiver.at(1),
-                                        my_data->server_settings->viberSender);
-        }
 
-        catch (...)
-        {
-            std::cout << "WYJATEK PASKUDA !!";
-        }
+        stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! \\n\\n "+lightningData.data.str() ,
+                                    my_data->server_settings->viberReceiver.at(1),
+                                    my_data->server_settings->viberSender);
+
         m_viber.setAvatar(my_data->server_settings->viberAvatar);
         if(stateMSG == STATE::SEND_OK)
         {

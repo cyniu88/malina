@@ -59,7 +59,7 @@ timeval start_program, end_point;
  ******************/
 
 //Constructor
-SerialPi::SerialPi(char * adres){
+SerialPi::SerialPi(const char *adres){
 	REV = getBoardRev();
     //serialPort="/dev/ttyAMA0";
     //serialPort="/dev/ttyUSB0";

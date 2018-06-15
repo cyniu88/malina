@@ -44,10 +44,10 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/sunri
  /home/pi/programowanie/iDom_server_OOP/libs/sunrise-sunset/sunriseset.cpp
  /home/pi/programowanie/iDom_server_OOP/libs/sunrise-sunset/sunriseset.h
  /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
-CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/useful/useful_bt.cpp.o
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/useful/test/useful_bt.cpp.o
  ../../libs/json/single_include/nlohmann/json.hpp
+ /home/pi/programowanie/iDom_server_OOP/libs/useful/test/useful_bt.cpp
  /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
- /home/pi/programowanie/iDom_server_OOP/libs/useful/useful_bt.cpp
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/libs/useful/usefull.cpp.o
  ../../libs/json/single_include/nlohmann/json.hpp
  /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
@@ -69,9 +69,11 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz
  /home/pi/programowanie/iDom_server_OOP/src/THERMOMETER_CONTAINER/thermometer_container.h
  /home/pi/programowanie/iDom_server_OOP/src/command/command.h
  /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
@@ -102,9 +104,11 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/433MHz
  /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/mpd_cli.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
@@ -136,9 +140,11 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_
  /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/mpd_cli.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
@@ -170,9 +176,11 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_
  /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/mpd_cli.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
@@ -204,9 +212,11 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/RADIO_
  /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/mpd_cli.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
@@ -235,9 +245,11 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/comman
  /home/pi/programowanie/iDom_server_OOP/src/command/command.cpp
  /home/pi/programowanie/iDom_server_OOP/src/command/command.h
  /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
@@ -270,9 +282,11 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/comman
  /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/mpd_cli.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
@@ -305,9 +319,11 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/comman
  /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/mpd_cli.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
@@ -336,9 +352,11 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functi
  /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/functions2.cpp
  /home/pi/programowanie/iDom_server_OOP/src/functions/mpd_cli.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
@@ -370,13 +388,24 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/functi
  /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/mpd_cli.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/tests/functions_BT.cpp
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
  /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.cpp.o
+ ../../libs/json/single_include/nlohmann/json.hpp
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.cpp
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/test/iDomSaveState_BT.cpp.o
+ ../../libs/json/single_include/nlohmann/json.hpp
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/test/iDomSaveState_BT.cpp
+ /home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/test_data.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.cpp.o
  ../../libs/json/single_include/nlohmann/json.hpp
  /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
@@ -409,10 +438,12 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTo
  /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/mpd_cli.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.cpp
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
@@ -427,20 +458,36 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTo
  /home/pi/programowanie/iDom_server_OOP/libs/sunrise-sunset/sunriseset.h
  /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
  /home/pi/programowanie/iDom_server_OOP/libs/viberAPI/viber_api.h
+ /home/pi/programowanie/iDom_server_OOP/src/CRON/cron.hpp
  /home/pi/programowanie/iDom_server_OOP/src/KEY/key.h
  /home/pi/programowanie/iDom_server_OOP/src/LCD_c/lcd_c.h
  /home/pi/programowanie/iDom_server_OOP/src/THERMOMETER_CONTAINER/thermometer_container.h
  /home/pi/programowanie/iDom_server_OOP/src/blockQueue/blockqueue.h
+ /home/pi/programowanie/iDom_server_OOP/src/c_connection/c_connection.h
+ /home/pi/programowanie/iDom_server_OOP/src/c_irda_logic/c_irda_logic.h
  /home/pi/programowanie/iDom_server_OOP/src/command/command.h
+ /home/pi/programowanie/iDom_server_OOP/src/command/commandhandler.h
+ /home/pi/programowanie/iDom_server_OOP/src/command/commandhandlerroot.h
  /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
+ /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
+ /home/pi/programowanie/iDom_server_OOP/src/functions/mpd_cli.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_mpd.cpp
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
  /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.cpp.o
+ ../../libs/json/single_include/nlohmann/json.hpp
+ /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
+ /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.cpp
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
 CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp.o
  ../../libs/json/single_include/nlohmann/json.hpp
  /home/pi/programowanie/arduPi/arduPi.h
@@ -467,10 +514,38 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTo
  /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/mpd_cli.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp
+ /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
+ /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
+ /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h
+ /home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/test_data.h
+ /home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h
+CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/lightning_BT.cpp.o
+ ../../libs/json/single_include/nlohmann/json.hpp
+ /home/pi/programowanie/arduPi/arduPi.h
+ /home/pi/programowanie/iDom_server_OOP/libs/Statistic/statistic.h
+ /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters.h
+ /home/pi/programowanie/iDom_server_OOP/libs/event_counter_test/event_counters/event_counters_handler.h
+ /home/pi/programowanie/iDom_server_OOP/libs/facebookAPI/facebookAPI.h
+ /home/pi/programowanie/iDom_server_OOP/libs/sunrise-sunset/sunriseset.h
+ /home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h
+ /home/pi/programowanie/iDom_server_OOP/libs/viberAPI/viber_api.h
+ /home/pi/programowanie/iDom_server_OOP/src/KEY/key.h
+ /home/pi/programowanie/iDom_server_OOP/src/LCD_c/lcd_c.h
+ /home/pi/programowanie/iDom_server_OOP/src/THERMOMETER_CONTAINER/thermometer_container.h
+ /home/pi/programowanie/iDom_server_OOP/src/command/command.h
+ /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/lightning_BT.cpp
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/test/testJSON.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
@@ -502,9 +577,11 @@ CMakeFiles/iDom_TESTs-CMAKE.dir/home/pi/programowanie/iDom_server_OOP/src/thread
  /home/pi/programowanie/iDom_server_OOP/src/files_tree/files_tree.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/functions.h
  /home/pi/programowanie/iDom_server_OOP/src/functions/mpd_cli.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomSaveState/idom_save_state.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomStatus/idomstatus.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools.h
  /home/pi/programowanie/iDom_server_OOP/src/iDomTools/idomtools_useful.h
+ /home/pi/programowanie/iDom_server_OOP/src/iDomTools/lightning.h
  /home/pi/programowanie/iDom_server_OOP/src/iDom_server_OOP.h
  /home/pi/programowanie/iDom_server_OOP/src/logger/logger.hpp
  /home/pi/programowanie/iDom_server_OOP/src/menu_tree/menu_tree.h

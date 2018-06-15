@@ -579,5 +579,6 @@ TEST(iDomTOOLS_Class, readState)
 
     test_my_data.main_iDomTools = &test_idomTOOLS;
     test_idomTOOLS.readState_iDom();
+    EXPECT_EQ(test_my_data.alarmTime.state,STATE::ACTIVE);
 }
 

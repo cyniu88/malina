@@ -384,7 +384,7 @@ private:
 
 public:
 
-    SerialPi(char * adres);
+    SerialPi(const char * adres);
 	void begin(int serialSpeed);
 	int available();
 	char read();
