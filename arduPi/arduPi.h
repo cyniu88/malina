@@ -45,6 +45,7 @@
 #include <limits.h>
 #include <pthread.h>
 #include <poll.h>
+#include <string>
 
 #define IOBASE   0x3f000000
 
@@ -384,7 +385,7 @@ private:
 
 public:
 
-    SerialPi(const char * adres);
+    SerialPi(std::string adres);
 	void begin(int serialSpeed);
 	int available();
 	char read();
