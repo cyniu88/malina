@@ -19,6 +19,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         useful_F::send_to_arduino_clock(my_data, "STOP");
         iDomTOOLS::MPD_stop();
         my_data->iDomProgramState = iDomStateEnum::CLOSE;
+        my_data->main_iDomTools->saveState_iDom();
         throw s;
     }
     if (v.size() < 3 )
@@ -30,6 +31,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         useful_F::send_to_arduino_clock(my_data, "RELO");
         iDomTOOLS::MPD_stop();
         my_data->iDomProgramState = iDomStateEnum::RELOAD;
+        my_data->main_iDomTools->saveState_iDom();
         throw s;
     }
     else if(v[1] == "reload" && v[2] == "hard"){
@@ -37,6 +39,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         useful_F::send_to_arduino_clock(my_data, "UPAD");
         iDomTOOLS::MPD_stop();
         my_data->iDomProgramState = iDomStateEnum::HARD_RELOAD;
+        my_data->main_iDomTools->saveState_iDom();
         throw s;
     }
     else

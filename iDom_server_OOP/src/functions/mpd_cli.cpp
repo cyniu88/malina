@@ -145,6 +145,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             updatePlayList(mi,my_data);
             my_data->myEventHandler.run("mpd")->addEvent("MPD playing");
             my_data->main_iDomStatus->setObjectState("music",STATE::PLAY);
+            my_data->main_iDomTools->saveState_iDom();
             break;
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
@@ -152,6 +153,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             my_data->mainLCD->printString(true ,0,1,"    PAUSE");
             my_data->myEventHandler.run("mpd")->addEvent("MPD pause");
             my_data->main_iDomStatus->setObjectState("music",STATE::PAUSE);
+            my_data->main_iDomTools->saveState_iDom();
             break;
         case MPD_PLAYER_STOP:
             printf("Stopped\n");
@@ -168,6 +170,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             sleep(1);
             my_data->myEventHandler.run("mpd")->addEvent("MPD stopped");
             my_data->main_iDomStatus->setObjectState("music",STATE::STOP);
+            my_data->main_iDomTools->saveState_iDom();
             break;
         default:
             break;
