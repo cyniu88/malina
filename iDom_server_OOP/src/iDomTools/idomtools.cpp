@@ -460,6 +460,18 @@ bool iDomTOOLS::isItDay()
     return true;
 }
 
+CARDINAL_DIRECTIONS::ALARM_INFO iDomTOOLS::getLightningStruct()
+{
+    std::lock_guard<std::mutex>  lock(m_lightningMutex);
+    return m_lightningStruct;
+}
+
+void iDomTOOLS::setLightningStruct(CARDINAL_DIRECTIONS::ALARM_INFO &s)
+{
+    std::lock_guard<std::mutex>  lock(m_lightningMutex);
+    m_lightningStruct = s;
+}
+
 void iDomTOOLS::checkLightning()
 {
     //std::cout << "poberanie jsona z piorunami" << std::endl;

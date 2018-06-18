@@ -78,10 +78,9 @@ TEST(functions_, sleepThread)
     pilot_led test_pilot_led;
     test_my_data.ptr_pilot_led = &test_pilot_led;
 
-    iDomTOOLS test_idomTOOLS(&test_my_data);
+    //iDomTOOLS test_idomTOOLS(&test_my_data);
 
     EXPECT_CALL(stub_rec, getEqPointer("listwa")).WillRepeatedly(testing::Return(test_RS));
-
 
     test_my_data.sleeper = 10;
 

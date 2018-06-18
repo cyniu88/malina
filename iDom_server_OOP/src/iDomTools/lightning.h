@@ -26,7 +26,7 @@ public:
         N = 1,NNE,NE,ENE,E,ESE,SE,SSE,S,SSW,SW,WSW,W,WNW,NW,NNW,ERROR
     };
     static CARDINAL_DIRECTIONS_ENUM stringToCardinalDirectionsEnum(std::string s){
-             if (s == "N")      return CARDINAL_DIRECTIONS_ENUM::N;
+        if (s == "N")      return CARDINAL_DIRECTIONS_ENUM::N;
         else if (s == "NNE")    return CARDINAL_DIRECTIONS_ENUM::NNE;
         else if (s == "NE")     return CARDINAL_DIRECTIONS_ENUM::NE;
         else if (s == "ENE")    return CARDINAL_DIRECTIONS_ENUM::ENE;
@@ -122,11 +122,36 @@ public:
         }
     }
     struct ALARM_INFO{
-        bool riseAlarm = false;
+        ALARM_INFO():
+            riseAlarm(false),
+            timestamp(0),
+            distance(0.0),
+            bearingENG(CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ERROR)
+        {
+        }
+        ALARM_INFO(const ALARM_INFO &s):
+            riseAlarm(s.riseAlarm),
+            data(s.data.str()),
+            timestamp(s.timestamp),
+            distance(s.distance),
+            bearingENG(s.bearingENG)
+        {
+        }
+        ALARM_INFO& operator = (const ALARM_INFO& s)
+        {
+            this->riseAlarm = s.riseAlarm;
+            this->data << s.data.str();
+            this->timestamp = s.timestamp;
+            this->distance = s.distance;
+            this->bearingENG = s.bearingENG;
+            return *this;
+        }
+
+        bool riseAlarm;
         std::stringstream data;
-        unsigned int timestamp = 0; //second
-        double distance  = 0.0;  //km
-        CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM bearingENG = CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ERROR;
+        unsigned int timestamp; //second
+        double distance;  //km
+        CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM bearingENG;
     };
 };
 

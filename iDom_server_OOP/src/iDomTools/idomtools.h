@@ -70,7 +70,14 @@ public:
     //////////////////////////// useful  /////////////////////////
     bool isItDay();
     //////////////////////////// lightning ////////////////////////
+    /// \brief lightning
+private:
+    CARDINAL_DIRECTIONS::ALARM_INFO m_lightningStruct;
+public:
     LIGHTNING lightning;
+    std::mutex m_lightningMutex;
+    CARDINAL_DIRECTIONS::ALARM_INFO getLightningStruct();
+    void setLightningStruct(CARDINAL_DIRECTIONS::ALARM_INFO& s);
     void checkLightning();
     //////////////////////////// weather /////////////////////////
     std::string getSunrise(bool extend = false);
