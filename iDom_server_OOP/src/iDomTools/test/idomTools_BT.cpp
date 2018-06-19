@@ -5,6 +5,7 @@
 #include "../idomtools.h"
 #include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
+#include "testJSON.h"
 
 void useful_F::button_interrupt(){}
 void digitalWrite(int pin, int mode){}
@@ -582,3 +583,40 @@ TEST(iDomTOOLS_Class, readState)
     EXPECT_EQ(test_my_data.alarmTime.state,STATE::ACTIVE);
 }
 
+TEST(iDomTOOLS_Class, getLightningStruct)
+{
+    thread_data test_my_data;
+    useful_F::myStaticData = &test_my_data;
+    ALERT test_alarmTime;
+    test_my_data.alarmTime = test_alarmTime;
+    RADIO_EQ_CONTAINER test_rec(&test_my_data);
+    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
+    test_my_data.main_REC = (&test_rec);
+
+    config test_server_set;
+    test_server_set.TS_KEY = "key test";
+    test_server_set.viberSender = "test sender";
+    test_server_set.viberReceiver = {"R1","R2"};
+    test_server_set.saveFilePath = pathSave;
+    test_my_data.server_settings = &test_server_set;
+
+    iDomSTATUS test_status;
+
+    test_my_data.main_iDomStatus = &test_status;
+
+    iDomTOOLS test_idomTOOLS(&test_my_data);
+
+    test_my_data.main_iDomTools = &test_idomTOOLS;
+    LIGHTNING test_lightning;
+    TEST_JSON test_Json;
+    CARDINAL_DIRECTIONS::ALARM_INFO test_struct =
+            test_lightning.lightningAlert(test_Json.jj_lightning);
+
+    test_idomTOOLS.setLightningStruct(test_struct);
+
+    bool test_result = test_lightning.checkLightningAlert(&test_struct);
+    EXPECT_TRUE(test_result);
+
+    auto test_alert_info = test_idomTOOLS.getLightningStruct();
+    EXPECT_EQ(test_alert_info.timestamp,210);
+}

@@ -66,3 +66,4 @@ TEST(lightning_Class, oneLightning)
     bool test_result = test_lightning.checkLightningAlert(&test_struct);
     EXPECT_FALSE(test_result);
 }
+

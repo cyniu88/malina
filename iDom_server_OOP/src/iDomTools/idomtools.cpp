@@ -478,17 +478,20 @@ void iDomTOOLS::checkLightning()
     nlohmann::json jj = useful_F_libs::getJson(my_data->server_settings->lightningApiURL);
     //std::cout << "poberanie jsona z piorunami" << std::endl;
     CARDINAL_DIRECTIONS::ALARM_INFO lightningData = lightning.lightningAlert(jj);
+    setLightningStruct(lightningData);
     bool result = lightning.checkLightningAlert(&lightningData);
 
     if(result == true)
     {
 
         m_viber.setAvatar("http://cyniu88.no-ip.pl/avatar/lightning.jpg");
-        STATE stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! \\n\\n "+lightningData.data.str() ,
+        STATE stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "+EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
+                                          +"\\n\\n "+lightningData.data.str() ,
                                           my_data->server_settings->viberReceiver.at(0),
                                           my_data->server_settings->viberSender);
 
-        stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! \\n\\n "+lightningData.data.str() ,
+        stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "+EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
+                                    +"\\n\\n "+lightningData.data.str() ,
                                     my_data->server_settings->viberReceiver.at(1),
                                     my_data->server_settings->viberSender);
 
@@ -888,7 +891,7 @@ std::string iDomTOOLS::ledOn(LED_Strip ledColor, unsigned int from, unsigned int
 void iDomTOOLS::checkAlarm()
 {
     unsigned int fromVol = 48;
-    unsigned int  toVol = 58;
+    unsigned int   toVol = 58;
     unsigned int radioId = 7;
     Clock now = Clock::getTime();
 

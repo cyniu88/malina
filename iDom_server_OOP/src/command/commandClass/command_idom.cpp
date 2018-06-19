@@ -135,6 +135,10 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         std::string readBuffer = useful_F_libs::httpPost("http://cyniu88.no-ip.pl/cgi-bin/kto_wifi.sh",10);
         return readBuffer;
     }
+    else if (v[1]=="lightning"){
+        std::string readBuffer = my_data->main_iDomTools->getLightningStruct().data.str();
+        return readBuffer;
+    }
     else if (v[1]=="kill"){
 
         if (v[2]=="thread"){
@@ -233,6 +237,7 @@ std::string command_iDom::help()
     ret.append("iDom facebook ... - post on facebook wall\n");
     ret.append("iDom viber ...   - send viber msg\n");
     ret.append("iDom weather <city> <radius>  - get weather alert\n");
+    ret.append("iDom lightning  - get lightning alert\n");
     ret.append("iDom alarm ON/OFF hh:mm - set larm clock \n");
     ret.append("iDom lock   - lock home\n");
     ret.append("iDom unlock - unlock home\n");
