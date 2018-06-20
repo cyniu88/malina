@@ -7,7 +7,7 @@
 
 class iDomTOOLS_ClassTest : public ::testing::Test
 {
-protected:
+public:
     TEST_JSON test_Json;
     LIGHTNING test_lightning;
     CARDINAL_DIRECTIONS::ALARM_INFO test_struct;
@@ -27,7 +27,7 @@ protected:
     {
         std::cout << "konstruktor testu " <<std::endl;
     }
-    virtual void SetUp()
+    void SetUp()
     {
         std::cout << "SetUP testu " <<std::endl;
         test_server_set.TS_KEY = "key test";
@@ -53,7 +53,7 @@ protected:
         useful_F::myStaticData = &test_my_data;
     }
 
-    virtual void TearDown()
+    void TearDown()
     {
         delete test_idomTOOLS;
       //  std::cout << "czyszczenie po tescie " <<std::endl;

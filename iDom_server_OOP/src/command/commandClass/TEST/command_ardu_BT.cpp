@@ -7,15 +7,36 @@
 
 class commandArdu_Class_fixture : public iDomTOOLS_ClassTest
 {
+public:
+    commandArdu_Class_fixture()  {  }
+
 protected:
-    void koko(){}
+
+    RFLinkHandler* test_RFLink;
+    blockQueue test_q;
+
+    void SetUp()
+    {
+        iDomTOOLS_ClassTest::SetUp();
+
+        test_q._clearAll();
+
+        test_RFLink = new RFLinkHandler(&test_my_data);
+        test_my_data.main_RFLink = test_RFLink;
+        std::cout << "commandArdu_Class_fixture SetUp" << std::endl;
+    }
+
+    void TearDown()
+    {
+        iDomTOOLS_ClassTest::TearDown();
+        delete test_RFLink;
+        std::cout << "commandArdu_Class_fixture TearDown" << std::endl;
+    }
 
 };
 
 TEST_F(commandArdu_Class_fixture, wrongMSGformat)
 {
-    RFLinkHandler test_RFLink(&test_my_data);
-    test_my_data.main_RFLink = &test_RFLink;
     command_ardu test_ardu("ardu", &test_my_data);
     std::vector<std::string> test_v= {"ardu"};
     test_v.push_back("433MHz");
@@ -25,12 +46,6 @@ TEST_F(commandArdu_Class_fixture, wrongMSGformat)
 
 TEST_F(commandArdu_Class_fixture, UnlockHome)
 {
-    blockQueue test_q;
-    test_q._clearAll();
-
-    RFLinkHandler test_RFLink(&test_my_data);
-    test_my_data.main_RFLink = &test_RFLink;
-
     test_idomTOOLS->lockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
 
@@ -47,12 +62,6 @@ TEST_F(commandArdu_Class_fixture, UnlockHome)
 
 TEST_F(commandArdu_Class_fixture, LockHome)
 {
-    blockQueue test_q;
-    test_q._clearAll();
-
-    RFLinkHandler test_RFLink(&test_my_data);
-    test_my_data.main_RFLink = &test_RFLink;
-
     test_idomTOOLS->unlockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
 
@@ -72,12 +81,6 @@ TEST_F(commandArdu_Class_fixture, LockHome)
 
 TEST_F(commandArdu_Class_fixture, playMusic)
 {
-    blockQueue test_q;
-    test_q._clearAll();
-
-    RFLinkHandler test_RFLink(&test_my_data);
-    test_my_data.main_RFLink = &test_RFLink;
-
     test_idomTOOLS->unlockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
     test_status.addObject("music",STATE::STOP);
@@ -96,12 +99,6 @@ TEST_F(commandArdu_Class_fixture, playMusic)
 
 TEST_F(commandArdu_Class_fixture, stopMusic)
 {
-    blockQueue test_q;
-    test_q._clearAll();
-
-    RFLinkHandler test_RFLink(&test_my_data);
-    test_my_data.main_RFLink = &test_RFLink;
-
     test_idomTOOLS->unlockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
     test_status.addObject("music",STATE::PLAY);
@@ -120,9 +117,6 @@ TEST_F(commandArdu_Class_fixture, stopMusic)
 
 TEST_F(commandArdu_Class_fixture, weatherStationTemp)
 {
-    RFLinkHandler test_RFLink(&test_my_data);
-    test_my_data.main_RFLink = &test_RFLink;
-
     command_ardu test_ardu("ardu", &test_my_data);
     std::vector<std::string> test_v= {"ardu"};
     test_v.push_back("433MHz");
