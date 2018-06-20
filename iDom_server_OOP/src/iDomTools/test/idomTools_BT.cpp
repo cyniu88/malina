@@ -25,9 +25,11 @@ protected:
     /////// method
     iDomTOOLS_Class():test_rec(&test_my_data)
     {
+        std::cout << "konstruktor testu " <<std::endl;
     }
     virtual void SetUp()
-    {   std::cout << "SetUP testu " <<std::endl;
+    {
+        std::cout << "SetUP testu " <<std::endl;
         test_server_set.TS_KEY = "key test";
         test_server_set.viberSender = "test sender";
         test_server_set.viberReceiver = {"R1","R2"};
@@ -38,8 +40,11 @@ protected:
         test_my_data.main_iDomStatus = &test_status;
         test_my_data.alarmTime = test_alarmTime;
         test_my_data.idom_all_state = main_iDomStatus;
+        test_status.addObject("house");
         /////////// create
         test_idomTOOLS = new iDomTOOLS(&test_my_data);
+
+        test_my_data.main_iDomTools = test_idomTOOLS;
         useful_F::myStaticData = &test_my_data;
     }
 
@@ -53,7 +58,6 @@ protected:
 void useful_F::button_interrupt(){}
 void digitalWrite(int pin, int mode){}
 int digitalRead(int pin){ return 0; }
-std::string pathSave = "/mnt/ramdisk/iDomStateTest2.save";
 
 std::string useful_F::send_to_arduino(thread_data *my_data,std::string d){
     return TEST_DATA::return_send_to_arduino;
@@ -261,9 +265,6 @@ TEST_F(iDomTOOLS_Class, checkAlarm)
     test_my_data.alarmTime.time = Clock::getTime();
     test_my_data.alarmTime.state = STATE::ACTIVE;
 
-    pilot_led test_pilot_led;
-    test_my_data.ptr_pilot_led = &test_pilot_led;
-
     EXPECT_EQ(test_my_data.alarmTime.state, STATE::ACTIVE);
 
     for(unsigned int i = fromVol; i<toVol; ++i)
@@ -282,11 +283,8 @@ TEST_F(iDomTOOLS_Class, checkAlarm)
     delete test_RS;
 }
 
-TEST(iDomTOOLS_Class, homeLockPlayStopMusic)
+TEST_F(iDomTOOLS_Class, homeLockPlayStopMusic)
 {
-    thread_data test_my_data;
-    iDomSTATUS test_status;
-    test_my_data.main_iDomStatus = &test_status;
     ///////////////////////////////////// to save
     test_status.setObjectState("house",STATE::UNDEFINE);
     test_status.setObjectState("music", STATE::PLAY);
@@ -295,119 +293,56 @@ TEST(iDomTOOLS_Class, homeLockPlayStopMusic)
 
     test_status.setObjectState("listwa",STATE::ON);
 
-    ALERT test_alarmTime;
     test_alarmTime.time = Clock::getTime();
     test_alarmTime.state = STATE::ACTIVE;
     test_status.setObjectState("alarm", test_alarmTime.state);
-    test_my_data.alarmTime = test_alarmTime;
-    useful_F::myStaticData = &test_my_data;
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_server_set.saveFilePath = pathSave;
-    test_my_data.server_settings = &test_server_set;
-    //////////////////////////////////////////////////////////////
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_my_data.main_REC = (&test_rec);
-
-    iDOM_STATE main_iDomStatus;
-    test_my_data.idom_all_state = main_iDomStatus;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
 
     blockQueue test_q;
     test_q._clearAll();
     EXPECT_EQ(test_q._size(),0);
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNDEFINE);
-    test_idomTOOLS.lockHome();
+    test_idomTOOLS->lockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
-    test_idomTOOLS.MPD_play(&test_my_data);
+    test_idomTOOLS->MPD_play(&test_my_data);
     EXPECT_EQ(test_q._size(),0);
-    test_idomTOOLS.unlockHome();
+    test_idomTOOLS->unlockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
-    test_idomTOOLS.MPD_play(&test_my_data);
+    test_idomTOOLS->MPD_play(&test_my_data);
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
-    test_idomTOOLS.lockHome();
+    test_idomTOOLS->lockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
-    test_idomTOOLS.MPD_stop();
+    test_idomTOOLS->MPD_stop();
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
 }
 
-TEST(iDomTOOLS_Class, buttonPressed)
+TEST_F(iDomTOOLS_Class, buttonPressed)
 {
     std::string button433MHz_id = "01e7be";
-    thread_data test_my_data;
-
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-    test_status.addObject("house");
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDOM_STATE main_iDomStatus;
-    test_my_data.idom_all_state = main_iDomStatus;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
-
-    std::string pressedButtonName = test_idomTOOLS.buttonPressed(button433MHz_id);
+    std::string pressedButtonName = test_idomTOOLS->buttonPressed(button433MHz_id);
     EXPECT_EQ(1, test_my_data.main_REC->getButtonPointerVector().size());
     EXPECT_STREQ(std::to_string(button433MHz_id).c_str(),
                  test_my_data.main_REC->getButtonPointerVector().at(0)->getID().c_str());
     EXPECT_STREQ(pressedButtonName.c_str(), "locker");
 
-    EXPECT_THROW(test_idomTOOLS.buttonPressed(button433MHz_id+"a"),
+    EXPECT_THROW(test_idomTOOLS->buttonPressed(button433MHz_id+"a"),
                  std::string);
 }
 
-TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerUnlock)
+TEST_F(iDomTOOLS_Class, button433MHzPressedAction_lockerUnlock)
 {
-    thread_data test_my_data;
-
     blockQueue test_q;
     test_q._clearAll();
 
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-    test_status.addObject("house",STATE::UNDEFINE);
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDOM_STATE main_iDomStatus;
-    test_my_data.idom_all_state = main_iDomStatus;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
-
-    test_idomTOOLS.unlockHome();
+    test_idomTOOLS->unlockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
 
     for(auto i : {1,2,3}){
-        test_idomTOOLS.button433MHzPressedAction("locker");
+        test_idomTOOLS->button433MHzPressedAction("locker");
     }
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
 
@@ -416,71 +351,27 @@ TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerUnlock)
 
 }
 
-TEST(iDomTOOLS_Class, button433MHzPressedAction_lockerLock)
+TEST_F(iDomTOOLS_Class, button433MHzPressedAction_lockerLock)
 {
-    thread_data test_my_data;
-
     blockQueue test_q;
     test_q._clearAll();
 
-    pilot_led test_pilot_led;
-    test_my_data.ptr_pilot_led = &test_pilot_led;
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
+    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNDEFINE) << "nie jest UNDEFINED";
 
-    iDomSTATUS test_status;
-    test_status.addObject("house");
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDOM_STATE main_iDomStatus;
-    test_my_data.idom_all_state = main_iDomStatus;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
-
-    //test_idomTOOLS.unlockHome();
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNDEFINE);
-
-    test_idomTOOLS.button433MHzPressedAction("locker");
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
+    test_idomTOOLS->button433MHzPressedAction("locker");
+    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK)<< "nie jest UNLOCK";
 
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
-
 }
 
-TEST(iDomTOOLS_Class, testCPU_Load)
+TEST_F(iDomTOOLS_Class, testCPU_Load)
 {
-    thread_data test_my_data;
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
-
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-    test_status.addObject("house");
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
     std::cout <<"TEST LOAD" << std::endl;
-    std::cout << test_idomTOOLS.getSystemInfo() << std::endl;
+    std::cout << test_idomTOOLS->getSystemInfo() << std::endl;
 }
-TEST(iDomTOOLS_Class, stringToCardinalDirectionsEnum)
+TEST_F(iDomTOOLS_Class, stringToCardinalDirectionsEnum)
 {
     EXPECT_EQ(CARDINAL_DIRECTIONS::stringToCardinalDirectionsEnum("NWWA"),
               CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ERROR);
@@ -488,7 +379,7 @@ TEST(iDomTOOLS_Class, stringToCardinalDirectionsEnum)
               CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::N);
 }
 
-TEST(iDomTOOLS_Class, cardinalDirectionsEnumToString)
+TEST_F(iDomTOOLS_Class, cardinalDirectionsEnumToString)
 {
     EXPECT_STREQ( CARDINAL_DIRECTIONS::cardinalDirectionsEnumToString(CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ERROR).c_str(),
               "UNKNOWN DIRECTION");
@@ -496,27 +387,9 @@ TEST(iDomTOOLS_Class, cardinalDirectionsEnumToString)
               "ESE");
 }
 
-TEST(iDomTOOLS_Class, saveState)
+TEST_F(iDomTOOLS_Class, saveState)
 {
-    thread_data test_my_data;
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
 
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_server_set.saveFilePath = pathSave;
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-    test_status.addObject("house");
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
 
 
     test_status.setObjectState("house",STATE::UNLOCK);
@@ -526,17 +399,14 @@ TEST(iDomTOOLS_Class, saveState)
     test_my_data.idom_all_state.houseState = STATE::LOCK;
 
     test_status.setObjectState("listwa",STATE::ON);
-
-    ALERT test_alarmTime;
     test_alarmTime.time = Clock::getTime();
     test_alarmTime.state = STATE::ACTIVE;
     test_status.setObjectState("alarm", test_alarmTime.state);
-    test_my_data.alarmTime = test_alarmTime;
 
-    test_idomTOOLS.saveState_iDom();
+    test_idomTOOLS->saveState_iDom();
 
     nlohmann::json testJson;
-    std::ifstream i(pathSave);
+    std::ifstream i(test_server_set.saveFilePath);
     i >> testJson;
     EXPECT_STREQ(test_status.getObjectStateString("music").c_str(),
                  testJson.at("MPD").at("music").get<std::string>().c_str() );
@@ -544,68 +414,22 @@ TEST(iDomTOOLS_Class, saveState)
                  testJson.at("ALARM").at("alarm").get<std::string>().c_str() );
 }
 
-TEST(iDomTOOLS_Class, readState)
+TEST_F(iDomTOOLS_Class, readState)
 {
-    thread_data test_my_data;
-    useful_F::myStaticData = &test_my_data;
-    ALERT test_alarmTime;
-    test_my_data.alarmTime = test_alarmTime;
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
-
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_server_set.saveFilePath = pathSave;
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
-    test_idomTOOLS.readState_iDom();
+    test_idomTOOLS->readState_iDom();
     EXPECT_EQ(test_my_data.alarmTime.state,STATE::ACTIVE);
 }
 
 TEST_F(iDomTOOLS_Class, getLightningStruct)
 {
-    thread_data test_my_data;
-    useful_F::myStaticData = &test_my_data;
-    ALERT test_alarmTime;
-    test_my_data.alarmTime = test_alarmTime;
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
-
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_server_set.saveFilePath = pathSave;
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
     LIGHTNING test_lightning;
-    TEST_JSON test_Json;
-    CARDINAL_DIRECTIONS::ALARM_INFO test_struct =
-            test_lightning.lightningAlert(test_Json.jj_lightning);
+    test_struct = test_lightning.lightningAlert(test_Json.jj_lightning);
 
-    test_idomTOOLS.setLightningStruct(test_struct);
+    test_idomTOOLS->setLightningStruct(test_struct);
 
     bool test_result = test_lightning.checkLightningAlert(&test_struct);
     EXPECT_TRUE(test_result);
 
-    auto test_alert_info = test_idomTOOLS.getLightningStruct();
+    auto test_alert_info = test_idomTOOLS->getLightningStruct();
     EXPECT_EQ(test_alert_info.timestamp,210);
 }
