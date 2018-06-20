@@ -7,6 +7,49 @@
 #include "../../RADIO_433_eq/radio_433_eq.h"
 #include "testJSON.h"
 
+class iDomTOOLS_Class : public ::testing::Test
+{
+protected:
+    TEST_JSON test_Json;
+    LIGHTNING test_lightning;
+    CARDINAL_DIRECTIONS::ALARM_INFO test_struct;
+    //std::string  = "/mnt/ramdisk/iDomStateTest2.save";
+    thread_data test_my_data;
+    iDomSTATUS test_status;
+    config test_server_set;
+    RADIO_EQ_CONTAINER test_rec;
+    iDOM_STATE main_iDomStatus;
+    ALERT test_alarmTime;
+    /// pointer
+    iDomTOOLS* test_idomTOOLS;
+    /////// method
+    iDomTOOLS_Class():test_rec(&test_my_data)
+    {
+    }
+    virtual void SetUp()
+    {   std::cout << "SetUP testu " <<std::endl;
+        test_server_set.TS_KEY = "key test";
+        test_server_set.viberSender = "test sender";
+        test_server_set.viberReceiver = {"R1","R2"};
+        test_server_set.saveFilePath = "/mnt/ramdisk/iDomStateTest2.save";
+        test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
+        test_my_data.main_REC = (&test_rec);
+        test_my_data.server_settings = &test_server_set;
+        test_my_data.main_iDomStatus = &test_status;
+        test_my_data.alarmTime = test_alarmTime;
+        test_my_data.idom_all_state = main_iDomStatus;
+        /////////// create
+        test_idomTOOLS = new iDomTOOLS(&test_my_data);
+        useful_F::myStaticData = &test_my_data;
+    }
+
+    virtual void TearDown()
+    {
+        delete test_idomTOOLS;
+      //  std::cout << "czyszczenie po tescie " <<std::endl;
+    }
+};
+
 void useful_F::button_interrupt(){}
 void digitalWrite(int pin, int mode){}
 int digitalRead(int pin){ return 0; }
@@ -80,22 +123,9 @@ curl_global_cleanup();
 return readBuffer;
 }
 
-TEST(iDomTOOLS_Class, smog)
+TEST_F(iDomTOOLS_Class, smog)
 {
-    thread_data test_my_data;
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_my_data.main_REC = (&test_rec);
-
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    std::string smog = test_idomTOOLS.getSmog();
+    std::string smog = test_idomTOOLS->getSmog();
     puts(smog.c_str());
     puts(" smog");
     ASSERT_GE(smog.size(),2);
@@ -105,66 +135,65 @@ TEST(iDomTOOLS_Class, smog)
     ASSERT_LT(smog_int,1000);
 }
 
-TEST(iDomTOOLS_Class, hasTemperatureChange)
+TEST_F(iDomTOOLS_Class, hasTemperatureChange)
 {
-    thread_data test_my_data;
 
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_my_data.main_REC = (&test_rec);
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
+//    RADIO_EQ_CONTAINER test_rec(&test_my_data);
+//    test_my_data.main_REC = (&test_rec);
+//    config test_server_set;
+//    test_server_set.TS_KEY = "key test";
+//    test_server_set.viberSender = "test sender";
+//    test_server_set.viberReceiver = {"R1","R2"};
+//    test_my_data.server_settings = &test_server_set;
 
-    iDomSTATUS test_status;
-    test_my_data.main_iDomStatus = &test_status;
+//    iDomSTATUS test_status;
+//    test_my_data.main_iDomStatus = &test_status;
 
-    iDomTOOLS test_idomTOOLS(&test_my_data);
+//    iDomTOOLS test_idomTOOLS(&test_my_data);
     // inside outside
 
     std::cout << "##################################### 0" <<std::endl;
 
     TEST_DATA::return_send_to_arduino = "20.0:-1.0;";
-    test_idomTOOLS.send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS.allThermometer.getLastState("outside"),TEMPERATURE_STATE::Under);
-    EXPECT_EQ(test_idomTOOLS.allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
+    test_idomTOOLS->send_temperature_thingSpeak();
+    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::Under);
+    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
     std::cout << "##################################### 1" <<std::endl;
 
     TEST_DATA::return_send_to_arduino = "25.4:0.0;";
-    test_idomTOOLS.send_temperature_thingSpeak();
+    test_idomTOOLS->send_temperature_thingSpeak();
 
-    EXPECT_EQ(test_idomTOOLS.allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_idomTOOLS.allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
+    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
 
     std::cout << "##################################### 2" <<std::endl;
 
     TEST_DATA::return_send_to_arduino = "21.0:1.0;";
-    test_idomTOOLS.send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS.allThermometer.getLastState("outside"),TEMPERATURE_STATE::Over);
-    EXPECT_EQ(test_idomTOOLS.allThermometer.getLastState("inside"),TEMPERATURE_STATE::Under);
+    test_idomTOOLS->send_temperature_thingSpeak();
+    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::Over);
+    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::Under);
 
     std::cout << "##################################### 3" <<std::endl;
     TEST_DATA::return_send_to_arduino = "21.0:5.0;";
-    test_idomTOOLS.send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS.allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_idomTOOLS.allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
+    test_idomTOOLS->send_temperature_thingSpeak();
+    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
 
     std::cout << "##################################### 4" <<std::endl;
     TEST_DATA::return_send_to_arduino = "21.0:4.0;";
-    test_idomTOOLS.send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS.allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_idomTOOLS.allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
+    test_idomTOOLS->send_temperature_thingSpeak();
+    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
     std::cout << "##################################### 5" <<std::endl;
 
     TEST_DATA::return_send_to_arduino = "31.9:11.11;";
-    test_idomTOOLS.send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS.allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_idomTOOLS.allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
+    test_idomTOOLS->send_temperature_thingSpeak();
+    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
     std::cout << "##################################### 6" <<std::endl;
 }
 
-TEST(iDomTOOLS_Class, weatherAlert)
+TEST_F(iDomTOOLS_Class, weatherAlert)
 {
     std::string test_data_from_www = "    <div style=\"margin:0;padding:0;width:350px;font:0.8em Lucida,Arial,sans-seri                                                                  f;background:#FFC\">\
             <p style=\"margin:1px;padding:1px;text-align:center;background:#FF9;borde \                                                                 r:1px dotted\"><b><a href=\"http://burze.dzis.net?page=wyszukiwarka&amp;miejscowos\                                                                  c=krakow\" target=\"_blank\" style=\"color:#00E\">krakow</a></b>\
@@ -185,23 +214,10 @@ TEST(iDomTOOLS_Class, weatherAlert)
             \
             <dl style=\"margin:1px 1px 0 1px;padding:0;clear:both                                                                  ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  \                                                                Trąby powietrzne, brak ostrzeżeń</dl>\
             </div>";
-            thread_data test_my_data;
 
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_my_data.main_REC = (&test_rec);
-    config test_server_set;
-    iDomSTATUS test_status;
-    test_my_data.main_iDomStatus = &test_status;
-
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
 
     std::vector<WEATHER_ALER> test_WA;
-    test_WA =  test_idomTOOLS.getAlert(test_data_from_www);
+    test_WA =  test_idomTOOLS->getAlert(test_data_from_www);
     EXPECT_EQ(1,test_WA.size()) << "ZŁY ROZMIAR VEKTORA WA";
 }
 
