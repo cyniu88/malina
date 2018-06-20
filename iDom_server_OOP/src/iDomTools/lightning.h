@@ -164,7 +164,8 @@ public:
     bool checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO* info);
 private:
     bool alarmState = false;
-    Clock lightningTime;
+    Clock lightningTime;    
+    double oldDistance = 0.0;
 };
 
 #endif // LIGHTNING_H

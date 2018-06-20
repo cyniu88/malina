@@ -94,6 +94,14 @@ bool LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
         lightningTime = Clock::getTime();
         return true;
     }
+
+    if(oldDistance > info->distance)
+    {
+        oldDistance = info->distance;
+        return true;
+    }
+    ////////////////clear
+    oldDistance = 0.0;
     return false;
 }
 

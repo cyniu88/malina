@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
 
     //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.saveState";
     //::testing::GTEST_FLAG(filter) = "StatisticClass.mode";
-    //::testing::GTEST_FLAG(filter) = "iDomTOOLS_Class.checkLightning";
+    //::testing::GTEST_FLAG(filter) = "lightning_Class.lightningAlertOFF";
     return RUN_ALL_TESTS();
 }
 
