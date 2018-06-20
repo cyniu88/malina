@@ -1,60 +1,7 @@
 #include <gtest/gtest.h>
 #include <curl/curl.h>
 
-#include "/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/test_data.h"
-#include "../idomtools.h"
-#include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
-#include "../../RADIO_433_eq/radio_433_eq.h"
-#include "testJSON.h"
-
-class iDomTOOLS_Class : public ::testing::Test
-{
-protected:
-    TEST_JSON test_Json;
-    LIGHTNING test_lightning;
-    CARDINAL_DIRECTIONS::ALARM_INFO test_struct;
-    //std::string  = "/mnt/ramdisk/iDomStateTest2.save";
-    thread_data test_my_data;
-    iDomSTATUS test_status;
-    config test_server_set;
-    RADIO_EQ_CONTAINER test_rec;
-    iDOM_STATE main_iDomStatus;
-    ALERT test_alarmTime;
-    /// pointer
-    iDomTOOLS* test_idomTOOLS;
-    /////// method
-    iDomTOOLS_Class():test_rec(&test_my_data)
-    {
-        std::cout << "konstruktor testu " <<std::endl;
-    }
-    virtual void SetUp()
-    {
-        std::cout << "SetUP testu " <<std::endl;
-        test_server_set.TS_KEY = "key test";
-        test_server_set.viberSender = "test sender";
-        test_server_set.viberReceiver = {"R1","R2"};
-        test_server_set.saveFilePath = "/mnt/ramdisk/iDomStateTest2.save";
-        test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-        test_my_data.main_REC = (&test_rec);
-        test_my_data.server_settings = &test_server_set;
-        test_my_data.main_iDomStatus = &test_status;
-        test_my_data.alarmTime = test_alarmTime;
-        test_my_data.idom_all_state = main_iDomStatus;
-        test_status.addObject("house");
-        /////////// create
-        test_idomTOOLS = new iDomTOOLS(&test_my_data);
-
-        test_my_data.main_iDomTools = test_idomTOOLS;
-        useful_F::myStaticData = &test_my_data;
-    }
-
-    virtual void TearDown()
-    {
-        delete test_idomTOOLS;
-      //  std::cout << "czyszczenie po tescie " <<std::endl;
-    }
-};
-
+#include "iDomTools_fixture.h"
 void useful_F::button_interrupt(){}
 void digitalWrite(int pin, int mode){}
 int digitalRead(int pin){ return 0; }
@@ -127,7 +74,7 @@ curl_global_cleanup();
 return readBuffer;
 }
 
-TEST_F(iDomTOOLS_Class, smog)
+TEST_F(iDomTOOLS_ClassTest, smog)
 {
     std::string smog = test_idomTOOLS->getSmog();
     puts(smog.c_str());
@@ -139,23 +86,8 @@ TEST_F(iDomTOOLS_Class, smog)
     ASSERT_LT(smog_int,1000);
 }
 
-TEST_F(iDomTOOLS_Class, hasTemperatureChange)
+TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 {
-
-//    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-//    test_my_data.main_REC = (&test_rec);
-//    config test_server_set;
-//    test_server_set.TS_KEY = "key test";
-//    test_server_set.viberSender = "test sender";
-//    test_server_set.viberReceiver = {"R1","R2"};
-//    test_my_data.server_settings = &test_server_set;
-
-//    iDomSTATUS test_status;
-//    test_my_data.main_iDomStatus = &test_status;
-
-//    iDomTOOLS test_idomTOOLS(&test_my_data);
-    // inside outside
-
     std::cout << "##################################### 0" <<std::endl;
 
     TEST_DATA::return_send_to_arduino = "20.0:-1.0;";
@@ -197,7 +129,7 @@ TEST_F(iDomTOOLS_Class, hasTemperatureChange)
     std::cout << "##################################### 6" <<std::endl;
 }
 
-TEST_F(iDomTOOLS_Class, weatherAlert)
+TEST_F(iDomTOOLS_ClassTest, weatherAlert)
 {
     std::string test_data_from_www = "    <div style=\"margin:0;padding:0;width:350px;font:0.8em Lucida,Arial,sans-seri                                                                  f;background:#FFC\">\
             <p style=\"margin:1px;padding:1px;text-align:center;background:#FF9;borde \                                                                 r:1px dotted\"><b><a href=\"http://burze.dzis.net?page=wyszukiwarka&amp;miejscowos\                                                                  c=krakow\" target=\"_blank\" style=\"color:#00E\">krakow</a></b>\
@@ -225,7 +157,7 @@ TEST_F(iDomTOOLS_Class, weatherAlert)
     EXPECT_EQ(1,test_WA.size()) << "ZŁY ROZMIAR VEKTORA WA";
 }
 
-TEST_F(iDomTOOLS_Class, send_temperature_thingSpeak){
+TEST_F(iDomTOOLS_ClassTest, send_temperature_thingSpeak){
 
     TEST_DATA::return_httpPost_expect = "NULL";
 
@@ -234,7 +166,7 @@ TEST_F(iDomTOOLS_Class, send_temperature_thingSpeak){
     EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(),"httpPost");
 }
 
-TEST_F(iDomTOOLS_Class, checkAlarm)
+TEST_F(iDomTOOLS_ClassTest, checkAlarm)
 {
     unsigned int fromVol = 48;
     unsigned int  toVol = 57;
@@ -283,7 +215,7 @@ TEST_F(iDomTOOLS_Class, checkAlarm)
     delete test_RS;
 }
 
-TEST_F(iDomTOOLS_Class, homeLockPlayStopMusic)
+TEST_F(iDomTOOLS_ClassTest, homeLockPlayStopMusic)
 {
     ///////////////////////////////////// to save
     test_status.setObjectState("house",STATE::UNDEFINE);
@@ -320,7 +252,7 @@ TEST_F(iDomTOOLS_Class, homeLockPlayStopMusic)
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
 }
 
-TEST_F(iDomTOOLS_Class, buttonPressed)
+TEST_F(iDomTOOLS_ClassTest, buttonPressed)
 {
     std::string button433MHz_id = "01e7be";
     std::string pressedButtonName = test_idomTOOLS->buttonPressed(button433MHz_id);
@@ -333,7 +265,7 @@ TEST_F(iDomTOOLS_Class, buttonPressed)
                  std::string);
 }
 
-TEST_F(iDomTOOLS_Class, button433MHzPressedAction_lockerUnlock)
+TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_lockerUnlock)
 {
     blockQueue test_q;
     test_q._clearAll();
@@ -351,7 +283,7 @@ TEST_F(iDomTOOLS_Class, button433MHzPressedAction_lockerUnlock)
 
 }
 
-TEST_F(iDomTOOLS_Class, button433MHzPressedAction_lockerLock)
+TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_lockerLock)
 {
     blockQueue test_q;
     test_q._clearAll();
@@ -366,12 +298,12 @@ TEST_F(iDomTOOLS_Class, button433MHzPressedAction_lockerLock)
     EXPECT_EQ(test_q._size(),0);
 }
 
-TEST_F(iDomTOOLS_Class, testCPU_Load)
+TEST_F(iDomTOOLS_ClassTest, testCPU_Load)
 {
     std::cout <<"TEST LOAD" << std::endl;
     std::cout << test_idomTOOLS->getSystemInfo() << std::endl;
 }
-TEST_F(iDomTOOLS_Class, stringToCardinalDirectionsEnum)
+TEST_F(iDomTOOLS_ClassTest, stringToCardinalDirectionsEnum)
 {
     EXPECT_EQ(CARDINAL_DIRECTIONS::stringToCardinalDirectionsEnum("NWWA"),
               CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ERROR);
@@ -379,7 +311,7 @@ TEST_F(iDomTOOLS_Class, stringToCardinalDirectionsEnum)
               CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::N);
 }
 
-TEST_F(iDomTOOLS_Class, cardinalDirectionsEnumToString)
+TEST_F(iDomTOOLS_ClassTest, cardinalDirectionsEnumToString)
 {
     EXPECT_STREQ( CARDINAL_DIRECTIONS::cardinalDirectionsEnumToString(CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ERROR).c_str(),
               "UNKNOWN DIRECTION");
@@ -387,7 +319,7 @@ TEST_F(iDomTOOLS_Class, cardinalDirectionsEnumToString)
               "ESE");
 }
 
-TEST_F(iDomTOOLS_Class, saveState)
+TEST_F(iDomTOOLS_ClassTest, saveState)
 {
 
 
@@ -414,13 +346,13 @@ TEST_F(iDomTOOLS_Class, saveState)
                  testJson.at("ALARM").at("alarm").get<std::string>().c_str() );
 }
 
-TEST_F(iDomTOOLS_Class, readState)
+TEST_F(iDomTOOLS_ClassTest, readState)
 {
     test_idomTOOLS->readState_iDom();
     EXPECT_EQ(test_my_data.alarmTime.state,STATE::ACTIVE);
 }
 
-TEST_F(iDomTOOLS_Class, getLightningStruct)
+TEST_F(iDomTOOLS_ClassTest, getLightningStruct)
 {
     LIGHTNING test_lightning;
     test_struct = test_lightning.lightningAlert(test_Json.jj_lightning);
