@@ -3,33 +3,17 @@
 #include "../../../functions/functions.h"
 #include "../../../RADIO_433_eq/radio_433_eq.h"
 #include "../../../433MHz/RFLink/rflinkhandler.h"
+#include "../../../iDomTools/test/iDomTools_fixture.h"
 
-TEST(commandArdu_Class, wrongMSGformat)
+class commandArdu_Class_fixture : public iDomTOOLS_ClassTest
 {
-    thread_data test_my_data;
+protected:
+    void koko(){}
 
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
+};
 
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-    test_status.addObject("house");
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDOM_STATE main_iDomStatus;
-    test_my_data.idom_all_state = main_iDomStatus;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
-    useful_F::myStaticData = &test_my_data;
-
+TEST_F(commandArdu_Class_fixture, wrongMSGformat)
+{
     RFLinkHandler test_RFLink(&test_my_data);
     test_my_data.main_RFLink = &test_RFLink;
     command_ardu test_ardu("ardu", &test_my_data);
@@ -39,41 +23,15 @@ TEST(commandArdu_Class, wrongMSGformat)
     EXPECT_THROW(test_ardu.execute(test_v, &test_my_data), WRONG_FORMAT);
 }
 
-TEST(commandArdu_Class, UnlockHome)
+TEST_F(commandArdu_Class_fixture, UnlockHome)
 {
     blockQueue test_q;
     test_q._clearAll();
 
-    thread_data test_my_data;
-
-    pilot_led test_pilot_led;
-    test_my_data.ptr_pilot_led = &test_pilot_led;
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
-
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-    test_status.addObject("house");
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDOM_STATE main_iDomStatus;
-    test_my_data.idom_all_state = main_iDomStatus;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
-    useful_F::myStaticData = &test_my_data;
-
     RFLinkHandler test_RFLink(&test_my_data);
     test_my_data.main_RFLink = &test_RFLink;
 
-    test_idomTOOLS.lockHome();
+    test_idomTOOLS->lockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
 
     command_ardu test_ardu("ardu", &test_my_data);
@@ -83,45 +41,19 @@ TEST(commandArdu_Class, UnlockHome)
     test_ardu.execute(test_v, &test_my_data);
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
 
-
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
-
 }
 
-TEST(commandArdu_Class, LockHome)
+TEST_F(commandArdu_Class_fixture, LockHome)
 {
     blockQueue test_q;
     test_q._clearAll();
 
-    thread_data test_my_data;
-
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
-
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-    test_status.addObject("house");
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDOM_STATE main_iDomStatus;
-    test_my_data.idom_all_state = main_iDomStatus;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
-    useful_F::myStaticData = &test_my_data;
-
     RFLinkHandler test_RFLink(&test_my_data);
     test_my_data.main_RFLink = &test_RFLink;
 
-    test_idomTOOLS.unlockHome();
+    test_idomTOOLS->unlockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
 
     command_ardu test_ardu("ardu", &test_my_data);
@@ -138,40 +70,15 @@ TEST(commandArdu_Class, LockHome)
     EXPECT_EQ(test_q._size(),0);
 }
 
-TEST(commandArdu_Class, playMusic)
+TEST_F(commandArdu_Class_fixture, playMusic)
 {
     blockQueue test_q;
     test_q._clearAll();
 
-    thread_data test_my_data;
-    pilot_led test_pilot_led;
-    test_my_data.ptr_pilot_led = &test_pilot_led;
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
-
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-    test_status.addObject("house");
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDOM_STATE main_iDomStatus;
-    test_my_data.idom_all_state = main_iDomStatus;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
-    useful_F::myStaticData = &test_my_data;
-
     RFLinkHandler test_RFLink(&test_my_data);
     test_my_data.main_RFLink = &test_RFLink;
 
-    test_idomTOOLS.unlockHome();
+    test_idomTOOLS->unlockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
     test_status.addObject("music",STATE::STOP);
 
@@ -187,39 +94,15 @@ TEST(commandArdu_Class, playMusic)
     EXPECT_EQ(test_q._size(),0);
 }
 
-TEST(commandArdu_Class, stopMusic)
+TEST_F(commandArdu_Class_fixture, stopMusic)
 {
     blockQueue test_q;
     test_q._clearAll();
 
-    thread_data test_my_data;
-
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
-
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-    test_status.addObject("house");
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDOM_STATE main_iDomStatus;
-    test_my_data.idom_all_state = main_iDomStatus;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
-    useful_F::myStaticData = &test_my_data;
-
     RFLinkHandler test_RFLink(&test_my_data);
     test_my_data.main_RFLink = &test_RFLink;
 
-    test_idomTOOLS.unlockHome();
+    test_idomTOOLS->unlockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
     test_status.addObject("music",STATE::PLAY);
 
@@ -235,33 +118,8 @@ TEST(commandArdu_Class, stopMusic)
     EXPECT_EQ(test_q._size(),0);
 }
 
-TEST(commandArdu_Class, weatherStationTemp)
+TEST_F(commandArdu_Class_fixture, weatherStationTemp)
 {
-
-    thread_data test_my_data;
-
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    test_my_data.main_REC = (&test_rec);
-
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
-
-    iDomSTATUS test_status;
-    test_status.addObject("house");
-    test_my_data.main_iDomStatus = &test_status;
-
-    iDOM_STATE main_iDomStatus;
-    test_my_data.idom_all_state = main_iDomStatus;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
-    test_my_data.main_iDomTools = &test_idomTOOLS;
-    useful_F::myStaticData = &test_my_data;
-
     RFLinkHandler test_RFLink(&test_my_data);
     test_my_data.main_RFLink = &test_RFLink;
 

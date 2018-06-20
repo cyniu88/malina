@@ -18,6 +18,8 @@ protected:
     RADIO_EQ_CONTAINER test_rec;
     iDOM_STATE main_iDomStatus;
     ALERT test_alarmTime;
+    pilot_led test_pilot_led;
+
     /// pointer
     iDomTOOLS* test_idomTOOLS;
     /////// method
@@ -32,13 +34,18 @@ protected:
         test_server_set.viberSender = "test sender";
         test_server_set.viberReceiver = {"R1","R2"};
         test_server_set.saveFilePath = "/mnt/ramdisk/iDomStateTest2.save";
+
         test_rec.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
+
         test_my_data.main_REC = (&test_rec);
         test_my_data.server_settings = &test_server_set;
         test_my_data.main_iDomStatus = &test_status;
         test_my_data.alarmTime = test_alarmTime;
         test_my_data.idom_all_state = main_iDomStatus;
+        test_my_data.ptr_pilot_led = &test_pilot_led;
+
         test_status.addObject("house");
+
         /////////// create
         test_idomTOOLS = new iDomTOOLS(&test_my_data);
 
