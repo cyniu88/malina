@@ -221,36 +221,20 @@ TEST_F(iDomTOOLS_Class, weatherAlert)
     EXPECT_EQ(1,test_WA.size()) << "ZŁY ROZMIAR VEKTORA WA";
 }
 
-TEST(iDomTOOLS_Class, send_temperature_thingSpeak){
+TEST_F(iDomTOOLS_Class, send_temperature_thingSpeak){
 
     TEST_DATA::return_httpPost_expect = "NULL";
-    thread_data test_my_data;
-
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_my_data.main_REC = (&test_rec);
-    config test_server_set;
-    iDomSTATUS test_status;
-    test_my_data.main_iDomStatus = &test_status;
-
-    test_server_set.TS_KEY = "keytest";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_my_data.server_settings = &test_server_set;
-
-    iDomTOOLS test_idomTOOLS(&test_my_data);
 
     EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(),"NULL");
-    test_idomTOOLS.send_temperature_thingSpeak();
+    test_idomTOOLS->send_temperature_thingSpeak();
     EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(),"httpPost");
 }
 
-TEST(iDomTOOLS_Class, checkAlarm)
+TEST_F(iDomTOOLS_Class, checkAlarm)
 {
     unsigned int fromVol = 48;
     unsigned int  toVol = 57;
-    thread_data test_my_data;
-    iDomSTATUS test_status;
-    test_my_data.main_iDomStatus = &test_status;
+
     ///////////////////////////////////// to save
     test_status.setObjectState("house",STATE::UNLOCK);
     test_status.setObjectState("music", STATE::PLAY);
@@ -259,27 +243,18 @@ TEST(iDomTOOLS_Class, checkAlarm)
 
     test_status.setObjectState("listwa",STATE::ON);
 
-    ALERT test_alarmTime;
     test_alarmTime.time = Clock::getTime();
     test_alarmTime.state = STATE::ACTIVE;
     test_status.setObjectState("alarm", test_alarmTime.state);
     test_my_data.alarmTime = test_alarmTime;
     useful_F::myStaticData = &test_my_data;
-    config test_server_set;
-    test_server_set.TS_KEY = "key test";
-    test_server_set.viberSender = "test sender";
-    test_server_set.viberReceiver = {"R1","R2"};
-    test_server_set.saveFilePath = pathSave;
-    test_my_data.server_settings = &test_server_set;
+
     //////////////////////////////////////////////////////////////
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_my_data.main_REC = (&test_rec);
+
     MPD_info test_ptr_MPD;
     test_ptr_MPD.volume = 3;
     test_my_data.ptr_MPD_info = &test_ptr_MPD;
     RADIO_EQ* test_RS = new RADIO_SWITCH(&test_my_data,"ALARM","209888",RADIO_EQ_TYPE::SWITCH);
-    iDomTOOLS test_iDom_TOOLS(&test_my_data);
-    test_my_data.main_iDomTools = &test_iDom_TOOLS;
 
     RADIO_EQ_CONTAINER_STUB stub_rec(&test_my_data);
     test_my_data.main_REC = (&stub_rec);
@@ -289,19 +264,17 @@ TEST(iDomTOOLS_Class, checkAlarm)
     pilot_led test_pilot_led;
     test_my_data.ptr_pilot_led = &test_pilot_led;
 
-    iDomTOOLS test_idomTOOLS(&test_my_data);
-
     EXPECT_EQ(test_my_data.alarmTime.state, STATE::ACTIVE);
 
     for(unsigned int i = fromVol; i<toVol; ++i)
     {
-        test_idomTOOLS.checkAlarm();
+        test_idomTOOLS->checkAlarm();
 
         EXPECT_EQ(test_my_data.alarmTime.state, STATE::WORKING)<< "zły stan w for " << i<< " "<< toVol;
         EXPECT_EQ(test_my_data.ptr_MPD_info->volume, i+1) << "zły poziom glosnosci w for";
     }
     EXPECT_CALL(stub_rec, getEqPointer("ALARM")).WillRepeatedly(testing::Return(test_RS));
-    test_idomTOOLS.checkAlarm();
+    test_idomTOOLS->checkAlarm();
 
     EXPECT_EQ(test_my_data.alarmTime.state, STATE::DEACTIVE) << "nie jest STATE::DEACTIVE";
     EXPECT_EQ(test_my_data.ptr_MPD_info->volume, toVol)<< "nie inkrementowane?";
@@ -599,7 +572,7 @@ TEST(iDomTOOLS_Class, readState)
     EXPECT_EQ(test_my_data.alarmTime.state,STATE::ACTIVE);
 }
 
-TEST(iDomTOOLS_Class, getLightningStruct)
+TEST_F(iDomTOOLS_Class, getLightningStruct)
 {
     thread_data test_my_data;
     useful_F::myStaticData = &test_my_data;
