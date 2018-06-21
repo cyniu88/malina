@@ -81,6 +81,14 @@ TEST_F(lightning_Class, checkLightningAlert_stormCloser)
     test_struct = test_lightning.lightningAlert(test_Json.jj_lightning_lt15km);
     test_result = test_lightning.checkLightningAlert(&test_struct);
     EXPECT_FALSE(test_result) << "BRAK ALARMU 5";
+
+    test_struct = test_lightning.lightningAlert(test_Json.jj_noLightning);
+    test_result = test_lightning.checkLightningAlert(&test_struct);
+    EXPECT_FALSE(test_result) << "BRAK ALARMU 6";
+
+    test_struct = test_lightning.lightningAlert(test_Json.jj_lightning_lt15km);
+    test_result = test_lightning.checkLightningAlert(&test_struct);
+    EXPECT_TRUE(test_result) << "BRAK ALARMU 7";
 }
 
 TEST_F(lightning_Class, oneLightning)
