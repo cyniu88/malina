@@ -1,3 +1,0 @@
-/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/CMakeFiles/rebuild_cache.dir
-/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/CMakeFiles/edit_cache.dir
-/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/CMakeFiles/iDom_TESTs-CMAKE.dir

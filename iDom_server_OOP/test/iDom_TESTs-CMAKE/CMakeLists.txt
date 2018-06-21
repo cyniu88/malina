@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 2.8)
-
 LINK_DIRECTORIES(/usr/local/lib )
 project(iDom_TESTs-CMAKE)
 include_directories("../../libs/json/single_include/nlohmann/")

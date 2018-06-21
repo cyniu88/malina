@@ -39,9 +39,9 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     STATISTIC<int> bearingAver(_size);
     for (auto j : i){
 #ifdef BT_TEST
-        std::cout <<"\n distance " << j.at("relativeTo").at("bearingENG").get<std::string>() << std::endl;
-        std::cout <<"distance " << j.at("relativeTo").at("distanceKM").get<double>() << std::endl;
-        std::cout <<"timestamp " << j.at("age").get<int>() << std::endl;
+   //     std::cout <<"\n distance " << j.at("relativeTo").at("bearingENG").get<std::string>() << std::endl;
+   //     std::cout <<"distance " << j.at("relativeTo").at("distanceKM").get<double>() << std::endl;
+   //     std::cout <<"timestamp " << j.at("age").get<int>() << std::endl;
 #endif
         ageAver.push_back(j.at("age").get<int>());
         distanceKmAver.push_back(j.at("relativeTo").at("distanceKM").get<double>());
@@ -53,6 +53,7 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     data.distance = distanceKmAver.average();
     data.timestamp = ageAver.median();
 
+    data.data.str(std::string());
     data.data << "ilość uderzeń: "<< _size << "\\n";
     data.data << "średni czas upłynięty od ostatniego uderzenia pioruna: "<< data.timestamp << " sek \\n";
     data.data << "średnia odległość ostatniego uderzenia pieruna: "<< data.distance <<" km \\n ";
@@ -92,16 +93,27 @@ bool LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
 #endif
         alarmState = true;
         lightningTime = Clock::getTime();
+        oldDistance = info->distance;
+        std::cout << " w true oldDistance: "<< oldDistance <<std::endl;
         return true;
     }
 
+#ifdef BT_TEST
+    std::cout << "checkLightningAlert() - dystans"<<std::endl;
+    std::cout << "Dystans: " <<info->distance << " oldDistance: "<< oldDistance <<std::endl;
+#endif
     if(oldDistance > info->distance)
     {
+
         oldDistance = info->distance;
         return true;
     }
+    else
+    {
+        oldDistance = info->distance;
+    }
     ////////////////clear
-    oldDistance = 0.0;
+    //oldDistance = 0.0;
     return false;
 }
 

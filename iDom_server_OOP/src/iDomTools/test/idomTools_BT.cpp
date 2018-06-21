@@ -367,3 +367,10 @@ TEST_F(iDomTOOLS_ClassTest, getLightningStruct)
     auto test_alert_info = test_idomTOOLS->getLightningStruct();
     EXPECT_EQ(test_alert_info.timestamp,210);
 }
+TEST_F(iDomTOOLS_ClassTest, checkLightning)
+{
+    test_my_data.server_settings->lightningApiURL = "http://cyniu88.no-ip.pl/test/json/lightning.json";
+    test_idomTOOLS->checkLightning();
+    auto test_alert_info = test_idomTOOLS->getLightningStruct();
+    EXPECT_EQ(test_alert_info.timestamp,210);
+}

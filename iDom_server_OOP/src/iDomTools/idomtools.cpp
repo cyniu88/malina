@@ -469,14 +469,18 @@ CARDINAL_DIRECTIONS::ALARM_INFO iDomTOOLS::getLightningStruct()
 void iDomTOOLS::setLightningStruct(CARDINAL_DIRECTIONS::ALARM_INFO &s)
 {
     std::lock_guard<std::mutex>  lock(m_lightningMutex);
+    std::cout <<"struktura setowana " << s.data.str() <<std::endl;
     m_lightningStruct = s;
+
+    std::cout <<"struktura już po setowaniu " << m_lightningStruct.data.str() <<std::endl;
 }
 
 void iDomTOOLS::checkLightning()
 {
     //std::cout << "poberanie jsona z piorunami" << std::endl;
     nlohmann::json jj = useful_F_libs::getJson(my_data->server_settings->lightningApiURL);
-    //std::cout << "poberanie jsona z piorunami" << std::endl;
+    std::cout << "poberanie jsona z piorunami" <<
+                 jj << std::endl;
     CARDINAL_DIRECTIONS::ALARM_INFO lightningData = lightning.lightningAlert(jj);
     setLightningStruct(lightningData);
     bool result = lightning.checkLightningAlert(&lightningData);
@@ -809,9 +813,12 @@ STATE iDomTOOLS::sendViberMsgBool(std::string msg,
 {
     nlohmann::json jj = sendViberMsg(msg,receiver,senderName,accessToken,url);
     STATE ret = STATE::SEND_NOK;
-    if(jj.at("status_message").get<std::string>() == "ok")
+    if(jj.find("status_message")!= jj.end())
     {
-        ret = STATE::SEND_OK;
+        if(jj.at("status_message").get<std::string>() == "ok")
+        {
+            ret = STATE::SEND_OK;
+        }
     }
     else
     {

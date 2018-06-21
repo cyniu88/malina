@@ -128,6 +128,7 @@ public:
             distance(0.0),
             bearingENG(CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ERROR)
         {
+            data << "NULL";
         }
         ALARM_INFO(const ALARM_INFO &s):
             riseAlarm(s.riseAlarm),
@@ -139,6 +140,7 @@ public:
         }
         ALARM_INFO& operator = (const ALARM_INFO& s)
         {
+            this->data.str(std::string());
             this->riseAlarm = s.riseAlarm;
             this->data << s.data.str();
             this->timestamp = s.timestamp;

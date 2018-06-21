@@ -137,6 +137,9 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else if (v[1]=="lightning"){
         std::string readBuffer = my_data->main_iDomTools->getLightningStruct().data.str();
+        readBuffer += "bool: " + my_data->main_iDomTools->getLightningStruct().riseAlarm;
+        readBuffer += "\n time: ";
+        readBuffer += Clock::getTime().getString();
         return readBuffer;
     }
     else if (v[1]=="kill"){

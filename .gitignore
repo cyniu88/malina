@@ -2,4 +2,4 @@
 *.user*
 alarm/alarmClock 
 liquidcrystal_i2c-for-ardupi 
-
+CMakeFiles
