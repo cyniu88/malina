@@ -4,12 +4,16 @@
 
 iDom_SAVE_STATE::iDom_SAVE_STATE(std::string path): m_path(path)
 {
+#ifdef BT_TEST
     puts("iDom_SAVE_STATE::iDom_SAVE_STATE()");
+#endif
 }
 
 iDom_SAVE_STATE::~iDom_SAVE_STATE()
 {
+#ifdef BT_TEST
     puts("iDom_SAVE_STATE::~iDom_SAVE_STATE()");
+#endif
 }
 
 nlohmann::json iDom_SAVE_STATE::read()

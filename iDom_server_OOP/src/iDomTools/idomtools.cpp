@@ -469,18 +469,16 @@ CARDINAL_DIRECTIONS::ALARM_INFO iDomTOOLS::getLightningStruct()
 void iDomTOOLS::setLightningStruct(CARDINAL_DIRECTIONS::ALARM_INFO &s)
 {
     std::lock_guard<std::mutex>  lock(m_lightningMutex);
-    std::cout <<"struktura setowana " << s.data.str() <<std::endl;
+    //std::cout <<"struktura setowana " << s.data.str() <<std::endl;
     m_lightningStruct = s;
 
-    std::cout <<"struktura już po setowaniu " << m_lightningStruct.data.str() <<std::endl;
+    //std::cout <<"struktura już po setowaniu " << m_lightningStruct.data.str() <<std::endl;
 }
 
 void iDomTOOLS::checkLightning()
 {
-    //std::cout << "poberanie jsona z piorunami" << std::endl;
     nlohmann::json jj = useful_F_libs::getJson(my_data->server_settings->lightningApiURL);
-    std::cout << "poberanie jsona z piorunami" <<
-                 jj << std::endl;
+
     CARDINAL_DIRECTIONS::ALARM_INFO lightningData = lightning.lightningAlert(jj);
     setLightningStruct(lightningData);
     bool result = lightning.checkLightningAlert(&lightningData);

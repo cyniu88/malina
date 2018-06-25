@@ -8,7 +8,7 @@ command_state::command_state(std::string name):command(name)
 std::string command_state::execute(std::vector<std::string> &v, thread_data *my_data)
 {
     if (v.size()<2){
-        return "need parameter!";
+        return "need parameter!\n" + help();
     }
     if (v[1] == "all"){
         return my_data->main_iDomStatus->getAllObjectsStateString();

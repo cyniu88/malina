@@ -60,8 +60,6 @@ TEST_F(functions_fixture, sleepThread)
     test_ptr_MPD.volume = 3;
     test_my_data.ptr_MPD_info = &test_ptr_MPD;
     RADIO_EQ* test_RS = new RADIO_SWITCH(&test_my_data,"listwa","209888",RADIO_EQ_TYPE::SWITCH);
-    iDomSTATUS test_status;
-    test_my_data.main_iDomStatus = &test_status;
 
     RADIO_EQ_CONTAINER_STUB stub_rec(&test_my_data);
     test_my_data.main_REC = (&stub_rec);

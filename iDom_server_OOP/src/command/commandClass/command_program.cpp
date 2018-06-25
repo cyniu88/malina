@@ -11,7 +11,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     std::string ret = "dummy";
     if (v.size() <2 )
     {
-        return "what?";
+        return "what?\n" + help();;
     }
     if (v[1] == "stop")
     {

@@ -13,7 +13,7 @@ command_433MHz::~command_433MHz()
 
 std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my_data)
 {
-    std::string str_buf = "command 433MHz - wrong paramiter: ";
+    std::string str_buf = "wrong paramiter\n" + help();
     if (v.size() > 2){
         //////////////////////////// switch
         if (v[1] == "show" && v[2] == "all"){
