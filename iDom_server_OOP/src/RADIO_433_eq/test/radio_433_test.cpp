@@ -21,6 +21,7 @@ TEST(Switch_Class, getSwitchPointerVector)
     test_radio_cont.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
     auto v = test_radio_cont.getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
+    test_radio_cont.saveConfig("/etc/config/iDom_SERVER/433_eq_conf.json");
 }
 
 TEST(Switch_Class, getButtonPointerVector)

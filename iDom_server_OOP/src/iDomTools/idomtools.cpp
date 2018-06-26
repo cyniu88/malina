@@ -554,26 +554,6 @@ std::string iDomTOOLS::getDayLenght(bool extend )
     return tt.getString();
 }
 
-std::string iDomTOOLS::getSystemInfo()
-{
-    struct sysinfo info;
-    sysinfo(&info);
-    long input_seconds = info.uptime;
-    auto days = input_seconds / 60 / 60 / 24;
-    auto hours = (input_seconds / 60 / 60) % 24;
-    auto minutes = (input_seconds / 60) % 60;
-    auto seconds = input_seconds % 60;
-
-    std::stringstream  ret;
-    ret <<  "System uptime: " << days <<" day " << hours
-         <<" hours " << minutes << " minutes "
-        << seconds << " seconds " << "\n" << "Load: "
-        << (info.loads[0]/65536) << "% - 1 min, " <<(info.loads[1]/65536)
-            << "% - 5 min, "<<(info.loads[2]/65536) << "% - 15 min.\n ";
-
-    return ret.str();
-}
-
 std::string iDomTOOLS::getWeatherEvent(std::string city, unsigned int radius)
 {
     std::string url = "http://burze.dzis.net/ramka.php?miejscowosc=";

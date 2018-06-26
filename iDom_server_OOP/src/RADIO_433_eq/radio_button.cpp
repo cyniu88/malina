@@ -23,13 +23,13 @@ Niby opisane jest to na stronach dostawców - ale nie do końca - więc pełen o
 
 Wszystkie te funkcje działają równolegle bo układ może zapamiętać do 50 kodów! Dodatkowo w trybie włącznika czasowego można skrócić czas załączenia poprzez wysłanie kodu WYŁĄCZ z wcześniej ustawionej funkcji latched.
  */
-RADIO_BUTTON::RADIO_BUTTON(thread_data *my_data, std::string name, std::string id, RADIO_EQ_TYPE type):
-    m_name(name),
-    m_id(id)
+RADIO_BUTTON::RADIO_BUTTON(thread_data *my_data, std::string name, std::string id, RADIO_EQ_TYPE type)
 {
     puts("RADIO_BUTTON::RADIO_BUTTON()");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
+    RADIO_EQ::m_config.name = name;
+    RADIO_EQ::m_config.ID = id;
 }
 
 RADIO_BUTTON::~RADIO_BUTTON()
@@ -49,10 +49,10 @@ void RADIO_BUTTON::setState(STATE s)
 
 std::string RADIO_BUTTON::getName()
 {
-    return m_name;
+    return RADIO_EQ::m_config.name;
 }
 
 std::string RADIO_BUTTON::getID()
 {
-    return m_id;
+    return RADIO_EQ::m_config.ID;
 }

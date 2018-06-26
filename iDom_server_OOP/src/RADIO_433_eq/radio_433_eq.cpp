@@ -4,13 +4,13 @@
 #include "radio_433_eq.h"
 
 RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, std::string name, std::string id, RADIO_EQ_TYPE type):
-    main433MHz(my_data),
-    m_name(name),
-    m_id(id)
+    main433MHz(my_data)
 {
     puts("RADIO_SWITCH::RADIO_SWITCH()");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
+    RADIO_EQ::m_config.name = name;
+    RADIO_EQ::m_config.ID = id;
 }
 
 RADIO_SWITCH::~RADIO_SWITCH()
@@ -20,21 +20,21 @@ RADIO_SWITCH::~RADIO_SWITCH()
 
 void RADIO_SWITCH::on()
 {
-    main433MHz.sendCode( m_onCode);
+    main433MHz.sendCode(RADIO_EQ::m_config.onCode);
     m_state = STATE::ON;
-    RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(m_name,STATE::ON);
+    RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::ON);
 }
 
 void RADIO_SWITCH::off()
 {
-    main433MHz.sendCode(m_offCode);
+    main433MHz.sendCode(RADIO_EQ::m_config.offCode);
     m_state = STATE::OFF;
-    RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(m_name,STATE::OFF);
+    RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name,STATE::OFF);
 }
 
 void RADIO_SWITCH::onFor15sec()
 {
-    main433MHz.sendCode(m_onFor15secCode);
+    main433MHz.sendCode(RADIO_EQ::m_config.on15sec);
     m_state = STATE::WORKING;
 }
 
@@ -42,11 +42,11 @@ void RADIO_SWITCH::onSunrise()
 {
     if(m_sunrise == STATE::ON ){
         on();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+m_name + " ON due to sunrise");
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to sunrise");
     }
     else if(m_sunrise == STATE::OFF){
         off();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+m_name + " OFF due to sunrise");
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to sunrise");
     }
 }
 
@@ -54,11 +54,11 @@ void RADIO_SWITCH::onSunset()
 {
     if(m_sunset == STATE::ON ){
         on();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+m_name + " ON due to sunset");
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to sunset");
     }
     else if(m_sunset == STATE::OFF){
         off();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+m_name + " OFF due to sunset");
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to sunset");
     }
 }
 
@@ -69,24 +69,24 @@ STATE RADIO_SWITCH::getState()
 
 std::string RADIO_SWITCH::getName()
 {
-    return m_name;
+    return RADIO_EQ::m_config.name;
 }
 
 std::string RADIO_SWITCH::getID()
 {
-    return m_id;
+    return RADIO_EQ::m_config.ID;
 }
 
 void RADIO_SWITCH::setCode(RADIO_EQ_CONFIG cfg)
 {
     // if(cfg.onCode > 0){
-    m_onCode = cfg.onCode;
+    RADIO_EQ::m_config.onCode = cfg.onCode;
     // }
     // if(cfg.offCode > 0){
-    m_offCode = cfg.offCode;
+    RADIO_EQ::m_config.offCode = cfg.offCode;
     //}
     //if(cfg.on15sec > 0){
-    m_onFor15secCode = cfg.on15sec;
+    RADIO_EQ::m_config.on15sec = cfg.on15sec;
     // }
     if(cfg.sunset == "on"){
         m_sunset = STATE::ON;
@@ -197,39 +197,84 @@ std::string RADIO_EQ_CONTAINER::listAllName()
     return allName;
 }
 
+//void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
+//{
+//    std::stringstream lineStream;
+//    std::string line;
+//    RADIO_EQ_CONFIG cfg;
+
+//    std::ifstream myfile (filePath);
+//    if (myfile.is_open())
+//    {
+//        while ( getline (myfile, line) )
+//        {
+//            std::cout << line << std::endl;
+//            if (line.front() != '#'){
+//                lineStream << line;
+//                lineStream >> cfg.type >> cfg.name >> cfg.ID >> cfg.onCode >>cfg.offCode >> cfg.on15sec >> cfg.sunrise >> cfg.sunset ;
+//                if (cfg.type == "switch"){
+//                    addRadioEq(cfg.name,cfg.ID,RADIO_EQ_TYPE::SWITCH);
+//                    dynamic_cast<RADIO_SWITCH*>(getEqPointer(cfg.name))->setCode(cfg);
+//                }
+//                else if (cfg.type == "button"){
+//                    addRadioEq(cfg.name, cfg.ID, RADIO_EQ_TYPE::BUTTON);
+//                }
+//                else if (cfg.type == "weather"){
+//                    addRadioEq(cfg.name, cfg.ID, RADIO_EQ_TYPE::WEATHER_S);
+//                }
+//                //NOTE add more type
+//            }
+//            lineStream.clear();
+//        }
+//        myfile.close();
+//    }
+//    else std::cout << "Unable to open file";
+//}
+
 void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
 {
-
-    std::stringstream lineStream;
-    std::string line;
-    RADIO_EQ_CONFIG cfg;
-
-    std::ifstream myfile (filePath);
+     std::ifstream myfile (filePath);
     if (myfile.is_open())
     {
-        while ( getline (myfile, line) )
-        {
-            std::cout << line << std::endl;
-            if (line.front() != '#'){
-                lineStream << line;
-                lineStream >> cfg.type >> cfg.name >> cfg.ID >> cfg.onCode >>cfg.offCode >> cfg.on15sec >> cfg.sunrise >> cfg.sunset ;
-                if (cfg.type == "switch"){
-                    addRadioEq(cfg.name,cfg.ID,RADIO_EQ_TYPE::SWITCH);
-                    dynamic_cast<RADIO_SWITCH*>(getEqPointer(cfg.name))->setCode(cfg);
-                }
-                else if (cfg.type == "button"){
-                    addRadioEq(cfg.name, cfg.ID, RADIO_EQ_TYPE::BUTTON);
-                }
-                else if (cfg.type == "weather"){
-                    addRadioEq(cfg.name, cfg.ID, RADIO_EQ_TYPE::WEATHER_S);
-                }
-                //NOTE add more type
-            }
-            lineStream.clear();
-        }
+        nlohmann::json j;
+        myfile >> j;
+
+
         myfile.close();
     }
     else std::cout << "Unable to open file";
+}
+
+void RADIO_EQ_CONTAINER::saveConfig(std::string filePath)
+{
+    nlohmann::json switchJson;
+    nlohmann::json buttonJson;
+    nlohmann::json weatherJson;
+
+    std::vector<RADIO_SWITCH*> vSwitch = getSwitchPointerVector();
+    for(auto s : vSwitch)
+    {
+        switchJson[s->getName()] = s->m_config.getJson();
+    }
+
+    std::vector<RADIO_BUTTON*> vButton = getButtonPointerVector();
+    for (auto s : vButton)
+    {
+        buttonJson[s->getName()] = s->m_config.getJson();
+    }
+
+    std::vector<RADIO_WEATHER_STATION *> vWeather = getWeather_StationPtrVector();
+    for(auto s : vWeather)
+    {
+        weatherJson[s->getName()] = s->m_config.getJson();
+    }
+
+    m_configJson["SWITCH"] = switchJson;
+    m_configJson["BUTTON"] = buttonJson;
+    m_configJson["WEATHER"] = weatherJson ;
+    // write prettified JSON to another file
+    std::ofstream o(filePath);
+    o << std::setw(4) << m_configJson << std::endl;
 }
 
 RADIO_EQ::RADIO_EQ()
@@ -247,13 +292,13 @@ RADIO_EQ_TYPE RADIO_EQ::getType()
     return m_type;
 }
 
-RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *my_data, std::string name, std::string id, RADIO_EQ_TYPE type):
-    m_name(name),
-    m_id(id)
+RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *my_data, std::string name, std::string id, RADIO_EQ_TYPE type)
 {
     puts("RADIO_WEATHER_STATION::RADIO_WEATHER_STATION()");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
+    RADIO_EQ::m_config.name = name;
+    RADIO_EQ::m_config.ID = id;
 }
 
 RADIO_WEATHER_STATION::~RADIO_WEATHER_STATION()
@@ -268,10 +313,10 @@ STATE RADIO_WEATHER_STATION::getState()
 
 std::string RADIO_WEATHER_STATION::getName()
 {
-    return m_name;
+    return RADIO_EQ::m_config.name;
 }
 
 std::string RADIO_WEATHER_STATION::getID()
 {
-    return m_id;
+    return RADIO_EQ::m_config.ID;
 }

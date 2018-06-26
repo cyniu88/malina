@@ -7,6 +7,8 @@
 #include "../433MHz/RFLink/rflinkhandler.h"
 
 #include "../433MHz/rc_433mhz.h"
+#include "json.hpp"
+
 struct WEATHER_STRUCT{
 private:
     unsigned long int m_counter = 0;
@@ -56,14 +58,26 @@ enum class RADIO_EQ_TYPE{
     WEATHER_S
 };
 struct RADIO_EQ_CONFIG{
-    std::string name;
-    std::string ID;
-    std::string type;
-    std::string onCode;
-    std::string offCode;
-    std::string on15sec;
-    std::string sunrise;
-    std::string sunset;
+    std::string name = "NULL";
+    std::string ID   = "NULL";
+    std::string type = "NULL";
+    std::string onCode  = "NULL";
+    std::string offCode = "NULL";
+    std::string on15sec = "NULL";
+    std::string sunrise = "NULL";
+    std::string sunset  = "NULL";
+    nlohmann::json getJson(){
+        nlohmann::json jj;
+        jj["name"]  = name;
+        jj["id"]    = ID;
+        jj["type"]  = type;
+        jj["ON"]    = onCode;
+        jj["OFF"]   = offCode;
+        jj["on15sec"] = on15sec;
+        jj["sunrise"] = sunrise;
+        jj["sunset"]  = sunset;
+        return jj;
+    }
 };
 
 class RADIO_EQ{
@@ -77,14 +91,13 @@ public:
 protected:
     thread_data *m_my_data;
     RADIO_EQ_TYPE m_type;
+public:
+    RADIO_EQ_CONFIG m_config;
 };
 class RADIO_WEATHER_STATION: public RADIO_EQ
 {
-    std::string m_name;
-    std::string m_id;
     STATE m_state = STATE::UNDEFINE;
-    std::string m_onCode =  "2004";
-    std::string m_offCode = "2008";
+
 public:
     RADIO_WEATHER_STATION(thread_data * my_data, std::string name, std::string id, RADIO_EQ_TYPE type);
     ~RADIO_WEATHER_STATION();
@@ -96,11 +109,8 @@ public:
 };
 class RADIO_BUTTON: public RADIO_EQ
 {
-    std::string m_name;
-    std::string m_id;
     STATE m_state = STATE::UNDEFINE;
-    std::string m_onCode =  "2004";
-    std::string m_offCode = "2008";
+
 public:
     RADIO_BUTTON(thread_data * my_data, std::string name, std::string id, RADIO_EQ_TYPE type);
     ~RADIO_BUTTON();
@@ -108,17 +118,11 @@ public:
     void setState(STATE s);
     std::string getName();
     std::string getID();
-
 };
 
 class RADIO_SWITCH: public RADIO_EQ
 {
     RC_433MHz main433MHz;
-    std::string m_onCode =  "null";
-    std::string m_offCode = "null";
-    std::string m_onFor15secCode = "null";
-    std::string m_name;
-    std::string m_id;
     STATE m_state = STATE::UNDEFINE;
 public:
     RADIO_SWITCH(thread_data * my_data, std::string name, std::string id, RADIO_EQ_TYPE type);
@@ -140,6 +144,7 @@ class RADIO_EQ_CONTAINER
 {
     std::map <std::string, RADIO_EQ* > m_radioEqMap;
     thread_data * my_data;
+    nlohmann::json m_configJson;
 public:
     RADIO_EQ_CONTAINER(thread_data * my_data);
     virtual ~RADIO_EQ_CONTAINER();
@@ -150,6 +155,7 @@ public:
     std::vector<RADIO_WEATHER_STATION *> getWeather_StationPtrVector();
     std::string listAllName();
     void loadConfig(std::string filePath);
+    void saveConfig(std::string filePath);
 };
 
 class RADIO_EQ_CONTAINER_STUB : public RADIO_EQ_CONTAINER

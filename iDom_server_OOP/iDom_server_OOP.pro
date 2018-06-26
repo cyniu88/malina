@@ -72,7 +72,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/functions/functions2.cpp \
     src/433MHz/RFLink/rflinkhandler.cpp \
     src/iDomTools/lightning.cpp \
-    src/iDomSaveState/idom_save_state.cpp
+    src/iDomSaveState/idom_save_state.cpp \
+    src/iDomTools/idomtools_system.cpp
 
 INCLUDEPATH += "/home/pi/programowanie/iDom_server_OOP/libs/json/single_include/nlohmann"
 

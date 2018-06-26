@@ -9,7 +9,6 @@
 #include "../../libs/viberAPI/viber_api.h"
 #include "../../libs/facebookAPI/facebookAPI.h"
 #include "../../libs/Statistic/statistic.h"
-#include "sys/sysinfo.h"
 #include "../THERMOMETER_CONTAINER/thermometer_container.h"
 #include "idomtools_useful.h"
 #include "json.hpp"
@@ -85,7 +84,6 @@ public:
     Clock getSunsetClock();
     Clock getSunriseClock();
     std::string getDayLenght(bool extend = false);
-    std::string getSystemInfo();
     std::string getWeatherEvent(std::string city, unsigned int radius );
 
     std::vector<WEATHER_ALER> getAlert(std::string data);
@@ -154,6 +152,9 @@ public:
     /////////////////////// SAVE STATE iDOM ////////////////
     void saveState_iDom();
     void readState_iDom();
+
+    /////////////////////// system linux ///////////////////
+    std::string getSystemInfo();
 };
 
 #endif // IDOMTOOLS_H
