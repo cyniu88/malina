@@ -561,18 +561,21 @@ int main(int argc, char *argv[])
                 std::cout<<std::endl << "przeładowywuje program" << std::endl;
                 std::this_thread::sleep_for( std::chrono::seconds(5));
             }
-        } while (iDomStateProgram == iDomStateEnum::RELOAD);
+        }
+        while (iDomStateProgram == iDomStateEnum::RELOAD);
 
-
-        if(iDomStateProgram == iDomStateEnum::CLOSE){
+        if(iDomStateProgram == iDomStateEnum::CLOSE)
+        {
             std::cout << "zamykam program" << std::endl;
             return 0;
         }
-        else if (iDomStateProgram == iDomStateEnum::ERROR){
+        else if (iDomStateProgram == iDomStateEnum::ERROR)
+        {
             std::cout << "zamykam program z ERROREM" << std::endl;
             return 1;
         }
-        else if (iDomStateProgram == iDomStateEnum::HARD_RELOAD){
+        else if (iDomStateProgram == iDomStateEnum::HARD_RELOAD)
+        {
             return 2;
         }
     }
@@ -583,7 +586,7 @@ int main(int argc, char *argv[])
         {
             std::this_thread::sleep_for( std::chrono::seconds(10));
             std::cout << "nie ma parametru  wiec odpalam program "<< std::endl;
-             ret = system("/home/pi/programowanie/iDom_server_OOP-build-clang-Release/iDom_server_OOP");
+            ret = system("/home/pi/programowanie/iDom_server_OOP-build-clang-Release/iDom_server_OOP");
             std::cout << "system() zwraca ret " << ret <<std::endl;
         }
         std::cout << "ZAMYKAM NA AMEN" << std::endl;

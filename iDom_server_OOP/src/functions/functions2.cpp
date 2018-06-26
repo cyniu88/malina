@@ -37,15 +37,18 @@ void useful_F::setStaticData(thread_data *my_dataPtr)
 void useful_F::tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text){
     std::string temp;
 
-    for(char n: text) { // the initializer may be an array
+    for(char n: text)
+    { // the initializer may be an array
         bool is_sep = false;
-        for(char m: separator){
+        for(char m: separator)
+        {
             if (n == m)
             {
                 is_sep = true;
             }
         }
-        if (is_sep == false){
+        if (is_sep == false)
+        {
             temp += n;
         }
         else
@@ -57,7 +60,8 @@ void useful_F::tokenizer ( std::vector <std::string> &command, std::string separ
             }
         }
     }
-    if (!temp.empty()){
+    if (!temp.empty())
+    {
         command.push_back(temp);
     }
 }
@@ -68,7 +72,8 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     unsigned int t = 60/my_data->sleeper;
     unsigned int k = 0;
 
-    for (; my_data->sleeper >0 ; my_data->sleeper-- ){
+    for (; my_data->sleeper >0 ; my_data->sleeper-- )
+    {
         useful_F::sleep_1min();
         k += t;
         my_data->main_iDomTools->ledClear(0,k);
@@ -94,7 +99,8 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
             }
         }
     }
-    catch (std::system_error &e){
+    catch (std::system_error &e)
+    {
 #ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR<< "zlapano wyjatek w  watku SLEEP_MPD: " << e.what()<< std::endl;
