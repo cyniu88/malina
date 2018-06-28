@@ -192,7 +192,10 @@ TEST_F(iDomTOOLS_ClassTest, checkAlarm)
     MPD_info test_ptr_MPD;
     test_ptr_MPD.volume = 3;
     test_my_data.ptr_MPD_info = &test_ptr_MPD;
-    RADIO_EQ* test_RS = new RADIO_SWITCH(&test_my_data,"ALARM","209888",RADIO_EQ_TYPE::SWITCH);
+    RADIO_EQ_CONFIG cfg;
+    cfg.name = "listwa";
+    cfg.ID = "209888";
+    RADIO_EQ* test_RS = new RADIO_SWITCH(&test_my_data,cfg,RADIO_EQ_TYPE::SWITCH);
 
     RADIO_EQ_CONTAINER_STUB stub_rec(&test_my_data);
     test_my_data.main_REC = (&stub_rec);

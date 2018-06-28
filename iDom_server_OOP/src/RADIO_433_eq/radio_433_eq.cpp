@@ -3,14 +3,13 @@
 #include <sstream>
 #include "radio_433_eq.h"
 
-RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, std::string name, std::string id, RADIO_EQ_TYPE type):
+RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type):
     main433MHz(my_data)
 {
     puts("RADIO_SWITCH::RADIO_SWITCH()");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
-    RADIO_EQ::m_config.name = name;
-    RADIO_EQ::m_config.ID = id;
+    RADIO_EQ::m_config = cfg;
 }
 
 RADIO_SWITCH::~RADIO_SWITCH()
@@ -79,15 +78,11 @@ std::string RADIO_SWITCH::getID()
 
 void RADIO_SWITCH::setCode(RADIO_EQ_CONFIG cfg)
 {
-    // if(cfg.onCode > 0){
     RADIO_EQ::m_config.onCode = cfg.onCode;
-    // }
-    // if(cfg.offCode > 0){
     RADIO_EQ::m_config.offCode = cfg.offCode;
-    //}
-    //if(cfg.on15sec > 0){
     RADIO_EQ::m_config.on15sec = cfg.on15sec;
-    // }
+    RADIO_EQ::m_config.type = cfg.type;
+
     if(cfg.sunset == "on"){
         m_sunset = STATE::ON;
     }
@@ -116,17 +111,17 @@ RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()
     puts("RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()");
 }
 
-void RADIO_EQ_CONTAINER::addRadioEq(std::string name,std::string id, RADIO_EQ_TYPE type)
+void RADIO_EQ_CONTAINER::addRadioEq( RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
 {
     switch (type) {
     case RADIO_EQ_TYPE::SWITCH:
-        m_radioEqMap.insert(std::make_pair(name, new RADIO_SWITCH(this->my_data, name, id, type)  )    );
+        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_SWITCH(this->my_data, cfg, RADIO_EQ_TYPE::SWITCH)  )    );
         break;
     case RADIO_EQ_TYPE::BUTTON:
-        m_radioEqMap.insert(std::make_pair(name, new RADIO_BUTTON(this->my_data, name, id, type)  )    );
+        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_BUTTON(this->my_data, cfg, RADIO_EQ_TYPE::BUTTON)  )    );
         break;
     case RADIO_EQ_TYPE::WEATHER_S:
-        m_radioEqMap.insert(std::make_pair(name, new RADIO_WEATHER_STATION(this->my_data, name, id, type) ) );
+        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_WEATHER_STATION(this->my_data, cfg, RADIO_EQ_TYPE::WEATHER_S) ) );
         break;
     default:
         break;
@@ -197,48 +192,51 @@ std::string RADIO_EQ_CONTAINER::listAllName()
     return allName;
 }
 
-//void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
-//{
-//    std::stringstream lineStream;
-//    std::string line;
-//    RADIO_EQ_CONFIG cfg;
-
-//    std::ifstream myfile (filePath);
-//    if (myfile.is_open())
-//    {
-//        while ( getline (myfile, line) )
-//        {
-//            std::cout << line << std::endl;
-//            if (line.front() != '#'){
-//                lineStream << line;
-//                lineStream >> cfg.type >> cfg.name >> cfg.ID >> cfg.onCode >>cfg.offCode >> cfg.on15sec >> cfg.sunrise >> cfg.sunset ;
-//                if (cfg.type == "switch"){
-//                    addRadioEq(cfg.name,cfg.ID,RADIO_EQ_TYPE::SWITCH);
-//                    dynamic_cast<RADIO_SWITCH*>(getEqPointer(cfg.name))->setCode(cfg);
-//                }
-//                else if (cfg.type == "button"){
-//                    addRadioEq(cfg.name, cfg.ID, RADIO_EQ_TYPE::BUTTON);
-//                }
-//                else if (cfg.type == "weather"){
-//                    addRadioEq(cfg.name, cfg.ID, RADIO_EQ_TYPE::WEATHER_S);
-//                }
-//                //NOTE add more type
-//            }
-//            lineStream.clear();
-//        }
-//        myfile.close();
-//    }
-//    else std::cout << "Unable to open file";
-//}
-
 void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
 {
-     std::ifstream myfile (filePath);
+    std::ifstream myfile (filePath);
     if (myfile.is_open())
     {
         nlohmann::json j;
         myfile >> j;
 
+        RADIO_EQ_CONFIG cfg;
+        nlohmann::json switchJson = j.at("SWITCH");
+        for (nlohmann::json::iterator it = switchJson.begin(); it != switchJson.end(); ++it)
+        {
+            nlohmann::json switchJson =  it.value();
+            cfg.name = switchJson.at("name").get<std::string>();
+            cfg.ID   = switchJson.at("id").get<std::string>();
+            cfg.offCode = switchJson.at("OFF").get<std::string>();
+            cfg.onCode  = switchJson.at("ON").get<std::string>();
+            cfg.on15sec = switchJson.at("on15sec").get<std::string>();
+            cfg.sunrise = switchJson.at("sunrise").get<std::string>();
+            cfg.sunset  = switchJson.at("sunset").get<std::string>();
+            cfg.type    = switchJson.at("type").get<std::string>();
+            addRadioEq(cfg,RADIO_EQ_TYPE::SWITCH);
+            dynamic_cast<RADIO_SWITCH*>(getEqPointer(cfg.name))->setCode(cfg);
+        }
+
+        nlohmann::json buttonJson = j.at("BUTTON");
+        for (nlohmann::json::iterator it = buttonJson.begin(); it != buttonJson.end(); ++it)
+        {
+            nlohmann::json buttonJson =  it.value();
+            cfg.name = buttonJson.at("name").get<std::string>();
+            cfg.ID   = buttonJson.at("id").get<std::string>();
+            cfg.offCode = buttonJson.at("OFF").get<std::string>();
+            cfg.onCode  = buttonJson.at("ON").get<std::string>();
+            cfg.type    = buttonJson.at("type").get<std::string>();
+            addRadioEq(cfg,RADIO_EQ_TYPE::BUTTON);
+        }
+        nlohmann::json weatherJson= j.at("WEATHER");
+        for (nlohmann::json::iterator it = weatherJson.begin(); it != weatherJson.end(); ++it)
+        {
+            nlohmann::json weatherJson =  it.value();
+            cfg.name = weatherJson.at("name").get<std::string>();
+            cfg.ID   = weatherJson.at("id").get<std::string>();
+            cfg.type    = weatherJson.at("type").get<std::string>();
+            addRadioEq(cfg,RADIO_EQ_TYPE::WEATHER_S);
+        }
 
         myfile.close();
     }
@@ -292,13 +290,12 @@ RADIO_EQ_TYPE RADIO_EQ::getType()
     return m_type;
 }
 
-RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *my_data, std::string name, std::string id, RADIO_EQ_TYPE type)
+RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *my_data, RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
 {
     puts("RADIO_WEATHER_STATION::RADIO_WEATHER_STATION()");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
-    RADIO_EQ::m_config.name = name;
-    RADIO_EQ::m_config.ID = id;
+    RADIO_EQ::m_config  = cfg;
 }
 
 RADIO_WEATHER_STATION::~RADIO_WEATHER_STATION()

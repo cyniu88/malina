@@ -1,51 +1,34 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "../radio_433_eq.h"
+#include "../../iDomTools/test/iDomTools_fixture.h"
 
 RC_433MHz::RC_433MHz(thread_data *test_my_data){
 }
 void RC_433MHz::sendCode(std::string code){
+    std::cout << "sendCode(): " << code << std::endl;
 }
 std::string RC_433MHz::receiveCode(){
     return "test";
 }
+class Switch_Class_fixture : public iDomTOOLS_ClassTest{
 
-TEST(Switch_Class, getSwitchPointerVector)
+};
+TEST_F(Switch_Class_fixture, getSwitchPointerVector)
 {
-    thread_data test_my_data;
-    iDomSTATUS test_status;
-    test_my_data.main_iDomStatus = &test_status;
-
-    RADIO_EQ_CONTAINER test_radio_cont(&test_my_data);
-
-    test_radio_cont.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    auto v = test_radio_cont.getSwitchPointerVector();
+    auto v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
-    test_radio_cont.saveConfig("/etc/config/iDom_SERVER/433_eq_conf.json");
 }
 
-TEST(Switch_Class, getButtonPointerVector)
+TEST_F(Switch_Class_fixture, getButtonPointerVector)
 {
-    thread_data test_my_data;
-    iDomSTATUS test_status;
-    test_my_data.main_iDomStatus = &test_status;
-
-    RADIO_EQ_CONTAINER test_radio_cont(&test_my_data);
-
-    test_radio_cont.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    auto v = test_radio_cont.getButtonPointerVector();
+    auto v = test_rec.getButtonPointerVector();
     EXPECT_EQ(v.size(),1);
 }
 
-TEST(Switch_Class, switch_alarm_on)
+TEST_F(Switch_Class_fixture, switch_alarm_on)
 {
-    thread_data test_my_data;
-    iDomSTATUS test_status;
-    test_my_data.main_iDomStatus = &test_status;
-    RADIO_EQ_CONTAINER test_radio_cont(&test_my_data);
-
-    test_radio_cont.loadConfig("/etc/config/iDom_SERVER/433_eq.conf");
-    RADIO_SWITCH* ptr = dynamic_cast<RADIO_SWITCH*>(test_radio_cont.getEqPointer("ALARM"));
+    RADIO_SWITCH* ptr = dynamic_cast<RADIO_SWITCH*>(test_rec.getEqPointer("ALARM"));
 
     EXPECT_EQ(ptr->getType(),RADIO_EQ_TYPE::SWITCH);
     puts("radio switch type");
@@ -59,7 +42,7 @@ TEST(Switch_Class, switch_alarm_on)
     EXPECT_EQ(ptr->getState(),STATE::OFF);
 }
 
-TEST(Switch_Class, weatherStruct)
+TEST_F(Switch_Class_fixture, weatherStruct)
 {
     WEATHER_STRUCT test_WS;
     EXPECT_DOUBLE_EQ(0.0, test_WS.getTemperature())<<"Tempertura zla";
@@ -69,4 +52,13 @@ TEST(Switch_Class, weatherStruct)
 
     test_WS.putData("20;03;LaCrosse;ID=0506;TEMP=8130;");
     EXPECT_DOUBLE_EQ(-30.4, test_WS.getTemperature())<<"Tempertura zla";
+}
+
+TEST_F(Switch_Class_fixture, read_write_config_json)
+{
+    auto v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
+    test_rec.saveConfig(configPath433mhz);
+    v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
 }
