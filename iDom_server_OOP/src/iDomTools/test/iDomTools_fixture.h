@@ -11,7 +11,6 @@ public:
     TEST_JSON test_Json;
     LIGHTNING test_lightning;
     CARDINAL_DIRECTIONS::ALARM_INFO test_struct;
-    std::string configPath433mhz = "/etc/config/iDom_SERVER/433_eq_conf.json";
     thread_data test_my_data;
     iDomSTATUS test_status;
     config test_server_set;
@@ -34,8 +33,8 @@ public:
         test_server_set.viberSender = "test sender";
         test_server_set.viberReceiver = {"R1","R2"};
         test_server_set.saveFilePath = "/mnt/ramdisk/iDomStateTest2.save";
-
-        test_rec.loadConfig(configPath433mhz);
+        test_server_set.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
+        test_rec.loadConfig(test_server_set.radio433MHzConfigFile);
 
         test_my_data.main_REC = (&test_rec);
         test_my_data.server_settings = &test_server_set;

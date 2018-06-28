@@ -128,6 +128,12 @@ void RADIO_EQ_CONTAINER::addRadioEq( RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
     }
 }
 
+void RADIO_EQ_CONTAINER::deleteRadioEq(std::string name)
+{
+   m_radioEqMap.erase(name);
+   saveConfig(my_data->server_settings->radio433MHzConfigFile);
+}
+
 RADIO_EQ* RADIO_EQ_CONTAINER::getEqPointer(std::string name)
 {
     auto m = m_radioEqMap.find(name);

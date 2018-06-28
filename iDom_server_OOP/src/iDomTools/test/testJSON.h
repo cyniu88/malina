@@ -1,6 +1,7 @@
 #include "json.hpp"
 
-class TEST_JSON{
+class TEST_JSON
+{
 
 public:
     nlohmann::json jj_noLightning = nlohmann::json::parse("{\"success\":true,\"error\":{\"code\":\"warn_no_data\",\"description\":\"No data was returned for the request.\"},\"response\":[]}");

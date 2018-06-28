@@ -148,6 +148,7 @@ public:
     RADIO_EQ_CONTAINER(thread_data * my_data);
     virtual ~RADIO_EQ_CONTAINER();
     void addRadioEq(RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type);
+    void deleteRadioEq(std::string name);
     virtual RADIO_EQ* getEqPointer(std::string name);
     std::vector<RADIO_SWITCH*> getSwitchPointerVector();
     std::vector<RADIO_BUTTON*> getButtonPointerVector();

@@ -58,7 +58,27 @@ TEST_F(Switch_Class_fixture, read_write_config_json)
 {
     auto v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
-    test_rec.saveConfig(configPath433mhz);
+    test_rec.saveConfig(test_server_set.radio433MHzConfigFile);
+    v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
+}
+
+TEST_F(Switch_Class_fixture, add_and_erase_switch)
+{
+    RADIO_EQ_CONFIG tCfg;
+    tCfg.name = "test";
+    test_rec.addRadioEq(tCfg, RADIO_EQ_TYPE::SWITCH);
+    auto v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),6);
+    test_rec.saveConfig(test_server_set.radio433MHzConfigFile);
+    v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),6);
+
+    ///////delete
+    test_rec.deleteRadioEq(tCfg.name);
+    v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
+    test_rec.saveConfig(test_server_set.radio433MHzConfigFile);
     v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
 }
