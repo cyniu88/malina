@@ -65,6 +65,24 @@ struct RADIO_EQ_CONFIG{
     std::string on15sec = "NULL";
     std::string sunrise = "NULL";
     std::string sunset  = "NULL";
+    void set(std::string name,
+             std::string ID,
+             std::string type,
+             std::string onCode,
+             std::string offCode,
+             std::string on15sec,
+             std::string sunrise,
+             std::string sunset){
+        this->name = name;
+        this->ID   = ID;
+        this->type = type;
+        this->onCode  = onCode;
+        this->offCode = offCode;
+        this->on15sec = on15sec;
+        this->sunrise = sunrise;
+        this->sunset  = sunset;
+    }
+
     nlohmann::json getJson(){
         nlohmann::json jj;
         jj["name"]  = name;
@@ -147,7 +165,8 @@ class RADIO_EQ_CONTAINER
 public:
     RADIO_EQ_CONTAINER(thread_data * my_data);
     virtual ~RADIO_EQ_CONTAINER();
-    void addRadioEq(RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type);
+    void addRadioEq(RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type);    
+    void addRadioEq(RADIO_EQ_CONFIG cfg, std::string type);
     void deleteRadioEq(std::string name);
     virtual RADIO_EQ* getEqPointer(std::string name);
     std::vector<RADIO_SWITCH*> getSwitchPointerVector();

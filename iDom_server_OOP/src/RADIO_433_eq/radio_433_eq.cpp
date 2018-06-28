@@ -128,6 +128,17 @@ void RADIO_EQ_CONTAINER::addRadioEq( RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
     }
 }
 
+void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, std::string type)
+{
+    RADIO_EQ_TYPE ret;
+    if(type == "SWITCH") ret = RADIO_EQ_TYPE::SWITCH;
+    else if(type == "BUTTON") ret = RADIO_EQ_TYPE::BUTTON;
+    else if(type == "WEATHER") ret = RADIO_EQ_TYPE::WEATHER_S;
+    else if(type == "PIR") ret = RADIO_EQ_TYPE::PIR;
+    else if(type == "GATE") ret = RADIO_EQ_TYPE::GATE;
+    addRadioEq(cfg,ret);
+}
+
 void RADIO_EQ_CONTAINER::deleteRadioEq(std::string name)
 {
    m_radioEqMap.erase(name);
