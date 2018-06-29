@@ -30,6 +30,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9]);
             my_data->main_REC->addRadioEq(cfg,v[4]);
             str_buf = v[2] + " added";
+            my_data->main_REC->saveConfig(my_data->server_settings->radio433MHzConfigFile);
         }
         else if (v[1] == "show" && v[2] == "switch"){
             str_buf = "testowo";

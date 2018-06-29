@@ -114,7 +114,7 @@ TEST_F(command433MHz_Class_fixture, wrongParamiter_addSwitch)
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
     auto v = test_rec.getSwitchPointerVector();
-    EXPECT_EQ(v.size(),4);
+    EXPECT_EQ(v.size(),5);
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("add");
@@ -127,7 +127,7 @@ TEST_F(command433MHz_Class_fixture, wrongParamiter_addSwitch)
     std::string result = test_command_433MHz->execute(test_v,&test_my_data);
     EXPECT_STREQ(result.substr(0, 15).c_str(), "wrong paramiter");
     v = test_rec.getSwitchPointerVector();
-    EXPECT_EQ(v.size(),4);
+    EXPECT_EQ(v.size(),5);
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("show");

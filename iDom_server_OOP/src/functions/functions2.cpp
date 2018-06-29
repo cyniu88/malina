@@ -16,10 +16,12 @@ std::vector<std::string> useful_F::split(const std::string& s, char separator ){
         output.push_back(substring);
         prev_pos = ++pos;
     }
-    try {
+    try
+    {
         output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
     }
-    catch (...){
+    catch (...)
+    {
 #ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "wyjatek substr() w useful_F::split() !!!!!!"<< std::endl;
@@ -86,7 +88,8 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     log_file_cout << INFO<< "zaczynam procedure konca watku SLEEP_MPD" <<  std::endl;
     log_file_mutex.mutex_unlock();
 #endif
-    try {
+    try
+    {
         for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
         {
             if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
