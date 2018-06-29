@@ -8,7 +8,7 @@ command_program::command_program(std::string name):command(name)
 
 std::string command_program::execute(std::vector<std::string> &v, thread_data *my_data)
 {
-    std::string ret = "dummy";
+    std::string ret = help();
     if (v.size() <2 )
     {
         return "what?\n" + help();;
@@ -16,7 +16,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     if (v[1] == "stop")
     {
         std::string s ="close server";
-        useful_F::send_to_arduino_clock(my_data, "STOP");
+        //useful_F::send_to_arduino_clock(my_data, "STOP");
         iDomTOOLS::MPD_stop();
         my_data->iDomProgramState = iDomStateEnum::CLOSE;
         my_data->main_iDomTools->saveState_iDom();
@@ -28,7 +28,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     }
     if(v[1] == "reload" && v[2] == "soft"){
         std::string s ="close server";
-        useful_F::send_to_arduino_clock(my_data, "RELO");
+        //useful_F::send_to_arduino_clock(my_data, "RELO");
         iDomTOOLS::MPD_stop();
         my_data->iDomProgramState = iDomStateEnum::RELOAD;
         my_data->main_iDomTools->saveState_iDom();
@@ -36,7 +36,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     }
     else if(v[1] == "reload" && v[2] == "hard"){
         std::string s ="close server";
-        useful_F::send_to_arduino_clock(my_data, "UPAD");
+        //useful_F::send_to_arduino_clock(my_data, "UPAD");
         iDomTOOLS::MPD_stop();
         my_data->iDomProgramState = iDomStateEnum::HARD_RELOAD;
         my_data->main_iDomTools->saveState_iDom();

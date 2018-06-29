@@ -36,7 +36,7 @@ protected:
     }
 };
 
-TEST_F(command433MHz_Class_fixture, wrongMSGformat)
+TEST_F(command433MHz_Class_fixture, deleteSwitch)
 {
     test_v.push_back("show");
     test_v.push_back("all");
@@ -48,6 +48,84 @@ TEST_F(command433MHz_Class_fixture, wrongMSGformat)
     test_v.push_back("delete");
     test_v.push_back("A");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),4);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    EXPECT_EQ(1,1);
+}
+TEST_F(command433MHz_Class_fixture, deleteDeletedSwitch)
+{
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    auto v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),4);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("delete");
+    test_v.push_back("A");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),4);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    EXPECT_EQ(1,1);
+}
+
+TEST_F(command433MHz_Class_fixture, addSwitch)
+{
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    auto v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),4);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("add");
+    test_v.push_back("Aaa");
+    test_v.push_back("1234");
+    test_v.push_back("SWITCH");
+    test_v.push_back("onCode_A");
+    test_v.push_back("ofCode_A");
+    test_v.push_back("on15sec_A");
+    test_v.push_back("sunrise_A");
+    test_v.push_back("sunset_A");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    EXPECT_EQ(1,1);
+}
+
+TEST_F(command433MHz_Class_fixture, wrongParamiter_addSwitch)
+{
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    auto v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),4);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("add");
+    test_v.push_back("Abc");
+    test_v.push_back("1234");
+    test_v.push_back("SWITCH");
+    test_v.push_back("onCode_A");
+    test_v.push_back("ofCode_A");
+    test_v.push_back("on15sec_A");
+    std::string result = test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_STREQ(result.substr(0, 15).c_str(), "wrong paramiter");
     v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),4);
     test_v.clear();

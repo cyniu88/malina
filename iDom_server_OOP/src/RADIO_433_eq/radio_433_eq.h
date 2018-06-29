@@ -54,7 +54,8 @@ enum class RADIO_EQ_TYPE{
     PIR,
     GATE,
     BUTTON,
-    WEATHER_S
+    WEATHER_S,
+    NONE
 };
 struct RADIO_EQ_CONFIG{
     std::string name = "NULL";

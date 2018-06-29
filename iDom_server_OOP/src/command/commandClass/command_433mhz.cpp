@@ -89,6 +89,7 @@ std::string command_433MHz::help()
 {
     std::stringstream ret;
     ret << ("433MHz delete <name> - dalete radio equipment") <<std::endl;
+    ret << ("433MHz add <name> <ID> <type> <onCode> <offCode> <on15sec> <sunrise> <sunset> - add radio equipment") <<std::endl;
     ret << ("433MHz switch <name> ON/OFF/15s - change switch state") <<std::endl;
     ret << ("433MHz show all - list all equipment by name") <<std::endl;
     ret << ("433MHz show aether   - show aether devices by ID") <<std::endl;

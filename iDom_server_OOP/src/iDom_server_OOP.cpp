@@ -13,7 +13,7 @@
 #include "command/commandClass/command_ardu.h"
 
 std::string  _logfile = "/mnt/ramdisk/iDom_log.log";
-std::string buffer ;
+std::string buffer;
 Logger log_file_mutex(_logfile);
 
 ////////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
@@ -553,7 +553,7 @@ int main(int argc, char *argv[])
             }
             catch (...)
             {
-                std::cout << "złąpano wyjatek programu wiec restart"<<std::endl;
+                std::cout << "złąpano wyjatek programu wiec restart "<<std::endl;
                 iDomStateProgram = iDomStateEnum::RELOAD;
             }
             if(iDomStateProgram == iDomStateEnum::RELOAD)

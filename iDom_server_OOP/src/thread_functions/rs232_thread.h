@@ -67,7 +67,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
                 std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
                 data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
                 data_rs232->pointer.ptr_who[1] = iDomConst::RS232;
-                serial_ardu_clock.print(buffer.c_str());
+                //serial_ardu_clock.print(buffer.c_str());
 
                 buffer.erase();
 
