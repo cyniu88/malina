@@ -135,3 +135,4 @@ TEST_F(command433MHz_Class_fixture, wrongParamiter_addSwitch)
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
     EXPECT_EQ(1,1);
 }
+

@@ -115,13 +115,13 @@ void RADIO_EQ_CONTAINER::addRadioEq( RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
 {
     switch (type) {
     case RADIO_EQ_TYPE::SWITCH:
-        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_SWITCH(this->my_data, cfg, RADIO_EQ_TYPE::SWITCH)  )    );
+        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_SWITCH(my_data, cfg, RADIO_EQ_TYPE::SWITCH)  )    );
         break;
     case RADIO_EQ_TYPE::BUTTON:
-        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_BUTTON(this->my_data, cfg, RADIO_EQ_TYPE::BUTTON)  )    );
+        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_BUTTON(my_data, cfg, RADIO_EQ_TYPE::BUTTON)  )    );
         break;
     case RADIO_EQ_TYPE::WEATHER_S:
-        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_WEATHER_STATION(this->my_data, cfg, RADIO_EQ_TYPE::WEATHER_S) ) );
+        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_WEATHER_STATION(my_data, cfg, RADIO_EQ_TYPE::WEATHER_S) ) );
         break;
     default:
         break;
@@ -141,8 +141,9 @@ void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, std::string type)
 
 void RADIO_EQ_CONTAINER::deleteRadioEq(std::string name)
 {
-   m_radioEqMap.erase(name);
-   saveConfig(my_data->server_settings->radio433MHzConfigFile);
+    delete m_radioEqMap[name];
+    m_radioEqMap.erase(name);
+    saveConfig(my_data->server_settings->radio433MHzConfigFile);
 }
 
 RADIO_EQ* RADIO_EQ_CONTAINER::getEqPointer(std::string name)
@@ -157,7 +158,7 @@ RADIO_EQ* RADIO_EQ_CONTAINER::getEqPointer(std::string name)
     }
 }
 
-std::vector<RADIO_SWITCH *> RADIO_EQ_CONTAINER::getSwitchPointerVector()
+std::vector<RADIO_SWITCH*> RADIO_EQ_CONTAINER::getSwitchPointerVector()
 {
     std::vector<RADIO_SWITCH*> switchVector;
 
