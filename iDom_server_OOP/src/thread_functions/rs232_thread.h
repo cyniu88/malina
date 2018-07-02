@@ -64,6 +64,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
             }
             else if(data_rs232->pointer.ptr_who[0] == iDomConst::CLOCK)
             {
+                puts("iDomConst::CLOCK");
                 std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
                 data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
                 data_rs232->pointer.ptr_who[1] = iDomConst::RS232;
@@ -73,12 +74,18 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
 
                 while(useful_F::go_while){
                     if(serial_ardu_clock.available()>0){
-#ifdef BT_TEST
-                        std::cout << "w buforze serial_ardu_clock " << serial_ardu_clock.available()<<std::endl;
-#endif
+//#ifdef BT_TEST
+                        puts("w buforze serial_ardu_clock ");
+                        //puts( std::string(serial_ardu_clock.available()).c_str());
+//#endif
                         buffer += serial_ardu_clock.read();
-                        buffer += serial_ardu_clock.read();
+                        //buffer += serial_ardu_clock.read();
                         serial_ardu_clock.flush();
+                        break;
+                    }
+                    else
+                    {
+                        puts("w buforze serial_ardu_clock nie ma avaiable ");
                         break;
                     }
                 }

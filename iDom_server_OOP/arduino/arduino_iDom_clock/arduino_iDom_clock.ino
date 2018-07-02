@@ -1,4 +1,5 @@
 
+
 #include "SevSeg.h"
 
 //Create an instance of the object.
@@ -14,7 +15,7 @@ unsigned long  timer = millis();
 
 void setup()
 {
-  Serial.begin(4800);
+  Serial.begin(9600);
   int displayType = COMMON_ANODE; //Your display is either common cathode or common anode
 
 
@@ -41,7 +42,7 @@ void setup()
 
   myDisplay.SetBrightness(50); //Set the display to 100% brightness level
 
-   
+
 }
 
 void loop()
@@ -54,33 +55,34 @@ void loop()
       ++i;
     }
     if (command[0]=='S' && command[1]=='B'){
-     
+
       myDisplay.SetBrightness( (((int)(command[2])-'0')*10)+((int)(command[3])-'0')     );
-      
+
     }
-     Serial.println("OK");
-      
+    Serial.println("OK");
+
 
   }
- 
+
   if (millis() >= timer ) {
-      
+
     timer += 2000; 
     dot = !dot;
     if(dot){
-    dot_place = 0;
-     
+      dot_place = 0;
+
     }
     else{
       dot_place = 2;
-      
+
     }
   } 
-  
-  
-   
+
+
+
   myDisplay.DisplayString(command, dot_place); //(numberToDisplay, decimal point location in binary number [4 means the third digit])
 
- 
+
 }
+
 
