@@ -551,9 +551,9 @@ int main(int argc, char *argv[])
             {
                 iDomStateProgram = iDom_main();
             }
-            catch (...)
+            catch (std::string e)
             {
-                std::cout << "złąpano wyjatek programu wiec restart "<<std::endl;
+                std::cout << "złąpano wyjatek programu wiec restart "<<e <<std::endl;
                 iDomStateProgram = iDomStateEnum::RELOAD;
             }
             if(iDomStateProgram == iDomStateEnum::RELOAD)
