@@ -1,11 +1,11 @@
 #ifndef LCD_C_H
 #define LCD_C_H
 
-//#include "../../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h"
 #include <iostream>
 #include <string>
 #include <regex>
-#include "../../../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h"
+#include "/home/pi/programowanie/liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h"
+
 class LCD_c
 {
 public:

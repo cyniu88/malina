@@ -3,7 +3,7 @@
 
 #include "../c_connection/c_connection.h"
 #include "../TASKER/tasker.h"
-
+#include "../SerialPi/serialpi.h"
 
 
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////

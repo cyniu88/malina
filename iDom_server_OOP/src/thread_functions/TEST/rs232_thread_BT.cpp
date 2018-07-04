@@ -16,12 +16,15 @@ void SerialPi_set_recv_msg(std::string m){
 SerialPi::SerialPi( std::string a){
     std::cout << "SerialPi() addres: "<< a << std::endl;
 }
+SerialPi::~SerialPi(){
+    std::cout << "~SerialPi()"<< std::endl;
+}
 
 void SerialPi::begin(int serialSpeed){
     std::cout << "SerialPi::int() serialSpeed: "<< serialSpeed << std::endl;
 }
 
-void SerialPi::print(char const* msg){
+void SerialPi::print(std::string msg){
     std::cout << "SerialPi::print() msg: "<< msg << std::endl;
     //TEST_DATA::serial_b = msg;
 }

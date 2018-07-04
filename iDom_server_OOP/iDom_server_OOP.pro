@@ -15,7 +15,6 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/blockQueue/blockqueue.cpp \
     src/files_tree/files_tree.cpp \
     src/LCD_c/lcd_c.cpp \
-    ../arduPi/arduPi.cpp \
     ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.cpp \
     src/c_irda_logic/c_irda_logic.cpp \
     src/menu_tree/menu_tree.cpp \
@@ -73,7 +72,10 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/433MHz/RFLink/rflinkhandler.cpp \
     src/iDomTools/lightning.cpp \
     src/iDomSaveState/idom_save_state.cpp \
-    src/iDomTools/idomtools_system.cpp
+    src/iDomTools/idomtools_system.cpp \
+    src/SerialPi/serialpi.cpp \
+    arduPi/arduPi_template.cpp \
+    arduPi/arduPi.cpp
 
 INCLUDEPATH += "/home/pi/programowanie/iDom_server_OOP/libs/json/single_include/nlohmann"
 
@@ -86,7 +88,6 @@ HEADERS += src/c_connection/c_connection.h \
     src/blockQueue/blockqueue.h \
     src/files_tree/files_tree.h \
     src/LCD_c/lcd_c.h \
-    ../arduPi/arduPi.h \
     ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h \
     src/c_irda_logic/c_irda_logic.h \
     src/wiadomosc/wiadomosc.h \
@@ -147,7 +148,8 @@ HEADERS += src/c_connection/c_connection.h \
     src/thread_functions/rs232_thread.h \
     src/433MHz/RFLink/rflinkhandler.h \
     src/iDomTools/lightning.h \
-    src/iDomSaveState/idom_save_state.h
+    src/iDomSaveState/idom_save_state.h \
+    src/SerialPi/serialpi.h
 
 DISTFILES +=
 
