@@ -542,7 +542,7 @@ int main(int argc, char *argv[])
 {
     iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
     std::cout << "startujemy program iDom" << std::endl;
-
+    int t = 5;
     if (argc == 1)
     {
         do
@@ -551,15 +551,15 @@ int main(int argc, char *argv[])
             {
                 iDomStateProgram = iDom_main();
             }
-            catch (std::string e)
+            catch (std::exception e)
             {
-                std::cout << "złąpano wyjatek programu wiec restart "<<e <<std::endl;
+                std::cout << "złąpano wyjatek programu wiec restart "<< e.what() <<std::endl;
                 iDomStateProgram = iDomStateEnum::RELOAD;
             }
             if(iDomStateProgram == iDomStateEnum::RELOAD)
             {
                 std::cout<<std::endl << "przeładowywuje program" << std::endl;
-                std::this_thread::sleep_for( std::chrono::seconds(5));
+                std::this_thread::sleep_for( std::chrono::seconds(++t));
             }
         }
         while (iDomStateProgram == iDomStateEnum::RELOAD);
