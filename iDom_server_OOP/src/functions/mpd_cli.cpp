@@ -103,7 +103,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                 my_data->mainLCD->printRadioName(true,0,0,_msg);
                 my_data->mainLCD->set_lcd_STATE(5);
                 std::string temp_str = my_data->main_iDomTools->getTemperatureString(); // send_to_arduino(my_data,"temperature:2;");
-                //temp_str.erase(temp_str.size()-1,temp_str.size()); //TODO check
+
                 my_data->mainLCD->printString(false,0,1,"temp:"+temp_str+" c");
 
                 updatePlayList(mi,my_data);

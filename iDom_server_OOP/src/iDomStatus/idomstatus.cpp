@@ -20,7 +20,7 @@ void iDomSTATUS::setObjectState(std::string name, STATE st)
     }
     else
     {
-        lock.~lock_guard();   //TODO is it correct ?
+        lock.~lock_guard();
         addObject(name,st);
     }
 }

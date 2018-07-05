@@ -207,7 +207,7 @@ unsigned char WirePi::read(){
 	char buf;
 	i2c_bytes_to_read=1;
 	read(&buf);
-	return (unsigned char)buf;
+    return static_cast<unsigned char>(buf);
 }
 
 uint8_t WirePi::read(char* buf){
@@ -756,7 +756,7 @@ int address;
 		address = 0xEC;
 	} else if (pin == 6){ 
 		address = 0xBC;
-	} else if (pin == 7){ 
+    } else /*if (pin == 7)*/{ //RISK
 		address = 0xFC;
 	}
 	
@@ -927,7 +927,6 @@ int raspberryPinNumber(int arduinoPin){
 // safe read from peripheral
 uint32_t bcm2835_peri_read(volatile uint32_t* paddr){
     uint32_t ret = *paddr;
-    ret = *paddr;
     return ret;
 
 }

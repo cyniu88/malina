@@ -242,27 +242,6 @@ std::string  useful_F::sek_to_uptime(long long secy )
     return text.str();
 }
 
-
-std::string useful_F::RSHash(std::string data, unsigned int b, unsigned int a)
-{
-    time_t act_time;
-    struct tm * act_date;
-    time(&act_time);
-    act_date = localtime(&act_time);
-    char buffer[10];
-    strftime(buffer,10,"%M%H%w",act_date);
-    std::string str(buffer);
-    str+=data;
-    unsigned int hash = 0;
-
-    for(std::size_t i = 0; i < str.length(); i++)
-    {
-        hash = hash * a + str[i];
-        a    = a * b;
-    }
-    return std::to_string((hash & 0x7FFFFFFF));
-}
-
 //wysylanie pliku
 std::string useful_F::l_send_file(std::string path, std::string find  , bool reverse )
 {
@@ -301,22 +280,29 @@ std::string useful_F::l_send_file(std::string path, std::string find  , bool rev
             std::string str_temp;
             while( std::getline(log_file,str_temp) )
             {
-                if (reverse){
-                    if(std::string::npos!=str_temp.find(find)){
+                if (reverse)
+                {
+                    if(std::string::npos!=str_temp.find(find))
+                    {
                         str_buf+=str_temp +"\n";
                     }
-                    else{
-                        if(str_buf.size()<3){
+                    else
+                    {
+                        if(str_buf.size()<3)
+                        {
                             str_buf+="    ";
                         }
                     }
                 }
-                else{
-                    if(std::string::npos == str_temp.find(find)){
+                else
+                {
+                    if(std::string::npos == str_temp.find(find))
+                    {
                         str_buf+=str_temp+"\n";
                     }
                 }
-                if(str_buf.size()<3){
+                if(str_buf.size()<3)
+                {
                     str_buf+="    ";
                 }
             }
@@ -324,6 +310,73 @@ std::string useful_F::l_send_file(std::string path, std::string find  , bool rev
         log_file.close();
     }
     return str_buf;
+}
+
+int useful_F::findFreeThreadSlot(Thread_array_struc *array)
+{
+    for (int i = 0 ; i< iDomConst::MAX_CONNECTION;  ++i)
+    {
+        if (array[i].thread_socket == 0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+volatile unsigned int  useful_F::lastInterruptTime = 0;
+std::mutex useful_F::mut;
+
+void useful_F::button_interrupt( )
+{
+    std::lock_guard <std::mutex > lock(useful_F::mut);
+    static int counter = 0;
+    counter++;
+
+    volatile unsigned int m = millis();
+    volatile auto a = m - useful_F::lastInterruptTime;
+    if (a > 50)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "przerwanie przycisku " <<counter<< std::endl;
+        log_file_mutex.mutex_unlock();
+        useful_F::myStaticData->myEventHandler.run("interrupt")->addEvent("przerwanie z przycisku");
+        printf ("przerwanie %d - %d = %d\n", m, useful_F::lastInterruptTime, a);
+        printf("counter %d \n status is %d\n",counter,digitalRead(iDomConst::BUTTON_PIN));
+
+        if (digitalRead(iDomConst::BUTTON_PIN)==HIGH)
+        {
+            //iDomTOOLS::playMPD(useful_F::myStaticData);
+            unsigned int menuCounter = 0;
+            while (digitalRead(iDomConst::BUTTON_PIN)==HIGH)
+            {
+                menuCounter++;
+                if(menuCounter==6){
+                    useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
+                    useful_F::myStaticData->mainLCD->printString(true,0,0,"MUSIC");
+                    puts("MUSIC");
+                }
+                if (menuCounter==60000000)
+                {
+                    useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
+                    useful_F::myStaticData->mainLCD->printString(true,0,0,"LED");
+                    puts("LED");
+                }
+                if (menuCounter==120000000)
+                {
+                    useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
+                    useful_F::myStaticData->mainLCD->printString(true,0,0,"SERVER");
+                    puts("SERVER");
+                }
+            }
+        }
+        //        else{
+        //            useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
+        //            useful_F::myStaticData->mainLCD->printString(true,0,0,"DONE");
+        //            puts("DONE");
+        //        }
+        useful_F::lastInterruptTime = millis();
+    }
 }
 
 void useful_F::clearThreadArray(thread_data* my_data)
@@ -340,72 +393,6 @@ void useful_F::clearThreadArray(thread_data* my_data)
         }
     }
 }
-
-int useful_F::findFreeThreadSlot(Thread_array_struc *array)
-{
-    for (int i = 0 ; i< iDomConst::MAX_CONNECTION;  ++i)
-    {
-        if (array[i].thread_socket == 0)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-
-
-volatile unsigned int  useful_F::lastInterruptTime = 0;
-std::mutex useful_F::mut;
-
-void useful_F::button_interrupt( )
-{
-    std::lock_guard <std::mutex > lock(useful_F::mut);
-    static int counter = 0;
-    counter++;
-    //TODO delete counter it is not needed
-
-    volatile unsigned int m = millis();
-    volatile auto a = m - useful_F::lastInterruptTime;
-    if (a > 50){
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "przerwanie przycisku " <<counter<< std::endl;
-        log_file_mutex.mutex_unlock();
-        useful_F::myStaticData->myEventHandler.run("interrupt")->addEvent("przerwanie z przycisku");
-        printf ("przerwanie %d - %d = %d\n", m, useful_F::lastInterruptTime, a);
-        printf("counter %d \n status is %d\n",counter,digitalRead(iDomConst::BUTTON_PIN));
-
-        if (digitalRead(iDomConst::BUTTON_PIN)==HIGH){
-            //iDomTOOLS::playMPD(useful_F::myStaticData);
-            unsigned int menuCounter = 0;
-            while (digitalRead(iDomConst::BUTTON_PIN)==HIGH){
-                menuCounter++;
-                if(menuCounter==6){
-                    useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
-                    useful_F::myStaticData->mainLCD->printString(true,0,0,"MUSIC");
-                    puts("MUSIC");
-                }
-                if (menuCounter==60000000){
-                    useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
-                    useful_F::myStaticData->mainLCD->printString(true,0,0,"LED");
-                    puts("LED");
-                }
-                if (menuCounter==120000000){
-                    useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
-                    useful_F::myStaticData->mainLCD->printString(true,0,0,"SERVER");
-                    puts("SERVER");
-                }
-            }
-        }
-        //        else{
-        //            useful_F::myStaticData->mainLCD->set_lcd_STATE(100);
-        //            useful_F::myStaticData->mainLCD->printString(true,0,0,"DONE");
-        //            puts("DONE");
-        //        }
-        useful_F::lastInterruptTime = millis();
-    }
-}
-
 void useful_F::sleep_1min()
 {
     std::this_thread::sleep_for( std::chrono::seconds(60) );

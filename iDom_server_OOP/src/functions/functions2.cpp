@@ -116,3 +116,24 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     log_file_mutex.mutex_unlock();
 #endif
 }
+
+std::string useful_F::RSHash(std::string data, unsigned int b, unsigned int a)
+{
+    time_t act_time;
+    struct tm * act_date;
+    time(&act_time);
+    act_date = localtime(&act_time);
+    char buffer[10];
+    strftime(buffer,10,"%M%H%w",act_date);
+    std::string str(buffer);
+    str+=data;
+    unsigned int hash = 0;
+
+    for(std::size_t i = 0; i < str.length(); i++)
+    {
+        hash = hash * a + str[i];
+        a    = a * b;
+    }
+    return std::to_string((hash & 0x7FFFFFFF));
+}
+

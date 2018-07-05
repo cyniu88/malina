@@ -43,6 +43,7 @@ private:
     int counter = 0;
     std::string m_encriptionKey;
     bool m_encrypted;
+public:
     void crypto(std::string &toEncrypt, std::string key, bool encrypted);
 };
 

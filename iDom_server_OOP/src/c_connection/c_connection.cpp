@@ -41,9 +41,11 @@ int C_connection::c_send(int para)
     if(recv_size < 0 )
     {
         //perror( "recv() ERROR" );
+#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "C_connection::c_send(int para) recv() error - " << strerror(  errno ) <<   std::endl;
         log_file_mutex.mutex_unlock();
+#endif
         return -1;
     }
     else if (recv_size == 0)
@@ -85,9 +87,11 @@ int C_connection::c_recv(int para)
 
     if(recv_size < 0 )
     {
+#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "C_connection::c_recv(int para) recv() error - " << strerror(  errno ) <<   std::endl;
         log_file_mutex.mutex_unlock();
+#endif
         return -1;
     }
     else if (recv_size == 0)
