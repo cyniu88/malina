@@ -107,7 +107,7 @@ TEST_F(command433MHz_Class_fixture, addSwitch)
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
 }
 
-TEST_F(command433MHz_Class_fixture, wrongParamiter_addSwitch)
+TEST_F(command433MHz_Class_fixture, missingParamiter_addSwitch)
 {
     test_v.push_back("show");
     test_v.push_back("all");
@@ -124,7 +124,7 @@ TEST_F(command433MHz_Class_fixture, wrongParamiter_addSwitch)
     test_v.push_back("ofCode_A");
     test_v.push_back("on15sec_A");
     std::string result = test_command_433MHz->execute(test_v,&test_my_data);
-    EXPECT_STREQ(result.substr(0, 15).c_str(), "wrong paramiter");
+    EXPECT_STREQ(result.substr(0, 15).c_str(), "wrong paramiter")<< "nie ma bledu";
     v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
     test_v.clear();
@@ -132,6 +132,64 @@ TEST_F(command433MHz_Class_fixture, wrongParamiter_addSwitch)
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
-    EXPECT_EQ(1,1);
+}
+\
+TEST_F(command433MHz_Class_fixture, add_wrongType_addSwitch)
+{
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    auto v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("add");
+    test_v.push_back("Abc");
+    test_v.push_back("1234");
+    test_v.push_back("FAKE"); //here is wrong type
+    test_v.push_back("onCode_A");
+    test_v.push_back("ofCode_A");
+    test_v.push_back("on15sec_A");
+    test_v.push_back("sunrise_A");
+    test_v.push_back("sunset_A");
+    std::string result = test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_STREQ(result.substr(0, 10).c_str(), "wrong type");
+    std::cout << "wynik testu: " << result << std::endl;
+    v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
 }
 
+TEST_F(command433MHz_Class_fixture, add_wrongID_addSwitch)
+{
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    auto v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("add");
+    test_v.push_back("Abc");
+    test_v.push_back("dummy"); //here is wrong ID
+    test_v.push_back("SWITCH");
+    test_v.push_back("onCode_A");
+    test_v.push_back("ofCode_A");
+    test_v.push_back("on15sec_A");
+    test_v.push_back("sunrise_A");
+    test_v.push_back("sunset_A");
+    std::string result = test_command_433MHz->execute(test_v,&test_my_data);
+    std::cout << "wynik testu: " << result << std::endl;
+    EXPECT_STREQ(result.substr(0, 8).c_str(), "wrong ID");
+    v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+}

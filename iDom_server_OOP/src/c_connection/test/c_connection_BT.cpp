@@ -22,18 +22,26 @@ protected:
         iDomTOOLS_ClassTest::TearDown();
         std::cout << "c_connection_fixture TearDown()" << std::endl;
     }
+    void crypto_fixture(std::string &toEncrypt, std::string key)
+    {
+        test_connection->crypto(toEncrypt, key, true);
+    }
 };
 
 TEST_F(c_connection_fixture, crypto)
 {
-    std::string key = "1234";
-    std::string test_msg = "5kokosowa ksiezniczka";
+    std::string key = "210116556";
+    std::string test_msg = "kokosowa ksiezniczka";
     std::string toEncrypt = test_msg;
-    test_connection->crypto(toEncrypt, key, true);
+    crypto_fixture(toEncrypt, key);
 
+    for(int i = 0; i < toEncrypt.size(); ++i)
+    {
+        EXPECT_NE(test_msg[i],toEncrypt[i]) << " niestety równe: " << toEncrypt[i]
+                                            << " na indeksie: " << i;
+    }
     std::cout << "wiadomość: " << test_msg << " zakodowane: "<< toEncrypt << std::endl;
-    test_connection->crypto(toEncrypt, key, true);
+    crypto_fixture(toEncrypt, key);
     std::cout << "wiadomość: " << test_msg << " odkodowane: "<< toEncrypt << std::endl;
-
-    EXPECT_STREQ(toEncrypt.c_str(), test_msg.c_str());
+    EXPECT_STREQ(toEncrypt.c_str(), test_msg.c_str()) << "wiadomosci nie są równe";
 }

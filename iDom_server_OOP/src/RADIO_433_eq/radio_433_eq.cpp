@@ -136,6 +136,8 @@ void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, std::string type)
     else if(type == "WEATHER") ret = RADIO_EQ_TYPE::WEATHER_S;
     else if(type == "PIR") ret = RADIO_EQ_TYPE::PIR;
     else if(type == "GATE") ret = RADIO_EQ_TYPE::GATE;
+    else throw WRONG_FORMAT();
+    std::stoi(cfg.ID); //check ID is number
     addRadioEq(cfg,ret);
 }
 

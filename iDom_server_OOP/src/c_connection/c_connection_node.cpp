@@ -59,19 +59,15 @@ void C_connection::crypto(std::string &toEncrypt, std::string key, bool encrypte
     if (!encrypted){
           return;
       }
-    unsigned int keySize = key.size();
-
+    unsigned int keySize = key.size()-1;
+#ifdef BT_TEST
+    std::cout << "key: " << key << " size: " << key.size() << std::endl;
+#endif
     for (unsigned int i = 0; i < toEncrypt.size (); i++)
     {
+        if (keySize == 0)   keySize = key.size()-1;
+        else     --keySize;
         toEncrypt[i] ^=  key[keySize];
-        //std::cout << key[keySize];
-
-        if (keySize == 0){
-            keySize = key.size();
-        }
-        else{
-            --keySize;
-        }
     }
 }
 

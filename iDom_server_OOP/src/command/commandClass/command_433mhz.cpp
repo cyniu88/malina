@@ -28,7 +28,19 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
         {
             RADIO_EQ_CONFIG cfg;
             cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9]);
+            try
+            {
             my_data->main_REC->addRadioEq(cfg,v[4]);
+            }
+            catch(WRONG_FORMAT)
+            {
+                return "wrong type "+v[4];
+            }
+            catch(std::invalid_argument)
+            {
+                return "wrong ID "+v[3];
+            }
+
             str_buf = v[2] + " added";
             my_data->main_REC->saveConfig(my_data->server_settings->radio433MHzConfigFile);
         }
