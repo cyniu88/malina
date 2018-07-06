@@ -21,6 +21,10 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
         }
         else if (v[1] == "delete" && v.size() == 3)
         {
+            if (my_data->main_REC->nameExist(v[2]) == false)
+            {
+                return "equipment "+ v[2]+" not exist ";
+            }
             my_data->main_REC->deleteRadioEq(v[2]);
             str_buf = v[2] + " deleted";
         }
@@ -28,6 +32,10 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
         {
             RADIO_EQ_CONFIG cfg;
             cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9]);
+            if (my_data->main_REC->nameExist(v[2]) == true)
+            {
+                return "equipment "+ v[2]+" exist ";
+            }
             try
             {
             my_data->main_REC->addRadioEq(cfg,v[4]);

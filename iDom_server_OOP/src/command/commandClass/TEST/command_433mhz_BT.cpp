@@ -68,7 +68,8 @@ TEST_F(command433MHz_Class_fixture, deleteDeletedSwitch)
     test_v.push_back("433MHz");
     test_v.push_back("delete");
     test_v.push_back("A");
-    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    std::string  result = test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_NE(std::string::npos, result.find("not exist")) << "nie ma \"not exist\"";
     v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),4);
     test_v.clear();
@@ -100,6 +101,34 @@ TEST_F(command433MHz_Class_fixture, addSwitch)
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
     v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+}
+
+TEST_F(command433MHz_Class_fixture, addExistingWeather)
+{
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    auto v = test_rec.getWeather_StationPtrVector();
+    EXPECT_EQ(v.size(),1);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("add");
+    test_v.push_back("first");
+    test_v.push_back("1234");
+    test_v.push_back("WEATHER");
+    test_v.push_back("onCode_A");
+    test_v.push_back("ofCode_A");
+    test_v.push_back("on15sec_A");
+    test_v.push_back("sunrise_A");
+    test_v.push_back("sunset_A");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    v = test_rec.getWeather_StationPtrVector();
+    EXPECT_EQ(v.size(),1);
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("show");

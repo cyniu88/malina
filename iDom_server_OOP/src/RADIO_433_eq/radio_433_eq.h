@@ -174,6 +174,7 @@ public:
     std::vector<RADIO_BUTTON*> getButtonPointerVector();
     std::vector<RADIO_WEATHER_STATION *> getWeather_StationPtrVector();
     std::string listAllName();
+    bool nameExist(std::string name);
     void loadConfig(std::string filePath);
     void saveConfig(std::string filePath);
 };

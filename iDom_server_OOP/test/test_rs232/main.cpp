@@ -1,8 +1,28 @@
 #include <iostream>
-#include <unistd.h>
-#include "/home/pi/programowanie/iDom_server_OOP/src/SerialPi/serialpi.h"
+#include <map>
+class A
+{
+public:
+    A(){
+        std::cout <<"konstruktor A"<< std::endl;
+    }
+    ~A(){
+        std::cout <<"destruktor A"<< std::endl;
+    }
+};
 
+int main()
+{
+    std::map < std::string , A*> k;
+    k.insert(std::make_pair("fan", new A()));
+    delete k["fan"];
 
+    k.insert(std::make_pair("fan", new A()));
+
+    delete k["fan"];
+    return 0;
+}
+/*
 int main(int argc, char *argv[])
 {
     //SerialPi serial_ardu("/dev/ttyAMA0");
@@ -28,3 +48,4 @@ int main(int argc, char *argv[])
     std::cout << "Hello World!" << std::endl;
     return 0;
 }
+*/

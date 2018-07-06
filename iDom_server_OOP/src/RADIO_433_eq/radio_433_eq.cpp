@@ -212,6 +212,16 @@ std::string RADIO_EQ_CONTAINER::listAllName()
     return allName;
 }
 
+bool RADIO_EQ_CONTAINER::nameExist(std::string name)
+{
+    bool exist = false;
+    if(m_radioEqMap.find(name) != m_radioEqMap.end())
+    {
+        exist = true;
+    }
+    return exist;
+}
+
 void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
 {
     std::ifstream myfile (filePath);
