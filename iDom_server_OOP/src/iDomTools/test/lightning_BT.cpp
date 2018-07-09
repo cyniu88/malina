@@ -55,12 +55,10 @@ TEST_F(lightning_Class, checkLightningAlert)
     test_struct.riseAlarm = false;
     test_result = test_lightning.checkLightningAlert(&test_struct);
     EXPECT_FALSE(test_result) << "BRAK ALARMU 5";
-
 }
 
 TEST_F(lightning_Class, checkLightningAlert_stormCloser)
 {
-
     nlohmann::json test_Json2 = useful_F_libs::getJson("http://cyniu88.no-ip.pl//test/json/on_lightning.json");
 
     test_struct = test_lightning.lightningAlert(test_Json.jj_noLightning);
@@ -97,4 +95,3 @@ TEST_F(lightning_Class, oneLightning)
     bool test_result = test_lightning.checkLightningAlert(&test_struct);
     EXPECT_FALSE(test_result);
 }
-

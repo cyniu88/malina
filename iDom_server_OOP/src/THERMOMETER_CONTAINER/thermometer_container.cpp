@@ -3,18 +3,22 @@
 THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(std::string name)
 {
     auto m = thermoMap.find(name);
-    if (m != thermoMap.end()){
+    if (m != thermoMap.end())
+    {
         return &(m->second);
     }
-    else{
+    else
+    {
         throw std::string("thermometer not found!");
     }
-
 }
 
 THERMOMETER_CONTAINER::THERMOMETER_CONTAINER()
 {
+}
 
+THERMOMETER::THERMOMETER(int iter):m_stats(iter)
+{
 }
 
 void THERMOMETER_CONTAINER::add(std::string name)
@@ -25,9 +29,8 @@ void THERMOMETER_CONTAINER::add(std::string name)
 
 void THERMOMETER_CONTAINER::setTemp(std::string name, double value)
 {
-        returnThermometerPtr(name)->m_thermometer.oldTemp = returnThermometerPtr(name)->m_thermometer.newTemp;
-        returnThermometerPtr(name)->m_thermometer.newTemp = value;
-
+    returnThermometerPtr(name)->m_thermometer.oldTemp = returnThermometerPtr(name)->m_thermometer.newTemp;
+    returnThermometerPtr(name)->m_thermometer.newTemp = value;
 }
 
 double THERMOMETER_CONTAINER::getTemp(std::string name)
@@ -76,9 +79,4 @@ bool THERMOMETER_CONTAINER::isMoreDiff(std::string name, double diff)
 std::pair<double, double> THERMOMETER_CONTAINER::getLast2(std::string name)
 {
     return returnThermometerPtr(name)->m_stats.getLast2();
-}
-
-THERMOMETER::THERMOMETER(int iter):m_stats(iter)
-{
-
 }

@@ -55,38 +55,39 @@ TEST_F(command433MHz_Class_fixture, deleteSwitch)
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
-    EXPECT_EQ(1,1);
+
 }
-TEST_F(command433MHz_Class_fixture, deleteDeletedSwitch)
+TEST_F(command433MHz_Class_fixture, deleteFakeSwitch)
 {
+    int actualSize = test_rec.getSwitchPointerVector().size();
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
     auto v = test_rec.getSwitchPointerVector();
-    EXPECT_EQ(v.size(),4);
+    EXPECT_EQ(v.size(),actualSize);
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("delete");
-    test_v.push_back("A");
+    test_v.push_back("fake");
     std::string  result = test_command_433MHz->execute(test_v,&test_my_data);
     EXPECT_NE(std::string::npos, result.find("not exist")) << "nie ma \"not exist\"";
     v = test_rec.getSwitchPointerVector();
-    EXPECT_EQ(v.size(),4);
+    EXPECT_EQ(v.size(),actualSize);
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
-    EXPECT_EQ(1,1);
 }
 
 TEST_F(command433MHz_Class_fixture, addSwitch)
 {
+    int actualSize = test_rec.getSwitchPointerVector().size();
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
     auto v = test_rec.getSwitchPointerVector();
-    EXPECT_EQ(v.size(),4);
+    EXPECT_EQ(v.size(),actualSize);
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("add");
@@ -100,7 +101,7 @@ TEST_F(command433MHz_Class_fixture, addSwitch)
     test_v.push_back("sunset_A");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
     v = test_rec.getSwitchPointerVector();
-    EXPECT_EQ(v.size(),5);
+    EXPECT_EQ(v.size(),actualSize+1);
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("show");

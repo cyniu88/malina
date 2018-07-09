@@ -21,7 +21,9 @@ C_connection::~C_connection()
     }
     my_data->mainLCD->set_print_song_state(0);
     my_data->mainLCD->set_lcd_STATE(2);
+#ifndef BT_TEST
     sleep(3);
+#endif
     shutdown(c_socket, SHUT_RDWR );
     useful_F::clearThreadArray(my_data);
     puts("C_connection::~C_connection()");
