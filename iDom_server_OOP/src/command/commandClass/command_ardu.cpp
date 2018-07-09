@@ -2,7 +2,6 @@
 
 command_ardu::command_ardu(std::string name):command(name)
 {
-
 }
 
 command_ardu::command_ardu(std::string name, thread_data *my_data):command(name)
