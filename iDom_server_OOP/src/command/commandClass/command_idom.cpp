@@ -3,7 +3,6 @@
 
 command_iDom::command_iDom(std::string name):command(name)
 {
-
 }
 
 std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_data)
@@ -136,11 +135,13 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         return readBuffer;
     }
     else if (v[1]=="lightning"){
-        std::string readBuffer = my_data->main_iDomTools->getLightningStruct().data.str();
-        readBuffer += "bool: " + my_data->main_iDomTools->getLightningStruct().riseAlarm;
-        readBuffer += "\n time: ";
-        readBuffer += Clock::getTime().getString();
-        return readBuffer;
+        std::stringstream readBuffer;
+        readBuffer << my_data->main_iDomTools->getLightningStruct().data.str();
+        readBuffer << std::endl;
+        readBuffer << "bool: " << my_data->main_iDomTools->getLightningStruct().riseAlarm;
+        readBuffer <<std::endl <<" time: ";
+        readBuffer << Clock::getTime().getString();
+        return readBuffer.str();
     }
     else if (v[1]=="kill"){
 
@@ -220,29 +221,30 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
 
 std::string command_iDom::help()
 {
-    std::string ret = "iDom - for control smart home\n";
-    ret.append("iDom speakers ON/OFF - to on or off speakers\n");
-    ret.append("iDom 230v ON/OFF     - to on or off printers");
-    ret.append("iDom sunset/sunrise/day lenght  - to show those parameters\n");
-    ret.append("iDom sun        - get sunrise, sunset and day lenght\n");
-    ret.append("iDom sysinfo    - get system info \n");
-    ret.append("iDom text       - get text to speach\n");
-    ret.append("iDom say <text> - say standatrd info or <text> \n");
-    ret.append("iDom sms <text> - send sms<text> \n");
-    ret.append("iDom LED <FROM> <TO> <R> <G> <B> - set RGB LED strip\n");
-    ret.append("iDom LED OFF    - led off\n");
-    ret.append("iDom LED set <from> <to> - set green led from to\n");
-    ret.append("iDom temperature - get temperature from all termomether\n");
-    ret.append("iDom temperature stats <name> - get temperature stats from termomether <name>\n");
-    ret.append("iDom smog       - get current SMOG level (KRAKOW)\n");
-    ret.append("iDom kill thread <ID>  - kill thread but denger!\n");
-    ret.append("iDom camera LED ON/OFF - LED camera work\n");
-    ret.append("iDom facebook ... - post on facebook wall\n");
-    ret.append("iDom viber ...   - send viber msg\n");
-    ret.append("iDom weather <city> <radius>  - get weather alert\n");
-    ret.append("iDom lightning  - get lightning alert\n");
-    ret.append("iDom alarm ON/OFF hh:mm - set larm clock \n");
-    ret.append("iDom lock   - lock home\n");
-    ret.append("iDom unlock - unlock home\n");
-    return ret;
+    std::stringstream help;
+    help << "iDom - for control smart home" << std::endl;
+    help << "iDom speakers ON/OFF - to on or off speakers" << std::endl;
+    help << "iDom 230v ON/OFF     - to on or off printers" << std::endl;
+    help << "iDom sunset/sunrise/day lenght  - to show those parameters" << std::endl;
+    help << "iDom sun        - get sunrise, sunset and day lenght" << std::endl;
+    help << "iDom sysinfo    - get system info" << std::endl;
+    help << "iDom text       - get text to speach" << std::endl;
+    help << "iDom say <text> - say standatrd info or <text>" << std::endl;
+    help << "iDom sms <text> - send sms<text>" << std::endl;
+    help << "iDom LED <FROM> <TO> <R> <G> <B> - set RGB LED strip" << std::endl;
+    help << "iDom LED OFF    - led off" << std::endl;
+    help << "iDom LED set <from> <to> - set green led from to" << std::endl;
+    help << "iDom temperature - get temperature from all termomether" << std::endl;
+    help << "iDom temperature stats <name> - get temperature stats from termomether <name>" << std::endl;
+    help << "iDom smog       - get current SMOG level (KRAKOW)" << std::endl;
+    help << "iDom kill thread <ID>  - kill thread but denger!" << std::endl;
+    help << "iDom camera LED ON/OFF - LED camera work" << std::endl;
+    help << "iDom facebook ... - post on facebook wall" << std::endl;
+    help << "iDom viber ...   - send viber msg" << std::endl;
+    help << "iDom weather <city> <radius>  - get weather alert" << std::endl;
+    help << "iDom lightning  - get lightning alert" << std::endl;
+    help << "iDom alarm ON/OFF hh:mm - set larm clock" << std::endl;
+    help << "iDom lock   - lock home" << std::endl;
+    help << "iDom unlock - unlock home" << std::endl;
+    return help.str();
 }

@@ -3,7 +3,6 @@
 
 command_sleep::command_sleep(std::string name):command(name)
 {
-
 }
 
 std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_data)
@@ -49,9 +48,9 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
 
 std::string command_sleep::help()
 {
-    std::string help = "sleep - show actual time to stop play music\n";
-    help.append("sleep set <int> - start sleep for <int> minutes");
-    help.append("\n");
+    std::stringstream help;
+    help << "sleep - show actual time to stop play music" << std::endl;
+    help << "sleep set <int> - start sleep for <int> minutes" << std::endl;
 
-    return help;
+    return help.str();
 }

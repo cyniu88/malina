@@ -28,7 +28,7 @@ void blockQueue::_add(T X)
 T blockQueue::_get( )
 {
     T temp = MPD_COMMAND::NULL_;
-    std::lock_guard <std::mutex>  lock (mutex_queue_char);
+    std::lock_guard <std::mutex>  lock(mutex_queue_char);
     if (_MPD_CommandQ.empty() == false){
         temp = _MPD_CommandQ.front();
         _MPD_CommandQ.pop();

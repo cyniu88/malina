@@ -147,10 +147,8 @@ void Server_connectivity_thread(thread_data  *my_data){
     /// ///////////////////////user level
     {
         int recvSize = client->c_recv(0);
-        if(recvSize == -1)  {
-            //            my_data->mainLCD->set_print_song_state(0);
-            //            my_data->mainLCD->set_lcd_STATE(2);
-            //            sleep (3);
+        if(recvSize == -1)
+        {
             delete client;
             return;
         }
@@ -160,10 +158,12 @@ void Server_connectivity_thread(thread_data  *my_data){
         puts("user level to:");
         puts(userLevel.c_str());
 
-        if(userLevel == "ROOT"){
+        if(userLevel == "ROOT")
+        {
             client->mainCommandHandler = new commandHandlerRoot(my_data);
         }
-        else{
+        else
+        {
             client->mainCommandHandler = new commandHandler(my_data);
         }
     }
@@ -185,7 +185,6 @@ void Server_connectivity_thread(thread_data  *my_data){
             puts("close server - throw");
             useful_F::go_while = false;
             client->c_send("CLOSE");
-            //delete client;
             break;
         }
 
@@ -196,10 +195,7 @@ void Server_connectivity_thread(thread_data  *my_data){
             break;
         }
     }
-    //my_data->mainLCD->set_print_song_state(0);
-    //my_data->mainLCD->set_lcd_STATE(2);
     client->onStopConnection();
-    //sleep (3);
     delete client;
 }
 
@@ -222,7 +218,8 @@ iDomStateEnum iDom_main()
     time(&node_data.start);
 
     Thread_array_struc thread_array[iDomConst::MAX_CONNECTION];
-    for (int i = 0 ; i< iDomConst::MAX_CONNECTION;++i){
+    for (int i = 0 ; i< iDomConst::MAX_CONNECTION;++i)
+    {
         thread_array[i].thread_name = "  -empty-  ";
         thread_array[i].thread_socket = 0;
     }

@@ -3,7 +3,6 @@
 
 command_put::command_put(std::string name):command(name)
 {
-
 }
 
 std::string command_put::execute(std::vector<std::string> &v, thread_data *my_data)
@@ -22,11 +21,9 @@ std::string command_put::execute(std::vector<std::string> &v, thread_data *my_da
 
 std::string command_put::help()
 {
-    std::string help = "put <parameter> - ";
-                    help.append("\n\n");
-                    help.append("parameter:");
-                    help.append("\n");
-                    help.append("\ttemperature - put actual temperature from inside and outside and smog on thingspeak\n");
-                    help.append("\n");
-        return help;
+    std::stringstream help;
+    help << "put <parameter> - " << std::endl << std::endl;
+    help << "parameter:" << std::endl;
+    help << "\ttemperature - put actual temperature from inside and outside and smog on thingspeak\n" << std::endl;
+    return help.str();
 }

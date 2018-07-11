@@ -17,8 +17,7 @@ std::string command_UPTIME::execute(std::vector<std::string> &v, thread_data *my
 
 std::string command_UPTIME::help()
 {
-    std::string help = "uptime - show server uptime";
-    help.append("\n");
-    return help;
+    std::stringstream help;
+    help << "uptime - show server uptime" << std::endl;
+    return help.str();
 }
-

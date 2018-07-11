@@ -4,7 +4,6 @@
 
 commandTEST::commandTEST(std::string name):command(name)
 {
-
 }
 
 std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_data)
@@ -24,8 +23,8 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_da
 }
 std::string commandTEST::help()
 {
-    std::stringstream ret;
-    ret << "test - for test"<<std::endl;
-    ret << "throw - trow test reload program" << std::endl;
-    return ret.str();
+    std::stringstream help;
+    help << "test - for test" << std::endl;
+    help << "throw - trow test reload program" << std::endl;
+    return help.str();
 }

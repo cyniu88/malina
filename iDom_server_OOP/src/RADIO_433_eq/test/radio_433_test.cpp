@@ -82,3 +82,12 @@ TEST_F(Switch_Class_fixture, add_and_erase_switch)
     v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
 }
+
+TEST_F(Switch_Class_fixture, loadConfig)
+{
+    RADIO_EQ_CONTAINER test_rec(&test_my_data);
+    test_rec.loadConfig("/mnt/ramdisk/433_eq_conf_fake.json");
+
+    EXPECT_FALSE(test_rec.nameExist("first"));
+    EXPECT_TRUE(test_rec.nameExist("locker"));
+}

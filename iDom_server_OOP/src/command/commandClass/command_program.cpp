@@ -3,7 +3,6 @@
 
 command_program::command_program(std::string name):command(name)
 {
-
 }
 
 std::string command_program::execute(std::vector<std::string> &v, thread_data *my_data)

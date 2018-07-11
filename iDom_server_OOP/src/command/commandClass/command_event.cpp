@@ -28,8 +28,9 @@ std::string command_event::execute(std::vector<std::string> &v, thread_data *my_
 
 std::string command_event::help()
 {
-    std::string help = "event- show actual  event (all)\n";
-    help.append("event <name> - show one event\n");
-    help.append("event <name> clear - clear event <name>");
-    return help.append("\n");
+    std::stringstream help;
+    help << "event- show actual  event (all)" << std::endl;
+    help << "event <name> - show one event" << std::endl;
+    help << "event <name> clear - clear event <name>" << std::endl;
+    return help.str();
 }

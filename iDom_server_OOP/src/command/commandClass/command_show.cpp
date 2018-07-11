@@ -77,21 +77,15 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
 
 std::string command_show::help()
 {
-    std::string help = "show <parameter>- for show something";
-    help.append("\n\n");
-    help.append("parameter:");
-    help.append("\n");
-    help.append("\tlog             - show all server log");
-    help.append("\n");
-    help.append("\tlog <string>    - show all server log lines which contain <string>");
-    help.append("\n");
-    help.append("\tlog no <string> - show all server log lines which NO contain <string>");
-    help.append("\n");
-    help.append("\tthread all      - show all server thread pid ");
-    help.append("\n");
-    help.append("\tthread <number> - show server <number> thread pid ");
-    help.append("\n");
+    std::stringstream help;
+    help << "show <parameter>- for show something" <<std::endl << std::endl;
+    help << "parameter:" << std::endl;
+    help << "\tlog             - show all server log" << std::endl;
+    help << "\tlog <string>    - show all server log lines which contain <string>" << std::endl;
+    help << "\tlog no <string> - show all server log lines which NO contain <string>" << std::endl;
+    help << "\tthread all      - show all server thread pid " << std::endl;
+    help << "\tthread <number> - show server <number> thread pid " << std::endl;
 
-    return help;
+    return help.str();
 }
 

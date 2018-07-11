@@ -1,6 +1,7 @@
 #include <iostream>     // std::cout
 #include <fstream>
 #include "idom_save_state.h"
+#include "../iDom_server_OOP.h"
 
 iDom_SAVE_STATE::iDom_SAVE_STATE(std::string path): m_path(path)
 {
@@ -23,7 +24,11 @@ nlohmann::json iDom_SAVE_STATE::read()
     std::ifstream i(m_path);
     nlohmann::json j;
     i >> j;
-
+#ifndef BT_TEST
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "czytam zapisany stan parametrow iDom" << std::endl;
+    log_file_mutex.mutex_unlock();
+#endif
     return j;
 }
 

@@ -616,23 +616,23 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
 std::string iDomTOOLS::getTextToSpeach()
 {
     std::vector<std::string> dayL = useful_F::split(getDayLenght(),':');
-    std::string  text;
+    std::stringstream  text;
     std::string smogText = getSmog();
     int smogInt = std::stoi(smogText);
-    text =  "Godzina: "+ Clock::getTime().getString();
-    text += ". \nWschód słońca: "+getSunrise();
-    text += ". \nZachód słońca: "+getSunset();
-    text += ". \nDługość dnia: "+ dayL[0]+" godzin "+dayL[1]+" minut";
-    text +=". \n";
+    text <<  "Godzina: " << Clock::getTime().getString();
+    text << ". \nWschód słońca: " << getSunrise();
+    text << ". \nZachód słońca: " << getSunset();
+    text << ". \nDługość dnia: " << dayL[0] << " godzin " << dayL[1] << " minut";
+    text <<". \n";
     dayL = getTemperature();
-    text += "Temperatura na zewnątrz: "+ dayL[1]+" stopnia. \n";
-    text += "Temperatura w pokoju: "+ dayL[0]+" stopnia. \n";
-    text += "Smog: "+ smogText +" mg/m^3. \n";
+    text << "Temperatura na zewnątrz: " << dayL[1] << " stopnia. \n";
+    text << "Temperatura w pokoju: " << dayL[0] << " stopnia. \n";
+    text << "Smog: " << smogText << " mg/m^3. \n";
     if (smogInt > 50){
         int result = smogInt *2 ;
-        text += "UWAGA! Maksymalna wartość przekroczona "+ std::to_string(result)+"%.";
+        text << "UWAGA! Maksymalna wartość przekroczona " << result << "%.";
     }
-    return text;
+    return text.str();
 }
 
 std::vector<std::string> iDomTOOLS::getTemperature()

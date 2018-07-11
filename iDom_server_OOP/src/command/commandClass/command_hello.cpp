@@ -2,7 +2,6 @@
 
 command_hello::command_hello(std::string name):command(name)
 {
-
 }
 
 command_hello::~command_hello()

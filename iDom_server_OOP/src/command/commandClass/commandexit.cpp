@@ -2,12 +2,11 @@
 
 commandEXIT::commandEXIT(std::string name):command(name)
 {
-
 }
 
 std::string commandEXIT::execute(std::vector<std::string> &v, thread_data *my_data)
 {
-        return "\nEND.\n";
+    return "\nEND.\n";
 }
 
 std::string commandEXIT::help()

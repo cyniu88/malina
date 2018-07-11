@@ -2,13 +2,13 @@
 
 command_log::command_log(std::string name):command(name)
 {
-
 }
 
 std::string command_log::execute(std::vector<std::string> &v, thread_data *my_data)
 {
     std::string msg;
-    for (unsigned int i = 2 ; i < v.size(); ++i){
+    for (unsigned int i = 2 ; i < v.size(); ++i)
+    {
         msg+=" ";
         msg+=v[i];
     }
@@ -20,8 +20,9 @@ std::string command_log::execute(std::vector<std::string> &v, thread_data *my_da
 
 std::string command_log::help()
 {
-    std::string ret = "log \"***\"- add *** to iDom logfile\n";
-    return ret;
+    std::stringstream help;
+    help << "log <logLevel> \"***TXT***\"- add *** to iDom logfile" << std::endl;
+    return help.str();
 }
 
 logger_level command_log::logLevel(std::string level)
