@@ -5,8 +5,8 @@ blockQueue::blockQueue()
 {
 }
 std::mutex blockQueue::mutex_queue_char;
-std::queue <T> blockQueue::_MPD_CommandQ;
-void blockQueue::_add(T X)
+std::queue <MPD_COMMAND> blockQueue::_MPD_CommandQ;
+void blockQueue::_add(MPD_COMMAND X)
 {
     std::lock_guard <std::mutex>  lock (mutex_queue_char);
     if(_MPD_CommandQ.size() < 10)
@@ -16,7 +16,8 @@ void blockQueue::_add(T X)
     else
     {
 #ifdef BT_TEST
-        throw "za duzo w kolejce";
+        std::string e = "za duzo w kolejce";
+        throw e;
 #else
         log_file_mutex.mutex_lock();
         log_file_cout << DEBUG << "za dużo danych w kolejce- nie dodaje "<< std::endl;
@@ -25,9 +26,9 @@ void blockQueue::_add(T X)
     }
 }
 
-T blockQueue::_get( )
+MPD_COMMAND blockQueue::_get( )
 {
-    T temp = MPD_COMMAND::NULL_;
+    MPD_COMMAND temp = MPD_COMMAND::NULL_;
     std::lock_guard <std::mutex>  lock (mutex_queue_char);
     if (_MPD_CommandQ.empty() == false){
         temp = _MPD_CommandQ.front();

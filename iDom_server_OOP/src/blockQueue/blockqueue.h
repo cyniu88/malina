@@ -24,17 +24,16 @@ enum class MPD_COMMAND {
     NULL_
 };
 
-template<typename T>
 class blockQueue
 {
 public:
     blockQueue();
     static std::mutex mutex_queue_char ;
 
-    static std::queue <T> _MPD_CommandQ;
+    static std::queue <MPD_COMMAND> _MPD_CommandQ;
 
-    void _add(T X);
-    T _get();
+    void _add(MPD_COMMAND X);
+    MPD_COMMAND _get();
     int  _size();
     void _clearAll();
 };
