@@ -63,7 +63,16 @@ void CRON::runEveryone_1min(struct tm *act_date)
 void CRON::runEveryone_5min()
 {
     // printf("co 5 minut! \n");
-    my_data->main_iDomTools->checkLightning();
+    try
+    {
+        my_data->main_iDomTools->checkLightning();
+    }
+    catch (...)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "wyjatek w pobieraniu jsona z piorunami " << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 }
 
 void CRON::runEveryone_15min()

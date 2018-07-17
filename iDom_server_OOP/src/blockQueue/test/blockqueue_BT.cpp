@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "../blockqueue.h"
 #include <thread>
+#include <iostream>
 
 class blockQueue_Class_fixture : public ::testing::Test
 {
@@ -81,5 +82,5 @@ TEST_F(blockQueue_Class_fixture, capacityExceeded)
       test_q._add(MPD_COMMAND::PLAY);
     }
 
-    EXPECT_THROW(test_q._add(MPD_COMMAND::PLAY), std::string);
+    EXPECT_THROW(test_q._add(MPD_COMMAND::PLAY), std::string );
 }

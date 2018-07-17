@@ -33,13 +33,19 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         my_data->main_iDomTools->saveState_iDom();
         throw s;
     }
-    else if(v[1] == "reload" && v[2] == "hard"){
+    else if(v[1] == "reload" && v[2] == "hard")
+    {
         std::string s ="close server";
         useful_F::send_to_arduino_clock(my_data, "UPAD");
         iDomTOOLS::MPD_stop();
         my_data->iDomProgramState = iDomStateEnum::HARD_RELOAD;
         my_data->main_iDomTools->saveState_iDom();
         throw s;
+    }
+    else if(v[1] == "clear" && v[2] == "ram")
+    {
+        system("sync; echo 3 > /proc/sys/vm/drop_caches");
+        ret = "ram has beed freed";
     }
     else
     {
@@ -53,5 +59,7 @@ std::string command_program::help()
     std::stringstream help;
     help << "program stop - close iDom server"<< std::endl;
     help << "program reload soft - reload iDom server" << std::endl;
+    help << "program reload hard - reload iDom server" << std::endl;
+    help << "program clear ram   - reload iDom server" << std::endl;
     return help.str();
 }

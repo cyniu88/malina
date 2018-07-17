@@ -4,7 +4,7 @@
 #include "../idom_save_state.h"
 #include "json.hpp"
 
-TEST(iDomSaveState, main)
+TEST(iDomSaveState, write_and_read)
 {
     iDom_SAVE_STATE test_saveState("/mnt/ramdisk/iDomStateTest.save");
     nlohmann::json test_json ;

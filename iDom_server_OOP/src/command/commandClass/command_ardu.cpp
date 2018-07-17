@@ -47,7 +47,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
             try {
                 if (m_mainWeatherStation->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
                 {
-                     m_mainWeatherStation->data.putData(v[2]);
+                    m_mainWeatherStation->data.putData(v[2]);
                 }
             }
             catch (std::string e){  }

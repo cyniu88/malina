@@ -38,7 +38,7 @@ TEST_F(lightning_Class, lightningAlertON)
 TEST_F(lightning_Class, checkLightningAlert)
 {
 
-    nlohmann::json test_Json2 = useful_F_libs::getJson("http://cyniu88.no-ip.pl//test/json/on_lightning.json");
+    nlohmann::json test_Json2 = useful_F_libs::getJson("http://cyniu88.no-ip.pl/test/json/on_lightning.json");
     test_struct = test_lightning.lightningAlert(test_Json.jj_noLightning);
 
     bool test_result = test_lightning.checkLightningAlert(&test_struct);
@@ -59,7 +59,7 @@ TEST_F(lightning_Class, checkLightningAlert)
 
 TEST_F(lightning_Class, checkLightningAlert_stormCloser)
 {
-    nlohmann::json test_Json2 = useful_F_libs::getJson("http://cyniu88.no-ip.pl//test/json/on_lightning.json");
+    nlohmann::json test_Json2 = useful_F_libs::getJson("http://cyniu88.no-ip.pl/test/json/on_lightning.json");
 
     test_struct = test_lightning.lightningAlert(test_Json.jj_noLightning);
     bool test_result = test_lightning.checkLightningAlert(&test_struct);
