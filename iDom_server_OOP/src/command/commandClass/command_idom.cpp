@@ -208,6 +208,27 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         else if (v[2] == "GET"){
             return  my_data->alarmTime.time.getString();
         }
+        else if (v[2] == "SET" && v.size() == 5){
+            if (v[3] == "from")
+            {
+                my_data->alarmTime.fromVolume = std::stoi(v[4]);
+            }
+            else if (v[3] == "to")
+            {
+                my_data->alarmTime.toVolume = std::stoi(v[4]);
+            }
+            else if (v[3] == "radio")
+            {
+                my_data->alarmTime.radioID = std::stoi(v[4]);
+            }
+            std::stringstream ret;
+            ret << "The values has beedn set:" << std::endl;
+            ret << "From Value: " << my_data->alarmTime.fromVolume << std::endl;
+            ret << "To Value: " << my_data->alarmTime.toVolume << std::endl;
+            ret << "Radio ID: " << my_data->alarmTime.radioID << std::endl;
+            my_data->main_iDomTools->saveState_iDom();
+            return ret.str();
+        }
         else if (v[2] == "ON" && v.size() > 3){
             my_data->alarmTime.time = Clock(v[3]);
             my_data->alarmTime.state = STATE::ACTIVE;
@@ -244,6 +265,7 @@ std::string command_iDom::help()
     help << "iDom weather <city> <radius>  - get weather alert" << std::endl;
     help << "iDom lightning  - get lightning alert" << std::endl;
     help << "iDom alarm ON/OFF hh:mm - set larm clock" << std::endl;
+    help << "iDom alarm SET from/to/radio <value> - set larm clock" << std::endl;
     help << "iDom lock   - lock home" << std::endl;
     help << "iDom unlock - unlock home" << std::endl;
     return help.str();

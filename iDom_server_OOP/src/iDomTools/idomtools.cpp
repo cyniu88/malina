@@ -875,9 +875,10 @@ std::string iDomTOOLS::ledOn(LED_Strip ledColor, unsigned int from, unsigned int
 
 void iDomTOOLS::checkAlarm()
 {
-    unsigned int fromVol = 48;
-    unsigned int   toVol = 58;
-    unsigned int radioId = 7;
+    unsigned int fromVol = my_data->alarmTime.fromVolume;
+    unsigned int   toVol = my_data->alarmTime.toVolume;
+    unsigned int radioId = my_data->alarmTime.radioID;
+
     Clock now = Clock::getTime();
 
     if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
@@ -917,6 +918,9 @@ void iDomTOOLS::saveState_iDom()
     //////////////////// alarm
     jsonAlarm["alarm"] = my_data->main_iDomStatus->getObjectStateString("alarm");
     jsonAlarm["time"]  = my_data->alarmTime.time.getString();
+    jsonAlarm["fromVolume"] = my_data->alarmTime.fromVolume;
+    jsonAlarm["toVolume"] = my_data->alarmTime.toVolume;
+    jsonAlarm["radioID"] = my_data->alarmTime.radioID;
     //////////////////// mpd
     jsonMPD["music"] = my_data->main_iDomStatus->getObjectStateString("music");
     jsonMPD["speakers"] = my_data->main_iDomStatus->getObjectStateString("speakers");
@@ -984,6 +988,9 @@ void iDomTOOLS::readState_iDom()
 
         auto alarmState = jj.at("ALARM").at("alarm").get<std::string>();
         auto alarmTime  = jj.at("ALARM").at("time").get<std::string>();
+        my_data->alarmTime.fromVolume = jj.at("ALARM").at("fromVolume").get<int>();
+        my_data->alarmTime.toVolume = jj.at("ALARM").at("toVolume").get<int>();
+        my_data->alarmTime.radioID = jj.at("ALARM").at("radioID").get<int>();
 
         if (alarmState == "ACTIVE"){
             my_data->alarmTime.time = Clock(alarmTime);

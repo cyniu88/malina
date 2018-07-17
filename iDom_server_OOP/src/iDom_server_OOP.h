@@ -62,6 +62,9 @@ struct ALERT
 {
     Clock time;
     STATE state = STATE::DEACTIVE;
+    unsigned int fromVolume =  48;
+    unsigned int toVolume = 58;
+    unsigned int radioID = 8;
 };
 
 extern std::string  _logfile  ;
