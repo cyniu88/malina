@@ -328,9 +328,6 @@ TEST_F(iDomTOOLS_ClassTest, cardinalDirectionsEnumToString)
 
 TEST_F(iDomTOOLS_ClassTest, saveState)
 {
-
-
-
     test_status.setObjectState("house",STATE::UNLOCK);
 //////////////////// mpd
     test_status.setObjectState("music", STATE::PLAY);
@@ -340,6 +337,10 @@ TEST_F(iDomTOOLS_ClassTest, saveState)
     test_status.setObjectState("listwa",STATE::ON);
     test_alarmTime.time = Clock::getTime();
     test_alarmTime.state = STATE::ACTIVE;
+    test_alarmTime.fromVolume = 0;
+    test_alarmTime.toVolume = 100;
+    test_alarmTime.radioID = 44;
+    test_my_data.alarmTime = test_alarmTime;
     test_status.setObjectState("alarm", test_alarmTime.state);
 
     test_idomTOOLS->saveState_iDom();
@@ -351,6 +352,12 @@ TEST_F(iDomTOOLS_ClassTest, saveState)
                  testJson.at("MPD").at("music").get<std::string>().c_str() );
     EXPECT_STREQ((test_status.getObjectStateString("alarm")).c_str(),
                  testJson.at("ALARM").at("alarm").get<std::string>().c_str() );
+    EXPECT_EQ(test_alarmTime.radioID,
+                 testJson.at("ALARM").at("radioID").get<int>() );
+    EXPECT_EQ(test_alarmTime.fromVolume,
+                 testJson.at("ALARM").at("fromVolume").get<int>() );
+    EXPECT_EQ(test_alarmTime.toVolume,
+                     testJson.at("ALARM").at("toVolume").get<int>() );
 }
 
 TEST_F(iDomTOOLS_ClassTest, readState)
