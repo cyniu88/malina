@@ -1,8 +1,7 @@
 #include <gtest/gtest.h>
 #include "../../iDom_server_OOP.h"
 #include "../rs232_thread.h"
-#include "/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/test_data.h"
-
+#include "test_data.h"
 
 std::mutex useful_F::mutex_buf;
 std::mutex useful_F::mutex_who;

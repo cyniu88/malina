@@ -5,6 +5,7 @@
 #include <mutex>
 #include <string>
 #include "/home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h"
+#include "../../libs/useful/useful.h"
 
 class iDomSTATUS
 {

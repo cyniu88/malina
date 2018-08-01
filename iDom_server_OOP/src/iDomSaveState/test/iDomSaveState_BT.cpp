@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/test_data.h"
+#include "test_data.h"
 #include "../idom_save_state.h"
 #include "json.hpp"
 

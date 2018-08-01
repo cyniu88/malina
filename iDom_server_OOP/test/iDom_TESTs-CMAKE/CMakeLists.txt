@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 LINK_DIRECTORIES(/usr/local/lib )
 project(iDom_TESTs-CMAKE)
-include_directories("../../libs/json/single_include/nlohmann/")
+set(INCLUDE_DIRECTORIES "../../libs/json/single_include/nlohmann/"
+    "../../test/iDom_TESTs-CMAKE/")
+include_directories(${INCLUDE_DIRECTORIES})
 set(SOURCE_FILES  "main.cpp"
     "../../libs/useful/usefull.cpp"
     "../../libs/useful/test/useful_bt.cpp"

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "../rflinkhandler.h"
-#include "/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/test_data.h"
+#include "test_data.h"
 
 class RFLinkHandler_Class_fixture : public ::testing::Test
 {
@@ -24,7 +24,6 @@ public:
     {
         delete test_RFLink;
     }
-
 };
 
 TEST_F(RFLinkHandler_Class_fixture, main)

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/test_data.h"
+#include "test_data.h"
 #include "../idomtools.h"
-#include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
+#include "../../src/functions/functions.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
 #include "testJSON.h"
 
