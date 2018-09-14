@@ -158,6 +158,8 @@ public:
     void onFor15sec();
     void onSunrise();
     void onSunset();
+    void onLockHome();
+    void onUnlockHome();
     STATE getState();
     std::string getName();
     std::string getID();

@@ -55,6 +55,8 @@ TEST_F(commandArdu_Class_fixture, UnlockHome)
 
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
+    EXPECT_EQ(test_q._size(),0);
+    EXPECT_EQ(test_status.getObjectState("listwa"),STATE::ON);
 }
 
 TEST_F(commandArdu_Class_fixture, LockHome)
@@ -71,6 +73,7 @@ TEST_F(commandArdu_Class_fixture, LockHome)
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);
+    EXPECT_EQ(test_status.getObjectState("listwa"),STATE::OFF);
 }
 
 TEST_F(commandArdu_Class_fixture, playMusic)

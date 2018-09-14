@@ -61,6 +61,37 @@ void RADIO_SWITCH::onSunset()
     }
 }
 
+void RADIO_SWITCH::onLockHome()
+{
+     std::cout << " w configu jest " << m_config.lock << std::endl;
+    if (m_config.lock == "ON")
+    {
+         std::cout << " tu mamy ON w onLockHome()" << std::endl;
+        on();
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to lock house");
+    }
+    else if(m_config.lock == "OFF")
+    {
+        std::cout << " tu mamy OFF w onLockHome()" << std::endl;
+        off();
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to lock house");
+    }
+}
+
+void RADIO_SWITCH::onUnlockHome()
+{
+    if (m_config.unlock == "ON")
+    {
+        on();
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to unlock house");
+    }
+    else if (m_config.unlock == "OFF")
+    {
+        off();
+        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to unlock house");
+    }
+}
+
 STATE RADIO_SWITCH::getState()
 {
     return m_state;
@@ -164,7 +195,6 @@ std::vector<RADIO_SWITCH*> RADIO_EQ_CONTAINER::getSwitchPointerVector()
 {
     std::vector<RADIO_SWITCH*> switchVector;
 
-    std::cout << "DUPAA " << m_radioEqMap.size() << std::endl;
     for (auto it : m_radioEqMap){
         if (it.second->getType() == RADIO_EQ_TYPE::SWITCH){
             switchVector.push_back(static_cast<RADIO_SWITCH*>(it.second));

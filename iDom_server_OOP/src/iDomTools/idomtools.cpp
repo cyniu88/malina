@@ -368,12 +368,18 @@ void iDomTOOLS::unlockHome()
 
 void iDomTOOLS::switchActionOnLockHome()
 {
-
+    ////switch 433mhz
+    for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
+        m_switch->onLockHome();
+    }
 }
 
 void iDomTOOLS::switchActionOnUnlockHome()
 {
-
+    ////switch 433mhz
+    for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
+        m_switch->onUnlockHome();
+    }
 }
 
 std::string iDomTOOLS::buttonPressed(std::string id)
@@ -978,8 +984,6 @@ void iDomTOOLS::readState_iDom()
                 my_data->main_iDomTools->turnOff433MHzSwitch(it.key());
             }
         }
-
-
         auto iDomLock = jj.at("iDom").at("iDomLock").get<std::string>();
 
         if(iDomLock == "UNLOCK")
