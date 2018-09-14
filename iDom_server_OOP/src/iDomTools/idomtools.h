@@ -58,6 +58,9 @@ public:
     void runOnSunrise();
     void lockHome();
     void unlockHome();
+    //////////////////////////// 433MHz action ///////////////////
+    void switchActionOnLockHome();
+    void switchActionOnUnlockHome();
     //////////////////////////// 433MHz button ///////////////////
 
     std::string buttonPressed(std::string id);

@@ -366,6 +366,16 @@ void iDomTOOLS::unlockHome()
     saveState_iDom();
 }
 
+void iDomTOOLS::switchActionOnLockHome()
+{
+
+}
+
+void iDomTOOLS::switchActionOnUnlockHome()
+{
+
+}
+
 std::string iDomTOOLS::buttonPressed(std::string id)
 {
     for (auto n : buttonPointerVector){
@@ -408,6 +418,7 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
             MPD_stop();
             turnOffPrinter();
             radioButton->setState(STATE::STOP);
+            //TODO  dodać wylaczanie wiatraka
         }
         else if (my_data->main_iDomStatus->getObjectState("music") == STATE::STOP)
         {
@@ -439,12 +450,14 @@ void iDomTOOLS::buttonLockHome()
     ledOFF();
     MPD_stop();
     turnOffPrinter();
+    switchActionOnLockHome();
     lockHome();
 }
 
 void iDomTOOLS::buttonUnlockHome()
 {
     unlockHome();
+    switchActionOnUnlockHome();
     MPD_play(my_data);
     if(isItDay() == false){
         ledOn(my_data->ptr_pilot_led->colorLED[2]);
@@ -703,7 +716,7 @@ void iDomTOOLS::send_temperature_thingSpeak()
     if(s == "0"){
 #ifndef BT_TEST
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak "<<   std::endl;
+        log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak: "<< s <<   std::endl;
         log_file_mutex.mutex_unlock();
 #endif
     }

@@ -164,6 +164,7 @@ std::vector<RADIO_SWITCH*> RADIO_EQ_CONTAINER::getSwitchPointerVector()
 {
     std::vector<RADIO_SWITCH*> switchVector;
 
+    std::cout << "DUPAA " << m_radioEqMap.size() << std::endl;
     for (auto it : m_radioEqMap){
         if (it.second->getType() == RADIO_EQ_TYPE::SWITCH){
             switchVector.push_back(static_cast<RADIO_SWITCH*>(it.second));
@@ -244,6 +245,8 @@ void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
                 cfg.on15sec = switchJson.at("on15sec").get<std::string>();
                 cfg.sunrise = switchJson.at("sunrise").get<std::string>();
                 cfg.sunset  = switchJson.at("sunset").get<std::string>();
+                cfg.lock    = switchJson.at("lock").get<std::string>();
+                cfg.unlock  = switchJson.at("unlock").get<std::string>();
                 cfg.type    = switchJson.at("type").get<std::string>();
                 addRadioEq(cfg,RADIO_EQ_TYPE::SWITCH);
                 dynamic_cast<RADIO_SWITCH*>(getEqPointer(cfg.name))->setCode(cfg);

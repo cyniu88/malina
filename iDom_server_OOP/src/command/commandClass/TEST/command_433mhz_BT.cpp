@@ -99,6 +99,8 @@ TEST_F(command433MHz_Class_fixture, addSwitch)
     test_v.push_back("on15sec_A");
     test_v.push_back("sunrise_A");
     test_v.push_back("sunset_A");
+    test_v.push_back("lock_A");
+    test_v.push_back("unlock_A");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
     v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),actualSize+1);
@@ -127,6 +129,8 @@ TEST_F(command433MHz_Class_fixture, addExistingWeather)
     test_v.push_back("on15sec_A");
     test_v.push_back("sunrise_A");
     test_v.push_back("sunset_A");
+    test_v.push_back("lock_A");
+    test_v.push_back("unlock_A");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
     v = test_rec.getWeather_StationPtrVector();
     EXPECT_EQ(v.size(),1);
@@ -182,6 +186,8 @@ TEST_F(command433MHz_Class_fixture, add_wrongType_addSwitch)
     test_v.push_back("on15sec_A");
     test_v.push_back("sunrise_A");
     test_v.push_back("sunset_A");
+    test_v.push_back("lock_A");
+    test_v.push_back("unlock_A");
     std::string result = test_command_433MHz->execute(test_v,&test_my_data);
     EXPECT_STREQ(result.substr(0, 10).c_str(), "wrong type");
     std::cout << "wynik testu: " << result << std::endl;
@@ -212,6 +218,8 @@ TEST_F(command433MHz_Class_fixture, add_wrongID_addSwitch)
     test_v.push_back("on15sec_A");
     test_v.push_back("sunrise_A");
     test_v.push_back("sunset_A");
+    test_v.push_back("lock_A");
+    test_v.push_back("unlock_A");
     std::string result = test_command_433MHz->execute(test_v,&test_my_data);
     std::cout << "wynik testu: " << result << std::endl;
     EXPECT_STREQ(result.substr(0, 8).c_str(), "wrong ID");

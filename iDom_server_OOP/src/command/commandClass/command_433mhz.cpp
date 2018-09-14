@@ -28,10 +28,10 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             my_data->main_REC->deleteRadioEq(v[2]);
             str_buf = v[2] + " deleted";
         }
-        else if (v[1] == "add" && v.size() == 10)
+        else if (v[1] == "add" && v.size() == 12)  //zmień tu
         {
             RADIO_EQ_CONFIG cfg;
-            cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9]);
+            cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9],v[10],v[11]); // zmień tu
             if (my_data->main_REC->nameExist(v[2]) == true)
             {
                 return "equipment "+ v[2]+" exist ";
@@ -110,7 +110,7 @@ std::string command_433MHz::help()
 {
     std::stringstream help;
     help << ("433MHz delete <name> - dalete radio equipment") <<std::endl;
-    help << ("433MHz add <name> <ID> <type> <onCode> <offCode> <on15sec> <sunrise> <sunset> - add radio equipment") <<std::endl;
+    help << ("433MHz add <name> <ID> <type> <onCode> <offCode> <on15sec> <sunrise> <sunset> <lock> <unlock> - add radio equipment") <<std::endl;
     help << ("433MHz switch <name> ON/OFF/15s - change switch state") <<std::endl;
     help << ("433MHz show all - list all equipment by name") <<std::endl;
     help << ("433MHz show aether   - show aether devices by ID") <<std::endl;

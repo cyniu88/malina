@@ -66,6 +66,8 @@ struct RADIO_EQ_CONFIG{
     std::string on15sec = "NULL";
     std::string sunrise = "NULL";
     std::string sunset  = "NULL";
+    std::string lock   = "NULL";
+    std::string unlock = "NULL";
     void set(std::string name,
              std::string ID,
              std::string type,
@@ -73,7 +75,9 @@ struct RADIO_EQ_CONFIG{
              std::string offCode,
              std::string on15sec,
              std::string sunrise,
-             std::string sunset){
+             std::string sunset,
+             std::string lock,
+             std::string unlock){
         this->name = name;
         this->ID   = ID;
         this->type = type;
@@ -82,6 +86,8 @@ struct RADIO_EQ_CONFIG{
         this->on15sec = on15sec;
         this->sunrise = sunrise;
         this->sunset  = sunset;
+        this->lock   = lock;
+        this->unlock = unlock;
     }
 
     nlohmann::json getJson(){
@@ -94,6 +100,8 @@ struct RADIO_EQ_CONFIG{
         jj["on15sec"] = on15sec;
         jj["sunrise"] = sunrise;
         jj["sunset"]  = sunset;
+        jj["lock"]   = lock;
+        jj["unlock"] = unlock;
         return jj;
     }
 };
