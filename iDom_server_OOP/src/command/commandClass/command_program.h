@@ -9,7 +9,7 @@
 class command_program : public command
 {
 public:
-    command_program(std::string);
+    command_program(const std::string& name);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
     std::string help();
 };

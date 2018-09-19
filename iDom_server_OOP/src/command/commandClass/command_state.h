@@ -5,7 +5,7 @@
 class command_state : public command
 {
 public:
-    command_state(std::string name);
+    command_state(const std::string& name);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
     std::string help();
 };

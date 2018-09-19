@@ -1,7 +1,7 @@
 #include "command_cmd.h"
 #include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
 
-command_cmd::command_cmd(std::string name):command(name)
+command_cmd::command_cmd(const std::string &name):command(name)
 {
 
 }

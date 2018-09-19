@@ -1,11 +1,11 @@
 #include "command_ardu.h"
 
-command_ardu::command_ardu(std::string name):command(name)
+command_ardu::command_ardu(const std::string &name):command(name)
 {
     this->m_mainRadioButton = NULL;
 }
 
-command_ardu::command_ardu(std::string name, thread_data *my_data):command(name)
+command_ardu::command_ardu(const std::string& name, thread_data *my_data):command(name)
 {
     m_button433MHzVector = my_data->main_REC->getButtonPointerVector();
     m_mainRadioButton = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer("locker"));

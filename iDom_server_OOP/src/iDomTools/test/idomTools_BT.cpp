@@ -41,7 +41,7 @@ std::string FACEBOOK_API::postPhotoOnWall(std::string url,std::string msg ,std::
 void FACEBOOK_API::setAccessToken(std::string token){}
 
 void LCD_c::set_lcd_STATE(int i){}
-void LCD_c::printString(bool clear, int col, int row, std::string str){
+void LCD_c::printString(bool clear, int col, int row, const std::string& str){
     std::cout << "LCD_c::printString() "<< str  << std::endl;
 }
 

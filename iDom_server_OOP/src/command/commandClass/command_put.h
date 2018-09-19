@@ -9,7 +9,7 @@
 class command_put : public command
 {
 public:
-    command_put(std::string);
+    command_put(const std::string& name);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
     std::string help();
 };

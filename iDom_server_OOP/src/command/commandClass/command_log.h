@@ -9,11 +9,11 @@
 class command_log : public command
 {
 public:
-    command_log(std::string);
+    command_log(const std::string& name);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
     std::string help();
 private:
-   logger_level logLevel(std::string level);
+   logger_level logLevel(const std::string& level);
 };
 
 #endif // COMMAND_LOG_H

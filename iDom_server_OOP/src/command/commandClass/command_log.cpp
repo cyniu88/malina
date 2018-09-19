@@ -1,6 +1,6 @@
 #include "command_log.h"
 
-command_log::command_log(std::string name):command(name)
+command_log::command_log(const std::string &name):command(name)
 {
 }
 
@@ -25,7 +25,7 @@ std::string command_log::help()
     return help.str();
 }
 
-logger_level command_log::logLevel(std::string level)
+logger_level command_log::logLevel(const std::string &level)
 {
     if (level == "VERBOSE"){
         return VERBOSE;

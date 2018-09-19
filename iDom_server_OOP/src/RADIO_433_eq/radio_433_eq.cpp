@@ -3,7 +3,7 @@
 #include <sstream>
 #include "radio_433_eq.h"
 
-RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type):
+RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type):
     main433MHz(my_data)
 {
     puts("RADIO_SWITCH::RADIO_SWITCH()");

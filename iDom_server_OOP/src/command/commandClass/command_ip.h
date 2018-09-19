@@ -9,7 +9,7 @@
 class command_ip : public command
 {
 public:
-    command_ip(std::string);
+    command_ip(const std::string& name);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
     std::string help();
 };

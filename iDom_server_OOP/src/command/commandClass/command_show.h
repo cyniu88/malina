@@ -9,7 +9,7 @@
 class command_show : public command
 {
 public:
-    command_show(std::string);
+    command_show(const std::string& name);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
     std::string help();
 };

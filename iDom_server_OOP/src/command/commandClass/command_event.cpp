@@ -1,6 +1,6 @@
 #include "command_event.h"
 
-command_event::command_event(std::string name) :command(name)
+command_event::command_event(const std::string &name) :command(name)
 {
 
 }

@@ -1,6 +1,6 @@
 #include "command_state.h"
 
-command_state::command_state(std::string name):command(name)
+command_state::command_state(const std::string &name):command(name)
 {
 }
 

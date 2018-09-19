@@ -138,7 +138,7 @@ class RADIO_BUTTON: public RADIO_EQ
     STATE m_state = STATE::UNDEFINE;
 
 public:
-    RADIO_BUTTON(thread_data * my_data, RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type);
+    RADIO_BUTTON(thread_data * my_data, const RADIO_EQ_CONFIG& cfg, RADIO_EQ_TYPE type);
     ~RADIO_BUTTON();
     STATE getState();
     void setState(STATE s);
@@ -151,7 +151,7 @@ class RADIO_SWITCH: public RADIO_EQ
     RC_433MHz main433MHz;
     STATE m_state = STATE::UNDEFINE;
 public:
-    RADIO_SWITCH(thread_data * my_data, RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type);
+    RADIO_SWITCH(thread_data * my_data, const RADIO_EQ_CONFIG& cfg, RADIO_EQ_TYPE type);
     ~RADIO_SWITCH();
     void on();
     void off();

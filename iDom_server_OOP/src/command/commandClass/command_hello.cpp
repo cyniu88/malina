@@ -1,6 +1,6 @@
 #include "command_hello.h"
 
-command_hello::command_hello(std::string name):command(name)
+command_hello::command_hello(const std::string &name):command(name)
 {
 }
 

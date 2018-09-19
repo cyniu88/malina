@@ -548,7 +548,7 @@ int main(int argc, char *argv[])
             {
                 iDomStateProgram = iDom_main();
             }
-            catch (std::exception e)
+            catch (const std::exception& e)
             {
                 std::cout << "złąpano wyjatek programu wiec restart "<< e.what() <<std::endl;
                 iDomStateProgram = iDomStateEnum::RELOAD;

@@ -2,7 +2,7 @@
 
 #include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
 
-commandRS232::commandRS232(std::string name):command(name)
+commandRS232::commandRS232(const std::string &name):command(name)
 {
 }
 std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_data)

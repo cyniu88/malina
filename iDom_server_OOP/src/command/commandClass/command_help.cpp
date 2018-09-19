@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 
-command_help::command_help(std::string name):command(name)
+command_help::command_help(const std::string &name):command(name)
 {
 
 }

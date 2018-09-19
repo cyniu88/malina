@@ -1,6 +1,6 @@
 #include "commandexit.h"
 
-commandEXIT::commandEXIT(std::string name):command(name)
+commandEXIT::commandEXIT(const std::string &name):command(name)
 {
 }
 

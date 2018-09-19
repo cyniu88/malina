@@ -2,7 +2,7 @@
 #include "../../functions/functions.h"
 #include "../../../ftplibpp/ftplib.h"
 
-commandTEST::commandTEST(std::string name):command(name)
+commandTEST::commandTEST(const std::string &name):command(name)
 {
 }
 

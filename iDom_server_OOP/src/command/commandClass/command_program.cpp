@@ -1,7 +1,7 @@
 #include "command_program.h"
 #include "../../functions/functions.h"
 
-command_program::command_program(std::string name):command(name)
+command_program::command_program(const std::string &name):command(name)
 {
 }
 

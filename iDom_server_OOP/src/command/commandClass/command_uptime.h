@@ -10,7 +10,7 @@
 class command_UPTIME : public command
 {
 public:
-    command_UPTIME(std::string);
+    command_UPTIME(const std::string& name);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
     std::string help();
 };

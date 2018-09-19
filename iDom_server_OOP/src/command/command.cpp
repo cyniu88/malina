@@ -1,6 +1,6 @@
 #include "command.h"
 
-command::command(std::string commandName ) : commandName(commandName)
+command::command(const std::string &commandName ) : commandName(commandName)
 {
    // std::cout << "konstruktor command"<<std::endl;
 }

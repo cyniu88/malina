@@ -2,7 +2,7 @@
 #include "../../RADIO_433_eq/radio_433_eq.h"
 #include "../../433MHz/RFLink/rflinkhandler.h"
 
-command_433MHz::command_433MHz(std::string name):command(name)
+command_433MHz::command_433MHz(const std::string &name):command(name)
 {
 }
 

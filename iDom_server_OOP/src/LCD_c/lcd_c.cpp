@@ -62,7 +62,7 @@ void LCD_c::set_print_song_state (int i)
     print_song_state=i;
 }
 
-void LCD_c::printSongName (std::string songName){
+void LCD_c::printSongName (const std::string& songName){
 
     std::size_t pos = songName.find(" - ");
 
@@ -114,7 +114,7 @@ void LCD_c::song_printstr(){
     main_lcd.printstr(row2.c_str());
 }
 
-void LCD_c::printRadioName(bool clear, int col, int row, std::string st){
+void LCD_c::printRadioName(bool clear, int col, int row, const std::string &st){
     radioName =st;
     std::regex reg1("\\[(.*?)\\]");
     std::smatch  res1;
@@ -132,7 +132,7 @@ void LCD_c::printRadioName(bool clear, int col, int row, std::string st){
     main_lcd.printstr(radioName.c_str());
 }
 
-void LCD_c::printString(bool clear,int col,int row , std::string str){
+void LCD_c::printString(bool clear,int col,int row , const std::string& str){
 
     if ( clear==true){main_lcd.clear();}
     main_lcd.backlight();

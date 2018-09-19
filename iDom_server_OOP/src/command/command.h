@@ -15,7 +15,7 @@ class command
     std::string commandName;
 
 public:
-    command(std::string commandName);
+    command(const std::string& commandName);
     virtual ~command();
     virtual std::string execute(std::vector<std::string> &v, thread_data * my_data) = 0 ;
     virtual std::string help() = 0;

@@ -37,18 +37,18 @@ class THERMOMETER_CONTAINER
     THERMOMETER *returnThermometerPtr(std::string name);
 public:
     THERMOMETER_CONTAINER();
-    void add(std::string name);
-    void setTemp(std::string name, double value);
+    void add(const std::string& name);
+    void setTemp(const std::string& name, double value);
     double getTemp(const std::string& name);
-    double getOldTemp(std::string name);
-    TEMPERATURE_STATE getLastState(std::string name);
-    void setState(std::string name, TEMPERATURE_STATE state);
+    double getOldTemp(const std::string& name);
+    TEMPERATURE_STATE getLastState(const std::string& name);
+    void setState(const std::string& name, TEMPERATURE_STATE state);
     void updateAll(std::vector<std::string>* vectorThermo);
-    void updateStats(std::string name);
-    std::string getStatsByName(std::string name);
+    void updateStats(const std::string& name);
+    std::string getStatsByName(const std::string& name);
 
-    bool isMoreDiff(std::string name, double diff);
-    std::pair<double,double> getLast2(std::string name);
+    bool isMoreDiff(const std::string& name, double diff);
+    std::pair<double,double> getLast2(const std::string& name);
 };
 
 #endif // THERMOMETER_CONTAINER_H

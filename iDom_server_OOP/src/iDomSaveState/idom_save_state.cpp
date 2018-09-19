@@ -3,7 +3,7 @@
 #include "idom_save_state.h"
 #include "../iDom_server_OOP.h"
 
-iDom_SAVE_STATE::iDom_SAVE_STATE(std::string path): m_path(path)
+iDom_SAVE_STATE::iDom_SAVE_STATE(const std::string &path): m_path(path)
 {
 #ifdef BT_TEST
     puts("iDom_SAVE_STATE::iDom_SAVE_STATE()");

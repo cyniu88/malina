@@ -1,6 +1,6 @@
 #include "command_ip.h"
 
-command_ip::command_ip(std::string name):command(name)
+command_ip::command_ip(const std::string &name):command(name)
 {
 }
 

@@ -1,6 +1,6 @@
 #include "command_big.h"
 
-command_big::command_big(std::string name):command(name)
+command_big::command_big(const std::string &name):command(name)
 {
 
 }

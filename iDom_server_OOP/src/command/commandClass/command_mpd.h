@@ -6,7 +6,7 @@
 class command_mpd : public command
 {
 public:
-    command_mpd(std::string name);
+    command_mpd(const std::string& name);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
     std::string help();
 };

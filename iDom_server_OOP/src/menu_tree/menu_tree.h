@@ -32,8 +32,8 @@ private:
     std::stack <int> i_stack;
 
 public:
-    menu_tree(std::string path, LCD_c *mainLCD_PTR);
-    void get_list(std::string path );  // pobiera liste plikow i katalogow  w katalogu glóm
+    menu_tree(const std::string& path, LCD_c *mainLCD_PTR);
+    void get_list(const std::string& path );  // pobiera liste plikow i katalogow  w katalogu glóm
     //void get_main_list ();
     std::string show_list ( );
     int get_i(); 				//pobgiera i  ze stosu  do cofania sie po katalogach
@@ -45,7 +45,7 @@ public:
 
     void back_dir();
 
-    void enter_dir(std::string path );
+    void enter_dir(const std::string& path );
     void enter_dir();
     void vector_clear();
 };

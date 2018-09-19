@@ -778,9 +778,9 @@ void iDomTOOLS::cameraLedOFF(std::string link)
     }
 }
 
-nlohmann::json iDomTOOLS::sendViberMsg(std::string msg,
-                                       std::string receiver,
-                                       std::string senderName,
+nlohmann::json iDomTOOLS::sendViberMsg(const std::string &msg,
+                                       const std::string &receiver,
+                                       const std::string &senderName,
                                        std::string accessToken,
                                        std::string url)
 {
@@ -790,10 +790,10 @@ nlohmann::json iDomTOOLS::sendViberMsg(std::string msg,
     return jj;
 }
 
-nlohmann::json iDomTOOLS::sendViberPicture(std::string msg,
-                                           std::string image,
-                                           std::string receiver,
-                                           std::string senderName,
+nlohmann::json iDomTOOLS::sendViberPicture(const std::string &msg,
+                                           const std::string &image,
+                                           const std::string &receiver,
+                                           const std::string &senderName,
                                            std::string accessToken,
                                            std::string url)
 {
@@ -803,9 +803,9 @@ nlohmann::json iDomTOOLS::sendViberPicture(std::string msg,
     return jj;
 }
 
-STATE iDomTOOLS::sendViberMsgBool(std::string msg,
-                                  std::string receiver,
-                                  std::string senderName,
+STATE iDomTOOLS::sendViberMsgBool(const std::string &msg,
+                                  const std::string &receiver,
+                                  const std::string &senderName,
                                   std::string accessToken,
                                   std::string url)
 {
@@ -829,10 +829,10 @@ STATE iDomTOOLS::sendViberMsgBool(std::string msg,
     return ret;
 }
 
-STATE iDomTOOLS::sendViberPictureBool(std::string msg,
-                                      std::string image,
-                                      std::string receiver,
-                                      std::string senderName,
+STATE iDomTOOLS::sendViberPictureBool(const std::string& msg,
+                                      const std::string& image,
+                                      const std::string& receiver,
+                                      const std::string& senderName,
                                       std::string accessToken,
                                       std::string url)
 {

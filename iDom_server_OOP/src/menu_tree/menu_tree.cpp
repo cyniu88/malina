@@ -1,7 +1,6 @@
 #include "menu_tree.h"
 
-
-menu_tree::menu_tree (std::string path, LCD_c *mainLCD_PTR):database_path(path),w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
+menu_tree::menu_tree (const std::string &path, LCD_c *mainLCD_PTR):database_path(path),w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
 {
     mainLCD=mainLCD_PTR;
 
@@ -72,7 +71,7 @@ void menu_tree::enter_dir()
         i=0;
     }
 }
-void menu_tree::enter_dir(std::string path)
+void menu_tree::enter_dir(const std::string& path)
 {
     get_list (path)  ;
 }
@@ -110,7 +109,7 @@ bool comper (const movie_database & a , const movie_database& b);
 //    return a.files_name < b.files_name ;
 //}
 
-void menu_tree::get_list( std::string path  ) {
+void menu_tree::get_list(const std::string& path  ) {
     tree_stack.push(path);
     vector_clear();    // czyscimy vector
     std::string  path2 =path;

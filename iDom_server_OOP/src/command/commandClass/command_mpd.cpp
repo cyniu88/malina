@@ -1,7 +1,7 @@
 #include "command_mpd.h"
 #include "../../blockQueue/blockqueue.h"
 
-command_mpd::command_mpd(std::string name) :command(name)
+command_mpd::command_mpd(const std::string &name) :command(name)
 {
 }
 

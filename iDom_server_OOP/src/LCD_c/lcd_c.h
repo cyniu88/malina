@@ -15,14 +15,14 @@ public:
     void set_lcd_STATE (int i);
     void set_print_song_state (int i);
     void song_printstr();
-    void printRadioName(bool clear, int col, int row, std::string st);
+    void printRadioName(bool clear, int col, int row, const std::string& st);
     void noBacklight();
     void clear();
-    void printString(bool clear, int col, int row, std::string str);
+    void printString(bool clear, int col, int row, const std::string& str);
     void printVolume (int vol);
 
     LiquidCrystal_I2C main_lcd ;
-    void printSongName (std::string songName);
+    void printSongName (const std::string& songName);
     void checkState();
     bool play_Y_N = false;
 private:

@@ -107,26 +107,26 @@ public:
     void cameraLedON(std::string link);
     void cameraLedOFF(std::string link);
     //////////////////// viber msg /////////////////////////
-    nlohmann::json sendViberMsg(std::string msg,
-                                std::string receiver,
-                                std::string senderName,
+    nlohmann::json sendViberMsg(const std::string& msg,
+                                const std::string& receiver,
+                                const std::string& senderName,
                                 std::string accessToken = "NULL",
                                 std::string url = "NULL");
-    nlohmann::json sendViberPicture(std::string msg,
-                                    std::string image,
-                                    std::string receiver,
-                                    std::string senderName,
+    nlohmann::json sendViberPicture(const std::string& msg,
+                                    const std::string& image,
+                                    const std::string& receiver,
+                                    const std::string& senderName,
                                     std::string accessToken = "NULL",
                                     std::string url = "NULL");
-    STATE sendViberMsgBool(std::string msg,
-                           std::string receiver,
-                           std::string senderName,
+    STATE sendViberMsgBool(const std::string& msg,
+                           const std::string& receiver,
+                           const std::string& senderName,
                            std::string accessToken = "NULL",
                            std::string url = "NULL");
-    STATE sendViberPictureBool(std::string msg,
-                               std::string image,
-                               std::string receiver,
-                               std::string senderName,
+    STATE sendViberPictureBool(const std::string& msg,
+                               const std::string& image,
+                               const std::string& receiver,
+                               const std::string& senderName,
                                std::string accessToken = "NULL",
                                std::string url = "NULL");
     //////////////////// facebook //////////////////////////

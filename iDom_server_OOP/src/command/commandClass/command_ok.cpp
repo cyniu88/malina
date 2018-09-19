@@ -1,6 +1,6 @@
 #include "command_ok.h"
 
-command_ok::command_ok(std::string name):command(name)
+command_ok::command_ok(const std::string &name):command(name)
 {
 }
 

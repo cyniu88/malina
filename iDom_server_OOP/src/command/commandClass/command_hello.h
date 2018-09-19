@@ -9,7 +9,7 @@
 class command_hello : public command
 {
 public:
-    command_hello(std::string);
+    command_hello(const std::string& name);
     ~command_hello();
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
     std::string help();

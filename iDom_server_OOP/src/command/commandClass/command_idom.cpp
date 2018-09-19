@@ -1,7 +1,7 @@
 #include "command_idom.h"
 #include "../../functions/functions.h"
 
-command_iDom::command_iDom(std::string name):command(name)
+command_iDom::command_iDom(const std::string &name):command(name)
 {
 }
 
