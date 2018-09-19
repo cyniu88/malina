@@ -97,7 +97,7 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, d
     return TEMPERATURE_STATE::Unknown;
 }
 
-void iDomTOOLS::sendSMSifTempChanged(std::string thermomethernName, int reference)
+void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int reference)
 {
     TEMPERATURE_STATE status = hasTemperatureChange(thermomethernName,reference,0.5);
     std::string m = "temperature "+thermomethernName+" over "+ EMOJI::emoji(E_emoji::NORTH_EAST_ARROW)
@@ -729,8 +729,8 @@ void iDomTOOLS::send_temperature_thingSpeak()
     }
 }
 
-std::string iDomTOOLS::sendSMStoPlusGSM(std::string login, std::string pass, std::string number,
-                                        std::string msg,int silentFrom , int silentTo  )
+std::string iDomTOOLS::sendSMStoPlusGSM(const std::string &login, std::string pass, std::string number,
+                                        std::string msg, int silentFrom , int silentTo  )
 {
     if (silentFrom !=0 && silentTo !=0){
         // TODO
@@ -880,7 +880,7 @@ std::string iDomTOOLS::ledClear(unsigned int from, unsigned int to)
     return "Led cleared";
 }
 
-std::string iDomTOOLS::ledOn(LED_Strip ledColor, unsigned int from, unsigned int to)
+std::string iDomTOOLS::ledOn(const LED_Strip& ledColor, unsigned int from, unsigned int to)
 {
     if (my_data->idom_all_state.houseState == STATE::UNLOCK)
     {

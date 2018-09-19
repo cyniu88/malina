@@ -29,7 +29,8 @@ public:
 TEST_F(RFLinkHandler_Class_fixture, main)
 {
     test_RFLink->init();
-    SerialPi_set_recv_msg("msg_test;\n a=4:b=10;\n");
+    std::string k("msg_test;\n a=4:b=10;\n");
+    SerialPi_set_recv_msg(k);
     std::string r = test_RFLink->sendCommandAndWaitForReceive("test command");
 
     EXPECT_STREQ(r.c_str(),"msg_test;");

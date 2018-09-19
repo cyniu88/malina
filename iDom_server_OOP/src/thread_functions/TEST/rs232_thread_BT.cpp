@@ -12,7 +12,7 @@ void SerialPi_set_recv_msg(std::string m){
     TEST_DATA::serial_b = m;
 }
 
-SerialPi::SerialPi( std::string a){
+SerialPi::SerialPi(std::string a):m_serial_port(10){
     std::cout << "SerialPi() addres: "<< a << std::endl;
 }
 SerialPi::~SerialPi(){

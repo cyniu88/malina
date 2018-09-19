@@ -40,7 +40,7 @@ public:
     iDomTOOLS(thread_data *myData);
 
     TEMPERATURE_STATE hasTemperatureChange(std::string thermometerName, double reference, double histereza);
-    void sendSMSifTempChanged(std::string thermomethernName, int reference);
+    void sendSMSifTempChanged(const std::string& thermomethernName, int reference);
     std::string getThermoStats(std::string name);
     void updateTemperatureStats();
 
@@ -97,7 +97,7 @@ public:
     std::string getTemperatureString();
     std::string getSmog();
     void send_temperature_thingSpeak();
-    std::string sendSMStoPlusGSM(std::string login,
+    std::string sendSMStoPlusGSM(const std::string& login,
                                  std::string pass,
                                  std::string number,
                                  std::string msg,
@@ -136,7 +136,7 @@ public:
     std::string ledOFF();
     std::string ledClear();
     std::string ledClear(unsigned int from, unsigned int to);
-    std::string ledOn(LED_Strip ledColor, unsigned int from = 0, unsigned int to = 60);
+    std::string ledOn(const LED_Strip& ledColor, unsigned int from = 0, unsigned int to = 60);
     ////////////////////   ALERT  //////////////////////////
     void checkAlarm();
     //////////////////// MPD part //////////////////////////
