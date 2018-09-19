@@ -56,7 +56,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
                 try{
                  ret = my_data->main_iDomTools->getThermoStats(v[3]);
                 }
-                catch (std::string obj){
+                catch (std::string& obj){
                     ret = obj +" "+v[3];
                 }
                return ret;

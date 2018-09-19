@@ -5,7 +5,7 @@
 
 RC_433MHz::RC_433MHz(thread_data *test_my_data){
 }
-void RC_433MHz::sendCode(std::string code){
+void RC_433MHz::sendCode(const std::string& code){
     std::cout << "sendCode(): " << code << std::endl;
 }
 std::string RC_433MHz::receiveCode(){

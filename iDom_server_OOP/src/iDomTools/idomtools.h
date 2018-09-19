@@ -98,8 +98,8 @@ public:
     std::string getSmog();
     void send_temperature_thingSpeak();
     std::string sendSMStoPlusGSM(const std::string& login,
-                                 std::string pass,
-                                 std::string number,
+                                 const std::string& pass,
+                                 const std::string& number,
                                  std::string msg,
                                  int silentFrom = 0,
                                  int silentTo =0);

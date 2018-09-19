@@ -729,7 +729,7 @@ void iDomTOOLS::send_temperature_thingSpeak()
     }
 }
 
-std::string iDomTOOLS::sendSMStoPlusGSM(const std::string &login, std::string pass, std::string number,
+std::string iDomTOOLS::sendSMStoPlusGSM(const std::string &login, const std::string &pass, const std::string &number,
                                         std::string msg, int silentFrom , int silentTo  )
 {
     if (silentFrom !=0 && silentTo !=0){

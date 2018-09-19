@@ -51,7 +51,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
                     m_mainWeatherStation->data.putData(v[2]);
                 }
             }
-            catch (std::string e){  }
+            catch (std::string& e){  }
         }
     }
     return str_buf;

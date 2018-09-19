@@ -180,7 +180,7 @@ void Server_connectivity_thread(thread_data  *my_data){
         {
             client->c_analyse(recvSize);
         }
-        catch (std::string s)
+        catch (std::string& s)
         {
             puts("close server - throw");
             useful_F::go_while = false;
