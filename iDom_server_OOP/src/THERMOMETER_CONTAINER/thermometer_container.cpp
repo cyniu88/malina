@@ -33,7 +33,7 @@ void THERMOMETER_CONTAINER::setTemp(std::string name, double value)
     returnThermometerPtr(name)->m_thermometer.newTemp = value;
 }
 
-double THERMOMETER_CONTAINER::getTemp(std::string name)
+double THERMOMETER_CONTAINER::getTemp(const std::string &name)
 {
     return returnThermometerPtr(name)->m_thermometer.newTemp;
 }

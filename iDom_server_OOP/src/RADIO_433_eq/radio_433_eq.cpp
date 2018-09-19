@@ -41,11 +41,11 @@ void RADIO_SWITCH::onSunrise()
 {
     if(m_sunrise == STATE::ON ){
         on();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to sunrise");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to sunrise");
     }
     else if(m_sunrise == STATE::OFF){
         off();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to sunrise");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to sunrise");
     }
 }
 
@@ -53,11 +53,11 @@ void RADIO_SWITCH::onSunset()
 {
     if(m_sunset == STATE::ON ){
         on();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to sunset");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to sunset");
     }
     else if(m_sunset == STATE::OFF){
         off();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to sunset");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to sunset");
     }
 }
 
@@ -66,15 +66,13 @@ void RADIO_SWITCH::onLockHome()
      std::cout << " w configu jest " << m_config.lock << std::endl;
     if (m_config.lock == "ON")
     {
-         std::cout << " tu mamy ON w onLockHome()" << std::endl;
         on();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to lock house");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to 433MHz button pressed");
     }
     else if(m_config.lock == "OFF")
     {
-        std::cout << " tu mamy OFF w onLockHome()" << std::endl;
         off();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to lock house");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to 433MHz button pressed");
     }
 }
 
@@ -83,12 +81,12 @@ void RADIO_SWITCH::onUnlockHome()
     if (m_config.unlock == "ON")
     {
         on();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to unlock house");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to 433MHz button pressed");
     }
     else if (m_config.unlock == "OFF")
     {
         off();
-        m_my_data->myEventHandler.run("433MHz")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to unlock house");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to 433MHz button pressed");
     }
 }
 

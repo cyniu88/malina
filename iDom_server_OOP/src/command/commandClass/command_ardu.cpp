@@ -2,6 +2,7 @@
 
 command_ardu::command_ardu(std::string name):command(name)
 {
+    this->m_mainRadioButton = NULL;
 }
 
 command_ardu::command_ardu(std::string name, thread_data *my_data):command(name)
@@ -31,7 +32,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
                         rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],
                         "ID")].msg = v[2];
             }
-            catch(std::string e){
+            catch(const std::string& e){
                 std::cout << "wyjatek w szukaniu: " << e <<std::endl;
                 std::cout << "co jest: " << m_mainRadioButton->getID() <<
                              " powinno być 01e7be" <<std::endl;
@@ -43,7 +44,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
                     my_data->main_iDomTools->button433mhzLockerPressed(m_mainRadioButton);
                 }
             }
-            catch (std::string e){  }
+            catch (const std::string& e){  }
             try {
                 if (m_mainWeatherStation->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
                 {

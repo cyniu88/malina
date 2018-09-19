@@ -266,6 +266,7 @@ std::string command_iDom::help()
     help << "iDom lightning  - get lightning alert" << std::endl;
     help << "iDom alarm ON/OFF hh:mm - set larm clock" << std::endl;
     help << "iDom alarm SET from/to/radio <value> - set larm clock" << std::endl;
+    help << "iDom alarm GET  - get alarm time" << std::endl;
     help << "iDom lock   - lock home" << std::endl;
     help << "iDom unlock - unlock home" << std::endl;
     return help.str();

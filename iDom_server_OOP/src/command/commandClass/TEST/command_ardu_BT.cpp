@@ -56,7 +56,6 @@ TEST_F(commandArdu_Class_fixture, UnlockHome)
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
-    EXPECT_EQ(test_status.getObjectState("listwa"),STATE::ON);
 }
 
 TEST_F(commandArdu_Class_fixture, LockHome)
@@ -73,13 +72,13 @@ TEST_F(commandArdu_Class_fixture, LockHome)
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);
-    EXPECT_EQ(test_status.getObjectState("listwa"),STATE::OFF);
 }
 
 TEST_F(commandArdu_Class_fixture, playMusic)
 {
     test_idomTOOLS->unlockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
+    EXPECT_EQ(test_status.getObjectState("listwa"),STATE::UNKNOWN);
     test_status.addObject("music",STATE::STOP);
 
     test_v.push_back("20;EV1527;ID=01e7be;SWITCH=01;CMD=ON;");
@@ -89,12 +88,14 @@ TEST_F(commandArdu_Class_fixture, playMusic)
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
+    EXPECT_EQ(test_status.getObjectState("listwa"),STATE::ON);
 }
 
 TEST_F(commandArdu_Class_fixture, stopMusic)
 {
     test_idomTOOLS->unlockHome();
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
+    EXPECT_EQ(test_status.getObjectState("listwa"),STATE::UNKNOWN);
     test_status.addObject("music",STATE::PLAY);
 
     test_v.push_back("20;EV1527;ID=01e7be;SWITCH=01;CMD=ON;");
@@ -104,6 +105,7 @@ TEST_F(commandArdu_Class_fixture, stopMusic)
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);
+    EXPECT_EQ(test_status.getObjectState("listwa"),STATE::OFF);
 }
 
 TEST_F(commandArdu_Class_fixture, weatherStationTemp)

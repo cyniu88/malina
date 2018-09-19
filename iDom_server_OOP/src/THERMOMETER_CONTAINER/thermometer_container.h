@@ -39,7 +39,7 @@ public:
     THERMOMETER_CONTAINER();
     void add(std::string name);
     void setTemp(std::string name, double value);
-    double getTemp(std::string name);
+    double getTemp(const std::string& name);
     double getOldTemp(std::string name);
     TEMPERATURE_STATE getLastState(std::string name);
     void setState(std::string name, TEMPERATURE_STATE state);

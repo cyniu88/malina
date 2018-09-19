@@ -313,7 +313,7 @@ void iDomTOOLS::runOnSunset()
         }
     }
     else{
-        my_data->myEventHandler.run("433MHz")->addEvent("433MHz can not start due to home state: "+
+        my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "+
                                                         stateToString(my_data->idom_all_state.houseState));
     }
 }
@@ -328,7 +328,7 @@ void iDomTOOLS::runOnSunrise()
         }
     }
     else{
-        my_data->myEventHandler.run("433MHz")->addEvent("433MHz can not start due to home state: "+
+        my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "+
                                                         stateToString(my_data->idom_all_state.houseState));
     }
     my_data->main_iDomTools->ledOFF();
@@ -424,12 +424,15 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
             MPD_stop();
             turnOffPrinter();
             radioButton->setState(STATE::STOP);
+            switchActionOnLockHome();
             //TODO  dodać wylaczanie wiatraka
         }
         else if (my_data->main_iDomStatus->getObjectState("music") == STATE::STOP)
         {
             MPD_play(my_data);
-            if(isItDay() == false){
+            switchActionOnUnlockHome();
+            if(isItDay() == false)
+            {
                 ledOn(my_data->ptr_pilot_led->colorLED[2]);
             }
             radioButton->setState(STATE::PLAY);
@@ -456,14 +459,12 @@ void iDomTOOLS::buttonLockHome()
     ledOFF();
     MPD_stop();
     turnOffPrinter();
-    switchActionOnLockHome();
     lockHome();
 }
 
 void iDomTOOLS::buttonUnlockHome()
 {
     unlockHome();
-    switchActionOnUnlockHome();
     MPD_play(my_data);
     if(isItDay() == false){
         ledOn(my_data->ptr_pilot_led->colorLED[2]);

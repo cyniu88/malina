@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
 LINK_DIRECTORIES(/usr/local/lib )
+
 project(iDom_TESTs-CMAKE)
+
 set(INCLUDE_DIRECTORIES "../../libs/json/single_include/nlohmann/"
     "../../test/iDom_TESTs-CMAKE/")
+
 include_directories(${INCLUDE_DIRECTORIES})
+
 set(SOURCE_FILES  "main.cpp"
     "../../libs/useful/usefull.cpp"
     "../../libs/useful/test/useful_bt.cpp"
@@ -55,6 +59,6 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/command/test/commandhandler_stub.cpp"
     )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -DBT_TEST -DNOSSL")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -DBT_TEST -DNOSSL  -O2 ")
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  pthread gtest curl rt pthread gmock)
