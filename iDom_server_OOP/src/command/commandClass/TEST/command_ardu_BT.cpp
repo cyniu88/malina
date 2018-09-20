@@ -9,7 +9,8 @@ class commandArdu_Class_fixture : public iDomTOOLS_ClassTest
 {
 public:
     commandArdu_Class_fixture()  {
-    this->test_RFLink = NULL;
+        this->test_RFLink = NULL;
+        this->test_ardu = NULL;
     }
 
 protected:

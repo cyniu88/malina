@@ -16,13 +16,13 @@ def RSHash ():
     b = 378551
     a = 63689
     hash_gen = 0
-    
+
     for x in str_timie:
         hash_gen = hash_gen * a + int(x)+48
         a    = a * b
 
     return hash_gen & 0x7FFFFFFF
-	
+
 main_loop = False
 my_bytes = ""
 #droid = androidhelper.Android()
@@ -43,8 +43,7 @@ else:
 if len(sys.argv) >= 4 :
      my_bytes = " ".join(sys.argv[3:])
     #print "MOJE PODANE:", my_bytes
-	
-	
+
 # connection to hostname on the port.
 
 s.connect((host, port))
@@ -70,7 +69,7 @@ tm = s.recv(BufSize)
 s.send("OK")
 tm = s.recv(BufSize)
 #print tm
-	
+
 ######################## main loop  ###########################
 while main_loop:
     if len(sys.argv) >=4:
@@ -88,7 +87,7 @@ while main_loop:
         tm = s.recv(BufSize)
         print( tm)
         break
-     
+
     s.send(my_bytes)
     tm = s.recv(BufSize)
     s.send("OK")
@@ -96,9 +95,6 @@ while main_loop:
     len_to_recv = int(tm)
     tm = ""
     while True :
-	    
-     
-        
         tm = tm + s.recv(len_to_recv)
         #len_to_recv = len_to_recv - len(tm)
         #print "len ma " ,len_to_recv
@@ -123,7 +119,7 @@ while main_loop:
             if (tm[1]  == "C") and (tm[2] == "L") and (tm[3]== "O"):
                 exit()
             break
-        
+
 
     # Receive no more than 1024 bytes
 s.close()
