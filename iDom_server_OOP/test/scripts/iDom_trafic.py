@@ -1,32 +1,31 @@
 #!/usr/bin/python
 import sys
 import socket
-#import androidhelper 
+#import androidhelper
 import time
 #from time import gmtime, strftime
-from sys import stdout
+#from sys import stdout
 counter = 0
 last_counter = 0
 BufSize =332768
 
 def RSHash ():
-    import time
-    str = time.strftime("%M%H%w")
+    str_timie = time.strftime("%M%H%w")
     #print str
 	 
-    b    = 378551
-    a    = 63689
-    hash = 0
+    b = 378551
+    a = 63689
+    hash_gen = 0
     
-    for x in str:
-        hash = hash * a + int(x)+48
+    for x in str_timie:
+        hash_gen = hash_gen * a + int(x)+48
         a    = a * b
         
-    return hash & 0x7FFFFFFF
+    return hash_gen & 0x7FFFFFFF
 	
-main_loop =False
-my_bytes = " " 
-#droid = androidhelper.Android() 
+main_loop = False
+my_bytes = ""
+#droid = androidhelper.Android()
 #print("parametry: %s" % sys.argv)
 # create a socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -93,7 +92,7 @@ while main_loop:
     s.send(my_bytes)
     tm = s.recv(BufSize)
     s.send("OK")
-    #print " pierwsze odbieram wielkosc" ,tm 
+    #print " pierwsze odbieram wielkosc" ,tm
     len_to_recv = int(tm)
     tm = ""
     while True :
@@ -128,4 +127,3 @@ while main_loop:
 
     # Receive no more than 1024 bytes
 s.close()
-
