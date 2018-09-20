@@ -542,9 +542,9 @@ int main(int argc, char *argv[])
 
     if (argc == 1)
     {
+        int t = 5;
         do
         {
-            int t = 5;
             try
             {
                 iDomStateProgram = iDom_main();

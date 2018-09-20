@@ -57,7 +57,7 @@ protected:
 class SuperKEY : public KEY
 {
 public:
-    SuperKEY (PILOT_KEY v, const std::string &n, std::string LogName) ;
+    SuperKEY (PILOT_KEY v, const std::string &n, const std::string& LogName) ;
     virtual ~SuperKEY() ;
     PILOT_KEY getValue() const;
 

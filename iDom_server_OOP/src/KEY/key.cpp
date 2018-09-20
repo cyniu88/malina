@@ -107,7 +107,7 @@ PILOT_KEY SuperKEY::getValue() const
     return _value;
 }
 
-SuperKEY::SuperKEY (PILOT_KEY v, const std::string& n, std::string LogName) : KEY(v,n) , LogName(LogName)
+SuperKEY::SuperKEY (PILOT_KEY v, const std::string& n, const std::string& LogName) : KEY(v,n) , LogName(LogName)
 {
     //puts("konstruktos SuperKEY =)" );
 }

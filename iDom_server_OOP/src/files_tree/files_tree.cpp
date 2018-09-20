@@ -4,7 +4,7 @@ bool comper (const movie_database & a , const movie_database& b)
 {
     return a.files_name < b.files_name ;
 }
-files_tree::files_tree (std::string path, LCD_c *mainLCD_PTR):database_path(path),w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
+files_tree::files_tree (const std::string& path, LCD_c *mainLCD_PTR):database_path(path),w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
 
 {
     //database_path = path;
@@ -68,7 +68,7 @@ void files_tree::enter_dir()
     }
 
 }
-void files_tree::enter_dir(std::string path)
+void files_tree::enter_dir(const std::string& path)
 {	//tree_stack.push(path);
     get_list (path)  ;
 }

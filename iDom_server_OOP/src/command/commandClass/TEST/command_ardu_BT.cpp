@@ -8,7 +8,9 @@
 class commandArdu_Class_fixture : public iDomTOOLS_ClassTest
 {
 public:
-    commandArdu_Class_fixture()  {  }
+    commandArdu_Class_fixture()  {
+    this->test_RFLink = NULL;
+    }
 
 protected:
     std::vector<std::string> test_v= {"ardu"};

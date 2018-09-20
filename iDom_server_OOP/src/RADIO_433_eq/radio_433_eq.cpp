@@ -157,7 +157,7 @@ void RADIO_EQ_CONTAINER::addRadioEq( RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
     }
 }
 
-void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, std::string type)
+void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, const std::string&  type)
 {
     RADIO_EQ_TYPE ret = RADIO_EQ_TYPE::NONE;
     if(type == "SWITCH") ret = RADIO_EQ_TYPE::SWITCH;
@@ -378,6 +378,7 @@ void RADIO_EQ_CONTAINER::saveConfig(std::string filePath)
 
 RADIO_EQ::RADIO_EQ()
 {
+    this->m_my_data = NULL;
     puts("RADIO_EQ::RADIO_EQ()");
 }
 
@@ -391,7 +392,7 @@ RADIO_EQ_TYPE RADIO_EQ::getType()
     return m_type;
 }
 
-RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *my_data, RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
+RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *my_data, const RADIO_EQ_CONFIG& cfg, RADIO_EQ_TYPE type)
 {
     puts("RADIO_WEATHER_STATION::RADIO_WEATHER_STATION()");
     RADIO_EQ::m_my_data = my_data;

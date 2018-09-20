@@ -3,15 +3,20 @@
 #include "../radio_433_eq.h"
 #include "../../iDomTools/test/iDomTools_fixture.h"
 
-RC_433MHz::RC_433MHz(thread_data *test_my_data){
+RC_433MHz::RC_433MHz(thread_data *test_my_data)
+{
+    this->m_my_data = test_my_data;
 }
-void RC_433MHz::sendCode(const std::string& code){
+void RC_433MHz::sendCode(const std::string& code)
+{
     std::cout << "sendCode(): " << code << std::endl;
 }
-std::string RC_433MHz::receiveCode(){
+std::string RC_433MHz::receiveCode()
+{
     return "test";
 }
-class Switch_Class_fixture : public iDomTOOLS_ClassTest{
+class Switch_Class_fixture : public iDomTOOLS_ClassTest
+{
 
 };
 TEST_F(Switch_Class_fixture, getSwitchPointerVector)

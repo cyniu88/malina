@@ -125,7 +125,7 @@ class RADIO_WEATHER_STATION: public RADIO_EQ
     STATE m_state = STATE::UNDEFINE;
 
 public:
-    RADIO_WEATHER_STATION(thread_data * my_data, RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type);
+    RADIO_WEATHER_STATION(thread_data * my_data, const RADIO_EQ_CONFIG& cfg, RADIO_EQ_TYPE type);
     ~RADIO_WEATHER_STATION();
     STATE getState();
     std::string getName();
@@ -177,7 +177,7 @@ public:
     RADIO_EQ_CONTAINER(thread_data * my_data);
     virtual ~RADIO_EQ_CONTAINER();
     void addRadioEq(RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type);    
-    void addRadioEq(RADIO_EQ_CONFIG cfg, std::string type);
+    void addRadioEq(RADIO_EQ_CONFIG cfg, const std::string& type);
     void deleteRadioEq(std::string name);
     virtual RADIO_EQ* getEqPointer(std::string name);
     std::vector<RADIO_SWITCH*> getSwitchPointerVector();

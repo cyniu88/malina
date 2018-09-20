@@ -6,7 +6,9 @@
 class c_connection_fixture : public iDomTOOLS_ClassTest
 {
 public:
-    c_connection_fixture() {}
+    c_connection_fixture() {
+        this->test_connection = NULL;
+    }
 
 protected:
     C_connection* test_connection;
