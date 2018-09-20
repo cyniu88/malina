@@ -4,7 +4,7 @@ import socket
 #import androidhelper
 import time
 #from time import gmtime, strftime
-from sys import stdout
+#from sys import stdout
 counter = 0
 last_counter = 0
 BufSize =332768
@@ -12,7 +12,7 @@ BufSize =332768
 def RSHash ():
     str_time = time.strftime("%M%H%w")
     #print str
-	 
+
     b = 378551
     a = 63689
     hash_t = 0

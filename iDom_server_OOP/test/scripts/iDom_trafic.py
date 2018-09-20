@@ -12,7 +12,7 @@ BufSize =332768
 def RSHash ():
     str_timie = time.strftime("%M%H%w")
     #print str
-	 
+
     b = 378551
     a = 63689
     hash_gen = 0
@@ -20,7 +20,7 @@ def RSHash ():
     for x in str_timie:
         hash_gen = hash_gen * a + int(x)+48
         a    = a * b
-        
+
     return hash_gen & 0x7FFFFFFF
 	
 main_loop = False
