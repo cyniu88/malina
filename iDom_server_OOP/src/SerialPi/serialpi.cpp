@@ -2,7 +2,7 @@
  #include <stdio.h>
 
 
-SerialPi::SerialPi(std::string address): m_address(address)
+SerialPi::SerialPi(const std::string& address): m_address(address)
 {
 
 }
@@ -34,8 +34,7 @@ void SerialPi::flush()
 {
     serialFlush(m_serial_port);
 }
-void SerialPi::print(std::string m)
+void SerialPi::print(const std::string &m)
 {
     serialPrintf(m_serial_port,m.c_str());
-    //puts("SerialPi::print string");
 }

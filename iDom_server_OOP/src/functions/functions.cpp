@@ -180,7 +180,7 @@ std::string useful_F::send_to_arduino_clock (thread_data *my_data_logic, std::st
     return msg;
 } //end send_to_arduino_clock
 
-std::string useful_F::send_to_arduino (thread_data *my_data_logic, std::string msg){
+std::string useful_F::send_to_arduino (thread_data *my_data_logic, const std::string& msg){
 
     while (go_while)
     {
@@ -199,7 +199,7 @@ std::string useful_F::send_to_arduino (thread_data *my_data_logic, std::string m
             }
         }
     }
-
+    std::string msg2;
     while (go_while)
     {
         std::this_thread::sleep_for( std::chrono::milliseconds(50) );
@@ -211,13 +211,13 @@ std::string useful_F::send_to_arduino (thread_data *my_data_logic, std::string m
                     std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
                     my_data_logic->pointer.ptr_who[0]=iDomConst::FREE;
                     my_data_logic->pointer.ptr_who[1]= 0;
-                    msg=buffer;
+                    msg2 = buffer;
                 }
                 break;
             }
         }
     }
-    return msg;
+    return msg2;
 } //end send_to_arduino
 
 std::string  useful_F::sek_to_uptime(long long secy )
@@ -341,8 +341,6 @@ void useful_F::button_interrupt( )
         log_file_cout << INFO << "przerwanie przycisku " <<counter<< std::endl;
         log_file_mutex.mutex_unlock();
         useful_F::myStaticData->myEventHandler.run("interrupt")->addEvent("przerwanie z przycisku");
-        printf ("przerwanie %d - %d = %d\n", m, useful_F::lastInterruptTime, a);
-        printf("counter %d \n status is %d\n",counter,digitalRead(iDomConst::BUTTON_PIN));
 
         if (digitalRead(iDomConst::BUTTON_PIN)==HIGH)
         {

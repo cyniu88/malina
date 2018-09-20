@@ -70,7 +70,7 @@ int C_connection::c_send(int para)
     return 0;
 }
 
-int C_connection::c_send(std::string command )
+int C_connection::c_send(const std::string &command )
 {
     str_buf = command;
     return c_send(0);

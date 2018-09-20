@@ -7,7 +7,10 @@
 class command433MHz_Class_fixture : public iDomTOOLS_ClassTest
 {
 public:
-    command433MHz_Class_fixture()  {  }
+    command433MHz_Class_fixture()
+    {
+        this->test_command_433MHz = NULL;
+    }
 
 protected:
     std::vector<std::string> test_v= {"433MHz"};

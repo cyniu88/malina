@@ -29,7 +29,7 @@ public:
     struct s_pointer *pointer;
 
     int c_send(int para);
-    int c_send(std::string command);
+    int c_send(const std::string& command);
     int c_recv(int para);
     std::string c_read_buf(int recvSize);
     int c_analyse(int recvSize);

@@ -8,7 +8,7 @@ void useful_F::button_interrupt(){}
 void digitalWrite(int pin, int mode){}
 int digitalRead(int pin){ return 0; }
 
-std::string useful_F::send_to_arduino(thread_data *my_data,std::string d){
+std::string useful_F::send_to_arduino(thread_data *my_data, const std::string& d){
     return TEST_DATA::return_send_to_arduino;
 }
 viber_API::viber_API(){}

@@ -11,7 +11,7 @@ class SerialPi{
     std::string m_address;
     int m_serial_port ;
 public:
-    SerialPi(std::string address);
+    SerialPi(const std::string &address);
 
     ~SerialPi();
 
@@ -19,7 +19,7 @@ public:
     int available();
     char read();
     void flush();
-    void print(std::string m);
+    void print(const std::string& m);
 };
 
 #endif // SERIALPI_H

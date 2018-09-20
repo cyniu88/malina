@@ -12,7 +12,7 @@ void SerialPi_set_recv_msg(std::string m){
     TEST_DATA::serial_b = m;
 }
 
-SerialPi::SerialPi(std::string a):m_serial_port(10){
+SerialPi::SerialPi(const std::string& a):m_serial_port(10){
     std::cout << "SerialPi() addres: "<< a << std::endl;
 }
 SerialPi::~SerialPi(){
@@ -23,7 +23,7 @@ void SerialPi::begin(int serialSpeed){
     std::cout << "SerialPi::int() serialSpeed: "<< serialSpeed << std::endl;
 }
 
-void SerialPi::print(std::string msg){
+void SerialPi::print(const std::string& msg){
     std::cout << "SerialPi::print() msg: "<< msg << std::endl;
     //TEST_DATA::serial_b = msg;
 }
@@ -46,6 +46,7 @@ char SerialPi::read(){
 }
 
 TASKER::TASKER(thread_data *my_data){
+    this->my_data = NULL;
     std::cout << "TASKER::TASKER()"<< std::endl;
 }
 
