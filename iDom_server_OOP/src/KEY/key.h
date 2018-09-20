@@ -44,7 +44,7 @@ enum class PILOT_KEY{
 class KEY
 {
 public:
-    KEY(PILOT_KEY value, std::string name) ;
+    KEY(PILOT_KEY value, const std::string& name) ;
     virtual ~KEY() ;
     std::string getName() const;
     virtual  PILOT_KEY getValue() const;
@@ -57,7 +57,7 @@ protected:
 class SuperKEY : public KEY
 {
 public:
-    SuperKEY (PILOT_KEY v, std::string n,std::string LogName) ;
+    SuperKEY (PILOT_KEY v, const std::string &n, std::string LogName) ;
     virtual ~SuperKEY() ;
     PILOT_KEY getValue() const;
 

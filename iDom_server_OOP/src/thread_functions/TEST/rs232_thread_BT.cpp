@@ -8,32 +8,32 @@ std::mutex useful_F::mutex_who;
 
 std::string buffer;
 
-void SerialPi_set_recv_msg(std::string m){
+void SerialPi_set_recv_msg(const std::string& m){
     TEST_DATA::serial_b = m;
 }
 
 SerialPi::SerialPi(const std::string& a):m_serial_port(10){
-    std::cout << "SerialPi() addres: "<< a << std::endl;
+    std::cout << "SerialPi() addres: " << a << std::endl;
 }
 SerialPi::~SerialPi(){
-    std::cout << "~SerialPi()"<< std::endl;
+    std::cout << "~SerialPi()" << std::endl;
 }
 
 void SerialPi::begin(int serialSpeed){
-    std::cout << "SerialPi::int() serialSpeed: "<< serialSpeed << std::endl;
+    std::cout << "SerialPi::int() serialSpeed: " << serialSpeed << std::endl;
 }
 
 void SerialPi::print(const std::string& msg){
-    std::cout << "SerialPi::print() msg: "<< msg << std::endl;
+    std::cout << "SerialPi::print() msg: " << msg << std::endl;
     //TEST_DATA::serial_b = msg;
 }
 void SerialPi::flush(){
-    std::cout << "SerialPi::flush()"<< std::endl;
+    std::cout << "SerialPi::flush()" << std::endl;
     TEST_DATA::serial_b.clear();
 }
 
 int SerialPi::available(){
-    std::cout << "SerialPi::available() "<<TEST_DATA::serial_b.size()<< std::endl;
+    std::cout << "SerialPi::available() " << TEST_DATA::serial_b.size() << std::endl;
     return TEST_DATA::serial_b.size();
 }
 

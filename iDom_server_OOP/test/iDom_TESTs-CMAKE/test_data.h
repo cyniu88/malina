@@ -9,6 +9,6 @@ namespace TEST_DATA{
     static std::string serial_b = "NULL";
 }
 
-void SerialPi_set_recv_msg(std::string m);
+void SerialPi_set_recv_msg(const std::string& m);
 
 #endif

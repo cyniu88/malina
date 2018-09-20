@@ -1,7 +1,7 @@
 #include "key.h"
 #include "../iDom_server_OOP.h"
 
-KEY::KEY(PILOT_KEY value, std::string name) : _value{value},key_name{name}
+KEY::KEY(PILOT_KEY value, const std::string& name) : _value{value},key_name{name}
 {
     //std::cout << "konstruktor KEY" << std::endl;
 }
@@ -107,7 +107,7 @@ PILOT_KEY SuperKEY::getValue() const
     return _value;
 }
 
-SuperKEY::SuperKEY (PILOT_KEY v, std::string n, std::string LogName) : KEY(v,n) , LogName(LogName)
+SuperKEY::SuperKEY (PILOT_KEY v, const std::string& n, std::string LogName) : KEY(v,n) , LogName(LogName)
 {
     //puts("konstruktos SuperKEY =)" );
 }

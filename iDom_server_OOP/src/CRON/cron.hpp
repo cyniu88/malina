@@ -8,7 +8,7 @@
 class CRON
 {
 public:
-    CRON( thread_data * my_data);
+    explicit CRON( thread_data * my_data);
     void run();
 private:
     bool check_temperature;

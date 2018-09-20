@@ -539,11 +539,12 @@ int main(int argc, char *argv[])
 {
     iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
     std::cout << "startujemy program iDom" << std::endl;
-    int t = 5;
+
     if (argc == 1)
     {
         do
         {
+            int t = 5;
             try
             {
                 iDomStateProgram = iDom_main();

@@ -117,7 +117,7 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
 #endif
 }
 
-std::string useful_F::RSHash(std::string data, unsigned int b, unsigned int a)
+std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned int a)
 {
     time_t act_time;
     struct tm * act_date;

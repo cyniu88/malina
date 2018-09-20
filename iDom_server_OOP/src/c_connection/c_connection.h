@@ -33,7 +33,7 @@ public:
     int c_recv(int para);
     std::string c_read_buf(int recvSize);
     int c_analyse(int recvSize);
-    void setEncriptionKey(std::string key);
+    void setEncriptionKey(const std::string& key);
     void setEncrypted(bool flag);
     commandHandler *mainCommandHandler = NULL;
     void onStartConnection();

@@ -44,7 +44,7 @@
 //    } // end while
 //}
 
-void C_connection::setEncriptionKey(std::string key)
+void C_connection::setEncriptionKey(const std::string& key)
 {
     m_encriptionKey = key;
 }

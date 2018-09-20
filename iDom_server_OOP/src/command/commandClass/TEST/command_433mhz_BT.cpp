@@ -10,6 +10,7 @@ public:
     command433MHz_Class_fixture()
     {
         this->test_command_433MHz = NULL;
+        this->test_RFLink = NULL;
     }
 
 protected:

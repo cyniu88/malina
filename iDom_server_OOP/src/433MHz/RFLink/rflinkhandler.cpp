@@ -69,12 +69,12 @@ std::string RFLinkHandler::readFromRS232()
 std::string RFLinkHandler::internalReadFromRS232()
 {
     std::string buf;
-    char b;
+
     if(serial_RFLink.available() > 0){
         //puts("jest cos na rflinku");
         while (true){
 
-            b = serial_RFLink.read();
+            char b = serial_RFLink.read();
             if (b == '\n'){
                 break;
             }
@@ -87,7 +87,6 @@ std::string RFLinkHandler::internalReadFromRS232()
 std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(std::string msg, std::string var)
 {
     std::string id;
-    char t;
 
     int pos = msg.find(var+"=");
     if (pos == -1 ){
@@ -101,7 +100,7 @@ std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(std::string msg, std::s
 #endif
 
     for (int i = 1+pos+var.size();;++i ){
-        t = msg.at(i);
+        char t = msg.at(i);
         if (t ==';'){
             break;
         }
