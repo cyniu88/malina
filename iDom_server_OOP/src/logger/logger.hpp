@@ -47,12 +47,10 @@
 #ifndef __LOGGER__
 #define __LOGGER__
 
-
 #include <fstream>
 #include <cassert>
 #include <ctime>
 #include <sstream>
-
 
 // Log levels
 typedef enum {
@@ -66,24 +64,20 @@ typedef enum {
     FATAL
 } logger_level;
 
-
-
 class Logger : public std::ostringstream {
 public:
 
-    Logger(const char *f);
-    Logger(const std::string& f);
+    explicit Logger(const char *f);
+    explicit Logger(const std::string& f);
     Logger (const Logger &) ;
     Logger &operator= (const Logger &) ;
     ~Logger();
     static pthread_mutex_t mutex_log ;
 
-
     void set_level(const logger_level& level);
     void flush();
     void mutex_lock();
     void mutex_unlock();
-
 
     template <typename T>
     Logger& operator<<(const T& t)
@@ -115,7 +109,6 @@ inline Logger& endl(Logger& out)
     out.flush();
     return (out);
 }
-}
-
+}// end namespace std
 
 #endif

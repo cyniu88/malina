@@ -16,13 +16,13 @@ def RSHash ():
     b = 378551
     a = 63689
     hash_t = 0
-    
+
     for x in str_time:
         hash_t = hash_t * a + int(x)+48
         a    = a * b
         
     return hash_t & 0x7FFFFFFF
-	
+
 main_loop =False
 my_bytes = ""
 host = "192.168.1.144"
