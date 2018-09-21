@@ -1,3 +1,6 @@
 [submodule "iDom_server_OOP/libs"]
 	path = iDom_server_OOP/libs
 	url = git@github.com:cyniu88/libs.git
+[submodule "iDom_server_OOP/ftplibpp"]
+	path = iDom_server_OOP/ftplibpp
+	url = git@github.com:mkulke/ftplibpp.git
