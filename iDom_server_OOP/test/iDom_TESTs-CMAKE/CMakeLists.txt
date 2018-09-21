@@ -59,6 +59,7 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/command/test/commandhandler_stub.cpp"
     )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -DBT_TEST -DNOSSL  -O2 ")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -DBT_TEST -DNOSSL  -O2 --coverage")
+set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  pthread gtest curl rt pthread gmock)
