@@ -12,33 +12,36 @@ std::string useful_F::send_to_arduino(thread_data *my_data, const std::string& d
     return TEST_DATA::return_send_to_arduino;
 }
 viber_API::viber_API(){}
-void viber_API::setAccessToken(std::string accessToken){}
-void viber_API::setURL(std::string url){}
-void viber_API::setAvatar (std::string avatar){}
-std::string viber_API::sendViberMSG(std::string msg,
-                                    std::string receiver,
-                                    std::string senderName,
-                                    std::string accessToken,
-                                    std::string url){
+void viber_API::setAccessToken(const std::string& accessToken){}
+void viber_API::setURL(const std::string& url){}
+void viber_API::setAvatar (const std::string& avatar){}
+std::string viber_API::sendViberMSG(const std::string& msg,
+                                    const std::string& receiver,
+                                    const std::string& senderName,
+                                    const std::string& accessToken,
+                                    const std::string& url){
 
     std::cout << "sendViberMSG() "<< msg <<" to: "<< receiver << std::endl;
     TEST_DATA::return_viber_msg = msg;
     return"{\"message_status\":\"ok\"}";
 }
-std::string viber_API::sendViberPicture(std::string msg,
-                                        std::string image,
-                                        std::string receiver,
-                                        std::string senderName,
-                                        std::string accessToken ,
-                                        std::string url){
+std::string viber_API::sendViberPicture(const std::string& msg,
+                                        const std::string& image,
+                                        const std::string& receiver,
+                                        const std::string& senderName,
+                                        const std::string& accessToken ,
+                                        const std::string& url){
     std::cout << "sendViberPicture() "<< msg <<" to: "<< receiver << std::endl;
     TEST_DATA::return_viber_msg = msg;
     return"{\"message_status\":\"ok\"}";
 }
 FACEBOOK_API::FACEBOOK_API(){}
-std::string FACEBOOK_API::postTxtOnWall(std::string msg, std::string accessToken ){return "";}
-std::string FACEBOOK_API::postPhotoOnWall(std::string url,std::string msg ,std::string accessToken ){return "";}
-void FACEBOOK_API::setAccessToken(std::string token){}
+std::string FACEBOOK_API::postTxtOnWall(const std::string& msg,
+                                        const std::string& accessToken ){return "";}
+std::string FACEBOOK_API::postPhotoOnWall(const std::string& url,
+                                          const std::string& msg ,
+                                          const std::string& accessToken ){return "";}
+void FACEBOOK_API::setAccessToken(const std::string& token){}
 
 void LCD_c::set_lcd_STATE(int i){}
 void LCD_c::printString(bool clear, int col, int row, const std::string& str){
