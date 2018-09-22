@@ -10,7 +10,7 @@ void iDomSTATUS::addObject(std::string name, STATE st)
     m_stateMAP.insert(std::make_pair(name,st));
 }
 
-void iDomSTATUS::setObjectState(std::string name, STATE st)
+void iDomSTATUS::setObjectState(const std::string& name, STATE st)
 {
     std::lock_guard < std::mutex > lock ( m_lockGuard);
     auto i = m_stateMAP.find(name);
@@ -24,7 +24,7 @@ void iDomSTATUS::setObjectState(std::string name, STATE st)
     }
 }
 
-STATE iDomSTATUS::getObjectState(std::string name)
+STATE iDomSTATUS::getObjectState(const std::string& name)
 {
     std::lock_guard < std::mutex > lock ( m_lockGuard);
     auto i = m_stateMAP.find(name);
@@ -35,7 +35,7 @@ STATE iDomSTATUS::getObjectState(std::string name)
     return STATE::UNKNOWN;
 }
 
-std::string iDomSTATUS::getObjectStateString(std::string name)
+std::string iDomSTATUS::getObjectStateString(const std::string& name)
 {
     std::lock_guard < std::mutex > lock ( m_lockGuard);
     auto i = m_stateMAP.find(name);

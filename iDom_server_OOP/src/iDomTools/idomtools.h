@@ -39,9 +39,9 @@ public:
     std::vector <std::string> textToSpeachVector;
     iDomTOOLS(thread_data *myData);
 
-    TEMPERATURE_STATE hasTemperatureChange(std::string thermometerName, double reference, double histereza);
+    TEMPERATURE_STATE hasTemperatureChange(const std::string &thermometerName, double reference, double histereza);
     void sendSMSifTempChanged(const std::string& thermomethernName, int reference);
-    std::string getThermoStats(std::string name);
+    std::string getThermoStats(const std::string &name);
     void updateTemperatureStats();
 
     static void turnOnSpeakers();
@@ -50,7 +50,7 @@ public:
     void turnOffPrinter();
     static PIN_STATE getPinState(int pin_number);
     void turnOnOffPrinter();
-    void turnOnOff433MHzSwitch(std::string name);
+    void turnOnOff433MHzSwitch(const std::string &name);
     void turnOn433MHzSwitch(std::string name);
     void turnOff433MHzSwitch(std::string name);
     void runOnSunset();
@@ -62,7 +62,7 @@ public:
     void switchActionOnUnlockHome();
     //////////////////////////// 433MHz button ///////////////////
 
-    std::string buttonPressed(std::string id);
+    std::string buttonPressed(const std::string &id);
     void button433MHzPressedAction(std::string name);
     void button433mhzLockerPressed(RADIO_BUTTON* radioButton);
 

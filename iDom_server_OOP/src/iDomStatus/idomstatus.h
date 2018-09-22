@@ -4,7 +4,6 @@
 #include <map>
 #include <mutex>
 #include <string>
-#include "/home/pi/programowanie/iDom_server_OOP/libs/useful/useful.h"
 #include "../../libs/useful/useful.h"
 
 class iDomSTATUS
@@ -14,9 +13,9 @@ class iDomSTATUS
 public:
     iDomSTATUS();
     void addObject(std::string name, STATE st  = STATE::UNDEFINE );
-    void setObjectState(std::string name, STATE st);
-    STATE getObjectState(std::string name);
-    std::string getObjectStateString(std::string name);
+    void setObjectState(const std::string &name, STATE st);
+    STATE getObjectState(const std::string &name);
+    std::string getObjectStateString(const std::string &name);
     std::string getAllObjectsStateString();
 };
 

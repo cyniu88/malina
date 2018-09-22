@@ -57,7 +57,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
 
 }
 
-TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(std::string thermometerName, double reference, double histereza )
+TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometerName, double reference, double histereza )
 {
     reference += 0.0055;
     const auto newTemp = allThermometer.getTemp(thermometerName);
@@ -136,7 +136,7 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
     }
 }
 
-std::string iDomTOOLS::getThermoStats(std::string name)
+std::string iDomTOOLS::getThermoStats(const std::string& name)
 {
     return  allThermometerUpdate.getStatsByName(name);
 }
@@ -272,7 +272,7 @@ void iDomTOOLS::turnOnOffPrinter()
     }
 }
 
-void iDomTOOLS::turnOnOff433MHzSwitch(std::string name)
+void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)
 {
     STATE listwaState = my_data->main_iDomStatus->getObjectState(name);
     RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(name));
@@ -382,7 +382,7 @@ void iDomTOOLS::switchActionOnUnlockHome()
     }
 }
 
-std::string iDomTOOLS::buttonPressed(std::string id)
+std::string iDomTOOLS::buttonPressed(const std::string& id)
 {
     for (auto n : buttonPointerVector){
         if (id == n->getID()){

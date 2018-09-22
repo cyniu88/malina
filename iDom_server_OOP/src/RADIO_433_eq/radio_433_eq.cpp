@@ -170,7 +170,7 @@ void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, const std::string&  typ
     addRadioEq(cfg,ret);
 }
 
-void RADIO_EQ_CONTAINER::deleteRadioEq(std::string name)
+void RADIO_EQ_CONTAINER::deleteRadioEq(const std::string& name)
 {
     delete m_radioEqMap[name];
     m_radioEqMap.erase(name);
@@ -240,7 +240,7 @@ std::string RADIO_EQ_CONTAINER::listAllName()
     return allName;
 }
 
-bool RADIO_EQ_CONTAINER::nameExist(std::string name)
+bool RADIO_EQ_CONTAINER::nameExist(const std::string& name)
 {
     bool exist = false;
     if(m_radioEqMap.find(name) != m_radioEqMap.end())
@@ -250,7 +250,7 @@ bool RADIO_EQ_CONTAINER::nameExist(std::string name)
     return exist;
 }
 
-void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
+void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
 {
     std::ifstream myfile (filePath);
     if (myfile.is_open())
@@ -344,7 +344,7 @@ void RADIO_EQ_CONTAINER::loadConfig(std::string filePath)
     else std::cout << "Unable to open file";
 }
 
-void RADIO_EQ_CONTAINER::saveConfig(std::string filePath)
+void RADIO_EQ_CONTAINER::saveConfig(const std::string& filePath)
 {
     nlohmann::json switchJson;
     nlohmann::json buttonJson;

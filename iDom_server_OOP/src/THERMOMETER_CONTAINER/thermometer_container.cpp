@@ -1,6 +1,6 @@
 #include "thermometer_container.h"
 
-THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(std::string name)
+THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string& name)
 {
     auto m = thermoMap.find(name);
     if (m != thermoMap.end())

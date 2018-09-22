@@ -48,7 +48,7 @@ private:
 //#ifdef BT_TEST
 public:
 //#endif
-    static std::string getArgumentValueFromRFLinkMSG(std::string msg, std::string var);
+    static std::string getArgumentValueFromRFLinkMSG(const std::string &msg, const std::string &var);
 };
 
 #endif // RFLINKHANDLER_H

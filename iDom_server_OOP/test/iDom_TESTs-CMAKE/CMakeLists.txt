@@ -4,7 +4,9 @@ LINK_DIRECTORIES(/usr/local/lib )
 project(iDom_TESTs-CMAKE)
 
 set(INCLUDE_DIRECTORIES "../../libs/json/single_include/nlohmann/"
-    "../../test/iDom_TESTs-CMAKE/")
+    "../../test/iDom_TESTs-CMAKE/"
+    "/home/cyniu/GIT/WiringPi/wiringPi")
+    #"/home/cyniu/GIT/malina/iDom_server_OOP/arduPi")
 
 include_directories(${INCLUDE_DIRECTORIES})
 
@@ -59,7 +61,7 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/command/test/commandhandler_stub.cpp"
     )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -DBT_TEST -DNOSSL -O3 --coverage")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -DBT_TEST -DNOSSL -O3")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  pthread gtest curl rt pthread gmock)

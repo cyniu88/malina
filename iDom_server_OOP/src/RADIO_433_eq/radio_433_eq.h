@@ -178,15 +178,15 @@ public:
     virtual ~RADIO_EQ_CONTAINER();
     void addRadioEq(RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type);    
     void addRadioEq(RADIO_EQ_CONFIG cfg, const std::string& type);
-    void deleteRadioEq(std::string name);
+    void deleteRadioEq(const std::string &name);
     virtual RADIO_EQ* getEqPointer(std::string name);
     std::vector<RADIO_SWITCH*> getSwitchPointerVector();
     std::vector<RADIO_BUTTON*> getButtonPointerVector();
     std::vector<RADIO_WEATHER_STATION *> getWeather_StationPtrVector();
     std::string listAllName();
-    bool nameExist(std::string name);
-    void loadConfig(std::string filePath);
-    void saveConfig(std::string filePath);
+    bool nameExist(const std::string &name);
+    void loadConfig(const std::string &filePath);
+    void saveConfig(const std::string &filePath);
 };
 
 class RADIO_EQ_CONTAINER_STUB : public RADIO_EQ_CONTAINER

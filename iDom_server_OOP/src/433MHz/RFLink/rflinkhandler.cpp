@@ -84,7 +84,7 @@ std::string RFLinkHandler::internalReadFromRS232()
     return buf;
 }
 
-std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(std::string msg, std::string var)
+std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(const std::string& msg, const std::string& var)
 {
     std::string id;
 
