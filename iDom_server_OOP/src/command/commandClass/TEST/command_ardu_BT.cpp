@@ -9,8 +9,8 @@ class commandArdu_Class_fixture : public iDomTOOLS_ClassTest
 {
 public:
     commandArdu_Class_fixture()  {
-        this->test_RFLink = NULL;
-        this->test_ardu = NULL;
+        this->test_RFLink = std::nullptr_t();
+        this->test_ardu = std::nullptr_t();
     }
 
 protected:
@@ -18,7 +18,7 @@ protected:
     RFLinkHandler* test_RFLink;
     blockQueue test_q;
     command_ardu* test_ardu;
-    void SetUp()
+    void SetUp() final
     {
         iDomTOOLS_ClassTest::SetUp();
 
@@ -31,7 +31,7 @@ protected:
         std::cout << "commandArdu_Class_fixture SetUp" << std::endl;
     }
 
-    void TearDown()
+    void TearDown() final
     {
         iDomTOOLS_ClassTest::TearDown();
         delete test_RFLink;

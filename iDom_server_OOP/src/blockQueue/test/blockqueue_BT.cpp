@@ -11,12 +11,12 @@ public:
 protected:
     blockQueue test_q;
 
-    void SetUp()
+    void SetUp() final
     {
         std::cout << "blockQueue_Class_fixture SetUp" << std::endl;
     }
 
-    void TearDown()
+    void TearDown() final
     {
         std::cout << "blockQueue_Class_fixture TearDown" << std::endl;
     }

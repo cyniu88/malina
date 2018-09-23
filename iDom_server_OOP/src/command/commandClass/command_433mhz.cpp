@@ -40,11 +40,11 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             {
             my_data->main_REC->addRadioEq(cfg,v[4]);
             }
-            catch(const WRONG_FORMAT)
+            catch(const WRONG_FORMAT& )
             {
                 return "wrong type "+v[4];
             }
-            catch(const std::invalid_argument)
+            catch(const std::invalid_argument& )
             {
                 return "wrong ID "+v[3];
             }

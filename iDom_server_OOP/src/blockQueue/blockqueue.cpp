@@ -40,7 +40,7 @@ MPD_COMMAND blockQueue::_get( )
 int blockQueue::_size()
 {
     std::lock_guard <std::mutex>  lock (mutex_queue_char);
-    return _MPD_CommandQ.size();
+    return static_cast<int>(_MPD_CommandQ.size());
 }
 
 void blockQueue::_clearAll()

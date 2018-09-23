@@ -9,8 +9,8 @@ class command433MHz_Class_fixture : public iDomTOOLS_ClassTest
 public:
     command433MHz_Class_fixture()
     {
-        this->test_command_433MHz = NULL;
-        this->test_RFLink = NULL;
+        this->test_command_433MHz = std::nullptr_t();
+        this->test_RFLink = std::nullptr_t();
     }
 
 protected:
@@ -19,7 +19,7 @@ protected:
     blockQueue test_q;
     command_433MHz* test_command_433MHz;
 
-    void SetUp()
+    void SetUp() final
     {
         iDomTOOLS_ClassTest::SetUp();
 
@@ -31,7 +31,7 @@ protected:
         std::cout << "command433MHz_Class_fixture SetUp" << std::endl;
     }
 
-    void TearDown()
+    void TearDown() final
     {
         iDomTOOLS_ClassTest::TearDown();
         delete test_RFLink;

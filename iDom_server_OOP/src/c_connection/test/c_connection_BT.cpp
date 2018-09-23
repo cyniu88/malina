@@ -7,18 +7,18 @@ class c_connection_fixture : public iDomTOOLS_ClassTest
 {
 public:
     c_connection_fixture() {
-        this->test_connection = NULL;
+        this->test_connection = std::nullptr_t();
     }
 
 protected:
     C_connection* test_connection;
-    void SetUp()
+    void SetUp() final
     {
         std::cout << "c_connection_fixture SetUp()" << std::endl;
         iDomTOOLS_ClassTest::SetUp();
         test_connection = new C_connection(&test_my_data);
     }
-    void TearDown()
+    void TearDown() final
     {
         delete test_connection;
         iDomTOOLS_ClassTest::TearDown();
@@ -26,7 +26,7 @@ protected:
     }
     void crypto_fixture(std::string &toEncrypt, std::string key)
     {
-        test_connection->crypto(toEncrypt, key, true);
+        test_connection->crypto(toEncrypt, std::move(key), true);
     }
 };
 

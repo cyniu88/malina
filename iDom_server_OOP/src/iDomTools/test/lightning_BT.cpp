@@ -10,12 +10,12 @@ protected:
     TEST_JSON test_Json;
     LIGHTNING test_lightning;
     CARDINAL_DIRECTIONS::ALARM_INFO test_struct;
-    virtual void SetUp()
+    virtual void SetUp() final
     {
         std::cout << "konfiguracja przed testem " <<std::endl;
     }
 
-    virtual void TearDown()
+    virtual void TearDown() final
     {
         std::cout << "czyszczenie po tescie " <<std::endl;
     }

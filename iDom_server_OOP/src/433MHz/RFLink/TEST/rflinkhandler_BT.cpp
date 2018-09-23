@@ -11,7 +11,7 @@ public:
     iDomSTATUS test_status;
     RFLinkHandler* test_RFLink;
 
-    void SetUp()
+    void SetUp() final
     {
         test_server_set.TS_KEY = "key test";
         test_server_set.RFLinkBaudRate = "57600";
@@ -20,7 +20,7 @@ public:
         test_my_data.main_iDomStatus = &test_status;
         test_RFLink = new RFLinkHandler(&test_my_data);
     }
-    void TearDown()
+    void TearDown() final
     {
         delete test_RFLink;
     }

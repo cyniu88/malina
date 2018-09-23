@@ -63,7 +63,7 @@ public:
     //////////////////////////// 433MHz button ///////////////////
 
     std::string buttonPressed(const std::string &id);
-    void button433MHzPressedAction(std::string name);
+    void button433MHzPressedAction(const std::string &name);
     void button433mhzLockerPressed(RADIO_BUTTON* radioButton);
 
     void buttonLockHome();
@@ -86,7 +86,7 @@ public:
     Clock getSunsetClock();
     Clock getSunriseClock();
     std::string getDayLenght(bool extend = false);
-    std::string getWeatherEvent(std::string city, unsigned int radius );
+    std::string getWeatherEvent(const std::string &city, unsigned int radius );
 
     std::vector<WEATHER_ALER> getAlert(std::string data);
 
@@ -104,33 +104,33 @@ public:
                                  int silentFrom = 0,
                                  int silentTo =0);
     //////////////////// camera part ///////////////////////
-    void cameraLedON(std::string link);
-    void cameraLedOFF(std::string link);
+    void cameraLedON(const std::string &link);
+    void cameraLedOFF(const std::string &link);
     //////////////////// viber msg /////////////////////////
     nlohmann::json sendViberMsg(const std::string& msg,
                                 const std::string& receiver,
                                 const std::string& senderName,
-                                std::string accessToken = "NULL",
-                                std::string url = "NULL");
+                                const std::string &accessToken = "NULL",
+                                const std::string &url = "NULL");
     nlohmann::json sendViberPicture(const std::string& msg,
                                     const std::string& image,
                                     const std::string& receiver,
                                     const std::string& senderName,
-                                    std::string accessToken = "NULL",
-                                    std::string url = "NULL");
+                                    const std::string &accessToken = "NULL",
+                                    const std::string &url = "NULL");
     STATE sendViberMsgBool(const std::string& msg,
                            const std::string& receiver,
                            const std::string& senderName,
-                           std::string accessToken = "NULL",
-                           std::string url = "NULL");
+                           const std::string &accessToken = "NULL",
+                           const std::string &url = "NULL");
     STATE sendViberPictureBool(const std::string& msg,
                                const std::string& image,
                                const std::string& receiver,
                                const std::string& senderName,
-                               std::string accessToken = "NULL",
-                               std::string url = "NULL");
+                               const std::string &accessToken = "NULL",
+                               const std::string &url = "NULL");
     //////////////////// facebook //////////////////////////
-    std::string postOnFacebook(std::string msg, std::string image ="NULL");
+    std::string postOnFacebook(const std::string& msg, const std::string& image ="NULL");
 
     //////////////////// LED part //////////////////////////
     std::string ledOFF();

@@ -291,14 +291,14 @@ void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)
 
 void iDomTOOLS::turnOn433MHzSwitch(std::string name)
 {
-    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(name));
+    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
     m_switch->on();
     //saveState_iDom();
 }
 
 void iDomTOOLS::turnOff433MHzSwitch(std::string name)
 {
-    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(name));
+    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
     m_switch->off();
     //saveState_iDom();
 }
@@ -392,7 +392,7 @@ std::string iDomTOOLS::buttonPressed(const std::string& id)
     throw "UNKNOWN BUTTON ID: " + std::to_string(id);
 }
 
-void iDomTOOLS::button433MHzPressedAction(std::string name)
+void iDomTOOLS::button433MHzPressedAction(const std::string& name)
 {
     if (name == "locker"){
         RADIO_BUTTON* buttonLocker = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer(name) );
@@ -574,7 +574,7 @@ std::string iDomTOOLS::getDayLenght(bool extend )
     return tt.getString();
 }
 
-std::string iDomTOOLS::getWeatherEvent(std::string city, unsigned int radius)
+std::string iDomTOOLS::getWeatherEvent(const std::string& city, unsigned int radius)
 {
     std::string url = "http://burze.dzis.net/ramka.php?miejscowosc=";
     url.append(city);
@@ -749,7 +749,7 @@ std::string iDomTOOLS::sendSMStoPlusGSM(const std::string &login, const std::str
     return readBuffer +"\n"+address;
 }
 
-void iDomTOOLS::cameraLedON(std::string link)
+void iDomTOOLS::cameraLedON(const std::string& link)
 {
     Clock t = Clock::getTime();
     SunRiseSet sun;
@@ -768,7 +768,7 @@ void iDomTOOLS::cameraLedON(std::string link)
     // printf("nie odpalam leda!\n");
 }
 
-void iDomTOOLS::cameraLedOFF(std::string link)
+void iDomTOOLS::cameraLedOFF(const std::string& link)
 {
     std::string s = useful_F_libs::httpPost(link,10);
     //printf (" camera response '%s' \n", s.c_str());
@@ -781,8 +781,8 @@ void iDomTOOLS::cameraLedOFF(std::string link)
 nlohmann::json iDomTOOLS::sendViberMsg(const std::string &msg,
                                        const std::string &receiver,
                                        const std::string &senderName,
-                                       std::string accessToken,
-                                       std::string url)
+                                       const std::string& accessToken,
+                                       const std::string& url)
 {
     nlohmann::json jj;
     std::lock_guard<std::mutex>  lock(m_msgMutex);
@@ -794,8 +794,8 @@ nlohmann::json iDomTOOLS::sendViberPicture(const std::string &msg,
                                            const std::string &image,
                                            const std::string &receiver,
                                            const std::string &senderName,
-                                           std::string accessToken,
-                                           std::string url)
+                                           const std::string& accessToken,
+                                           const std::string& url)
 {
     nlohmann::json jj;
     std::lock_guard<std::mutex>  lock(m_msgMutex);
@@ -806,8 +806,8 @@ nlohmann::json iDomTOOLS::sendViberPicture(const std::string &msg,
 STATE iDomTOOLS::sendViberMsgBool(const std::string &msg,
                                   const std::string &receiver,
                                   const std::string &senderName,
-                                  std::string accessToken,
-                                  std::string url)
+                                  const std::string& accessToken,
+                                  const std::string& url)
 {
     nlohmann::json jj = sendViberMsg(msg,receiver,senderName,accessToken,url);
     STATE ret = STATE::SEND_NOK;
@@ -833,8 +833,8 @@ STATE iDomTOOLS::sendViberPictureBool(const std::string& msg,
                                       const std::string& image,
                                       const std::string& receiver,
                                       const std::string& senderName,
-                                      std::string accessToken,
-                                      std::string url)
+                                      const std::string& accessToken,
+                                      const std::string& url)
 {
     nlohmann::json jj = sendViberPicture(msg,image,receiver,senderName,accessToken,url);
     STATE ret = STATE::SEND_NOK;
@@ -853,7 +853,7 @@ STATE iDomTOOLS::sendViberPictureBool(const std::string& msg,
     return ret;
 }
 
-std::string iDomTOOLS::postOnFacebook(std::string msg,std::string image)
+std::string iDomTOOLS::postOnFacebook(const std::string& msg, const std::string& image)
 {
     std::lock_guard<std::mutex>  lock(m_msgMutex);
     if (image != "NULL"){

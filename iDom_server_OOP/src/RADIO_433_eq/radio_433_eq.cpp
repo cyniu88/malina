@@ -378,7 +378,7 @@ void RADIO_EQ_CONTAINER::saveConfig(const std::string& filePath)
 
 RADIO_EQ::RADIO_EQ()
 {
-    this->m_my_data = NULL;
+    this->m_my_data = std::nullptr_t();
     puts("RADIO_EQ::RADIO_EQ()");
 }
 

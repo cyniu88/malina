@@ -46,7 +46,7 @@ char SerialPi::read(){
 }
 
 TASKER::TASKER(thread_data *my_data){
-    this->my_data = NULL;
+    this->my_data = std::nullptr_t();
     std::cout << "TASKER::TASKER()"<< std::endl;
 }
 

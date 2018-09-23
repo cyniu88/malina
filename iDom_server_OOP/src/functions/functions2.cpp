@@ -30,7 +30,7 @@ std::vector<std::string> useful_F::split(const std::string& s, char separator ){
     }
     return output;
 }
-thread_data* useful_F::myStaticData = NULL;
+thread_data* useful_F::myStaticData = std::nullptr_t();
 void useful_F::setStaticData(thread_data *my_dataPtr)
 {
     myStaticData = my_dataPtr;
