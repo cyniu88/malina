@@ -84,7 +84,7 @@ TEST_F(iDomTOOLS_ClassTest, smog)
     std::string smog = test_idomTOOLS->getSmog();
     puts(smog.c_str());
     puts(" smog");
-    ASSERT_GE(smog.size(),2);
+    ASSERT_GE(smog.size(),1);
 
     unsigned int smog_int = std::stoi(smog);
     ASSERT_GT(smog_int,1);
