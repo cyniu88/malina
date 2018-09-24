@@ -1,3 +1,3 @@
 [submodule "iDom_server_OOP/libs"]
 	path = iDom_server_OOP/libs
-	url = git@github.com:cyniu88/libs.git
+	url = https://github.com/cyniu88/libs.git
