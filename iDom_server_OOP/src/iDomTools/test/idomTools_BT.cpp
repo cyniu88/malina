@@ -260,6 +260,7 @@ TEST_F(iDomTOOLS_ClassTest, homeLockPlayStopMusic)
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
+    EXPECT_NE(test_status.getAllObjectsStateString().find("LOCK"), std::string::npos);
 }
 
 TEST_F(iDomTOOLS_ClassTest, buttonPressed)

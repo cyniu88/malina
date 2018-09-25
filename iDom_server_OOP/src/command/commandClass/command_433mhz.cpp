@@ -8,7 +8,7 @@ command_433MHz::command_433MHz(const std::string &name):command(name)
 
 command_433MHz::~command_433MHz()
 {
-   // puts("command_433MHz::~command_433MHz()");
+    // puts("command_433MHz::~command_433MHz()");
 }
 
 std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my_data)
@@ -38,7 +38,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             }
             try
             {
-            my_data->main_REC->addRadioEq(cfg,v[4]);
+                my_data->main_REC->addRadioEq(cfg,v[4]);
             }
             catch(const WRONG_FORMAT& )
             {
@@ -53,9 +53,10 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             my_data->main_REC->saveConfig(my_data->server_settings->radio433MHzConfigFile);
         }
         else if (v[1] == "show" && v[2] == "switch"){
-            str_buf = "testowo";
-            for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
-                m_switch->getState();
+            str_buf = "";
+            for (auto m_switch : my_data->main_REC->getSwitchPointerVector())
+            {
+                str_buf.append(stateToString(m_switch->getState())    );
             }
         }
         else if (v[1] == "show" && v[2] == "aether"){

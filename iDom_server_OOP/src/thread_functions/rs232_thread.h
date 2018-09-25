@@ -36,7 +36,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     while(useful_F::go_while)
     {
-        //puts("test");
+        puts("test");
         std::this_thread::sleep_for( std::chrono::milliseconds(50));
         //puts("test testo po lock");
         { //mutex who
@@ -61,12 +61,16 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
                         break;
                     }
                 }
+#ifdef BT_TEST
+                useful_F::go_while = false;
+                return;
+#endif
             }
             else if(data_rs232->pointer.ptr_who[0] == iDomConst::CLOCK)
             {
                 std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
                 data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
-                data_rs232->pointer.ptr_who[1] = iDomConst::RS232;
+                data_rs232->pointer.ptr_who[1] = iDomConst::CLOCK;
                 serial_ardu_clock.print(buffer.c_str());
 
                 buffer.erase();
@@ -114,6 +118,10 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
                     useful_F::myStaticData->myEventHandler.run("RS232")->addEvent(bufor);
 
                 }
+#ifdef BT_TEST
+                useful_F::go_while = false;
+                return;
+#endif
             }
 
         }
