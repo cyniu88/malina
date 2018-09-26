@@ -96,3 +96,8 @@ TEST_F(Switch_Class_fixture, loadConfig)
     EXPECT_FALSE(test_rec.nameExist("firstt"));
     EXPECT_TRUE(test_rec.nameExist("locker"));
 }
+
+TEST_F(Switch_Class_fixture, getUnexistPtr)
+{
+    EXPECT_THROW(test_rec.getEqPointer("kokos"),std::string);
+}
