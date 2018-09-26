@@ -2,11 +2,20 @@
 #include "../../iDom_server_OOP.h"
 #include "../rs232_thread.h"
 #include "test_data.h"
+#include "../../../iDom_server_OOP/src/iDomTools/test/iDomTools_fixture.h"
 
 std::mutex useful_F::mutex_buf;
 std::mutex useful_F::mutex_who;
 
 std::string buffer;
+
+class rs232_thread_fixture : public iDomTOOLS_ClassTest
+{
+    void SetUp() final
+    {
+        useful_F::myStaticData = &test_my_data;
+    }
+};
 
 void SerialPi_set_recv_msg(const std::string& m){
     TEST_DATA::serial_b = m;
@@ -52,7 +61,7 @@ TASKER::TASKER(thread_data *my_data){
 
 bool useful_F::go_while = true;
 
-TEST(rs232_thread, send_Recieve_rs232_thread_clock)
+TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_fixture_clock)
 {
     thread_data_rs232 test_data_rs232;
     test_data_rs232.BaudRate = "9600";
@@ -70,7 +79,7 @@ TEST(rs232_thread, send_Recieve_rs232_thread_clock)
     EXPECT_EQ(test_data_rs232.pointer.ptr_who[1], iDomConst::CLOCK);
 }
 
-TEST(rs232_thread, send_Recieve_rs232_thread_clock_empty_answer)
+TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_clock_empty_answer)
 {
     useful_F::go_while = true;
     thread_data_rs232 test_data_rs232;
@@ -89,7 +98,7 @@ TEST(rs232_thread, send_Recieve_rs232_thread_clock_empty_answer)
     EXPECT_EQ(test_data_rs232.pointer.ptr_who[1], iDomConst::CLOCK);
 }
 
-TEST(rs232_thread, send_Recieve_rs232_thread_RS232)
+TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_RS232)
 {
     useful_F::go_while = true;
     thread_data_rs232 test_data_rs232;
@@ -106,7 +115,7 @@ TEST(rs232_thread, send_Recieve_rs232_thread_RS232)
     EXPECT_EQ(test_who[0], iDomConst::RS232);
 }
 
-TEST(rs232_thread, send_Recieve_rs232_thread_FREE)
+TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_FREE)
 {
     EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent() ,0);
     useful_F::go_while = true;
