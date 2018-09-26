@@ -12,12 +12,12 @@ protected:
     CARDINAL_DIRECTIONS::ALARM_INFO test_struct;
     virtual void SetUp() final
     {
-        std::cout << "konfiguracja przed testem " <<std::endl;
+        std::cout << "konfiguracja przed testem lightning_Class " <<std::endl;
     }
 
     virtual void TearDown() final
     {
-        std::cout << "czyszczenie po tescie " <<std::endl;
+        std::cout << "czyszczenie po tescie lightning_Class " <<std::endl;
     }
 };
 

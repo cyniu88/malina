@@ -28,7 +28,7 @@ public:
     }
     void SetUp()
     {
-        std::cout << "SetUP testu " <<std::endl;
+        std::cout << "SetUP testu iDomTOOLS_ClassTest" <<std::endl;
         test_server_set.TS_KEY = "key test";
         test_server_set.viberSender = "test sender";
         test_server_set.viberReceiver = {"R1","R2"};

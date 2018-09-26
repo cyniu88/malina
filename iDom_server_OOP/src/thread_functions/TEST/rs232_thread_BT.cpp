@@ -11,10 +11,24 @@ std::string buffer;
 
 class rs232_thread_fixture : public iDomTOOLS_ClassTest
 {
-    void SetUp() final
-    {
-        useful_F::myStaticData = &test_my_data;
-    }
+    //    void SetUp() final
+    //    {
+
+    //        ///////////////////////////////////// to save
+    //        test_status.setObjectState("house",STATE::UNLOCK);
+    //        test_status.setObjectState("music", STATE::PLAY);
+    //        test_status.setObjectState("speakers", STATE::ON);
+    //        test_my_data.idom_all_state.houseState = STATE::LOCK;
+
+    //        test_alarmTime.time = Clock::getTime();
+    //        test_alarmTime.state = STATE::ACTIVE;
+    //        test_alarmTime.toVolume = 58;
+    //        test_alarmTime.fromVolume = 48;
+    //        test_status.setObjectState("alarm", test_alarmTime.state);
+    //        test_my_data.alarmTime = test_alarmTime;
+    //        useful_F::myStaticData = &test_my_data;
+
+    //    }
 };
 
 void SerialPi_set_recv_msg(const std::string& m){
@@ -63,6 +77,7 @@ bool useful_F::go_while = true;
 
 TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_fixture_clock)
 {
+    EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 0);
     thread_data_rs232 test_data_rs232;
     test_data_rs232.BaudRate = "9600";
     test_data_rs232.portRS232 = "test_port";
@@ -77,6 +92,7 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_fixture_clock)
 
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"");
     EXPECT_EQ(test_data_rs232.pointer.ptr_who[1], iDomConst::CLOCK);
+    EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 0);
 }
 
 TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_clock_empty_answer)
@@ -89,13 +105,14 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_clock_empty_answer)
     unsigned int test_who[2] = {iDomConst::CLOCK, iDomConst::FREE};
     EXPECT_EQ(test_who[1], iDomConst::FREE);
     test_data_rs232.pointer.ptr_who = test_who;
-
+    EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 0);
     SerialPi_set_recv_msg("");
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"");
     Send_Recieve_rs232_thread(&test_data_rs232);
 
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"");
     EXPECT_EQ(test_data_rs232.pointer.ptr_who[1], iDomConst::CLOCK);
+    EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 1);
 }
 
 TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_RS232)
@@ -106,30 +123,47 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_RS232)
     test_data_rs232.portRS232 = "test_port";
     test_data_rs232.portRS232_clock = "test_port_clock";
     unsigned int test_who[2] = {iDomConst::RS232, iDomConst::FREE};
+    test_data_rs232.pointer.ptr_who = test_who;
+
     test_data_rs232.pointer.ptr_who[0] = iDomConst::RS232;
     EXPECT_EQ(test_who[0], iDomConst::RS232);
     SerialPi_set_recv_msg("OK;");
     Send_Recieve_rs232_thread(&test_data_rs232);
 
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"");
-    EXPECT_EQ(test_who[0], iDomConst::RS232);
+    EXPECT_EQ(test_who[1], iDomConst::RS232);
 }
 
 TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_FREE)
 {
-    EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent() ,0);
+    //    test_status.setObjectState("house",STATE::UNLOCK);
+    //    test_status.setObjectState("music", STATE::PLAY);
+    //    test_status.setObjectState("speakers", STATE::ON);
+    //    test_my_data.idom_all_state.houseState = STATE::LOCK;
+
+    //    test_alarmTime.time = Clock::getTime();
+    //    test_alarmTime.state = STATE::ACTIVE;
+    //    test_alarmTime.toVolume = 58;
+    //    test_alarmTime.fromVolume = 48;
+    //    test_status.setObjectState("alarm", test_alarmTime.state);
+    //    test_my_data.alarmTime = test_alarmTime;
+    //    useful_F::myStaticData = &test_my_data;
+
+    EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 0);
     useful_F::go_while = true;
     thread_data_rs232 test_data_rs232;
     test_data_rs232.BaudRate = "9600";
     test_data_rs232.portRS232 = "test_port";
     test_data_rs232.portRS232_clock = "test_port_clock";
     unsigned int test_who[2] = {iDomConst::FREE, iDomConst::FREE};
+    test_data_rs232.pointer.ptr_who = test_who;
+
     test_data_rs232.pointer.ptr_who[0] = iDomConst::FREE;
     EXPECT_EQ(test_who[0], iDomConst::FREE);
     SerialPi_set_recv_msg("TEST;");
     Send_Recieve_rs232_thread(&test_data_rs232);
 
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"");
-    EXPECT_EQ(test_who[0], iDomConst::FREE);
-    EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent() ,1);
+    EXPECT_EQ(test_who[1], iDomConst::FREE);
+    EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 1);
 }

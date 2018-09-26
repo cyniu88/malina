@@ -86,6 +86,9 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
                     else
                     {
                         puts("w buforze serial_ardu_clock nie ma avaiable ");
+
+                        useful_F::myStaticData->myEventHandler.run("RS232")
+                                ->addEvent("w buforze serial_ardu_clock nie ma avaiable ");
                         break;
                     }
                 }
@@ -106,7 +109,6 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
                             // std::cout << "t: "<<t<<std::endl;
                             if(t == ';'){
                                 serial_ardu.flush();
-
                                 break;
                             }
                             else{
