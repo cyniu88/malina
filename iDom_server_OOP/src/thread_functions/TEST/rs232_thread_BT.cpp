@@ -11,24 +11,7 @@ std::string buffer;
 
 class rs232_thread_fixture : public iDomTOOLS_ClassTest
 {
-    //    void SetUp() final
-    //    {
 
-    //        ///////////////////////////////////// to save
-    //        test_status.setObjectState("house",STATE::UNLOCK);
-    //        test_status.setObjectState("music", STATE::PLAY);
-    //        test_status.setObjectState("speakers", STATE::ON);
-    //        test_my_data.idom_all_state.houseState = STATE::LOCK;
-
-    //        test_alarmTime.time = Clock::getTime();
-    //        test_alarmTime.state = STATE::ACTIVE;
-    //        test_alarmTime.toVolume = 58;
-    //        test_alarmTime.fromVolume = 48;
-    //        test_status.setObjectState("alarm", test_alarmTime.state);
-    //        test_my_data.alarmTime = test_alarmTime;
-    //        useful_F::myStaticData = &test_my_data;
-
-    //    }
 };
 
 void SerialPi_set_recv_msg(const std::string& m){
@@ -136,19 +119,6 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_RS232)
 
 TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_FREE)
 {
-    //    test_status.setObjectState("house",STATE::UNLOCK);
-    //    test_status.setObjectState("music", STATE::PLAY);
-    //    test_status.setObjectState("speakers", STATE::ON);
-    //    test_my_data.idom_all_state.houseState = STATE::LOCK;
-
-    //    test_alarmTime.time = Clock::getTime();
-    //    test_alarmTime.state = STATE::ACTIVE;
-    //    test_alarmTime.toVolume = 58;
-    //    test_alarmTime.fromVolume = 48;
-    //    test_status.setObjectState("alarm", test_alarmTime.state);
-    //    test_my_data.alarmTime = test_alarmTime;
-    //    useful_F::myStaticData = &test_my_data;
-
     EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 0);
     useful_F::go_while = true;
     thread_data_rs232 test_data_rs232;

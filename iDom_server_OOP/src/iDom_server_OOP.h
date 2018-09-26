@@ -31,7 +31,7 @@
 #include "menu_tree/menu_tree.h"
 #include "LCD_c/lcd_c.h"
 #include "command/command.h"
-#include "../libs/event_counter_test/event_counters/event_counters_handler.h"
+#include "../libs/event_counters/event_counters_handler.h"
 #include "iDomTools/idomtools.h"
 #include "iDomStatus/idomstatus.h"
 #include "iDomSaveState/idom_save_state.h"
