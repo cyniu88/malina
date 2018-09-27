@@ -76,3 +76,8 @@ std::pair<double, double> THERMOMETER_CONTAINER::getLast2(const std::string &nam
 {
     return returnThermometerPtr(name)->m_stats.getLast2();
 }
+
+int THERMOMETER_CONTAINER::sizeOf()
+{
+    return static_cast<int>(thermoMap.size());
+}

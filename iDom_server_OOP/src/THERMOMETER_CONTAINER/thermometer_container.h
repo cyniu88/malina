@@ -52,6 +52,7 @@ public:
 
     bool isMoreDiff(const std::string& name, double diff);
     std::pair<double,double> getLast2(const std::string& name);
+    int sizeOf();
 };
 
 #endif // THERMOMETER_CONTAINER_H
