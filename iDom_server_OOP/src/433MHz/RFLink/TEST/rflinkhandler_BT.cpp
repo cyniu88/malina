@@ -26,7 +26,7 @@ public:
     }
 };
 
-TEST_F(RFLinkHandler_Class_fixture, main)
+TEST_F(RFLinkHandler_Class_fixture, sendCommandAndWaitForReceive)
 {
     test_RFLink->init();
     std::string k("msg_test;\n a=4:b=10;\n");

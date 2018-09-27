@@ -260,7 +260,8 @@ TEST_F(iDomTOOLS_ClassTest, homeLockPlayStopMusic)
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
-    EXPECT_NE(test_status.getAllObjectsStateString().find("LOCK"), std::string::npos);
+    std::string returnedString = test_status.getAllObjectsStateString();
+    EXPECT_THAT(returnedString, testing::HasSubstr("LOCK"));
 }
 
 TEST_F(iDomTOOLS_ClassTest, buttonPressed)
@@ -389,4 +390,9 @@ TEST_F(iDomTOOLS_ClassTest, checkLightning)
     test_idomTOOLS->checkLightning();
     auto test_alert_info = test_idomTOOLS->getLightningStruct();
     EXPECT_EQ(test_alert_info.timestamp,210);
+}
+
+TEST_F(iDomTOOLS_ClassTest, returnUnexistingThermometerPtr)
+{
+    EXPECT_THROW(test_idomTOOLS->allThermometer.getLastState("fake"),std::string);
 }

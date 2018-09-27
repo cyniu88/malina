@@ -4,13 +4,9 @@ THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string& name
 {
     auto m = thermoMap.find(name);
     if (m != thermoMap.end())
-    {
         return &(m->second);
-    }
     else
-    {
         throw std::string("thermometer not found!");
-    }
 }
 
 THERMOMETER_CONTAINER::THERMOMETER_CONTAINER()

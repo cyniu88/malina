@@ -74,7 +74,7 @@ TEST_F(command433MHz_Class_fixture, deleteFakeSwitch)
     test_v.push_back("delete");
     test_v.push_back("fake");
     std::string  result = test_command_433MHz->execute(test_v,&test_my_data);
-    EXPECT_NE(std::string::npos, result.find("not exist")) << "nie ma \"not exist\"";
+    EXPECT_THAT(result, testing::HasSubstr("not exist"));
     v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),actualSize);
     test_v.clear();

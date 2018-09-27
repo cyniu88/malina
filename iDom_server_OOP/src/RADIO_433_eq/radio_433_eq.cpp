@@ -166,6 +166,7 @@ void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, const std::string&  typ
     else if(type == "PIR") ret = RADIO_EQ_TYPE::PIR;
     else if(type == "GATE") ret = RADIO_EQ_TYPE::GATE;
     else throw WRONG_FORMAT();
+    std::cout << " id ma : " << cfg.ID << std::endl;
     std::stoi(cfg.ID); //check ID is number
     addRadioEq(cfg,ret);
 }
