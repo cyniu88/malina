@@ -1,10 +1,5 @@
 #!/bin/bash
 
-HOST=cyniu88.cba.pl
-USER=cyniu88@cyniu88.cba.pl
-PASS=506cyniu
-
-
 ../build-iDom_TESTs-CMAKE-clang-Debug/iDom_TESTs-CMAKE
 echo "generuje raport"
 llvm-profdata-3.9  merge -o ../build-iDom_TESTs-CMAKE-clang-Debug/test.profdata ../build-iDom_TESTs-CMAKE-clang-Debug/default.profraw
