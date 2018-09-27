@@ -391,8 +391,3 @@ TEST_F(iDomTOOLS_ClassTest, checkLightning)
     auto test_alert_info = test_idomTOOLS->getLightningStruct();
     EXPECT_EQ(test_alert_info.timestamp,210);
 }
-
-TEST_F(iDomTOOLS_ClassTest, returnUnexistingThermometerPtr)
-{
-    EXPECT_THROW(test_idomTOOLS->allThermometer.getLastState("fake"),std::string);
-}
