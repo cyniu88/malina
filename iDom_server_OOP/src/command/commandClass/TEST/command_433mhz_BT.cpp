@@ -286,3 +286,57 @@ TEST_F(command433MHz_Class_fixture, show_aether)
     EXPECT_EQ(v.size(),5);
     test_v.clear();
 }
+
+TEST_F(command433MHz_Class_fixture, switchRF433)
+{
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    auto v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
+    /////////////////////////////// ON
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("switch");
+    test_v.push_back("B");
+    test_v.push_back("ON");
+    test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
+    ////////////////////////////// OFF
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("switch");
+    test_v.push_back("B");
+    test_v.push_back("OFF");
+    test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
+    //////////////////////////////  15s
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("switch");
+    test_v.push_back("B");
+    test_v.push_back("15s");
+    test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::WORKING);
+    ////////////////////////////// unknown paramiter
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("switch");
+    test_v.push_back("B");
+    test_v.push_back("fake");
+    std::string result = test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::WORKING);
+    EXPECT_THAT(result, testing::HasSubstr("fake"));
+    ///////////////////////////// fake switch
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("switch");
+    test_v.push_back("B_fake");
+    test_v.push_back("fake");
+
+    result = test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_THAT(result, testing::HasSubstr("not found"));
+    v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
+    test_v.clear();
+}
