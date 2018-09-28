@@ -9,3 +9,7 @@ echo "wysylam html na server"
 scp -P 11 /tmp/coverage.html  root@192.168.1.1:/www_php/coverage.html
 echo "koniec"
 llvm-cov-3.9  report ../build-iDom_TESTs-CMAKE-Desktop_Qt_5_11_2_GCC_64bit-Debug/iDom_TESTs-CMAKE -instr-profile=../build-iDom_TESTs-CMAKE-Desktop_Qt_5_11_2_GCC_64bit-Debug/test.profdata -use-color 
+
+llvm-cov-3.9 show ../build-iDom_TESTs-CMAKE-Desktop_Qt_5_11_2_GCC_64bit-Debug/iDom_TESTs-CMAKE -instr-profile=../build-iDom_TESTs-CMAKE-Desktop_Qt_5_11_2_GCC_64bit-Debug/test.profdata  -filename-equivalence  --format text > coverage.txt
+llvm-cov-3.9  report ../build-iDom_TESTs-CMAKE-Desktop_Qt_5_11_2_GCC_64bit-Debug/iDom_TESTs-CMAKE -instr-profile=../build-iDom_TESTs-CMAKE-Desktop_Qt_5_11_2_GCC_64bit-Debug/test.profdata   > report.txt
+cp /tmp/coverage.html  ./coverage.html
