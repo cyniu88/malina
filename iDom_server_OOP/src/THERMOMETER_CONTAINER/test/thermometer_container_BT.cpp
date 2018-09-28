@@ -6,22 +6,26 @@
 class Thermometer_container_fixture :  public ::testing::Test //public iDomTOOLS_ClassTest
 {
 public:
-   THERMOMETER_CONTAINER testThermo;
-   std::string termoName = "test_thermometer";
-   std::vector<std::string> v;
+    THERMOMETER_CONTAINER testThermo;
+    std::string termoName = "test_thermometer";
+    std::vector<std::string> v;
 
-   void SetUp() final
-   {
-       v.push_back("10.2");
-       v.push_back("10.3");
-
-       testThermo.add(termoName);
-       testThermo.add("inside");
-       testThermo.add("outside");
-       testThermo.updateAll(&v);
-       puts("SetUp() Thermometer_container_fixture");
-
-       std::cout << "rozmiar mapy termoetrow: " << testThermo.sizeOf() << std::endl;
+    void SetUp() final
+    {
+        std::vector<std::string> v = {"10.2","11.22"};
+        testThermo.add("inside");
+        testThermo.add("outside");
+        testThermo.updateAll(&v);
+        v = {"20.2","21.22"};
+        testThermo.updateAll(&v);
+        std::cout << "temepratura inside" << testThermo.getTemp("inside") << std::endl;
+        std::cout << "temepratura outside" << testThermo.getTemp("outside") << std::endl;
+        testThermo.updateStats("inside");
+        testThermo.updateStats("outside");
+        std::cout << "rozmiar mapy termoetrow: " << testThermo.sizeOf() << std::endl;
+        testThermo.showAll();
+        puts("SetUp() Thermometer_container_fixture");
+        puts("--------------------------------------");
     }
 };
 TEST_F(Thermometer_container_fixture, returnUnexistPTR)
@@ -31,22 +35,39 @@ TEST_F(Thermometer_container_fixture, returnUnexistPTR)
 
 TEST_F(Thermometer_container_fixture, getStatsByName)
 {
-    std::string returnedStr = testThermo.getStatsByName(termoName);
+    std::string returnedStr = testThermo.getStatsByName("inside");
     std::cout << "zwrocono " << returnedStr << std::endl;
-    EXPECT_EQ(1,1);
+    EXPECT_THAT(returnedStr, testing::HasSubstr("min: 20.2"));
+    EXPECT_THAT(returnedStr, testing::HasSubstr("max: 20.2"));
 }
 
 TEST_F(Thermometer_container_fixture, getLast2)
 {
-    testThermo.updateAll(&v);
-    testThermo.updateAll(&v);
-   // testThermo.updateStats("inside");
-    testThermo.setTemp("inisde",30.9);
-    testThermo.setTemp("inisde",32.9);
     std::cout << "rozmiar mapy termoetrow: " << testThermo.sizeOf() << std::endl;
-
+    testThermo.updateStats("inside");
+    testThermo.updateStats("outside");
+    testThermo.showAll();
+    v = {"44.4","45.45"};
+    testThermo.updateAll(&v);
+    testThermo.updateStats("inside");
+    testThermo.updateStats("outside");
+    std::string returnedStr = testThermo.getStatsByName("inside");
+    std::cout << "zwrocono " << returnedStr <<"||"<< std::endl;
     auto v = testThermo.getLast2("inside");
-    EXPECT_EQ(v.first, 10.2);
-    EXPECT_EQ(v.second, 10.3);
+    EXPECT_EQ(v.first, 20.2);
+    EXPECT_EQ(v.second, 44.4);
 }
 
+TEST_F(Thermometer_container_fixture, isMoreDiff)
+{
+    std::cout << "rozmiar mapy termoetrow: " << testThermo.sizeOf() << std::endl;
+    testThermo.updateStats("inside");
+    testThermo.updateStats("outside");
+    testThermo.showAll();
+    v = {"24.4","45.45"};
+    testThermo.updateAll(&v);
+    testThermo.updateStats("inside");
+    testThermo.updateStats("outside");
+    EXPECT_FALSE(testThermo.isMoreDiff("inside",15.5));
+    EXPECT_TRUE(testThermo.isMoreDiff("outside",15.5));
+}

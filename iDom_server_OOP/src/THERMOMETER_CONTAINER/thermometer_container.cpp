@@ -6,7 +6,9 @@ THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string& name
     if (m != thermoMap.end())
         return &(m->second);
     else
-        throw std::string("thermometer not found!");
+    {
+      throw std::string("thermometer not found!");
+    }
 }
 
 THERMOMETER_CONTAINER::THERMOMETER_CONTAINER()
@@ -80,4 +82,13 @@ std::pair<double, double> THERMOMETER_CONTAINER::getLast2(const std::string &nam
 int THERMOMETER_CONTAINER::sizeOf()
 {
     return static_cast<int>(thermoMap.size());
+}
+
+void THERMOMETER_CONTAINER::showAll()
+{
+    for(auto n : thermoMap)
+    {
+        std::cout << n.first << " ";
+    }
+    std::cout << std::endl << "koniec prointowania w  " << std::endl;
 }
