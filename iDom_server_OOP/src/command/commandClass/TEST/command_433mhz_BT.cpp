@@ -262,6 +262,10 @@ TEST_F(command433MHz_Class_fixture, show_switch)
 
 TEST_F(command433MHz_Class_fixture, show_aether)
 {
+    test_my_data.main_RFLink->rflinkMAP["kk"].msg = "astro";
+    test_my_data.main_RFLink->rflinkMAP["kk"].m_counter = 99;
+    test_my_data.main_RFLink->rflinkMAP["jj"].msg = "lock";
+    test_my_data.main_RFLink->rflinkMAP["jj"].m_counter = 155;
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
@@ -274,12 +278,11 @@ TEST_F(command433MHz_Class_fixture, show_aether)
 
     std::string result = test_command_433MHz->execute(test_v,&test_my_data);
     std::cout << "wynik testu: " << result << std::endl;
-    EXPECT_STREQ(result.substr(0, 8).c_str(), ".");
+    EXPECT_THAT(result, testing::HasSubstr("astro"));
+    EXPECT_THAT(result, testing::HasSubstr("lock"));
+    EXPECT_THAT(result, testing::HasSubstr("99"));
+    EXPECT_THAT(result, testing::HasSubstr("155"));
     v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
     test_v.clear();
-    test_v.push_back("433MHz");
-    test_v.push_back("show");
-    test_v.push_back("all");
-    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
 }
