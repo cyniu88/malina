@@ -7,6 +7,7 @@ namespace TEST_DATA{
     static std::string return_httpPost_expect = "";
     static std::string return_viber_msg = "";
     static std::string serial_b = "NULL";
+    static std::string serial_sended = "NULL";
 }
 
 void SerialPi_set_recv_msg(const std::string& m);

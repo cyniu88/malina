@@ -39,6 +39,10 @@ protected:
         std::cout << "command433MHz_Class_fixture TearDown" << std::endl;
     }
 };
+TEST_F(command433MHz_Class_fixture, getCommandName)
+{
+    EXPECT_THAT(test_command_433MHz->getCommandName(),testing::HasSubstr("433MHz"));
+}
 
 TEST_F(command433MHz_Class_fixture, deleteSwitch)
 {
@@ -339,4 +343,20 @@ TEST_F(command433MHz_Class_fixture, switchRF433)
     v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
     test_v.clear();
+}
+
+TEST_F(command433MHz_Class_fixture, sendRF433)
+{
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    auto v = test_rec.getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("send");
+    test_v.push_back("fake");
+
+     std::string retStr = test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_THAT(retStr, testing::HasSubstr("sended"));
 }

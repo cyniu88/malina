@@ -31,7 +31,7 @@ void SerialPi::begin(int serialSpeed){
 
 void SerialPi::print(const std::string& msg){
     std::cout << "SerialPi::print() msg: " << msg << std::endl;
-    //TEST_DATA::serial_b = msg;
+    TEST_DATA::serial_sended = msg;
 }
 void SerialPi::flush(){
     std::cout << "SerialPi::flush()" << std::endl;
