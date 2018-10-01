@@ -493,9 +493,6 @@ TEST_F(iDomTOOLS_ClassTest, runOnSunset)
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
     auto ptr = static_cast<RADIO_SWITCH*>(test_my_data.main_REC->getEqPointer("B"));
     ptr->m_state = STATE::ON;
-    std::cout << "stan B w  sunset: " << stateToString( ptr->m_sunset ) << std::endl;
-    std::cout << "stan B w sunrise: " << stateToString( ptr->m_sunrise ) << std::endl;
-
     test_idomTOOLS->runOnSunset();
 
     EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
@@ -504,10 +501,45 @@ TEST_F(iDomTOOLS_ClassTest, runOnSunset)
 TEST_F(iDomTOOLS_ClassTest, runOnSunrise)
 {
     useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
-    test_idomTOOLS->runOnSunset();
+    test_idomTOOLS->runOnSunrise();
     std::string retStr = useful_F::myStaticData->myEventHandler.run("iDom")->getEvent();
     EXPECT_THAT(retStr, testing::HasSubstr("433MHz can not start due to home state: LOCK"));
 
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+    auto ptr = static_cast<RADIO_SWITCH*>(test_my_data.main_REC->getEqPointer("B"));
+    ptr->m_state = STATE::OFF;
     test_idomTOOLS->runOnSunrise();
+
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
+}
+
+TEST_F(iDomTOOLS_ClassTest, getSunrise_Sunset)
+{
+    std::string ret = test_idomTOOLS->getSunrise();
+    EXPECT_THAT(ret, testing::HasSubstr(":"));
+
+    ret = test_idomTOOLS->getSunset();
+    EXPECT_THAT(ret, testing::HasSubstr(":"));
+
+    ret = test_idomTOOLS->getSunrise(true);
+    EXPECT_THAT(ret, testing::HasSubstr("Sunrise time:"));
+
+    ret = test_idomTOOLS->getSunset(true);
+    EXPECT_THAT(ret, testing::HasSubstr("Sunset time:"));
+}
+
+TEST_F(iDomTOOLS_ClassTest, getDayLenght)
+{
+    std::string ret = test_idomTOOLS->getDayLenght();
+    EXPECT_THAT(ret, testing::HasSubstr(":"));
+
+    ret = test_idomTOOLS->getDayLenght(true);
+    EXPECT_THAT(ret, testing::HasSubstr("Day Lenght :"));
+}
+
+TEST_F(iDomTOOLS_ClassTest, getTextToSpeach)
+{
+    std::string ret = test_idomTOOLS->getTextToSpeach();
+    EXPECT_THAT(ret, testing::HasSubstr("Smog:"));
+    std::cout << "TEXT :"<< std::endl << ret << std::endl;
 }

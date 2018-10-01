@@ -10,6 +10,8 @@ RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RAD
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
     RADIO_EQ::m_config = cfg;
+    m_sunrise = stringToState(cfg.sunrise);
+    m_sunset =  stringToState(cfg.sunset);
 }
 
 RADIO_SWITCH::~RADIO_SWITCH()
