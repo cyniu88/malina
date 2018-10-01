@@ -543,3 +543,77 @@ TEST_F(iDomTOOLS_ClassTest, getTextToSpeach)
     EXPECT_THAT(ret, testing::HasSubstr("Smog:"));
     std::cout << "TEXT :"<< std::endl << ret << std::endl;
 }
+
+TEST_F(iDomTOOLS_ClassTest, mpd)
+{
+    MPD_info test_ptr_MPD;
+    test_ptr_MPD.volume = 3;
+    test_my_data.ptr_MPD_info = &test_ptr_MPD;
+    blockQueue test_q;
+    test_q._clearAll();
+    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+    test_idomTOOLS->MPD_play(&test_my_data);
+    std::string retStr = useful_F::myStaticData->myEventHandler.run("MPD")->getEvent();
+    EXPECT_THAT(retStr, testing::HasSubstr("MPD can not start due to home state: LOCK"));
+    EXPECT_EQ(test_q._size(), 0);
+
+    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+    test_idomTOOLS->MPD_play(&test_my_data);
+    EXPECT_EQ(test_q._size(), 1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
+    EXPECT_EQ(test_q._size(), 0);
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+
+    useful_F::myStaticData->myEventHandler.run("MPD")->clearEvent();
+    test_idomTOOLS->MPD_play(&test_my_data,2);
+    retStr = useful_F::myStaticData->myEventHandler.run("MPD")->getEvent();
+    EXPECT_THAT(retStr, testing::HasSubstr("MPD can not start due to home state: LOCK"));
+    EXPECT_EQ(test_q._size(), 0);
+
+    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+    test_idomTOOLS->MPD_play(&test_my_data,2);
+    EXPECT_EQ(test_q._size(), 1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY_ID);
+    EXPECT_EQ(test_q._size(), 0);
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    test_idomTOOLS->MPD_stop();
+    EXPECT_EQ(test_q._size(), 1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
+    EXPECT_EQ(test_q._size(), 0);
+
+    test_idomTOOLS->MPD_next();
+    EXPECT_EQ(test_q._size(), 1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::NEXT);
+    EXPECT_EQ(test_q._size(), 0);
+
+    test_idomTOOLS->MPD_prev();
+    EXPECT_EQ(test_q._size(), 1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::PREV);
+    EXPECT_EQ(test_q._size(), 0);
+
+    test_idomTOOLS->MPD_pause();
+    EXPECT_EQ(test_q._size(), 1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::PAUSE );
+    EXPECT_EQ(test_q._size(), 0);
+
+    test_idomTOOLS->MPD_volumeUp();
+    EXPECT_EQ(test_q._size(), 1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLUP );
+    EXPECT_EQ(test_q._size(), 0);
+
+    test_idomTOOLS->MPD_volumeDown();
+    EXPECT_EQ(test_q._size(), 1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLDOWN );
+    EXPECT_EQ(test_q._size(), 0);
+
+    test_idomTOOLS->MPD_volumeSet(&test_my_data, 99);
+    EXPECT_EQ(test_q._size(), 1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLSET );
+    EXPECT_EQ(test_q._size(), 0);
+    EXPECT_EQ(test_my_data.ptr_MPD_info->volume, 99);
+
+    EXPECT_EQ(test_idomTOOLS->MPD_getVolume(&test_my_data),99);
+
+}
