@@ -148,6 +148,9 @@ public:
 
 class RADIO_SWITCH: public RADIO_EQ
 {
+#ifdef BT_TEST
+public:
+#endif
     RC_433MHz main433MHz;
     STATE m_state = STATE::UNDEFINE;
 public:

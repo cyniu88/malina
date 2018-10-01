@@ -1,6 +1,5 @@
 Filename                                                                                                                                                                                           Regions    Miss   Cover Functions  Executed
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-/home/cyniu/GIT/WiringPi/wiringPi/wiringPi.h                                                                                                                                                             0       0   0.00%         0     0.00%
 libs/Statistic/statistic_test/../statistic.h                                                                                                                     66       0 100.00%        20   100.00%
 libs/Statistic/statistic_test/statistic_BT.cpp                                                                                                                   64       5  92.19%        20   100.00%
 libs/emoji/emoji.cpp                                                                                                                                             21      13  38.10%         3    66.67%
@@ -19,7 +18,7 @@ libs/useful/usefull.cpp                                                         
 src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp                                                                                                                      11       0 100.00%         5   100.00%
 src/433MHz/RFLink/rflinkhandler.cpp                                                                                                                              30       3  90.00%         8    75.00%
 src/LCD_c/test/lcd_c_stub.cpp                                                                                                                                     1       0 100.00%         1   100.00%
-src/RADIO_433_eq/radio_433_eq.cpp                                                                                                                               127      20  84.25%        34    97.06%
+src/RADIO_433_eq/radio_433_eq.cpp                                                                                                                               127      16  87.40%        34   100.00%
 src/RADIO_433_eq/radio_433_eq.h                                                                                                                                   1       0 100.00%         1   100.00%
 src/RADIO_433_eq/radio_button.cpp                                                                                                                                 6       0 100.00%         6   100.00%
 src/RADIO_433_eq/test/../../iDomTools/test/../../RADIO_433_eq/radio_433_eq.h                                                                                      9       0 100.00%         2   100.00%
@@ -49,7 +48,7 @@ src/iDomStatus/idomstatus.cpp                                                   
 src/iDomTools/../../libs/Statistic/statistic.h                                                                                                                   20       2  90.00%         5    80.00%
 src/iDomTools/../../libs/useful/useful.h                                                                                                                          1       0 100.00%         1   100.00%
 src/iDomTools/../RADIO_433_eq/../433MHz/RFLink/../../iDom_server_OOP.h                                                                                            5       0 100.00%         1   100.00%
-src/iDomTools/idomtools.cpp                                                                                                                                     253     113  55.34%        57    63.16%
+src/iDomTools/idomtools.cpp                                                                                                                                     249      76  69.48%        57    78.95%
 src/iDomTools/idomtools_mpd.cpp                                                                                                                                  16       6  62.50%        10    50.00%
 src/iDomTools/idomtools_system.cpp                                                                                                                                3       0 100.00%         1   100.00%
 src/iDomTools/lightning.cpp                                                                                                                                      30       0 100.00%         4   100.00%
@@ -57,7 +56,7 @@ src/iDomTools/lightning.h                                                       
 src/iDomTools/test/../../../libs/useful/useful.h                                                                                                                  1       0 100.00%         1   100.00%
 src/iDomTools/test/../../RADIO_433_eq/radio_433_eq.h                                                                                                              2       0 100.00%         2   100.00%
 src/iDomTools/test/../lightning.h                                                                                                                                69      26  62.32%         3   100.00%
-src/iDomTools/test/idomTools_BT.cpp                                                                                                                             127      12  90.55%        34    88.24%
+src/iDomTools/test/idomTools_BT.cpp                                                                                                                             162      10  93.83%        44    95.45%
 src/iDomTools/test/lightning_BT.cpp                                                                                                                              64      14  78.12%         7   100.00%
 src/thread_functions/TEST/../rs232_thread.h                                                                                                                      31       0 100.00%         1   100.00%
 src/thread_functions/TEST/rs232_thread_BT.cpp                                                                                                                    33       1  96.97%        13    92.31%
@@ -68,4 +67,4 @@ test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../../iDom_server_OOP/src/i
 test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../src/functions/../blockQueue/../logger/logger.hpp                                                          1       1   0.00%         1     0.00%
 test/iDom_TESTs-CMAKE/main.cpp                                                                                                                                    3       0 100.00%         3   100.00%
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-TOTAL                                                                                                                                                                                                 3512    1333  62.04%       831    77.74%
+TOTAL                                                                                                                                                                                                 3543    1290  63.59%       841    79.43%

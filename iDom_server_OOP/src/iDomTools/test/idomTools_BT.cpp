@@ -6,7 +6,9 @@
 
 void useful_F::button_interrupt(){}
 void digitalWrite(int pin, int mode){}
-int digitalRead(int pin){ return 0; }
+static int test_pin = 0;
+void setReturnPinState(int i){ test_pin = i;}
+int digitalRead(int pin){ return test_pin; }
 
 std::string useful_F::send_to_arduino(thread_data *my_data, const std::string& d){
     return TEST_DATA::return_send_to_arduino;
@@ -55,28 +57,28 @@ std::string useful_F_libs::httpPost(const std::string& url, int timeoutSeconds){
     return TEST_DATA::return_httpPost;
 }
 std::string useful_F_libs::httpPost(const std::string& url){
-CURL *curl;
-CURLcode res;
-std::string readBuffer;
-curl = curl_easy_init();
+    CURL *curl;
+    CURLcode res;
+    std::string readBuffer;
+    curl = curl_easy_init();
 
-if(curl) {
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-    res = curl_easy_perform(curl);
-    /* Check for errors */
-    if(res != CURLE_OK)
-        fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                curl_easy_strerror(res));
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                    curl_easy_strerror(res));
 
-    /* always cleanup */
-    curl_easy_cleanup(curl);
-}
-curl_global_cleanup();
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_global_cleanup();
 
-return readBuffer;
+    return readBuffer;
 }
 
 TEST_F(iDomTOOLS_ClassTest, smog)
@@ -132,6 +134,10 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
     EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
     std::cout << "##################################### 6" <<std::endl;
+
+    ////// getThermoStats
+
+    std::cout <<"WYNIK: " << test_idomTOOLS->getThermoStats("inside") <<std::endl;
 }
 
 TEST_F(iDomTOOLS_ClassTest, weatherAlert)
@@ -157,7 +163,7 @@ TEST_F(iDomTOOLS_ClassTest, weatherAlert)
             </div>";
 
 
-    std::vector<WEATHER_ALER> test_WA;
+            std::vector<WEATHER_ALER> test_WA;
     test_WA =  test_idomTOOLS->getAlert(test_data_from_www);
     EXPECT_EQ(1,test_WA.size()) << "ZŁY ROZMIAR VEKTORA WA";
 }
@@ -326,15 +332,15 @@ TEST_F(iDomTOOLS_ClassTest, stringToCardinalDirectionsEnum)
 TEST_F(iDomTOOLS_ClassTest, cardinalDirectionsEnumToString)
 {
     EXPECT_STREQ( CARDINAL_DIRECTIONS::cardinalDirectionsEnumToString(CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ERROR).c_str(),
-              "UNKNOWN DIRECTION");
+                  "UNKNOWN DIRECTION");
     EXPECT_STREQ( CARDINAL_DIRECTIONS::cardinalDirectionsEnumToString(CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ESE).c_str(),
-              "ESE");
+                  "ESE");
 }
 
 TEST_F(iDomTOOLS_ClassTest, saveState)
 {
     test_status.setObjectState("house",STATE::UNLOCK);
-//////////////////// mpd
+    //////////////////// mpd
     test_status.setObjectState("music", STATE::PLAY);
     test_status.setObjectState("speakers", STATE::ON);
     test_my_data.idom_all_state.houseState = STATE::LOCK;
@@ -358,11 +364,11 @@ TEST_F(iDomTOOLS_ClassTest, saveState)
     EXPECT_STREQ((test_status.getObjectStateString("alarm")).c_str(),
                  testJson.at("ALARM").at("alarm").get<std::string>().c_str() );
     EXPECT_EQ(test_alarmTime.radioID,
-                 testJson.at("ALARM").at("radioID").get<int>() );
+              testJson.at("ALARM").at("radioID").get<int>() );
     EXPECT_EQ(test_alarmTime.fromVolume,
-                 testJson.at("ALARM").at("fromVolume").get<int>() );
+              testJson.at("ALARM").at("fromVolume").get<int>() );
     EXPECT_EQ(test_alarmTime.toVolume,
-                     testJson.at("ALARM").at("toVolume").get<int>() );
+              testJson.at("ALARM").at("toVolume").get<int>() );
 }
 
 TEST_F(iDomTOOLS_ClassTest, readState)
@@ -390,4 +396,118 @@ TEST_F(iDomTOOLS_ClassTest, checkLightning)
     test_idomTOOLS->checkLightning();
     auto test_alert_info = test_idomTOOLS->getLightningStruct();
     EXPECT_EQ(test_alert_info.timestamp,210);
+}
+
+TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
+{
+    test_idomTOOLS->updateTemperatureStats(); //TODO  add TC
+}
+
+TEST_F(iDomTOOLS_ClassTest, speakersON_OFF)
+{
+    EXPECT_EQ(test_status.getObjectState("speakers"), STATE::OFF);
+    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+    test_idomTOOLS->turnOnSpeakers();
+    EXPECT_EQ(test_status.getObjectState("speakers"), STATE::ON);
+    test_idomTOOLS->turnOffSpeakers();
+    EXPECT_EQ(test_status.getObjectState("speakers"), STATE::OFF);
+    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+    test_idomTOOLS->turnOnSpeakers();
+    EXPECT_EQ(test_status.getObjectState("speakers"), STATE::OFF);
+    std::string retStr = useful_F::myStaticData->myEventHandler.run("speakers")->getEvent();
+    EXPECT_THAT(retStr, testing::HasSubstr("speakers can not start due to home state: LOCK"));
+}
+
+TEST_F(iDomTOOLS_ClassTest, printerON_OFF)
+{
+    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+    test_idomTOOLS->turnOnPrinter();
+    EXPECT_EQ(test_status.getObjectState("printer"), STATE::ON);
+    test_idomTOOLS->turnOffPrinter();
+    EXPECT_EQ(test_status.getObjectState("printer"), STATE::OFF);
+    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+    test_idomTOOLS->turnOnPrinter();
+    EXPECT_EQ(test_status.getObjectState("printer"), STATE::OFF);
+    std::string retStr = useful_F::myStaticData->myEventHandler.run("230V")->getEvent();
+    EXPECT_THAT(retStr, testing::HasSubstr("Printer can not start due to home state: LOCK"));
+}
+
+TEST_F(iDomTOOLS_ClassTest, getPinState)
+{
+    setReturnPinState(0);
+    EXPECT_EQ(test_idomTOOLS->getPinState(0), PIN_STATE::LOW_STATE);
+    setReturnPinState(1);
+    EXPECT_EQ(test_idomTOOLS->getPinState(0), PIN_STATE::HIGH_STATE);
+    setReturnPinState(4);
+    EXPECT_EQ(test_idomTOOLS->getPinState(0), PIN_STATE::UNKNOWN_STATE);
+}
+
+TEST_F(iDomTOOLS_ClassTest, turnOnOffPrinter)
+{
+    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+    test_status.setObjectState("printer",STATE::ON);
+    EXPECT_EQ(test_status.getObjectState("printer"), STATE::ON);
+    setReturnPinState(1);
+    puts("off printer");
+    test_idomTOOLS->turnOnOffPrinter();
+    EXPECT_EQ(test_status.getObjectState("printer"), STATE::OFF);
+    setReturnPinState(0);
+    puts("on printer");
+    test_idomTOOLS->turnOnOffPrinter();
+    EXPECT_EQ(test_status.getObjectState("printer"), STATE::ON);
+    setReturnPinState(4);
+    test_idomTOOLS->turnOnOffPrinter();
+    EXPECT_EQ(test_status.getObjectState("printer"), STATE::ON);
+}
+
+TEST_F(iDomTOOLS_ClassTest, turn_On_Off_433MHzSwitch)
+{
+    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+    EXPECT_EQ(test_status.getObjectState("B"),STATE::UNKNOWN);
+    test_idomTOOLS->turnOn433MHzSwitch("B");
+    EXPECT_EQ(test_status.getObjectState("B"),STATE::ON);
+    test_idomTOOLS->turnOff433MHzSwitch("B");
+    EXPECT_EQ(test_status.getObjectState("B"),STATE::OFF);
+}
+
+TEST_F(iDomTOOLS_ClassTest, turnOnOff433MHzSwitch)
+{
+    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::UNKNOWN);
+    test_my_data.main_iDomStatus->setObjectState("B",STATE::ON);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::ON);
+    test_idomTOOLS->turnOnOff433MHzSwitch("B");
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::OFF);
+    test_idomTOOLS->turnOnOff433MHzSwitch("B");
+    EXPECT_EQ(test_status.getObjectState("B"),STATE::ON);
+
+}
+
+TEST_F(iDomTOOLS_ClassTest, runOnSunset)
+{
+    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+    test_idomTOOLS->runOnSunset();
+    std::string retStr = useful_F::myStaticData->myEventHandler.run("iDom")->getEvent();
+    EXPECT_THAT(retStr, testing::HasSubstr("433MHz can not start due to home state: LOCK"));
+
+    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+    auto ptr = static_cast<RADIO_SWITCH*>(test_my_data.main_REC->getEqPointer("B"));
+    ptr->m_state = STATE::ON;
+    std::cout << "stan B w  sunset: " << stateToString( ptr->m_sunset ) << std::endl;
+    std::cout << "stan B w sunrise: " << stateToString( ptr->m_sunrise ) << std::endl;
+
+    test_idomTOOLS->runOnSunset();
+
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
+}
+
+TEST_F(iDomTOOLS_ClassTest, runOnSunrise)
+{
+    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+    test_idomTOOLS->runOnSunset();
+    std::string retStr = useful_F::myStaticData->myEventHandler.run("iDom")->getEvent();
+    EXPECT_THAT(retStr, testing::HasSubstr("433MHz can not start due to home state: LOCK"));
+
+    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+    test_idomTOOLS->runOnSunrise();
 }
