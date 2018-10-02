@@ -71,7 +71,6 @@ std::string RFLinkHandler::internalReadFromRS232()
     std::string buf;
 
     if(serial_RFLink.available() > 0){
-        //puts("jest cos na rflinku");
         while (true){
 
             char b = serial_RFLink.read();
