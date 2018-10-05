@@ -1,4 +1,3 @@
-
 #!/bin/bash
 ../build-iDom_TESTs-CMAKE-clang-Debug/iDom_TESTs-CMAKE
 echo "generuje raport"
