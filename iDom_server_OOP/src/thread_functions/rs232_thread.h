@@ -36,7 +36,6 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     while(useful_F::go_while)
     {
-        puts("test");
         std::this_thread::sleep_for( std::chrono::milliseconds(50));
         //puts("test testo po lock");
         { //mutex who

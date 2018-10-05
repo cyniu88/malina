@@ -38,14 +38,14 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/command/commandClass/command_put.cpp \
     src/command/commandClass/command_show.cpp \
     src/command/commandClass/command_sleep.cpp \
-    libs/event_counter_test/event_counters/event/event_unknown.cpp \
-    libs/event_counter_test/event_counters/event/new_connect_event.cpp \
-    libs/event_counter_test/event_counters/event_counters_handler.cpp \
-    libs/event_counter_test/event_counters/event_counters.cpp \
+    libs/event_counters/event/event_unknown.cpp \
+    libs/event_counters/event/new_connect_event.cpp \
+    libs/event_counters/event_counters_handler.cpp \
+    libs/event_counters/event_counters.cpp \
     src/command/commandClass/command_event.cpp \
-    libs/event_counter_test/event_counters/event/event_mpd.cpp \
-    libs/event_counter_test/event_counters/event/event_pilot.cpp \
-    libs/event_counter_test/event_counters/event/event_command.cpp \
+    libs/event_counters/event/event_mpd.cpp \
+    libs/event_counters/event/event_pilot.cpp \
+    libs/event_counters/event/event_command.cpp \
     src/iDomTools/idomtools.cpp \
     src/command/commandClass/command_idom.cpp \
     libs/sunrise-sunset/sunriseset.cpp \
@@ -114,14 +114,14 @@ HEADERS += src/c_connection/c_connection.h \
     src/command/commandClass/command_put.h \
     src/command/commandClass/command_show.h \
     src/command/commandClass/command_sleep.h \
-    libs/event_counter_test/event_counters/event/event_unknown.h \
-    libs/event_counter_test/event_counters/event/new_connect_event.h \
-    libs/event_counter_test/event_counters/event_counters_handler.h \
-    libs/event_counter_test/event_counters/event_counters.h \
+    libs/event_counters/event/event_unknown.h \
+    libs/event_counters/event/new_connect_event.h \
+    libs/event_counters/event_counters_handler.h \
+    libs/event_counters/event_counters.h \
     src/command/commandClass/command_event.h \
-    libs/event_counter_test/event_counters/event/event_mpd.h \
-    libs/event_counter_test/event_counters/event/event_pilot.h \
-    libs/event_counter_test/event_counters/event/event_command.h \
+    libs/event_counters/event/event_mpd.h \
+    libs/event_counters/event/event_pilot.h \
+    libs/event_counters/event/event_command.h \
     src/iDomTools/idomtools.h \
     src/command/commandClass/command_idom.h \
     libs/sunrise-sunset/sunriseset.h \
