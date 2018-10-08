@@ -8,7 +8,7 @@ libs/event_counters/event/event_mpd.cpp                                         
 libs/event_counters/event/event_pilot.cpp                                                                                                                         2       0 100.00%         2   100.00%
 libs/event_counters/event/event_unknown.cpp                                                                                                                       2       0 100.00%         2   100.00%
 libs/event_counters/event/new_connect_event.cpp                                                                                                                   3       0 100.00%         3   100.00%
-libs/event_counters/event_counters.cpp                                                                                                                           25       0 100.00%         8   100.00%
+libs/event_counters/event_counters.cpp                                                                                                                           26       0 100.00%         9   100.00%
 libs/event_counters/event_counters_handler.cpp                                                                                                                   16       0 100.00%         5   100.00%
 libs/event_counters/test/event_BT.cpp                                                                                                                            41       0 100.00%        10   100.00%
 libs/sunrise-sunset/sunriseset.cpp                                                                                                                               47      28  40.43%        15    60.00%
@@ -26,7 +26,7 @@ src/RADIO_433_eq/test/radio_433_test.cpp                                        
 src/THERMOMETER_CONTAINER/test/thermometer_container_BT.cpp                                                                                                      12       0 100.00%         5   100.00%
 src/THERMOMETER_CONTAINER/thermometer_container.cpp                                                                                                              20       0 100.00%        16   100.00%
 src/blockQueue/blockqueue.cpp                                                                                                                                    12       0 100.00%         5   100.00%
-src/blockQueue/test/blockqueue_BT.cpp                                                                                                                            30       0 100.00%         9   100.00%
+src/blockQueue/test/blockqueue_BT.cpp                                                                                                                            30       1  96.67%         9   100.00%
 src/c_connection/c_connection.cpp                                                                                                                                30      27  10.00%         6    33.33%
 src/c_connection/c_connection2.cpp                                                                                                                                4       4   0.00%         1     0.00%
 src/c_connection/c_connection_node.cpp                                                                                                                           15       5  66.67%         6    33.33%
@@ -67,4 +67,4 @@ test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../../iDom_server_OOP/src/i
 test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../src/functions/../blockQueue/../logger/logger.hpp                                                          1       1   0.00%         1     0.00%
 test/iDom_TESTs-CMAKE/main.cpp                                                                                                                                    3       0 100.00%         3   100.00%
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-TOTAL                                                                                                                                                                                                 3665    1284  64.97%       851    81.20%
+TOTAL                                                                                                                                                                                                 3666    1285  64.95%       852    81.22%
