@@ -51,11 +51,6 @@ char SerialPi::read(){
     return r;
 }
 
-TASKER::TASKER(thread_data *my_data){
-    this->my_data = std::nullptr_t();
-    std::cout << "TASKER::TASKER()"<< std::endl;
-}
-
 bool useful_F::go_while = true;
 
 TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_fixture_clock)

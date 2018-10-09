@@ -35,6 +35,10 @@ public:
         }
         catch (...){  }
         try{
+            m_barometricPressure = std::stoi( RFLinkHandler::getArgumentValueFromRFLinkMSG(data, "BARO") );
+        }
+        catch (...){  }
+        try{
             tempStr =  RFLinkHandler::getArgumentValueFromRFLinkMSG(data, "TEMP");
             std::stringstream ss;
             ss << std::hex << tempStr.substr(tempStr.size()-3,tempStr.size());

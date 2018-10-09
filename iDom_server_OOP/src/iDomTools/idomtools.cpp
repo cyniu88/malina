@@ -83,18 +83,12 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometer
         allThermometer.setState(thermometerName, TEMPERATURE_STATE::Under);
         return TEMPERATURE_STATE::Under;
     }
-    else
-    {
-        my_data->myEventHandler.run("test")->addEvent("noChanges: new "+to_string_with_precision(newTemp)+" old: "
-                                                      +to_string_with_precision(oldTemp)+" ref: "+to_string_with_precision(reference));
 
-        allThermometer.setState(thermometerName, TEMPERATURE_STATE::NoChanges);
-        return TEMPERATURE_STATE::NoChanges;
-    }
-    my_data->myEventHandler.run("test")->addEvent("unknown: new "+to_string_with_precision(newTemp)+" old: "
+    my_data->myEventHandler.run("test")->addEvent("noChanges: new "+to_string_with_precision(newTemp)+" old: "
                                                   +to_string_with_precision(oldTemp)+" ref: "+to_string_with_precision(reference));
 
-    return TEMPERATURE_STATE::Unknown;
+    allThermometer.setState(thermometerName, TEMPERATURE_STATE::NoChanges);
+    return TEMPERATURE_STATE::NoChanges;
 }
 
 void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int reference)
@@ -314,7 +308,7 @@ void iDomTOOLS::runOnSunset()
     }
     else{
         my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "+
-                                                        stateToString(my_data->idom_all_state.houseState));
+                                                      stateToString(my_data->idom_all_state.houseState));
     }
 }
 
@@ -329,7 +323,7 @@ void iDomTOOLS::runOnSunrise()
     }
     else{
         my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "+
-                                                        stateToString(my_data->idom_all_state.houseState));
+                                                      stateToString(my_data->idom_all_state.houseState));
     }
     my_data->main_iDomTools->ledOFF();
 }

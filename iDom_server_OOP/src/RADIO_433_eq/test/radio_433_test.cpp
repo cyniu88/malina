@@ -11,10 +11,7 @@ void RC_433MHz::sendCode(const std::string& code)
 {
     std::cout << "sendCode(): " << code << std::endl;
 }
-std::string RC_433MHz::receiveCode()
-{
-    return "test";
-}
+
 class Switch_Class_fixture : public iDomTOOLS_ClassTest
 {
 
@@ -50,13 +47,18 @@ TEST_F(Switch_Class_fixture, switch_alarm_on)
 TEST_F(Switch_Class_fixture, weatherStruct)
 {
     WEATHER_STRUCT test_WS;
-    EXPECT_DOUBLE_EQ(0.0, test_WS.getTemperature())<<"Tempertura zla";
+    EXPECT_DOUBLE_EQ(0.0, test_WS.getTemperature()) << "Tempertura zla";
 
     test_WS.putData("20;03;LaCrosse;ID=0506;TEMP=0137;");
-    EXPECT_DOUBLE_EQ(31.1, test_WS.getTemperature())<<"Tempertura zla";
+    EXPECT_DOUBLE_EQ(31.1, test_WS.getTemperature()) << "Tempertura zla";
 
-    test_WS.putData("20;03;LaCrosse;ID=0506;TEMP=8130;");
-    EXPECT_DOUBLE_EQ(-30.4, test_WS.getTemperature())<<"Tempertura zla";
+    test_WS.putData("20;03;LaCrosse;ID=0506;TEMP=8130;BARO=999;");
+    EXPECT_DOUBLE_EQ(-30.4, test_WS.getTemperature()) << "Tempertura zla";
+
+    EXPECT_EQ(999, test_WS.getBarometricPressure()) << "zle cisneinie";
+
+    std::string retString = test_WS.getDataString();
+    EXPECT_THAT(retString, testing::HasSubstr("Pressure= 999kPa"));
 }
 
 TEST_F(Switch_Class_fixture, read_write_config_json)

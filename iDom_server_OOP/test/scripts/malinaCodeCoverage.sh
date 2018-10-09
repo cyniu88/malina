@@ -8,7 +8,7 @@ llvm-cov-3.9 show ../build-iDom_TESTs-CMAKE-clang-Debug/iDom_TESTs-CMAKE -instr-
 echo "wysylam html na server"
 scp -P 11 /tmp/coverage.html  root@192.168.1.1:/www_php/coverage.html
 echo "koniec"
-llvm-cov-3.9  report ../build-iDom_TESTs-CMAKE-clang-Debug/iDom_TESTs-CMAKE -instr-profile=../build-iDom_TESTs-CMAKE-clang-Debug/test.profdata -use-color | sed -e 's/\/home\/pi\/programowanie\/iDom_server_OOP\///g' 
+llvm-cov-3.9  report ../build-iDom_TESTs-CMAKE-clang-Debug/iDom_TESTs-CMAKE -instr-profile=../build-iDom_TESTs-CMAKE-clang-Debug/test.profdata -use-color | sed -e 's/\/home\/pi\/programowanie\/iDom_server_OOP\///g'  | sed -e 's/test\/iDom_TESTs-CMAKE\/..\/..\///g' 
 
 llvm-cov-3.9 show ../build-iDom_TESTs-CMAKE-clang-Debug/iDom_TESTs-CMAKE -instr-profile=../build-iDom_TESTs-CMAKE-clang-Debug/test.profdata  -filename-equivalence  --format text > coverage.txt
 llvm-cov-3.9 report ../build-iDom_TESTs-CMAKE-clang-Debug/iDom_TESTs-CMAKE -instr-profile=../build-iDom_TESTs-CMAKE-clang-Debug/test.profdata  > report.txt

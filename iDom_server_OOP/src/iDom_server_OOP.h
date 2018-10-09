@@ -163,7 +163,12 @@ struct LED_Strip{
     {
 
     }
-    LED_Strip (std::string from, std::string to, std::string r, std::string g, std::string b, std::string colorName = "NULL"):
+    LED_Strip (const std::string& from,
+               const std::string& to,
+               const std::string& r,
+               const std::string& g,
+               const std::string& b,
+               const std::string& colorName = "NULL"):
         from(from),
         to(to),
         R(r),
@@ -174,7 +179,13 @@ struct LED_Strip{
 
     }
 
-    void set (std::string from, std::string to, std::string r, std::string g, std::string b, std::string colorName = "NULL"){
+    void set (const std::string& from,
+              const std::string& to,
+              const std::string& r,
+              const std::string& g,
+              const std::string& b,
+              const std::string& colorName = "NULL")
+    {
         this->from =from;
         this->to = to;
         R = r;
@@ -203,7 +214,11 @@ struct LED_Strip{
         return "LED:["+from+"-"+to+"-"+R+"-"+G+"-"+B+"];";
     }
 
-    std::string makeCommand(std::string from, std::string to, std::string R, std::string G, std::string B){
+    std::string makeCommand(const std::string& from,
+                            const std::string& to,
+                            const std::string& R,
+                            const std::string& G,
+                            const std::string& B){
         return "LED:["+from+"-"+to+"-"+R+"-"+G+"-"+B+"];";
     }
 };
