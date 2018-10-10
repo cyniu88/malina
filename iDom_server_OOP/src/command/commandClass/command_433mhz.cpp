@@ -28,28 +28,41 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             my_data->main_REC->deleteRadioEq(v[2]);
             str_buf = v[2] + " deleted";
         }
-        else if (v[1] == "add" && v.size() == 12)  //zmień tu
+        else if (v[1] == "add" && v.size() > 3)  //zmień tu
         {
             RADIO_EQ_CONFIG cfg;
-            cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9],v[10],v[11]); // zmień tu
-            if (my_data->main_REC->nameExist(v[2]) == true)
+           /* if(v[2] == "SWITCH" && v.size() == 12)
+                cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9],v[10],v[11]); // zmień tu
+            else*/ if(v[2] == "BUTTON" && v.size() >= 6)
+                cfg.set(v[2],v[3],v[4],v[5],v[6]); // zmień tu
+            else if(v[2] == "WEATHER" && v.size() >= 4)
+                cfg.set(v[2],v[3],v[4]); // zmień tu
+            else
             {
-                return "equipment "+ v[2]+" exist ";
+                if (v.size() != 12)
+                    return "mising paramiter!";
+                cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9],v[10],v[11]); // zmień tu
+                //return v[2] + " " + v[3] + " " + v[4] + "add more paramiter or wrong type";
+}
+            /////////////////////////////////////////////////////////////
+            if (my_data->main_REC->nameExist(v[3]) == true)
+            {
+                return "equipment "+ v[3]+" exist ";
             }
             try
             {
-                my_data->main_REC->addRadioEq(cfg,v[4]);
+                my_data->main_REC->addRadioEq(cfg,v[2]);
             }
             catch(const WRONG_FORMAT& )
             {
-                return "wrong type "+v[4];
+                return "wrong type "+v[2];
             }
             catch(const std::invalid_argument& )
             {
-                return "wrong ID "+v[3];
+                return "wrong ID "+v[4];
             }
 
-            str_buf = v[2] + " added";
+            str_buf = v[2] + " " + v[3] + " added";
             my_data->main_REC->saveConfig(my_data->server_settings->radio433MHzConfigFile);
         }
         else if (v[1] == "show" && v[2] == "switch"){
@@ -111,7 +124,7 @@ std::string command_433MHz::help()
 {
     std::stringstream help;
     help << ("433MHz delete <name> - dalete radio equipment") <<std::endl;
-    help << ("433MHz add <name> <ID> <type> <onCode> <offCode> <on15sec> <sunrise> <sunset> <lock> <unlock> - add radio equipment") <<std::endl;
+    help << ("433MHz add <type> <name> <ID> <onCode> <offCode> <on15sec> <sunrise> <sunset> <lock> <unlock> - add radio equipment") <<std::endl;
     help << ("433MHz switch <name> ON/OFF/15s - change switch state") <<std::endl;
     help << ("433MHz show all - list all equipment by name") <<std::endl;
     help << ("433MHz show aether   - show aether devices by ID") <<std::endl;

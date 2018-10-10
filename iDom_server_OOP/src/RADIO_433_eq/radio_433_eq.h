@@ -72,16 +72,16 @@ struct RADIO_EQ_CONFIG{
     std::string sunset  = "NULL";
     std::string lock   = "NULL";
     std::string unlock = "NULL";
-    void set(std::string name,
+    void set(std::string type,
+             std::string name,
              std::string ID,
-             std::string type,
-             std::string onCode,
-             std::string offCode,
-             std::string on15sec,
-             std::string sunrise,
-             std::string sunset,
-             std::string lock,
-             std::string unlock){
+             std::string onCode = "null",
+             std::string offCode = "null",
+             std::string on15sec = "null",
+             std::string sunrise = "null",
+             std::string sunset = "null",
+             std::string lock = "null",
+             std::string unlock = "null"){
         this->name = name;
         this->ID   = ID;
         this->type = type;
