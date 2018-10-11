@@ -46,7 +46,7 @@ TEST_F(RFLinkHandler_Class_fixture, port_does_not_exist)
 
 TEST_F(RFLinkHandler_Class_fixture, port_exist)
 {
-    test_server_set.RFLinkPort = "/dev/ttyUSB0";
+    test_server_set.RFLinkPort = "/dev/tty0";
     bool result =  test_RFLink->init();
     EXPECT_TRUE(result);
 }

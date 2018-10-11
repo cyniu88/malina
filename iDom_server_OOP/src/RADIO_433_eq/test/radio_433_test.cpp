@@ -132,4 +132,18 @@ TEST_F(Switch_Class_fixture, onLock_onUnlock_HOME)
     testRadioS->onLockHome();
     eventStr = test_my_data.myEventHandler.run("iDom")->getEvent();
     EXPECT_THAT(eventStr, testing::HasSubstr("cyniu OFF due to 433MHz button pressed"));
+
+    ////////////////////// unlock
+    tCfg.unlock =  "ON";
+
+    testRadioS->setCode(tCfg);
+    testRadioS->onUnlockHome();
+     eventStr = test_my_data.myEventHandler.run("iDom")->getEvent();
+    EXPECT_THAT(eventStr, testing::HasSubstr("cyniu ON due to 433MHz button pressed"));
+
+    tCfg.unlock =  "OFF";
+    testRadioS->setCode(tCfg);
+    testRadioS->onUnlockHome();
+    eventStr = test_my_data.myEventHandler.run("iDom")->getEvent();
+    EXPECT_THAT(eventStr, testing::HasSubstr("cyniu OFF due to 433MHz button pressed"));
 }
