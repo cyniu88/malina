@@ -11,6 +11,7 @@ void setReturnPinState(int i){ test_pin = i;}
 int digitalRead(int pin){ return test_pin; }
 
 std::string useful_F::send_to_arduino(thread_data *my_data, const std::string& d){
+    puts("useful_F::send_to_arduino()");
     return TEST_DATA::return_send_to_arduino;
 }
 viber_API::viber_API(){}
@@ -400,7 +401,34 @@ TEST_F(iDomTOOLS_ClassTest, checkLightning)
 
 TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
 {
-    test_idomTOOLS->updateTemperatureStats(); //TODO  add TC
+    TEST_DATA::return_send_to_arduino = "12:12";
+    test_idomTOOLS->updateTemperatureStats();
+    TEST_DATA::return_send_to_arduino = "16:16";
+    test_idomTOOLS->updateTemperatureStats();
+
+    ////////////// maleje na mieskzaniu
+    TEST_DATA::return_send_to_arduino = "12:16";
+    test_idomTOOLS->updateTemperatureStats();
+    EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("temperatura maleje"));
+    EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("mieszkaniu"));
+
+    ////////////// maleje na polu
+    TEST_DATA::return_send_to_arduino = "12:12";
+    test_idomTOOLS->updateTemperatureStats();
+    EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("temperatura maleje"));
+    EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("polu"));
+
+    ////////////// rośnie na mieskzaniu
+    TEST_DATA::return_send_to_arduino = "17:12";
+    test_idomTOOLS->updateTemperatureStats();
+    EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("temperatura rośnie"));
+    EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("mieszkaniu"));
+
+    ////////////// rośnie na polu
+    TEST_DATA::return_send_to_arduino = "17:17";
+    test_idomTOOLS->updateTemperatureStats();
+    EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("temperatura rośnie"));
+    EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("polu"));
 }
 
 TEST_F(iDomTOOLS_ClassTest, speakersON_OFF)
@@ -496,6 +524,16 @@ TEST_F(iDomTOOLS_ClassTest, runOnSunset)
     test_idomTOOLS->runOnSunset();
 
     EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
+
+    RADIO_EQ_CONFIG cfg;
+    cfg.sunset = "on";
+    cfg.sunrise = "off";
+
+    ptr->setCode(cfg);
+    ptr->m_state = STATE::OFF;
+    test_idomTOOLS->runOnSunset();
+
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
 }
 
 TEST_F(iDomTOOLS_ClassTest, runOnSunrise)
@@ -511,6 +549,21 @@ TEST_F(iDomTOOLS_ClassTest, runOnSunrise)
     test_idomTOOLS->runOnSunrise();
 
     EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
+
+    RADIO_EQ_CONFIG cfg;
+    cfg.sunset = "off";
+    cfg.sunrise = "on";
+
+    ptr->setCode(cfg);
+
+    cfg.sunset = "on";
+    cfg.sunrise = "off";
+
+    ptr->setCode(cfg);
+    ptr->m_state = STATE::ON;
+    test_idomTOOLS->runOnSunrise();
+
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
 }
 
 TEST_F(iDomTOOLS_ClassTest, getSunrise_Sunset)

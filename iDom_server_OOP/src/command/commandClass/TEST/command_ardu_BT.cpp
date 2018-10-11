@@ -125,3 +125,28 @@ TEST_F(commandArdu_Class_fixture, weatherStationTemp)
     test_ardu->execute(test_v, &test_my_data);
     EXPECT_DOUBLE_EQ(0, st->data.getTemperature() );
 }
+
+TEST_F(commandArdu_Class_fixture, command_ardu_show)
+{
+    test_v.pop_back();
+    test_v.push_back("show");
+    std::string retStr = test_ardu->execute(test_v, &test_my_data);
+    EXPECT_THAT(retStr, testing::HasSubstr("data: 0"));
+    EXPECT_THAT(retStr, testing::HasSubstr("temperature= 0c"));
+}
+
+TEST_F(commandArdu_Class_fixture, command_ardu_help)
+{
+    command_ardu test_Command_ardu ("ardu");
+
+    std::string retStr = test_Command_ardu.help();
+    EXPECT_STREQ(retStr.c_str(), " only for internal usege\n");
+}
+
+TEST_F(commandArdu_Class_fixture, command_ardu_433MHz_throw)
+{
+    test_v.push_back("fake_msg");
+    std::string retStr = test_ardu->execute(test_v, &test_my_data);
+
+    EXPECT_THAT(retStr, testing::HasSubstr("for"));
+}

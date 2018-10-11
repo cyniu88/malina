@@ -113,6 +113,9 @@ void RADIO_SWITCH::setCode(RADIO_EQ_CONFIG cfg)
     RADIO_EQ::m_config.offCode = cfg.offCode;
     RADIO_EQ::m_config.on15sec = cfg.on15sec;
     RADIO_EQ::m_config.type = cfg.type;
+    RADIO_EQ::m_config.lock = cfg.lock;
+    RADIO_EQ::m_config.unlock = cfg.unlock;
+    RADIO_EQ::m_config.name = cfg.name;
 
     if(cfg.sunset == "on"){
         m_sunset = STATE::ON;
