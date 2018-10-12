@@ -8,8 +8,11 @@ namespace TEST_DATA{
     static std::string return_viber_msg = "";
     static std::string serial_b = "NULL";
     static std::string serial_sended = "NULL";
+    static int test_pin = 0;
 }
 
 void SerialPi_set_recv_msg(const std::string& m);
+
+void setReturnPinState(int i);
 
 #endif

@@ -26,9 +26,12 @@ void c_irda_logic::irdaMPD(PILOT_KEY X)
         mpd_queue._add(MPD_COMMAND::PREV);
         break;
     default:
+#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "nieznana komenda MPD z pilota "<< std::endl;
         log_file_mutex.mutex_unlock();
+#endif
+        break;
     }
 }
 
@@ -80,9 +83,11 @@ void c_irda_logic::sleeperLogic(PILOT_KEY X)
             my_data->main_THREAD_arr[freeSlotID].thread_ID     = my_data->main_THREAD_arr[freeSlotID].thread.get_id();
             my_data->main_THREAD_arr[freeSlotID].thread_socket = 1;
             my_data->main_THREAD_arr[freeSlotID].thread.detach();
+#ifndef BT_TEST
             log_file_mutex.mutex_lock();
             log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data->main_THREAD_arr[freeSlotID].thread_ID << std::endl;
             log_file_mutex.mutex_unlock();
+#endif
             my_data->mainLCD->printString(true,1,0,"SLEEPer START");
             my_data->mainLCD->set_print_song_state(0);
             who = PILOT_STATE::MPD;
@@ -90,9 +95,11 @@ void c_irda_logic::sleeperLogic(PILOT_KEY X)
         break;
     }
     default:
+#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "nieznany case w sleeperLogic"<< std::endl;
         log_file_mutex.mutex_unlock();
+#endif
         break;
     }
 }
@@ -171,9 +178,11 @@ void c_irda_logic::projectorLogic(PILOT_KEY X)
         break;
     }
     default:
+#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "nieznany case w projector"<< std::endl;
         log_file_mutex.mutex_unlock();
+#endif
         break;
     }
 }
@@ -219,10 +228,12 @@ void c_irda_logic::movieLogic(PILOT_KEY X)
             my_data->mainLCD->set_lcd_STATE(-1);
             my_data->mainLCD->printString(true,0,0,"odtwarzam film");
             my_data->mainLCD->printString(false,0,1,my_data->main_tree->show_list());
-            who=PILOT_STATE::PROJECTOR;
+            who = PILOT_STATE::PROJECTOR;
+#ifndef BT_TEST
             log_file_mutex.mutex_lock();
             log_file_cout << INFO << "odtwarzam film "<< my_data->ptr_MPD_info->isPlay << std::endl;
             log_file_mutex.mutex_unlock();
+#endif
             if (my_data->ptr_MPD_info->isPlay == true){
                 iDomTOOLS::MPD_pause(); // projektor wlaczony wiec pauzuje radio
             }
@@ -239,9 +250,11 @@ void c_irda_logic::movieLogic(PILOT_KEY X)
         break;
     }
     default:
+#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "nieznany case w moveLogic"<< std::endl;
         log_file_mutex.mutex_unlock();
+#endif
         break;
     }
 
@@ -305,9 +318,11 @@ void c_irda_logic::menuLogic(PILOT_KEY X)
         break;
     }
     default:
+#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "nieznany case w menuLogic"<< std::endl;
         log_file_mutex.mutex_unlock();
+#endif
         break;
 
     }
@@ -392,7 +407,7 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
 
 c_irda_logic::c_irda_logic(thread_data *my_data):my_data(my_data)
 {
-   // my_data = my_data;
+    // my_data = my_data;
     who = PILOT_STATE::MPD;
 }
 
@@ -415,9 +430,11 @@ void c_irda_logic::_add(PILOT_KEY X)
         menuLogic(X);
         break;
     default:
+#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "nieznany pilotState"<< std::endl;
         log_file_mutex.mutex_unlock();
+#endif
         break;
     }
 }

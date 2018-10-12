@@ -23,7 +23,9 @@ enum class PILOT_STATE{
 
 class c_irda_logic
 {
-private:
+#ifdef BT_TEST
+public:
+#endif
     std::queue <PILOT_KEY> irda_queue;
     blockQueue mpd_queue;
     PILOT_STATE who;

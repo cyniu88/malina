@@ -47,6 +47,11 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         system("sync; echo 3 > /proc/sys/vm/drop_caches");
         ret = "ram has beed freed";
     }
+    else if(v[1] == "raspberry" )
+    {
+        system(v[2]);
+        ret = "ram has beed freed";
+    }
     else
     {
         ret = " what? - "+ v[1];
@@ -61,5 +66,6 @@ std::string command_program::help()
     help << "program reload soft - reload iDom server" << std::endl;
     help << "program reload hard - reload iDom server" << std::endl;
     help << "program clear ram   - reload iDom server" << std::endl;
+    help << "program raspberry <command>   - put command to raspberry " << std::endl;
     return help.str();
 }

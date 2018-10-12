@@ -231,7 +231,6 @@ void iDomTOOLS::turnOffPrinter()
 PIN_STATE iDomTOOLS::getPinState(int pin_number)
 {
     int pin_state = digitalRead(pin_number);
-
     switch (pin_state){
     case 0:
         return PIN_STATE::LOW_STATE;

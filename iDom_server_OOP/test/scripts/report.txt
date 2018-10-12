@@ -1,6 +1,5 @@
 Filename                                                                                                                                                                                           Regions    Miss   Cover Functions  Executed
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-/home/cyniu/GIT/WiringPi/wiringPi/wiringPi.h                                                                                                                                                             0       0   0.00%         0     0.00%
 libs/Statistic/statistic_test/../statistic.h                                                                                                                     66       0 100.00%        20   100.00%
 libs/Statistic/statistic_test/statistic_BT.cpp                                                                                                                   64       5  92.19%        20   100.00%
 libs/emoji/emoji.cpp                                                                                                                                             21      11  47.62%         3    66.67%
@@ -27,11 +26,13 @@ src/RADIO_433_eq/test/radio_433_test.cpp                                        
 src/THERMOMETER_CONTAINER/test/thermometer_container_BT.cpp                                                                                                      12       0 100.00%         5   100.00%
 src/THERMOMETER_CONTAINER/thermometer_container.cpp                                                                                                              20       0 100.00%        16   100.00%
 src/blockQueue/blockqueue.cpp                                                                                                                                    12       0 100.00%         5   100.00%
-src/blockQueue/test/blockqueue_BT.cpp                                                                                                                            30       0 100.00%         9   100.00%
+src/blockQueue/test/blockqueue_BT.cpp                                                                                                                            30       1  96.67%         9   100.00%
 src/c_connection/c_connection.cpp                                                                                                                                30      22  26.67%         6    66.67%
 src/c_connection/c_connection2.cpp                                                                                                                                4       0 100.00%         1   100.00%
 src/c_connection/c_connection_node.cpp                                                                                                                           15       0 100.00%         6   100.00%
 src/c_connection/test/c_connection_BT.cpp                                                                                                                        29       2  93.10%         9   100.00%
+src/c_irda_logic/c_irda_logic.cpp                                                                                                                                96      60  37.50%        10    60.00%
+src/c_irda_logic/test/c_irda_logic_BT.cpp                                                                                                                        31       2  93.55%         6   100.00%
 src/command/command.cpp                                                                                                                                           3       0 100.00%         3   100.00%
 src/command/commandClass/../../433MHz/RFLink/rflinkhandler.h                                                                                                      2       0 100.00%         2   100.00%
 src/command/commandClass/../../RADIO_433_eq/radio_433_eq.h                                                                                                        1       0 100.00%         1   100.00%
@@ -40,7 +41,8 @@ src/command/commandClass/TEST/command_ardu_BT.cpp                               
 src/command/commandClass/command_433mhz.cpp                                                                                                                      70       0 100.00%         4   100.00%
 src/command/commandClass/command_ardu.cpp                                                                                                                        23       0 100.00%         4   100.00%
 src/command/test/commandhandler_stub.cpp                                                                                                                          1       0 100.00%         1   100.00%
-src/functions/functions2.cpp                                                                                                                                     34       8  76.47%         5    60.00%
+src/files_tree/files_tree.cpp                                                                                                                                    38      37   2.63%        13     7.69%
+src/functions/functions2.cpp                                                                                                                                     41      15  63.41%         6    50.00%
 src/functions/tests/functions_BT.cpp                                                                                                                             20       1  95.00%         6   100.00%
 src/functions/tests/functions_stub.cpp                                                                                                                            1       0 100.00%         1   100.00%
 src/iDomSaveState/idom_save_state.cpp                                                                                                                             4       0 100.00%         4   100.00%
@@ -48,7 +50,7 @@ src/iDomSaveState/test/iDomSaveState_BT.cpp                                     
 src/iDomStatus/idomstatus.cpp                                                                                                                                    16       0 100.00%         6   100.00%
 src/iDomTools/../../libs/Statistic/statistic.h                                                                                                                   20       2  90.00%         5    80.00%
 src/iDomTools/../../libs/useful/useful.h                                                                                                                          1       0 100.00%         1   100.00%
-src/iDomTools/idomtools.cpp                                                                                                                                     252      50  80.16%        57    85.96%
+src/iDomTools/idomtools.cpp                                                                                                                                     248      58  76.61%        57    85.96%
 src/iDomTools/idomtools_mpd.cpp                                                                                                                                  16       0 100.00%        10   100.00%
 src/iDomTools/idomtools_system.cpp                                                                                                                                3       0 100.00%         1   100.00%
 src/iDomTools/lightning.cpp                                                                                                                                      30       0 100.00%         4   100.00%
@@ -60,6 +62,7 @@ src/iDomTools/test/../lightning.h                                               
 src/iDomTools/test/iDom_server_BT.cpp                                                                                                                            10       0 100.00%         3   100.00%
 src/iDomTools/test/idomTools_BT.cpp                                                                                                                             218      10  95.41%        48    95.83%
 src/iDomTools/test/lightning_BT.cpp                                                                                                                              64      14  78.12%         7   100.00%
+src/menu_tree/menu_tree.cpp                                                                                                                                      41      17  58.54%        12    58.33%
 src/thread_functions/TEST/../rs232_thread.h                                                                                                                      31       0 100.00%         1   100.00%
 src/thread_functions/TEST/rs232_thread_BT.cpp                                                                                                                    32       0 100.00%        12   100.00%
 test/iDom_TESTs-CMAKE/../../libs/json/single_include/nlohmann/json.hpp                                                                                         1740     989  43.16%       356    67.42%
@@ -69,4 +72,4 @@ test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../../iDom_server_OOP/src/i
 test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../src/functions/../blockQueue/../logger/logger.hpp                                                          1       1   0.00%         1     0.00%
 test/iDom_TESTs-CMAKE/main.cpp                                                                                                                                    3       0 100.00%         3   100.00%
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-TOTAL                                                                                                                                                                                                 3734    1224  67.22%       862    83.76%
+TOTAL                                                                                                                                                                                                 3943    1356  65.61%       904    82.08%

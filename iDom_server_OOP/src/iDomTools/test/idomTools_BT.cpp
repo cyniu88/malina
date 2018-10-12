@@ -3,12 +3,15 @@
 
 #include "iDomTools_fixture.h"
 
+int digitalRead(int pin){ return TEST_DATA::test_pin; }
 
 void useful_F::button_interrupt(){}
 void digitalWrite(int pin, int mode){}
-static int test_pin = 0;
-void setReturnPinState(int i){ test_pin = i;}
-int digitalRead(int pin){ return test_pin; }
+
+void setReturnPinState(int i)
+{
+    TEST_DATA::test_pin = i;
+}
 
 std::string useful_F::send_to_arduino(thread_data *my_data, const std::string& d){
     puts("useful_F::send_to_arduino()");

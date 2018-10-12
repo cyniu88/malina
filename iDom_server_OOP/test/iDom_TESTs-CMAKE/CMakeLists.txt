@@ -56,12 +56,17 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/command/commandClass/TEST/command_ardu_BT.cpp"
     "../../src/command/commandClass/command_433mhz.cpp"
     "../../src/command/commandClass/TEST/command_433mhz_BT.cpp"
+    "../../src/command/test/commandhandler_stub.cpp"
     "../../src/c_connection/test/c_connection_BT.cpp"
     "../../src/c_connection/c_connection_node.cpp"
     "../../src/c_connection/c_connection2.cpp"
     "../../src/c_connection/c_connection.cpp"
     "../../src/LCD_c/test/lcd_c_stub.cpp"
-    "../../src/command/test/commandhandler_stub.cpp"
+    "../../src/c_irda_logic/c_irda_logic.h"
+    "../../src/c_irda_logic/c_irda_logic.cpp"
+    "../../src/c_irda_logic/test/c_irda_logic_BT.cpp"
+    "../../src/files_tree/files_tree.cpp"
+    "../../src/menu_tree/menu_tree.cpp"
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -DBT_TEST -DNOSSL -O3 -fprofile-instr-generate -fcoverage-mapping")

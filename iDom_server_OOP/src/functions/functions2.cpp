@@ -137,3 +137,14 @@ std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned i
     return std::to_string((hash & 0x7FFFFFFF));
 }
 
+int useful_F::findFreeThreadSlot(Thread_array_struc *array)
+{
+    for (int i = 0 ; i< iDomConst::MAX_CONNECTION;  ++i)
+    {
+        if (array[i].thread_socket == 0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}

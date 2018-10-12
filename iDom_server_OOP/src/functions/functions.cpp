@@ -312,18 +312,6 @@ std::string useful_F::l_send_file(std::string path, std::string find  , bool rev
     return str_buf;
 }
 
-int useful_F::findFreeThreadSlot(Thread_array_struc *array)
-{
-    for (int i = 0 ; i< iDomConst::MAX_CONNECTION;  ++i)
-    {
-        if (array[i].thread_socket == 0)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
 volatile unsigned int  useful_F::lastInterruptTime = 0;
 std::mutex useful_F::mut;
 
