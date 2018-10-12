@@ -15,7 +15,7 @@ public:
     {
         iDomTOOLS_ClassTest::SetUp();
         test_irda = new c_irda_logic(&test_my_data);
-        test_menuTree = new menu_tree("/etc/config/iDom_SERVER/MENU/", test_my_data.mainLCD);
+        test_menuTree = new menu_tree("../config/MENU/", test_my_data.mainLCD);
 
         test_my_data.main_MENU = test_menuTree;
         std::cout << "c_irda_logic_fixture SetUp()"<<std::endl;
