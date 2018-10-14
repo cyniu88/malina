@@ -74,7 +74,7 @@ void c_irda_logic::sleeperLogic(PILOT_KEY X)
     }
     case PILOT_KEY::KEY_OK:
     {
-        int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
+       int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
 
         if ( freeSlotID != -1)
         {
@@ -439,17 +439,17 @@ void c_irda_logic::_add(PILOT_KEY X)
     }
 }
 
-PILOT_KEY c_irda_logic::_get( )
-{
-    PILOT_KEY temp = PILOT_KEY::DUMMY;
-    if (irda_queue.empty() == false){
-        temp = irda_queue.front();
-        irda_queue.pop();
-    }
-    return temp;
-}
+//PILOT_KEY c_irda_logic::_get( )
+//{
+//    PILOT_KEY temp = PILOT_KEY::DUMMY;
+//    if (irda_queue.empty() == false){
+//        temp = irda_queue.front();
+//        irda_queue.pop();
+//    }
+//    return temp;
+//}
 
-int c_irda_logic::_size() const
-{
-    return irda_queue.size();
-}
+//int c_irda_logic::_size() const
+//{
+//    return irda_queue.size();
+//}

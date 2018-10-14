@@ -13,6 +13,7 @@ protected:
 
     void SetUp() final
     {
+        test_q._clearAll();
         std::cout << "blockQueue_Class_fixture SetUp" << std::endl;
     }
 
@@ -44,6 +45,7 @@ protected:
 
 TEST_F(blockQueue_Class_fixture, main)
 {
+    test_q._clearAll();
     EXPECT_EQ(test_q._size(), 0);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::NULL_);
     test_q._add(MPD_COMMAND::PLAY);
@@ -74,7 +76,6 @@ TEST_F(blockQueue_Class_fixture, allClear)
 
 TEST_F(blockQueue_Class_fixture, capacityExceeded)
 {
-    test_q._clearAll();
     EXPECT_EQ(test_q._size(), 0);
 
     for (auto i = 0 ; i <10 ; ++i)

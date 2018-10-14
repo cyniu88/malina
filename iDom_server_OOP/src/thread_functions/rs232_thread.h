@@ -71,7 +71,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
                 data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
                 data_rs232->pointer.ptr_who[1] = iDomConst::CLOCK;
                 serial_ardu_clock.print(buffer.c_str());
-
+puts("dupa:");
                 buffer.erase();
 
                 while(useful_F::go_while){

@@ -65,6 +65,7 @@ TEST_F(c_irda_logic_fixture, turnOnOffPrinter)
 TEST_F(c_irda_logic_fixture, irdaMPD)
 {
     blockQueue test_Q;
+    test_Q._clearAll();
 
     test_irda->_add(PILOT_KEY::KEY_POWER);
     EXPECT_EQ(test_Q._get(), MPD_COMMAND::STOP);
@@ -93,13 +94,20 @@ TEST_F(c_irda_logic_fixture, irdaMPD)
 
 TEST_F(c_irda_logic_fixture, sleeperLogic)
 {
+    Thread_array_struc test_ThreadArrayStruc[iDomConst::MAX_CONNECTION];
+
+    for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+        test_ThreadArrayStruc[i].thread_socket = i+1;
+
+    test_my_data.main_THREAD_arr = test_ThreadArrayStruc;
+
     test_my_data.sleeper = 0;
     EXPECT_EQ(test_my_data.sleeper, 0);
     test_irda->_add(PILOT_KEY::KEY_MENU);
     test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    //test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     test_irda->_add(PILOT_KEY::KEY_OK);
     test_irda->_add(PILOT_KEY::KEY_UP);
     EXPECT_EQ(test_my_data.sleeper, 1);
@@ -111,5 +119,22 @@ TEST_F(c_irda_logic_fixture, sleeperLogic)
     EXPECT_EQ(test_my_data.sleeper, 2);
     test_irda->_add(PILOT_KEY::KEY_DOWN);
     EXPECT_EQ(test_my_data.sleeper, 1);
-   // test_irda->_add(PILOT_KEY::KEY_OK);
+    test_irda->_add(PILOT_KEY::KEY_OK);
+    EXPECT_EQ(test_my_data.sleeper, 1);
+    test_irda->_add(PILOT_KEY::KEY_EXIT);
+    EXPECT_EQ(test_my_data.sleeper, 0);
+}
+
+TEST_F(c_irda_logic_fixture, LED_ON_OFF)
+{
+    EXPECT_EQ( test_my_data.myEventHandler.run("LED")->getLast1minNumberEvent(),0);
+    for (int i = 1 ; i < test_my_data.ptr_pilot_led->colorLED.size()+2; ++i)
+    {
+        test_irda->_add(PILOT_KEY::KEY_LANGUAGE);
+        EXPECT_EQ( test_my_data.myEventHandler.run("LED")->getLast1minNumberEvent(),i);
+        EXPECT_THAT(test_my_data.myEventHandler.run("LED")->getEvent(),
+                    testing::HasSubstr("LED can not start due to home state: UNDEFINE"));
+    }
+    test_irda->_add(PILOT_KEY::KEY_SUBTITLE);
+    // EXPECT_STREQ(TEST_DATA::serial_sended.c_str(), "GASZE LEDy");
 }

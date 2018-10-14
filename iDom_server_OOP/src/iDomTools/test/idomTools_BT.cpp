@@ -341,7 +341,7 @@ TEST_F(iDomTOOLS_ClassTest, cardinalDirectionsEnumToString)
                   "ESE");
 }
 
-TEST_F(iDomTOOLS_ClassTest, saveState)
+TEST_F(iDomTOOLS_ClassTest, saveState_readState)
 {
     test_status.setObjectState("house",STATE::UNLOCK);
     //////////////////// mpd
@@ -373,10 +373,7 @@ TEST_F(iDomTOOLS_ClassTest, saveState)
               testJson.at("ALARM").at("fromVolume").get<int>() );
     EXPECT_EQ(test_alarmTime.toVolume,
               testJson.at("ALARM").at("toVolume").get<int>() );
-}
-
-TEST_F(iDomTOOLS_ClassTest, readState)
-{
+    ////////////////////////////////// read
     test_idomTOOLS->readState_iDom();
     EXPECT_EQ(test_my_data.alarmTime.state,STATE::ACTIVE);
 }

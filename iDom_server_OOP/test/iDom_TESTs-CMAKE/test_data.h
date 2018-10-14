@@ -12,7 +12,7 @@ namespace TEST_DATA{
 }
 
 void SerialPi_set_recv_msg(const std::string& m);
-
+void SerialPi_set_serial_sended(const std::string& m);
 void setReturnPinState(int i);
 
 #endif

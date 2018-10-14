@@ -38,6 +38,32 @@ protected:
         delete test_command_433MHz;
         std::cout << "command433MHz_Class_fixture TearDown" << std::endl;
     }
+
+    void addSwitch(const std::string& name)
+    {
+        test_v.clear();
+        test_v.push_back("433MHz");
+        test_v.push_back("add");
+        test_v.push_back("SWITCH");
+        test_v.push_back(name);
+        test_v.push_back("1234");
+        test_v.push_back("onCode_A");
+        test_v.push_back("ofCode_A");
+        test_v.push_back("on15sec_A");
+        test_v.push_back("sunrise_A");
+        test_v.push_back("sunset_A");
+        test_v.push_back("lock_A");
+        test_v.push_back("unlock_A");
+        std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    }
+    void deleteSwitch(const std::string& name)
+    {
+        test_v.clear();
+        test_v.push_back("433MHz");
+        test_v.push_back("delete");
+        test_v.push_back(name);
+        std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    }
 };
 TEST_F(command433MHz_Class_fixture, getCommandName)
 {
@@ -63,6 +89,7 @@ TEST_F(command433MHz_Class_fixture, deleteSwitch)
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    addSwitch("A");
 
 }
 TEST_F(command433MHz_Class_fixture, deleteFakeSwitch)
@@ -111,6 +138,7 @@ TEST_F(command433MHz_Class_fixture, addButton)
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    deleteSwitch("glowny");
 }
 
 TEST_F(command433MHz_Class_fixture, addSwitch)
@@ -142,6 +170,7 @@ TEST_F(command433MHz_Class_fixture, addSwitch)
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    deleteSwitch("Aaa");
 }
 
 TEST_F(command433MHz_Class_fixture, addExistingWeather)

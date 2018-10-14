@@ -141,10 +141,13 @@ int useful_F::findFreeThreadSlot(Thread_array_struc *array)
 {
     for (int i = 0 ; i< iDomConst::MAX_CONNECTION;  ++i)
     {
+        std::cout << "return i " << i << " socket "<< array[i].thread_socket << std::endl;
         if (array[i].thread_socket == 0)
         {
+            std::cout << "return i " << i << " socket "<< array[i].thread_socket << std::endl;
             return i;
         }
     }
+    puts("return -1");
     return -1;
 }

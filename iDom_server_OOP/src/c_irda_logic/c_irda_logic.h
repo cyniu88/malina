@@ -26,7 +26,7 @@ class c_irda_logic
 #ifdef BT_TEST
 public:
 #endif
-    std::queue <PILOT_KEY> irda_queue;
+    //std::queue <PILOT_KEY> irda_queue;
     blockQueue mpd_queue;
     PILOT_STATE who;
     thread_data *my_data;
@@ -40,8 +40,8 @@ public:
 public:
     c_irda_logic(thread_data *my_data);
     void _add(PILOT_KEY X);
-    PILOT_KEY _get();
-    int  _size()  const ;
+//    PILOT_KEY _get();
+//    int  _size()  const ;
 };
 
 #endif // C_IRDA_LOGIC_H
