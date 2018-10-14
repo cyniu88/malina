@@ -349,8 +349,8 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
         temp_str += my_data->main_iDomTools->ledOFF();
         my_data->mainLCD->printString(false,0,1,temp_str);
         who=PILOT_STATE::MPD;
-    }
         break;
+    }
 
     case PILOT_KEY::KEY_LANGUAGE:
     {
@@ -365,9 +365,9 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
         }
 
         my_data->mainLCD->printString(false,0,1,temp_str);
-        who=PILOT_STATE::MPD;
-    }
+        who = PILOT_STATE::MPD;
         break;
+    }
 
     case PILOT_KEY::KEY_SAT:
     {
@@ -379,9 +379,9 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
         temp_str += temper.at(0);
         temp_str += " O:"+ temper.at(1);
         my_data->mainLCD->printString(false,0,1,temp_str+" c");
-        who=PILOT_STATE::MPD;
-    }
+        who = PILOT_STATE::MPD;
         break;
+    }
 
     case PILOT_KEY::KEY_EPG:
         who = PILOT_STATE::MOVIE;

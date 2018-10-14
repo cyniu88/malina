@@ -138,3 +138,10 @@ TEST_F(c_irda_logic_fixture, LED_ON_OFF)
     test_irda->_add(PILOT_KEY::KEY_SUBTITLE);
     // EXPECT_STREQ(TEST_DATA::serial_sended.c_str(), "GASZE LEDy");
 }
+TEST_F(c_irda_logic_fixture, temp_smogINFO)
+{
+    test_irda->_add(PILOT_KEY::KEY_MENU);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_OK);
+    EXPECT_THAT(TEST_DATA::LCD_print, testing::HasSubstr("TEMPERATURA"));
+}

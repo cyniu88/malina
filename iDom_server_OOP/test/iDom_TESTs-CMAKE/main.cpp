@@ -4,8 +4,16 @@
 #include <gconv.h>
 #include <fstream>
 #include <sstream>
+#include <test_data.h>
 
-
+std::string TEST_DATA::return_send_to_arduino = "-2:-2";
+std::string TEST_DATA::return_httpPost = "ok.\n";
+std::string TEST_DATA::return_httpPost_expect = "";
+std::string TEST_DATA::return_viber_msg = "";
+std::string TEST_DATA::serial_b = "NULL";
+std::string TEST_DATA::serial_sended = "NULL";
+std::string TEST_DATA::LCD_print = "NULL";
+int TEST_DATA::test_pin = 0;
 class test_433
 {
 public:
