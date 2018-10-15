@@ -45,14 +45,10 @@ void useful_F::tokenizer ( std::vector <std::string> &command, std::string separ
         for(char m: separator)
         {
             if (n == m)
-            {
                 is_sep = true;
-            }
         }
         if (is_sep == false)
-        {
             temp += n;
-        }
         else
         {
             if (!temp.empty())
@@ -63,9 +59,7 @@ void useful_F::tokenizer ( std::vector <std::string> &command, std::string separ
         }
     }
     if (!temp.empty())
-    {
         command.push_back(temp);
-    }
 }
 
 ////// watek sleeper
@@ -115,6 +109,7 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     log_file_cout << INFO<< "koniec  watku SLEEP_MPD" <<  std::endl;
     log_file_mutex.mutex_unlock();
 #endif
+
 }
 
 std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned int a)

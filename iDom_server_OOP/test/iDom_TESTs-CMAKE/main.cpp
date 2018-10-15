@@ -14,6 +14,7 @@ std::string TEST_DATA::serial_b = "NULL";
 std::string TEST_DATA::serial_sended = "NULL";
 std::string TEST_DATA::LCD_print = "NULL";
 int TEST_DATA::test_pin = 0;
+
 class test_433
 {
 public:

@@ -293,7 +293,6 @@ void iDomTOOLS::turnOff433MHzSwitch(std::string name)
 {
     RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
     m_switch->off();
-    //saveState_iDom();
 }
 
 void iDomTOOLS::runOnSunset()

@@ -65,6 +65,8 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_fixture_clock)
     test_data_rs232.BaudRate = "9600";
     test_data_rs232.portRS232 = "test_port";
     test_data_rs232.portRS232_clock = "test_port_clock";
+    unsigned int wh[2];
+    test_data_rs232.pointer.ptr_who = wh;
     test_data_rs232.pointer.ptr_who[0] = iDomConst::CLOCK;
     test_data_rs232.pointer.ptr_who[1] = iDomConst::FREE;
     EXPECT_EQ(test_data_rs232.pointer.ptr_who[1], iDomConst::FREE);

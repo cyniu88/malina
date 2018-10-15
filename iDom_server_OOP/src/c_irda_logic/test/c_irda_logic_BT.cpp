@@ -10,14 +10,18 @@ class c_irda_logic_fixture : public iDomTOOLS_ClassTest
 public:
     c_irda_logic* test_irda;
     menu_tree* test_menuTree;
+    files_tree* test_filesTree;
 
     void SetUp()
     {
         iDomTOOLS_ClassTest::SetUp();
         test_irda = new c_irda_logic(&test_my_data);
         test_menuTree = new menu_tree("../config/MENU/", test_my_data.mainLCD);
-
         test_my_data.main_MENU = test_menuTree;
+
+        test_filesTree = new files_tree("../config/MENU/", test_my_data.mainLCD);
+        test_my_data.main_tree = test_filesTree;
+
         std::cout << "c_irda_logic_fixture SetUp()"<<std::endl;
     }
 
@@ -25,6 +29,7 @@ public:
     {
         delete test_irda;
         delete test_menuTree;
+        delete test_filesTree;
         iDomTOOLS_ClassTest::TearDown();
         std::cout << "c_irda_logic_fixture TearDown()"<<std::endl;
     }
@@ -91,23 +96,41 @@ TEST_F(c_irda_logic_fixture, irdaMPD)
     test_irda->_add(PILOT_KEY::KEY_2); //default
     EXPECT_EQ(test_Q._size(), 0);
 }
-
-TEST_F(c_irda_logic_fixture, sleeperLogic)
+TEST_F(c_irda_logic_fixture, sleeper_Logic_EXIT)
 {
-    Thread_array_struc test_ThreadArrayStruc[iDomConst::MAX_CONNECTION];
-
-    for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
-        test_ThreadArrayStruc[i].thread_socket = i+1;
-
-    test_my_data.main_THREAD_arr = test_ThreadArrayStruc;
-
     test_my_data.sleeper = 0;
     EXPECT_EQ(test_my_data.sleeper, 0);
     test_irda->_add(PILOT_KEY::KEY_MENU);
     test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    //test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_OK);
+    test_irda->_add(PILOT_KEY::KEY_UP);
+    EXPECT_EQ(test_my_data.sleeper, 1);
+    test_irda->_add(PILOT_KEY::KEY_UP);
+    EXPECT_EQ(test_my_data.sleeper, 2);
+    test_irda->_add(PILOT_KEY::KEY_EXIT);
+    EXPECT_EQ(test_my_data.sleeper, 0);
+}
+
+TEST_F(c_irda_logic_fixture, sleeper_Logic_OK)
+{
+    std::cout << test_my_data.main_REC->listAllName() << std::endl;
+
+    Thread_array_struc test_ThreadArrayStruc[iDomConst::MAX_CONNECTION];
+
+    for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+        test_ThreadArrayStruc[i].thread_socket = i+1;
+    test_ThreadArrayStruc[3].thread_socket = 0;
+    test_my_data.main_THREAD_arr = test_ThreadArrayStruc;
+    test_my_data.sleeper = 0;
+    EXPECT_EQ(test_my_data.sleeper, 0);
+    test_irda->_add(PILOT_KEY::KEY_MENU);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     test_irda->_add(PILOT_KEY::KEY_OK);
     test_irda->_add(PILOT_KEY::KEY_UP);
     EXPECT_EQ(test_my_data.sleeper, 1);
@@ -120,7 +143,8 @@ TEST_F(c_irda_logic_fixture, sleeperLogic)
     test_irda->_add(PILOT_KEY::KEY_DOWN);
     EXPECT_EQ(test_my_data.sleeper, 1);
     test_irda->_add(PILOT_KEY::KEY_OK);
-    EXPECT_EQ(test_my_data.sleeper, 1);
+    sleep(2);
+    EXPECT_EQ(test_my_data.sleeper, 0);
     test_irda->_add(PILOT_KEY::KEY_EXIT);
     EXPECT_EQ(test_my_data.sleeper, 0);
 }
@@ -142,6 +166,34 @@ TEST_F(c_irda_logic_fixture, temp_smogINFO)
 {
     test_irda->_add(PILOT_KEY::KEY_MENU);
     test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
     test_irda->_add(PILOT_KEY::KEY_OK);
     EXPECT_THAT(TEST_DATA::LCD_print, testing::HasSubstr("TEMPERATURA"));
+}
+
+TEST_F(c_irda_logic_fixture, menu_enter_dir)
+{
+    test_irda->_add(PILOT_KEY::KEY_MENU);
+    test_irda->_add(PILOT_KEY::KEY_OK);
+
+    EXPECT_EQ(test_irda->who, PILOT_STATE::MENU);
+    test_irda->_add(PILOT_KEY::KEY_UP);
+    test_irda->_add(PILOT_KEY::KEY_EXIT);
+    EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
+}
+TEST_F(c_irda_logic_fixture, menu_files)
+{
+    test_my_data.sleeper = 0;
+    EXPECT_EQ(test_my_data.sleeper, 0);
+    test_irda->_add(PILOT_KEY::KEY_MENU);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_OK);
+    EXPECT_EQ(test_irda->who, PILOT_STATE::MOVIE);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
 }
