@@ -184,6 +184,7 @@ TEST_F(iDomTOOLS_ClassTest, send_temperature_thingSpeak){
 
 TEST_F(iDomTOOLS_ClassTest, checkAlarm)
 {
+    blockQueue test_q;
     unsigned int fromVol = 48;
     unsigned int  toVol = 57;
 
@@ -205,16 +206,6 @@ TEST_F(iDomTOOLS_ClassTest, checkAlarm)
 
     //////////////////////////////////////////////////////////////
 
-    MPD_info test_ptr_MPD;
-    test_ptr_MPD.volume = 3;
-    test_my_data.ptr_MPD_info = &test_ptr_MPD;
-    RADIO_EQ_CONFIG cfg;
-    cfg.name = "listwa";
-    cfg.ID = "209888";
-    RADIO_EQ* test_RS = new RADIO_SWITCH(&test_my_data,cfg,RADIO_EQ_TYPE::SWITCH);
-
-    RADIO_EQ_CONTAINER_STUB stub_rec(&test_my_data);
-    test_my_data.main_REC = (&stub_rec);
     test_my_data.alarmTime.time = Clock::getTime();
     test_my_data.alarmTime.state = STATE::ACTIVE;
 
@@ -223,17 +214,16 @@ TEST_F(iDomTOOLS_ClassTest, checkAlarm)
     for(unsigned int i = fromVol; i<toVol; ++i)
     {
         test_idomTOOLS->checkAlarm();
-
+        test_q._get();
         EXPECT_EQ(test_my_data.alarmTime.state, STATE::WORKING)<< "zły stan w for " << i<< " "<< toVol;
         EXPECT_EQ(test_my_data.ptr_MPD_info->volume, i+1) << "zły poziom glosnosci w for";
     }
-    EXPECT_CALL(stub_rec, getEqPointer("ALARM")).WillRepeatedly(testing::Return(test_RS));
+
     test_idomTOOLS->checkAlarm();
 
     EXPECT_EQ(test_my_data.alarmTime.state, STATE::DEACTIVE) << "nie jest STATE::DEACTIVE";
     EXPECT_EQ(test_my_data.ptr_MPD_info->volume, toVol)<< "nie inkrementowane?";
 
-    delete test_RS;
 }
 
 TEST_F(iDomTOOLS_ClassTest, homeLockPlayStopMusic)

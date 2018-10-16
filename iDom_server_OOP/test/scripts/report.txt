@@ -31,8 +31,8 @@ src/c_connection/c_connection.cpp                                               
 src/c_connection/c_connection2.cpp                                                                                                                                4       0 100.00%         1   100.00%
 src/c_connection/c_connection_node.cpp                                                                                                                           15       0 100.00%         6   100.00%
 src/c_connection/test/c_connection_BT.cpp                                                                                                                        29       2  93.10%         9   100.00%
-src/c_irda_logic/c_irda_logic.cpp                                                                                                                                92      32  65.22%         8    87.50%
-src/c_irda_logic/test/c_irda_logic_BT.cpp                                                                                                                        57       2  96.49%        11   100.00%
+src/c_irda_logic/c_irda_logic.cpp                                                                                                                                92      27  70.65%         8    87.50%
+src/c_irda_logic/test/c_irda_logic_BT.cpp                                                                                                                        68       2  97.06%        11   100.00%
 src/command/command.cpp                                                                                                                                           3       0 100.00%         3   100.00%
 src/command/commandClass/../../433MHz/RFLink/rflinkhandler.h                                                                                                      2       0 100.00%         2   100.00%
 src/command/commandClass/../../RADIO_433_eq/radio_433_eq.h                                                                                                        1       0 100.00%         1   100.00%
@@ -41,8 +41,9 @@ src/command/commandClass/TEST/command_ardu_BT.cpp                               
 src/command/commandClass/command_433mhz.cpp                                                                                                                      70       0 100.00%         4   100.00%
 src/command/commandClass/command_ardu.cpp                                                                                                                        23       0 100.00%         4   100.00%
 src/command/test/commandhandler_stub.cpp                                                                                                                          1       0 100.00%         1   100.00%
-src/files_tree/files_tree.cpp                                                                                                                                    38      21  44.74%        13    53.85%
+src/files_tree/files_tree.cpp                                                                                                                                    38      14  63.16%        13    76.92%
 src/functions/functions2.cpp                                                                                                                                     41       8  80.49%         6    66.67%
+src/functions/tests/../../iDomTools/test/../../RADIO_433_eq/radio_433_eq.h                                                                                        2       0 100.00%         2   100.00%
 src/functions/tests/functions_BT.cpp                                                                                                                             20       1  95.00%         6   100.00%
 src/functions/tests/functions_stub.cpp                                                                                                                            1       0 100.00%         1   100.00%
 src/iDomSaveState/idom_save_state.cpp                                                                                                                             4       0 100.00%         4   100.00%
@@ -57,7 +58,6 @@ src/iDomTools/lightning.cpp                                                     
 src/iDomTools/lightning.h                                                                                                                                        20      16  20.00%         2   100.00%
 src/iDomTools/test/../../../libs/useful/useful.h                                                                                                                  1       0 100.00%         1   100.00%
 src/iDomTools/test/../../RADIO_433_eq/../433MHz/RFLink/../../iDom_server_OOP.h                                                                                   10       0 100.00%         6   100.00%
-src/iDomTools/test/../../RADIO_433_eq/radio_433_eq.h                                                                                                              2       0 100.00%         2   100.00%
 src/iDomTools/test/../lightning.h                                                                                                                                69      26  62.32%         3   100.00%
 src/iDomTools/test/iDom_server_BT.cpp                                                                                                                            10       0 100.00%         3   100.00%
 src/iDomTools/test/idomTools_BT.cpp                                                                                                                             217      10  95.39%        47    95.74%
@@ -72,4 +72,4 @@ test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../../iDom_server_OOP/src/i
 test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../src/functions/../blockQueue/../logger/logger.hpp                                                          1       1   0.00%         1     0.00%
 test/iDom_TESTs-CMAKE/main.cpp                                                                                                                                    3       0 100.00%         3   100.00%
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-TOTAL                                                                                                                                                                                                 3967    1288  67.53%       909    83.83%
+TOTAL                                                                                                                                                                                                 3978    1276  67.92%       909    84.16%

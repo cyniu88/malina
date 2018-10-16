@@ -84,4 +84,5 @@ TEST_F(blockQueue_Class_fixture, capacityExceeded)
     }
 
     EXPECT_THROW(test_q._add(MPD_COMMAND::PLAY), std::string );
+    test_q._clearAll();
 }

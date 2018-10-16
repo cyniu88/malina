@@ -18,6 +18,7 @@ public:
     iDOM_STATE main_iDomStatus;
     ALERT test_alarmTime;
     pilot_led test_pilot_led;
+    MPD_info test_ptr_MPD;
 
     /// pointer
     iDomTOOLS* test_idomTOOLS;
@@ -49,6 +50,9 @@ public:
         test_idomTOOLS = new iDomTOOLS(&test_my_data);
 
         test_my_data.main_iDomTools = test_idomTOOLS;
+        test_ptr_MPD.volume = 3;
+        test_my_data.ptr_MPD_info = &test_ptr_MPD;
+
         useful_F::myStaticData = &test_my_data;
     }
 

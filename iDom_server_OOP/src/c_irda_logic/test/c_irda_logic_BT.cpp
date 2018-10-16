@@ -19,7 +19,7 @@ public:
         test_menuTree = new menu_tree("../config/MENU/", test_my_data.mainLCD);
         test_my_data.main_MENU = test_menuTree;
 
-        test_filesTree = new files_tree("../config/MENU/", test_my_data.mainLCD);
+        test_filesTree = new files_tree("../config/MOVIE/", test_my_data.mainLCD);
         test_my_data.main_tree = test_filesTree;
 
         std::cout << "c_irda_logic_fixture SetUp()"<<std::endl;
@@ -101,10 +101,10 @@ TEST_F(c_irda_logic_fixture, sleeper_Logic_EXIT)
     test_my_data.sleeper = 0;
     EXPECT_EQ(test_my_data.sleeper, 0);
     test_irda->_add(PILOT_KEY::KEY_MENU);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    do {
+        test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    } while(TEST_DATA::LCD_print != "5.SLEEPer");
+
     test_irda->_add(PILOT_KEY::KEY_OK);
     test_irda->_add(PILOT_KEY::KEY_UP);
     EXPECT_EQ(test_my_data.sleeper, 1);
@@ -127,10 +127,9 @@ TEST_F(c_irda_logic_fixture, sleeper_Logic_OK)
     test_my_data.sleeper = 0;
     EXPECT_EQ(test_my_data.sleeper, 0);
     test_irda->_add(PILOT_KEY::KEY_MENU);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    do {
+        test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    } while(TEST_DATA::LCD_print != "5.SLEEPer");
     test_irda->_add(PILOT_KEY::KEY_OK);
     test_irda->_add(PILOT_KEY::KEY_UP);
     EXPECT_EQ(test_my_data.sleeper, 1);
@@ -160,12 +159,14 @@ TEST_F(c_irda_logic_fixture, LED_ON_OFF)
                     testing::HasSubstr("LED can not start due to home state: UNDEFINE"));
     }
     test_irda->_add(PILOT_KEY::KEY_SUBTITLE);
-    // EXPECT_STREQ(TEST_DATA::serial_sended.c_str(), "GASZE LEDy");
 }
 TEST_F(c_irda_logic_fixture, temp_smogINFO)
 {
     test_irda->_add(PILOT_KEY::KEY_MENU);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    do {
+        test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    } while(TEST_DATA::LCD_print != "2.TEMPERATURA");
+
     test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
     test_irda->_add(PILOT_KEY::KEY_OK);
@@ -187,13 +188,15 @@ TEST_F(c_irda_logic_fixture, menu_files)
     test_my_data.sleeper = 0;
     EXPECT_EQ(test_my_data.sleeper, 0);
     test_irda->_add(PILOT_KEY::KEY_MENU);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    do {
+        test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    } while(TEST_DATA::LCD_print != "4.PLIKI");
     test_irda->_add(PILOT_KEY::KEY_OK);
     EXPECT_EQ(test_irda->who, PILOT_STATE::MOVIE);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-    test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
+    do {
+        test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
+    } while(TEST_DATA::LCD_print != "GAME_OF_THRONES/");
+    test_irda->_add(PILOT_KEY::KEY_OK);
+    test_irda->_add(PILOT_KEY::KEY_EXIT);
+    EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
 }

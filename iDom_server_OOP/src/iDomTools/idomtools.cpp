@@ -888,16 +888,20 @@ std::string iDomTOOLS::ledOn(const LED_Strip& ledColor, unsigned int from, unsig
 void iDomTOOLS::checkAlarm()
 {
     unsigned int fromVol = my_data->alarmTime.fromVolume;
-    unsigned int   toVol = my_data->alarmTime.toVolume;
+    unsigned int toVol   = my_data->alarmTime.toVolume;
     unsigned int radioId = my_data->alarmTime.radioID;
 
     Clock now = Clock::getTime();
-
+puts("1");
     if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
         my_data->alarmTime.state = STATE::WORKING;
+        puts("2");
         MPD_volumeSet(my_data, fromVol);
+        puts("3");
         MPD_play(my_data,radioId);
+        puts("4");
         my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
+        puts("5");
     }
 
     if (my_data->alarmTime.state == STATE::WORKING){
@@ -912,7 +916,7 @@ void iDomTOOLS::checkAlarm()
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
             if(iDomTOOLS::isItDay() == false){
-                my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
+               // my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
             }
         }
     }
