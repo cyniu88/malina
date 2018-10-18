@@ -661,3 +661,16 @@ TEST_F(iDomTOOLS_ClassTest, mpd)
     EXPECT_EQ(test_idomTOOLS->MPD_getVolume(&test_my_data),99);
 
 }
+
+TEST_F(iDomTOOLS_ClassTest, getTemperatureString)
+{
+    TEST_DATA::return_send_to_arduino = "-2:2";
+    EXPECT_STREQ(test_my_data.main_iDomTools->getTemperatureString().c_str(), "-2:2");
+}
+
+TEST_F(iDomTOOLS_ClassTest, cameraLED)
+{
+    test_my_data.main_iDomTools->cameraLedOFF("test_link");
+    test_my_data.main_iDomTools->cameraLedON("test_link");
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"), STATE::OFF);
+}

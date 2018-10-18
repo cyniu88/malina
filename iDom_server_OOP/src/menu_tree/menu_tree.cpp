@@ -71,10 +71,10 @@ void menu_tree::enter_dir()
         i=0;
     }
 }
-void menu_tree::enter_dir(const std::string& path)
-{
-    get_list (path)  ;
-}
+//void menu_tree::enter_dir(const std::string& path)
+//{
+//    get_list (path)  ;
+//}
 
 void menu_tree::back_dir()
 {

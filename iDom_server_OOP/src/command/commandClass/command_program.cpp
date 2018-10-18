@@ -49,7 +49,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     }
     else if(v[1] == "raspberry" )
     {
-        system(v[2]);
+        system(v[2].c_str());
         ret = "ram has beed freed";
     }
     else

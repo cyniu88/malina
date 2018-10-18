@@ -11,7 +11,7 @@ public:
     c_irda_logic* test_irda;
     menu_tree* test_menuTree;
     files_tree* test_filesTree;
-
+    std::string test_omxplayerFile = "../config/cmd_test";
     void SetUp()
     {
         iDomTOOLS_ClassTest::SetUp();
@@ -21,6 +21,8 @@ public:
 
         test_filesTree = new files_tree("../config/MOVIE/", test_my_data.mainLCD);
         test_my_data.main_tree = test_filesTree;
+
+        test_my_data.server_settings->omxplayerFile =  test_omxplayerFile;
 
         std::cout << "c_irda_logic_fixture SetUp()"<<std::endl;
     }
@@ -104,7 +106,9 @@ TEST_F(c_irda_logic_fixture, sleeper_Logic_EXIT)
     do {
         test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     } while(TEST_DATA::LCD_print != "5.SLEEPer");
-
+    do {
+        test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
+    } while(TEST_DATA::LCD_print != "5.SLEEPer");
     test_irda->_add(PILOT_KEY::KEY_OK);
     test_irda->_add(PILOT_KEY::KEY_UP);
     EXPECT_EQ(test_my_data.sleeper, 1);
@@ -145,7 +149,11 @@ TEST_F(c_irda_logic_fixture, sleeper_Logic_OK)
     sleep(2);
     EXPECT_EQ(test_my_data.sleeper, 0);
     test_irda->_add(PILOT_KEY::KEY_EXIT);
-    EXPECT_EQ(test_my_data.sleeper, 0);
+    EXPECT_EQ(test_my_data.sleeper, 0);\
+
+    //////////////default
+    test_irda->who = PILOT_STATE::SLEEPER;
+    test_irda->_add(PILOT_KEY::KEY_0); //default
 }
 
 TEST_F(c_irda_logic_fixture, LED_ON_OFF)
@@ -180,23 +188,150 @@ TEST_F(c_irda_logic_fixture, menu_enter_dir)
 
     EXPECT_EQ(test_irda->who, PILOT_STATE::MENU);
     test_irda->_add(PILOT_KEY::KEY_UP);
+    test_irda->_add(PILOT_KEY::KEY_0); //default
     test_irda->_add(PILOT_KEY::KEY_EXIT);
     EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
 }
 TEST_F(c_irda_logic_fixture, menu_files)
 {
-    test_my_data.sleeper = 0;
-    EXPECT_EQ(test_my_data.sleeper, 0);
+    blockQueue  test_q;
+    test_q._clearAll();
+    test_my_data.idom_all_state.houseState = STATE::UNLOCK;
+    int timeout = 10;
     test_irda->_add(PILOT_KEY::KEY_MENU);
     do {
+        if (--timeout == 0)
+            break;
         test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     } while(TEST_DATA::LCD_print != "4.PLIKI");
     test_irda->_add(PILOT_KEY::KEY_OK);
     EXPECT_EQ(test_irda->who, PILOT_STATE::MOVIE);
+    timeout = 10;
     do {
+        if (--timeout == 0)
+            break;
         test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
     } while(TEST_DATA::LCD_print != "GAME_OF_THRONES/");
     test_irda->_add(PILOT_KEY::KEY_OK);
+    test_irda->_add(PILOT_KEY::KEY_UP);
+    EXPECT_STREQ(TEST_DATA::LCD_print.c_str(),"GAME_OF_THRONES/");
     test_irda->_add(PILOT_KEY::KEY_EXIT);
     EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
+    ///////////////// play - no MPD
+
+    test_my_data.ptr_MPD_info->isPlay  = false;
+    test_irda->_add(PILOT_KEY::KEY_MENU);
+    timeout = 10;
+    do {
+        if (--timeout == 0)
+            break;
+        test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    } while(TEST_DATA::LCD_print != "4.PLIKI");
+    test_irda->_add(PILOT_KEY::KEY_OK);
+    EXPECT_EQ(test_irda->who, PILOT_STATE::MOVIE);
+    timeout = 10;
+    do {
+        if (--timeout == 0)
+            break;
+        test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
+    } while(TEST_DATA::LCD_print != "s01e02");
+    test_irda->_add(PILOT_KEY::KEY_0); //default
+    test_irda->_add(PILOT_KEY::KEY_OK);
+    EXPECT_EQ(test_irda->who, PILOT_STATE::PROJECTOR);
+    test_irda->_add(PILOT_KEY::KEY_EXIT);
+    EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"),STATE::OFF);
+    ///////////////// play -  MPD
+    test_my_data.ptr_MPD_info->isPlay  = true;
+    EXPECT_TRUE(test_my_data.ptr_MPD_info->isPlay);
+    test_irda->_add(PILOT_KEY::KEY_MENU);
+    timeout = 10;
+    do {
+        if (--timeout == 0)
+            break;
+        test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    } while(TEST_DATA::LCD_print != "4.PLIKI");
+    test_irda->_add(PILOT_KEY::KEY_OK);
+    EXPECT_EQ(test_irda->who, PILOT_STATE::MOVIE);
+    timeout = 10;
+    do {
+        if (--timeout == 0)
+            break;
+        test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
+    } while(TEST_DATA::LCD_print != "s01e02");
+    test_irda->_add(PILOT_KEY::KEY_OK);
+    EXPECT_EQ(test_irda->who, PILOT_STATE::PROJECTOR);
+
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::PAUSE);
+}
+
+TEST_F(c_irda_logic_fixture, dummy_KEY_RADIO_and_add )
+{
+    test_irda->_add(PILOT_KEY::KEY_RADIO);
+    EXPECT_EQ(test_irda->who, PILOT_STATE::PROJECTOR);
+
+    test_irda->who = PILOT_STATE::LED; //not set
+    test_irda->_add(PILOT_KEY::KEY_RADIO);
+}
+
+TEST_F(c_irda_logic_fixture, projektor)
+{
+    std::string retString;
+    test_irda->who = PILOT_STATE::PROJECTOR;
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
+    retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
+    std::cout << "DUPA: " << retString.size() << std::endl;
+   // EXPECT_EQ(retString,"+");
+
+    test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
+    retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
+    std::cout << "DUPA: " << retString.size() << std::endl;
+   // EXPECT_EQ(retString,"+");
+
+    test_irda->_add(PILOT_KEY::KEY_OK);
+    retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
+    std::cout << "DUPA: " << retString.size() << std::endl;
+   // EXPECT_EQ(retString,"-");
+
+    test_irda->_add(PILOT_KEY::KEY_POWER);
+    retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
+    std::cout << "DUPA: " << retString.size() << std::endl;
+   // EXPECT_EQ(retString,"q");
+
+    test_irda->_add(PILOT_KEY::KEY_DOWN);
+    retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
+    std::cout << "DUPA: " << retString.size() << std::endl;
+   // EXPECT_EQ(retString,"+");
+
+    test_irda->_add(PILOT_KEY::KEY_UP);
+    retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
+    std::cout << "DUPA: " << retString.size() << std::endl;
+   // EXPECT_EQ(retString,"+");
+
+    test_irda->_add(PILOT_KEY::KEY_CHANNELUP);
+    retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
+    std::cout << "DUPA: " << retString.size() << std::endl;
+   // EXPECT_EQ(retString,"o");
+
+    test_irda->_add(PILOT_KEY::KEY_CHANNELDOWN);
+    retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
+    std::cout << "DUPA: " << retString.size() << std::endl;
+   // EXPECT_EQ(retString,"i");
+
+    test_my_data.ptr_MPD_info->isPlay = true;
+    test_irda->_add(PILOT_KEY::KEY_EXIT);
+    retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
+    std::cout << "DUPA: " << retString.size() << std::endl;
+    EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
+
+    test_my_data.ptr_MPD_info->isPlay = false;
+    test_irda->_add(PILOT_KEY::KEY_EXIT);
+    retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
+    std::cout << "DUPA: " << retString.size() << std::endl;
+    EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"),STATE::OFF);
+
+    //// dummy
+    test_irda->who = PILOT_STATE::PROJECTOR;
+    test_irda->_add(PILOT_KEY::KEY_0);
 }

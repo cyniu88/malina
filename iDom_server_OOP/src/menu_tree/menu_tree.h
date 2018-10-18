@@ -45,7 +45,7 @@ public:
 
     void back_dir();
 
-    void enter_dir(const std::string& path );
+    //void enter_dir(const std::string& path );
     void enter_dir();
     void vector_clear();
 };
