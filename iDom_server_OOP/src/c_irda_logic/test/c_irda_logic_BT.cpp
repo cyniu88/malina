@@ -201,7 +201,7 @@ TEST_F(c_irda_logic_fixture, menu_files)
     test_irda->_add(PILOT_KEY::KEY_MENU);
     do {
         if (--timeout == 0)
-            break;
+            FAIL()<<"cannot find";
         test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     } while(TEST_DATA::LCD_print != "4.PLIKI");
     test_irda->_add(PILOT_KEY::KEY_OK);
@@ -209,7 +209,7 @@ TEST_F(c_irda_logic_fixture, menu_files)
     timeout = 10;
     do {
         if (--timeout == 0)
-            break;
+            FAIL()<<"cannot find";
         test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
     } while(TEST_DATA::LCD_print != "GAME_OF_THRONES/");
     test_irda->_add(PILOT_KEY::KEY_OK);
@@ -224,7 +224,7 @@ TEST_F(c_irda_logic_fixture, menu_files)
     timeout = 10;
     do {
         if (--timeout == 0)
-            break;
+            FAIL()<<"cannot find";
         test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     } while(TEST_DATA::LCD_print != "4.PLIKI");
     test_irda->_add(PILOT_KEY::KEY_OK);
@@ -248,7 +248,7 @@ TEST_F(c_irda_logic_fixture, menu_files)
     timeout = 10;
     do {
         if (--timeout == 0)
-            break;
+            FAIL()<<"cannot find";
         test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     } while(TEST_DATA::LCD_print != "4.PLIKI");
     test_irda->_add(PILOT_KEY::KEY_OK);
@@ -256,7 +256,7 @@ TEST_F(c_irda_logic_fixture, menu_files)
     timeout = 10;
     do {
         if (--timeout == 0)
-            break;
+            FAIL()<<"cannot find";
         test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
     } while(TEST_DATA::LCD_print != "s01e02");
     test_irda->_add(PILOT_KEY::KEY_OK);

@@ -672,5 +672,5 @@ TEST_F(iDomTOOLS_ClassTest, cameraLED)
 {
     test_my_data.main_iDomTools->cameraLedOFF("test_link");
     test_my_data.main_iDomTools->cameraLedON("test_link");
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"), STATE::OFF);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"), STATE::ON);
 }
