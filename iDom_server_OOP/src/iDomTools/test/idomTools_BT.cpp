@@ -671,6 +671,55 @@ TEST_F(iDomTOOLS_ClassTest, getTemperatureString)
 TEST_F(iDomTOOLS_ClassTest, cameraLED)
 {
     test_my_data.main_iDomTools->cameraLedOFF("test_link");
+
+    ///////////////////////////////at day
+    Clock::setTime_forBT_usage(12,12);
     test_my_data.main_iDomTools->cameraLedON("test_link");
+
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"), STATE::OFF);
+    ////////////////////////////////////// at night
+    Clock::setTime_forBT_usage(2,2);
+    test_my_data.main_iDomTools->cameraLedON("test_link");
+
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"), STATE::ON);
+}
+
+TEST_F(iDomTOOLS_ClassTest, textToSpeach)
+{
+    test_my_data.ptr_MPD_info->isPlay = true;
+    test_my_data.main_iDomStatus->setObjectState("speakers", STATE::UNDEFINE);
+
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
+    std::vector<std::string> test_v;
+    test_my_data.main_iDomTools->textToSpeach(&test_v); //empty
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
+
+    test_v = {"test","msg","clock"};
+    test_my_data.ptr_MPD_info->isPlay = true;
+    test_my_data.main_iDomTools->textToSpeach(&test_v);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
+    test_my_data.ptr_MPD_info->isPlay = false;
+    test_my_data.main_iDomTools->textToSpeach(&test_v);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
+}
+
+TEST_F(iDomTOOLS_ClassTest, getWeatherEvent)
+{
+    std::string retStr = test_my_data.main_iDomTools->getWeatherEvent("test",10);
+    EXPECT_STREQ(retStr.c_str(),"httpPost");
+}
+
+TEST_F(iDomTOOLS_ClassTest, isItDay)
+{
+    Clock::setTime_forBT_usage(12,12);
+    EXPECT_TRUE(test_my_data.main_iDomTools->isItDay());
+    Clock::setTime_forBT_usage(2,12);
+    EXPECT_FALSE(test_my_data.main_iDomTools->isItDay());
+}
+
+TEST_F(iDomTOOLS_ClassTest, ledClear)
+{
+    TEST_DATA::return_send_to_arduino = "done";
+    std::string retStr = test_my_data.main_iDomTools->ledClear();
+    EXPECT_STREQ(retStr.c_str(),"done");
 }

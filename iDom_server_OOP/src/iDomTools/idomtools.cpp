@@ -572,7 +572,7 @@ std::string iDomTOOLS::getWeatherEvent(const std::string& city, unsigned int rad
     url.append(city);
     url.append("&promien=");
     url.append(std::to_string(radius));
-    return useful_F_libs::httpPost(url, 10);
+    return "444";//useful_F_libs::httpPost(url, 10);
 }
 
 std::vector<WEATHER_ALER> iDomTOOLS::getAlert(std::string data)
@@ -616,7 +616,9 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
     else {
         turnOnSpeakers();
     }
+#ifndef BT_TEST
     system(command.c_str());
+#endif
     if(my_data->ptr_MPD_info->isPlay){
 
     }
