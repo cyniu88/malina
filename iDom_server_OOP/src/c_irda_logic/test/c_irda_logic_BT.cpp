@@ -170,6 +170,8 @@ TEST_F(c_irda_logic_fixture, LED_ON_OFF)
 }
 TEST_F(c_irda_logic_fixture, temp_smogINFO)
 {
+    TEST_DATA::return_httpPost = "ok.\n";
+    TEST_DATA::return_send_to_arduino = "12:12";
     test_irda->_add(PILOT_KEY::KEY_MENU);
     do {
         test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);

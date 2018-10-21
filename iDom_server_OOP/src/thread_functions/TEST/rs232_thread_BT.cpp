@@ -14,49 +14,6 @@ class rs232_thread_fixture : public iDomTOOLS_ClassTest
 
 };
 
-void SerialPi_set_recv_msg(const std::string& m){
-    TEST_DATA::serial_b = m;
-}
-
-void SerialPi_set_serial_sended(const std::string& m){
-    TEST_DATA::serial_sended = m;
-}
-SerialPi::SerialPi(const std::string& a):m_serial_port(10){
-    std::cout << "SerialPi() addres: " << a << std::endl;
-}
-SerialPi::~SerialPi(){
-    std::cout << "~SerialPi()" << std::endl;
-}
-
-void SerialPi::print(const std::string& msg){
-    std::cout << "SerialPi::print() msg: " << msg << std::endl;
-    SerialPi_set_serial_sended(msg);
-}
-
-
-void SerialPi::begin(int serialSpeed){
-    std::cout << "SerialPi::int() serialSpeed: " << serialSpeed << std::endl;
-}
-
-void SerialPi::flush(){
-    std::cout << "SerialPi::flush()" << std::endl;
-    TEST_DATA::serial_b.clear();
-}
-
-int SerialPi::available(){
-    std::cout << "SerialPi::available() " << TEST_DATA::serial_b.size() << std::endl;
-    return static_cast<int>(TEST_DATA::serial_b.size());
-}
-
-char SerialPi::read(){
-    char r = TEST_DATA::serial_b.at(0);
-    TEST_DATA::serial_b.erase(0,1);
-    std::cout << "SerialPi::read(): "<<r<< std::endl;
-    return r;
-}
-
-bool useful_F::go_while = true;
-
 TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_fixture_clock)
 {
     useful_F::go_while = true;

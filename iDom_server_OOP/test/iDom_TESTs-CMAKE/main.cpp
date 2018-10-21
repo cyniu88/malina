@@ -6,6 +6,8 @@
 #include <sstream>
 #include <test_data.h>
 #include <../../../../libs/useful/useful.h>
+#include "../../../../src/SerialPi/serialpi.h"
+#include "../../../../src/functions/functions.h"
 
 std::string TEST_DATA::return_send_to_arduino = "-2:-2";
 std::string TEST_DATA::return_httpPost = "ok.\n";
@@ -18,6 +20,132 @@ int TEST_DATA::test_pin = 0;
 
 unsigned int Clock::m_BT_H = 0;
 unsigned int Clock::m_BT_M = 0;
+
+void SerialPi_set_recv_msg(const std::string& m){
+    TEST_DATA::serial_b = m;
+}
+
+void SerialPi_set_serial_sended(const std::string& m){
+    TEST_DATA::serial_sended = m;
+}
+SerialPi::SerialPi(const std::string& a):m_serial_port(10){
+    std::cout << "SerialPi() addres: " << a << std::endl;
+}
+SerialPi::~SerialPi(){
+    std::cout << "~SerialPi()" << std::endl;
+}
+
+void SerialPi::print(const std::string& msg){
+    std::cout << "SerialPi::print() msg: " << msg << std::endl;
+    SerialPi_set_serial_sended(msg);
+}
+
+
+void SerialPi::begin(int serialSpeed){
+    std::cout << "SerialPi::int() serialSpeed: " << serialSpeed << std::endl;
+}
+
+void SerialPi::flush(){
+    std::cout << "SerialPi::flush()" << std::endl;
+    TEST_DATA::serial_b.clear();
+}
+
+int SerialPi::available(){
+    std::cout << "SerialPi::available() " << TEST_DATA::serial_b.size() << std::endl;
+    return static_cast<int>(TEST_DATA::serial_b.size());
+}
+
+char SerialPi::read(){
+    char r = TEST_DATA::serial_b.at(0);
+    TEST_DATA::serial_b.erase(0,1);
+    std::cout << "SerialPi::read(): "<<r<< std::endl;
+    return r;
+}
+
+bool useful_F::go_while = true;
+
+void useful_F::button_interrupt(){}
+void digitalWrite(int pin, int mode){}
+
+void setReturnPinState(int i)
+{
+    TEST_DATA::test_pin = i;
+}
+
+std::string useful_F::send_to_arduino(thread_data *my_data, const std::string& d){
+    puts("useful_F::send_to_arduino()");
+    return TEST_DATA::return_send_to_arduino;
+}
+viber_API::viber_API(){}
+void viber_API::setAccessToken(const std::string& accessToken){}
+void viber_API::setURL(const std::string& url){}
+void viber_API::setAvatar (const std::string& avatar){}
+std::string viber_API::sendViberMSG(const std::string& msg,
+                                    const std::string& receiver,
+                                    const std::string& senderName,
+                                    const std::string& accessToken,
+                                    const std::string& url){
+
+    std::cout << "sendViberMSG() "<< msg <<" to: "<< receiver << std::endl;
+    TEST_DATA::return_viber_msg = msg;
+    return"{\"message_status\":\"ok\"}";
+}
+std::string viber_API::sendViberPicture(const std::string& msg,
+                                        const std::string& image,
+                                        const std::string& receiver,
+                                        const std::string& senderName,
+                                        const std::string& accessToken ,
+                                        const std::string& url){
+    std::cout << "sendViberPicture() "<< msg <<" to: "<< receiver << std::endl;
+    TEST_DATA::return_viber_msg = msg;
+    return"{\"message_status\":\"ok\"}";
+}
+FACEBOOK_API::FACEBOOK_API(){}
+std::string FACEBOOK_API::postTxtOnWall(const std::string& msg,
+                                        const std::string& accessToken ){return "";}
+std::string FACEBOOK_API::postPhotoOnWall(const std::string& url,
+                                          const std::string& msg ,
+                                          const std::string& accessToken ){return "";}
+void FACEBOOK_API::setAccessToken(const std::string& token){}
+
+void LCD_c::set_lcd_STATE(int i){}
+void LCD_c::printString(bool clear, int col, int row, const std::string& str){
+    std::cout << "LCD_c::printString() "<< str  << std::endl;
+    TEST_DATA::LCD_print = str;
+}
+
+std::string useful_F_libs::httpPost(const std::string& url, int timeoutSeconds){
+
+    std::cout << "url: "<< url << " return "<< TEST_DATA::return_httpPost << "|"<< std::endl;
+    TEST_DATA::return_httpPost_expect = "httpPost";
+    return TEST_DATA::return_httpPost;
+}
+std::string useful_F_libs::httpPost(const std::string& url){
+    CURL *curl;
+    CURLcode res;
+    std::string readBuffer;
+    curl = curl_easy_init();
+
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                    curl_easy_strerror(res));
+
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_global_cleanup();
+
+    return readBuffer;
+}
+
+int digitalRead(int pin){ return TEST_DATA::test_pin; }
 
 class test_433
 {

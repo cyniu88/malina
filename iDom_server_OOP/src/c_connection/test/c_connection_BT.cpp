@@ -81,6 +81,7 @@ TEST_F(c_connection_fixture, cryptoLog)
 
 TEST_F(c_connection_fixture, onStopConnection)
 {
+    TEST_DATA::return_httpPost = "ok.\n";
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::UNKNOWN);
     test_connection->onStopConnection();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::OFF);
