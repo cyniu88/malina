@@ -472,9 +472,14 @@ bool iDomTOOLS::isItDay()
     return true;
 }
 
+std::string iDomTOOLS::getAllDataSunrisesunset()
+{
+    return sun.getAllData();
+}
+
 CARDINAL_DIRECTIONS::ALARM_INFO iDomTOOLS::getLightningStruct()
 {
-    std::lock_guard<std::mutex>  lock(m_lightningMutex);
+    std::lock_guard<std::mutex> lock(m_lightningMutex);
     return m_lightningStruct;
 }
 

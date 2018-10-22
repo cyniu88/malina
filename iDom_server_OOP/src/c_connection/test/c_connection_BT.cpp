@@ -65,6 +65,11 @@ TEST_F(c_connection_fixture, c_recv)
     EXPECT_EQ(-1, test_connection->c_recv(1));
 }
 
+TEST_F(c_connection_fixture, c_send)
+{
+    EXPECT_EQ(-1, test_connection->c_send("test"));
+}
+
 TEST_F(c_connection_fixture, cryptoLog)
 {
     std::string msg("tajna wiadomosc");

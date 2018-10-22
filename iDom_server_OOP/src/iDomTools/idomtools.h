@@ -70,6 +70,7 @@ public:
     void buttonUnlockHome();
     //////////////////////////// useful  /////////////////////////
     bool isItDay();
+    std::string getAllDataSunrisesunset();
     //////////////////////////// lightning ////////////////////////
     /// \brief lightning
 private:

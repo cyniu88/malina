@@ -110,7 +110,7 @@ void FACEBOOK_API::setAccessToken(const std::string& token){}
 
 void LCD_c::set_lcd_STATE(int i){}
 void LCD_c::printString(bool clear, int col, int row, const std::string& str){
-    std::cout << "LCD_c::printString() "<< str  << std::endl;
+    std::cout << "LCD_c::printString() "<< str << std::endl;
     TEST_DATA::LCD_print = str;
 }
 
@@ -176,4 +176,3 @@ int main(int argc, char **argv) {
     //::testing::GTEST_FLAG(filter) = "command433MHz_Class_fixture.*)";
     return RUN_ALL_TESTS();
 }
-

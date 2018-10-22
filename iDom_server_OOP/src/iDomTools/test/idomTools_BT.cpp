@@ -643,3 +643,9 @@ TEST_F(iDomTOOLS_ClassTest, ledClear)
     std::string retStr = test_my_data.main_iDomTools->ledClear();
     EXPECT_STREQ(retStr.c_str(),"done");
 }
+
+TEST_F(iDomTOOLS_ClassTest, getAllDataSunrisesunset)
+{
+    EXPECT_THAT(test_my_data.main_iDomTools->getAllDataSunrisesunset(),
+                testing::HasSubstr("Days until Y2K"));
+}

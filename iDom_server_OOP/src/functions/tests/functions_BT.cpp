@@ -51,6 +51,30 @@ TEST(functions_, split)
     EXPECT_STREQ(test_v.at(2).c_str(),"three");
 }
 
+TEST(functions_, RSHash)
+{
+    std::string msg = "test msg";
+    std::string s1  = useful_F::RSHash(msg, 33, 44);
+    std::string s2  = useful_F::RSHash(msg, 33 ,44);
+    EXPECT_STREQ(s1.c_str(), s2.c_str());
+
+    s1 = useful_F::RSHash(msg, 35, 44);
+    s2 = useful_F::RSHash(msg, 33 ,44);
+    EXPECT_STRNE(s1.c_str(), s2.c_str());
+}
+
+TEST_F(functions_fixture, setStaticData)
+{
+    test_my_data.sleeper = 99;
+    EXPECT_EQ( useful_F::myStaticData->sleeper, 99 );
+    thread_data test_my_data2;
+    test_my_data2.sleeper = 88;
+    EXPECT_EQ( test_my_data2.sleeper, 88 );
+    EXPECT_EQ( useful_F::myStaticData->sleeper, 99 );
+    useful_F::setStaticData(&test_my_data2);
+    EXPECT_EQ( useful_F::myStaticData->sleeper, 88 );
+}
+
 TEST_F(functions_fixture, sleepThread)
 {
     Thread_array_struc test_THRARRSTR;
