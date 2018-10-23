@@ -32,6 +32,8 @@ public:
     static std::mutex sm_RFLink_MUTEX;
     static std::string sm_RFLink_BUFOR;
 
+    unsigned int okTime = 0;
+    unsigned int pingTime = 0;
     ////// temporarnie //////
     std::map<std::string, RFLink_DEV> rflinkMAP;
     /////////////////////////////

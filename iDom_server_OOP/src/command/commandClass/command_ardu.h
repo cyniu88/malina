@@ -18,6 +18,10 @@ public:
     command_ardu(const std::string& name, thread_data* my_data );
     std::string execute(std::vector <std::string> &v,thread_data* my_data);
     std::string help();
+#ifndef BT_TEST
+    private:
+#endif
+    void pingAndOkRecv(thread_data *my_data, const std::string &s);
 };
 
 #endif // COMMND_ARDU_H
