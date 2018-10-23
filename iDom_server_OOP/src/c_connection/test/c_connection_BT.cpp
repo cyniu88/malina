@@ -17,6 +17,8 @@ protected:
         std::cout << "c_connection_fixture SetUp()" << std::endl;
         iDomTOOLS_ClassTest::SetUp();
         test_connection = new C_connection(&test_my_data);
+        test_connection->m_encriptionKey = "key";
+        test_connection->m_encrypted = false;
     }
     void TearDown() final
     {
@@ -67,6 +69,7 @@ TEST_F(c_connection_fixture, c_recv)
 
 TEST_F(c_connection_fixture, c_send)
 {
+
     EXPECT_EQ(-1, test_connection->c_send("test"));
 }
 
@@ -75,6 +78,7 @@ TEST_F(c_connection_fixture, cryptoLog)
     std::string msg("tajna wiadomosc");
     std::string msgBackup(msg);
     test_connection->setEncriptionKey("key_test");
+    test_connection->setEncrypted(true);
     ///////szyfrowanie
     test_connection->cryptoLog(msg);
     EXPECT_STRNE(msgBackup.c_str(), msg.c_str());
