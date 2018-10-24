@@ -728,26 +728,6 @@ void iDomTOOLS::send_temperature_thingSpeak()
     }
 }
 
-std::string iDomTOOLS::sendSMStoPlusGSM(const std::string &login, const std::string &pass, const std::string &number,
-                                        std::string msg, int silentFrom , int silentTo  )
-{
-    if (silentFrom !=0 && silentTo !=0){
-        // TODO
-    }
-    std::replace(msg.begin(),msg.end(),' ','+');
-    std::string address = "http://darsonserver.5v.pl/bramkaPlus?login=";
-    address +=login+"&password="+pass+"&sender=iDom&number="+number+"&message="+msg;
-
-    std::string readBuffer = useful_F_libs::httpPost(address,10);
-
-#ifndef BT_TEST
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO <<"wysłano SMSa otreśći: " <<  msg<<std::endl;
-    log_file_mutex.mutex_unlock();
-#endif
-    return readBuffer +"\n"+address;
-}
-
 void iDomTOOLS::cameraLedON(const std::string& link)
 {
     Clock t = Clock::getTime();

@@ -39,8 +39,10 @@ src/command/commandClass/../../433MHz/RFLink/rflinkhandler.h                    
 src/command/commandClass/../../RADIO_433_eq/radio_433_eq.h                                                                                                        1       0 100.00%         1   100.00%
 src/command/commandClass/TEST/command_433mhz_BT.cpp                                                                                                              61       1  98.36%        18   100.00%
 src/command/commandClass/TEST/command_ardu_BT.cpp                                                                                                                50       0 100.00%        14   100.00%
+src/command/commandClass/TEST/command_idom_BT.cpp                                                                                                                44       0 100.00%        17   100.00%
 src/command/commandClass/command_433mhz.cpp                                                                                                                      70       0 100.00%         4   100.00%
 src/command/commandClass/command_ardu.cpp                                                                                                                        29       0 100.00%         5   100.00%
+src/command/commandClass/command_idom.cpp                                                                                                                       154      75  51.30%         3   100.00%
 src/command/test/commandhandler_stub.cpp                                                                                                                          1       0 100.00%         1   100.00%
 src/files_tree/files_tree.cpp                                                                                                                                    38       4  89.47%        13    92.31%
 src/functions/functions2.cpp                                                                                                                                     41       3  92.68%         6   100.00%
@@ -52,7 +54,7 @@ src/iDomSaveState/test/iDomSaveState_BT.cpp                                     
 src/iDomStatus/idomstatus.cpp                                                                                                                                    16       0 100.00%         6   100.00%
 src/iDomTools/../../libs/Statistic/statistic.h                                                                                                                   20       2  90.00%         5    80.00%
 src/iDomTools/../../libs/useful/useful.h                                                                                                                          1       0 100.00%         1   100.00%
-src/iDomTools/idomtools.cpp                                                                                                                                     249      28  88.76%        58    96.55%
+src/iDomTools/idomtools.cpp                                                                                                                                     245      24  90.20%        57    98.25%
 src/iDomTools/idomtools_mpd.cpp                                                                                                                                  16       0 100.00%        10   100.00%
 src/iDomTools/idomtools_system.cpp                                                                                                                                3       0 100.00%         1   100.00%
 src/iDomTools/lightning.cpp                                                                                                                                      30       0 100.00%         4   100.00%
@@ -73,4 +75,4 @@ test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../../iDom_server_OOP/src/i
 test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../../iDom_server_OOP/src/iDomTools/test/iDomTools_fixture.h                                                 3       0 100.00%         3   100.00%
 test/iDom_TESTs-CMAKE/main.cpp                                                                                                                                   35       3  91.43%        31    93.55%
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-TOTAL                                                                                                                                                                                                 4058    1196  70.53%       922    86.33%
+TOTAL                                                                                                                                                                                                 4252    1267  70.20%       941    86.72%

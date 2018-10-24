@@ -63,18 +63,6 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             }
         }
     }
-    else if (v[1]=="sms"){
-        if (v.size() <3){
-            return "function not ready yet";
-        }
-        else{
-            std::string m;
-            for(size_t i = 2; i<v.size();++i){
-                m+= v[i]+" ";
-            }
-            return my_data->main_iDomTools->sendSMStoPlusGSM("yanosik-info","yanosik24","782490815",m);
-        }
-    }
     else if (v[1]=="text"){
         return my_data->main_iDomTools->getTextToSpeach();
     }
