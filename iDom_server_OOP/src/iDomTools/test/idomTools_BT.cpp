@@ -92,10 +92,11 @@ TEST_F(iDomTOOLS_ClassTest, weatherAlert)
 
 TEST_F(iDomTOOLS_ClassTest, send_temperature_thingSpeak){
 
+    TEST_DATA::return_send_to_arduino = "-2.3:-2";
     TEST_DATA::return_httpPost_expect = "NULL";
-
     EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(),"NULL");
     test_idomTOOLS->send_temperature_thingSpeak();
+    std::cout << "DATA: "<< TEST_DATA::return_httpPost_expect <<std::endl;
     EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(),"httpPost");
 }
 

@@ -5,7 +5,6 @@
 #include "../TASKER/tasker.h"
 #include "../SerialPi/serialpi.h"
 
-
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
 void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
 
@@ -32,7 +31,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
         serial_ardu.print(buffer.c_str());
     }
     //C_connection::mutex_who.unlock();
-    puts("test testo po lock");
+    //puts("test testo po lock");
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     while(useful_F::go_while)
     {
@@ -71,7 +70,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
                 data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
                 data_rs232->pointer.ptr_who[1] = iDomConst::CLOCK;
                 serial_ardu_clock.print(buffer.c_str());
-puts("dupa:");
+//puts("dupa:");
                 buffer.erase();
 
                 while(useful_F::go_while){
@@ -111,7 +110,6 @@ puts("dupa:");
                                 break;
                             }
                             else{
-                                printf("%c",t);
                                 bufor.push_back(t);
                             }
                         }

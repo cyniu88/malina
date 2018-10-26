@@ -152,10 +152,20 @@ TEST_F(commandiDom_Class_fixture, temperature)
     std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("-12:22"));
+
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("temperature");
+    test_v.push_back("stats");
+    test_v.push_back("insideee");
+    retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_THAT(retStr,testing::HasSubstr("not found!"));
 }
 
 TEST_F(commandiDom_Class_fixture, text)
 {
+    TEST_DATA::return_send_to_arduino = "-12:22";
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("text");
@@ -223,6 +233,8 @@ TEST_F(commandiDom_Class_fixture, smog)
 
 TEST_F(commandiDom_Class_fixture, say)
 {
+    Clock::setTime_forBT_usage(23,23);
+    TEST_DATA::return_send_to_arduino = "-3:6";
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("say");
@@ -230,5 +242,88 @@ TEST_F(commandiDom_Class_fixture, say)
     test_v.push_back("dummy");
     std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
-    EXPECT_THAT(retStr,testing::HasSubstr("sad"));
+    //EXPECT_THAT(retStr,testing::HasSubstr("sad"));
+}
+TEST_F(commandiDom_Class_fixture, wifi)
+{
+    TEST_DATA::return_httpPost = "ok";
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("wifi");
+    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_THAT(retStr,testing::HasSubstr("ok"));
+}
+
+TEST_F(commandiDom_Class_fixture, lightning)
+{
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("lightning");
+    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_THAT(retStr,testing::HasSubstr("bool: "));
+}
+
+TEST_F(commandiDom_Class_fixture, camera)
+{
+    test_my_data.server_settings->cameraLedOFF = "cameraOFF";
+    test_my_data.server_settings->cameraLedON = "cameraON";
+
+    Clock::setTime_forBT_usage(23,23);
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("camera");
+    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_STREQ(retStr.c_str(),"not enough parameters");
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::UNKNOWN);
+    ////////////////////////////////////////// ON
+    TEST_DATA::return_httpPost = "ok.\n";
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("camera");
+    test_v.push_back("LED");
+
+    test_v.push_back("ON");
+    retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::ON);
+    EXPECT_STREQ(retStr.c_str(),"led DONE");
+    ////////////////////////////////////////// OFF
+    TEST_DATA::return_httpPost = "ok.\n";
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("camera");
+    test_v.push_back("LED");
+
+    test_v.push_back("OFF");
+    retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::OFF);
+    EXPECT_STREQ(retStr.c_str(),"led DONE");
+}
+
+TEST_F(commandiDom_Class_fixture, LED)
+{
+    test_my_data.main_iDomTools->unlockHome();
+
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("LED");
+    test_v.push_back("33");
+    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_THAT(retStr,testing::HasSubstr("need more parameter from-to-R-G-B"));
+
+    ///////////////////////////////////// OFF
+    TEST_DATA::return_send_to_arduino = "led OFF";
+
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("LED");
+    test_v.push_back("OFF");
+    retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_THAT(retStr,testing::HasSubstr("led OFF"));
 }
