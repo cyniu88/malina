@@ -18,11 +18,11 @@ void blockQueue::_add(MPD_COMMAND X)
 #ifdef BT_TEST
         std::string e = "za duzo w kolejce";
         throw e;
-#else
+#endif
         log_file_mutex.mutex_lock();
         log_file_cout << DEBUG << "za dużo danych w kolejce- nie dodaje "<< std::endl;
         log_file_mutex.mutex_unlock();
-#endif
+
     }
 }
 

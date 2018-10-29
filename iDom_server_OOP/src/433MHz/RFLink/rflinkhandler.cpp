@@ -21,21 +21,17 @@ bool RFLinkHandler::init()
     if( access( my_data->server_settings->RFLinkPort.c_str(), F_OK ) != -1 )
     {
         serial_RFLink.begin( std::stoi(my_data->server_settings->RFLinkBaudRate));
-#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << INFO <<"otwarcie portu RS232 RFLink " << my_data->server_settings->RFLinkPort << "  "
                       <<my_data->server_settings->RFLinkBaudRate<<std::endl;
         log_file_mutex.mutex_unlock();
-#endif
         return true;
     }
     else
     {
-#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR <<"brak portu RS232 RFLink " << my_data->server_settings->RFLinkPort<<std::endl;
         log_file_mutex.mutex_unlock();
-#endif
         return false;
     }
 }

@@ -288,15 +288,10 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
         }
         catch(...)
         {
-#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << DEBUG << "no SWITCH equipment in config" <<   std::endl;
         log_file_mutex.mutex_unlock();
-#else
-            std::cout << "no SWITCH equipment in config" <<std::endl;
-#endif
         }
-
         try
         {
             nlohmann::json buttonJson = j.at("BUTTON");
@@ -313,11 +308,10 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
         }
         catch(...)
         {
-#ifndef BT_TEST
             log_file_mutex.mutex_lock();
             log_file_cout << DEBUG << "no BUTTONs equipment in config" <<   std::endl;
             log_file_mutex.mutex_unlock();
-#else
+#ifdef BT_TEST
             std::cout << "no BUTTONs equipment in config"  <<std::endl;
 #endif
         }
@@ -336,11 +330,10 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
         }
         catch(...)
         {
-#ifndef BT_TEST
             log_file_mutex.mutex_lock();
             log_file_cout << DEBUG << "no WEATHER STAIONs equipment in config" <<   std::endl;
             log_file_mutex.mutex_unlock();
-#else
+#ifdef BT_TEST
             std::cout << "no  WEATHER STAIONs  equipment in config"  <<std::endl;
 #endif
         }

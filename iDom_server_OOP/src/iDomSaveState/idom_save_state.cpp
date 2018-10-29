@@ -24,11 +24,11 @@ nlohmann::json iDom_SAVE_STATE::read()
     std::ifstream i(m_path);
     nlohmann::json j;
     i >> j;
-#ifndef BT_TEST
+
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "czytam zapisany stan parametrow iDom" << std::endl;
     log_file_mutex.mutex_unlock();
-#endif
+
     return j;
 }
 

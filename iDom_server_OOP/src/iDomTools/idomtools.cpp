@@ -157,11 +157,10 @@ void iDomTOOLS::updateTemperatureStats()
         sendViberMsg(msg  ,
                      my_data->server_settings->viberReceiver.at(0),
                      my_data->server_settings->viberSender);
-#ifndef BT_TEST
+
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << msg << std::endl;
         log_file_mutex.mutex_unlock();
-#endif
     }
     if( true == allThermometerUpdate.isMoreDiff("inside",2.1)){
         auto  data = allThermometerUpdate.getLast2("inside");
@@ -178,11 +177,10 @@ void iDomTOOLS::updateTemperatureStats()
         sendViberMsg(msg  ,
                      my_data->server_settings->viberReceiver.at(0),
                      my_data->server_settings->viberSender);
-#ifndef BT_TEST
+
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << msg << std::endl;
         log_file_mutex.mutex_unlock();
-#endif
     }
 }
 
@@ -257,11 +255,10 @@ void iDomTOOLS::turnOnOffPrinter()
         break;
     default:
         puts("def");
-#ifndef BT_TEST
+
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " blad odczytu stanu pinu zasilania drukarki "<<   std::endl;
         log_file_mutex.mutex_unlock();
-#endif
     }
 }
 
@@ -334,11 +331,11 @@ void iDomTOOLS::lockHome()
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/lock.jpg",
                                               my_data->server_settings->viberReceiver.at(0),
                                               my_data->server_settings->viberSender);
-#ifndef BT_TEST
+
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<<   std::endl;
     log_file_mutex.mutex_unlock();
-#endif
+
     saveState_iDom();
 }
 
@@ -350,11 +347,11 @@ void iDomTOOLS::unlockHome()
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/unlock.jpg",
                                               my_data->server_settings->viberReceiver.at(0),
                                               my_data->server_settings->viberSender);
-#ifndef BT_TEST
+
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<<   std::endl;
     log_file_mutex.mutex_unlock();
-#endif
+
     saveState_iDom();
 }
 
@@ -517,19 +514,15 @@ void iDomTOOLS::checkLightning()
         m_viber.setAvatar(my_data->server_settings->viberAvatar);
         if(stateMSG == STATE::SEND_OK)
         {
-#ifndef BT_TEST
             log_file_mutex.mutex_lock();
             log_file_cout << INFO << "wysłano informacje o burzy"<< std::endl;
             log_file_mutex.mutex_unlock();
-#endif
         }
         else
         {
-#ifndef BT_TEST
             log_file_mutex.mutex_lock();
             log_file_cout << ERROR << "nie wysłano informacje o burzy"<< std::endl;
             log_file_mutex.mutex_unlock();
-#endif
         }
     }
 }
@@ -691,11 +684,9 @@ std::string iDomTOOLS::getSmog()
         readBuffer = readBuffer.substr(start, 40);
     }
     catch (...){
-#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "wyjatek substr() e getSmog() !!!!!!"<< std::endl;
         log_file_mutex.mutex_unlock();
-#endif
     }
 
     readBuffer = useful_F_libs::find_tag(readBuffer);
@@ -720,11 +711,9 @@ void iDomTOOLS::send_temperature_thingSpeak()
     std::string s = useful_F_libs::httpPost(addres,10);
 
     if(s == "0"){
-#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak: "<< s <<   std::endl;
         log_file_mutex.mutex_unlock();
-#endif
     }
 }
 
@@ -799,11 +788,9 @@ STATE iDomTOOLS::sendViberMsgBool(const std::string &msg,
     }
     else
     {
-#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "nie wyslanno wiadomosci viber"<< jj.dump()<< std::endl;
         log_file_mutex.mutex_unlock();
-#endif
     }
     return ret;
 }
@@ -823,11 +810,9 @@ STATE iDomTOOLS::sendViberPictureBool(const std::string& msg,
     }
     else
     {
-#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "nie wyslanno wiadomosci viber"<< jj.dump()<< std::endl;
         log_file_mutex.mutex_unlock();
-#endif
     }
     return ret;
 }
@@ -997,11 +982,9 @@ void iDomTOOLS::readState_iDom()
     }
     catch(...)
     {
-#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "nie ma pliku json z stanem iDom"<< std::endl;
         log_file_mutex.mutex_unlock();
-#endif
 #ifdef BT_TEST
         std::cout << "nie ma pliku json z stanem iDom" << std::endl;
 #endif

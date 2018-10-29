@@ -69,6 +69,7 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/c_irda_logic/test/c_irda_logic_BT.cpp"
     "../../src/files_tree/files_tree.cpp"
     "../../src/menu_tree/menu_tree.cpp"
+    "../../src/logger/logger.cc"
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -DBT_TEST -DNOSSL -O3 -fprofile-instr-generate -fcoverage-mapping")

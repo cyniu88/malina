@@ -9,6 +9,12 @@
 #include "../../../../src/SerialPi/serialpi.h"
 #include "../../../../src/functions/functions.h"
 
+#define log_file_cout f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na
+std::string  _logfile = "/mnt/ramdisk/iDom_log_BT.log";
+
+Logger log_file_mutex(_logfile);
+
+
 std::string TEST_DATA::return_send_to_arduino = "-2:-2";
 std::string TEST_DATA::return_httpPost = "ok.\n";
 std::string TEST_DATA::return_httpPost_expect = "";
@@ -155,13 +161,13 @@ public:
 
     void makeFile(const std::string& path)
     {
-         std::ofstream o(path);
-         o << config433 ;
+        std::ofstream o(path);
+        o << config433 ;
     }
     void makeFileFake(const std::string& path)
     {
-         std::ofstream o(path);
-         o << config433_fake ;
+        std::ofstream o(path);
+        o << config433_fake ;
     }
 };
 
@@ -170,9 +176,22 @@ int main(int argc, char **argv) {
     t.makeFile("/mnt/ramdisk/433_eq_conf.json");
     t.makeFileFake("/mnt/ramdisk/433_eq_conf_fake.json");
 
+    std::fstream ofs;
+    ofs.open(_logfile, std::ios::out | std::ios::trunc);
+    ofs.close(); //Using microsoft incremental linker version 14
+
+    pthread_mutex_init(&Logger::mutex_log, NULL);
+
+    log_file_mutex.mutex_lock();
+    log_file_cout << std::endl<< std::endl<<"============================================"
+                  << std::endl<< std::endl<< std::endl<< INFO << "START BT "<< std::endl;
+    log_file_mutex.mutex_unlock();
+
     ::testing::InitGoogleTest( &argc, argv );
     //::testing::GTEST_FLAG(filter) = "functions_fixture.sleepThread";
     //::testing::GTEST_FLAG(filter) = "event_counter_fixture.getLast1minNumberEvent";
     //::testing::GTEST_FLAG(filter) = "command433MHz_Class_fixture.*)";
-    return RUN_ALL_TESTS();
+    auto ret = RUN_ALL_TESTS();
+    pthread_mutex_destroy(&Logger::mutex_log);
+    return ret;
 }

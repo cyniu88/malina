@@ -22,11 +22,9 @@ std::vector<std::string> useful_F::split(const std::string& s, char separator ){
     }
     catch (...)
     {
-#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "wyjatek substr() w useful_F::split() !!!!!!"<< std::endl;
         log_file_mutex.mutex_unlock();
-#endif
     }
     return output;
 }
@@ -77,11 +75,11 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     my_data->main_iDomTools->ledOFF();
     my_data->main_iDomTools->MPD_stop();
     my_data->main_iDomTools->turnOff433MHzSwitch("listwa");
-#ifndef BT_TEST
+
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< "zaczynam procedure konca watku SLEEP_MPD" <<  std::endl;
     log_file_mutex.mutex_unlock();
-#endif
+
     try
     {
         for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
@@ -98,18 +96,14 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     }
     catch (std::system_error &e)
     {
-#ifndef BT_TEST
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR<< "zlapano wyjatek w  watku SLEEP_MPD: " << e.what()<< std::endl;
         log_file_mutex.mutex_unlock();
-#endif
     }
-#ifndef BT_TEST
+
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< "koniec  watku SLEEP_MPD" <<  std::endl;
     log_file_mutex.mutex_unlock();
-#endif
-
 }
 
 std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned int a)
