@@ -65,7 +65,6 @@ void RADIO_SWITCH::onSunset()
 
 void RADIO_SWITCH::onLockHome()
 {
-     std::cout << " w configu jest " << m_config.lock << std::endl;
     if (m_config.lock == "ON")
     {
         on();

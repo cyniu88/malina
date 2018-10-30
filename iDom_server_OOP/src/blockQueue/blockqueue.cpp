@@ -15,14 +15,14 @@ void blockQueue::_add(MPD_COMMAND X)
     }
     else
     {
-#ifdef BT_TEST
-        std::string e = "za duzo w kolejce";
-        throw e;
-#endif
         log_file_mutex.mutex_lock();
         log_file_cout << DEBUG << "za dużo danych w kolejce- nie dodaje "<< std::endl;
         log_file_mutex.mutex_unlock();
 
+#ifdef BT_TEST
+        std::string e = "za duzo w kolejce";
+        throw e;
+#endif
     }
 }
 
