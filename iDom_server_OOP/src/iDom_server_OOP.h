@@ -266,7 +266,6 @@ struct thread_data{
     ALERT alarmTime;
     RADIO_EQ_CONTAINER *main_REC;
     iDomStateEnum iDomProgramState = iDomStateEnum::WORKING;
-
 };
 
 struct thread_data_rs232{

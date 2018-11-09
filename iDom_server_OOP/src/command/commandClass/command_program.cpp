@@ -1,6 +1,6 @@
 #include "command_program.h"
 #include "../../functions/functions.h"
-#include "../../433MHz/RFLink/rflinkhandler.h"o
+#include "../../433MHz/RFLink/rflinkhandler.h"
 
 command_program::command_program(const std::string &name):command(name)
 {
@@ -119,6 +119,9 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << std::endl;
         r << "my_data->main_RFLink->okTime \t" << my_data->main_RFLink->okTime<<std::endl;
         r << "my_data->main_RFLink->pingTime \t" << my_data->main_RFLink->pingTime<<std::endl;
+
+        r << std::endl;
+        r << "my_data->mainLCD-> \t" << my_data->mainLCD->getData() <<std::endl;
 
         r << "END.";
         ret = r.str();

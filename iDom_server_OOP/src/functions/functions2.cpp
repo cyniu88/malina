@@ -105,7 +105,62 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     log_file_cout << INFO<< "koniec  watku SLEEP_MPD" <<  std::endl;
     log_file_mutex.mutex_unlock();
 }
+////// watek kodi
+void useful_F::kodi (thread_data  *my_data)
+{
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO<< "start wątku KODI" <<  std::endl;
+    log_file_mutex.mutex_unlock();
 
+    //  status mpd
+    STATE musicState = my_data->main_iDomStatus->getObjectState("music");
+    // status glosnikow
+    STATE speakersState = my_data->main_iDomStatus->getObjectState("speakers");
+
+    if (musicState != STATE::STOP)
+        my_data->main_iDomTools->MPD_pause();
+    if (speakersState != STATE::ON)
+        my_data->main_iDomTools->turnOnSpeakers();
+    //system
+#ifdef BT_TEST
+    int ret = system("ls");
+#else
+    int ret = system("kodi");
+#endif
+    std::cout << "system() zwraca ret " << ret <<std::endl;
+    //przywracanie danych
+
+    if(musicState == STATE::PLAY)
+        my_data->main_iDomTools->MPD_play(my_data);
+    else
+        my_data->main_iDomTools->turnOffSpeakers();
+    //koniec
+
+    try
+    {
+        for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
+        {
+            if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
+            {
+                //my_data->main_THREAD_arr[i].thread.detach();
+                my_data->main_THREAD_arr[i].thread_name ="  -empty-  ";
+                my_data->main_THREAD_arr[i].thread_ID =  std::thread::id();
+                my_data->main_THREAD_arr[i].thread_socket = 0;
+                break;
+            }
+        }
+    }
+    catch (std::system_error &e)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR<< "zlapano wyjatek w  watku KODI: " << e.what()<< std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO<< "koniec  watku KODI" <<  std::endl;
+    log_file_mutex.mutex_unlock();
+}
 std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned int a)
 {
     time_t act_time;

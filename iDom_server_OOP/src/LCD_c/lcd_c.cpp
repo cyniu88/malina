@@ -52,6 +52,19 @@ void LCD_c::checkState()
         }
     }
 }
+
+std::string LCD_c::getData()
+{
+    std::stringstream ss;
+    ss << "play_Y_N \t" << play_Y_N << std::endl;
+    ss << "lcd_state \t" << lcd_state  << std::endl;
+    ss << " print_song_state\t" << print_song_state << std::endl;
+    ss << "rePrint\t" << rePrint  << std::endl;
+    ss << "row1\t" << row1 << std::endl;
+    ss << "row2\t" << row2 << std::endl;
+    ss << "radioName\t" << radioName << std::endl;
+    return ss.str();
+}
 void LCD_c::set_lcd_STATE (int i)
 {
     lcd_state = i;

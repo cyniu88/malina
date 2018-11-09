@@ -25,6 +25,7 @@ public:
     void printSongName (const std::string& songName);
     void checkState();
     bool play_Y_N = false;
+    std::string getData();
 private:
     //std::string intToStr(int n);
     int lcd_state = 0;
