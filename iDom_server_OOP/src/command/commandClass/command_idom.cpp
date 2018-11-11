@@ -182,6 +182,9 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         std::string tempHTML = my_data->main_iDomTools->getWeatherEvent(v[2],std::stoi(v[3]));
         return useful_F_libs::removeHtmlTag(tempHTML);
     }
+    else if (v[1] == "KODI"){
+        return  my_data->main_iDomTools->startKodi_Thread();
+    }
     else if (v[1]=="alarm"){
 
         if (v.size() < 3){
@@ -257,5 +260,6 @@ std::string command_iDom::help()
     help << "iDom alarm GET  - get alarm time" << std::endl;
     help << "iDom lock   - lock home" << std::endl;
     help << "iDom unlock - unlock home" << std::endl;
+    help << "iDom KODI - start KODI smart TV" << std::endl;
     return help.str();
 }

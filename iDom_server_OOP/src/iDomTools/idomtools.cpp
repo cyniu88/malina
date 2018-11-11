@@ -883,7 +883,7 @@ void iDomTOOLS::checkAlarm()
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
             if(iDomTOOLS::isItDay() == false){
-               // my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
+                // my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
             }
         }
     }
@@ -991,3 +991,23 @@ void iDomTOOLS::readState_iDom()
     }
 }
 
+std::string iDomTOOLS::startKodi_Thread()
+{
+    puts("START KODI");
+    int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
+
+    if ( freeSlotID != -1)
+    {
+        my_data->main_THREAD_arr[freeSlotID].thread        = std::thread(useful_F::kodi,my_data);
+        my_data->main_THREAD_arr[freeSlotID].thread_name   ="KODI smart TV ";
+        my_data->main_THREAD_arr[freeSlotID].thread_ID     = my_data->main_THREAD_arr[freeSlotID].thread.get_id();
+        my_data->main_THREAD_arr[freeSlotID].thread_socket = 1;
+        my_data->main_THREAD_arr[freeSlotID].thread.detach();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "watek KODI wystartowal  "<< my_data->main_THREAD_arr[freeSlotID].thread_ID << std::endl;
+        log_file_mutex.mutex_unlock();
+
+        return "DONE - KODI STARTED";
+    }
+    return "not free space to new thread";
+}

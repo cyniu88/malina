@@ -36,3 +36,4 @@ std::string iDomTOOLS::getSystemInfo()
 
     return ret.str();
 }
+

@@ -1,4 +1,4 @@
-# Install script for directory: /home/cyniu/GIT/malina/iDom_server_OOP/test/iDom_TESTs-CMAKE
+# Install script for directory: /home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/cyniu/GIT/malina/iDom_server_OOP/test/iDom_TESTs-CMAKE/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/pi/programowanie/iDom_server_OOP/test/iDom_TESTs-CMAKE/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

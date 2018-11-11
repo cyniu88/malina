@@ -153,6 +153,8 @@ public:
 
     /////////////////////// system linux ///////////////////
     std::string getSystemInfo();
+    ///////////////////////  KODI   ////////////////////////
+    std::string startKodi_Thread();
 };
 
 #endif // IDOMTOOLS_H

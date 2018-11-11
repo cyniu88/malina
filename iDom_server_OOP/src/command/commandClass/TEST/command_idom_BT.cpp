@@ -52,7 +52,7 @@ TEST_F(commandiDom_Class_fixture, help)
     std::string  helpStr = test_command_iDom->help();
     EXPECT_THAT(helpStr,testing::HasSubstr("iDom"));
     std::cout << "test " << helpStr.size() << std::endl;
-    EXPECT_EQ(helpStr.size(),1127);
+    EXPECT_EQ(helpStr.size(),1159);
 }
 
 TEST_F(commandiDom_Class_fixture, less_param)
@@ -326,4 +326,22 @@ TEST_F(commandiDom_Class_fixture, LED)
     retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("led OFF"));
+}
+TEST_F(commandiDom_Class_fixture, kodi)
+{
+    test_my_data.main_iDomStatus->setObjectState("music",STATE::PLAY);
+    test_my_data.main_iDomStatus->setObjectState("speakers",STATE::ON);
+    Thread_array_struc test_ThreadArrayStruc[iDomConst::MAX_CONNECTION];
+
+    for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+        test_ThreadArrayStruc[i].thread_socket = i+1;
+    test_ThreadArrayStruc[3].thread_socket = 0;
+    test_my_data.main_THREAD_arr = test_ThreadArrayStruc;
+
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("KODI");
+    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_THAT(retStr,testing::HasSubstr("STARTED"));
 }
