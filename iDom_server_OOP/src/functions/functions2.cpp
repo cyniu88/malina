@@ -112,6 +112,7 @@ void useful_F::kodi (thread_data  *my_data)
     log_file_cout << INFO<< "start wątku KODI" <<  std::endl;
     log_file_mutex.mutex_unlock();
 
+    my_data->main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);
     //  status mpd
     STATE musicState = my_data->main_iDomStatus->getObjectState("music");
     // status glosnikow
@@ -125,7 +126,7 @@ void useful_F::kodi (thread_data  *my_data)
 #ifdef BT_TEST
     int ret = system("ls");
 #else
-    int ret = system("kodi");
+    int ret = system("runuser -u pi kodi");
 #endif
     std::cout << "system() zwraca ret " << ret <<std::endl;
     //przywracanie danych
@@ -157,6 +158,7 @@ void useful_F::kodi (thread_data  *my_data)
         log_file_mutex.mutex_unlock();
     }
 
+    my_data->main_iDomStatus->setObjectState("KODI",STATE::DEACTIVE);
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< "koniec  watku KODI" <<  std::endl;
     log_file_mutex.mutex_unlock();
