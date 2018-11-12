@@ -342,6 +342,7 @@ TEST_F(commandiDom_Class_fixture, kodi)
     test_v.push_back("iDom");
     test_v.push_back("KODI");
     std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    sleep(1);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("STARTED"));
 }

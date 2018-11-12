@@ -105,7 +105,8 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     log_file_cout << INFO<< "koniec  watku SLEEP_MPD" <<  std::endl;
     log_file_mutex.mutex_unlock();
 }
-////// watek kodi
+
+///////////////////////////////////////////////////////////////////////////////////////////////////// watek kodi
 void useful_F::kodi (thread_data  *my_data)
 {
     log_file_mutex.mutex_lock();

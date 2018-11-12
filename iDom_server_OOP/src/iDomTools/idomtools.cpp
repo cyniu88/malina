@@ -999,7 +999,7 @@ std::string iDomTOOLS::startKodi_Thread()
     if ( freeSlotID != -1)
     {
         my_data->main_THREAD_arr[freeSlotID].thread        = std::thread(useful_F::kodi,my_data);
-        my_data->main_THREAD_arr[freeSlotID].thread_name   ="KODI smart TV ";
+        my_data->main_THREAD_arr[freeSlotID].thread_name   ="KODI smart TV";
         my_data->main_THREAD_arr[freeSlotID].thread_ID     = my_data->main_THREAD_arr[freeSlotID].thread.get_id();
         my_data->main_THREAD_arr[freeSlotID].thread_socket = 1;
         my_data->main_THREAD_arr[freeSlotID].thread.detach();
