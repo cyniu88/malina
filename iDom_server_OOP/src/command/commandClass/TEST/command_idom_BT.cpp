@@ -329,6 +329,16 @@ TEST_F(commandiDom_Class_fixture, LED)
 }
 TEST_F(commandiDom_Class_fixture, kodi)
 {
+    test_my_data.main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("KODI");
+    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    sleep(1);
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_STREQ(retStr.c_str(),"kodi already run");
+
+    test_my_data.main_iDomStatus->setObjectState("KODI",STATE::DEACTIVE);
     test_my_data.main_iDomStatus->setObjectState("music",STATE::PLAY);
     test_my_data.main_iDomStatus->setObjectState("speakers",STATE::ON);
     Thread_array_struc test_ThreadArrayStruc[iDomConst::MAX_CONNECTION];
@@ -341,7 +351,7 @@ TEST_F(commandiDom_Class_fixture, kodi)
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("KODI");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    retStr = test_command_iDom->execute(test_v, &test_my_data);
     sleep(1);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("STARTED"));

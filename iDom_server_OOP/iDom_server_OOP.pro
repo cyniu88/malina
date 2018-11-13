@@ -152,4 +152,5 @@ HEADERS += src/c_connection/c_connection.h \
     src/SerialPi/serialpi.h
 
 DISTFILES +=
-
+DEFINES += GIT_CURRENT_SHA1="$(git rev-parse HEAD)"
+DEFINES += GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"

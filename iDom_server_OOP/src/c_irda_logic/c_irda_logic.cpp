@@ -390,6 +390,9 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
     case PILOT_KEY::KEY_TEXT:
         my_data->main_iDomTools->turnOnOff433MHzSwitch("listwa");
         break;
+    case PILOT_KEY::KEY_REFRESH:
+        my_data->main_iDomTools->startKodi_Thread();
+        break;
     default:
         irdaMPD(X);
     }

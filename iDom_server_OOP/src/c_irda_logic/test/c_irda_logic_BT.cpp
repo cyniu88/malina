@@ -37,6 +37,22 @@ public:
     }
 };
 
+TEST_F(c_irda_logic_fixture, kodi)
+{
+    Thread_array_struc test_ThreadArrayStruc[iDomConst::MAX_CONNECTION];
+
+    for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+        test_ThreadArrayStruc[i].thread_socket = i+1;
+    test_ThreadArrayStruc[3].thread_socket = 0;
+    test_my_data.main_THREAD_arr = test_ThreadArrayStruc;
+
+    test_my_data.main_iDomTools->unlockHome();
+    test_my_data.main_iDomStatus->setObjectState("music",STATE::PAUSE);
+    test_my_data.main_iDomStatus->setObjectState("speakers",STATE::OFF);
+    test_irda->_add(PILOT_KEY::KEY_REFRESH);
+    sleep(1);
+}
+
 TEST_F(c_irda_logic_fixture, turnOnOffListwa)
 {
     test_my_data.main_iDomTools->unlockHome();

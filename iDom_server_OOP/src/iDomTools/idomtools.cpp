@@ -42,6 +42,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
     my_data->main_iDomStatus->addObject("printer",STATE::OFF);
     my_data->main_iDomStatus->addObject("speakers",STATE::OFF);
     my_data->main_iDomStatus->addObject("alarm",STATE::DEACTIVE);
+    my_data->main_iDomStatus->addObject("KODI",STATE::DEACTIVE);
 
     ///////// setup viber api
     m_viber.setAvatar(my_data->server_settings->viberAvatar);
@@ -993,7 +994,10 @@ void iDomTOOLS::readState_iDom()
 
 std::string iDomTOOLS::startKodi_Thread()
 {
-    puts("START KODI");
+    STATE kodiState = my_data->main_iDomStatus->getObjectState("KODI");
+    if (kodiState == STATE::ACTIVE)
+        return "kodi already run";
+
     int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
 
     if ( freeSlotID != -1)

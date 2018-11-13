@@ -171,7 +171,8 @@ public:
     }
 };
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     test_433 t;
     t.makeFile("/mnt/ramdisk/433_eq_conf.json");
     t.makeFileFake("/mnt/ramdisk/433_eq_conf_fake.json");
@@ -193,5 +194,8 @@ int main(int argc, char **argv) {
     //::testing::GTEST_FLAG(filter) = "command433MHz_Class_fixture.*)";
     auto ret = RUN_ALL_TESTS();
     pthread_mutex_destroy(&Logger::mutex_log);
+
+    const char * PROG_INFO =  " Basic TEST iDomServer: " __DATE__ ", " __TIME__;
+    std::cout << "wersja " <<PROG_INFO <<" "<< GIT_BRANCH <<" " << GIT_COMMIT_HASH << std::endl;
     return ret;
 }

@@ -113,6 +113,9 @@ void useful_F::kodi (thread_data  *my_data)
     log_file_cout << INFO<< "start wątku KODI" <<  std::endl;
     log_file_mutex.mutex_unlock();
 
+    my_data->mainLCD->set_print_song_state(100);
+    my_data->mainLCD->printString(false,2,1,"  KODI   ");
+
     my_data->main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);
     //  status mpd
     STATE musicState = my_data->main_iDomStatus->getObjectState("music");
@@ -160,6 +163,7 @@ void useful_F::kodi (thread_data  *my_data)
     }
 
     my_data->main_iDomStatus->setObjectState("KODI",STATE::DEACTIVE);
+    my_data->mainLCD->set_print_song_state(0);
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< "koniec  watku KODI" <<  std::endl;
     log_file_mutex.mutex_unlock();

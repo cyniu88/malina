@@ -245,6 +245,10 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "thread DUMMY \t" << server_settings.THREAD_DUMMY << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
+    std::string koko = GIT_BRANCH;
+    std::string koko2 = GIT_CURRENT_SHA1;
+    log_file_cout << DEBUG << "zbudoiwany z branch'a "  << koko << std::endl;
+    log_file_cout << DEBUG << "commita:  "  << koko2 << std::endl;
     log_file_mutex.mutex_unlock();
 
     ///////////////////////////////////////////////  koniec logowania do poliku  ///////////////////////////////////////////////////
