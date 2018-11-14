@@ -334,7 +334,7 @@ TEST_F(commandiDom_Class_fixture, kodi)
     test_v.push_back("iDom");
     test_v.push_back("KODI");
     std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
-    sleep(1);
+
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_STREQ(retStr.c_str(),"kodi already run");
 
@@ -355,4 +355,14 @@ TEST_F(commandiDom_Class_fixture, kodi)
     sleep(1);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("STARTED"));
+
+    for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+        test_ThreadArrayStruc[i].thread_socket = -1;
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("KODI");
+    retStr = test_command_iDom->execute(test_v, &test_my_data);
+
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_STREQ(retStr.c_str(),"not free space to new thread");
 }
