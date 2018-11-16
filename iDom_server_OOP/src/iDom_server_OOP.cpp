@@ -217,8 +217,8 @@ iDomStateEnum iDom_main()
     node_data.server_settings = &server_settings;
     time(&node_data.start);
 
-    Thread_array_struc thread_array[iDomConst::MAX_CONNECTION];
-    for (int i = 0 ; i< iDomConst::MAX_CONNECTION;++i)
+    std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> thread_array;
+    for (int i = 0; i< thread_array.size(); ++i)
     {
         thread_array[i].thread_name = "  -empty-  ";
         thread_array[i].thread_socket = 0;
@@ -245,10 +245,10 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "thread DUMMY \t" << server_settings.THREAD_DUMMY << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
-    std::string koko = GIT_BRANCH;
-    std::string koko2 = GIT_CURRENT_SHA1;
-    log_file_cout << DEBUG << "zbudoiwany z branch'a "  << koko << std::endl;
-    log_file_cout << DEBUG << "commita:  "  << koko2 << std::endl;
+//    std::string koko = GIT_BRANCH;
+//    std::string koko2 = GIT_CURRENT_SHA1;
+//    log_file_cout << DEBUG << "zbudoiwany z branch'a "  << koko << std::endl;
+//    log_file_cout << DEBUG << "commita:  "  << koko2 << std::endl;
     log_file_mutex.mutex_unlock();
 
     ///////////////////////////////////////////////  koniec logowania do poliku  ///////////////////////////////////////////////////
@@ -264,7 +264,7 @@ iDomStateEnum iDom_main()
 
     if (rflink_work == true){
         //start watku czytania RFLinka
-        int freeSlotID = useful_F::findFreeThreadSlot(thread_array);
+        int freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
         thread_array[freeSlotID].thread = std::thread(RFLinkHandlerRUN, &node_data);
         thread_array[freeSlotID].thread_name = "RFLink_thread";
         thread_array[freeSlotID].thread_socket = 1;
@@ -303,7 +303,7 @@ iDomStateEnum iDom_main()
 
     ///  start watku do komunikacji rs232
 
-    int freeSlotID = useful_F::findFreeThreadSlot(thread_array);
+    int freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
 
     if(server_settings.THREAD_RS232 == "YES")
     {
@@ -345,7 +345,7 @@ iDomStateEnum iDom_main()
     node_data.mainLCD = &mainLCD;
     node_data.main_tree = &main_tree;
     node_data.main_MENU = &main_MENU;
-    node_data.main_THREAD_arr = &thread_array[0];
+    node_data.main_THREAD_arr = &thread_array;
     node_data.sleeper = 0;
     node_data.ptr_MPD_info = &my_MPD_info;
 
@@ -360,7 +360,7 @@ iDomStateEnum iDom_main()
     // start watku irda
     if(server_settings.THREAD_IRDA == "YES")
     {
-        freeSlotID = useful_F::findFreeThreadSlot(thread_array);
+        freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
         thread_array[freeSlotID].thread = std::thread (f_master_irda, &node_data);
         thread_array[freeSlotID].thread_name = "IRDA_master";
         thread_array[freeSlotID].thread_socket = 1;
@@ -374,7 +374,7 @@ iDomStateEnum iDom_main()
     // start watku  mpd_cli
     if(server_settings.THREAD_MPD == "YES")
     {
-        freeSlotID = useful_F::findFreeThreadSlot(thread_array);
+        freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
         thread_array[freeSlotID].thread = std::thread (main_mpd_cli, &node_data);
         thread_array[freeSlotID].thread_name = "MPD_client";
         thread_array[freeSlotID].thread_socket = 1;
@@ -388,7 +388,7 @@ iDomStateEnum iDom_main()
     // start watku CRONa
     if(server_settings.THREAD_CRON == "YES")
     {
-        freeSlotID = useful_F::findFreeThreadSlot(thread_array);
+        freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
         thread_array[freeSlotID].thread = std::thread(f_master_CRON, &node_data);
         thread_array[freeSlotID].thread_name = "CRON_master";
         thread_array[freeSlotID].thread_socket = 1;
@@ -401,7 +401,7 @@ iDomStateEnum iDom_main()
 
     if(server_settings.THREAD_DUMMY == "YES"){
 
-        freeSlotID = useful_F::findFreeThreadSlot(thread_array);
+        freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
         thread_array[freeSlotID].thread = std::thread(f_serv_con_node, &node_data);
         thread_array[freeSlotID].thread_name = "node master";
         thread_array[freeSlotID].thread_socket = 1;
@@ -487,7 +487,7 @@ iDomStateEnum iDom_main()
 
         ////////////////////////   jest połacznie   wiec wstawiamy je  do nowego watku  i  umieszczamy id watku w tablicy  w pierwszym wolnym miejscy ////////////////////
 
-        int freeSlotID = useful_F::findFreeThreadSlot(thread_array);
+        int freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
 
         if( freeSlotID != -1)
 
