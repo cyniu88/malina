@@ -84,12 +84,12 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     {
         for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
         {
-            if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
+            if (my_data->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
             {
                 //my_data->main_THREAD_arr[i].thread.detach();
-                my_data->main_THREAD_arr[i].thread_name ="  -empty-  ";
-                my_data->main_THREAD_arr[i].thread_ID =  std::thread::id();
-                my_data->main_THREAD_arr[i].thread_socket = 0;
+                my_data->main_THREAD_arr->at(i).thread_name ="  -empty-  ";
+                my_data->main_THREAD_arr->at(i).thread_ID =  std::thread::id();
+                my_data->main_THREAD_arr->at(i).thread_socket = 0;
                 break;
             }
         }
@@ -145,12 +145,12 @@ void useful_F::kodi (thread_data  *my_data)
     {
         for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
         {
-            if (my_data->main_THREAD_arr[i].thread_ID == std::this_thread::get_id())
+            if (my_data->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
             {
                 //my_data->main_THREAD_arr[i].thread.detach();
-                my_data->main_THREAD_arr[i].thread_name ="  -empty-  ";
-                my_data->main_THREAD_arr[i].thread_ID =  std::thread::id();
-                my_data->main_THREAD_arr[i].thread_socket = 0;
+                my_data->main_THREAD_arr->at(i).thread_name ="  -empty-  ";
+                my_data->main_THREAD_arr->at(i).thread_ID =  std::thread::id();
+                my_data->main_THREAD_arr->at(i).thread_socket = 0;
                 break;
             }
         }
@@ -188,14 +188,12 @@ std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned i
     return std::to_string((hash & 0x7FFFFFFF));
 }
 
-int useful_F::findFreeThreadSlot(Thread_array_struc *array)
+int useful_F::findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array)
 {
     for (int i = 0 ; i< iDomConst::MAX_CONNECTION;  ++i)
     {
-        if (array[i].thread_socket == 0)
-        {
+        if (array->at(i).thread_socket == 0)
             return i;
-        }
     }
     puts("return -1");
     return -1;

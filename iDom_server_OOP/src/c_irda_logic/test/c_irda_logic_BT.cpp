@@ -39,12 +39,12 @@ public:
 
 TEST_F(c_irda_logic_fixture, kodi)
 {
-    Thread_array_struc test_ThreadArrayStruc[iDomConst::MAX_CONNECTION];
+    std::array<Thread_array_struc,iDomConst::MAX_CONNECTION >test_ThreadArrayStruc;
 
     for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
-        test_ThreadArrayStruc[i].thread_socket = i+1;
-    test_ThreadArrayStruc[3].thread_socket = 0;
-    test_my_data.main_THREAD_arr = test_ThreadArrayStruc;
+        test_ThreadArrayStruc.at(i).thread_socket = i+1;
+    test_ThreadArrayStruc.at(3).thread_socket = 0;
+    test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
 
     test_my_data.main_iDomTools->unlockHome();
     test_my_data.main_iDomStatus->setObjectState("music",STATE::PAUSE);
@@ -138,12 +138,12 @@ TEST_F(c_irda_logic_fixture, sleeper_Logic_OK)
 {
     std::cout << test_my_data.main_REC->listAllName() << std::endl;
 
-    Thread_array_struc test_ThreadArrayStruc[iDomConst::MAX_CONNECTION];
+    std::array<Thread_array_struc,iDomConst::MAX_CONNECTION> test_ThreadArrayStruc;
 
     for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
-        test_ThreadArrayStruc[i].thread_socket = i+1;
-    test_ThreadArrayStruc[3].thread_socket = 0;
-    test_my_data.main_THREAD_arr = test_ThreadArrayStruc;
+        test_ThreadArrayStruc.at(i).thread_socket = i+1;
+    test_ThreadArrayStruc.at(3).thread_socket = 0;
+    test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
     test_my_data.sleeper = 0;
     EXPECT_EQ(test_my_data.sleeper, 0);
     test_irda->_add(PILOT_KEY::KEY_MENU);

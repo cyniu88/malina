@@ -37,7 +37,7 @@ public:
     static thread_data* myStaticData;
     static void setStaticData(thread_data* my_dataPtr);
     static void clearThreadArray(thread_data *my_data);
-    static int findFreeThreadSlot(Thread_array_struc *array);
+    static int findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array);
 
     static std::mutex mutex_buf;
     static std::mutex mutex_who;

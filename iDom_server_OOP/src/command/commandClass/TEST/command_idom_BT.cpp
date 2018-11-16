@@ -341,12 +341,13 @@ TEST_F(commandiDom_Class_fixture, kodi)
     test_my_data.main_iDomStatus->setObjectState("KODI",STATE::DEACTIVE);
     test_my_data.main_iDomStatus->setObjectState("music",STATE::PLAY);
     test_my_data.main_iDomStatus->setObjectState("speakers",STATE::ON);
-    Thread_array_struc test_ThreadArrayStruc[iDomConst::MAX_CONNECTION];
+
+    std::array<Thread_array_struc,iDomConst::MAX_CONNECTION> test_ThreadArrayStruc;
 
     for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
-        test_ThreadArrayStruc[i].thread_socket = i+1;
-    test_ThreadArrayStruc[3].thread_socket = 0;
-    test_my_data.main_THREAD_arr = test_ThreadArrayStruc;
+        test_ThreadArrayStruc.at(i).thread_socket = i+1;
+    test_ThreadArrayStruc.at(3).thread_socket = 0;
+    test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
 
     test_v.clear();
     test_v.push_back("iDom");

@@ -26,13 +26,13 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
 
             if ( freeSlotID != -1)
             {
-                my_data->main_THREAD_arr[freeSlotID].thread        = std::thread(useful_F::sleeper_mpd,my_data);
-                my_data->main_THREAD_arr[freeSlotID].thread_name   ="Sleeper  MPD ";
-                my_data->main_THREAD_arr[freeSlotID].thread_ID     = my_data->main_THREAD_arr[freeSlotID].thread.get_id();
-                my_data->main_THREAD_arr[freeSlotID].thread_socket = 1;
-                my_data->main_THREAD_arr[freeSlotID].thread.detach();
+                my_data->main_THREAD_arr->at(freeSlotID).thread        = std::thread(useful_F::sleeper_mpd,my_data);
+                my_data->main_THREAD_arr->at(freeSlotID).thread_name   ="Sleeper  MPD ";
+                my_data->main_THREAD_arr->at(freeSlotID).thread_ID     = my_data->main_THREAD_arr->at(freeSlotID).thread.get_id();
+                my_data->main_THREAD_arr->at(freeSlotID).thread_socket = 1;
+                my_data->main_THREAD_arr->at(freeSlotID).thread.detach();
                 log_file_mutex.mutex_lock();
-                log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data->main_THREAD_arr[freeSlotID].thread_ID << std::endl;
+                log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data->main_THREAD_arr->at(freeSlotID).thread_ID << std::endl;
                 log_file_mutex.mutex_unlock();
 
                 return "DONE \n sleep has set to: "+v[2];

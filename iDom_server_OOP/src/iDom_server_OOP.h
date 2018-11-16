@@ -23,6 +23,7 @@
 #include <time.h>
 #include <wiringPi.h>
 #include <chrono>
+#include <array>
 
 // MOJE BIBLIOTEKI
 #include "KEY/key.h"
@@ -251,7 +252,7 @@ struct thread_data{
     menu_tree *main_MENU = NULL;
     iDomTOOLS *main_iDomTools = NULL;
     RFLinkHandler *main_RFLink = NULL;
-    Thread_array_struc *main_THREAD_arr = NULL;
+    std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *main_THREAD_arr = NULL;
     time_t start;
     time_t now_time;
     int sleeper;

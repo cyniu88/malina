@@ -607,8 +607,7 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
         txt += a;
     }
     /////////// start thread  TTS - python use ////////////////////////
-    std::string command = " python /home/pi/programowanie/iDom_server_OOP/script/PYTHON/gadacz.py ";
-    command += "\""+ txt +"\"";
+    std::string command = " python /home/pi/programowanie/iDom_server_OOP/script/PYTHON/gadacz.py \\"+ txt +"\\";
     if(my_data->ptr_MPD_info->isPlay){
 
     }
@@ -1002,13 +1001,13 @@ std::string iDomTOOLS::startKodi_Thread()
 
     if ( freeSlotID != -1)
     {
-        my_data->main_THREAD_arr[freeSlotID].thread        = std::thread(useful_F::kodi,my_data);
-        my_data->main_THREAD_arr[freeSlotID].thread_name   ="KODI smart TV";
-        my_data->main_THREAD_arr[freeSlotID].thread_ID     = my_data->main_THREAD_arr[freeSlotID].thread.get_id();
-        my_data->main_THREAD_arr[freeSlotID].thread_socket = 1;
-        my_data->main_THREAD_arr[freeSlotID].thread.detach();
+        my_data->main_THREAD_arr->at(freeSlotID).thread        = std::thread(useful_F::kodi,my_data);
+        my_data->main_THREAD_arr->at(freeSlotID).thread_name   ="KODI smart TV";
+        my_data->main_THREAD_arr->at(freeSlotID).thread_ID     = my_data->main_THREAD_arr->at(freeSlotID).thread.get_id();
+        my_data->main_THREAD_arr->at(freeSlotID).thread_socket = 1;
+        my_data->main_THREAD_arr->at(freeSlotID).thread.detach();
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "watek KODI wystartowal  "<< my_data->main_THREAD_arr[freeSlotID].thread_ID << std::endl;
+        log_file_cout << INFO << "watek KODI wystartowal  "<< my_data->main_THREAD_arr->at(freeSlotID).thread_ID << std::endl;
         log_file_mutex.mutex_unlock();
 
         return "DONE - KODI STARTED";

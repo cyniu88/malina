@@ -134,7 +134,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1]=="kill"){
 
         if (v[2]=="thread"){
-            my_data->main_THREAD_arr[std::stoi(v[3]) ].thread.~thread();
+            my_data->main_THREAD_arr->at(std::stoi(v[3]) ).thread.~thread();
             return "done!";
         }
     }

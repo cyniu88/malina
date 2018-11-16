@@ -77,7 +77,7 @@ TEST_F(functions_fixture, setStaticData)
 
 TEST_F(functions_fixture, sleepThread)
 {
-    Thread_array_struc test_THRARRSTR;
+    std::array <Thread_array_struc,10> test_THRARRSTR;
     test_my_data.main_THREAD_arr = &test_THRARRSTR;
 
     MPD_info test_ptr_MPD;
