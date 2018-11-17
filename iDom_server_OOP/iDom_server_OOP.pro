@@ -75,7 +75,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/iDomTools/idomtools_system.cpp \
     src/SerialPi/serialpi.cpp \
     arduPi/arduPi_template.cpp \
-    arduPi/arduPi.cpp
+    arduPi/arduPi.cpp \
+    src/thread_functions/iDom_thread.cpp
 
 INCLUDEPATH += "/home/pi/programowanie/iDom_server_OOP/libs/json/single_include/nlohmann"
 
@@ -149,7 +150,8 @@ HEADERS += src/c_connection/c_connection.h \
     src/433MHz/RFLink/rflinkhandler.h \
     src/iDomTools/lightning.h \
     src/iDomSaveState/idom_save_state.h \
-    src/SerialPi/serialpi.h
+    src/SerialPi/serialpi.h \
+    src/thread_functions/iDom_thread.h
 
 DISTFILES +=
 DEFINES += GIT_CURRENT_SHA1="$(git rev-parse HEAD)"

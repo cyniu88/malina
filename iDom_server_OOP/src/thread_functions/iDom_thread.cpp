@@ -1,16 +1,23 @@
+
+
+
 #include "iDom_thread.h"
 #include "../functions/functions.h"
+#include <tuple>
+#include <array>
+#include <functional>
 
 std::string iDOM_THREAD::start_thread(const std::string& name,
-                                      void(* fn),
+                                      std::function<void(thread_data*,const std::string& threadName)> functionToThread, //void(fn)(thread_data),
                                       thread_data* my_data,
-                                      int thread_socket = 1)
+                                      int thread_socket)
 {
     int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
 
     if ( freeSlotID != -1)
     {
-        my_data->main_THREAD_arr->at(freeSlotID).thread        = std::thread(useful_F::kodi, my_data);
+        my_data->main_THREAD_arr->at(freeSlotID).thread  = std::thread(functionToThread ,my_data, name);
+
         my_data->main_THREAD_arr->at(freeSlotID).thread_name   = name;
         my_data->main_THREAD_arr->at(freeSlotID).thread_ID     = my_data->main_THREAD_arr->at(freeSlotID).thread.get_id();
         my_data->main_THREAD_arr->at(freeSlotID).thread_socket = thread_socket;
@@ -45,11 +52,12 @@ void iDOM_THREAD::stop_thread(const std::string& name,
     catch (std::system_error &e)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR<< "zlapano wyjatek w  watku " << name << ": " << e.what()<< std::endl;
+        log_file_cout << ERROR<< "zlapano wyjatek w  watku: " << name << ": " << e.what()<< std::endl;
         log_file_mutex.mutex_unlock();
     }
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "koniec  watku" <<name <<  std::endl;
+    log_file_cout << INFO<< "koniec  watku: " <<name <<  std::endl;
     log_file_mutex.mutex_unlock();
 }
+

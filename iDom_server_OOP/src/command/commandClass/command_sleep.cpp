@@ -1,5 +1,6 @@
 #include "command_sleep.h"
-#include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
+#include "../../functions/functions.h"
+#include "../../thread_functions/iDom_thread.h"
 
 command_sleep::command_sleep(const std::string &name):command(name)
 {
@@ -22,22 +23,7 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
 
             my_data->sleeper = sleep;
 
-            int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
-
-            if ( freeSlotID != -1)
-            {
-                my_data->main_THREAD_arr->at(freeSlotID).thread        = std::thread(useful_F::sleeper_mpd,my_data);
-                my_data->main_THREAD_arr->at(freeSlotID).thread_name   ="Sleeper  MPD ";
-                my_data->main_THREAD_arr->at(freeSlotID).thread_ID     = my_data->main_THREAD_arr->at(freeSlotID).thread.get_id();
-                my_data->main_THREAD_arr->at(freeSlotID).thread_socket = 1;
-                my_data->main_THREAD_arr->at(freeSlotID).thread.detach();
-                log_file_mutex.mutex_lock();
-                log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data->main_THREAD_arr->at(freeSlotID).thread_ID << std::endl;
-                log_file_mutex.mutex_unlock();
-
-                return "DONE \n sleep has set to: "+v[2];
-            }
-            return "not free space to new thread";
+            return iDOM_THREAD::start_thread("Sleep MPD",useful_F::sleeper_mpd,my_data);
         }
         else {
             return "wrong parametr "+v[1];

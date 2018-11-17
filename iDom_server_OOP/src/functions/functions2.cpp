@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "functions.h"
+#include "../thread_functions/iDom_thread.h"
 
 std::vector<std::string> useful_F::split(const std::string& s, char separator ){
     std::vector<std::string> output;
@@ -61,7 +62,7 @@ void useful_F::tokenizer ( std::vector <std::string> &command, std::string separ
 }
 
 ////// watek sleeper
-void useful_F::sleeper_mpd (thread_data  *my_data)
+void useful_F::sleeper_mpd (thread_data  *my_data, const std::string& threadName)
 {
     unsigned int t = 60/my_data->sleeper;
     unsigned int k = 0;
@@ -77,29 +78,10 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
     my_data->main_iDomTools->turnOff433MHzSwitch("listwa");
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "zaczynam procedure konca watku SLEEP_MPD" <<  std::endl;
+    log_file_cout << INFO<< "zaczynam procedure konca watku " << threadName <<  std::endl;
     log_file_mutex.mutex_unlock();
 
-    try
-    {
-        for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
-        {
-            if (my_data->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
-            {
-                //my_data->main_THREAD_arr[i].thread.detach();
-                my_data->main_THREAD_arr->at(i).thread_name ="  -empty-  ";
-                my_data->main_THREAD_arr->at(i).thread_ID =  std::thread::id();
-                my_data->main_THREAD_arr->at(i).thread_socket = 0;
-                break;
-            }
-        }
-    }
-    catch (std::system_error &e)
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << ERROR<< "zlapano wyjatek w  watku SLEEP_MPD: " << e.what()<< std::endl;
-        log_file_mutex.mutex_unlock();
-    }
+    iDOM_THREAD::stop_thread(threadName,my_data);
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO<< "koniec  watku SLEEP_MPD" <<  std::endl;
@@ -107,10 +89,10 @@ void useful_F::sleeper_mpd (thread_data  *my_data)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////// watek kodi
-void useful_F::kodi (thread_data  *my_data)
+void useful_F::kodi (thread_data  *my_data, const std::string& threadName)
 {
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "start wątku KODI" <<  std::endl;
+    log_file_cout << INFO<< "start wątku "<<threadName <<  std::endl;
     log_file_mutex.mutex_unlock();
 
     my_data->mainLCD->set_print_song_state(100);
@@ -140,32 +122,12 @@ void useful_F::kodi (thread_data  *my_data)
     else
         my_data->main_iDomTools->turnOffSpeakers();
     //koniec
-
-    try
-    {
-        for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
-        {
-            if (my_data->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
-            {
-                //my_data->main_THREAD_arr[i].thread.detach();
-                my_data->main_THREAD_arr->at(i).thread_name ="  -empty-  ";
-                my_data->main_THREAD_arr->at(i).thread_ID =  std::thread::id();
-                my_data->main_THREAD_arr->at(i).thread_socket = 0;
-                break;
-            }
-        }
-    }
-    catch (std::system_error &e)
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << ERROR<< "zlapano wyjatek w  watku KODI: " << e.what()<< std::endl;
-        log_file_mutex.mutex_unlock();
-    }
+    iDOM_THREAD::stop_thread("kodi smartTV",my_data);
 
     my_data->main_iDomStatus->setObjectState("KODI",STATE::DEACTIVE);
     my_data->mainLCD->set_print_song_state(0);
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "koniec  watku KODI" <<  std::endl;
+    log_file_cout << INFO<< "koniec  watku " << threadName<<  std::endl;
     log_file_mutex.mutex_unlock();
 }
 std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned int a)
@@ -190,10 +152,10 @@ std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned i
 
 int useful_F::findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array)
 {
-    for (int i = 0 ; i< iDomConst::MAX_CONNECTION;  ++i)
+    for (std::size_t i = 0 ; i< array->size();  ++i)
     {
         if (array->at(i).thread_socket == 0)
-            return i;
+            return static_cast<int>(i);
     }
     puts("return -1");
     return -1;

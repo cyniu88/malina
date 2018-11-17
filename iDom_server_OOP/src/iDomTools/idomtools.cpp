@@ -10,6 +10,7 @@
 #include "../CRON/cron.hpp"
 #include "../RADIO_433_eq/radio_433_eq.h"
 #include "json.hpp"
+#include "../thread_functions/iDom_thread.h"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
 {
@@ -997,20 +998,5 @@ std::string iDomTOOLS::startKodi_Thread()
     if (kodiState == STATE::ACTIVE)
         return "kodi already run";
 
-    int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
-
-    if ( freeSlotID != -1)
-    {
-        my_data->main_THREAD_arr->at(freeSlotID).thread        = std::thread(useful_F::kodi,my_data);
-        my_data->main_THREAD_arr->at(freeSlotID).thread_name   ="KODI smart TV";
-        my_data->main_THREAD_arr->at(freeSlotID).thread_ID     = my_data->main_THREAD_arr->at(freeSlotID).thread.get_id();
-        my_data->main_THREAD_arr->at(freeSlotID).thread_socket = 1;
-        my_data->main_THREAD_arr->at(freeSlotID).thread.detach();
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "watek KODI wystartowal  "<< my_data->main_THREAD_arr->at(freeSlotID).thread_ID << std::endl;
-        log_file_mutex.mutex_unlock();
-
-        return "DONE - KODI STARTED";
-    }
-    return "not free space to new thread";
+    return iDOM_THREAD::start_thread("kodi smartTV",useful_F::kodi,my_data);
 }
