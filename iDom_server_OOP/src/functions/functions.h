@@ -26,8 +26,8 @@ public:
     static std::string send_to_arduino (thread_data *my_data_logic, const std::string &msg);
     static std::string send_to_arduino_clock (thread_data *my_data_logic, std::string msg);
     static std::string  sek_to_uptime(long long secy );
-    static void sleeper_mpd(thread_data  *my_data);
-    static void kodi (thread_data  *my_data);
+    static void sleeper_mpd(thread_data  *my_data, const std::string &threadName);
+    static void kodi (thread_data  *my_data, const std::string &threadName);
     static void tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text);
     static std::string  RSHash(const std::string& data ="", unsigned int b = 378551,  unsigned int a = 63689);
     static std::string l_send_file(std::string path, std::string find  , bool reverse =false );

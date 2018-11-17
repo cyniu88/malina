@@ -1,5 +1,6 @@
 #include "c_irda_logic.h"
 #include "../iDom_server_OOP.h"
+#include "../thread_functions/iDom_thread.h"
 
 void c_irda_logic::irdaMPD(PILOT_KEY X)
 {
@@ -72,24 +73,24 @@ void c_irda_logic::sleeperLogic(PILOT_KEY X)
     }
     case PILOT_KEY::KEY_OK:
     {
-        int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
+        //        int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
 
-        if ( freeSlotID != -1)
-        {
-            my_data->main_THREAD_arr->at(freeSlotID).thread        = std::thread(useful_F::sleeper_mpd,my_data);
-            my_data->main_THREAD_arr->at(freeSlotID).thread_name   ="Sleeper  MPD ";
-            my_data->main_THREAD_arr->at(freeSlotID).thread_ID     = my_data->main_THREAD_arr->at(freeSlotID).thread.get_id();
-            my_data->main_THREAD_arr->at(freeSlotID).thread_socket = 1;
-            my_data->main_THREAD_arr->at(freeSlotID).thread.detach();
+        //        if ( freeSlotID != -1)
+        //        {
+        //            my_data->main_THREAD_arr->at(freeSlotID).thread        = std::thread(useful_F::sleeper_mpd,my_data);
+        //            my_data->main_THREAD_arr->at(freeSlotID).thread_name   ="Sleeper  MPD ";
+        //            my_data->main_THREAD_arr->at(freeSlotID).thread_ID     = my_data->main_THREAD_arr->at(freeSlotID).thread.get_id();
+        //            my_data->main_THREAD_arr->at(freeSlotID).thread_socket = 1;
+        //            my_data->main_THREAD_arr->at(freeSlotID).thread.detach();
 
-            log_file_mutex.mutex_lock();
-            log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data->main_THREAD_arr->at(freeSlotID).thread_ID << std::endl;
-            log_file_mutex.mutex_unlock();
-
-            my_data->mainLCD->printString(true,1,0,"SLEEPer START");
-            my_data->mainLCD->set_print_song_state(0);
-            who = PILOT_STATE::MPD;
-        }
+        //            log_file_mutex.mutex_lock();
+        //            log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data->main_THREAD_arr->at(freeSlotID).thread_ID << std::endl;
+        //            log_file_mutex.mutex_unlock();
+        iDOM_THREAD::start_thread("Sleeper MPD",useful_F::sleeper_mpd,my_data);
+        my_data->mainLCD->printString(true,1,0,"SLEEPer START");
+        my_data->mainLCD->set_print_song_state(0);
+        who = PILOT_STATE::MPD;
+        //    }
         break;
     }
     default:

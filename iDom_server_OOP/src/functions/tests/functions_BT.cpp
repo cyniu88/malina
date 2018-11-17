@@ -104,7 +104,7 @@ TEST_F(functions_fixture, sleepThread)
     blockQueue test_q;
     test_q._clearAll();
     EXPECT_EQ(test_q._size(),0);
-    useful_F::sleeper_mpd(&test_my_data);
+    useful_F::sleeper_mpd(&test_my_data,"test sleep");
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP)<<"NIE ZATRZYMANO MUZYKI :(";
     delete test_RS;
