@@ -108,10 +108,6 @@ void master_irda::run()
         //Frees the data structures associated with config.
         lirc_freeconfig(config);
     }
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " koniec watku master IRDA  "<<   std::endl;
-    log_file_mutex.mutex_unlock();
-
     //lirc_deinit() closes the connection to lircd and does some internal clean-up stuff.
     lirc_deinit();
     // exit(EXIT_SUCCESS);

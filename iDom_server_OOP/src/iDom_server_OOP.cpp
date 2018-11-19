@@ -11,6 +11,7 @@
 #include "thread_functions/rs232_thread.h"
 #include "433MHz/RFLink/rflinkhandler.h"
 #include "command/commandClass/command_ardu.h"
+#include "thread_functions/iDom_thread.h"
 
 std::string  _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer;
@@ -52,19 +53,26 @@ void f_serv_con_node (thread_data  *my_data){
 } //  koniec f_serv_con_node
 
 /////////////////////  watek do obslugi irda //////////////////////////////
-void f_master_irda (thread_data  *my_data){
+void f_master_irda (thread_data  *my_data, const std::string& threadName){
     master_irda irda(my_data);
     irda.run();
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << " koniec watku:  " << threadName <<   std::endl;
+    log_file_mutex.mutex_unlock();
     useful_F::clearThreadArray(my_data);
 } //  koniec master_irda
 
 ///////////  watek wymiany polaczenia /////////////////////
 
 /////////////////////  watek CRON //////////////////////////////
-void f_master_CRON (thread_data  *my_data){
+void f_master_CRON (thread_data  *my_data, const std::string& threadName){
     CRON my_CRON(my_data);
     my_CRON.run();
     useful_F::clearThreadArray(my_data);
+
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << " koniec watku:  " << threadName <<   std::endl;
+    log_file_mutex.mutex_unlock();
 } //  koniec CRON
 
 //////////////////////////////////////////////////////////
@@ -245,10 +253,10 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "thread DUMMY \t" << server_settings.THREAD_DUMMY << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
-//    std::string koko = GIT_BRANCH;
-//    std::string koko2 = GIT_CURRENT_SHA1;
-//    log_file_cout << DEBUG << "zbudoiwany z branch'a "  << koko << std::endl;
-//    log_file_cout << DEBUG << "commita:  "  << koko2 << std::endl;
+    //    std::string koko = GIT_BRANCH;
+    //    std::string koko2 = GIT_CURRENT_SHA1;
+    //    log_file_cout << DEBUG << "zbudoiwany z branch'a "  << koko << std::endl;
+    //    log_file_cout << DEBUG << "commita:  "  << koko2 << std::endl;
     log_file_mutex.mutex_unlock();
 
     ///////////////////////////////////////////////  koniec logowania do poliku  ///////////////////////////////////////////////////
@@ -360,15 +368,7 @@ iDomStateEnum iDom_main()
     // start watku irda
     if(server_settings.THREAD_IRDA == "YES")
     {
-        freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
-        thread_array[freeSlotID].thread = std::thread (f_master_irda, &node_data);
-        thread_array[freeSlotID].thread_name = "IRDA_master";
-        thread_array[freeSlotID].thread_socket = 1;
-        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
-        thread_array[freeSlotID].thread.detach();
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "watek wystartowal polaczenie irda "<< thread_array[freeSlotID].thread_ID << std::endl;
-        log_file_mutex.mutex_unlock();
+        iDOM_THREAD::start_thread("IRDA-master", f_master_irda, &node_data);
     }
 
     // start watku  mpd_cli
@@ -388,15 +388,8 @@ iDomStateEnum iDom_main()
     // start watku CRONa
     if(server_settings.THREAD_CRON == "YES")
     {
-        freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
-        thread_array[freeSlotID].thread = std::thread(f_master_CRON, &node_data);
-        thread_array[freeSlotID].thread_name = "CRON_master";
-        thread_array[freeSlotID].thread_socket = 1;
-        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
-        thread_array[freeSlotID].thread.detach();
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "watek CRON wystartowal "<< thread_array[freeSlotID].thread_ID << std::endl;
-        log_file_mutex.mutex_unlock();
+        //thread_array[freeSlotID].thread = std::thread(f_master_CRON, &node_data);
+        iDOM_THREAD::start_thread("Cron-thread",f_master_CRON, &node_data);
     }
 
     if(server_settings.THREAD_DUMMY == "YES"){
@@ -532,7 +525,7 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "koniec programu  "<<   std::endl;
     log_file_mutex.mutex_unlock();
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
     pthread_mutex_destroy(&Logger::mutex_log);
     iDomStateProgram = node_data.iDomProgramState;
