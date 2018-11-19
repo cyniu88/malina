@@ -21,7 +21,7 @@ Logger log_file_mutex(_logfile);
 
 
 //////////////// watek RFLink //////////////////////////////////
-void RFLinkHandlerRUN(thread_data *my_data, const std::string& threadName){
+void RFLinkHandlerRUN(thread_data *my_data){
     std::string msgFromRFLink;
     RC_433MHz rc433(my_data);
     my_data->main_RFLink->flush();
@@ -44,15 +44,12 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string& threadName){
         }
 
     }
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " koniec watku:  " << threadName <<   std::endl;
-    log_file_mutex.mutex_unlock();
 }
 
 //////////// watek do obslugi polaczeni miedzy nodami  //////////////
-void f_serv_con_node (thread_data  *my_data, const std::string& threadName){
+void f_serv_con_node (thread_data  *my_data){
     my_data->myEventHandler.run("node")->addEvent("start and stop node");
-    iDOM_THREAD::stop_thread(threadName,my_data);
+    useful_F::clearThreadArray(my_data);
 } //  koniec f_serv_con_node
 
 /////////////////////  watek do obslugi irda //////////////////////////////
@@ -62,7 +59,7 @@ void f_master_irda (thread_data  *my_data, const std::string& threadName){
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << " koniec watku:  " << threadName <<   std::endl;
     log_file_mutex.mutex_unlock();
-    iDOM_THREAD::stop_thread(threadName,my_data);
+    useful_F::clearThreadArray(my_data);
 } //  koniec master_irda
 
 ///////////  watek wymiany polaczenia /////////////////////
@@ -71,19 +68,15 @@ void f_master_irda (thread_data  *my_data, const std::string& threadName){
 void f_master_CRON (thread_data  *my_data, const std::string& threadName){
     CRON my_CRON(my_data);
     my_CRON.run();
+    useful_F::clearThreadArray(my_data);
 
-    iDOM_THREAD::stop_thread(threadName,my_data);
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << " koniec watku:  " << threadName <<   std::endl;
     log_file_mutex.mutex_unlock();
 } //  koniec CRON
 
 //////////////////////////////////////////////////////////
-void Server_connectivity_thread(thread_data  *my_data, const std::string& threadName){
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "watek "<<threadName <<  " wystartowal  "<< std::this_thread::get_id() << std::endl;
-    log_file_mutex.mutex_unlock();
-
+void Server_connectivity_thread(thread_data  *my_data){
     C_connection *client = new C_connection( my_data);
     static unsigned int connectionCounter = 0;
     bool key_ok = false;
@@ -212,8 +205,6 @@ void Server_connectivity_thread(thread_data  *my_data, const std::string& thread
     }
     client->onStopConnection();
     delete client;
-
-    iDOM_THREAD::stop_thread(threadName,my_data);
 }
 
 iDomStateEnum iDom_main()
@@ -280,8 +271,16 @@ iDomStateEnum iDom_main()
     node_data.main_RFLink = &rflinkHandler;
 
     if (rflink_work == true){
-
-        iDOM_THREAD::start_thread("RFLink_thread",RFLinkHandlerRUN, &node_data);
+        //start watku czytania RFLinka
+        int freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
+        thread_array[freeSlotID].thread = std::thread(RFLinkHandlerRUN, &node_data);
+        thread_array[freeSlotID].thread_name = "RFLink_thread";
+        thread_array[freeSlotID].thread_socket = 1;
+        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
+        thread_array[freeSlotID].thread.detach();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "watek wystartowal  RFLink"<< thread_array[freeSlotID].thread_ID << std::endl;
+        log_file_mutex.mutex_unlock();
     }
     ///////////////////////////////////////////////  start wiringPi  //////////////////////////////////////////////
     if(wiringPiSetup() == -1){
@@ -375,18 +374,35 @@ iDomStateEnum iDom_main()
     // start watku  mpd_cli
     if(server_settings.THREAD_MPD == "YES")
     {
-        iDOM_THREAD::start_thread("mpd Client",main_mpd_cli, &node_data);
+        freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
+        thread_array[freeSlotID].thread = std::thread (main_mpd_cli, &node_data);
+        thread_array[freeSlotID].thread_name = "MPD_client";
+        thread_array[freeSlotID].thread_socket = 1;
+        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
+        thread_array[freeSlotID].thread.detach();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "watek wystartowal klient mpd "<< thread_array[freeSlotID].thread_ID << std::endl;
+        log_file_mutex.mutex_unlock();
     }
 
     // start watku CRONa
     if(server_settings.THREAD_CRON == "YES")
     {
+        //thread_array[freeSlotID].thread = std::thread(f_master_CRON, &node_data);
         iDOM_THREAD::start_thread("Cron-thread",f_master_CRON, &node_data);
     }
 
-    if(server_settings.THREAD_DUMMY == "YES")
-    {
-        iDOM_THREAD::start_thread("thread dummy", f_serv_con_node, &node_data);
+    if(server_settings.THREAD_DUMMY == "YES"){
+
+        freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
+        thread_array[freeSlotID].thread = std::thread(f_serv_con_node, &node_data);
+        thread_array[freeSlotID].thread_name = "node master";
+        thread_array[freeSlotID].thread_socket = 1;
+        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
+        thread_array[freeSlotID].thread .detach();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "watek wystartowal dla NODA MASTERA "<< thread_array[freeSlotID].thread_ID << std::endl;
+        log_file_mutex.mutex_unlock();
     }
     else
     {
@@ -469,7 +485,17 @@ iDomStateEnum iDom_main()
         if( freeSlotID != -1)
 
         {
-            iDOM_THREAD::start_thread("TCP connection",Server_connectivity_thread, &node_data);
+            node_data.s_client_sock = v_sock_ind;
+            node_data.from = from;
+            thread_array[freeSlotID].thread = std::thread(Server_connectivity_thread, &node_data);
+            thread_array[freeSlotID].thread_name = inet_ntoa(node_data.from.sin_addr);
+            thread_array[freeSlotID].thread_socket = v_sock_ind;
+            thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
+            thread_array[freeSlotID].thread.detach();
+            log_file_mutex.mutex_lock();
+            log_file_cout << INFO << "watek wystartowal  "<< thread_array[freeSlotID].thread_ID << std::endl;
+            log_file_mutex.mutex_unlock();
+
         }
         else
         {
