@@ -21,7 +21,10 @@ Logger log_file_mutex(_logfile);
 
 
 //////////////// watek RFLink //////////////////////////////////
-void RFLinkHandlerRUN(thread_data *my_data){
+void RFLinkHandlerRUN(thread_data *my_data, const std::string threadName){
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "watek "<< threadName<< " wystartowal "<< std::this_thread::get_id() << std::endl;
+    log_file_mutex.mutex_unlock();
     std::string msgFromRFLink;
     RC_433MHz rc433(my_data);
     my_data->main_RFLink->flush();
@@ -234,6 +237,8 @@ iDomStateEnum iDom_main()
         thread_array[i].thread_socket = 0;
     }
 
+    node_data.main_THREAD_arr = &thread_array;
+
     unsigned int who[2] = {iDomConst::FREE, iDomConst::FREE};
     ///////////////////////////////////////////  zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
@@ -274,15 +279,9 @@ iDomStateEnum iDom_main()
 
     if (rflink_work == true){
         //start watku czytania RFLinka
-        int freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
-        thread_array[freeSlotID].thread = std::thread(RFLinkHandlerRUN, &node_data);
-        thread_array[freeSlotID].thread_name = "RFLink thread";
-        thread_array[freeSlotID].thread_socket = 1;
-        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
-        thread_array[freeSlotID].thread.detach();
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "watek wystartowal  RFLink"<< thread_array[freeSlotID].thread_ID << std::endl;
-        log_file_mutex.mutex_unlock();
+        iDOM_THREAD::start_thread("RFLink thread",
+                                  RFLinkHandlerRUN,
+                                  &node_data);
     }
     ///////////////////////////////////////////////  start wiringPi  //////////////////////////////////////////////
     if(wiringPiSetup() == -1){
@@ -313,18 +312,22 @@ iDomStateEnum iDom_main()
 
     ///  start watku do komunikacji rs232
 
-    int freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
-
     if(server_settings.THREAD_RS232 == "YES")
     {
-        thread_array[freeSlotID].thread = std::thread(Send_Recieve_rs232_thread,&data_rs232);
-        thread_array[freeSlotID].thread_name = "RS232 thread";
-        thread_array[freeSlotID].thread_socket = 1;
-        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
-        thread_array[freeSlotID].thread.detach();
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "watek wystartowal  RS232 "<< thread_array[freeSlotID].thread_ID << std::endl;
-        log_file_mutex.mutex_unlock();
+        iDOM_THREAD::start_thread_RS232("RS232 thread",
+                                        Send_Recieve_rs232_thread,
+                                        &node_data,
+                                        &data_rs232,
+                                        1);
+
+//        thread_array[freeSlotID].thread = std::thread(Send_Recieve_rs232_thread,&data_rs232);
+//        thread_array[freeSlotID].thread_name = "RS232 thread";
+//        thread_array[freeSlotID].thread_socket = 1;
+//        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
+//        thread_array[freeSlotID].thread.detach();
+//        log_file_mutex.mutex_lock();
+//        log_file_cout << INFO << "watek wystartowal  RS232 "<< thread_array[freeSlotID].thread_ID << std::endl;
+//        log_file_mutex.mutex_unlock();
     }
 
     /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
@@ -355,7 +358,6 @@ iDomStateEnum iDom_main()
     node_data.mainLCD = &mainLCD;
     node_data.main_tree = &main_tree;
     node_data.main_MENU = &main_MENU;
-    node_data.main_THREAD_arr = &thread_array;
     node_data.sleeper = 0;
     node_data.ptr_MPD_info = &my_MPD_info;
 

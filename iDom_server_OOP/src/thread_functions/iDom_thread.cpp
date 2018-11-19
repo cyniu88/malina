@@ -31,15 +31,15 @@ std::string iDOM_THREAD::start_thread(const std::string& name,
 
 std::string iDOM_THREAD::start_thread_RS232(const std::string &name,
                                             std::function<void (thread_data_rs232 *, const std::string &)> functionToThread,
-                                            thread_data_rs232 *my_data,
+                                            thread_data* my_data,
+                                            thread_data_rs232 *my_data_rs232,
                                             int thread_socket)
 {
-
     int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
 
     if ( freeSlotID != -1)
     {
-        my_data->main_THREAD_arr->at(freeSlotID).thread  = std::thread(functionToThread ,my_data, name);
+        my_data->main_THREAD_arr->at(freeSlotID).thread  = std::thread(functionToThread ,my_data_rs232, name);
 
         my_data->main_THREAD_arr->at(freeSlotID).thread_name   = name;
         my_data->main_THREAD_arr->at(freeSlotID).thread_ID     = my_data->main_THREAD_arr->at(freeSlotID).thread.get_id();

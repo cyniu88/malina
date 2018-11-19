@@ -6,7 +6,7 @@
 #include "../SerialPi/serialpi.h"
 
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
-void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232){
+void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232, const std::string& threadName){
 
     SerialPi serial_ardu(data_rs232->portRS232);
     serial_ardu.begin( std::stoi( data_rs232->BaudRate));
