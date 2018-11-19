@@ -78,7 +78,7 @@ void f_master_CRON (thread_data  *my_data, const std::string& threadName){
 } //  koniec CRON
 
 //////////////////////////////////////////////////////////
-void Server_connectivity_thread(thread_data  *my_data){
+void Server_connectivity_thread(thread_data  *my_data, const std::string &threadName){
     C_connection *client = new C_connection( my_data);
     static unsigned int connectionCounter = 0;
     bool key_ok = false;
@@ -471,15 +471,10 @@ iDomStateEnum iDom_main()
         {
             node_data.s_client_sock = v_sock_ind;
             node_data.from = from;
-            thread_array[freeSlotID].thread = std::thread(Server_connectivity_thread, &node_data);
-            thread_array[freeSlotID].thread_name = inet_ntoa(node_data.from.sin_addr);
-            thread_array[freeSlotID].thread_socket = v_sock_ind;
-            thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
-            thread_array[freeSlotID].thread.detach();
-            log_file_mutex.mutex_lock();
-            log_file_cout << INFO << "watek wystartowal  "<< thread_array[freeSlotID].thread_ID << std::endl;
-            log_file_mutex.mutex_unlock();
-
+            iDOM_THREAD::start_thread(inet_ntoa(node_data.from.sin_addr),
+                                      Server_connectivity_thread,
+                                      &node_data,
+                                      v_sock_ind);
         }
         else
         {
