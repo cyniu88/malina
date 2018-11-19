@@ -195,7 +195,7 @@ mpd_status_get_elapsed_song_time(mi)%60);
     }
 }
 
-void main_mpd_cli(thread_data* my_data )
+void main_mpd_cli(thread_data* my_data, const std::string& threadName )
 {
     blockQueue mpdQueue; // kolejka polecen
     ////////////////////////////// TASKER PART ////////////////////////
@@ -326,7 +326,7 @@ void main_mpd_cli(thread_data* my_data )
     }
     mpd_free(obj);
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " koniec watku klient MPD  "<<   std::endl;
+    log_file_cout << INFO << " koniec watku: "<< threadName <<   std::endl;
     log_file_mutex.mutex_unlock();
 }
 

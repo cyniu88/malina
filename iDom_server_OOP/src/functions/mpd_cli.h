@@ -23,7 +23,7 @@
 #include"../CRON/cron.hpp"
 //extern bool go_while;
 //extern Logger log_file_mutex;
-void  main_mpd_cli(thread_data *my_data );
+void  main_mpd_cli(thread_data *my_data , const std::string &threadName);
 void  updatePlayList(MpdObj *mi, thread_data *my_data);
 /////////////// LCD
 
