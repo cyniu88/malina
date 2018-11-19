@@ -103,7 +103,7 @@ void Server_connectivity_thread(thread_data  *my_data, const std::string &thread
     }
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO <<"polaczenie z adresu  " <<  tm   <<std::endl;
+    log_file_cout << INFO << threadName <<": polaczenie z adresu  " <<  tm   <<std::endl;
     log_file_mutex.mutex_unlock();
     my_data->myEventHandler.run("connections")->addEvent(tm);
 
@@ -228,7 +228,7 @@ iDomStateEnum iDom_main()
     time(&node_data.start);
 
     std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> thread_array;
-    for (int i = 0; i< thread_array.size(); ++i)
+    for (int i = 0; i < static_cast<int>(thread_array.size()); ++i)
     {
         thread_array[i].thread_name = "  -empty-  ";
         thread_array[i].thread_socket = 0;
@@ -276,7 +276,7 @@ iDomStateEnum iDom_main()
         //start watku czytania RFLinka
         int freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
         thread_array[freeSlotID].thread = std::thread(RFLinkHandlerRUN, &node_data);
-        thread_array[freeSlotID].thread_name = "RFLink_thread";
+        thread_array[freeSlotID].thread_name = "RFLink thread";
         thread_array[freeSlotID].thread_socket = 1;
         thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
         thread_array[freeSlotID].thread.detach();
@@ -318,7 +318,7 @@ iDomStateEnum iDom_main()
     if(server_settings.THREAD_RS232 == "YES")
     {
         thread_array[freeSlotID].thread = std::thread(Send_Recieve_rs232_thread,&data_rs232);
-        thread_array[freeSlotID].thread_name = "RS232_thread";
+        thread_array[freeSlotID].thread_name = "RS232 thread";
         thread_array[freeSlotID].thread_socket = 1;
         thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
         thread_array[freeSlotID].thread.detach();
@@ -370,23 +370,23 @@ iDomStateEnum iDom_main()
     // start watku irda
     if(server_settings.THREAD_IRDA == "YES")
     {
-        iDOM_THREAD::start_thread("IRDA-master", f_master_irda, &node_data);
+        iDOM_THREAD::start_thread("IRDA thread", f_master_irda, &node_data);
     }
 
     // start watku  mpd_cli
     if(server_settings.THREAD_MPD == "YES")
     {
-        iDOM_THREAD::start_thread("mpd Client",main_mpd_cli, &node_data);
+        iDOM_THREAD::start_thread("MPD  thread",main_mpd_cli, &node_data);
     }
 
     // start watku CRONa
     if(server_settings.THREAD_CRON == "YES")
     {
-        iDOM_THREAD::start_thread("Cron-thread",f_master_CRON, &node_data);
+        iDOM_THREAD::start_thread("Cron thread",f_master_CRON, &node_data);
     }
 
     if(server_settings.THREAD_DUMMY == "YES"){
-        iDOM_THREAD::start_thread("node master",f_serv_con_node,&node_data);
+        iDOM_THREAD::start_thread("node thread",f_serv_con_node,&node_data);
     }
     else
     {
