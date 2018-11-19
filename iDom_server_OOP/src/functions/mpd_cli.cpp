@@ -1,5 +1,6 @@
 #include "mpd_cli.h"
 #include "../TASKER/tasker.h"
+#include "../thread_functions/iDom_thread.h"
 
 extern int debug_level;
 bool check_title_song_to = false;
@@ -195,7 +196,7 @@ mpd_status_get_elapsed_song_time(mi)%60);
     }
 }
 
-void main_mpd_cli(thread_data* my_data )
+void main_mpd_cli(thread_data* my_data, const std::string &threadName )
 {
     blockQueue mpdQueue; // kolejka polecen
     ////////////////////////////// TASKER PART ////////////////////////
@@ -325,8 +326,9 @@ void main_mpd_cli(thread_data* my_data )
         std::cout << " NIE UDALO SIE POłączyć "<<std::endl;
     }
     mpd_free(obj);
+    iDOM_THREAD::stop_thread(threadName, my_data);
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " koniec watku klient MPD  "<<   std::endl;
+    log_file_cout << INFO << " koniec   "<<threadName<<   std::endl;
     log_file_mutex.mutex_unlock();
 }
 

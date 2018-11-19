@@ -374,15 +374,7 @@ iDomStateEnum iDom_main()
     // start watku  mpd_cli
     if(server_settings.THREAD_MPD == "YES")
     {
-        freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
-        thread_array[freeSlotID].thread = std::thread (main_mpd_cli, &node_data);
-        thread_array[freeSlotID].thread_name = "MPD_client";
-        thread_array[freeSlotID].thread_socket = 1;
-        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
-        thread_array[freeSlotID].thread.detach();
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "watek wystartowal klient mpd "<< thread_array[freeSlotID].thread_ID << std::endl;
-        log_file_mutex.mutex_unlock();
+        iDOM_THREAD::start_thread("mpd Client",main_mpd_cli, &node_data);
     }
 
     // start watku CRONa
