@@ -47,9 +47,11 @@ void RFLinkHandlerRUN(thread_data *my_data){
 }
 
 //////////// watek do obslugi polaczeni miedzy nodami  //////////////
-void f_serv_con_node (thread_data  *my_data){
+void f_serv_con_node (thread_data *my_data, const std::string& threadName){
     my_data->myEventHandler.run("node")->addEvent("start and stop node");
     useful_F::clearThreadArray(my_data);
+
+    iDOM_THREAD::stop_thread(threadName,my_data);
 } //  koniec f_serv_con_node
 
 /////////////////////  watek do obslugi irda //////////////////////////////
@@ -380,21 +382,11 @@ iDomStateEnum iDom_main()
     // start watku CRONa
     if(server_settings.THREAD_CRON == "YES")
     {
-        //thread_array[freeSlotID].thread = std::thread(f_master_CRON, &node_data);
         iDOM_THREAD::start_thread("Cron-thread",f_master_CRON, &node_data);
     }
 
     if(server_settings.THREAD_DUMMY == "YES"){
-
-        freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
-        thread_array[freeSlotID].thread = std::thread(f_serv_con_node, &node_data);
-        thread_array[freeSlotID].thread_name = "node master";
-        thread_array[freeSlotID].thread_socket = 1;
-        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
-        thread_array[freeSlotID].thread .detach();
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "watek wystartowal dla NODA MASTERA "<< thread_array[freeSlotID].thread_ID << std::endl;
-        log_file_mutex.mutex_unlock();
+        iDOM_THREAD::start_thread("node master",f_serv_con_node,&node_data);
     }
     else
     {
