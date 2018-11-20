@@ -281,6 +281,12 @@ iDomStateEnum iDom_main()
                                   RFLinkHandlerRUN,
                                   &node_data);
     }
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG <<"nie wystartowalem wątku RFLink"   <<std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     ///////////////////////////////////////////////  start wiringPi  //////////////////////////////////////////////
     if(wiringPiSetup() == -1){
         exit(1) ;
@@ -318,7 +324,12 @@ iDomStateEnum iDom_main()
                                         &data_rs232,
                                         1);
     }
-
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG <<"nie wystartowalem wątku RS232"   <<std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
 
     int temp = mkfifo("/mnt/ramdisk/cmd",0666);
@@ -363,19 +374,34 @@ iDomStateEnum iDom_main()
     {
         iDOM_THREAD::start_thread("IRDA thread", f_master_irda, &node_data);
     }
-
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG <<"nie wystartowalem wątku IRDA"   <<std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     // start watku  mpd_cli
     if(server_settings.THREAD_MPD == "YES")
     {
         iDOM_THREAD::start_thread("MPD  thread",main_mpd_cli, &node_data);
     }
-
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG <<"nie wystartowalem wątku MPD"   <<std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     // start watku CRONa
     if(server_settings.THREAD_CRON == "YES")
     {
         iDOM_THREAD::start_thread("Cron thread",f_master_CRON, &node_data);
     }
-
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG <<"nie wystartowalem wątku CRON"   <<std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     if(server_settings.THREAD_DUMMY == "YES"){
         iDOM_THREAD::start_thread("node thread",f_serv_con_node,&node_data);
     }
