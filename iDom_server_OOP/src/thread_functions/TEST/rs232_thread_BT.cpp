@@ -30,7 +30,7 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_fixture_clock)
 
     SerialPi_set_recv_msg("OK");
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"OK");
-    Send_Recieve_rs232_thread(&test_data_rs232);
+    Send_Recieve_rs232_thread(&test_data_rs232,"RS232_THREAD");
 
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"");
     EXPECT_EQ(test_data_rs232.pointer.ptr_who[1], iDomConst::CLOCK);
@@ -50,7 +50,7 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_clock_empty_answer)
     EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 0);
     SerialPi_set_recv_msg("");
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"");
-    Send_Recieve_rs232_thread(&test_data_rs232);
+    Send_Recieve_rs232_thread(&test_data_rs232, "RS232_thread");
 
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"");
     EXPECT_EQ(test_data_rs232.pointer.ptr_who[1], iDomConst::CLOCK);
@@ -70,7 +70,7 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_RS232)
     test_data_rs232.pointer.ptr_who[0] = iDomConst::RS232;
     EXPECT_EQ(test_who[0], iDomConst::RS232);
     SerialPi_set_recv_msg("OK;");
-    Send_Recieve_rs232_thread(&test_data_rs232);
+    Send_Recieve_rs232_thread(&test_data_rs232,"RS232_thread");
 
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"");
     EXPECT_EQ(test_who[1], iDomConst::RS232);
@@ -90,7 +90,7 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_FREE)
     test_data_rs232.pointer.ptr_who[0] = iDomConst::FREE;
     EXPECT_EQ(test_who[0], iDomConst::FREE);
     SerialPi_set_recv_msg("TEST;");
-    Send_Recieve_rs232_thread(&test_data_rs232);
+    Send_Recieve_rs232_thread(&test_data_rs232,"RS232_thread");
 
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"");
     EXPECT_EQ(test_who[1], iDomConst::FREE);

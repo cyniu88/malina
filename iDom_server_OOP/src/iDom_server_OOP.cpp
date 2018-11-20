@@ -21,7 +21,7 @@ Logger log_file_mutex(_logfile);
 
 
 //////////////// watek RFLink //////////////////////////////////
-void RFLinkHandlerRUN(thread_data *my_data, const std::string threadName){
+void RFLinkHandlerRUN(thread_data *my_data, const std::string& threadName){
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "watek "<< threadName<< " wystartowal "<< std::this_thread::get_id() << std::endl;
     log_file_mutex.mutex_unlock();
@@ -47,6 +47,7 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string threadName){
         }
 
     }
+    iDOM_THREAD::stop_thread(threadName, my_data);
 }
 
 //////////// watek do obslugi polaczeni miedzy nodami  //////////////
@@ -64,7 +65,7 @@ void f_master_irda (thread_data  *my_data, const std::string& threadName){
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << " koniec watku:  " << threadName <<   std::endl;
     log_file_mutex.mutex_unlock();
-    useful_F::clearThreadArray(my_data);
+    iDOM_THREAD::stop_thread(threadName, my_data);
 } //  koniec master_irda
 
 ///////////  watek wymiany polaczenia /////////////////////
@@ -73,11 +74,7 @@ void f_master_irda (thread_data  *my_data, const std::string& threadName){
 void f_master_CRON (thread_data  *my_data, const std::string& threadName){
     CRON my_CRON(my_data);
     my_CRON.run();
-    useful_F::clearThreadArray(my_data);
-
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " koniec watku:  " << threadName <<   std::endl;
-    log_file_mutex.mutex_unlock();
+    iDOM_THREAD::stop_thread(threadName, my_data);
 } //  koniec CRON
 
 //////////////////////////////////////////////////////////
@@ -210,6 +207,7 @@ void Server_connectivity_thread(thread_data  *my_data, const std::string &thread
     }
     client->onStopConnection();
     delete client;
+    iDOM_THREAD::stop_thread(threadName, my_data);
 }
 
 iDomStateEnum iDom_main()
@@ -319,15 +317,6 @@ iDomStateEnum iDom_main()
                                         &node_data,
                                         &data_rs232,
                                         1);
-
-//        thread_array[freeSlotID].thread = std::thread(Send_Recieve_rs232_thread,&data_rs232);
-//        thread_array[freeSlotID].thread_name = "RS232 thread";
-//        thread_array[freeSlotID].thread_socket = 1;
-//        thread_array[freeSlotID].thread_ID = thread_array[freeSlotID].thread.get_id();
-//        thread_array[freeSlotID].thread.detach();
-//        log_file_mutex.mutex_lock();
-//        log_file_cout << INFO << "watek wystartowal  RS232 "<< thread_array[freeSlotID].thread_ID << std::endl;
-//        log_file_mutex.mutex_unlock();
     }
 
     /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
@@ -510,6 +499,7 @@ iDomStateEnum iDom_main()
 
     pthread_mutex_destroy(&Logger::mutex_log);
     iDomStateProgram = node_data.iDomProgramState;
+    iDOM_THREAD::waitUntilAllThreadEnd(&node_data);
     return iDomStateProgram;
 }
 

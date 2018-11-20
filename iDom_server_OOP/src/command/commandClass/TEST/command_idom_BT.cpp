@@ -5,6 +5,7 @@
 #include "../../../RADIO_433_eq/radio_433_eq.h"
 #include "../../../433MHz/RFLink/rflinkhandler.h"
 #include "../../../iDomTools/test/iDomTools_fixture.h"
+#include "../../../thread_functions/iDom_thread.h"
 
 class commandiDom_Class_fixture : public iDomTOOLS_ClassTest
 {
@@ -353,6 +354,7 @@ TEST_F(commandiDom_Class_fixture, kodi)
     test_v.push_back("iDom");
     test_v.push_back("KODI");
     retStr = test_command_iDom->execute(test_v, &test_my_data);
+
     sleep(1);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("STARTED"));

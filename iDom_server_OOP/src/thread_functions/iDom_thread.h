@@ -22,6 +22,8 @@ public:
 
     static void stop_thread(const std::string &name,
                             thread_data* my_data);
+
+    static void waitUntilAllThreadEnd(thread_data* my_data);
 };
 
 #endif

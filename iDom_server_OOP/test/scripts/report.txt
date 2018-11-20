@@ -15,7 +15,7 @@ libs/sunrise-sunset/sunriseset.cpp                                              
 libs/useful/test/../useful.h                                                                                                                                     79       0 100.00%        22   100.00%
 libs/useful/test/useful_bt.cpp                                                                                                                                   38       0 100.00%        10   100.00%
 libs/useful/usefull.cpp                                                                                                                                         104      25  75.96%        11    90.91%
-src/433MHz/RFLink/../../functions/../blockQueue/../logger/logger.hpp                                                                                              1       0 100.00%         1   100.00%
+src/433MHz/RFLink/../../functions/../blockQueue/../logger/logger.hpp                                                                                              2       0 100.00%         2   100.00%
 src/433MHz/RFLink/../../functions/../c_connection/../iDom_server_OOP.h                                                                                            0       0   0.00%         0     0.00%
 src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp                                                                                                                      16       0 100.00%         7   100.00%
 src/433MHz/RFLink/rflinkhandler.cpp                                                                                                                              46       0 100.00%         8   100.00%
@@ -38,9 +38,9 @@ src/c_connection/c_connection.cpp                                               
 src/c_connection/c_connection2.cpp                                                                                                                                4       0 100.00%         1   100.00%
 src/c_connection/c_connection_node.cpp                                                                                                                           15       0 100.00%         6   100.00%
 src/c_connection/test/c_connection_BT.cpp                                                                                                                        31       2  93.55%        10   100.00%
-src/c_irda_logic/../c_connection/../functions/../logger/logger.hpp                                                                                                4       0 100.00%         4   100.00%
-src/c_irda_logic/../iDom_server_OOP.h                                                                                                                             0       0   0.00%         0     0.00%
-src/c_irda_logic/c_irda_logic.cpp                                                                                                                               143       0 100.00%         8   100.00%
+src/c_irda_logic/../thread_functions/../iDom_server_OOP.h                                                                                                         0       0   0.00%         0     0.00%
+src/c_irda_logic/../thread_functions/../logger/logger.hpp                                                                                                         3       0 100.00%         3   100.00%
+src/c_irda_logic/c_irda_logic.cpp                                                                                                                               134       0 100.00%         8   100.00%
 src/c_irda_logic/test/c_irda_logic_BT.cpp                                                                                                                       119       8  93.28%        14   100.00%
 src/command/command.cpp                                                                                                                                           3       0 100.00%         3   100.00%
 src/command/commandClass/../../../../iDom_server_OOP/src/iDomStatus/../../libs/useful/useful.h                                                                    1       0 100.00%         1   100.00%
@@ -48,15 +48,15 @@ src/command/commandClass/../../433MHz/RFLink/rflinkhandler.h                    
 src/command/commandClass/../../RADIO_433_eq/radio_433_eq.h                                                                                                        1       0 100.00%         1   100.00%
 src/command/commandClass/TEST/command_433mhz_BT.cpp                                                                                                              61       1  98.36%        18   100.00%
 src/command/commandClass/TEST/command_ardu_BT.cpp                                                                                                                50       0 100.00%        14   100.00%
-src/command/commandClass/TEST/command_idom_BT.cpp                                                                                                                66       0 100.00%        23   100.00%
+src/command/commandClass/TEST/command_idom_BT.cpp                                                                                                                70       0 100.00%        23   100.00%
 src/command/commandClass/command_433mhz.cpp                                                                                                                      70       0 100.00%         4   100.00%
 src/command/commandClass/command_ardu.cpp                                                                                                                        29       0 100.00%         5   100.00%
 src/command/commandClass/command_idom.cpp                                                                                                                       157      45  71.34%         3   100.00%
 src/command/test/commandhandler_stub.cpp                                                                                                                          1       0 100.00%         1   100.00%
 src/files_tree/files_tree.cpp                                                                                                                                    38       4  89.47%        13    92.31%
-src/functions/../blockQueue/../logger/logger.hpp                                                                                                                  6       2  66.67%         6    66.67%
-src/functions/../c_connection/../iDom_server_OOP.h                                                                                                                0       0   0.00%         0     0.00%
-src/functions/functions2.cpp                                                                                                                                    102      24  76.47%         7   100.00%
+src/functions/../thread_functions/../iDom_server_OOP.h                                                                                                            0       0   0.00%         0     0.00%
+src/functions/../thread_functions/../logger/logger.hpp                                                                                                            4       1  75.00%         4    75.00%
+src/functions/functions2.cpp                                                                                                                                     75       7  90.67%         7   100.00%
 src/functions/tests/functions_BT.cpp                                                                                                                             28       1  96.43%         8   100.00%
 src/functions/tests/functions_stub.cpp                                                                                                                            1       0 100.00%         1   100.00%
 src/iDomSaveState/../iDomTools/../iDom_server_OOP.h                                                                                                               0       0   0.00%         0     0.00%
@@ -66,9 +66,9 @@ src/iDomSaveState/test/iDomSaveState_BT.cpp                                     
 src/iDomStatus/idomstatus.cpp                                                                                                                                    16       0 100.00%         6   100.00%
 src/iDomTools/../../libs/Statistic/statistic.h                                                                                                                   20       2  90.00%         5    80.00%
 src/iDomTools/../../libs/useful/useful.h                                                                                                                          1       0 100.00%         1   100.00%
-src/iDomTools/../RADIO_433_eq/../433MHz/RFLink/../../iDom_server_OOP.h                                                                                            0       0   0.00%         0     0.00%
-src/iDomTools/../functions/../blockQueue/../logger/logger.hpp                                                                                                     7       1  85.71%         7    85.71%
-src/iDomTools/idomtools.cpp                                                                                                                                     334      56  83.23%        58    98.28%
+src/iDomTools/../thread_functions/../iDom_server_OOP.h                                                                                                            0       0   0.00%         0     0.00%
+src/iDomTools/../thread_functions/../logger/logger.hpp                                                                                                            5       1  80.00%         5    80.00%
+src/iDomTools/idomtools.cpp                                                                                                                                     324      55  83.02%        58    98.28%
 src/iDomTools/idomtools_mpd.cpp                                                                                                                                  16       0 100.00%        10   100.00%
 src/iDomTools/idomtools_system.cpp                                                                                                                                3       0 100.00%         1   100.00%
 src/iDomTools/lightning.cpp                                                                                                                                      30       0 100.00%         4   100.00%
@@ -81,9 +81,12 @@ src/iDomTools/test/idomTools_BT.cpp                                             
 src/iDomTools/test/lightning_BT.cpp                                                                                                                              64      14  78.12%         7   100.00%
 src/logger/logger.cc                                                                                                                                             28       9  67.86%        11    63.64%
 src/menu_tree/menu_tree.cpp                                                                                                                                      40       3  92.50%        11   100.00%
+src/thread_functions/../functions/../blockQueue/../logger/logger.hpp                                                                                              5       2  60.00%         5    60.00%
+src/thread_functions/../functions/../c_connection/../iDom_server_OOP.h                                                                                            0       0   0.00%         0     0.00%
 src/thread_functions/TEST/../../c_connection/../functions/../blockQueue/../logger/logger.hpp                                                                      3       0 100.00%         3   100.00%
-src/thread_functions/TEST/../rs232_thread.h                                                                                                                      49       0 100.00%         1   100.00%
+src/thread_functions/TEST/../rs232_thread.h                                                                                                                      50       1  98.00%         1   100.00%
 src/thread_functions/TEST/rs232_thread_BT.cpp                                                                                                                    24       0 100.00%         4   100.00%
+src/thread_functions/iDom_thread.cpp                                                                                                                             51      23  54.90%         3    66.67%
 test/iDom_TESTs-CMAKE/../../libs/json/single_include/nlohmann/../../../../src/functions/../blockQueue/../logger/logger.hpp                                        3       0 100.00%         3   100.00%
 test/iDom_TESTs-CMAKE/../../libs/json/single_include/nlohmann/../../../../src/functions/../c_connection/../iDom_server_OOP.h                                      0       0   0.00%         0     0.00%
 test/iDom_TESTs-CMAKE/../../libs/json/single_include/nlohmann/json.hpp                                                                                         1740     988  43.22%       356    67.42%
@@ -93,4 +96,4 @@ test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../../iDom_server_OOP/src/i
 test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../../iDom_server_OOP/src/iDomTools/test/iDomTools_fixture.h                                                 3       0 100.00%         3   100.00%
 test/iDom_TESTs-CMAKE/main.cpp                                                                                                                                   47       3  93.62%        31    93.55%
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-TOTAL                                                                                                                                                                                                 4628    1320  71.48%       989    86.55%
+TOTAL                                                                                                                                                                                                 4639    1327  71.39%       993    86.40%

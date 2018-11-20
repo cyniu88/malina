@@ -84,3 +84,24 @@ void iDOM_THREAD::stop_thread(const std::string& name,
     log_file_mutex.mutex_unlock();
 }
 
+void iDOM_THREAD::waitUntilAllThreadEnd(thread_data *my_data)
+{
+    int threadCounter = 0;
+    int counter = 20;
+    do{
+        if (--counter == 0){
+            puts("niedoczekalem sie konca watkow");
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+        threadCounter = 0;
+        for(auto i = my_data->main_THREAD_arr->begin(); i < my_data->main_THREAD_arr->end(); ++i)
+        {
+            threadCounter += i->thread_socket;
+            if (i->thread_socket != 0)
+                std::cout << "thread name: "<< i->thread_name << std::endl;
+        }
+        std::cout << "watki pracuja "<<threadCounter<< std::endl;
+    } while(threadCounter != 0);
+}
+
