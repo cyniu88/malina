@@ -3,6 +3,7 @@
 #include "../../libs/config_parser/parser.hpp"
 
 bool useful_F::go_while = true;
+bool useful_F::workServer = true;
 std::mutex useful_F::mutex_buf;
 std::mutex useful_F::mutex_who;
 

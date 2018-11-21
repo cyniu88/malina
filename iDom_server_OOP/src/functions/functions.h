@@ -33,7 +33,8 @@ public:
     static std::string l_send_file(std::string path, std::string find  , bool reverse =false );
     static std::vector<std::string> split(const std::string& s, char separator );
     static void button_interrupt();
-    static bool go_while ;
+    static bool go_while;
+    static bool workServer;
     static thread_data* myStaticData;
     static void setStaticData(thread_data* my_dataPtr);
     static void clearThreadArray(thread_data *my_data);

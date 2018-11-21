@@ -17,9 +17,6 @@ std::string  _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer;
 Logger log_file_mutex(_logfile);
 
-////////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
-
-
 //////////////// watek RFLink //////////////////////////////////
 void RFLinkHandlerRUN(thread_data *my_data, const std::string& threadName){
     log_file_mutex.mutex_lock();
@@ -62,13 +59,8 @@ void f_serv_con_node (thread_data *my_data, const std::string& threadName){
 void f_master_irda (thread_data  *my_data, const std::string& threadName){
     master_irda irda(my_data);
     irda.run();
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " koniec watku:  " << threadName <<   std::endl;
-    log_file_mutex.mutex_unlock();
     iDOM_THREAD::stop_thread(threadName, my_data);
 } //  koniec master_irda
-
-///////////  watek wymiany polaczenia /////////////////////
 
 /////////////////////  watek CRON //////////////////////////////
 void f_master_CRON (thread_data  *my_data, const std::string& threadName){
@@ -77,7 +69,7 @@ void f_master_CRON (thread_data  *my_data, const std::string& threadName){
     iDOM_THREAD::stop_thread(threadName, my_data);
 } //  koniec CRON
 
-//////////////////////////////////////////////////////////
+/////////////////////  watek polaczenia TCP /////////////////////////////////////
 void Server_connectivity_thread(thread_data  *my_data, const std::string &threadName){
     C_connection *client = new C_connection( my_data);
     static unsigned int connectionCounter = 0;
@@ -121,7 +113,6 @@ void Server_connectivity_thread(thread_data  *my_data, const std::string &thread
         key_ok = true;
         if(client->c_send("OK") == -1)
         {
-
             puts("FAKE CONNECTION  send OK");
             key_ok = false;
         }
@@ -193,7 +184,7 @@ void Server_connectivity_thread(thread_data  *my_data, const std::string &thread
         catch (std::string& s)
         {
             puts("close server - throw");
-            useful_F::go_while = false;
+            useful_F::workServer = false;
             client->c_send("CLOSE");
             break;
         }
@@ -468,7 +459,7 @@ iDomStateEnum iDom_main()
     {
         int v_sock_ind = 0;
         memset( &from,0, sizeof(from));
-        if(!useful_F::go_while) {
+        if(!useful_F::workServer) {
             break;
         }
 
@@ -525,6 +516,8 @@ iDomStateEnum iDom_main()
 
     pthread_mutex_destroy(&Logger::mutex_log);
     iDomStateProgram = node_data.iDomProgramState;
+
+    useful_F::go_while = false;
     iDOM_THREAD::waitUntilAllThreadEnd(&node_data);
     return iDomStateProgram;
 }

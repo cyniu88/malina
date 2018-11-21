@@ -69,6 +69,7 @@ char SerialPi::read(){
 }
 
 bool useful_F::go_while = true;
+bool useful_F::workServer = true;
 
 void useful_F::button_interrupt(){}
 void digitalWrite(int pin, int mode){}
