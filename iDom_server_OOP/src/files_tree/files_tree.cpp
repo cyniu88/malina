@@ -2,7 +2,7 @@
 
 bool comper (const movie_database & a , const movie_database& b)
 {
-    return a.files_name < b.files_name ;
+    return a.files_name < b.files_name;
 }
 files_tree::files_tree (const std::string& path, LCD_c *mainLCD_PTR):database_path(path),w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
 
@@ -12,15 +12,14 @@ files_tree::files_tree (const std::string& path, LCD_c *mainLCD_PTR):database_pa
     //tree_stack.push(database_path);
     i_stack.push(0);
     i = 0;
-    get_list( database_path  );
-
+    get_list(database_path);
 }
-bool files_tree::is_file(  ) const
+bool files_tree::is_file() const
 {
     return movie_database_vector[i].is_file;
 }
 
-void files_tree::next(  )
+void files_tree::next()
 {   
     ++i;
     ////std::cout << " dodaje " << i << std::endl;
@@ -29,7 +28,7 @@ void files_tree::next(  )
     }
 }
 
-void files_tree::previous(  )
+void files_tree::previous()
 {
     --i;
     ////std::cout << " odejmuje " << i << std::endl;
@@ -42,10 +41,10 @@ void files_tree::previous(  )
 
 int files_tree::get_vector_size () const
 {
-    return  movie_database_vector.size();
+    return movie_database_vector.size();
 }
 void files_tree::vector_clear ()
-{       
+{
     movie_database_vector.clear();
 }
 int files_tree::get_i()
@@ -60,17 +59,17 @@ int files_tree::get_i()
 
 void files_tree::enter_dir()
 {
-    i_stack.push(i);  // wpisuje na stos  kolejna wersje licznika i 
+    i_stack.push(i); // wpisuje na stos kolejna wersje licznika i
 
-    if (movie_database_vector[i].is_file == false )  {
-        get_list (movie_database_vector[i].path)  ;
+    if (movie_database_vector[i].is_file == false) {
+        get_list (movie_database_vector[i].path);
         i=0;
     }
 
 }
 void files_tree::enter_dir(const std::string& path)
 {	//tree_stack.push(path);
-    get_list (path)  ;
+    get_list (path);
 }
 
 void files_tree::back_dir()
@@ -80,19 +79,19 @@ void files_tree::back_dir()
         std::string path = tree_stack.top();
         tree_stack.pop();
         i=get_i();
-        get_list (path)  ;
+        get_list (path);
         return;
     }
     i=get_i();
 
-    ////std::cout << "    III ma teraz : " << i << std::endl;
-    get_list (  database_path);
+    ////std::cout << " III ma teraz : " << i << std::endl;
+    get_list (database_path);
     return;
 }
 
-std::string files_tree::show_list(     ) 
+std::string files_tree::show_list()
 {
-    //std::cout << "iteracja!!!!!!!!!!!!!!!!!!!!!!: " << i <<"  rozmiar vectora : " << get_vector_size() << std::endl;
+    //std::cout << "iteracja!!!!!!!!!!!!!!!!!!!!!!: " << i <<"rozmiar vectora : " << get_vector_size() << std::endl;
     if (movie_database_vector[i].is_file == true ) {
         //std::cout << "wypisuje sciezke pliku " << movie_database_vector[i].path <<" | " <<movie_database_vector[i].files_name.substr(0,16)<< std::endl;
 
@@ -113,22 +112,22 @@ std::string files_tree::show_list(     )
     return movie_database_vector[i].path;
 }
 
-void files_tree::get_list( std::string path  ) {
+void files_tree::get_list(std::string path) {
     tree_stack.push(path);
-    vector_clear();    // czyscimy vector
-    std::string  path2 =path;
-    std::string v_path ,tmp_string ;
+    vector_clear(); // czyscimy vector
+    std::string path2 =path;
+    std::string v_path ,tmp_string;
 
-    if(sciezka = opendir( path.c_str() ))  {
+    if(sciezka = opendir( path.c_str() )) {
 
         while(( plik = readdir( sciezka ) ) )
         {
             path2 =path;
-            if (  static_cast<int>(plik->d_type) == 4 /*&&   strcmp( plik->d_name, ".." ) && strcmp( plik->d_name, "." )*/  )
+            if (static_cast<int>(plik->d_type) == 4 /*&& strcmp( plik->d_name, "..") && strcmp( plik->d_name, ".")*/)
             {
                 temp.is_file=false;
             }
-            else //if ( (int)plik->d_type == 8 && strcmp( plik->d_name, ".." ) && strcmp( plik->d_name, "." ))
+            else //if ( (int)plik->d_type == 8 && strcmp( plik->d_name, "..") && strcmp( plik->d_name, "."))
             {
                 temp.is_file=true;
             }
@@ -140,7 +139,7 @@ void files_tree::get_list( std::string path  ) {
             temp.path =v_path;
             temp.files_name.assign(plik->d_name);
             movie_database_vector.push_back(temp);
-        }  // end while
+        }// end while
         sort(movie_database_vector.begin(),movie_database_vector.end(), comper);
         closedir( sciezka );
     }

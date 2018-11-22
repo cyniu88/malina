@@ -63,11 +63,11 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << "my_data->server_settings->cameraLedOFF \t" << my_data->server_settings->cameraLedOFF <<std::endl;
         r << "my_data->server_settings->cameraLedON \t" << my_data->server_settings->cameraLedON <<std::endl;
         r << "my_data->server_settings->cameraURL \t" << my_data->server_settings->cameraURL <<std::endl;
-        r << "my_data->server_settings->encrypted  \t" << my_data->server_settings->encrypted <<std::endl;
-        r << "my_data->server_settings->facebookAccessToken  \t" << my_data->server_settings->facebookAccessToken <<std::endl;
-        r << "my_data->server_settings->ftpServer.URL  \t" << my_data->server_settings->ftpServer.URL <<std::endl;
-        r << "my_data->server_settings->ftpServer.user  \t" << my_data->server_settings->ftpServer.user <<std::endl;
-        r << "my_data->server_settings->ID_server  \t" << my_data->server_settings->ID_server <<std::endl;
+        r << "my_data->server_settings->encrypted \t" << my_data->server_settings->encrypted <<std::endl;
+        r << "my_data->server_settings->facebookAccessToken \t" << my_data->server_settings->facebookAccessToken <<std::endl;
+        r << "my_data->server_settings->ftpServer.URL \t" << my_data->server_settings->ftpServer.URL <<std::endl;
+        r << "my_data->server_settings->ftpServer.user \t" << my_data->server_settings->ftpServer.user <<std::endl;
+        r << "my_data->server_settings->ID_server \t" << my_data->server_settings->ID_server <<std::endl;
         r << "my_data->server_settings->lightningApiURL \t" << my_data->server_settings->lightningApiURL <<std::endl;
         r << "my_data->server_settings->MENU_PATH \t" << my_data->server_settings->MENU_PATH<<std::endl;
         r << "my_data->server_settings->MOVIES_DB_PATH \t" << my_data->server_settings->MOVIES_DB_PATH<<std::endl;
@@ -126,7 +126,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << "END.";
         ret = r.str();
     }
-    else if(v[1] == "raspberry" )
+    else if(v[1] == "raspberry")
     {
         system(v[2].c_str());
         ret = "ram has beed freed";
@@ -145,7 +145,7 @@ std::string command_program::help()
     help << "program reload soft - reload iDom server" << std::endl;
     help << "program reload hard - reload iDom server" << std::endl;
     help << "program clear ram   - reload iDom server" << std::endl;
-    help << "program debuge variable   - show value iDom server variable" << std::endl;
-    help << "program raspberry <command>   - put command to raspberry " << std::endl;
+    help << "program debuge variable - show value iDom server variable" << std::endl;
+    help << "program raspberry <command> - put command to raspberry " << std::endl;
     return help.str();
 }

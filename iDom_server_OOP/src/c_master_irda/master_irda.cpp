@@ -38,7 +38,7 @@ KEY_VOLUMEUP        +
 
 master_irda::master_irda(thread_data *my_data):buttonTimer(millis()), buttonMENU(0), my_data2(my_data)
 {
-    if(  lirc_init(const_cast< char*>("lirc"),1) != -1)
+    if(lirc_init(const_cast< char*>("lirc"),1) != -1)
     {
         puts(" jestem po uruchominiu lirc \n");
     }
@@ -47,17 +47,17 @@ master_irda::master_irda(thread_data *my_data):buttonTimer(millis()), buttonMENU
 void master_irda::run()
 {
     c_irda_logic irda_queue(my_data2);
-    //Read the default LIRC config at /etc/lirc/lircd.conf  This is the config for your remote.
+    //Read the default LIRC config at /etc/lirc/lircd.conf This is the config for your remote.
     if(lirc_readconfig(NULL,&config,NULL)==0)
     {
         // std::cout << " jestem w iflirc_readconfig(NULL,&config,NULL)==0 \n ";
-        //Do stuff while LIRC socket is open  0=open  -1=closed.
+        //Do stuff while LIRC socket is open 0=open -1=closed.
         while(lirc_nextcode(&code) == 0)
         {
             // std::cout << " w while \n";
-            if (useful_F::go_while == false)     //TODO NIE DZIALA DO POPRAWY
+            if (useful_F::go_while == false) //TODO NIE DZIALA DO POPRAWY
             {
-                break;  // koncze petle zamykam wątek
+                break; // koncze petle zamykam wątek
             }
             //If code = NULL, meaning nothing was returned from LIRC socket,
             //then skip lines below and start while loop again.
@@ -69,20 +69,20 @@ void master_irda::run()
                 //Make sure there is a 400ms gap before detecting button presses.
                 if(millis() - buttonTimer > 400){
 
-                    // time out   OK menu
+                    // time out OK menu
                     if(millis() - buttonTimer > 30000 && buttonMENU == 1){
                         log_file_mutex.mutex_lock();
-                        log_file_cout << INFO<< " timeout menu " <<  std::endl;
+                        log_file_cout << INFO<< " timeout menu " << std::endl;
                         log_file_mutex.mutex_unlock();
-                        buttonMENU = 0;  // flaga na 0  nie wejdze juz do timeout
+                        buttonMENU = 0; // flaga na 0 nie wejdze juz do timeout
                         irda_queue._add(PILOT_KEY::KEY_EXIT);
                     }
                     //////////////////////////////////////////////////////////////
                     //Check to see if the string "KEY_1" appears anywhere within the string 'code'.
 
                     CodeString = code;
-                    CodeString.erase(0,(CodeString.find("KEY"))) ;
-                    CodeString.erase(   CodeString.find(" "), CodeString.size());
+                    CodeString.erase(0,(CodeString.find("KEY")));
+                    CodeString.erase( CodeString.find(" "), CodeString.size());
 
                     my_data2->myEventHandler.run("pilot")->addEvent("press: "+CodeString);
                     irda_queue._add( my_data2->key_map[CodeString]->getValue() );

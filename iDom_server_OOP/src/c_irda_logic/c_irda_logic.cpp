@@ -73,24 +73,10 @@ void c_irda_logic::sleeperLogic(PILOT_KEY X)
     }
     case PILOT_KEY::KEY_OK:
     {
-        //        int freeSlotID = useful_F::findFreeThreadSlot(my_data->main_THREAD_arr);
-
-        //        if ( freeSlotID != -1)
-        //        {
-        //            my_data->main_THREAD_arr->at(freeSlotID).thread        = std::thread(useful_F::sleeper_mpd,my_data);
-        //            my_data->main_THREAD_arr->at(freeSlotID).thread_name   ="Sleeper  MPD ";
-        //            my_data->main_THREAD_arr->at(freeSlotID).thread_ID     = my_data->main_THREAD_arr->at(freeSlotID).thread.get_id();
-        //            my_data->main_THREAD_arr->at(freeSlotID).thread_socket = 1;
-        //            my_data->main_THREAD_arr->at(freeSlotID).thread.detach();
-
-        //            log_file_mutex.mutex_lock();
-        //            log_file_cout << INFO << "watek SLEEPER_MPD wystartowal  "<< my_data->main_THREAD_arr->at(freeSlotID).thread_ID << std::endl;
-        //            log_file_mutex.mutex_unlock();
         iDOM_THREAD::start_thread("Sleeper MPD",useful_F::sleeper_mpd,my_data);
         my_data->mainLCD->printString(true,1,0,"SLEEPer START");
         my_data->mainLCD->set_print_song_state(0);
         who = PILOT_STATE::MPD;
-        //    }
         break;
     }
     default:
@@ -146,31 +132,31 @@ void c_irda_logic::projectorLogic(PILOT_KEY X)
     }
     case PILOT_KEY::KEY_POWER:
     {
-        //system("echo -n q > /mnt/ramdisk/cmd &");  // zamykanie omxplayera
+        //system("echo -n q > /mnt/ramdisk/cmd &"); // zamykanie omxplayera
         useful_F_libs::write_to_mkfifo(my_data->server_settings->omxplayerFile, "q");
         break;
     }
     case PILOT_KEY::KEY_DOWN:
     {
-        system("echo -n $'\x1b\x5b\x43' > /mnt/ramdisk/cmd");  // do przodu
+        system("echo -n $'\x1b\x5b\x43' > /mnt/ramdisk/cmd"); // do przodu
         //write_to_mkfifo("$'\x1b\x5b\x43'");
         break;
     }
     case PILOT_KEY::KEY_UP:
     {
-        system("echo -n $'\x1b\x5b\x44' > /mnt/ramdisk/cmd");  // do tylu
-        //   write_to_mkfifo("$'\x1b\x5b\x44'");
+        system("echo -n $'\x1b\x5b\x44' > /mnt/ramdisk/cmd"); // do tylu
+        // write_to_mkfifo("$'\x1b\x5b\x44'");
         break;
     }
     case PILOT_KEY::KEY_CHANNELUP:
     {
-        //system("echo -n o > /mnt/ramdisk/cmd");  // do przodu
+        //system("echo -n o > /mnt/ramdisk/cmd"); // do przodu
         useful_F_libs::write_to_mkfifo(my_data->server_settings->omxplayerFile, "o");
         break;
     }
     case PILOT_KEY::KEY_CHANNELDOWN:
     {
-        //system("echo -n i > /mnt/ramdisk/cmd");  // do tylu
+        //system("echo -n i > /mnt/ramdisk/cmd"); // do tylu
         useful_F_libs::write_to_mkfifo(my_data->server_settings->omxplayerFile, "i");
         break;
     }
@@ -190,12 +176,12 @@ void c_irda_logic::movieLogic(PILOT_KEY X)
     {
         my_data->mainLCD->set_print_song_state(0);
         my_data->mainLCD->set_lcd_STATE(2);
-        who = PILOT_STATE::MPD;  // koniec przegladania katalogow
+        who = PILOT_STATE::MPD; // koniec przegladania katalogow
         break;
     }
     case PILOT_KEY::KEY_VOLUMEUP:
     {
-        my_data->main_tree->next();  // naspteny katalog
+        my_data->main_tree->next(); // naspteny katalog
         break;
     }
     case PILOT_KEY::KEY_VOLUMEDOWN:
@@ -262,12 +248,12 @@ void c_irda_logic::menuLogic(PILOT_KEY X)
     {
         my_data->mainLCD->set_print_song_state(0);
         my_data->mainLCD->set_lcd_STATE(2);
-        who = PILOT_STATE::MPD;  // koniec przegladania katalogow
+        who = PILOT_STATE::MPD; // koniec przegladania katalogow
         break;
     }
     case PILOT_KEY::KEY_VOLUMEUP:
     {
-        my_data->main_MENU->next();  // naspteny katalog
+        my_data->main_MENU->next(); // naspteny katalog
         break;
     }
     case PILOT_KEY::KEY_VOLUMEDOWN:
@@ -287,16 +273,16 @@ void c_irda_logic::menuLogic(PILOT_KEY X)
         else
         {
             // menu start
-            if (my_data->main_MENU->show_list() == "5.SLEEPer" ){
+            if (my_data->main_MENU->show_list() == "5.SLEEPer"){
                 std::cout << " POBUDKA!!!!" << std::endl;
                 who=PILOT_STATE::SLEEPER;
             }
-            else if (my_data->main_MENU->show_list() == "2.TEMPERATURA" ){
+            else if (my_data->main_MENU->show_list() == "2.TEMPERATURA"){
                 std::cout << " temperatura !!!!" << std::endl;
                 who=PILOT_STATE::MPD;
                 _add(PILOT_KEY::KEY_SAT);
             }
-            else if (my_data->main_MENU->show_list() == "4.PLIKI" ){
+            else if (my_data->main_MENU->show_list() == "4.PLIKI"){
                 std::cout << " do filmow" << std::endl;
                 who=PILOT_STATE::MPD;
                 _add(PILOT_KEY::KEY_EPG);
@@ -350,7 +336,7 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
         std::string temp_str = my_data->ptr_pilot_led->colorLED[my_data->ptr_pilot_led->counter].getColorName();
         my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[my_data->ptr_pilot_led->counter]);
 
-        if (++my_data->ptr_pilot_led->counter >  my_data->ptr_pilot_led->colorLED.size()-1 )
+        if (++my_data->ptr_pilot_led->counter > my_data->ptr_pilot_led->colorLED.size()-1 )
         {
             my_data->ptr_pilot_led->counter=0;
         }

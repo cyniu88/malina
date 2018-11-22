@@ -24,7 +24,7 @@ std::string iDomTOOLS::getSystemInfo()
     auto minutes = (input_seconds / 60) % 60;
     auto seconds = input_seconds % 60;
 
-    std::stringstream  ret;
+    std::stringstream ret;
     ret << "System uptime: " << days <<" day " << hours
         << " hours " << minutes << " minutes "
         << seconds << " seconds " << std::endl << "Load: "

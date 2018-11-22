@@ -9,7 +9,7 @@ command_clock::command_clock(const std::string &name):command(name)
 std::string command_clock::execute(std::vector<std::string> &v, thread_data *my_data)
 {
     if (v.size() > 1){
-        return    "clock set "+ useful_F::send_to_arduino_clock(my_data,v[1]);
+        return "clock set "+ useful_F::send_to_arduino_clock(my_data,v[1]);
     }
     return "can not set clock";
 }

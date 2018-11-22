@@ -2,7 +2,7 @@
 #define COMMANDHANDLERRS232_H
 #include "commandhandlerroot.h"
 
-class commandHandlerRS232 : public   commandHandlerRoot
+class commandHandlerRS232 : public commandHandlerRoot
 {
 public:
     commandHandlerRS232(thread_data * my_data);

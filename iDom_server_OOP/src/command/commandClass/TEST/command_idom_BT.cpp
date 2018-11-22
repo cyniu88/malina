@@ -50,7 +50,7 @@ TEST_F(commandiDom_Class_fixture, getName)
 
 TEST_F(commandiDom_Class_fixture, help)
 {
-    std::string  helpStr = test_command_iDom->help();
+    std::string helpStr = test_command_iDom->help();
     EXPECT_THAT(helpStr,testing::HasSubstr("iDom"));
     std::cout << "test " << helpStr.size() << std::endl;
     EXPECT_EQ(helpStr.size(),1159);
@@ -58,13 +58,13 @@ TEST_F(commandiDom_Class_fixture, help)
 
 TEST_F(commandiDom_Class_fixture, less_param)
 {
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     EXPECT_THAT(retStr,testing::HasSubstr("need parameter!"));
 }
 TEST_F(commandiDom_Class_fixture, unknonw_para)
 {
     test_v.push_back("fake");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     EXPECT_THAT(retStr,testing::HasSubstr("iDom - unknown parameter:"));
 }
 
@@ -74,7 +74,7 @@ TEST_F(commandiDom_Class_fixture, speakers)
     //////////////// fake command
     test_v.push_back("speakers");
     test_v.push_back("fake");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     EXPECT_THAT(retStr,testing::HasSubstr("unknow speakers action: fake"));
     ///////////////// ON
     test_my_data.main_iDomStatus->setObjectState("speakers",STATE::UNDEFINE);
@@ -101,7 +101,7 @@ TEST_F(commandiDom_Class_fixture, sunset_sunrise)
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("sunset");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("Sunset time:"));
 
@@ -119,7 +119,7 @@ TEST_F(commandiDom_Class_fixture, day_lenght)
     test_v.push_back("iDom");
     test_v.push_back("day");
     test_v.push_back("lenght");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("Day Lenght :"));
 }
@@ -129,7 +129,7 @@ TEST_F(commandiDom_Class_fixture, sun)
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("sun");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("Day Lenght :"));
 }
@@ -139,7 +139,7 @@ TEST_F(commandiDom_Class_fixture, sysinfo)
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("sysinfo");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("free RAM"));
 }
@@ -150,7 +150,7 @@ TEST_F(commandiDom_Class_fixture, temperature)
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("temperature");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("-12:22"));
 
@@ -170,7 +170,7 @@ TEST_F(commandiDom_Class_fixture, text)
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("text");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("Godzina"));
 }
@@ -180,7 +180,7 @@ TEST_F(commandiDom_Class_fixture, lock_unlock)
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("lock");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_EQ(test_my_data.idom_all_state.houseState, STATE::LOCK);
 
@@ -198,7 +198,7 @@ TEST_F(commandiDom_Class_fixture, t_230V)
     //////////////// fake command
     test_v.push_back("230V");
     test_v.push_back("fake");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     EXPECT_THAT(retStr,testing::HasSubstr("wrong paramiter"));
     ///////////////// ON
     test_my_data.main_iDomStatus->setObjectState("printer",STATE::UNDEFINE);
@@ -227,7 +227,7 @@ TEST_F(commandiDom_Class_fixture, smog)
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("smog");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr(" mg/m^3"));
 }
@@ -241,7 +241,7 @@ TEST_F(commandiDom_Class_fixture, say)
     test_v.push_back("say");
     test_v.push_back("dummy");
     test_v.push_back("dummy");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     //EXPECT_THAT(retStr,testing::HasSubstr("sad"));
 }
@@ -251,7 +251,7 @@ TEST_F(commandiDom_Class_fixture, wifi)
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("wifi");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("ok"));
 }
@@ -261,7 +261,7 @@ TEST_F(commandiDom_Class_fixture, lightning)
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("lightning");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("bool: "));
 }
@@ -275,7 +275,7 @@ TEST_F(commandiDom_Class_fixture, camera)
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("camera");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_STREQ(retStr.c_str(),"not enough parameters");
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::UNKNOWN);
@@ -313,7 +313,7 @@ TEST_F(commandiDom_Class_fixture, LED)
     test_v.push_back("iDom");
     test_v.push_back("LED");
     test_v.push_back("33");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("need more parameter from-to-R-G-B"));
 
@@ -334,7 +334,7 @@ TEST_F(commandiDom_Class_fixture, kodi)
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("KODI");
-    std::string  retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
 
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_STREQ(retStr.c_str(),"kodi already run");

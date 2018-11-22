@@ -19,7 +19,7 @@ Niby opisane jest to na stronach dostawców - ale nie do końca - więc pełen o
     Włącznik czasowy 10 sek - naciskamy 5 x przycisk programowania. Dalej jak w pkt. 1
     Włącznik czasowy 15 sek - naciskamy 6 x przycisk programowania. Dalej jak w pkt. 1
     Włącznik czasowy 15 sek - naciskamy 7 x przycisk programowania. Dalej jak w pkt. 1
-     KASOWANIE - usuwanie z pamięci wszystkich kodów. Nacisnąć 8 x przycisk  . Każde naciśniecie sygnalizowane jest błyśnięciem. Po 8 naciśnięciu następują trzy mignięcia i pamięć kodów jest wyzerowana. Można też skasować pamięć naciskając przycisk raz przez ok 8 sek . Po puszczeniu przycisku LED zapali się na ok 3-4 sek i zgaśnie. Efekt działania ten sam.
+     KASOWANIE - usuwanie z pamięci wszystkich kodów. Nacisnąć 8 x przycisk. Każde naciśniecie sygnalizowane jest błyśnięciem. Po 8 naciśnięciu następują trzy mignięcia i pamięć kodów jest wyzerowana. Można też skasować pamięć naciskając przycisk raz przez ok 8 sek . Po puszczeniu przycisku LED zapali się na ok 3-4 sek i zgaśnie. Efekt działania ten sam.
 
 Wszystkie te funkcje działają równolegle bo układ może zapamiętać do 50 kodów! Dodatkowo w trybie włącznika czasowego można skrócić czas załączenia poprzez wysłanie kodu WYŁĄCZ z wcześniej ustawionej funkcji latched.
  */

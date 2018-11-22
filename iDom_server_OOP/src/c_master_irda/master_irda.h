@@ -16,15 +16,15 @@ public:
 
     struct lirc_config *config = NULL;
     //Timer for our buttons
-    int buttonTimer ;
+    int buttonTimer;
     int buttonMENU;
     char *code = NULL;
-    master_irda(thread_data  *my_data);
+    master_irda(thread_data *my_data);
     void run();
 
 private:
     std::string CodeString;
-    thread_data  *my_data2;
+    thread_data *my_data2;
 };
 
 #endif // MASTER_IRDA_H

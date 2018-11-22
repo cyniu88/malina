@@ -12,7 +12,7 @@ class iDomSTATUS
     std::mutex m_lockGuard;
 public:
     iDomSTATUS();
-    void addObject(std::string name, STATE st  = STATE::UNDEFINE );
+    void addObject(std::string name, STATE st = STATE::UNDEFINE );
     void setObjectState(const std::string &name, STATE st);
     STATE getObjectState(const std::string &name);
     std::string getObjectStateString(const std::string &name);

@@ -10,7 +10,7 @@ void error_callback(MpdObj *mi,int errorid, char *msg, void *userdata)
     printf( "Error """"%i:"" '%s'\n", errorid, msg);
 }
 
-void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
+void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
 {
     if(what&MPD_CST_SONGID)
     {
@@ -39,7 +39,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
         catch (...)
         {
             log_file_mutex.mutex_lock();
-            log_file_cout << ERROR << "problem z wpisaniem volume "<<   std::endl;
+            log_file_cout << ERROR << "problem z wpisaniem volume "<< std::endl;
             log_file_mutex.mutex_unlock();
         }
     }
@@ -91,7 +91,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             }
 
             if (song->name != NULL){
-                _msg =  song->name;
+                _msg = song->name;
 
                 try
                 {
@@ -111,10 +111,10 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
             }
 
             if (song->title != NULL ){
-                _msg =  song->title;
+                _msg = song->title;
                 if (_msg.size() < 7 )
                 {
-                    _msg =  song->name;
+                    _msg = song->name;
                     _msg += " -     brak nazwy                ";
                 }
             }
@@ -136,9 +136,9 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
         {
         case MPD_PLAYER_PLAY:
             printf("Playing\n");
-            check_title_song_to =   true;
-            my_data->mainLCD->play_Y_N  =   true;
-            my_data->ptr_MPD_info->isPlay   =   true;
+            check_title_song_to = true;
+            my_data->mainLCD->play_Y_N = true;
+            my_data->ptr_MPD_info->isPlay = true;
             //digitalWrite(iDomConst::GPIO_SPIK, LOW);
             my_data->main_iDomTools->turnOnSpeakers();
             my_data->mainLCD->set_lcd_STATE(1);
@@ -187,10 +187,10 @@ void status_changed(MpdObj *mi, ChangedStatusType what,  thread_data *my_data)
                mpd_status_get_total_song_time(mi)%60);
     }
     if(what&MPD_CST_ELAPSED_TIME){
-        /*  printf(GREEN"Time elapsed changed:"RESET" %02i:%02i\n",
+        /* printf(GREEN"Time elapsed changed:"RESET" %02i:%02i\n",
 mpd_status_get_elapsed_song_time(mi)/60,
 mpd_status_get_elapsed_song_time(mi)%60);
-*/  }
+*/ }
     if(what&MPD_CST_PERMISSION){
         printf( "Permission:"" Changed\n");
     }
@@ -205,7 +205,7 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
     ////////////////////////////// LCD PART ///////////////////////////
     my_data->mainLCD->set_print_song_state(0);
     ///////////////////////////////////////////////////////////////////
-    int   iport = 6600;
+    int iport = 6600;
     char *hostname = getenv("MPD_HOST");
     char *port = getenv("MPD_PORT");
     char *password = getenv("MPD_PASSWORD");
@@ -213,7 +213,7 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
 
     //std::cout << " adres hosta to " << hostname << std::endl;
     if(hostname == NULL) {
-        //std::cout << " ip mpd to " <<  my_data->server_settings->MPD_IP << " ! \n";
+        //std::cout << " ip mpd to " << my_data->server_settings->MPD_IP << " ! \n";
         hostname = (char*)my_data->server_settings->MPD_IP.c_str();
     }
     if(port){
@@ -232,14 +232,14 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
 
     while (work){
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << "nie udalo sie polaczyc z MPD "<<   std::endl;
+        log_file_cout << ERROR << "nie udalo sie polaczyc z MPD "<< std::endl;
         log_file_mutex.mutex_unlock();
         system("service mpd stop");
         sleep(1);
         system("service mpd start");
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "restart MPD "<<   std::endl;
-        log_file_cout << INFO << "nawiazuje nowe polaczenie z MPD "<<   std::endl;
+        log_file_cout << INFO << "restart MPD "<< std::endl;
+        log_file_cout << INFO << "nawiazuje nowe polaczenie z MPD "<< std::endl;
         log_file_mutex.mutex_unlock();
         my_data->myEventHandler.run("mpd")->addEvent("restart MPD");
         work = mpd_connect(obj);
@@ -302,7 +302,7 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
             if (!mpd_check_connected(obj))
             {
                 log_file_mutex.mutex_lock();
-                log_file_cout << WARNING << "utracono polacznie z  MPD "<<   std::endl;
+                log_file_cout << WARNING << "utracono polacznie z MPD "<< std::endl;
                 log_file_cout << INFO << "restart MPD" << std::endl;
                 log_file_mutex.mutex_unlock();
                 std::this_thread::sleep_for( std::chrono::milliseconds(1000) );
@@ -313,7 +313,7 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
             mpd_status_update(obj);
 
             ///////////////////////////////////// TASKER //////////////////////////////////////////
-            ///  call Tasker
+            /// call Tasker
             mainTasker.runTasker();
 
             std::this_thread::sleep_for( std::chrono::milliseconds(250) );
@@ -328,7 +328,7 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
     mpd_free(obj);
     iDOM_THREAD::stop_thread(threadName, my_data);
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << " koniec   "<<threadName<<   std::endl;
+    log_file_cout << INFO << " koniec "<<threadName<< std::endl;
     log_file_mutex.mutex_unlock();
 }
 

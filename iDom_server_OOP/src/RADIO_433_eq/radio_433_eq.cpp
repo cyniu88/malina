@@ -11,7 +11,7 @@ RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RAD
     RADIO_EQ::m_type = type;
     RADIO_EQ::m_config = cfg;
     m_sunrise = stringToState(cfg.sunrise);
-    m_sunset =  stringToState(cfg.sunset);
+    m_sunset  = stringToState(cfg.sunset);
 }
 
 RADIO_SWITCH::~RADIO_SWITCH()
@@ -148,10 +148,10 @@ void RADIO_EQ_CONTAINER::addRadioEq( RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
 {
     switch (type) {
     case RADIO_EQ_TYPE::SWITCH:
-        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_SWITCH(my_data, cfg, RADIO_EQ_TYPE::SWITCH)  )    );
+        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_SWITCH(my_data, cfg, RADIO_EQ_TYPE::SWITCH) ) );
         break;
     case RADIO_EQ_TYPE::BUTTON:
-        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_BUTTON(my_data, cfg, RADIO_EQ_TYPE::BUTTON)  )    );
+        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_BUTTON(my_data, cfg, RADIO_EQ_TYPE::BUTTON) ) );
         break;
     case RADIO_EQ_TYPE::WEATHER_S:
         m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_WEATHER_STATION(my_data, cfg, RADIO_EQ_TYPE::WEATHER_S) ) );
@@ -161,7 +161,7 @@ void RADIO_EQ_CONTAINER::addRadioEq( RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
     }
 }
 
-void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, const std::string&  type)
+void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, const std::string& type)
 {
     RADIO_EQ_TYPE ret = RADIO_EQ_TYPE::NONE;
     if(type == "SWITCH") ret = RADIO_EQ_TYPE::SWITCH;
@@ -236,9 +236,9 @@ std::string RADIO_EQ_CONTAINER::listAllName()
     for(auto it = m_radioEqMap.begin(); it != m_radioEqMap.end(); ++it) {
         allName.append(it->first);
         allName.append("\t ID: ");
-        allName.append( it->second->getID()  );
+        allName.append( it->second->getID() );
         allName.append("\t state: ");
-        allName.append(stateToString(it->second->getState()  ));
+        allName.append(stateToString(it->second->getState() ));
         allName.append("\n");
     }
 
@@ -270,7 +270,7 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
             nlohmann::json switchJson = j.at("SWITCH");
             for (nlohmann::json::iterator it = switchJson.begin(); it != switchJson.end(); ++it)
             {
-                nlohmann::json switchJson =  it.value();
+                nlohmann::json switchJson = it.value();
                 cfg.name = switchJson.at("name").get<std::string>();
                 cfg.ID   = switchJson.at("id").get<std::string>();
                 cfg.offCode = switchJson.at("OFF").get<std::string>();
@@ -288,7 +288,7 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
         catch(...)
         {
         log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG << "no SWITCH equipment in config" <<   std::endl;
+        log_file_cout << DEBUG << "no SWITCH equipment in config" << std::endl;
         log_file_mutex.mutex_unlock();
         }
         try
@@ -296,7 +296,7 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
             nlohmann::json buttonJson = j.at("BUTTON");
             for (nlohmann::json::iterator it = buttonJson.begin(); it != buttonJson.end(); ++it)
             {
-                nlohmann::json buttonJson =  it.value();
+                nlohmann::json buttonJson = it.value();
                 cfg.name = buttonJson.at("name").get<std::string>();
                 cfg.ID   = buttonJson.at("id").get<std::string>();
                 cfg.offCode = buttonJson.at("OFF").get<std::string>();
@@ -308,10 +308,10 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
         catch(...)
         {
             log_file_mutex.mutex_lock();
-            log_file_cout << DEBUG << "no BUTTONs equipment in config" <<   std::endl;
+            log_file_cout << DEBUG << "no BUTTONs equipment in config" << std::endl;
             log_file_mutex.mutex_unlock();
 #ifdef BT_TEST
-            std::cout << "no BUTTONs equipment in config"  <<std::endl;
+            std::cout << "no BUTTONs equipment in config" <<std::endl;
 #endif
         }
 
@@ -320,7 +320,7 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
             nlohmann::json weatherJson= j.at("WEATHER");
             for (nlohmann::json::iterator it = weatherJson.begin(); it != weatherJson.end(); ++it)
             {
-                nlohmann::json weatherJson =  it.value();
+                nlohmann::json weatherJson = it.value();
                 cfg.name = weatherJson.at("name").get<std::string>();
                 cfg.ID   = weatherJson.at("id").get<std::string>();
                 cfg.type    = weatherJson.at("type").get<std::string>();
@@ -330,10 +330,10 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
         catch(...)
         {
             log_file_mutex.mutex_lock();
-            log_file_cout << DEBUG << "no WEATHER STAIONs equipment in config" <<   std::endl;
+            log_file_cout << DEBUG << "no WEATHER STAIONs equipment in config" << std::endl;
             log_file_mutex.mutex_unlock();
 #ifdef BT_TEST
-            std::cout << "no  WEATHER STAIONs  equipment in config"  <<std::endl;
+            std::cout << "no WEATHER STAIONs equipment in config" <<std::endl;
 #endif
         }
 
@@ -368,7 +368,7 @@ void RADIO_EQ_CONTAINER::saveConfig(const std::string& filePath)
 
     m_configJson["SWITCH"] = switchJson;
     m_configJson["BUTTON"] = buttonJson;
-    m_configJson["WEATHER"] = weatherJson ;
+    m_configJson["WEATHER"] = weatherJson;
     // write prettified JSON to another file
     std::ofstream o(filePath);
     o << std::setw(4) << m_configJson << std::endl;
@@ -395,7 +395,7 @@ RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *my_data, const RADIO_E
     puts("RADIO_WEATHER_STATION::RADIO_WEATHER_STATION()");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
-    RADIO_EQ::m_config  = cfg;
+    RADIO_EQ::m_config = cfg;
 }
 
 RADIO_WEATHER_STATION::~RADIO_WEATHER_STATION()

@@ -29,7 +29,7 @@ std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1]=="error")
     {
         std::string msg;
-        for (unsigned int i = 2 ; i < v.size(); ++i)
+        for (unsigned int i = 2; i < v.size(); ++i)
         {
             msg+=" ";
             msg+=v[i];
@@ -39,19 +39,19 @@ std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_d
 
             my_data->myEventHandler.run("RS232")->addEvent("RS232 error event: "+msg);
             log_file_mutex.mutex_lock();
-            log_file_cout << WARNING<< "RS232 ERROR event: " << msg <<  std::endl;
+            log_file_cout << WARNING<< "RS232 ERROR event: " << msg << std::endl;
             log_file_mutex.mutex_unlock();
         }
         else if (v[2]=="test" && v[3]=="msg")
         {
             log_file_mutex.mutex_lock();
-            log_file_cout << DEBUG << "RS232 ERROR debug : "<<msg  <<  std::endl;
+            log_file_cout << DEBUG << "RS232 ERROR debug : "<<msg << std::endl;
             log_file_mutex.mutex_unlock();
         }
         else
         {
             log_file_mutex.mutex_lock();
-            log_file_cout << CRITICAL << "RS232 ERROR unknown : "<<msg  <<  std::endl;
+            log_file_cout << CRITICAL << "RS232 ERROR unknown : "<<msg << std::endl;
             log_file_mutex.mutex_unlock();
         }
     }
@@ -67,7 +67,7 @@ std::string commandRS232::help()
     std::stringstream help;
     help << "RS232 - communication with Arduino:" << std::endl;
     help << "parameter:" << std::endl << std::endl;
-    help << "\tsend <command> - send  <command>  to Arduino" << std::endl;
+    help << "\tsend <command> - send <command> to Arduino" << std::endl;
     help << "\tget <param> - get <param> from Arduino" << std::endl;
     help << "\t\ttemperature - get temeprature INSIDE + OUTSIDE" << std::endl;
 

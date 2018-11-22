@@ -7,13 +7,13 @@ command_log::command_log(const std::string &name):command(name)
 std::string command_log::execute(std::vector<std::string> &v, thread_data *my_data)
 {
     std::string msg;
-    for (unsigned int i = 2 ; i < v.size(); ++i)
+    for (unsigned int i = 2; i < v.size(); ++i)
     {
         msg+=" ";
         msg+=v[i];
     }
     log_file_mutex.mutex_lock();
-    log_file_cout <<"USER:- " << logLevel(v[1]) << msg  <<std::endl;;
+    log_file_cout <<"USER:- " << logLevel(v[1]) << msg <<std::endl;;
     log_file_mutex.mutex_unlock();
     return "DONE!";
 }
@@ -45,7 +45,7 @@ logger_level command_log::logLevel(const std::string &level)
     else if (level == "FATAL"){
         return FATAL;
     }
-    else if (level == "CRITICAL" ){
+    else if (level == "CRITICAL"){
         return CRITICAL;
     }
 puts ("nie mam co wysetlic wale verbose");

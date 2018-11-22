@@ -76,7 +76,7 @@ WirePi::WirePi(){
     if ((memfd = open("/dev/mem", O_RDWR | O_SYNC) ) < 0) 
     {
 	fprintf(stderr, "bcm2835_init: Unable to open /dev/mem: %s\n",
-		strerror(errno)) ;
+		strerror(errno));
 	exit(1);
     }
 	
@@ -434,12 +434,12 @@ void WirePi::wait_i2c_done() {
     
     mapaddr = spi0Mem;
     if (((uint32_t)mapaddr % PAGESIZE) != 0)
-        mapaddr += PAGESIZE - ((uint32_t)mapaddr % PAGESIZE) ;
+        mapaddr += PAGESIZE - ((uint32_t)mapaddr % PAGESIZE);
     
-    spi0 = (uint32_t *)mmap(mapaddr, BLOCK_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_FIXED, gpio.mem_fd, BCM2835_SPI0_BASE) ;
+    spi0 = (uint32_t *)mmap(mapaddr, BLOCK_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_FIXED, gpio.mem_fd, BCM2835_SPI0_BASE);
     
     if ((int32_t)spi0 < 0){
-        fprintf(stderr, "bcm2835_init: mmap failed (spi0): %s\n", strerror(errno)) ;
+        fprintf(stderr, "bcm2835_init: mmap failed (spi0): %s\n", strerror(errno));
         exit(1);
     }
  }
@@ -586,30 +586,30 @@ void m_delayMicroseconds(long micros){
 		  exit(1);
 		}
 	}else{
-		struct timeval tNow, tLong, tEnd ;
+		struct timeval tNow, tLong, tEnd;
 		
-		gettimeofday (&tNow, NULL) ;
-		tLong.tv_sec  = micros / 1000000 ;
-		tLong.tv_usec = micros % 1000000 ;
-		timeradd (&tNow, &tLong, &tEnd) ;
+		gettimeofday (&tNow, NULL);
+		tLong.tv_sec  = micros / 1000000;
+		tLong.tv_usec = micros % 1000000;
+		timeradd (&tNow, &tLong, &tEnd);
 
 		while (timercmp (&tNow, &tEnd, <))
-			gettimeofday (&tNow, NULL) ;
+			gettimeofday (&tNow, NULL);
 	}
 }
 
 uint8_t shiftIn(uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order){
-	uint8_t value = 0 ;
-	int8_t  i ;
+	uint8_t value = 0;
+	int8_t  i;
 
 	if (order == MSBFIRST)
-		for (i = 7 ; i >= 0 ; --i){
+		for (i = 7; i >= 0; --i){
             m_digitalWrite (cPin, m_HIGH);
             value |= m_digitalRead (dPin) << i;
             m_digitalWrite (cPin, m_LOW);
 		}
 	else
-		for (i = 0 ; i < 8 ; ++i){
+		for (i = 0; i < 8; ++i){
           m_digitalWrite (cPin, m_HIGH);
           value |= m_digitalRead (dPin) << i;
           m_digitalWrite (cPin, m_LOW);
@@ -622,16 +622,16 @@ void shiftOut(uint8_t dPin, uint8_t cPin, bcm2835SPIBitOrder order, uint8_t val)
 	int8_t i;
 
 	if (order == MSBFIRST)
-		for (i = 7 ; i >= 0 ; --i){	
-            m_digitalWrite (dPin, val & (1 << i)) ;
-            m_digitalWrite (cPin, m_HIGH) ;
-            m_digitalWrite (cPin, m_LOW) ;
+		for (i = 7; i >= 0; --i){	
+            m_digitalWrite (dPin, val & (1 << i));
+            m_digitalWrite (cPin, m_HIGH);
+            m_digitalWrite (cPin, m_LOW);
 		}
 	else
-		for (i = 0 ; i < 8 ; ++i){
-            m_digitalWrite (dPin, val & (1 << i)) ;
-            m_digitalWrite (cPin, m_HIGH) ;
-            m_digitalWrite (cPin, m_LOW) ;
+		for (i = 0; i < 8; ++i){
+            m_digitalWrite (dPin, val & (1 << i));
+            m_digitalWrite (cPin, m_HIGH);
+            m_digitalWrite (cPin, m_LOW);
 		}
 }
 
@@ -747,7 +747,7 @@ int address;
 	} else if (pin == 1){
 		address = 0x9C;
 	} else if (pin == 2){ 
-		address = 0xCC ;
+		address = 0xCC;
 	} else if (pin == 3){ 
 		address = 0x8C;
 	} else if (pin == 4){ 
@@ -874,21 +874,21 @@ int getBoardRev(){
 	fclose(cpu_info);
 	
 	if (line == NULL){
-		fprintf (stderr, "Unable to determine board revision from /proc/cpuinfo.\n") ;
+		fprintf (stderr, "Unable to determine board revision from /proc/cpuinfo.\n");
 		exit(1);
 	}
 	
-	for (c = line ; *c ; ++c)
+	for (c = line; *c; ++c)
     if (isdigit (*c))
-      break ;
+      break;
 
 	if (!isdigit (*c)){
-		fprintf (stderr, "Unable to determine board revision from /proc/cpuinfo\n") ;
-		fprintf (stderr, "  (Info not found in: %s\n", line) ;
+		fprintf (stderr, "Unable to determine board revision from /proc/cpuinfo\n");
+		fprintf (stderr, "  (Info not found in: %s\n", line);
 		exit(1);
 	}
 	
-	finalChar = c [strlen (c) - 2] ;
+	finalChar = c [strlen (c) - 2];
 	
 	if ((finalChar == '2') || (finalChar == '3')){
 		bsc0 = bsc_rev1;

@@ -21,7 +21,7 @@ public:
     void printString(bool clear, int col, int row, const std::string& str);
     void printVolume (int vol);
 
-    LiquidCrystal_I2C main_lcd ;
+    LiquidCrystal_I2C main_lcd;
     void printSongName (const std::string& songName);
     void checkState();
     bool play_Y_N = false;

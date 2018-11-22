@@ -2,14 +2,14 @@
 #include "c_connection.h"
 #include <iostream>
 
-////////  not used now
+//////// not used now
 //void C_connection::c_start_master ()
 //{
-//    std::cout <<  " w pamieci jest " <<my_data->server_settings->AAS.size() <<" nodow\n";
-//    for (unsigned int i =0 ; i<my_data->server_settings->AAS.size() ; ++i )
+//    std::cout << " w pamieci jest " <<my_data->server_settings->AAS.size() <<" nodow\n";
+//    for (unsigned int i =0; i<my_data->server_settings->AAS.size(); ++i )
 //    {
-//        std::cout << "  jest ustawien id " <<  my_data->server_settings->AAS[i].id << std::endl;
-//        std::cout << "  jest ustawien ip " <<  my_data->server_settings->AAS[i].SERVER_IP << std::endl;
+//        std::cout << " jest ustawien id " << my_data->server_settings->AAS[i].id << std::endl;
+//        std::cout << " jest ustawien ip " << my_data->server_settings->AAS[i].SERVER_IP << std::endl;
 //    }
 //        while (1)
 //        {
@@ -28,16 +28,16 @@
 //        std::this_thread::sleep_for( std::chrono::milliseconds(50) );
 
 //        mutex_who.lock();
-//        if (  pointer->ptr_who[0] == my_data->server_settings->ID_server)
+//        if (pointer->ptr_who[0] == my_data->server_settings->ID_server)
 //        {
 //            mutex_buf.lock();
 
-//            for (int i =0 ; i < MAX_MSG_LEN ; ++i )
+//            for (int i =0; i < MAX_MSG_LEN; ++i )
 //            {
 //                 pointer->ptr_buf[i]-=1;
 //            }
-//            pointer->ptr_who[0] =  pointer->ptr_who[1] ;
-//            pointer->ptr_who[1] =  my_data->server_settings->ID_server;
+//            pointer->ptr_who[0] = pointer->ptr_who[1];
+//            pointer->ptr_who[1] = my_data->server_settings->ID_server;
 //            mutex_buf.unlock();
 //        }
 //         mutex_who.unlock();
@@ -65,16 +65,18 @@ void C_connection::crypto(std::string &toEncrypt, std::string key, bool encrypte
 #endif
     for (unsigned int i = 0; i < toEncrypt.size (); i++)
     {
-        if (keySize == 0)   keySize = key.size()-1;
-        else     --keySize;
-        toEncrypt[i] ^=  key[keySize];
+        if (keySize == 0)
+            keySize = key.size()-1;
+        else
+            --keySize;
+        toEncrypt[i] ^= key[keySize];
     }
 }
 
 void C_connection::onStartConnection()
 {
 //    log_file_mutex.mutex_lock();
-//    log_file_cout << INFO<< "konstruuje nowy obiekt do komunikacj na gniezdzie " << c_socket <<  std::endl;
+//    log_file_cout << INFO<< "konstruuje nowy obiekt do komunikacj na gniezdzie " << c_socket << std::endl;
 //    log_file_mutex.mutex_unlock();
 }
 

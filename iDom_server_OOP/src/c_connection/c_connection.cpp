@@ -1,7 +1,7 @@
 #include <iostream>
 #include "c_connection.h"
 
-C_connection::C_connection (thread_data  *my_data):c_socket(my_data->s_client_sock),
+C_connection::C_connection (thread_data *my_data):c_socket(my_data->s_client_sock),
     c_from(my_data->from),recv_size(0)
 {
     this -> pointer = &my_data->pointer;
@@ -32,8 +32,8 @@ C_connection::~C_connection()
 
 int C_connection::c_send(int para)
 {
-    crypto(str_buf,m_encriptionKey,m_encrypted); //BUG  - naprawic czytanie flagi  z parametru klasy
-    std::string  len = std::to_string( str_buf.size());
+    crypto(str_buf,m_encriptionKey,m_encrypted); //BUG - naprawic czytanie flagi z parametru klasy
+    std::string len = std::to_string( str_buf.size());
     crypto(len,m_encriptionKey,m_encrypted);
     if(( send( c_socket, len.c_str() ,len.length(), para ) ) <= 0 )
     {
@@ -44,7 +44,7 @@ int C_connection::c_send(int para)
     if(recv_size < 0 )
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << "C_connection::c_send(int para) recv() error - " << strerror(  errno ) <<   std::endl;
+        log_file_cout << ERROR << "C_connection::c_send(int para) recv() error - " << strerror( errno ) << std::endl;
         log_file_mutex.mutex_unlock();
         return -1;
     }
@@ -57,8 +57,8 @@ int C_connection::c_send(int para)
 
     while (len_send > 0)
     {
-        auto len_temp = send( c_socket, str_buf.c_str() ,str_buf.length(), para ) ;
-        if(len_temp  <= 0 )
+        auto len_temp = send( c_socket, str_buf.c_str() ,str_buf.length(), para );
+        if(len_temp <= 0 )
         {
             return -1;
         }
@@ -86,7 +86,7 @@ int C_connection::c_recv(int para)
     if(recv_size < 0)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << "C_connection::c_recv(int para) recv() error - " << strerror(  errno ) <<   std::endl;
+        log_file_cout << ERROR << "C_connection::c_recv(int para) recv() error - " << strerror( errno ) << std::endl;
         log_file_mutex.mutex_unlock();
         return -1;
     }
@@ -107,7 +107,7 @@ int C_connection::c_analyse(int recvSize)
     useful_F::tokenizer(command," \n,", buf);
     str_buf = "unknown command\n";
 
-    for(std::string  t : command)
+    for(std::string t : command)
     {
         str_buf += t+" ";
     }

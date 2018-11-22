@@ -13,14 +13,14 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232, const std::string
     serial_ardu.begin( std::stoi( data_rs232->BaudRate));
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO <<"otwarcie portu RS232 " <<  data_rs232->portRS232 << "  " <<data_rs232->BaudRate<<std::endl;
+    log_file_cout << INFO <<"otwarcie portu RS232 " << data_rs232->portRS232 << " " <<data_rs232->BaudRate<<std::endl;
     log_file_mutex.mutex_unlock();
 
     SerialPi serial_ardu_clock(data_rs232->portRS232_clock);
     serial_ardu_clock.begin( std::stoi( data_rs232->BaudRate));
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO <<"otwarcie portu RS232_clock " <<  data_rs232->portRS232_clock <<" "<< data_rs232->BaudRate <<std::endl;
+    log_file_cout << INFO <<"otwarcie portu RS232_clock " << data_rs232->portRS232_clock <<" "<< data_rs232->BaudRate <<std::endl;
     log_file_mutex.mutex_unlock();
 
     /////////////////////////////////////////////////// RESET ARDUINO AFTER RESTART ////////////////////////////////

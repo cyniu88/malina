@@ -90,5 +90,5 @@ void THERMOMETER_CONTAINER::showAll()
     {
         std::cout << n.first << " ";
     }
-    std::cout << std::endl << "koniec prointowania w  " << std::endl;
+    std::cout << std::endl << "koniec prointowania w " << std::endl;
 }

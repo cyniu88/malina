@@ -28,13 +28,13 @@ class blockQueue
 {
 public:
     blockQueue();
-    static std::mutex mutex_queue_char ;
+    static std::mutex mutex_queue_char;
 
     static std::queue <MPD_COMMAND> _MPD_CommandQ;
 
     void _add(MPD_COMMAND X);
     MPD_COMMAND _get();
-    int  _size();
+    int _size();
     void _clearAll();
 };
 

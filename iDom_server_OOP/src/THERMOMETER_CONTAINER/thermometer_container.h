@@ -36,7 +36,7 @@ class THERMOMETER_CONTAINER
 #ifdef BT_TEST
 public:
 #endif
-    std::map<std::string,THERMOMETER>  thermoMap;
+    std::map<std::string,THERMOMETER> thermoMap;
     THERMOMETER* returnThermometerPtr(const std::string &name);
 public:
     THERMOMETER_CONTAINER();

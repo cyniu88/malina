@@ -76,7 +76,7 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
     {
         if(v[2]=="volume")
         {
-            str_buf=std::to_string(   my_data->ptr_MPD_info->volume);
+            str_buf=std::to_string(my_data->ptr_MPD_info->volume);
         }
         else if (v[2]=="info")
         {

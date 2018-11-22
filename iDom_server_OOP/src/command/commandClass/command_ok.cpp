@@ -11,5 +11,5 @@ std::string command_ok::execute(std::vector<std::string> &v, thread_data *my_dat
 
 std::string command_ok::help()
 {
-    return "ok -  confirmation msg  server response: END \n";
+    return "ok - confirmation msg server response: END \n";
 }

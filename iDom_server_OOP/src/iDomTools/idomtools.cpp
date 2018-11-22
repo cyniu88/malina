@@ -25,11 +25,11 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
     allThermometerUpdate.add("outside");
     /////////////////////////////////////////////////////////////////
 #ifndef BT_TEST
-    pinMode(iDomConst::GPIO_SPIK, OUTPUT);    // gpio pin do zasilania glosnikow
+    pinMode(iDomConst::GPIO_SPIK, OUTPUT); // gpio pin do zasilania glosnikow
     digitalWrite(iDomConst::GPIO_SPIK,LOW);
-    pinMode(iDomConst::GPIO_PRINTER,OUTPUT);  /// gpio pin do zsilania drukarki
+    pinMode(iDomConst::GPIO_PRINTER,OUTPUT); /// gpio pin do zsilania drukarki
     digitalWrite(iDomConst::GPIO_PRINTER,LOW);
-    pinMode(iDomConst::BUTTON_PIN, INPUT);   //  gpio pin przycisku
+    pinMode(iDomConst::BUTTON_PIN, INPUT); // gpio pin przycisku
 
     if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_BOTH, &useful_F::button_interrupt) < 0 ) {
 
@@ -66,17 +66,17 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometer
     const auto oldTemp = allThermometer.getOldTemp(thermometerName);
     const auto lastState = allThermometer.getLastState(thermometerName);
     if (newTemp >= reference + histereza &&
-            oldTemp  < reference + histereza &&
+            oldTemp < reference + histereza &&
             lastState != TEMPERATURE_STATE::Over)
     {
-        my_data->myEventHandler.run("test")->addEvent("over: new "+  to_string_with_precision(newTemp)+" old: "
+        my_data->myEventHandler.run("test")->addEvent("over: new "+ to_string_with_precision(newTemp)+" old: "
                                                       +to_string_with_precision(oldTemp)+" ref: "
                                                       +to_string_with_precision(reference));
         allThermometer.setState(thermometerName, TEMPERATURE_STATE::Over);
         return TEMPERATURE_STATE::Over;
     }
     else if (newTemp <= reference - histereza &&
-             oldTemp >  reference - histereza &&
+             oldTemp > reference - histereza &&
              lastState != TEMPERATURE_STATE::Under)
     {
         my_data->myEventHandler.run("test")->addEvent("under: new "+to_string_with_precision(newTemp)+" old: "
@@ -134,7 +134,7 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
 
 std::string iDomTOOLS::getThermoStats(const std::string& name)
 {
-    return  allThermometerUpdate.getStatsByName(name);
+    return allThermometerUpdate.getStatsByName(name);
 }
 
 void iDomTOOLS::updateTemperatureStats()
@@ -145,7 +145,7 @@ void iDomTOOLS::updateTemperatureStats()
     allThermometerUpdate.updateStats("inside");
 
     if( true == allThermometerUpdate.isMoreDiff("outside",2.1)){
-        auto  data = allThermometerUpdate.getLast2("outside");
+        auto data = allThermometerUpdate.getLast2("outside");
         std::string msg = "alarm roznicy temeratur na polu! " + to_string_with_precision(data.first) +" na "+
                 to_string_with_precision(data.second);
 
@@ -156,7 +156,7 @@ void iDomTOOLS::updateTemperatureStats()
             msg += " temperatura rośnie " + EMOJI::emoji(E_emoji::CHART_WITH_UPWARDS_TREND);
         }
 
-        sendViberMsg(msg  ,
+        sendViberMsg(msg,
                      my_data->server_settings->viberReceiver.at(0),
                      my_data->server_settings->viberSender);
 
@@ -165,7 +165,7 @@ void iDomTOOLS::updateTemperatureStats()
         log_file_mutex.mutex_unlock();
     }
     if( true == allThermometerUpdate.isMoreDiff("inside",2.1)){
-        auto  data = allThermometerUpdate.getLast2("inside");
+        auto data = allThermometerUpdate.getLast2("inside");
         std::string msg = "alarm roznicy temeratur na mieszkaniu! " + to_string_with_precision(data.first) +" na "+
                 to_string_with_precision(data.second);
 
@@ -176,7 +176,7 @@ void iDomTOOLS::updateTemperatureStats()
             msg += " temperatura rośnie " + EMOJI::emoji(E_emoji::CHART_WITH_UPWARDS_TREND);
         }
 
-        sendViberMsg(msg  ,
+        sendViberMsg(msg,
                      my_data->server_settings->viberReceiver.at(0),
                      my_data->server_settings->viberSender);
 
@@ -259,7 +259,7 @@ void iDomTOOLS::turnOnOffPrinter()
         puts("def");
 
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << " blad odczytu stanu pinu zasilania drukarki "<<   std::endl;
+        log_file_cout << CRITICAL << " blad odczytu stanu pinu zasilania drukarki "<< std::endl;
         log_file_mutex.mutex_unlock();
     }
 }
@@ -335,7 +335,7 @@ void iDomTOOLS::lockHome()
                                               my_data->server_settings->viberSender);
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<<   std::endl;
+    log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<< std::endl;
     log_file_mutex.mutex_unlock();
 
     saveState_iDom();
@@ -351,7 +351,7 @@ void iDomTOOLS::unlockHome()
                                               my_data->server_settings->viberSender);
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<<   std::endl;
+    log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<< std::endl;
     log_file_mutex.mutex_unlock();
 
     saveState_iDom();
@@ -395,7 +395,7 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
 {
     static unsigned int counter = 0;
 
-    Clock t  = Clock::getTime();
+    Clock t = Clock::getTime();
     if (lastButton433MHzLockUnlockTime != t /*|| (lastButton433MHzLockUnlockTime + Clock(0,1)) == t*/)
     {
         //#ifdef BT_TEST
@@ -416,7 +416,7 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
             turnOffPrinter();
             radioButton->setState(STATE::STOP);
             switchActionOnLockHome();
-            //TODO  dodać wylaczanie wiatraka
+            //TODO dodać wylaczanie wiatraka
         }
         else if (my_data->main_iDomStatus->getObjectState("music") == STATE::STOP)
         {
@@ -484,7 +484,7 @@ CARDINAL_DIRECTIONS::ALARM_INFO iDomTOOLS::getLightningStruct()
 
 void iDomTOOLS::setLightningStruct(CARDINAL_DIRECTIONS::ALARM_INFO &s)
 {
-    std::lock_guard<std::mutex>  lock(m_lightningMutex);
+    std::lock_guard<std::mutex> lock(m_lightningMutex);
     //std::cout <<"struktura setowana " << s.data.str() <<std::endl;
     m_lightningStruct = s;
 
@@ -542,7 +542,7 @@ std::string iDomTOOLS::getSunset(bool extend )
 {
     Clock tt = sun.getSunSet();
     if (extend == true){
-        return  "Sunset time: "+tt.getString();
+        return "Sunset time: "+tt.getString();
     }
     return tt.getString();
 }
@@ -582,7 +582,7 @@ std::vector<WEATHER_ALER> iDomTOOLS::getAlert(std::string data)
     std::string d = useful_F_libs::removeHtmlTag(data);
     std::vector<std::string> vect;
 
-    vect =  useful_F::split(d,'\n');
+    vect = useful_F::split(d,'\n');
     vect.pop_back();
     for (auto n : vect)
     {
@@ -607,7 +607,7 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
     for (auto a : *textVector){
         txt += a;
     }
-    /////////// start thread  TTS - python use ////////////////////////
+    /////////// start thread TTS - python use ////////////////////////
     std::string command = " python /home/pi/programowanie/iDom_server_OOP/script/PYTHON/gadacz.py \\"+ txt +"\\";
     if(my_data->ptr_MPD_info->isPlay){
 
@@ -629,10 +629,10 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
 std::string iDomTOOLS::getTextToSpeach()
 {
     std::vector<std::string> dayL = useful_F::split(getDayLenght(),':');
-    std::stringstream  text;
+    std::stringstream text;
     std::string smogText = getSmog();
     int smogInt = std::stoi(smogText);
-    text <<  "Godzina: " << Clock::getTime().getString();
+    text << "Godzina: " << Clock::getTime().getString();
     text << ". \nWschód słońca: " << getSunrise();
     text << ". \nZachód słońca: " << getSunset();
     text << ". \nDługość dnia: " << dayL[0] << " godzin " << dayL[1] << " minut";
@@ -642,7 +642,7 @@ std::string iDomTOOLS::getTextToSpeach()
     text << "Temperatura w pokoju: " << dayL[0] << " stopnia. \n";
     text << "Smog: " << smogText << " mg/m^3. \n";
     if (smogInt > 50){
-        int result = smogInt *2 ;
+        int result = smogInt *2;
         text << "UWAGA! Maksymalna wartość przekroczona " << result << "%.";
     }
     return text.str();
@@ -650,7 +650,7 @@ std::string iDomTOOLS::getTextToSpeach()
 
 std::vector<std::string> iDomTOOLS::getTemperature()
 {
-    std::vector<std::string>  vect = useful_F::split(useful_F::send_to_arduino(my_data,"temperature:22;"),':');
+    std::vector<std::string> vect = useful_F::split(useful_F::send_to_arduino(my_data,"temperature:22;"),':');
     return vect;
 }
 
@@ -713,7 +713,7 @@ void iDomTOOLS::send_temperature_thingSpeak()
 
     if(s == "0"){
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak: "<< s <<   std::endl;
+        log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak: "<< s << std::endl;
         log_file_mutex.mutex_unlock();
     }
 }
@@ -731,7 +731,7 @@ void iDomTOOLS::cameraLedON(const std::string& link)
         std::string s = useful_F_libs::httpPost(link,10);
         if (s == "ok.\n"){
             my_data->main_iDomStatus->setObjectState("cameraLED",STATE::ON);
-            //  printf("w ifie\n");
+            // printf("w ifie\n");
         }
     }
     // printf("nie odpalam leda!\n");
@@ -754,7 +754,7 @@ nlohmann::json iDomTOOLS::sendViberMsg(const std::string &msg,
                                        const std::string& url)
 {
     nlohmann::json jj;
-    std::lock_guard<std::mutex>  lock(m_msgMutex);
+    std::lock_guard<std::mutex> lock(m_msgMutex);
     jj = nlohmann::json::parse( m_viber.sendViberMSG(msg,receiver,senderName,accessToken,url));
     return jj;
 }
@@ -767,7 +767,7 @@ nlohmann::json iDomTOOLS::sendViberPicture(const std::string &msg,
                                            const std::string& url)
 {
     nlohmann::json jj;
-    std::lock_guard<std::mutex>  lock(m_msgMutex);
+    std::lock_guard<std::mutex> lock(m_msgMutex);
     jj = nlohmann::json::parse(m_viber.sendViberPicture(msg,image,receiver,senderName,accessToken,url));
     return jj;
 }
@@ -820,12 +820,12 @@ STATE iDomTOOLS::sendViberPictureBool(const std::string& msg,
 
 std::string iDomTOOLS::postOnFacebook(const std::string& msg, const std::string& image)
 {
-    std::lock_guard<std::mutex>  lock(m_msgMutex);
+    std::lock_guard<std::mutex> lock(m_msgMutex);
     if (image != "NULL"){
         return m_facebook.postPhotoOnWall(image,msg);
     }
 
-    return  m_facebook.postTxtOnWall(msg);
+    return m_facebook.postTxtOnWall(msg);
 }
 
 std::string iDomTOOLS::ledOFF()

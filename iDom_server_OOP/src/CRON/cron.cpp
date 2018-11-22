@@ -11,14 +11,14 @@ void CRON::run()
 {
     time_t act_time;
     struct tm * act_date;
-    int min = 0 ;
+    int min = 0;
 
     while (useful_F::go_while) {
         sleep(10);
         time(&act_time);
         act_date = localtime(&act_time);
 
-        if (min != act_date->tm_min  )
+        if (min != act_date->tm_min)
         {
             runEveryone_1min(act_date);
             if (act_date->tm_min % 5 == 0 )
@@ -33,7 +33,7 @@ void CRON::run()
             {
                 runEveryone_30min();
             }
-            if (act_date->tm_min  == 0 )
+            if (act_date->tm_min == 0 )
             {
                 runEveryone_1h();
             }
@@ -77,7 +77,7 @@ void CRON::runEveryone_5min()
 
 void CRON::runEveryone_15min()
 {
-    //  printf("co 15 minut! \n");
+    // printf("co 15 minut! \n");
     my_data->main_iDomTools->send_temperature_thingSpeak();
 }
 
@@ -88,7 +88,7 @@ void CRON::runEveryone_30min()
 
 void CRON::runEveryone_1h()
 {
-    //  printf("co godzine! \n");
+    // printf("co godzine! \n");
 }
 
 void CRON::runOnSunset()

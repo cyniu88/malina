@@ -37,32 +37,32 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
                 if (v [2] !="all"){
                     std::stringstream ss;
                     ss << my_data->main_THREAD_arr->at(std::stoi(v[2])).thread_ID;
-                    str_buf  = my_data->main_THREAD_arr->at(std::stoi(v[2])).thread_name;
-                    str_buf  += "ID: ";
-                    str_buf  += ss.str();
-                    str_buf  += " socket: ";
-                    str_buf  += std::to_string(my_data->main_THREAD_arr->at(std::stoi(v[2])).thread_socket);
+                    str_buf = my_data->main_THREAD_arr->at(std::stoi(v[2])).thread_name;
+                    str_buf += "ID: ";
+                    str_buf += ss.str();
+                    str_buf += " socket: ";
+                    str_buf += std::to_string(my_data->main_THREAD_arr->at(std::stoi(v[2])).thread_socket);
                     return str_buf;
                 }
                 else{
                     str_buf.erase();
                     std::stringstream ss;
-                    for (int i =0 ; i< iDomConst::MAX_CONNECTION;++i)
+                    for (int i =0; i< iDomConst::MAX_CONNECTION;++i)
                     {
                         ss.clear();
                         ss = std::stringstream();
-                        str_buf  += std::to_string(i)+"   ";
-                        str_buf  += my_data->main_THREAD_arr->at(i).thread_name;
-                        str_buf  += "\t ID: ";
+                        str_buf += std::to_string(i)+" ";
+                        str_buf += my_data->main_THREAD_arr->at(i).thread_name;
+                        str_buf += "\t ID: ";
                         ss << my_data->main_THREAD_arr->at(i).thread_ID;
-                        str_buf  += ss.str();
+                        str_buf += ss.str();
                         int idSocket = my_data->main_THREAD_arr->at(i).thread_socket;
 
                         if (idSocket != 0 && idSocket != 1){
-                            str_buf  += " socket: ";
-                            str_buf  += std::to_string(my_data->main_THREAD_arr->at(i).thread_socket);
+                            str_buf += " socket: ";
+                            str_buf += std::to_string(my_data->main_THREAD_arr->at(i).thread_socket);
                         }
-                        str_buf  += "\n";
+                        str_buf += "\n";
                     }
                     return str_buf;
                 }

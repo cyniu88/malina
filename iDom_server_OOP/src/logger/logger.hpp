@@ -69,10 +69,10 @@ public:
 
     explicit Logger(const char *f);
     explicit Logger(const std::string& f);
-    Logger (const Logger &) ;
-    Logger &operator= (const Logger &) ;
+    Logger (const Logger &);
+    Logger &operator= (const Logger &);
     ~Logger();
-    static pthread_mutex_t mutex_log ;
+    static pthread_mutex_t mutex_log;
 
     void set_level(const logger_level& level);
     void flush();
@@ -94,11 +94,11 @@ private:
     std::string get_time() const;
     inline const char* level_str(const logger_level& level);
 public:
-    std::ofstream  _file;
+    std::ofstream _file;
 private:
-    std::ostream&  _log;
-    logger_level   _level;
-    logger_level   _line_level;
+    std::ostream& _log;
+    logger_level _level;
+    logger_level _line_level;
 };
 
 

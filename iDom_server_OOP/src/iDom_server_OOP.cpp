@@ -1,5 +1,5 @@
 #include "iDom_server_OOP.h"
-#include "functions/functions.h"            // brak
+#include "functions/functions.h"
 #include <wiringPi.h>
 #include <stdio.h>
 #include <fstream>
@@ -13,7 +13,7 @@
 #include "command/commandClass/command_ardu.h"
 #include "thread_functions/iDom_thread.h"
 
-std::string  _logfile = "/mnt/ramdisk/iDom_log.log";
+std::string _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer;
 Logger log_file_mutex(_logfile);
 
@@ -47,30 +47,30 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string& threadName){
     iDOM_THREAD::stop_thread(threadName, my_data);
 }
 
-//////////// watek do obslugi polaczeni miedzy nodami  //////////////
+//////////// watek do obslugi polaczeni miedzy nodami //////////////
 void f_serv_con_node (thread_data *my_data, const std::string& threadName){
     my_data->myEventHandler.run("node")->addEvent("start and stop node");
     useful_F::clearThreadArray(my_data);
 
     iDOM_THREAD::stop_thread(threadName,my_data);
-} //  koniec f_serv_con_node
+} // koniec f_serv_con_node
 
-/////////////////////  watek do obslugi irda //////////////////////////////
-void f_master_irda (thread_data  *my_data, const std::string& threadName){
+///////////////////// watek do obslugi irda //////////////////////////////
+void f_master_irda (thread_data *my_data, const std::string& threadName){
     master_irda irda(my_data);
     irda.run();
     iDOM_THREAD::stop_thread(threadName, my_data);
-} //  koniec master_irda
+} // koniec master_irda
 
-/////////////////////  watek CRON //////////////////////////////
-void f_master_CRON (thread_data  *my_data, const std::string& threadName){
+///////////////////// watek CRON //////////////////////////////
+void f_master_CRON (thread_data *my_data, const std::string& threadName){
     CRON my_CRON(my_data);
     my_CRON.run();
     iDOM_THREAD::stop_thread(threadName, my_data);
-} //  koniec CRON
+} // koniec CRON
 
-/////////////////////  watek polaczenia TCP /////////////////////////////////////
-void Server_connectivity_thread(thread_data  *my_data, const std::string &threadName){
+///////////////////// watek polaczenia TCP /////////////////////////////////////
+void Server_connectivity_thread(thread_data *my_data, const std::string &threadName){
     C_connection *client = new C_connection( my_data);
     static unsigned int connectionCounter = 0;
     bool key_ok = false;
@@ -95,38 +95,38 @@ void Server_connectivity_thread(thread_data  *my_data, const std::string &thread
     }
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << threadName <<": polaczenie z adresu  " <<  tm   <<std::endl;
+    log_file_cout << INFO << threadName <<": polaczenie z adresu " << tm <<std::endl;
     log_file_mutex.mutex_unlock();
     my_data->myEventHandler.run("connections")->addEvent(tm);
 
     int recvSize = client->c_recv(0);
-    if(recvSize == -1)  {
+    if(recvSize == -1) {
         key_ok = false;
     }
     //std::cout <<"WYNIK:"<< client->c_read_buf().size()<<"a to wlasny" << RSHash().size()<<"!"<<std::endl;
-    std::string KEY_OWN = useful_F::RSHash() ;
+    std::string KEY_OWN = useful_F::RSHash();
     client->setEncriptionKey(KEY_OWN);
     std::string KEY_rec = client->c_read_buf(recvSize);
 
-    if(KEY_rec == KEY_OWN)   // stop runing idom_server
+    if(KEY_rec == KEY_OWN) // stop runing idom_server
     {
         key_ok = true;
         if(client->c_send("OK") == -1)
         {
-            puts("FAKE CONNECTION  send OK");
+            puts("FAKE CONNECTION send OK");
             key_ok = false;
         }
     }
     else{
         key_ok = false;
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL <<"AUTHENTICATION FAILED! " <<  inet_ntoa( my_data->from.sin_addr)   <<std::endl;
-        log_file_cout << CRITICAL <<"KEY RECIVED: " << KEY_rec << " KEY SERVER: "<< KEY_OWN   <<std::endl;
-        client->cryptoLog(KEY_rec);//  setEncriptionKey(KEY_rec);
-        log_file_cout << CRITICAL <<"KEY RECIVED\n\n " << KEY_rec <<"\n\n"<<  std::endl;
+        log_file_cout << CRITICAL <<"AUTHENTICATION FAILED! " << inet_ntoa( my_data->from.sin_addr) <<std::endl;
+        log_file_cout << CRITICAL <<"KEY RECIVED: " << KEY_rec << " KEY SERVER: "<< KEY_OWN <<std::endl;
+        client->cryptoLog(KEY_rec);// setEncriptionKey(KEY_rec);
+        log_file_cout << CRITICAL <<"KEY RECIVED\n\n " << KEY_rec <<"\n\n"<< std::endl;
         log_file_mutex.mutex_unlock();
 
-        std::string msg ="podano zły klucz autentykacji - sprawdz logi " ;
+        std::string msg ="podano zły klucz autentykacji - sprawdz logi ";
         msg.append(inet_ntoa( my_data->from.sin_addr));
         my_data->main_iDomTools->sendViberMsg(msg,
                                               my_data->server_settings->viberReceiver.at(0),
@@ -170,13 +170,13 @@ void Server_connectivity_thread(thread_data  *my_data, const std::string &thread
     }
     while (useful_F::go_while && key_ok)
     {
-        int recvSize = client->c_recv(0) ;
+        int recvSize = client->c_recv(0);
         if(recvSize == -1)
         {
             puts("klient sie rozlaczyl");
             break;
         }
-        // ###########################  analia wiadomoscu ####################################//
+        // ########################### analia wiadomoscu ####################################//
         try
         {
             client->c_analyse(recvSize);
@@ -189,7 +189,7 @@ void Server_connectivity_thread(thread_data  *my_data, const std::string &thread
             break;
         }
 
-        // ###############################  koniec analizy   wysylanie wyniku do RS232 lub  TCP ########################
+        // ############################### koniec analizy wysylanie wyniku do RS232 lub TCP ########################
         if( client->c_send(0) == -1)
         {
             perror("send() ERROR");
@@ -229,7 +229,7 @@ iDomStateEnum iDom_main()
     node_data.main_THREAD_arr = &thread_array;
 
     unsigned int who[2] = {iDomConst::FREE, iDomConst::FREE};
-    ///////////////////////////////////////////  zaczynam wpisy do logu ////////////////////////////////////////////////////////////
+    /////////////////////////////////////////// zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
     log_file_cout << INFO << "ID serwera\t"<< server_settings.ID_server << std::endl;
@@ -239,7 +239,7 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "RFLinkPort\t"<< server_settings.RFLinkPort << std::endl;
     log_file_cout << INFO << "RFLinkBaudRate\t"<< server_settings.RFLinkBaudRate << std::endl;
     log_file_cout << INFO << "port TCP \t"<< server_settings.PORT << std::endl;
-    log_file_cout << INFO << "serwer ip \t"<< server_settings.SERVER_IP  <<std::endl;
+    log_file_cout << INFO << "serwer ip \t"<< server_settings.SERVER_IP <<std::endl;
     log_file_cout << INFO << "baza z filami \t"<< server_settings.MOVIES_DB_PATH << std::endl;
     log_file_cout << INFO << "klucz ThingSpeak \t"<<server_settings.TS_KEY << std::endl;
     log_file_cout << INFO << "thread MPD \t" << server_settings.THREAD_MPD << std::endl;
@@ -249,11 +249,11 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "thread DUMMY \t" << server_settings.THREAD_DUMMY << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
-    log_file_cout << DEBUG << "zbudoiwany dnia: "  << __DATE__ << " o godzinie: "<< __TIME__<< std::endl;
+    log_file_cout << DEBUG << "zbudoiwany dnia: " << __DATE__ << " o godzinie: "<< __TIME__<< std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_mutex.mutex_unlock();
 
-    ///////////////////////////////////////////////  koniec logowania do poliku  ///////////////////////////////////////////////////
+    /////////////////////////////////////////////// koniec logowania do poliku ///////////////////////////////////////////////////
 
     /////////////////////////////// RC 433MHz ////////////////////
     RADIO_EQ_CONTAINER rc433MHz(&node_data);
@@ -273,12 +273,12 @@ iDomStateEnum iDom_main()
     else
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG <<"nie wystartowalem wątku RFLink"   <<std::endl;
+        log_file_cout << DEBUG <<"nie wystartowalem wątku RFLink" << std::endl;
         log_file_mutex.mutex_unlock();
     }
-    ///////////////////////////////////////////////  start wiringPi  //////////////////////////////////////////////
+    /////////////////////////////////////////////// start wiringPi //////////////////////////////////////////////
     if(wiringPiSetup() == -1){
-        exit(1) ;
+        exit(1);
     }
 
     /////////////////////////////// MPD info /////////////////////////
@@ -288,7 +288,7 @@ iDomStateEnum iDom_main()
     node_data.main_iDomStatus = &my_iDomStatus;
     /////////////////////////////// LCD //////////////////////////////
     LCD_c mainLCD(0x27,16,2);
-    //////////////     przegladanie plikow ////////////////////
+    ////////////// przegladanie plikow ////////////////////
     files_tree main_tree( server_settings.MOVIES_DB_PATH, &mainLCD);
     /////////////////////////////// iDom Tools ///////////////////////
     iDomTOOLS my_iDomTools(&node_data);
@@ -296,14 +296,14 @@ iDomStateEnum iDom_main()
     menu_tree main_MENU(server_settings.MENU_PATH, &mainLCD);
     //////////////////////////////// SETTINGS //////////////////////////////
     node_data.main_iDomStatus->addObject("house",node_data.idom_all_state.houseState);
-    /////////////////////////////////////////////////   wypelniam  struktury przesylane do watkow  ////////////////////////
+    ///////////////////////////////////////////////// wypelniam struktury przesylane do watkow ////////////////////////
     thread_data_rs232 data_rs232;
     data_rs232.BaudRate = server_settings.BaudRate;
     data_rs232.portRS232 = server_settings.portRS232;
     data_rs232.portRS232_clock = server_settings.portRS232_clock;
     data_rs232.pointer.ptr_who = who;
 
-    ///  start watku do komunikacji rs232
+    ///start watku do komunikacji rs232
 
     if(server_settings.THREAD_RS232 == "YES")
     {
@@ -316,10 +316,10 @@ iDomStateEnum iDom_main()
     else
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG <<"nie wystartowalem wątku RS232"   <<std::endl;
+        log_file_cout << DEBUG <<"nie wystartowalem wątku RS232" <<std::endl;
         log_file_mutex.mutex_unlock();
     }
-    /////////////////////////////////  tworzenie pliku mkfifo  dla sterowania omx playerem
+    ///////////////////////////////// tworzenie pliku mkfifo dla sterowania omx playerem
 
     int temp = mkfifo("/mnt/ramdisk/cmd",0666);
 
@@ -366,10 +366,10 @@ iDomStateEnum iDom_main()
     else
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG <<"nie wystartowalem wątku IRDA"   <<std::endl;
+        log_file_cout << DEBUG <<"nie wystartowalem wątku IRDA" <<std::endl;
         log_file_mutex.mutex_unlock();
     }
-    // start watku  mpd_cli
+    // start watku mpd_cli
     if(server_settings.THREAD_MPD == "YES")
     {
         iDOM_THREAD::start_thread("MPD  thread",main_mpd_cli, &node_data);
@@ -377,7 +377,7 @@ iDomStateEnum iDom_main()
     else
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG <<"nie wystartowalem wątku MPD"   <<std::endl;
+        log_file_cout << DEBUG <<"nie wystartowalem wątku MPD" <<std::endl;
         log_file_mutex.mutex_unlock();
     }
     // start watku CRONa
@@ -388,7 +388,7 @@ iDomStateEnum iDom_main()
     else
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG <<"nie wystartowalem wątku CRON"   <<std::endl;
+        log_file_cout << DEBUG <<"nie wystartowalem wątku CRON" <<std::endl;
         log_file_mutex.mutex_unlock();
     }
     if(server_settings.THREAD_DUMMY == "YES"){
@@ -431,8 +431,8 @@ iDomStateEnum iDom_main()
     if(bind(v_socket,( struct sockaddr *) & server, len) < 0)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "BIND problem: " <<  strerror(errno)<< std::endl;
-        log_file_cout << CRITICAL << "awaryjne ! zamykanie gniazda  " << shutdown(v_socket, SHUT_RDWR) << std::endl;
+        log_file_cout << CRITICAL << "BIND problem: " << strerror(errno)<< std::endl;
+        log_file_cout << CRITICAL << "awaryjne ! zamykanie gniazda " << shutdown(v_socket, SHUT_RDWR) << std::endl;
         log_file_mutex.mutex_unlock();
         perror("bind() ERROR");
         exit(-1);
@@ -441,7 +441,7 @@ iDomStateEnum iDom_main()
     if(listen(v_socket, iDomConst::MAX_CONNECTION) < 0)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "Listen problem: " <<  strerror(errno)<< std::endl;
+        log_file_cout << CRITICAL << "Listen problem: " << strerror(errno)<< std::endl;
         log_file_mutex.mutex_unlock();
         perror("listen() ERROR");
         exit(-1);
@@ -468,7 +468,7 @@ iDomStateEnum iDom_main()
             continue;
         }
 
-        ////////////////////////   jest połacznie   wiec wstawiamy je  do nowego watku  i  umieszczamy id watku w tablicy  w pierwszym wolnym miejscy ////////////////////
+        //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscy ////////////////////
 
         int freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
 
@@ -505,9 +505,9 @@ iDomStateEnum iDom_main()
     node_data.mainLCD->noBacklight();
     node_data.main_iDomTools->MPD_stop();
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "zamykanie gniazda wartosc "  << shutdown(v_socket, SHUT_RDWR)<< std::endl;
-    log_file_cout << ERROR << "gniazdo ind  "<<strerror(errno) << std::endl;
-    log_file_cout << INFO << "koniec programu  "<<   std::endl;
+    log_file_cout << INFO << "zamykanie gniazda wartosc " << shutdown(v_socket, SHUT_RDWR)<< std::endl;
+    log_file_cout << ERROR << "gniazdo ind "<<strerror(errno) << std::endl;
+    log_file_cout << INFO << "koniec programu "<< std::endl;
     log_file_mutex.mutex_unlock();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
@@ -568,7 +568,7 @@ int main(int argc, char *argv[])
         while (ret != 0)
         {
             std::this_thread::sleep_for( std::chrono::seconds(10));
-            std::cout << "nie ma parametru  wiec odpalam program "<< std::endl;
+            std::cout << "nie ma parametru wiec odpalam program "<< std::endl;
             ret = system("/home/pi/programowanie/iDom_server_OOP-build-clang-Release/iDom_server_OOP");
             std::cout << "system() zwraca ret " << ret <<std::endl;
         }

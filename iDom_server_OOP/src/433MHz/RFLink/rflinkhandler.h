@@ -40,7 +40,7 @@ public:
     RFLinkHandler(thread_data *my_data);
 
     bool init();
-    //    void run();
+    // void run();
     void flush();
     void sendCommand(std::string cmd);
     std::string sendCommandAndWaitForReceive(std::string cmd);

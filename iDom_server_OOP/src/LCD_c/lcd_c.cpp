@@ -22,8 +22,8 @@ void LCD_c::checkState()
         {
             if (play_Y_N == false)
             {
-                noBacklight();     //  jesli nic nie jest wysetlane  print_song_state == 0 i nic nie jest grane
-                // play_Y_N == fale  a lcd_state =0   to gas ekran  bo szkoda pradu
+                noBacklight(); // jesli nic nie jest wysetlane print_song_state == 0 i nic nie jest grane
+                // play_Y_N == fale a lcd_state =0 to gas ekran bo szkoda pradu
             }
 
             if (rePrint == 0 )
@@ -37,14 +37,14 @@ void LCD_c::checkState()
             }
             return;
         }
-        if (lcd_state == 100  )  //    blokuje  caly wysetlacz  nie wysetla piosenek
+        if (lcd_state == 100) // blokuje caly wysetlacz nie wysetla piosenek
         {
             return;
         }
         if (lcd_state == 1 )
         {
             --lcd_state;
-            song_printstr();  // wysetli  nazwe piosenki  po zliczeniu countera
+            song_printstr(); // wysetli nazwe piosenki po zliczeniu countera
         }
         else if (lcd_state > 1)
         {
@@ -57,9 +57,9 @@ std::string LCD_c::getData()
 {
     std::stringstream ss;
     ss << "play_Y_N \t" << play_Y_N << std::endl;
-    ss << "lcd_state \t" << lcd_state  << std::endl;
+    ss << "lcd_state \t" << lcd_state << std::endl;
     ss << " print_song_state\t" << print_song_state << std::endl;
-    ss << "rePrint\t" << rePrint  << std::endl;
+    ss << "rePrint\t" << rePrint << std::endl;
     ss << "row1\t" << row1 << std::endl;
     ss << "row2\t" << row2 << std::endl;
     ss << "radioName\t" << radioName << std::endl;
@@ -79,17 +79,17 @@ void LCD_c::printSongName (const std::string& songName){
 
     std::size_t pos = songName.find(" - ");
 
-    row2 = songName.substr(pos+3);  //tytul
-    row1 = songName.substr(0,pos);  //autor
+    row2 = songName.substr(pos+3); //tytul
+    row1 = songName.substr(0,pos); //autor
     if (row1!=row2){
         if(row1.size()<14)
         {
-            row1+=" -";   // doda pauze na koncu nazwy autora
+            row1+=" -"; // doda pauze na koncu nazwy autora
         }
         else
         {
             if (row2.size()<16){
-                row2.insert(0,"- "); // doda pauze  na poczatku utworu  ale  tyko jak bedzie rizu auto i tytul
+                row2.insert(0,"- "); // doda pauze na poczatku utworu ale tyko jak bedzie rizu auto i tytul
             }
             else{
 
@@ -130,7 +130,7 @@ void LCD_c::song_printstr(){
 void LCD_c::printRadioName(bool clear, int col, int row, const std::string &st){
     radioName =st;
     std::regex reg1("\\[(.*?)\\]");
-    std::smatch  res1;
+    std::smatch res1;
     if (regex_search(radioName,res1,reg1)){
         radioName = res1[1];
     }
@@ -169,13 +169,13 @@ void LCD_c::printVolume (int vol)
     {
         return;
     }
-    std::string tmp ="   vol  "  ;
+    std::string tmp ="   vol";
     //tmp+=intToStr(vol);
     tmp+=std::to_string(vol);
     tmp+=" %";
     main_lcd.backlight();
     main_lcd.clear();
-    main_lcd.printstr(  tmp.c_str() );
+    main_lcd.printstr(tmp.c_str());
     lcd_state=10;
 
 }

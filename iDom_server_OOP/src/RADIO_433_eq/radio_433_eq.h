@@ -33,13 +33,13 @@ public:
         try{
             m_humidity = std::stoi( RFLinkHandler::getArgumentValueFromRFLinkMSG(data, "HUM") );
         }
-        catch (...){  }
+        catch (...){ }
         try{
             m_barometricPressure = std::stoi( RFLinkHandler::getArgumentValueFromRFLinkMSG(data, "BARO") );
         }
-        catch (...){  }
+        catch (...){ }
         try{
-            tempStr =  RFLinkHandler::getArgumentValueFromRFLinkMSG(data, "TEMP");
+            tempStr = RFLinkHandler::getArgumentValueFromRFLinkMSG(data, "TEMP");
             std::stringstream ss;
             ss << std::hex << tempStr.substr(tempStr.size()-3,tempStr.size());
             ss >> t;
@@ -48,8 +48,8 @@ public:
                 m_temperature *= -1.0;
             }
         }
-        catch (...){  }
-        //std::cout << "DUPA:  "<<data<<" temp=" << m_temperature<< " hum="<<m_humidity<< std::endl;
+        catch (...){ }
+        //std::cout << "DUPA: "<<data<<" temp=" << m_temperature<< " hum="<<m_humidity<< std::endl;
     }
 };
 
@@ -183,7 +183,7 @@ class RADIO_EQ_CONTAINER
 public:
     RADIO_EQ_CONTAINER(thread_data * my_data);
     virtual ~RADIO_EQ_CONTAINER();
-    void addRadioEq(RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type);    
+    void addRadioEq(RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type);
     void addRadioEq(RADIO_EQ_CONFIG cfg, const std::string& type);
     void deleteRadioEq(const std::string &name);
     virtual RADIO_EQ* getEqPointer(std::string name);

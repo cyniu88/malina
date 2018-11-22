@@ -8,7 +8,7 @@ KEY::KEY(PILOT_KEY value, const std::string& name) : _value{value},key_name{name
 
 KEY::~KEY()
 {
-    //printf("destruktor KEY\n" );
+    //printf("destruktor KEY\n");
 }
 
 std::string KEY::getName() const
@@ -24,10 +24,10 @@ PILOT_KEY KEY::getValue() const
 void pilot::setup(){
     std::unique_ptr <KEY> KEY_POWER 		( new SuperKEY(PILOT_KEY::KEY_POWER, "KEY_POWER","wcisnieto POWER"));
     std::unique_ptr <KEY> KEY_AUDIO			( new SuperKEY(PILOT_KEY::KEY_AUDIO, "KEY_AUDIO","wcisnieto PAUSE"));
-    std::unique_ptr <KEY> KEY_EPG     		( new SuperKEY(PILOT_KEY::KEY_EPG, "KEY_EPG",  "przegladanie katalogu z filmami"));
-    std::unique_ptr <KEY> KEY_OK      		( new SuperKEY(PILOT_KEY::KEY_OK, "KEY_OK",   "wcisnieto OK"));
+    std::unique_ptr <KEY> KEY_EPG     		( new SuperKEY(PILOT_KEY::KEY_EPG, "KEY_EPG","przegladanie katalogu z filmami"));
+    std::unique_ptr <KEY> KEY_OK      		( new SuperKEY(PILOT_KEY::KEY_OK, "KEY_OK", "wcisnieto OK"));
     std::unique_ptr <KEY> KEY_RADIO   		( new SuperKEY(PILOT_KEY::KEY_RADIO, "KEY_RADIO","sterowanie projektorem"));
-    std::unique_ptr <KEY> KEY_TV      		( new SuperKEY(PILOT_KEY::KEY_TV, "KEY_TV",   "wcisnieto PLAY"));
+    std::unique_ptr <KEY> KEY_TV      		( new SuperKEY(PILOT_KEY::KEY_TV, "KEY_TV", "wcisnieto PLAY"));
     std::unique_ptr <KEY> KEY_0   			( new KEY(PILOT_KEY::KEY_0, "KEY_0"));
     std::unique_ptr <KEY> KEY_1  			( new KEY(PILOT_KEY::KEY_1, "KEY_1"));
     std::unique_ptr <KEY> KEY_2   			( new KEY(PILOT_KEY::KEY_2, "KEY_2"));
@@ -89,7 +89,7 @@ void pilot::setup(){
     key_map->insert(std::make_pair(KEY_VOLUMEUP->getName(), 	 std::move(KEY_VOLUMEUP)));
 }
 
-pilot::pilot(std::map <std::string , std::unique_ptr <KEY>  > *key_map) : key_map (key_map)
+pilot::pilot(std::map <std::string , std::unique_ptr <KEY> > *key_map) : key_map (key_map)
 {
    // puts("konstruktor pilot");
 }
@@ -102,15 +102,15 @@ pilot::~pilot()
 PILOT_KEY SuperKEY::getValue() const
 {
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< " " <<LogName<<  std::endl;
+    log_file_cout << INFO<< " " <<LogName<< std::endl;
     log_file_mutex.mutex_unlock();
     return _value;
 }
 
 SuperKEY::SuperKEY (PILOT_KEY v, const std::string& n, const std::string& LogName) : KEY(v,n) , LogName(LogName)
 {
-    //puts("konstruktos SuperKEY =)" );
+    //puts("konstruktos SuperKEY =)");
 }
 SuperKEY::~SuperKEY() {
-   // puts( "destruktor SuperKEY \n" );
+   // puts( "destruktor SuperKEY \n");
 }

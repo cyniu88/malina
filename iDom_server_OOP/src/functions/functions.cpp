@@ -7,7 +7,7 @@ bool useful_F::workServer = true;
 std::mutex useful_F::mutex_buf;
 std::mutex useful_F::mutex_who;
 
-// przerobka  adresu na ip . //////////////////////////////////
+// przerobka adresu na ip . //////////////////////////////////
 std::string useful_F::conv_dns (std::string temp){
 
     int i;
@@ -17,12 +17,12 @@ std::string useful_F::conv_dns (std::string temp){
 
     if(( he = gethostbyname( temp.c_str() ) ) == NULL )
     {
-        herror( "gethostbyname" );
+        herror( "gethostbyname");
         return "- 1";
     }
     // print information about this host:
     printf( "Official name is: %s\n", he->h_name );
-    printf( "IP addresses: " );
+    printf( "IP addresses: ");
     addr_list =( struct in_addr ** ) he->h_addr_list;
 
     for( i = 0; addr_list[ i ] != NULL; i++ )
@@ -30,13 +30,13 @@ std::string useful_F::conv_dns (std::string temp){
         printf( "%s ", inet_ntoa( * addr_list[ i ] ) );
         s_ip += inet_ntoa( * addr_list[ i ] );
     }
-    printf( "\ndone " );
+    printf( "\ndone ");
     return s_ip;
 }
 
 config useful_F::configFileToStruct()
 {
-    std::map<std::string, std::string>  confMap = read_config("/etc/config/iDom_SERVER/iDom_server.cfg");     // strukruta z informacjami z pliku konfig
+    std::map<std::string, std::string> confMap = read_config("/etc/config/iDom_SERVER/iDom_server.cfg"); // strukruta z informacjami z pliku konfig
     config confStruct;
     try
     {
@@ -86,9 +86,9 @@ config useful_F::configFileToStruct()
         confStruct.ftpServer.URL  = confMap.at("FTP_URL");
         confStruct.ftpServer.user = confMap.at("FTP_LOGIN");
         confStruct.ftpServer.pass = confMap.at("FTP_PASS");
-        //    confStruct = confMap.at();
-        //    confStruct = confMap.at();
-        //    confStruct = confMap.at();
+        // confStruct = confMap.at();
+        // confStruct = confMap.at();
+        // confStruct = confMap.at();
         ///////////// RADIO 433
         confStruct.radio433MHzConfigFile = confMap.at("433MHz_config");
         ////////////// omxplayer
@@ -116,7 +116,7 @@ void ChangeEndianness(int32_t * value,int MAX_MSG_LEN_INT)
     }
     else if( __BYTE_ORDER == __LITTLE_ENDIAN)
     { //cout << "little-endian" << endl
-        for (int i =0 ; i < MAX_MSG_LEN_INT ; ++i )
+        for (int i =0; i < MAX_MSG_LEN_INT; ++i )
         {
             int32_t result = 0;
             result |= (value[i] & 0x000000FF) << 24;
@@ -221,7 +221,7 @@ std::string useful_F::send_to_arduino (thread_data *my_data_logic, const std::st
     return msg2;
 } //end send_to_arduino
 
-std::string  useful_F::sek_to_uptime(long long secy )
+std::string useful_F::sek_to_uptime(long long secy )
 {
     const int min = 60; //s
     const int houry = 3600; //s
@@ -244,7 +244,7 @@ std::string  useful_F::sek_to_uptime(long long secy )
 }
 
 //wysylanie pliku
-std::string useful_F::l_send_file(std::string path, std::string find  , bool reverse )
+std::string useful_F::l_send_file(std::string path, std::string find, bool reverse )
 {
     std::string str_buf;
     if(find.empty()==true)
@@ -313,7 +313,7 @@ std::string useful_F::l_send_file(std::string path, std::string find  , bool rev
     return str_buf;
 }
 
-volatile unsigned int  useful_F::lastInterruptTime = 0;
+volatile unsigned int useful_F::lastInterruptTime = 0;
 std::mutex useful_F::mut;
 
 void useful_F::button_interrupt( )
@@ -368,7 +368,7 @@ void useful_F::button_interrupt( )
 
 void useful_F::clearThreadArray(thread_data* my_data)
 {
-    for (int i = 0 ; i< iDomConst::MAX_CONNECTION;++i)
+    for (int i = 0; i< iDomConst::MAX_CONNECTION;++i)
     {
         if (my_data->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
         {

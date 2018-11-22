@@ -6,8 +6,8 @@
 #include <iostream>
 #include <wiringPi.h>
 #include <string.h>
-#include "../blockQueue/blockqueue.h"   // brak
-#include "../files_tree/files_tree.h"   //brak
+#include "../blockQueue/blockqueue.h" // brak
+#include "../files_tree/files_tree.h" //brak
 #include "../c_connection/c_connection.h"
 #include "../functions/functions.h"
 
@@ -41,7 +41,7 @@ public:
     c_irda_logic(thread_data *my_data);
     void _add(PILOT_KEY X);
 //    PILOT_KEY _get();
-//    int  _size()  const ;
+//    int _size() const;
 };
 
 #endif // C_IRDA_LOGIC_H

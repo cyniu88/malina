@@ -37,21 +37,21 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
                 std::cout << "wyjatek w szukaniu: " << e <<std::endl;
                 pingAndOkRecv( my_data, v[2]);
             }
-            //TODO  add command
+            //TODO add command
             try {
                 if (m_mainRadioButton->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
                 {
                     my_data->main_iDomTools->button433mhzLockerPressed(m_mainRadioButton);
                 }
             }
-            catch (const std::string& e){  }
+            catch (const std::string& e){ }
             try {
                 if (m_mainWeatherStation->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
                 {
                     m_mainWeatherStation->data.putData(v[2]);
                 }
             }
-            catch (std::string& e){  }
+            catch (std::string& e){ }
         }
     }
     return str_buf;

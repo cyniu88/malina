@@ -152,7 +152,7 @@ public:
         bool riseAlarm;
         std::stringstream data;
         unsigned int timestamp; //second
-        double distance;  //km
+        double distance; //km
         CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM bearingENG;
     };
 };
@@ -166,7 +166,7 @@ public:
     bool checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO* info);
 private:
     bool alarmState = false;
-    Clock lightningTime;    
+    Clock lightningTime;
     double oldDistance = 0.0;
 };
 

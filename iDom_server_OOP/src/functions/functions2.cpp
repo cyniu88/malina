@@ -62,12 +62,12 @@ void useful_F::tokenizer ( std::vector <std::string> &command, std::string separ
 }
 
 ////// watek sleeper
-void useful_F::sleeper_mpd (thread_data  *my_data, const std::string& threadName)
+void useful_F::sleeper_mpd (thread_data *my_data, const std::string& threadName)
 {
     unsigned int t = 60/my_data->sleeper;
     unsigned int k = 0;
 
-    for (; my_data->sleeper >0 ; my_data->sleeper-- )
+    for (; my_data->sleeper >0; my_data->sleeper-- )
     {
         useful_F::sleep_1min();
         k += t;
@@ -78,28 +78,28 @@ void useful_F::sleeper_mpd (thread_data  *my_data, const std::string& threadName
     my_data->main_iDomTools->turnOff433MHzSwitch("listwa");
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "zaczynam procedure konca watku " << threadName <<  std::endl;
+    log_file_cout << INFO<< "zaczynam procedure konca watku " << threadName << std::endl;
     log_file_mutex.mutex_unlock();
 
     iDOM_THREAD::stop_thread(threadName,my_data);
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "koniec  watku SLEEP_MPD" <<  std::endl;
+    log_file_cout << INFO<< "koniec watku SLEEP_MPD" << std::endl;
     log_file_mutex.mutex_unlock();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////// watek kodi
-void useful_F::kodi (thread_data  *my_data, const std::string& threadName)
+void useful_F::kodi (thread_data *my_data, const std::string& threadName)
 {
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "start wątku "<<threadName <<  std::endl;
+    log_file_cout << INFO<< "start wątku "<<threadName << std::endl;
     log_file_mutex.mutex_unlock();
 
     my_data->mainLCD->set_print_song_state(100);
-    my_data->mainLCD->printString(false,2,1,"  KODI   ");
+    my_data->mainLCD->printString(false,2,1,"  KODI");
 
     my_data->main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);
-    //  status mpd
+    //status mpd
     STATE musicState = my_data->main_iDomStatus->getObjectState("music");
     // status glosnikow
     STATE speakersState = my_data->main_iDomStatus->getObjectState("speakers");
@@ -117,7 +117,7 @@ void useful_F::kodi (thread_data  *my_data, const std::string& threadName)
     if(ret != 0)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL<< "kodi zamkniete z błędem "<<ret <<  std::endl;
+        log_file_cout << CRITICAL<< "kodi zamkniete z błędem "<<ret << std::endl;
         log_file_mutex.mutex_unlock();
     }
     //przywracanie danych
@@ -147,14 +147,14 @@ std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned i
     for(std::size_t i = 0; i < str.length(); i++)
     {
         hash = hash * a + str[i];
-        a    = a * b;
+        a = a * b;
     }
     return std::to_string((hash & 0x7FFFFFFF));
 }
 
 int useful_F::findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array)
 {
-    for (std::size_t i = 0 ; i< array->size();  ++i)
+    for (std::size_t i = 0; i< array->size(); ++i)
     {
         if (array->at(i).thread_socket == 0)
             return static_cast<int>(i);

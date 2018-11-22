@@ -80,7 +80,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
                 return my_data->main_iDomTools->ledOFF();
             }
             else if(v[2] == "set"){
-               return  my_data->main_iDomTools->ledOn(
+               return my_data->main_iDomTools->ledOn(
                             my_data->ptr_pilot_led->colorLED[2],
                             std::stoi(v[3]),
                             std::stoi(v[4])
@@ -140,7 +140,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else if (v[1]=="facebook"){
         std::string msg;
-        for (unsigned int i = 2 ; i < v.size(); ++i){
+        for (unsigned int i = 2; i < v.size(); ++i){
             msg+=" ";
             msg+=v[i];
         }
@@ -148,7 +148,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else if (v[1]=="viber"){
         std::string msg;
-        for (unsigned int i = 2 ; i < v.size(); ++i){
+        for (unsigned int i = 2; i < v.size(); ++i){
             msg+=" ";
             msg+=v[i];
         }
@@ -183,7 +183,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         return useful_F_libs::removeHtmlTag(tempHTML);
     }
     else if (v[1] == "KODI"){
-        return  my_data->main_iDomTools->startKodi_Thread();
+        return my_data->main_iDomTools->startKodi_Thread();
     }
     else if (v[1]=="alarm"){
 
@@ -197,7 +197,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             return "alarm clock has been deactivated";
         }
         else if (v[2] == "GET"){
-            return  my_data->alarmTime.time.getString();
+            return my_data->alarmTime.time.getString();
         }
         else if (v[2] == "SET" && v.size() == 5){
             if (v[3] == "from")
@@ -237,7 +237,7 @@ std::string command_iDom::help()
     help << "iDom - for control smart home" << std::endl;
     help << "iDom speakers ON/OFF - to on or off speakers" << std::endl;
     help << "iDom 230v ON/OFF     - to on or off printers" << std::endl;
-    help << "iDom sunset/sunrise/day lenght  - to show those parameters" << std::endl;
+    help << "iDom sunset/sunrise/day lenght - to show those parameters" << std::endl;
     help << "iDom sun        - get sunrise, sunset and day lenght" << std::endl;
     help << "iDom sysinfo    - get system info" << std::endl;
     help << "iDom text       - get text to speach" << std::endl;
@@ -253,11 +253,11 @@ std::string command_iDom::help()
     help << "iDom camera LED ON/OFF - LED camera work" << std::endl;
     help << "iDom facebook ... - post on facebook wall" << std::endl;
     help << "iDom viber ...   - send viber msg" << std::endl;
-    help << "iDom weather <city> <radius>  - get weather alert" << std::endl;
+    help << "iDom weather <city> <radius> - get weather alert" << std::endl;
     help << "iDom lightning  - get lightning alert" << std::endl;
     help << "iDom alarm ON/OFF hh:mm - set larm clock" << std::endl;
     help << "iDom alarm SET from/to/radio <value> - set larm clock" << std::endl;
-    help << "iDom alarm GET  - get alarm time" << std::endl;
+    help << "iDom alarm GET - get alarm time" << std::endl;
     help << "iDom lock   - lock home" << std::endl;
     help << "iDom unlock - unlock home" << std::endl;
     help << "iDom KODI - start KODI smart TV" << std::endl;

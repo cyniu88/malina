@@ -57,7 +57,7 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     data.data << "ilość uderzeń: "<< _size << "\\n";
     data.data << "średni czas upłynięty od ostatniego uderzenia pioruna: "<< data.timestamp << " sek \\n";
     data.data << "średnia odległość ostatniego uderzenia pieruna: "<< data.distance <<" km \\n ";
-    data.data << "kierunek uderzeń piorunów: " << CARDINAL_DIRECTIONS::cardinalDirectionsEnumToHuman(data.bearingENG) ;
+    data.data << "kierunek uderzeń piorunów: " << CARDINAL_DIRECTIONS::cardinalDirectionsEnumToHuman(data.bearingENG);
 
     if(i.size() > 0){
         // std::cout << "jest size: " << i.size()<<std::endl;

@@ -28,7 +28,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             my_data->main_REC->deleteRadioEq(v[2]);
             str_buf = v[2] + " deleted";
         }
-        else if (v[1] == "add" && v.size() > 3)  //zmień tu
+        else if (v[1] == "add" && v.size() > 3) //zmień tu
         {
             RADIO_EQ_CONFIG cfg;
            /* if(v[2] == "SWITCH" && v.size() == 12)
@@ -69,7 +69,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             str_buf = "";
             for (auto m_switch : my_data->main_REC->getSwitchPointerVector())
             {
-                str_buf.append(stateToString(m_switch->getState())    );
+                str_buf.append(stateToString(m_switch->getState()) );
             }
         }
         else if (v[1] == "show" && v[2] == "aether"){
@@ -84,7 +84,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             str_buf += ".";
 
         }
-        else if (v[1] == "send" ){
+        else if (v[1] == "send"){
             str_buf = "sended!;";
             my_data->main_RFLink->sendCommand(v[2]);
 
@@ -127,7 +127,7 @@ std::string command_433MHz::help()
     help << ("433MHz add <type> <name> <ID> <onCode> <offCode> <on15sec> <sunrise> <sunset> <lock> <unlock> - add radio equipment") <<std::endl;
     help << ("433MHz switch <name> ON/OFF/15s - change switch state") <<std::endl;
     help << ("433MHz show all - list all equipment by name") <<std::endl;
-    help << ("433MHz show aether   - show aether devices by ID") <<std::endl;
-    help << ("433MHz send <msg>    - send command") <<std::endl;
+    help << ("433MHz show aether - show aether devices by ID") <<std::endl;
+    help << ("433MHz send <msg> - send command") <<std::endl;
     return help.str();
 }

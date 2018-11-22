@@ -68,7 +68,7 @@ public:
 
     void buttonLockHome();
     void buttonUnlockHome();
-    //////////////////////////// useful  /////////////////////////
+    //////////////////////////// useful /////////////////////////
     bool isItDay();
     std::string getAllDataSunrisesunset();
     //////////////////////////// lightning ////////////////////////
@@ -133,7 +133,7 @@ public:
     std::string ledClear();
     std::string ledClear(unsigned int from, unsigned int to);
     std::string ledOn(const LED_Strip& ledColor, unsigned int from = 0, unsigned int to = 60);
-    ////////////////////   ALERT  //////////////////////////
+    //////////////////// ALERT //////////////////////////
     void checkAlarm();
     //////////////////// MPD part //////////////////////////
     static void MPD_play(thread_data* my_data);
@@ -153,7 +153,7 @@ public:
 
     /////////////////////// system linux ///////////////////
     std::string getSystemInfo();
-    ///////////////////////  KODI   ////////////////////////
+    /////////////////////// KODI ////////////////////////
     std::string startKodi_Thread();
 };
 

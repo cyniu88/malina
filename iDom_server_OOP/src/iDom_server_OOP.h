@@ -37,7 +37,7 @@
 #include "iDomStatus/idomstatus.h"
 #include "iDomSaveState/idom_save_state.h"
 
-#define log_file_cout  f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na ekran
+#define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
 
 enum class iDomStateEnum{
@@ -54,8 +54,8 @@ constexpr int MAX_CONNECTION = 10;
 constexpr int FREE  = 1;
 constexpr int RS232 = 11;
 constexpr int CLOCK = 12;
-constexpr int ok    =  0;
-constexpr int GPIO_SPIK  = 21;
+constexpr int ok    = 0;
+constexpr int GPIO_SPIK = 21;
 constexpr int GPIO_PRINTER = 22;
 constexpr int BUTTON_PIN = 25;
 }
@@ -63,12 +63,12 @@ struct ALERT
 {
     Clock time;
     STATE state = STATE::DEACTIVE;
-    unsigned int fromVolume =  48;
+    unsigned int fromVolume = 48;
     unsigned int toVolume = 58;
     unsigned int radioID = 8;
 };
 
-extern std::string  _logfile  ;
+extern std::string _logfile;
 extern Logger log_file_mutex;
 extern std::string buffer;
 
@@ -79,7 +79,7 @@ struct MPD_info{
     std::string title   = "NULL";
     std::string radio   = "NULL";
     std::string artist  = "NULL";
-    int volume  = 0;
+    int volume = 0;
     bool isPlay = false;
     int currentSongID = 0;
     std::vector <std::string> songList = {"NULL"};
@@ -139,7 +139,7 @@ struct config{
     std::string radio433MHzConfigFile;
     std::string omxplayerFile = "NULL";
     int ID_server = 0;
-    int v_delay  ;
+    int v_delay;
     bool encrypted = true;
 
     FTP_SERVER ftpServer;
@@ -148,11 +148,11 @@ struct config{
 };
 
 struct LED_Strip{
-    std::string from ;
-    std::string to ;
-    std::string R ;
-    std::string G ;
-    std::string B ;
+    std::string from;
+    std::string to;
+    std::string R;
+    std::string G;
+    std::string B;
     std::string colorName;
 
     LED_Strip (int from, int to, int r, int g, int b, std::string colorName = "NULL"):from(std::to_string(from)),
@@ -237,7 +237,7 @@ struct pilot_led{
                                         };
 };
 
-class command ;  // for struc thread_data req
+class command; // for struc thread_data req
 class iDomTOOLS;
 class RADIO_EQ_CONTAINER;
 class RFLinkHandler;
@@ -256,7 +256,7 @@ struct thread_data{
     time_t start;
     time_t now_time;
     int sleeper;
-    std::map <std::string, std::unique_ptr <KEY>  > key_map;
+    std::map <std::string, std::unique_ptr <KEY> > key_map;
     MPD_info *ptr_MPD_info = NULL;
     pilot_led * ptr_pilot_led = NULL;
     std::map <std::string, std::unique_ptr<command> >* commandMapPtr = NULL;

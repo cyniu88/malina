@@ -16,12 +16,12 @@ std::string command_help::execute(std::vector<std::string> &v, thread_data *my_d
             return "unknown command: "+ v[1]+" help note not found";
         }
         else{
-            return  my_data->commandMapPtr->find(v[1])->second->help();
+            return my_data->commandMapPtr->find(v[1])->second->help();
         }
     }
     else
     {
-        for( auto  iter= my_data->commandMapPtr->begin();iter != my_data->commandMapPtr->end(); ++iter ) {
+        for( auto iter= my_data->commandMapPtr->begin();iter != my_data->commandMapPtr->end(); ++iter ) {
 
             result+= iter->second->help();
             result+= "------------------------------------\n";

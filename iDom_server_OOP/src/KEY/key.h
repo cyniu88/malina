@@ -2,7 +2,7 @@
 #define KEY_H
 #include <iostream>
 #include <map>
-#include <utility>      // std::pair
+#include <utility>
 #include <memory>
 enum class PILOT_KEY{
     KEY_POWER,
@@ -44,10 +44,10 @@ enum class PILOT_KEY{
 class KEY
 {
 public:
-    KEY(PILOT_KEY value, const std::string& name) ;
-    virtual ~KEY() ;
+    KEY(PILOT_KEY value, const std::string& name);
+    virtual ~KEY();
     std::string getName() const;
-    virtual  PILOT_KEY getValue() const;
+    virtual PILOT_KEY getValue() const;
 
 protected:
     PILOT_KEY _value;
@@ -57,8 +57,8 @@ protected:
 class SuperKEY : public KEY
 {
 public:
-    SuperKEY (PILOT_KEY v, const std::string &n, const std::string& LogName) ;
-    virtual ~SuperKEY() ;
+    SuperKEY (PILOT_KEY v, const std::string &n, const std::string& LogName);
+    virtual ~SuperKEY();
     PILOT_KEY getValue() const;
 
 protected:
@@ -67,9 +67,9 @@ protected:
 
 class pilot
 {
-    std::map <std::string , std::unique_ptr <KEY>  > *key_map;
+    std::map <std::string , std::unique_ptr <KEY> > *key_map;
 public:
-    pilot(std::map <std::string , std::unique_ptr <KEY>  > *key_map) ;
+    pilot(std::map <std::string , std::unique_ptr <KEY> > *key_map);
     virtual ~pilot( );
     void setup();
 };
