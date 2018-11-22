@@ -261,5 +261,6 @@ std::string command_iDom::help()
     help << "iDom lock   - lock home" << std::endl;
     help << "iDom unlock - unlock home" << std::endl;
     help << "iDom KODI - start KODI smart TV" << std::endl;
+    help << "iDom wifi - show all wifi client" << std::endl;
     return help.str();
 }
