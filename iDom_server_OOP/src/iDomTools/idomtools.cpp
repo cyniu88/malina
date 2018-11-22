@@ -973,9 +973,9 @@ void iDomTOOLS::readState_iDom()
         my_data->alarmTime.fromVolume = jj.at("ALARM").at("fromVolume").get<int>();
         my_data->alarmTime.toVolume = jj.at("ALARM").at("toVolume").get<int>();
         my_data->alarmTime.radioID = jj.at("ALARM").at("radioID").get<int>();
+        my_data->alarmTime.time = Clock(alarmTime);
 
         if (alarmState == "ACTIVE"){
-            my_data->alarmTime.time = Clock(alarmTime);
             my_data->alarmTime.state = STATE::ACTIVE;
             my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
             saveState_iDom();

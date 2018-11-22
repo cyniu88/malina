@@ -114,7 +114,12 @@ void useful_F::kodi (thread_data  *my_data, const std::string& threadName)
 #else
     int ret = system("runuser -u pi kodi");
 #endif
-    std::cout << "system() zwraca ret " << ret <<std::endl;
+    if(ret != 0)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL<< "kodi zamkniete z błędem "<<ret <<  std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     //przywracanie danych
 
     if(musicState == STATE::PLAY)
@@ -122,13 +127,10 @@ void useful_F::kodi (thread_data  *my_data, const std::string& threadName)
     else
         my_data->main_iDomTools->turnOffSpeakers();
     //koniec
-    iDOM_THREAD::stop_thread("kodi smartTV",my_data);
 
     my_data->main_iDomStatus->setObjectState("KODI",STATE::DEACTIVE);
     my_data->mainLCD->set_print_song_state(0);
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "koniec  watku " << threadName<<  std::endl;
-    log_file_mutex.mutex_unlock();
+    iDOM_THREAD::stop_thread("kodi smartTV",my_data);
 }
 std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned int a)
 {
