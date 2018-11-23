@@ -42,7 +42,7 @@ TEST_F(c_connection_fixture, crypto)
     for(int i = 0; i < toEncrypt.size(); ++i)
     {
         EXPECT_NE(test_msg[i],toEncrypt[i]) << " niestety równe: " << toEncrypt[i]
-                                               << " na indeksie: " << i;
+                                            << " na indeksie: " << i;
     }
     std::cout << "wiadomość: " << test_msg << " zakodowane: "<< toEncrypt << std::endl;
     crypto_fixture(toEncrypt, key);
@@ -57,7 +57,7 @@ TEST_F(c_connection_fixture, c_analyse)
     for (char n : strMsg)
         test_connection->c_buffer[i++] = n;
     test_connection->setEncrypted(false);
-    EXPECT_TRUE(test_connection->c_analyse(strMsg.size()));
+    test_connection->c_analyse(strMsg.size());
     EXPECT_THAT(test_my_data.myEventHandler.run("command")->getEvent()
                 ,testing::HasSubstr(strMsg));
 }
@@ -69,7 +69,6 @@ TEST_F(c_connection_fixture, c_recv)
 
 TEST_F(c_connection_fixture, c_send)
 {
-
     EXPECT_EQ(-1, test_connection->c_send("test"));
 }
 
@@ -94,4 +93,14 @@ TEST_F(c_connection_fixture, onStopConnection)
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::UNKNOWN);
     test_connection->onStopConnection();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::OFF);
+}
+
+TEST_F(c_connection_fixture, exitFlow)
+{
+    int i = 0;
+    std::string strMsg = "exit";
+    for (char n : strMsg)
+        test_connection->c_buffer[i++] = n;
+    test_connection->setEncrypted(false);
+    EXPECT_THROW(test_connection->c_analyse(strMsg.size()),std::string );
 }

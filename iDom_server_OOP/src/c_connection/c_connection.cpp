@@ -97,7 +97,7 @@ int C_connection::c_recv(int para)
     return recv_size;
 }
 
-int C_connection::c_analyse(int recvSize)
+void C_connection::c_analyse(int recvSize)
 {
     std::string buf;
 
@@ -113,6 +113,4 @@ int C_connection::c_analyse(int recvSize)
     }
 
     str_buf = mainCommandHandler->run(command,my_data);
-
-    return true;
 }
