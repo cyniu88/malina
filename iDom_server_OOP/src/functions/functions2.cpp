@@ -162,3 +162,25 @@ int useful_F::findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_C
     puts("return -1");
     return -1;
 }
+
+std::string useful_F::sek_to_uptime(long long secy )
+{
+    const int min = 60; //s
+    const int houry = 3600; //s
+    const int day = 86400; //s
+    int number_day, number_hour, number_min, number_sec;
+    int temp1, temp2, temp3;
+    number_day = secy / day;
+    std::stringstream text;
+    text << "\n" << number_day << " day ";
+    temp1 = secy % day;
+    number_hour = temp1 / houry;
+    text << number_hour << " hours ";
+    temp2 = temp1 % houry;
+    number_min = temp2 / min;
+    text << number_min << " minutes ";
+    temp3 = temp2 % min;
+    number_sec = temp3;
+    text << number_sec << " seconds ";
+    return text.str();
+}

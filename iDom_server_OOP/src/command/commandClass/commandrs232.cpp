@@ -1,6 +1,5 @@
 #include "commandrs232.h"
-
-#include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
+#include "../../src/functions/functions.h"
 
 commandRS232::commandRS232(const std::string &name):command(name)
 {

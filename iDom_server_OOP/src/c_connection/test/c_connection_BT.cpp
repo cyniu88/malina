@@ -52,8 +52,10 @@ TEST_F(c_connection_fixture, crypto)
 
 TEST_F(c_connection_fixture, c_analyse)
 {
+    commandHandlerRoot* chr = new commandHandlerRoot(&test_my_data);
+    test_connection->mainCommandHandler = chr;
     int i = 0;
-    std::string strMsg = "test command";
+    std::string strMsg = "fake command";
     for (char n : strMsg)
         test_connection->c_buffer[i++] = n;
     test_connection->setEncrypted(false);
@@ -97,8 +99,11 @@ TEST_F(c_connection_fixture, onStopConnection)
 
 TEST_F(c_connection_fixture, exitFlow)
 {
+    commandHandlerRoot* chr = new commandHandlerRoot(&test_my_data);
+    test_connection->mainCommandHandler = chr;
+
     int i = 0;
-    std::string strMsg = "exit";
+    std::string strMsg = "program stop server";
     for (char n : strMsg)
         test_connection->c_buffer[i++] = n;
     test_connection->setEncrypted(false);

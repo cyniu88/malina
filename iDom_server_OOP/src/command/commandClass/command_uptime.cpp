@@ -1,5 +1,5 @@
 #include "command_uptime.h"
-#include "/home/pi/programowanie/iDom_server_OOP/src/functions/functions.h"
+#include "../../src/functions/functions.h"
 
 command_UPTIME::command_UPTIME(const std::string &name):command(name)
 {

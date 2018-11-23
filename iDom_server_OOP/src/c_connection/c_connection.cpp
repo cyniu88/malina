@@ -113,4 +113,6 @@ void C_connection::c_analyse(int recvSize)
     }
 
     str_buf = mainCommandHandler->run(command,my_data);
+
+    std::cout << "DUPA: " << str_buf << std::endl;
 }

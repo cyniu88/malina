@@ -60,7 +60,6 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/command/commandClass/TEST/command_433mhz_BT.cpp"
     "../../src/command/commandClass/command_idom.cpp"
     "../../src/command/commandClass/TEST/command_idom_BT.cpp"
-    "../../src/command/test/commandhandler_stub.cpp"
     "../../src/c_connection/test/c_connection_BT.cpp"
     "../../src/c_connection/c_connection_node.cpp"
     "../../src/c_connection/c_connection2.cpp"
@@ -92,7 +91,11 @@ add_definitions(-DGIT_COMMIT_HASH="${GIT_COMMIT_HASH}")
 add_definitions(-DGIT_BRANCH="${GIT_BRANCH}")
 message("dane :")
 message(${GIT_COMMIT_HASH})
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -DBT_TEST -DNOSSL -O3 -fprofile-instr-generate -fcoverage-mapping")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++-3.9")
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+file(GLOB SOURCE_FILES2 "../../src/command/*.cpp"
+    "../../src/command/commandClass/*.cpp"
+    "../../src/command/test/*.cpp")
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${SOURCE_FILES2})
 TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  pthread gtest curl rt pthread gmock)
