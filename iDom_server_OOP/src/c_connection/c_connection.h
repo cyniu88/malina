@@ -39,6 +39,11 @@ public:
     void onStartConnection();
     void onStopConnection();
     void cryptoLog(std::string &toEncrypt);
+#ifdef BT_TEST
+    std::string getStr_buf(){
+        return str_buf;
+    }
+#endif
 private:
     std::string str_buf;
     blockQueue char_queue;

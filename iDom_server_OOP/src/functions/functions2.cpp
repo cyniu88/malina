@@ -59,6 +59,9 @@ void useful_F::tokenizer ( std::vector <std::string> &command, std::string separ
     }
     if (!temp.empty())
         command.push_back(temp);
+
+    if (command.size() == 0)
+        throw std::string("command empty");
 }
 
 ////// watek sleeper

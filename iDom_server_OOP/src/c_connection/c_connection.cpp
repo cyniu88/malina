@@ -29,7 +29,6 @@ C_connection::~C_connection()
     puts("C_connection::~C_connection()");
 }
 
-
 int C_connection::c_send(int para)
 {
     crypto(str_buf,m_encriptionKey,m_encrypted); //BUG - naprawic czytanie flagi z parametru klasy
@@ -104,7 +103,20 @@ void C_connection::c_analyse(int recvSize)
     buf = c_read_buf(recvSize);
     my_data->myEventHandler.run("command")->addEvent(buf);
     std::vector <std::string> command;
+    try{
     useful_F::tokenizer(command," \n,", buf);
+    }
+    catch (std::string& k){
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG << "brak komendy - " << k << std::endl;
+        log_file_mutex.mutex_unlock();
+        str_buf = "empty command";
+        return;
+    }
+
+#ifdef BT_TEST
+    std::cout << "komenda: " << str_buf << " command.size() " << command.size() << std::endl;
+#endif
     str_buf = "unknown command\n";
 
     for(std::string t : command)
@@ -113,6 +125,4 @@ void C_connection::c_analyse(int recvSize)
     }
 
     str_buf = mainCommandHandler->run(command,my_data);
-
-    std::cout << "DUPA: " << str_buf << std::endl;
 }

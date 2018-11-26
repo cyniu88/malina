@@ -11,6 +11,7 @@ void useful_F::sleep_1min()
 {
     std::cout << "sleep_1min()"<<std::endl;
 }
+
 TEST(functions_, tokenizer)
 {
      std::string test_msg = "one=two three";
@@ -21,6 +22,20 @@ TEST(functions_, tokenizer)
 
      EXPECT_EQ(test_v.size(),3);
      EXPECT_STREQ(test_v.at(2).c_str(),"three");
+}
+
+TEST(functions_, sekToUptime)
+{
+    EXPECT_STREQ(useful_F::sek_to_uptime(34534).c_str(),"\n0 day 9 hours 35 minutes 34 seconds ");
+}
+
+TEST(functions_, tokenizerEmpty)
+{
+     std::string test_msg = "";
+     std::vector<std::string> test_v;
+
+     EXPECT_EQ(test_v.size(), 0);
+     EXPECT_THROW(useful_F::tokenizer(test_v,"= ",test_msg),std::string);
 }
 
 TEST(functions_, removeHtmlTag)

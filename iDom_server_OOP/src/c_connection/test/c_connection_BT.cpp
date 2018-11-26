@@ -109,3 +109,17 @@ TEST_F(c_connection_fixture, exitFlow)
     test_connection->setEncrypted(false);
     EXPECT_THROW(test_connection->c_analyse(strMsg.size()),std::string );
 }
+
+TEST_F(c_connection_fixture, emptyCommand)
+{
+    commandHandlerRoot* chr = new commandHandlerRoot(&test_my_data);
+    test_connection->mainCommandHandler = chr;
+
+    int i = 0;
+    std::string strMsg = "";
+    for (char n : strMsg)
+        test_connection->c_buffer[i++] = n;
+    test_connection->setEncrypted(false);
+    test_connection->c_analyse(strMsg.size());
+    EXPECT_STREQ(test_connection->getStr_buf().c_str(), "empty command");
+}
