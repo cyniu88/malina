@@ -16,7 +16,7 @@ protected:
     void SetUp() final
     {
         iDomTOOLS_ClassTest::SetUp();
-        test_command_hello =  std::make_unique <command_hello> ("hello");
+        test_command_hello = std::make_unique <command_hello> ("hello");
     }
 
     void TearDown() final

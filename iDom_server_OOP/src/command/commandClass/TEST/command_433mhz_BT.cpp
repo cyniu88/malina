@@ -104,7 +104,7 @@ TEST_F(command433MHz_Class_fixture, deleteFakeSwitch)
     test_v.push_back("433MHz");
     test_v.push_back("delete");
     test_v.push_back("fake");
-    std::string  result = test_command_433MHz->execute(test_v,&test_my_data);
+    std::string result = test_command_433MHz->execute(test_v,&test_my_data);
     EXPECT_THAT(result, testing::HasSubstr("not exist"));
     v = test_rec.getSwitchPointerVector();
     EXPECT_EQ(v.size(),actualSize);
@@ -362,7 +362,7 @@ TEST_F(command433MHz_Class_fixture, switchRF433)
     test_v.push_back("OFF");
     test_command_433MHz->execute(test_v,&test_my_data);
     EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
-    //////////////////////////////  15s
+    ////////////////////////////// 15s
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("switch");

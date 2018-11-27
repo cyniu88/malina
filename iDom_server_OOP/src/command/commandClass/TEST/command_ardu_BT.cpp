@@ -8,7 +8,7 @@
 class commandArdu_Class_fixture : public iDomTOOLS_ClassTest
 {
 public:
-    commandArdu_Class_fixture()  {
+    commandArdu_Class_fixture() {
         this->test_RFLink = std::nullptr_t();
         this->test_ardu = std::nullptr_t();
     }

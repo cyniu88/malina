@@ -16,7 +16,7 @@ protected:
     void SetUp() final
     {
         iDomTOOLS_ClassTest::SetUp();
-        test_command_help =  std::make_unique <command_help> ("help");
+        test_command_help = std::make_unique <command_help> ("help");
     }
 
     void TearDown() final
@@ -41,5 +41,15 @@ TEST_F(command_help_Class_fixture, one)
     test_v.push_back("ok");
     auto ret = test_command_help->execute(test_v,&test_my_data);
     EXPECT_STREQ(ret.c_str(),"ok - confirmation msg server response: END \n");
+    delete chr;
+}
+
+TEST_F(command_help_Class_fixture, nonExistingCommand)
+{
+    commandHandlerRoot* chr = new commandHandlerRoot(&test_my_data);
+    test_v.push_back("help");
+    test_v.push_back("okdoki");
+    auto ret = test_command_help->execute(test_v,&test_my_data);
+    EXPECT_STREQ(ret.c_str(),"unknown command: okdoki help note not found");
     delete chr;
 }
