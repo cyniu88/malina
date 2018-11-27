@@ -53,6 +53,9 @@ src/command/commandClass/../../RADIO_433_eq/radio_433_eq.h                      
 src/command/commandClass/TEST/command_433mhz_BT.cpp                                                                                                              61       1  98.36%        18   100.00%
 src/command/commandClass/TEST/command_ardu_BT.cpp                                                                                                                50       0 100.00%        14   100.00%
 src/command/commandClass/TEST/command_big_BT.cpp                                                                                                                  5       0 100.00%         4   100.00%
+src/command/commandClass/TEST/command_clock_BT.cpp                                                                                                                7       0 100.00%         5   100.00%
+src/command/commandClass/TEST/command_cmd_BT.cpp                                                                                                                  7       0 100.00%         5   100.00%
+src/command/commandClass/TEST/command_event_BT.cpp                                                                                                               22       0 100.00%         9   100.00%
 src/command/commandClass/TEST/command_hello_BT.cpp                                                                                                                5       0 100.00%         4   100.00%
 src/command/commandClass/TEST/command_help_BT.cpp                                                                                                                 7       0 100.00%         5   100.00%
 src/command/commandClass/TEST/command_idom_BT.cpp                                                                                                                70       0 100.00%        23   100.00%
@@ -61,9 +64,9 @@ src/command/commandClass/TEST/command_ok_BT.cpp                                 
 src/command/commandClass/command_433mhz.cpp                                                                                                                      70       0 100.00%         4   100.00%
 src/command/commandClass/command_ardu.cpp                                                                                                                        29       0 100.00%         5   100.00%
 src/command/commandClass/command_big.cpp                                                                                                                          8       0 100.00%         3   100.00%
-src/command/commandClass/command_clock.cpp                                                                                                                        6       4  33.33%         3    66.67%
-src/command/commandClass/command_cmd.cpp                                                                                                                          6       4  33.33%         3    66.67%
-src/command/commandClass/command_event.cpp                                                                                                                       21      19   9.52%         3    66.67%
+src/command/commandClass/command_clock.cpp                                                                                                                        6       0 100.00%         3   100.00%
+src/command/commandClass/command_cmd.cpp                                                                                                                          6       0 100.00%         3   100.00%
+src/command/commandClass/command_event.cpp                                                                                                                       21       0 100.00%         3   100.00%
 src/command/commandClass/command_hello.cpp                                                                                                                        4       0 100.00%         4   100.00%
 src/command/commandClass/command_help.cpp                                                                                                                        13       1  92.31%         3   100.00%
 src/command/commandClass/command_idom.cpp                                                                                                                       157      45  71.34%         3   100.00%
@@ -129,4 +132,4 @@ test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../src/functions/../blockQu
 test/iDom_TESTs-CMAKE/../../test/iDom_TESTs-CMAKE/../../src/functions/../c_connection/../iDom_server_OOP.h                                                        0       0   0.00%         0     0.00%
 test/iDom_TESTs-CMAKE/main.cpp                                                                                                                                   47       3  93.62%        31    93.55%
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-TOTAL                                                                                                                                                                                                 5027    1599  68.19%      1093    85.54%
+TOTAL                                                                                                                                                                                                 5063    1572  68.95%      1112    86.06%

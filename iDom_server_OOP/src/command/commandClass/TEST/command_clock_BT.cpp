@@ -16,7 +16,7 @@ protected:
     void SetUp() final
     {
         iDomTOOLS_ClassTest::SetUp();
-        test_command_clock =  std::make_unique <command_clock> ("clock");
+        test_command_clock = std::make_unique <command_clock> ("clock");
     }
 
     void TearDown() final
