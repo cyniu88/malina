@@ -27,10 +27,55 @@ protected:
 
 TEST_F(command_log_Class_fixture, main)
 {
-    test_my_data.server_settings->omxplayerFile = "/mnt/ramdisk/log";
+    test_v.clear();
+    test_v.push_back("log");
+    test_v.push_back("INFOoo");
+    test_v.push_back("test");
+    auto ret = test_command_log->execute(test_v,&test_my_data);
+    EXPECT_THAT(ret, ::testing::HasSubstr("DONE!"));
+
+    test_v.clear();
     test_v.push_back("log");
     test_v.push_back("INFO");
     test_v.push_back("test");
-    auto ret = test_command_log->execute(test_v,&test_my_data);
+    ret = test_command_log->execute(test_v,&test_my_data);
+    EXPECT_THAT(ret, ::testing::HasSubstr("DONE!"));
+
+    test_v.clear();
+    test_v.push_back("log");
+    test_v.push_back("DEBUG");
+    test_v.push_back("test");
+    ret = test_command_log->execute(test_v,&test_my_data);
+    EXPECT_THAT(ret, ::testing::HasSubstr("DONE!"));
+
+    test_v.clear();
+    test_v.push_back("log");
+    test_v.push_back("WARNING");
+    test_v.push_back("test");
+    ret = test_command_log->execute(test_v,&test_my_data);
+    EXPECT_THAT(ret, ::testing::HasSubstr("DONE!"));
+    test_v.clear();
+    test_v.push_back("log");
+    test_v.push_back("ERROR");
+    test_v.push_back("test");
+    ret = test_command_log->execute(test_v,&test_my_data);
+    EXPECT_THAT(ret, ::testing::HasSubstr("DONE!"));
+    test_v.clear();
+    test_v.push_back("log");
+    test_v.push_back("FATAL");
+    test_v.push_back("test");
+    ret = test_command_log->execute(test_v,&test_my_data);
+    EXPECT_THAT(ret, ::testing::HasSubstr("DONE!"));
+    test_v.clear();
+    test_v.push_back("log");
+    test_v.push_back("CRITICAL");
+    test_v.push_back("test");
+    ret = test_command_log->execute(test_v,&test_my_data);
+    EXPECT_THAT(ret, ::testing::HasSubstr("DONE!"));
+    test_v.clear();
+    test_v.push_back("log");
+    test_v.push_back("VERBOSE");
+    test_v.push_back("test");
+    ret = test_command_log->execute(test_v,&test_my_data);
     EXPECT_THAT(ret, ::testing::HasSubstr("DONE!"));
 }

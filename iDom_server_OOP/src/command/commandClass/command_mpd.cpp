@@ -13,11 +13,12 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
     {
         if (v.size()>2)
         {
-            if (std::stoi(v[2] ) > 0)
+            int id = std::stoi(v[2]);
+            if (id > 0)
             {
-                iDomTOOLS::MPD_play(my_data,std::stoi(v[2]));
+                iDomTOOLS::MPD_play(my_data,id);
                 sleep(1);
-                str_buf=my_data->ptr_MPD_info->songList[std::stoi(v[2])-1];
+                str_buf = my_data->ptr_MPD_info->songList[id-1];
             }
         }
         else
@@ -69,7 +70,7 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
                 iDomTOOLS::MPD_volumeSet(my_data,vol);
             }
         }
-        sleep(1);
+        //sleep(1);
         str_buf=std::to_string(my_data->ptr_MPD_info->volume);
     }
     else if (v[1]=="get")
