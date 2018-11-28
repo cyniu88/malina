@@ -197,6 +197,6 @@ int main(int argc, char **argv)
     pthread_mutex_destroy(&Logger::mutex_log);
 
     const char * PROG_INFO =  " Basic TEST iDomServer: " __DATE__ ", " __TIME__;
-    //std::cout << "wersja " <<PROG_INFO <<" "<< GIT_BRANCH <<" " << GIT_COMMIT_HASH << std::endl;
+    std::cout << "wersja " <<PROG_INFO /*<<" "<< GIT_BRANCH <<" " << GIT_COMMIT_HASH */<< std::endl;
     return ret;
 }

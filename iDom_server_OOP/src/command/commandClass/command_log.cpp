@@ -13,7 +13,7 @@ std::string command_log::execute(std::vector<std::string> &v, thread_data *my_da
         msg+=v[i];
     }
     log_file_mutex.mutex_lock();
-    log_file_cout <<"USER:- " << logLevel(v[1]) << msg <<std::endl;;
+    //log_file_cout <<"USER:- " << logLevel(v[1]) << msg <<std::endl;;
     log_file_mutex.mutex_unlock();
     return "DONE!";
 }
