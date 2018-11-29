@@ -23,6 +23,7 @@ std::string TEST_DATA::serial_b = "NULL";
 std::string TEST_DATA::serial_sended = "NULL";
 std::string TEST_DATA::LCD_print = "NULL";
 int TEST_DATA::test_pin = 0;
+int TEST_DATA::runLinuxCommandReturn = 0;
 
 unsigned int Clock::m_BT_H = 0;
 unsigned int Clock::m_BT_M = 0;
@@ -68,6 +69,11 @@ char SerialPi::read(){
     return r;
 }
 
+int useful_F::runLinuxCommand(const std::string& cmd){
+    std::cout << "runLinuxCommand(): " << cmd << std::endl;
+    return TEST_DATA::runLinuxCommandReturn;
+}
+
 bool useful_F::go_while = true;
 bool useful_F::workServer = true;
 
@@ -83,10 +89,11 @@ std::string useful_F::send_to_arduino(thread_data *my_data, const std::string& d
     puts("useful_F::send_to_arduino()");
     return TEST_DATA::return_send_to_arduino;
 }
+
 viber_API::viber_API(){}
 void viber_API::setAccessToken(const std::string& accessToken){}
 void viber_API::setURL(const std::string& url){}
-void viber_API::setAvatar (const std::string& avatar){}
+void viber_API::setAvatar(const std::string& avatar){}
 std::string viber_API::sendViberMSG(const std::string& msg,
                                     const std::string& receiver,
                                     const std::string& senderName,

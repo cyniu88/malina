@@ -45,13 +45,13 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     }
     else if(v[1] == "clear" && v[2] == "ram")
     {
-        system("sync; echo 3 > /proc/sys/vm/drop_caches");
+        useful_F::runLinuxCommand("sync; echo 3 > /proc/sys/vm/drop_caches");
         ret = "ram has beed freed";
     }
     else if(v[1] == "debuge" && v[2] == "variable")
     {
         std::stringstream r;
-        r << "my_data->alarmTime.fromVolume \t" << my_data->alarmTime.fromVolume <<std::endl;
+       r << "my_data->alarmTime.fromVolume \t" << my_data->alarmTime.fromVolume <<std::endl;
         r << "my_data->alarmTime.radioID \t" << my_data->alarmTime.radioID <<std::endl;
         r << "my_data->alarmTime.state \t" << stateToString( my_data->alarmTime.state) <<std::endl;
         r << "my_data->alarmTime.time \t" << my_data->alarmTime.time.getString() <<std::endl;
@@ -128,8 +128,8 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     }
     else if(v[1] == "raspberry")
     {
-        system(v[2].c_str());
-        ret = "ram has beed freed";
+        int i = useful_F::runLinuxCommand(v[2].c_str());
+        ret = "command done with exitcode: " + std::to_string(i);
     }
     else
     {

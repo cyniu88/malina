@@ -13,6 +13,7 @@ public:
     static std::string serial_sended;
     static std::string LCD_print;
     static int test_pin ;
+    static int runLinuxCommandReturn;
 };
 
 void SerialPi_set_recv_msg(const std::string& m);

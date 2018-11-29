@@ -358,7 +358,13 @@ void useful_F::clearThreadArray(thread_data* my_data)
         }
     }
 }
+
 void useful_F::sleep_1min()
 {
     std::this_thread::sleep_for( std::chrono::seconds(60) );
+}
+
+int useful_F::runLinuxCommand(const std::string &cmd)
+{
+    return system(cmd.c_str());
 }

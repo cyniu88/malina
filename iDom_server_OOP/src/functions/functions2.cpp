@@ -112,11 +112,9 @@ void useful_F::kodi (thread_data *my_data, const std::string& threadName)
     if (speakersState != STATE::ON)
         my_data->main_iDomTools->turnOnSpeakers();
     //system
-#ifdef BT_TEST
-    int ret = system("ls");
-#else
-    int ret = system("runuser -u pi kodi");
-#endif
+
+    int ret = useful_F::runLinuxCommand("runuser -u pi kodi");
+
     if(ret != 0)
     {
         log_file_mutex.mutex_lock();

@@ -138,13 +138,13 @@ void c_irda_logic::projectorLogic(PILOT_KEY X)
     }
     case PILOT_KEY::KEY_DOWN:
     {
-        system("echo -n $'\x1b\x5b\x43' > /mnt/ramdisk/cmd"); // do przodu
+        useful_F::runLinuxCommand("echo -n $'\x1b\x5b\x43' > /mnt/ramdisk/cmd"); // do przodu
         //write_to_mkfifo("$'\x1b\x5b\x43'");
         break;
     }
     case PILOT_KEY::KEY_UP:
     {
-        system("echo -n $'\x1b\x5b\x44' > /mnt/ramdisk/cmd"); // do tylu
+        useful_F::runLinuxCommand("echo -n $'\x1b\x5b\x44' > /mnt/ramdisk/cmd"); // do tylu
         // write_to_mkfifo("$'\x1b\x5b\x44'");
         break;
     }

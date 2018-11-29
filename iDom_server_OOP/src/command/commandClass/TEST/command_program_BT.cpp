@@ -43,6 +43,16 @@ TEST_F(command_program_Class_fixture, missingParameter)
     EXPECT_THAT(ret, ::testing::HasSubstr("what?"));
 }
 
+TEST_F(command_program_Class_fixture, fakeParameter)
+{
+    test_v.clear();
+    test_v.push_back("program");
+    test_v.push_back("fake");
+    test_v.push_back("fake2");
+    auto ret = test_command_program->execute(test_v,&test_my_data);
+    EXPECT_THAT(ret, ::testing::HasSubstr("what? - fake"));
+}
+
 TEST_F(command_program_Class_fixture, stopProgram)
 {
     test_v.clear();
@@ -69,4 +79,41 @@ TEST_F(command_program_Class_fixture, programReloadHard)
     test_v.push_back("hard");
     EXPECT_THROW(test_command_program->execute(test_v,&test_my_data), std::string);
     EXPECT_EQ(test_my_data.iDomProgramState, iDomStateEnum::HARD_RELOAD);
+}
+
+TEST_F(command_program_Class_fixture, clearRamProgram)
+{
+    test_v.clear();
+    test_v.push_back("program");
+    test_v.push_back("clear");
+    test_v.push_back("ram");
+    auto ret = test_command_program->execute(test_v,&test_my_data);
+    EXPECT_STREQ(ret.c_str(),"ram has beed freed");
+}
+
+TEST_F(command_program_Class_fixture, raspberryProgram)
+{
+    test_v.clear();
+    test_v.push_back("program");
+    test_v.push_back("raspberry");
+    test_v.push_back("command");
+    auto ret = test_command_program->execute(test_v,&test_my_data);
+    EXPECT_STREQ(ret.c_str(),"command done with exitcode: 0");
+}
+
+TEST_F(command_program_Class_fixture, debugeVariableProgram)
+{
+    RFLinkHandler test_RFLinkkHandler(&test_my_data);
+
+    test_my_data.main_RFLink = &test_RFLinkkHandler;
+    test_my_data.main_RFLink->okTime = 777;
+    test_my_data.main_RFLink->pingTime = 888;
+
+    test_v.clear();
+    test_v.push_back("program");
+    test_v.push_back("debuge");
+    test_v.push_back("variable");
+    auto ret = test_command_program->execute(test_v,&test_my_data);
+    std::cout << ret << std::endl;
+    EXPECT_THAT(ret,testing::HasSubstr("END"));
 }

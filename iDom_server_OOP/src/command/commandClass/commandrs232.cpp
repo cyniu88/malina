@@ -27,6 +27,8 @@ std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else if (v[1]=="error")
     {
+        if (v.size() < 3 )
+            return "add more parameter to error";
         std::string msg;
         for (unsigned int i = 2; i < v.size(); ++i)
         {
@@ -46,6 +48,7 @@ std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_d
             log_file_mutex.mutex_lock();
             log_file_cout << DEBUG << "RS232 ERROR debug : "<<msg << std::endl;
             log_file_mutex.mutex_unlock();
+            str_buf = "DONE!";
         }
         else
         {

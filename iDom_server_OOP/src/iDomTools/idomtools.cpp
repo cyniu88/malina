@@ -615,9 +615,9 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
     else {
         turnOnSpeakers();
     }
-#ifndef BT_TEST
-    system(command.c_str());
-#endif
+
+    useful_F::runLinuxCommand(command.c_str());
+
     if(my_data->ptr_MPD_info->isPlay){
 
     }
