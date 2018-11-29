@@ -11,13 +11,13 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_da
 
     if (v[1] == "test")
     {
-        std::string msg = "test - for test ";
+        std::string msg = "test - for test";
         my_data->main_iDomTools->runOnSunrise();
         return msg;
     }
     else if (v[1] == "throw")
     {
-        throw "test throw";
+        throw std::string("test throw");
     }
     return help();
 }

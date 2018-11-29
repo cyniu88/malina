@@ -26,7 +26,7 @@ TEST(functions_, tokenizer)
 
 TEST(functions_, sekToUptime)
 {
-    EXPECT_STREQ(useful_F::sek_to_uptime(34534).c_str(),"\n0 day 9 hours 35 minutes 34 seconds ");
+    EXPECT_STREQ(useful_F::sek_to_uptime(34534).c_str(),"\n0 day 9 hours 35 minutes 34 seconds");
 }
 
 TEST(functions_, tokenizerEmpty)

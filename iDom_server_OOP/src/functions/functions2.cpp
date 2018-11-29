@@ -182,6 +182,6 @@ std::string useful_F::sek_to_uptime(long long secy )
     text << number_min << " minutes ";
     temp3 = temp2 % min;
     number_sec = temp3;
-    text << number_sec << " seconds ";
+    text << number_sec << " seconds";
     return text.str();
 }
