@@ -7,9 +7,9 @@ class functions_fixture : public iDomTOOLS_ClassTest{
 
 };
 
-void useful_F::sleep_1min()
+void useful_F::sleep(int sec)
 {
-    std::cout << "sleep_1min()"<<std::endl;
+    std::cout << "sleep() sec: " << sec <<std::endl;
 }
 
 TEST(functions_, tokenizer)

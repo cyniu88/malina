@@ -72,7 +72,7 @@ void useful_F::sleeper_mpd (thread_data *my_data, const std::string& threadName)
 
     for (; my_data->sleeper >0; my_data->sleeper-- )
     {
-        useful_F::sleep_1min();
+        useful_F::sleep(60);
         k += t;
         my_data->main_iDomTools->ledClear(0,k);
     }

@@ -43,7 +43,6 @@ public:
 
     static std::mutex mutex_buf;
     static std::mutex mutex_who;
-    static void sleep_1min();
+    static void sleep(int sec);
 };
-
 #endif // FUNCTIONS_H
