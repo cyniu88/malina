@@ -9,7 +9,7 @@ command_show::command_show(const std::string &name):command(name)
 
 std::string command_show::execute(std::vector<std::string> &v, thread_data *my_data)
 {
-    std::string str_buf = "show what? ";
+    std::string str_buf = "show what?";
     if (v.size() > 1){
         if (v[1] =="log")
         {
@@ -21,17 +21,15 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
                  return useful_F::l_send_file(_logfile,v[3],false);
                 }
                 else{
-                    return "do you mean : show log no <string>? ";
+                    return "do you mean : show log no <string>?";
                 }
             }
-
             return useful_F::l_send_file(_logfile,"");
-
         }
         if (v[1]=="thread")
         {
             if (v.size() < 3){
-                return " No ID";
+                return "No ID";
             }
             else {
                 if (v [2] !="all"){
