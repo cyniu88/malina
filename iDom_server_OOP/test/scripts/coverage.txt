@@ -1804,10 +1804,10 @@
      44|  110|}
        |  111|
        |  112|size_t useful_F_libs::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
-    101|  113|{
-    101|  114|    ((std::string*)userp)->append((char*)contents, size * nmemb);
-    101|  115|    return size * nmemb;
-    101|  116|}
+     94|  113|{
+     94|  114|    ((std::string*)userp)->append((char*)contents, size * nmemb);
+     94|  115|    return size * nmemb;
+     94|  116|}
        |  117|
        |  118|std::string useful_F_libs::find_tag(const std::string& temp)
      56|  119|{
@@ -4488,10 +4488,10 @@
     200|   38|}
        |   39|
        |   40|int blockQueue::_size()
-   151M|   41|{
-   151M|   42|    std::lock_guard <std::mutex> lock (mutex_queue_char);
-   151M|   43|    return static_cast<int>(_MPD_CommandQ.size());
-   151M|   44|}
+   119M|   41|{
+   119M|   42|    std::lock_guard <std::mutex> lock (mutex_queue_char);
+   119M|   43|    return static_cast<int>(_MPD_CommandQ.size());
+   119M|   44|}
        |   45|
        |   46|void blockQueue::_clearAll()
     260|   47|{
@@ -4528,13 +4528,13 @@
        |   24|    static void getFromQ_thread()
       4|   25|    {
       4|   26|        blockQueue q;
-  9.22k|   27|        while(q._size() == 0 )
-  9.22k|   28|        {
-  9.22k|   29|        }
+  12.5k|   27|        while(q._size() == 0 )
+  12.5k|   28|        {
+  12.5k|   29|        }
       4|   30|        EXPECT_EQ(q._get(), MPD_COMMAND::STOP);
-   151M|   31|        while(q._size() == 0 )
-   151M|   32|        {
-   151M|   33|        }
+   119M|   31|        while(q._size() == 0 )
+   119M|   32|        {
+   119M|   33|        }
       4|   34|        EXPECT_EQ(q._get(), MPD_COMMAND::STOP);
       4|   35|    }
        |   36|
@@ -8311,7 +8311,7 @@
       4|   67|    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
       4|   68|
       4|   69|    test_v.push_back("20;EV1527;ID=01e7be;SWITCH=01;CMD=ON;");
-     12|   70|    for(auto i : {1,2,3}){
+     16|   70|    for(auto i = 0; i < 3; ++i){
      12|   71|        test_ardu->execute(test_v, &test_my_data);
      12|   72|    }
       4|   73|
@@ -13699,8 +13699,8 @@
        |   37|#include "iDomStatus/idomstatus.h"
        |   38|#include "iDomSaveState/idom_save_state.h"
        |   39|
-    472|   40|#define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
-    232|   41|#define log_file_mutex f_log
+    488|   40|#define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
+    240|   41|#define log_file_mutex f_log
        |   42|
        |   43|enum class iDomStateEnum{
        |   44|    CLOSE = 0,
@@ -14024,10 +14024,10 @@
        |   81|
        |   82|    template <typename T>
        |   83|    Logger& operator<<(const T& t)
-    328|   84|    {
-    328|   85|        *static_cast<std::ostringstream *>(this) << t;
-    328|   86|        return (*this);
-    328|   87|    }
+    332|   84|    {
+    332|   85|        *static_cast<std::ostringstream *>(this) << t;
+    332|   86|        return (*this);
+    332|   87|    }
   ------------------
   | _ZN6LoggerlsINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEERS_RKT_:
   |    292|   84|    {
@@ -14035,13 +14035,13 @@
   |    292|   86|        return (*this);
   |    292|   87|    }
   ------------------
-  | _ZN6LoggerlsIA28_cEERS_RKT_:
-  |     16|   84|    {
-  |     16|   85|        *static_cast<std::ostringstream *>(this) << t;
-  |     16|   86|        return (*this);
-  |     16|   87|    }
-  ------------------
   | _ZN6LoggerlsIA32_cEERS_RKT_:
+  |     20|   84|    {
+  |     20|   85|        *static_cast<std::ostringstream *>(this) << t;
+  |     20|   86|        return (*this);
+  |     20|   87|    }
+  ------------------
+  | _ZN6LoggerlsIA28_cEERS_RKT_:
   |     16|   84|    {
   |     16|   85|        *static_cast<std::ostringstream *>(this) << t;
   |     16|   86|        return (*this);
@@ -14598,498 +14598,503 @@
       4|  508|                                          my_data->server_settings->viberReceiver.at(0),
       4|  509|                                          my_data->server_settings->viberSender);
       4|  510|
-      4|  511|        stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "+EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
-      4|  512|                                    +"\\n\\n "+lightningData.data.str() ,
-      4|  513|                                    my_data->server_settings->viberReceiver.at(1),
-      4|  514|                                    my_data->server_settings->viberSender);
-      4|  515|
-      4|  516|        m_viber.setAvatar(my_data->server_settings->viberAvatar);
-      4|  517|        if(stateMSG == STATE::SEND_OK)
-      0|  518|        {
-      0|  519|            log_file_mutex.mutex_lock();
-      0|  520|            log_file_cout << INFO << "wysłano informacje o burzy"<< std::endl;
-      0|  521|            log_file_mutex.mutex_unlock();
-      0|  522|        }
-      4|  523|        else
-      4|  524|        {
-      4|  525|            log_file_mutex.mutex_lock();
-      4|  526|            log_file_cout << ERROR << "nie wysłano informacje o burzy"<< std::endl;
-      4|  527|            log_file_mutex.mutex_unlock();
-      4|  528|        }
-      4|  529|    }
-      4|  530|}
-       |  531|
-       |  532|std::string iDomTOOLS::getSunrise(bool extend )
-     28|  533|{
-     28|  534|    Clock tt = sun.getSunRise();
-     28|  535|    if (extend == true){
-     12|  536|        return "Sunrise time: "+tt.getString();
-     12|  537|    }
-     16|  538|    return tt.getString();
-     28|  539|}
-       |  540|
-       |  541|std::string iDomTOOLS::getSunset(bool extend )
-     28|  542|{
-     28|  543|    Clock tt = sun.getSunSet();
-     28|  544|    if (extend == true){
-     12|  545|        return "Sunset time: "+tt.getString();
-     12|  546|    }
-     16|  547|    return tt.getString();
-     28|  548|}
-       |  549|
-       |  550|Clock iDomTOOLS::getSunsetClock()
-     11|  551|{
-     11|  552|    return sun.getSunSet();
-     11|  553|}
+      4|  511|        if(stateMSG == STATE::SEND_NOK){
+      4|  512|            log_file_mutex.mutex_lock();
+      4|  513|            log_file_cout << ERROR << "nie wysłano informacje o burzy"<< std::endl;
+      4|  514|            log_file_mutex.mutex_unlock();
+      4|  515|        }
+      4|  516|        stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "+EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
+      4|  517|                                    +"\\n\\n "+lightningData.data.str() ,
+      4|  518|                                    my_data->server_settings->viberReceiver.at(1),
+      4|  519|                                    my_data->server_settings->viberSender);
+      4|  520|
+      4|  521|        m_viber.setAvatar(my_data->server_settings->viberAvatar);
+      4|  522|        if(stateMSG == STATE::SEND_OK)
+      0|  523|        {
+      0|  524|            log_file_mutex.mutex_lock();
+      0|  525|            log_file_cout << INFO << "wysłano informacje o burzy"<< std::endl;
+      0|  526|            log_file_mutex.mutex_unlock();
+      0|  527|        }
+      4|  528|        else
+      4|  529|        {
+      4|  530|            log_file_mutex.mutex_lock();
+      4|  531|            log_file_cout << ERROR << "nie wysłano informacje o burzy"<< std::endl;
+      4|  532|            log_file_mutex.mutex_unlock();
+      4|  533|        }
+      4|  534|    }
+      4|  535|}
+       |  536|
+       |  537|std::string iDomTOOLS::getSunrise(bool extend )
+     28|  538|{
+     28|  539|    Clock tt = sun.getSunRise();
+     28|  540|    if (extend == true){
+     12|  541|        return "Sunrise time: "+tt.getString();
+     12|  542|    }
+     16|  543|    return tt.getString();
+     28|  544|}
+       |  545|
+       |  546|std::string iDomTOOLS::getSunset(bool extend )
+     28|  547|{
+     28|  548|    Clock tt = sun.getSunSet();
+     28|  549|    if (extend == true){
+     12|  550|        return "Sunset time: "+tt.getString();
+     12|  551|    }
+     16|  552|    return tt.getString();
+     28|  553|}
        |  554|
-       |  555|Clock iDomTOOLS::getSunriseClock()
-     60|  556|{
-     60|  557|    return sun.getSunRise();
-     60|  558|}
+       |  555|Clock iDomTOOLS::getSunsetClock()
+     11|  556|{
+     11|  557|    return sun.getSunSet();
+     11|  558|}
        |  559|
-       |  560|std::string iDomTOOLS::getDayLenght(bool extend )
-     28|  561|{
-     28|  562|    Clock tt = sun.getDayLength();
-     28|  563|    if (extend == true){
-     12|  564|        return "Day Lenght : "+tt.getString();
-     12|  565|    }
-     16|  566|    return tt.getString();
-     28|  567|}
-       |  568|
-       |  569|std::string iDomTOOLS::getWeatherEvent(const std::string& city, unsigned int radius)
-      4|  570|{
-      4|  571|    std::string url = "http://burze.dzis.net/ramka.php?miejscowosc=";
-      4|  572|    url.append(city);
-      4|  573|    url.append("&promien=");
-      4|  574|    url.append(std::to_string(radius));
-      4|  575|    return useful_F_libs::httpPost(url, 10);
-      4|  576|}
-       |  577|
-       |  578|std::vector<WEATHER_ALER> iDomTOOLS::getAlert(std::string data)
-      4|  579|{
-      4|  580|    std::vector<WEATHER_ALER> wAlert;
-      4|  581|    WEATHER_ALER tempWA;
-      4|  582|    std::string d = useful_F_libs::removeHtmlTag(data);
-      4|  583|    std::vector<std::string> vect;
-      4|  584|
-      4|  585|    vect = useful_F::split(d,'\n');
-      4|  586|    vect.pop_back();
-      4|  587|    for (auto n : vect)
-     28|  588|    {
-     28|  589|        if (n.find("brak") == std::string::npos)
-      4|  590|        {
-      4|  591|            tempWA.alert = n;
-      4|  592|            tempWA.name = n;
-      4|  593|            tempWA.sended = false;
-      4|  594|            wAlert.push_back(tempWA);
-      4|  595|        }
-     28|  596|    }
-      4|  597|    return {wAlert};
-      4|  598|}
-       |  599|
-       |  600|void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
-     16|  601|{
-     16|  602|    if (textVector->empty() ){
-      4|  603|        return;
-      4|  604|    }
-     12|  605|    std::string txt;
-     12|  606|
-     28|  607|    for (auto a : *textVector){
-     28|  608|        txt += a;
-     28|  609|    }
-     12|  610|    /////////// start thread TTS - python use ////////////////////////
-     12|  611|    std::string command = " python /home/pi/programowanie/iDom_server_OOP/script/PYTHON/gadacz.py \\"+ txt +"\\";
-     12|  612|    if(my_data->ptr_MPD_info->isPlay){
-      4|  613|
-      4|  614|    }
-      8|  615|    else {
-      8|  616|        turnOnSpeakers();
-      8|  617|    }
-     12|  618|
-     12|  619|    useful_F::runLinuxCommand(command.c_str());
-     12|  620|
-     12|  621|    if(my_data->ptr_MPD_info->isPlay){
-      4|  622|
-      4|  623|    }
-      8|  624|    else {
-      8|  625|        turnOffSpeakers();
-      8|  626|    }
-     12|  627|}
-       |  628|
-       |  629|std::string iDomTOOLS::getTextToSpeach()
-     12|  630|{
-     12|  631|    std::vector<std::string> dayL = useful_F::split(getDayLenght(),':');
-     12|  632|    std::stringstream text;
-     12|  633|    std::string smogText = getSmog();
-     12|  634|    int smogInt = std::stoi(smogText);
-     12|  635|    text << "Godzina: " << Clock::getTime().getString();
-     12|  636|    text << ". \nWschód słońca: " << getSunrise();
-     12|  637|    text << ". \nZachód słońca: " << getSunset();
-     12|  638|    text << ". \nDługość dnia: " << dayL[0] << " godzin " << dayL[1] << " minut";
-     12|  639|    text <<". \n";
-     12|  640|    dayL = getTemperature();
-     12|  641|    text << "Temperatura na zewnątrz: " << dayL[1] << " stopnia. \n";
-     12|  642|    text << "Temperatura w pokoju: " << dayL[0] << " stopnia. \n";
-     12|  643|    text << "Smog: " << smogText << " mg/m^3. \n";
-     12|  644|    if (smogInt > 50){
-     12|  645|        int result = smogInt *2;
-     12|  646|        text << "UWAGA! Maksymalna wartość przekroczona " << result << "%.";
-     12|  647|    }
-     12|  648|    return text.str();
-     12|  649|}
-       |  650|
-       |  651|std::vector<std::string> iDomTOOLS::getTemperature()
-     72|  652|{
-     72|  653|    std::vector<std::string> vect = useful_F::split(useful_F::send_to_arduino(my_data,"temperature:22;"),':');
-     72|  654|    return vect;
-     72|  655|}
-       |  656|
-       |  657|std::string iDomTOOLS::getTemperatureString()
-      8|  658|{
-      8|  659|    return useful_F::send_to_arduino(my_data,"temperature:22;");
-      8|  660|}
+       |  560|Clock iDomTOOLS::getSunriseClock()
+     60|  561|{
+     60|  562|    return sun.getSunRise();
+     60|  563|}
+       |  564|
+       |  565|std::string iDomTOOLS::getDayLenght(bool extend )
+     28|  566|{
+     28|  567|    Clock tt = sun.getDayLength();
+     28|  568|    if (extend == true){
+     12|  569|        return "Day Lenght : "+tt.getString();
+     12|  570|    }
+     16|  571|    return tt.getString();
+     28|  572|}
+       |  573|
+       |  574|std::string iDomTOOLS::getWeatherEvent(const std::string& city, unsigned int radius)
+      4|  575|{
+      4|  576|    std::string url = "http://burze.dzis.net/ramka.php?miejscowosc=";
+      4|  577|    url.append(city);
+      4|  578|    url.append("&promien=");
+      4|  579|    url.append(std::to_string(radius));
+      4|  580|    return useful_F_libs::httpPost(url, 10);
+      4|  581|}
+       |  582|
+       |  583|std::vector<WEATHER_ALER> iDomTOOLS::getAlert(std::string data)
+      4|  584|{
+      4|  585|    std::vector<WEATHER_ALER> wAlert;
+      4|  586|    WEATHER_ALER tempWA;
+      4|  587|    std::string d = useful_F_libs::removeHtmlTag(data);
+      4|  588|    std::vector<std::string> vect;
+      4|  589|
+      4|  590|    vect = useful_F::split(d,'\n');
+      4|  591|    vect.pop_back();
+      4|  592|    for (auto n : vect)
+     28|  593|    {
+     28|  594|        if (n.find("brak") == std::string::npos)
+      4|  595|        {
+      4|  596|            tempWA.alert = n;
+      4|  597|            tempWA.name = n;
+      4|  598|            tempWA.sended = false;
+      4|  599|            wAlert.push_back(tempWA);
+      4|  600|        }
+     28|  601|    }
+      4|  602|    return {wAlert};
+      4|  603|}
+       |  604|
+       |  605|void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
+     16|  606|{
+     16|  607|    if (textVector->empty() ){
+      4|  608|        return;
+      4|  609|    }
+     12|  610|    std::string txt;
+     12|  611|
+     28|  612|    for (auto a : *textVector){
+     28|  613|        txt += a;
+     28|  614|    }
+     12|  615|    /////////// start thread TTS - python use ////////////////////////
+     12|  616|    std::string command = " python /home/pi/programowanie/iDom_server_OOP/script/PYTHON/gadacz.py \\"+ txt +"\\";
+     12|  617|    if(my_data->ptr_MPD_info->isPlay){
+      4|  618|
+      4|  619|    }
+      8|  620|    else {
+      8|  621|        turnOnSpeakers();
+      8|  622|    }
+     12|  623|
+     12|  624|    useful_F::runLinuxCommand(command.c_str());
+     12|  625|
+     12|  626|    if(my_data->ptr_MPD_info->isPlay){
+      4|  627|
+      4|  628|    }
+      8|  629|    else {
+      8|  630|        turnOffSpeakers();
+      8|  631|    }
+     12|  632|}
+       |  633|
+       |  634|std::string iDomTOOLS::getTextToSpeach()
+     12|  635|{
+     12|  636|    std::vector<std::string> dayL = useful_F::split(getDayLenght(),':');
+     12|  637|    std::stringstream text;
+     12|  638|    std::string smogText = getSmog();
+     12|  639|    int smogInt = std::stoi(smogText);
+     12|  640|    text << "Godzina: " << Clock::getTime().getString();
+     12|  641|    text << ". \nWschód słońca: " << getSunrise();
+     12|  642|    text << ". \nZachód słońca: " << getSunset();
+     12|  643|    text << ". \nDługość dnia: " << dayL[0] << " godzin " << dayL[1] << " minut";
+     12|  644|    text <<". \n";
+     12|  645|    dayL = getTemperature();
+     12|  646|    text << "Temperatura na zewnątrz: " << dayL[1] << " stopnia. \n";
+     12|  647|    text << "Temperatura w pokoju: " << dayL[0] << " stopnia. \n";
+     12|  648|    text << "Smog: " << smogText << " mg/m^3. \n";
+     12|  649|    if (smogInt > 50){
+     12|  650|        int result = smogInt *2;
+     12|  651|        text << "UWAGA! Maksymalna wartość przekroczona " << result << "%.";
+     12|  652|    }
+     12|  653|    return text.str();
+     12|  654|}
+       |  655|
+       |  656|std::vector<std::string> iDomTOOLS::getTemperature()
+     72|  657|{
+     72|  658|    std::vector<std::string> vect = useful_F::split(useful_F::send_to_arduino(my_data,"temperature:22;"),':');
+     72|  659|    return vect;
+     72|  660|}
        |  661|
-       |  662|std::string iDomTOOLS::getSmog()
-     56|  663|{
-     56|  664|    CURL *curl;
-     56|  665|    CURLcode res;
-     56|  666|    std::string readBuffer;
-     56|  667|    curl = curl_easy_init();
-     56|  668|
-     56|  669|    if(curl) {
-     56|  670|        curl_easy_setopt(curl, CURLOPT_URL, "www.smog.krakow.pl");
-     56|  671|        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
-     56|  672|        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-     56|  673|        res = curl_easy_perform(curl);
-     56|  674|        /* Check for errors */
-     56|  675|        if(res != CURLE_OK)
-      0|  676|            fprintf(stderr, "curl_easy_perform() failed: %s\n",
-      0|  677|                    curl_easy_strerror(res));
-     56|  678|
-     56|  679|        /* always cleanup */
-     56|  680|        curl_easy_cleanup(curl);
-     56|  681|    }
-     56|  682|    curl_global_cleanup();
-     56|  683|    int start = readBuffer.find("<h2 class=\"polution\">");
-     56|  684|    try {
-     56|  685|        readBuffer = readBuffer.substr(start, 40);
+       |  662|std::string iDomTOOLS::getTemperatureString()
+      8|  663|{
+      8|  664|    return useful_F::send_to_arduino(my_data,"temperature:22;");
+      8|  665|}
+       |  666|
+       |  667|std::string iDomTOOLS::getSmog()
+     56|  668|{
+     56|  669|    CURL *curl;
+     56|  670|    CURLcode res;
+     56|  671|    std::string readBuffer;
+     56|  672|    curl = curl_easy_init();
+     56|  673|
+     56|  674|    if(curl) {
+     56|  675|        curl_easy_setopt(curl, CURLOPT_URL, "www.smog.krakow.pl");
+     56|  676|        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
+     56|  677|        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+     56|  678|        res = curl_easy_perform(curl);
+     56|  679|        /* Check for errors */
+     56|  680|        if(res != CURLE_OK)
+      0|  681|            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+      0|  682|                    curl_easy_strerror(res));
+     56|  683|
+     56|  684|        /* always cleanup */
+     56|  685|        curl_easy_cleanup(curl);
      56|  686|    }
-      0|  687|    catch (...){
-      0|  688|        log_file_mutex.mutex_lock();
-      0|  689|        log_file_cout << CRITICAL << "wyjatek substr() e getSmog() !!!!!!"<< std::endl;
-      0|  690|        log_file_mutex.mutex_unlock();
-      0|  691|    }
-     56|  692|
-     56|  693|    readBuffer = useful_F_libs::find_tag(readBuffer);
-     56|  694|
-     56|  695|    return readBuffer;
-     56|  696|}
-       |  697|
-       |  698|void iDomTOOLS::send_temperature_thingSpeak()
-     32|  699|{
-     32|  700|    std::vector<std::string> _temperature = getTemperature();
-     32|  701|    std::string addres = "api.thingspeak.com/update?key=";
-     32|  702|    addres+=key;
-     32|  703|    addres+="&field1=";
-     32|  704|    addres+= _temperature.at(0);
-     32|  705|    // addres.erase(addres.size()-2,addres.size());
-     32|  706|    addres+= "&field3="+_temperature.at(1);
-     32|  707|    addres+="&field2="+getSmog();
-     32|  708|    //////////////////////////////// pozyskanie temperatury
-     32|  709|    allThermometer.updateAll(&_temperature);
-     32|  710|    sendSMSifTempChanged("outside",0);
-     32|  711|    sendSMSifTempChanged("inside",24);
-     32|  712|    std::string s = useful_F_libs::httpPost(addres,10);
-     32|  713|
-     32|  714|    if(s == "0"){
-      0|  715|        log_file_mutex.mutex_lock();
-      0|  716|        log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak: "<< s << std::endl;
-      0|  717|        log_file_mutex.mutex_unlock();
-      0|  718|    }
-     32|  719|}
-       |  720|
-       |  721|void iDomTOOLS::cameraLedON(const std::string& link)
-     12|  722|{
-     12|  723|    Clock t = Clock::getTime();
-     12|  724|    SunRiseSet sun;
-     12|  725|    Clock sunRise, sunSet;
-     12|  726|    sunRise = sun.getSunRise();
-     12|  727|    sunSet = sun.getSunSet();
-     12|  728|    sunSet += Clock(23,30); // +23:30 == -00:30
-     12|  729|    if (t <= sunRise || t >= sunSet){
-      8|  730|        //printf("zapalam leda!\n");
-      8|  731|        std::string s = useful_F_libs::httpPost(link,10);
-      8|  732|        if (s == "ok.\n"){
-      8|  733|            my_data->main_iDomStatus->setObjectState("cameraLED",STATE::ON);
-      8|  734|            // printf("w ifie\n");
-      8|  735|        }
-      8|  736|    }
-     12|  737|    // printf("nie odpalam leda!\n");
-     12|  738|}
-       |  739|
-       |  740|void iDomTOOLS::cameraLedOFF(const std::string& link)
-     12|  741|{
-     12|  742|    std::string s = useful_F_libs::httpPost(link,10);
-     12|  743|    //printf (" camera response '%s' \n", s.c_str());
-     12|  744|    if (s == "ok.\n"){
-     12|  745|        my_data->main_iDomStatus->setObjectState("cameraLED",STATE::OFF);
-     12|  746|        //printf("w ifie\n");
-     12|  747|    }
-     12|  748|}
-       |  749|
-       |  750|nlohmann::json iDomTOOLS::sendViberMsg(const std::string &msg,
-       |  751|                                       const std::string &receiver,
-       |  752|                                       const std::string &senderName,
-       |  753|                                       const std::string& accessToken,
-       |  754|                                       const std::string& url)
-     44|  755|{
-     44|  756|    nlohmann::json jj;
-     44|  757|    std::lock_guard<std::mutex> lock(m_msgMutex);
-     44|  758|    jj = nlohmann::json::parse( m_viber.sendViberMSG(msg,receiver,senderName,accessToken,url));
-     44|  759|    return jj;
-     44|  760|}
-       |  761|
-       |  762|nlohmann::json iDomTOOLS::sendViberPicture(const std::string &msg,
-       |  763|                                           const std::string &image,
-       |  764|                                           const std::string &receiver,
-       |  765|                                           const std::string &senderName,
-       |  766|                                           const std::string& accessToken,
-       |  767|                                           const std::string& url)
-    100|  768|{
-    100|  769|    nlohmann::json jj;
-    100|  770|    std::lock_guard<std::mutex> lock(m_msgMutex);
-    100|  771|    jj = nlohmann::json::parse(m_viber.sendViberPicture(msg,image,receiver,senderName,accessToken,url));
-    100|  772|    return jj;
-    100|  773|}
-       |  774|
-       |  775|STATE iDomTOOLS::sendViberMsgBool(const std::string &msg,
-       |  776|                                  const std::string &receiver,
-       |  777|                                  const std::string &senderName,
-       |  778|                                  const std::string& accessToken,
-       |  779|                                  const std::string& url)
-      8|  780|{
-      8|  781|    nlohmann::json jj = sendViberMsg(msg,receiver,senderName,accessToken,url);
-      8|  782|    STATE ret = STATE::SEND_NOK;
-      8|  783|    if(jj.find("status_message")!= jj.end())
-      0|  784|    {
-      0|  785|        if(jj.at("status_message").get<std::string>() == "ok")
-      0|  786|        {
-      0|  787|            ret = STATE::SEND_OK;
-      0|  788|        }
-      0|  789|    }
-      8|  790|    else
-      8|  791|    {
-      8|  792|        log_file_mutex.mutex_lock();
-      8|  793|        log_file_cout << ERROR << "nie wyslanno wiadomosci viber"<< jj.dump()<< std::endl;
-      8|  794|        log_file_mutex.mutex_unlock();
-      8|  795|    }
-      8|  796|    return ret;
-      8|  797|}
-       |  798|
-       |  799|STATE iDomTOOLS::sendViberPictureBool(const std::string& msg,
-       |  800|                                      const std::string& image,
-       |  801|                                      const std::string& receiver,
-       |  802|                                      const std::string& senderName,
-       |  803|                                      const std::string& accessToken,
-       |  804|                                      const std::string& url)
-      0|  805|{
-      0|  806|    nlohmann::json jj = sendViberPicture(msg,image,receiver,senderName,accessToken,url);
-      0|  807|    STATE ret = STATE::SEND_NOK;
-      0|  808|    if(jj.at("status_message").get<std::string>() == "ok")
-      0|  809|    {
-      0|  810|        ret = STATE::SEND_OK;
-      0|  811|    }
-      0|  812|    else
-      0|  813|    {
-      0|  814|        log_file_mutex.mutex_lock();
-      0|  815|        log_file_cout << ERROR << "nie wyslanno wiadomosci viber"<< jj.dump()<< std::endl;
-      0|  816|        log_file_mutex.mutex_unlock();
-      0|  817|    }
-      0|  818|    return ret;
-      0|  819|}
-       |  820|
-       |  821|std::string iDomTOOLS::postOnFacebook(const std::string& msg, const std::string& image)
-      8|  822|{
-      8|  823|    std::lock_guard<std::mutex> lock(m_msgMutex);
-      8|  824|    if (image != "NULL"){
-      8|  825|        return m_facebook.postPhotoOnWall(image,msg);
-      8|  826|    }
-      8|  827|
-      0|  828|    return m_facebook.postTxtOnWall(msg);
-      8|  829|}
-       |  830|
-       |  831|std::string iDomTOOLS::ledOFF()
-     48|  832|{
-     48|  833|    return useful_F::send_to_arduino(my_data,"LED_STOP:2;");
-     48|  834|}
+     56|  687|    curl_global_cleanup();
+     56|  688|    int start = readBuffer.find("<h2 class=\"polution\">");
+     56|  689|    try {
+     56|  690|        readBuffer = readBuffer.substr(start, 40);
+     56|  691|    }
+      0|  692|    catch (...){
+      0|  693|        log_file_mutex.mutex_lock();
+      0|  694|        log_file_cout << CRITICAL << "wyjatek substr() e getSmog() !!!!!!"<< std::endl;
+      0|  695|        log_file_mutex.mutex_unlock();
+      0|  696|    }
+     56|  697|
+     56|  698|    readBuffer = useful_F_libs::find_tag(readBuffer);
+     56|  699|
+     56|  700|    return readBuffer;
+     56|  701|}
+       |  702|
+       |  703|void iDomTOOLS::send_temperature_thingSpeak()
+     32|  704|{
+     32|  705|    std::vector<std::string> _temperature = getTemperature();
+     32|  706|    std::string addres = "api.thingspeak.com/update?key=";
+     32|  707|    addres+=key;
+     32|  708|    addres+="&field1=";
+     32|  709|    addres+= _temperature.at(0);
+     32|  710|    // addres.erase(addres.size()-2,addres.size());
+     32|  711|    addres+= "&field3="+_temperature.at(1);
+     32|  712|    addres+="&field2="+getSmog();
+     32|  713|    //////////////////////////////// pozyskanie temperatury
+     32|  714|    allThermometer.updateAll(&_temperature);
+     32|  715|    sendSMSifTempChanged("outside",0);
+     32|  716|    sendSMSifTempChanged("inside",24);
+     32|  717|    std::string s = useful_F_libs::httpPost(addres,10);
+     32|  718|
+     32|  719|    if(s == "0"){
+      0|  720|        log_file_mutex.mutex_lock();
+      0|  721|        log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak: "<< s << std::endl;
+      0|  722|        log_file_mutex.mutex_unlock();
+      0|  723|    }
+     32|  724|}
+       |  725|
+       |  726|void iDomTOOLS::cameraLedON(const std::string& link)
+     12|  727|{
+     12|  728|    Clock t = Clock::getTime();
+     12|  729|    SunRiseSet sun;
+     12|  730|    Clock sunRise, sunSet;
+     12|  731|    sunRise = sun.getSunRise();
+     12|  732|    sunSet = sun.getSunSet();
+     12|  733|    sunSet += Clock(23,30); // +23:30 == -00:30
+     12|  734|    if (t <= sunRise || t >= sunSet){
+      8|  735|        //printf("zapalam leda!\n");
+      8|  736|        std::string s = useful_F_libs::httpPost(link,10);
+      8|  737|        if (s == "ok.\n"){
+      8|  738|            my_data->main_iDomStatus->setObjectState("cameraLED",STATE::ON);
+      8|  739|            // printf("w ifie\n");
+      8|  740|        }
+      8|  741|    }
+     12|  742|    // printf("nie odpalam leda!\n");
+     12|  743|}
+       |  744|
+       |  745|void iDomTOOLS::cameraLedOFF(const std::string& link)
+     12|  746|{
+     12|  747|    std::string s = useful_F_libs::httpPost(link,10);
+     12|  748|    //printf (" camera response '%s' \n", s.c_str());
+     12|  749|    if (s == "ok.\n"){
+     12|  750|        my_data->main_iDomStatus->setObjectState("cameraLED",STATE::OFF);
+     12|  751|        //printf("w ifie\n");
+     12|  752|    }
+     12|  753|}
+       |  754|
+       |  755|nlohmann::json iDomTOOLS::sendViberMsg(const std::string &msg,
+       |  756|                                       const std::string &receiver,
+       |  757|                                       const std::string &senderName,
+       |  758|                                       const std::string& accessToken,
+       |  759|                                       const std::string& url)
+     44|  760|{
+     44|  761|    nlohmann::json jj;
+     44|  762|    std::lock_guard<std::mutex> lock(m_msgMutex);
+     44|  763|    jj = nlohmann::json::parse( m_viber.sendViberMSG(msg,receiver,senderName,accessToken,url));
+     44|  764|    return jj;
+     44|  765|}
+       |  766|
+       |  767|nlohmann::json iDomTOOLS::sendViberPicture(const std::string &msg,
+       |  768|                                           const std::string &image,
+       |  769|                                           const std::string &receiver,
+       |  770|                                           const std::string &senderName,
+       |  771|                                           const std::string& accessToken,
+       |  772|                                           const std::string& url)
+    100|  773|{
+    100|  774|    nlohmann::json jj;
+    100|  775|    std::lock_guard<std::mutex> lock(m_msgMutex);
+    100|  776|    jj = nlohmann::json::parse(m_viber.sendViberPicture(msg,image,receiver,senderName,accessToken,url));
+    100|  777|    return jj;
+    100|  778|}
+       |  779|
+       |  780|STATE iDomTOOLS::sendViberMsgBool(const std::string &msg,
+       |  781|                                  const std::string &receiver,
+       |  782|                                  const std::string &senderName,
+       |  783|                                  const std::string& accessToken,
+       |  784|                                  const std::string& url)
+      8|  785|{
+      8|  786|    nlohmann::json jj = sendViberMsg(msg,receiver,senderName,accessToken,url);
+      8|  787|    STATE ret = STATE::SEND_NOK;
+      8|  788|    if(jj.find("status_message")!= jj.end())
+      0|  789|    {
+      0|  790|        if(jj.at("status_message").get<std::string>() == "ok")
+      0|  791|        {
+      0|  792|            ret = STATE::SEND_OK;
+      0|  793|        }
+      0|  794|    }
+      8|  795|    else
+      8|  796|    {
+      8|  797|        log_file_mutex.mutex_lock();
+      8|  798|        log_file_cout << ERROR << "nie wyslanno wiadomosci viber"<< jj.dump()<< std::endl;
+      8|  799|        log_file_mutex.mutex_unlock();
+      8|  800|    }
+      8|  801|    return ret;
+      8|  802|}
+       |  803|
+       |  804|STATE iDomTOOLS::sendViberPictureBool(const std::string& msg,
+       |  805|                                      const std::string& image,
+       |  806|                                      const std::string& receiver,
+       |  807|                                      const std::string& senderName,
+       |  808|                                      const std::string& accessToken,
+       |  809|                                      const std::string& url)
+      0|  810|{
+      0|  811|    nlohmann::json jj = sendViberPicture(msg,image,receiver,senderName,accessToken,url);
+      0|  812|    STATE ret = STATE::SEND_NOK;
+      0|  813|    if(jj.at("status_message").get<std::string>() == "ok")
+      0|  814|    {
+      0|  815|        ret = STATE::SEND_OK;
+      0|  816|    }
+      0|  817|    else
+      0|  818|    {
+      0|  819|        log_file_mutex.mutex_lock();
+      0|  820|        log_file_cout << ERROR << "nie wyslanno wiadomosci viber"<< jj.dump()<< std::endl;
+      0|  821|        log_file_mutex.mutex_unlock();
+      0|  822|    }
+      0|  823|    return ret;
+      0|  824|}
+       |  825|
+       |  826|std::string iDomTOOLS::postOnFacebook(const std::string& msg, const std::string& image)
+      8|  827|{
+      8|  828|    std::lock_guard<std::mutex> lock(m_msgMutex);
+      8|  829|    if (image != "NULL"){
+      8|  830|        return m_facebook.postPhotoOnWall(image,msg);
+      8|  831|    }
+      8|  832|
+      0|  833|    return m_facebook.postTxtOnWall(msg);
+      8|  834|}
        |  835|
-       |  836|std::string iDomTOOLS::ledClear()
-      4|  837|{
-      4|  838|    return useful_F::send_to_arduino(my_data,"LED_CLEAR:2;");
-      4|  839|}
+       |  836|std::string iDomTOOLS::ledOFF()
+     48|  837|{
+     48|  838|    return useful_F::send_to_arduino(my_data,"LED_STOP:2;");
+     48|  839|}
        |  840|
-       |  841|std::string iDomTOOLS::ledClear(unsigned int from, unsigned int to)
-     52|  842|{
-     52|  843|    LED_Strip ledColor(0,60,0,0,0,"BLACK");
-     52|  844|    useful_F::send_to_arduino(my_data,ledColor.get(from, to));
-     52|  845|    return "Led cleared";
-     52|  846|}
-       |  847|
-       |  848|std::string iDomTOOLS::ledOn(const LED_Strip& ledColor, unsigned int from, unsigned int to)
-     84|  849|{
-     84|  850|    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
-     12|  851|    {
-     12|  852|        return useful_F::send_to_arduino(my_data,ledColor.get(from, to));
-     12|  853|    }
-     72|  854|    else{
-     72|  855|        my_data->myEventHandler.run("LED")->addEvent("LED can not start due to home state: "+
-     72|  856|                                                     stateToString(my_data->idom_all_state.houseState));
-     72|  857|    }
-     72|  858|    return "iDom LOCKED!";
-     84|  859|}
-       |  860|
-       |  861|void iDomTOOLS::checkAlarm()
-     40|  862|{
-     40|  863|    unsigned int fromVol = my_data->alarmTime.fromVolume;
-     40|  864|    unsigned int toVol   = my_data->alarmTime.toVolume;
-     40|  865|    unsigned int radioId = my_data->alarmTime.radioID;
-     40|  866|
-     40|  867|    Clock now = Clock::getTime();
-     40|  868|    if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
-      4|  869|        my_data->alarmTime.state = STATE::WORKING;
-      4|  870|        MPD_volumeSet(my_data, fromVol);
-      4|  871|        MPD_play(my_data,radioId);
-      4|  872|        my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
-      4|  873|    }
-     40|  874|
-     40|  875|    if (my_data->alarmTime.state == STATE::WORKING){
-     40|  876|        unsigned int vol = MPD_getVolume(my_data) + 1;
-     40|  877|        if (vol < toVol){
-     36|  878|            MPD_volumeSet(my_data, vol);
-     36|  879|
-     36|  880|            if(iDomTOOLS::isItDay() == false){
-     36|  881|                my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[2],fromVol,vol);
-     36|  882|            }
-     36|  883|        }
-      4|  884|        else{
-      4|  885|            my_data->alarmTime.state = STATE::DEACTIVE;
-      4|  886|            if(iDomTOOLS::isItDay() == false){
-      4|  887|                // my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
-      4|  888|            }
-      4|  889|        }
-     40|  890|    }
-     40|  891|}
-       |  892|
-       |  893|void iDomTOOLS::saveState_iDom()
-    188|  894|{
-    188|  895|    iDom_SAVE_STATE info(my_data->server_settings->saveFilePath);
-    188|  896|    nlohmann::json jsonAlarm;
-    188|  897|    nlohmann::json jsonMPD;
-    188|  898|    nlohmann::json json_iDomLOCK;
-    188|  899|    nlohmann::json json433Mhz;
-    188|  900|    //////////////////// iDom
-    188|  901|    json_iDomLOCK["iDomLock"] = stateToString(my_data->idom_all_state.houseState);
-    188|  902|    //////////////////// alarm
-    188|  903|    jsonAlarm["alarm"] = my_data->main_iDomStatus->getObjectStateString("alarm");
-    188|  904|    jsonAlarm["time"]  = my_data->alarmTime.time.getString();
-    188|  905|    jsonAlarm["fromVolume"] = my_data->alarmTime.fromVolume;
-    188|  906|    jsonAlarm["toVolume"] = my_data->alarmTime.toVolume;
-    188|  907|    jsonAlarm["radioID"] = my_data->alarmTime.radioID;
-    188|  908|    //////////////////// mpd
-    188|  909|    jsonMPD["music"] = my_data->main_iDomStatus->getObjectStateString("music");
-    188|  910|    jsonMPD["speakers"] = my_data->main_iDomStatus->getObjectStateString("speakers");
-    188|  911|    ////////////////// 433Mhz
-    188|  912|    auto switch433vector = my_data->main_REC->getSwitchPointerVector();
-    188|  913|    for (auto v : switch433vector)
-    940|  914|    {
-    940|  915|        v->getName();
-    940|  916|        json433Mhz[v->getName()] = stateToString(v->getState());
-    940|  917|    }
-    188|  918|    ///
-    188|  919|    nlohmann::json json;
-    188|  920|    json["iDom"] = json_iDomLOCK;
-    188|  921|    json["ALARM"] = jsonAlarm;
-    188|  922|    json["MPD"] = jsonMPD;
-    188|  923|    json["433Mhz"] = json433Mhz;
-    188|  924|
-    188|  925|    info.write(json);
-    188|  926|#ifdef BT_TEST
-    188|  927|    std::cout << json <<std::endl;
-    188|  928|    std::cout << " saved to " << my_data->server_settings->saveFilePath <<std::endl;
-    188|  929|#endif
-    188|  930|}
-       |  931|
-       |  932|void iDomTOOLS::readState_iDom()
-      4|  933|{
-      4|  934|    try
-      4|  935|    {
-      4|  936|        iDom_SAVE_STATE info(my_data->server_settings->saveFilePath);
-      4|  937|        nlohmann::json jj = info.read();
-      4|  938|#ifdef BT_TEST
-      4|  939|        std::cout << "JSON: " << jj.dump(4) << std::endl;
-      4|  940|#endif
-      4|  941|        nlohmann::json json433MHz = jj.at("433Mhz");
-      4|  942|
-     24|  943|        for (nlohmann::json::iterator it = json433MHz.begin(); it != json433MHz.end(); ++it)
-     20|  944|        {
-     20|  945|            if( it.value() == "ON"){
-      0|  946|                my_data->main_iDomTools->turnOn433MHzSwitch(it.key());
-      0|  947|            }
-     20|  948|            else if ( it.value() == "OFF"){
-      0|  949|                my_data->main_iDomTools->turnOff433MHzSwitch(it.key());
-      0|  950|            }
-     20|  951|        }
-      4|  952|        auto iDomLock = jj.at("iDom").at("iDomLock").get<std::string>();
-      4|  953|
-      4|  954|        if(iDomLock == "UNLOCK")
-      0|  955|            unlockHome();
-      4|  956|        else if (iDomLock == "LOCK")
-      4|  957|            lockHome();
+       |  841|std::string iDomTOOLS::ledClear()
+      4|  842|{
+      4|  843|    return useful_F::send_to_arduino(my_data,"LED_CLEAR:2;");
+      4|  844|}
+       |  845|
+       |  846|std::string iDomTOOLS::ledClear(unsigned int from, unsigned int to)
+     52|  847|{
+     52|  848|    LED_Strip ledColor(0,60,0,0,0,"BLACK");
+     52|  849|    useful_F::send_to_arduino(my_data,ledColor.get(from, to));
+     52|  850|    return "Led cleared";
+     52|  851|}
+       |  852|
+       |  853|std::string iDomTOOLS::ledOn(const LED_Strip& ledColor, unsigned int from, unsigned int to)
+     84|  854|{
+     84|  855|    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
+     12|  856|    {
+     12|  857|        return useful_F::send_to_arduino(my_data,ledColor.get(from, to));
+     12|  858|    }
+     72|  859|    else{
+     72|  860|        my_data->myEventHandler.run("LED")->addEvent("LED can not start due to home state: "+
+     72|  861|                                                     stateToString(my_data->idom_all_state.houseState));
+     72|  862|    }
+     72|  863|    return "iDom LOCKED!";
+     84|  864|}
+       |  865|
+       |  866|void iDomTOOLS::checkAlarm()
+     40|  867|{
+     40|  868|    unsigned int fromVol = my_data->alarmTime.fromVolume;
+     40|  869|    unsigned int toVol   = my_data->alarmTime.toVolume;
+     40|  870|    unsigned int radioId = my_data->alarmTime.radioID;
+     40|  871|
+     40|  872|    Clock now = Clock::getTime();
+     40|  873|    if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
+      4|  874|        my_data->alarmTime.state = STATE::WORKING;
+      4|  875|        MPD_volumeSet(my_data, fromVol);
+      4|  876|        MPD_play(my_data,radioId);
+      4|  877|        my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
+      4|  878|    }
+     40|  879|
+     40|  880|    if (my_data->alarmTime.state == STATE::WORKING){
+     40|  881|        unsigned int vol = MPD_getVolume(my_data) + 1;
+     40|  882|        if (vol < toVol){
+     36|  883|            MPD_volumeSet(my_data, vol);
+     36|  884|
+     36|  885|            if(iDomTOOLS::isItDay() == false){
+     36|  886|                my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[2],fromVol,vol);
+     36|  887|            }
+     36|  888|        }
+      4|  889|        else{
+      4|  890|            my_data->alarmTime.state = STATE::DEACTIVE;
+      4|  891|            if(iDomTOOLS::isItDay() == false){
+      4|  892|                // my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
+      4|  893|            }
+      4|  894|        }
+     40|  895|    }
+     40|  896|}
+       |  897|
+       |  898|void iDomTOOLS::saveState_iDom()
+    188|  899|{
+    188|  900|    iDom_SAVE_STATE info(my_data->server_settings->saveFilePath);
+    188|  901|    nlohmann::json jsonAlarm;
+    188|  902|    nlohmann::json jsonMPD;
+    188|  903|    nlohmann::json json_iDomLOCK;
+    188|  904|    nlohmann::json json433Mhz;
+    188|  905|    //////////////////// iDom
+    188|  906|    json_iDomLOCK["iDomLock"] = stateToString(my_data->idom_all_state.houseState);
+    188|  907|    //////////////////// alarm
+    188|  908|    jsonAlarm["alarm"] = my_data->main_iDomStatus->getObjectStateString("alarm");
+    188|  909|    jsonAlarm["time"]  = my_data->alarmTime.time.getString();
+    188|  910|    jsonAlarm["fromVolume"] = my_data->alarmTime.fromVolume;
+    188|  911|    jsonAlarm["toVolume"] = my_data->alarmTime.toVolume;
+    188|  912|    jsonAlarm["radioID"] = my_data->alarmTime.radioID;
+    188|  913|    //////////////////// mpd
+    188|  914|    jsonMPD["music"] = my_data->main_iDomStatus->getObjectStateString("music");
+    188|  915|    jsonMPD["speakers"] = my_data->main_iDomStatus->getObjectStateString("speakers");
+    188|  916|    ////////////////// 433Mhz
+    188|  917|    auto switch433vector = my_data->main_REC->getSwitchPointerVector();
+    188|  918|    for (auto v : switch433vector)
+    940|  919|    {
+    940|  920|        v->getName();
+    940|  921|        json433Mhz[v->getName()] = stateToString(v->getState());
+    940|  922|    }
+    188|  923|    ///
+    188|  924|    nlohmann::json json;
+    188|  925|    json["iDom"] = json_iDomLOCK;
+    188|  926|    json["ALARM"] = jsonAlarm;
+    188|  927|    json["MPD"] = jsonMPD;
+    188|  928|    json["433Mhz"] = json433Mhz;
+    188|  929|
+    188|  930|    info.write(json);
+    188|  931|#ifdef BT_TEST
+    188|  932|    std::cout << json <<std::endl;
+    188|  933|    std::cout << " saved to " << my_data->server_settings->saveFilePath <<std::endl;
+    188|  934|#endif
+    188|  935|}
+       |  936|
+       |  937|void iDomTOOLS::readState_iDom()
+      4|  938|{
+      4|  939|    try
+      4|  940|    {
+      4|  941|        iDom_SAVE_STATE info(my_data->server_settings->saveFilePath);
+      4|  942|        nlohmann::json jj = info.read();
+      4|  943|#ifdef BT_TEST
+      4|  944|        std::cout << "JSON: " << jj.dump(4) << std::endl;
+      4|  945|#endif
+      4|  946|        nlohmann::json json433MHz = jj.at("433Mhz");
+      4|  947|
+     24|  948|        for (nlohmann::json::iterator it = json433MHz.begin(); it != json433MHz.end(); ++it)
+     20|  949|        {
+     20|  950|            if( it.value() == "ON"){
+      0|  951|                my_data->main_iDomTools->turnOn433MHzSwitch(it.key());
+      0|  952|            }
+     20|  953|            else if ( it.value() == "OFF"){
+      0|  954|                my_data->main_iDomTools->turnOff433MHzSwitch(it.key());
+      0|  955|            }
+     20|  956|        }
+      4|  957|        auto iDomLock = jj.at("iDom").at("iDomLock").get<std::string>();
       4|  958|
-      4|  959|        auto mpdMusic = jj.at("MPD").at("music").get<std::string>();
-      4|  960|        auto mpdSpeakers = jj.at("MPD").at("speakers").get<std::string>();
-      4|  961|
-      4|  962|        if(mpdMusic == "PLAY")
-      4|  963|            MPD_play(my_data);
-      0|  964|        else if(mpdMusic == "STOP")
-      0|  965|            MPD_stop();
-      4|  966|        if(mpdSpeakers == "ON")
-      4|  967|            turnOnSpeakers();
-      0|  968|        else if(mpdSpeakers == "OFF")
-      0|  969|            turnOffSpeakers();
-      4|  970|
-      4|  971|        auto alarmState = jj.at("ALARM").at("alarm").get<std::string>();
-      4|  972|        auto alarmTime  = jj.at("ALARM").at("time").get<std::string>();
-      4|  973|        my_data->alarmTime.fromVolume = jj.at("ALARM").at("fromVolume").get<int>();
-      4|  974|        my_data->alarmTime.toVolume = jj.at("ALARM").at("toVolume").get<int>();
-      4|  975|        my_data->alarmTime.radioID = jj.at("ALARM").at("radioID").get<int>();
-      4|  976|        my_data->alarmTime.time = Clock(alarmTime);
-      4|  977|
-      4|  978|        if (alarmState == "ACTIVE"){
-      4|  979|            my_data->alarmTime.state = STATE::ACTIVE;
-      4|  980|            my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
-      4|  981|            saveState_iDom();
-      4|  982|        }
-      4|  983|    }
-      4|  984|    catch(...)
-      0|  985|    {
-      0|  986|        log_file_mutex.mutex_lock();
-      0|  987|        log_file_cout << ERROR << "nie ma pliku json z stanem iDom"<< std::endl;
-      0|  988|        log_file_mutex.mutex_unlock();
-      0|  989|#ifdef BT_TEST
-      0|  990|        std::cout << "nie ma pliku json z stanem iDom" << std::endl;
-      0|  991|#endif
-      0|  992|    }
-      4|  993|}
-       |  994|
-       |  995|std::string iDomTOOLS::startKodi_Thread()
-     16|  996|{
-     16|  997|    STATE kodiState = my_data->main_iDomStatus->getObjectState("KODI");
-     16|  998|    if (kodiState == STATE::ACTIVE)
-      4|  999|        return "kodi already run";
-     16| 1000|
-     12| 1001|    return iDOM_THREAD::start_thread("kodi smartTV",useful_F::kodi,my_data);
-     16| 1002|}
+      4|  959|        if(iDomLock == "UNLOCK")
+      0|  960|            unlockHome();
+      4|  961|        else if (iDomLock == "LOCK")
+      4|  962|            lockHome();
+      4|  963|
+      4|  964|        auto mpdMusic = jj.at("MPD").at("music").get<std::string>();
+      4|  965|        auto mpdSpeakers = jj.at("MPD").at("speakers").get<std::string>();
+      4|  966|
+      4|  967|        if(mpdMusic == "PLAY")
+      4|  968|            MPD_play(my_data);
+      0|  969|        else if(mpdMusic == "STOP")
+      0|  970|            MPD_stop();
+      4|  971|        if(mpdSpeakers == "ON")
+      4|  972|            turnOnSpeakers();
+      0|  973|        else if(mpdSpeakers == "OFF")
+      0|  974|            turnOffSpeakers();
+      4|  975|
+      4|  976|        auto alarmState = jj.at("ALARM").at("alarm").get<std::string>();
+      4|  977|        auto alarmTime  = jj.at("ALARM").at("time").get<std::string>();
+      4|  978|        my_data->alarmTime.fromVolume = jj.at("ALARM").at("fromVolume").get<int>();
+      4|  979|        my_data->alarmTime.toVolume = jj.at("ALARM").at("toVolume").get<int>();
+      4|  980|        my_data->alarmTime.radioID = jj.at("ALARM").at("radioID").get<int>();
+      4|  981|        my_data->alarmTime.time = Clock(alarmTime);
+      4|  982|
+      4|  983|        if (alarmState == "ACTIVE"){
+      4|  984|            my_data->alarmTime.state = STATE::ACTIVE;
+      4|  985|            my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
+      4|  986|            saveState_iDom();
+      4|  987|        }
+      4|  988|    }
+      4|  989|    catch(...)
+      0|  990|    {
+      0|  991|        log_file_mutex.mutex_lock();
+      0|  992|        log_file_cout << ERROR << "nie ma pliku json z stanem iDom"<< std::endl;
+      0|  993|        log_file_mutex.mutex_unlock();
+      0|  994|#ifdef BT_TEST
+      0|  995|        std::cout << "nie ma pliku json z stanem iDom" << std::endl;
+      0|  996|#endif
+      0|  997|    }
+      4|  998|}
+       |  999|
+       | 1000|std::string iDomTOOLS::startKodi_Thread()
+     16| 1001|{
+     16| 1002|    STATE kodiState = my_data->main_iDomStatus->getObjectState("KODI");
+     16| 1003|    if (kodiState == STATE::ACTIVE)
+      4| 1004|        return "kodi already run";
+     16| 1005|
+     12| 1006|    return iDOM_THREAD::start_thread("kodi smartTV",useful_F::kodi,my_data);
+     16| 1007|}
 
 /mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/idomtools_mpd.cpp:
        |    1|#include "idomtools.h"
@@ -16520,7 +16525,7 @@
       4|  204|    test_idomTOOLS->unlockHome();
       4|  205|    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
       4|  206|
-     12|  207|    for(auto i : {1,2,3}){
+     16|  207|    for(auto i =0 ; i < 3; ++i){
      12|  208|        test_idomTOOLS->button433MHzPressedAction("locker");
      12|  209|    }
       4|  210|    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
@@ -17151,56 +17156,56 @@
        |   82| 
        |   83|
        |   84|void Logger::flush()
-    342|   85|{
-    342|   86|  if (_line_level >= _level) {
-    309|   87|    _log << get_time() << " -- [" << level_str(_line_level) << "] -- " << str();
-    309|   88|    _log.flush();
-    309|   89|  }
-    342|   90|  else
+    346|   85|{
+    346|   86|  if (_line_level >= _level) {
+    313|   87|    _log << get_time() << " -- [" << level_str(_line_level) << "] -- " << str();
+    313|   88|    _log.flush();
+    313|   89|  }
+    346|   90|  else
      33|   91|  {
      33|   92|      _log << get_time() << " -- [" << level_str(_line_level) << "] -- " << str();
      33|   93|      _log.flush();
      33|   94|  }
-    342|   95|
-    342|   96|  str("");
-    342|   97|  _line_level = VERBOSE;
-    342|   98|}
+    346|   95|
+    346|   96|  str("");
+    346|   97|  _line_level = VERBOSE;
+    346|   98|}
        |   99|
        |  100|
        |  101|Logger& Logger::operator<<(const logger_level& level)
-    337|  102|{
-    337|  103|  _line_level = level;
-    337|  104|  return (*this);
-    337|  105|}
+    341|  102|{
+    341|  103|  _line_level = level;
+    341|  104|  return (*this);
+    341|  105|}
        |  106|
        |  107|
        |  108|Logger& Logger::operator<<(LoggerManip m)
-    342|  109|{ 
-    342|  110|  return m(*this);
-    342|  111|}
+    346|  109|{ 
+    346|  110|  return m(*this);
+    346|  111|}
        |  112|
        |  113|
        |  114|std::string Logger::get_time() const
-    342|  115|{
-    342|  116|  struct tm *timeinfo;
-    342|  117|  time_t rawtime;
-    342|  118|  char *time_buf;
-    342|  119|  
-    342|  120|  time(&rawtime);
-    342|  121|  timeinfo = localtime(&rawtime);
-    342|  122|  time_buf = asctime(timeinfo);
-    342|  123|  
-    342|  124|  std::string ret(time_buf);
-    342|  125|  if (!ret.empty() && ret[ret.length() - 1] == '\n') {
-    342|  126|    ret.erase(ret.length()-1);
-    342|  127|  }
-    342|  128|  
-    342|  129|  return (ret);
-    342|  130|}
+    346|  115|{
+    346|  116|  struct tm *timeinfo;
+    346|  117|  time_t rawtime;
+    346|  118|  char *time_buf;
+    346|  119|  
+    346|  120|  time(&rawtime);
+    346|  121|  timeinfo = localtime(&rawtime);
+    346|  122|  time_buf = asctime(timeinfo);
+    346|  123|  
+    346|  124|  std::string ret(time_buf);
+    346|  125|  if (!ret.empty() && ret[ret.length() - 1] == '\n') {
+    346|  126|    ret.erase(ret.length()-1);
+    346|  127|  }
+    346|  128|  
+    346|  129|  return (ret);
+    346|  130|}
        |  131|
        |  132|
        |  133|inline const char* Logger::level_str(const logger_level& level)
-    342|  134|{
+    346|  134|{
       0|  135|  switch (level) {
      13|  136|  case VERBOSE:
      13|  137|    return ("VERBOSE ");
@@ -17210,8 +17215,8 @@
     209|  141|    return ("  INFO  ");
      24|  142|  case WARNING:
      24|  143|    return ("WARNING ");
-     28|  144|  case ERROR:
-     28|  145|    return (" ERROR  ");
+     32|  144|  case ERROR:
+     32|  145|    return (" ERROR  ");
      44|  146|  case CRITICAL:
      44|  147|    return ("CRITICAL");
       4|  148|  case FATAL:
@@ -17219,16 +17224,16 @@
       0|  150|  default:
       0|  151|    assert(false);
       0|  152|  } 
-    342|  153|}
+    346|  153|}
        |  154|void Logger::mutex_lock()
-    337|  155|{
-    337|  156|    pthread_mutex_lock(&Logger::mutex_log);
-    337|  157|}
+    341|  155|{
+    341|  156|    pthread_mutex_lock(&Logger::mutex_log);
+    341|  157|}
        |  158|
        |  159|void Logger::mutex_unlock()
-    337|  160|{
-    337|  161|    pthread_mutex_unlock(&Logger::mutex_log);
-    337|  162|}
+    341|  160|{
+    341|  161|    pthread_mutex_unlock(&Logger::mutex_log);
+    341|  162|}
 
 /mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/menu_tree/menu_tree.cpp:
        |    1|#include "menu_tree.h"
@@ -18403,11 +18408,11 @@
        |  104|
        |  105|namespace std { 
        |  106|inline Logger& endl(Logger& out)
-    342|  107|{
-    342|  108|    out.put('\n');
-    342|  109|    out.flush();
-    342|  110|    return (out);
-    342|  111|}
+    346|  107|{
+    346|  108|    out.put('\n');
+    346|  109|    out.flush();
+    346|  110|    return (out);
+    346|  111|}
        |  112|}// end namespace std
        |  113|
        |  114|#endif

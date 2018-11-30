@@ -508,6 +508,11 @@ void iDomTOOLS::checkLightning()
                                           my_data->server_settings->viberReceiver.at(0),
                                           my_data->server_settings->viberSender);
 
+        if(stateMSG == STATE::SEND_NOK){
+            log_file_mutex.mutex_lock();
+            log_file_cout << ERROR << "nie wysłano informacje o burzy"<< std::endl;
+            log_file_mutex.mutex_unlock();
+        }
         stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "+EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
                                     +"\\n\\n "+lightningData.data.str() ,
                                     my_data->server_settings->viberReceiver.at(1),

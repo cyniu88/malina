@@ -67,7 +67,7 @@ TEST_F(commandArdu_Class_fixture, LockHome)
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
 
     test_v.push_back("20;EV1527;ID=01e7be;SWITCH=01;CMD=ON;");
-    for(auto i : {1,2,3}){
+    for(auto i = 0; i < 3; ++i){
         test_ardu->execute(test_v, &test_my_data);
     }
 
