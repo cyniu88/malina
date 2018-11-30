@@ -82,11 +82,11 @@ void menu_tree::back_dir()
         tree_stack.pop();
         std::string path = tree_stack.top();
         tree_stack.pop();
-        i=get_i();
+        i = get_i();
         get_list (path);
         return;
     }
-    i=get_i();
+    i = get_i();
     get_list (database_path);
     return;
 }
