@@ -1,6 +1,6 @@
 #include <strstream>
 #include "command_show.h"
-#include "../../src/functions/functions.h"
+#include "../../../src/functions/functions.h"
 
 command_show::command_show(const std::string &name):command(name)
 {

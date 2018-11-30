@@ -1,5 +1,5 @@
 #include "command_cmd.h"
-#include "../../src/functions/functions.h"
+#include "../../../src/functions/functions.h"
 
 command_cmd::command_cmd(const std::string &name):command(name)
 {

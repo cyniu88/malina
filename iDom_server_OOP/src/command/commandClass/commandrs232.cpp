@@ -1,5 +1,5 @@
 #include "commandrs232.h"
-#include "../../src/functions/functions.h"
+#include "../../../src/functions/functions.h"
 
 commandRS232::commandRS232(const std::string &name):command(name)
 {
