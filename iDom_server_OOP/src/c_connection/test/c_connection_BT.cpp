@@ -11,19 +11,19 @@ public:
     }
 
 protected:
-    C_connection* test_connection;
+    std::unique_ptr<C_connection> test_connection;
     void SetUp() final
     {
         std::cout << "c_connection_fixture SetUp()" << std::endl;
         iDomTOOLS_ClassTest::SetUp();
-        test_connection = new C_connection(&test_my_data);
+        test_connection = std::make_unique<C_connection>(&test_my_data);
         test_connection->m_encriptionKey = "key";
         test_connection->m_encrypted = false;
         test_connection->c_socket = 0;
     }
     void TearDown() final
     {
-        delete test_connection;
+        //delete test_connection;
         iDomTOOLS_ClassTest::TearDown();
         std::cout << "c_connection_fixture TearDown()" << std::endl;
     }

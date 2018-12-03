@@ -9,7 +9,7 @@ public:
     thread_data test_my_data;
     config test_server_set;
     iDomSTATUS test_status;
-    RFLinkHandler* test_RFLink;
+    std::unique_ptr<RFLinkHandler> test_RFLink;
 
     void SetUp() final
     {
@@ -18,11 +18,10 @@ public:
         test_server_set.RFLinkPort = "/dev/fakePortRS232";
         test_my_data.server_settings = &test_server_set;
         test_my_data.main_iDomStatus = &test_status;
-        test_RFLink = new RFLinkHandler(&test_my_data);
+        test_RFLink = std::make_unique<RFLinkHandler>(&test_my_data);
     }
     void TearDown() final
     {
-        delete test_RFLink;
     }
 };
 
