@@ -108,6 +108,15 @@ TEST_F(command_program_Class_fixture, debugeVariableProgram)
     test_my_data.main_RFLink = &test_RFLinkkHandler;
     test_my_data.main_RFLink->okTime = 777;
     test_my_data.main_RFLink->pingTime = 888;
+    test_my_data.server_settings->PORT = 88;
+    test_my_data.server_settings->v_delay = 1;
+    test_my_data.sleeper = 1;
+    test_my_data.now_time = 123;
+    test_my_data.start = 12;
+    int32_t buf = 1;
+    unsigned int who = 0;
+    test_my_data.pointer.ptr_buf = &buf;
+    test_my_data.pointer.ptr_who = &who;
 
     test_v.clear();
     test_v.push_back("program");

@@ -19,6 +19,7 @@ protected:
         test_connection = new C_connection(&test_my_data);
         test_connection->m_encriptionKey = "key";
         test_connection->m_encrypted = false;
+        test_connection->c_socket = 0;
     }
     void TearDown() final
     {

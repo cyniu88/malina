@@ -112,7 +112,7 @@ bool comper (const movie_database & a , const movie_database& b);
 void menu_tree::get_list(const std::string& path) {
     tree_stack.push(path);
     vector_clear(); // czyscimy vector
-    std::string path2 =path;
+    std::string path2(path);
     std::string v_path ,tmp_string;
     if(sciezka = opendir( path.c_str() )) {
 
