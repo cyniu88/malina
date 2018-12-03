@@ -102,8 +102,8 @@ TEST_F(Switch_Class_fixture, add_and_erase_switch)
 
 TEST_F(Switch_Class_fixture, loadConfig)
 {
-    //RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_my_data.main_REC->loadConfig("/mnt/ramdisk/433_eq_conf_fake.json");
+    RADIO_EQ_CONTAINER test_rec(&test_my_data);
+    test_rec.loadConfig("/mnt/ramdisk/433_eq_conf_fake.json");
 
     EXPECT_FALSE(test_my_data.main_REC->nameExist("firstt"));
     EXPECT_TRUE(test_my_data.main_REC->nameExist("locker"));
