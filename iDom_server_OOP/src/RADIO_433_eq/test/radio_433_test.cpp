@@ -18,19 +18,19 @@ class Switch_Class_fixture : public iDomTOOLS_ClassTest
 };
 TEST_F(Switch_Class_fixture, getSwitchPointerVector)
 {
-    auto v = test_rec.getSwitchPointerVector();
+    auto v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
 }
 
 TEST_F(Switch_Class_fixture, getButtonPointerVector)
 {
-    auto v = test_rec.getButtonPointerVector();
+    auto v = test_rec->getButtonPointerVector();
     EXPECT_EQ(v.size(),1);
 }
 
 TEST_F(Switch_Class_fixture, switch_alarm_on)
 {
-    RADIO_SWITCH* ptr = dynamic_cast<RADIO_SWITCH*>(test_rec.getEqPointer("ALARM"));
+    RADIO_SWITCH* ptr = dynamic_cast<RADIO_SWITCH*>(test_rec->getEqPointer("ALARM"));
 
     EXPECT_EQ(ptr->getType(),RADIO_EQ_TYPE::SWITCH);
     puts("radio switch type");
@@ -63,10 +63,10 @@ TEST_F(Switch_Class_fixture, weatherStruct)
 
 TEST_F(Switch_Class_fixture, read_write_config_json)
 {
-    auto v = test_rec.getSwitchPointerVector();
+    auto v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
-    test_rec.saveConfig(test_server_set.radio433MHzConfigFile);
-    v = test_rec.getSwitchPointerVector();
+    test_rec->saveConfig(test_server_set.radio433MHzConfigFile);
+    v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
 }
 TEST_F(Switch_Class_fixture, addUnexistsRadioEq)
@@ -75,43 +75,43 @@ TEST_F(Switch_Class_fixture, addUnexistsRadioEq)
     tCfg.name = "cyniu";
     tCfg.ID = "8899";
     std::string _name = tCfg.name;
-    EXPECT_FALSE(test_rec.nameExist(_name));
-    test_rec.addRadioEq(tCfg, "PIR");
-    EXPECT_FALSE(test_rec.nameExist(_name));
+    EXPECT_FALSE(test_rec->nameExist(_name));
+    test_rec->addRadioEq(tCfg, "PIR");
+    EXPECT_FALSE(test_rec->nameExist(_name));
 }
 
 TEST_F(Switch_Class_fixture, add_and_erase_switch)
 {
     RADIO_EQ_CONFIG tCfg;
     tCfg.name = "test";
-    test_rec.addRadioEq(tCfg, RADIO_EQ_TYPE::SWITCH);
-    auto v = test_rec.getSwitchPointerVector();
+    test_rec->addRadioEq(tCfg, RADIO_EQ_TYPE::SWITCH);
+    auto v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),6);
-    test_rec.saveConfig(test_server_set.radio433MHzConfigFile);
-    v = test_rec.getSwitchPointerVector();
+    test_rec->saveConfig(test_server_set.radio433MHzConfigFile);
+    v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),6);
 
     ///////delete
-    test_rec.deleteRadioEq(tCfg.name);
-    v = test_rec.getSwitchPointerVector();
+    test_rec->deleteRadioEq(tCfg.name);
+    v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
-    test_rec.saveConfig(test_server_set.radio433MHzConfigFile);
-    v = test_rec.getSwitchPointerVector();
+    test_rec->saveConfig(test_server_set.radio433MHzConfigFile);
+    v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
 }
 
 TEST_F(Switch_Class_fixture, loadConfig)
 {
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/mnt/ramdisk/433_eq_conf_fake.json");
+    //RADIO_EQ_CONTAINER test_rec(&test_my_data);
+    test_my_data.main_REC->loadConfig("/mnt/ramdisk/433_eq_conf_fake.json");
 
-    EXPECT_FALSE(test_rec.nameExist("firstt"));
-    EXPECT_TRUE(test_rec.nameExist("locker"));
+    EXPECT_FALSE(test_my_data.main_REC->nameExist("firstt"));
+    EXPECT_TRUE(test_my_data.main_REC->nameExist("locker"));
 }
 
 TEST_F(Switch_Class_fixture, getUnexistPtr)
 {
-    EXPECT_THROW(test_rec.getEqPointer("kokos"),std::string);
+    EXPECT_THROW(test_my_data.main_REC->getEqPointer("kokos"),std::string);
 }
 
 TEST_F(Switch_Class_fixture, onLock_onUnlock_HOME)
@@ -121,7 +121,7 @@ TEST_F(Switch_Class_fixture, onLock_onUnlock_HOME)
     tCfg.ID = "8899";
     tCfg.lock =  "ON";
 
-    auto testRadioS = static_cast<RADIO_SWITCH*>(test_rec.getEqPointer("C"));
+    auto testRadioS = static_cast<RADIO_SWITCH*>(test_rec->getEqPointer("C"));
     testRadioS->setCode(tCfg);
     testRadioS->onLockHome();
     std::string eventStr = test_my_data.myEventHandler.run("iDom")->getEvent();

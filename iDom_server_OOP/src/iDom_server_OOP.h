@@ -265,7 +265,7 @@ struct thread_data{
     iDomSTATUS *main_iDomStatus;
     iDOM_STATE idom_all_state;
     ALERT alarmTime;
-    RADIO_EQ_CONTAINER *main_REC;
+    std::shared_ptr<RADIO_EQ_CONTAINER> main_REC;
     iDomStateEnum iDomProgramState = iDomStateEnum::WORKING;
 };
 
