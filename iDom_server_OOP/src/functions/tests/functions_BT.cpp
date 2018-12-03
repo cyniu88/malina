@@ -106,14 +106,6 @@ TEST_F(functions_fixture, sleepThread)
     test_my_data.alarmTime.time = Clock::getTime();
     test_my_data.alarmTime.state = STATE::ACTIVE;
 
-    RADIO_EQ_CONFIG cfg;
-    cfg.name = "listwa";
-    cfg.ID = "209888";
-    cfg.onCode = "send ON";
-    cfg.offCode= "send OFF";
-    RADIO_EQ* test_RS = new RADIO_SWITCH(&test_my_data,cfg,RADIO_EQ_TYPE::SWITCH);
-    //EXPECT_CALL(test_rec, getEqPointer("listwa")).WillRepeatedly(testing::Return(test_RS));
-
     test_my_data.sleeper = 10;
 
     blockQueue test_q;
@@ -121,6 +113,5 @@ TEST_F(functions_fixture, sleepThread)
     EXPECT_EQ(test_q._size(),0);
     useful_F::sleeper_mpd(&test_my_data,"test sleep");
     EXPECT_EQ(test_q._size(),1);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP)<<"NIE ZATRZYMANO MUZYKI :(";
-    delete test_RS;
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP) << "NIE ZATRZYMANO MUZYKI :(";
 }

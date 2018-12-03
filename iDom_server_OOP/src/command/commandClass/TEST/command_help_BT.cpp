@@ -27,29 +27,26 @@ protected:
 
 TEST_F(command_help_Class_fixture, all)
 {
-    commandHandlerRoot* chr = new commandHandlerRoot(&test_my_data);
+    std::unique_ptr<commandHandlerRoot> chr = std::make_unique<commandHandlerRoot>(&test_my_data);
     test_v.push_back("help");
     auto size = test_command_help->execute(test_v,&test_my_data).size();
     EXPECT_EQ(size,4376);
-    delete chr;
 }
 
 TEST_F(command_help_Class_fixture, one)
 {
-    commandHandlerRoot* chr = new commandHandlerRoot(&test_my_data);
+    std::unique_ptr<commandHandlerRoot> chr = std::make_unique<commandHandlerRoot>(&test_my_data);
     test_v.push_back("help");
     test_v.push_back("ok");
     auto ret = test_command_help->execute(test_v,&test_my_data);
     EXPECT_STREQ(ret.c_str(),"ok - confirmation msg server response: END \n");
-    delete chr;
 }
 
 TEST_F(command_help_Class_fixture, nonExistingCommand)
 {
-    commandHandlerRoot* chr = new commandHandlerRoot(&test_my_data);
+    std::unique_ptr<commandHandlerRoot> chr = std::make_unique<commandHandlerRoot>(&test_my_data);
     test_v.push_back("help");
     test_v.push_back("okdoki");
     auto ret = test_command_help->execute(test_v,&test_my_data);
     EXPECT_STREQ(ret.c_str(),"unknown command: okdoki help note not found");
-    delete chr;
 }

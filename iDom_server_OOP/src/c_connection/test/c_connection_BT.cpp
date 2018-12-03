@@ -23,7 +23,6 @@ protected:
     }
     void TearDown() final
     {
-        //delete test_connection;
         iDomTOOLS_ClassTest::TearDown();
         std::cout << "c_connection_fixture TearDown()" << std::endl;
     }

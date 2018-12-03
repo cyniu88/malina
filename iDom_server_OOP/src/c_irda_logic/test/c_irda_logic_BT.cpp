@@ -8,14 +8,14 @@
 class c_irda_logic_fixture : public iDomTOOLS_ClassTest
 {
 public:
-    c_irda_logic* test_irda;
+    std::unique_ptr<c_irda_logic> test_irda;
     menu_tree* test_menuTree;
     files_tree* test_filesTree;
     std::string test_omxplayerFile = "../config/cmd_test";
     void SetUp()
     {
         iDomTOOLS_ClassTest::SetUp();
-        test_irda = new c_irda_logic(&test_my_data);
+        test_irda = std::make_unique<c_irda_logic>(&test_my_data);
         test_menuTree = new menu_tree("../config/MENU/", test_my_data.mainLCD);
         test_my_data.main_MENU = test_menuTree;
 
@@ -29,7 +29,6 @@ public:
 
     void TearDown()
     {
-        delete test_irda;
         delete test_menuTree;
         delete test_filesTree;
         iDomTOOLS_ClassTest::TearDown();
