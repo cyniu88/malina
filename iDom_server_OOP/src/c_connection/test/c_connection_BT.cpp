@@ -6,8 +6,7 @@
 class c_connection_fixture : public iDomTOOLS_ClassTest
 {
 public:
-    c_connection_fixture() {
-        this->test_connection = std::nullptr_t();
+    c_connection_fixture():test_connection(std::nullptr_t()) {
     }
 
 protected:
