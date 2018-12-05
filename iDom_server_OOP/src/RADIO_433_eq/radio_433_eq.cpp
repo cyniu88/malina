@@ -260,6 +260,7 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
     std::ifstream myfile (filePath);
     if (myfile.is_open())
     {
+        m_radioEqMap.clear();
         nlohmann::json j;
         myfile >> j;
 

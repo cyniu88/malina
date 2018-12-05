@@ -4,7 +4,6 @@
 
 command_help::command_help(const std::string &name):command(name)
 {
-puts("dupa command_help");
 }
 
 std::string command_help::execute(std::vector<std::string> &v, thread_data *my_data)
