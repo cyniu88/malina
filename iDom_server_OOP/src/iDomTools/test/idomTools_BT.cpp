@@ -285,6 +285,9 @@ TEST_F(iDomTOOLS_ClassTest, saveState_readState)
     ////////////////////////////////// read
     test_idomTOOLS->readState_iDom();
     EXPECT_EQ(test_my_data.alarmTime.state,STATE::ACTIVE);
+
+    test_my_data.server_settings->saveFilePath = "null";
+    EXPECT_NO_THROW(test_idomTOOLS->readState_iDom());
 }
 
 TEST_F(iDomTOOLS_ClassTest, getLightningStruct)
