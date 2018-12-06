@@ -204,7 +204,7 @@ void c_irda_logic::movieLogic(PILOT_KEY X)
 
             std::string command = "/home/pi/programowanie/iDom_server_OOP/script/PYTHON/iDom_movie.py ";
             command+=my_data->main_tree->show_list();
-            system(command.c_str());
+            useful_F::runLinuxCommand(command);
             std::cout << " WYSTARTOWALEM!!";
             my_data->mainLCD->set_lcd_STATE(-1);
             my_data->mainLCD->printString(true,0,0,"odtwarzam film");
