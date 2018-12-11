@@ -393,6 +393,7 @@ TEST_F(command433MHz_Class_fixture, switchRF433)
     test_v.clear();
 }
 
+
 TEST_F(command433MHz_Class_fixture, sendRF433)
 {
     test_v.push_back("show");
@@ -405,6 +406,23 @@ TEST_F(command433MHz_Class_fixture, sendRF433)
     test_v.push_back("send");
     test_v.push_back("fake");
 
-     std::string retStr = test_command_433MHz->execute(test_v,&test_my_data);
+    std::string retStr = test_command_433MHz->execute(test_v,&test_my_data);
     EXPECT_THAT(retStr, testing::HasSubstr("sended"));
+}
+
+TEST_F(command433MHz_Class_fixture, fakeSwitchON)
+{
+    test_v.push_back("show");
+    test_v.push_back("all");
+    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    auto v = test_rec->getSwitchPointerVector();
+    EXPECT_EQ(v.size(),5);
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("switch");
+    test_v.push_back("ALARM-fake");
+    test_v.push_back("ON");
+
+    std::string retStr = test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_THAT(retStr, testing::HasSubstr(" not found ALARM-fake"));
 }

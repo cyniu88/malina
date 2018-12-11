@@ -410,6 +410,12 @@ TEST_F(iDomTOOLS_ClassTest, turn_On_Off_433MHzSwitch)
     EXPECT_EQ(test_status.getObjectState("B"),STATE::OFF);
 }
 
+TEST_F(iDomTOOLS_ClassTest, turn_On_Off_fake_433MHzSwitch)
+{
+   EXPECT_NO_THROW(test_idomTOOLS->turnOn433MHzSwitch("B-fake"));
+   EXPECT_NO_THROW(test_idomTOOLS->turnOff433MHzSwitch("B-fake"));
+}
+
 TEST_F(iDomTOOLS_ClassTest, turnOnOff433MHzSwitch)
 {
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;

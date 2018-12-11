@@ -69,6 +69,7 @@ TEST_F(Switch_Class_fixture, read_write_config_json)
     v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
 }
+
 TEST_F(Switch_Class_fixture, addUnexistsRadioEq)
 {
     RADIO_EQ_CONFIG tCfg;
