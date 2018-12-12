@@ -324,7 +324,7 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
                 nlohmann::json weatherJson = it.value();
                 cfg.name = weatherJson.at("name").get<std::string>();
                 cfg.ID   = weatherJson.at("id").get<std::string>();
-                cfg.type    = weatherJson.at("type").get<std::string>();
+                cfg.type = weatherJson.at("type").get<std::string>();
                 addRadioEq(cfg,RADIO_EQ_TYPE::WEATHER_S);
             }
         }
@@ -373,6 +373,22 @@ void RADIO_EQ_CONTAINER::saveConfig(const std::string& filePath)
     // write prettified JSON to another file
     std::ofstream o(filePath);
     o << std::setw(4) << m_configJson << std::endl;
+}
+
+std::string RADIO_EQ_CONTAINER::showConfig(const std::string &filePath)
+{
+    std::string ret = "can not open file ";
+    ret.append(filePath);
+
+    std::ifstream myfile (filePath);
+    if (myfile.is_open())
+    {
+        nlohmann::json j;
+        myfile >> j;
+
+        ret = j.dump(4);
+    }
+    return ret;
 }
 
 RADIO_EQ::RADIO_EQ()
