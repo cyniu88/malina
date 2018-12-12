@@ -1,4 +1,11 @@
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/ftplibpp/ftplib.h:
+/home/cyniu/GIT/WiringPi/wiringPi/wiringPi.h:
+    1|     12|#define LOW 0
+    2|      8|#define HIGH 1
+    3|       |
+    4|       |int  digitalRead         (int pin) ;
+    5|       |void digitalWrite (int pin, int value) ;
+
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/ftplibpp/ftplib.h:
     1|       |/***************************************************************************
     2|       |                          ftplib.h  -  description
     3|       |                             -------------------
@@ -210,7 +217,7 @@
   209|       |
   210|       |#endif
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/Statistic/statistic.h:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/Statistic/statistic.h:
     1|       |#ifndef STATISTIC_H
     2|       |#define STATISTIC_H
     3|       |#include <iostream>
@@ -625,7 +632,7 @@
   253|       |
   254|       |#endif // STATISTIC_H
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/Statistic/statistic_test/statistic_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/Statistic/statistic_test/statistic_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include <gmock/gmock.h>
     3|       |#include "../statistic.h"
@@ -861,7 +868,7 @@
   233|      2|    EXPECT_DOUBLE_EQ(28.62,average.mode()) << "ZLA DOMINANTA 32.13";
   234|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/emoji/emoji.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/emoji/emoji.cpp:
     1|       |#include <sstream>
     2|       |#include "emoji.h"
     3|       |
@@ -920,7 +927,7 @@
    56|     26|    return res;
    57|     26|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event/event_command.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event/event_command.cpp:
     1|       |#include "event_command.h"
     2|       |
     3|       |event_command::event_command(const std::string& name):  event_counters(name)
@@ -933,7 +940,7 @@
    10|      3|    return "event command";
    11|      3|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event/event_mpd.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event/event_mpd.cpp:
     1|       |#include "event_mpd.h"
     2|       |
     3|       |event_mpd::event_mpd(const std::string& name): event_counters(name)
@@ -946,7 +953,7 @@
    10|      2|    return "event from MPD";
    11|      2|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event/event_pilot.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event/event_pilot.cpp:
     1|       |#include "event_pilot.h"
     2|       |
     3|       |event_pilot::event_pilot(const std::string& name): event_counters(name)
@@ -959,7 +966,7 @@
    10|      3|    return "pilot events";
    11|      3|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event/event_unknown.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event/event_unknown.cpp:
     1|       |#include "event_unknown.h"
     2|       |
     3|       |event_unknown::event_unknown(const std::string& name) : event_counters(name), name(name)
@@ -972,7 +979,7 @@
    10|     38|    return  name+" event";
    11|     38|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event/new_connect_event.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event/new_connect_event.cpp:
     1|       |#include "new_connect_event.h"
     2|       |#include <iostream>
     3|       |new_Connect_Event::new_Connect_Event(const std::string& name) : event_counters(name)
@@ -996,7 +1003,7 @@
    21|       |
    22|       |
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event_counters.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event_counters.cpp:
     1|       |#include "event_counters.h"
     2|       |#include <iostream>
     3|       |#include <iomanip>
@@ -1097,7 +1104,7 @@
    98|     47|    return k;
    99|     47|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event_counters_handler.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/event_counters_handler.cpp:
     1|       |#include "event_counters_handler.h"
     2|       |#include "event/new_connect_event.h"
     3|       |#include "event/event_unknown.h"
@@ -1169,7 +1176,7 @@
    69|     52|    eventCountersMap.insert( std::make_pair( newUnknownEvent->getEventName(), newUnknownEvent ) );
    70|     52|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/test/event_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/event_counters/test/event_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include "test_data.h"
     3|       |#include "../../../iDom_server_OOP/src/iDomTools/test/iDomTools_fixture.h"
@@ -1282,7 +1289,7 @@
   110|      1|    EXPECT_EQ(mainEvent.run(testEvent)->getLast1minNumberEvent(),0);
   111|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/json/single_include/nlohmann/json.hpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/json/single_include/nlohmann/json.hpp:
     1|       |/*
     2|       |    __ _____ _____ _____
     3|       | __|  |   __|     |   | |  JSON for Modern C++
@@ -21479,7 +21486,7 @@
 18878|       |
 18879|       |#endif
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/sunrise-sunset/sunriseset.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/sunrise-sunset/sunriseset.cpp:
     1|       |#include "sunriseset.h"
     2|       |
     3|       |double SunRiseSet::FNday(int y, int m, int d, float h)
@@ -21808,7 +21815,7 @@
   326|     11|    return  gethrmn(settm);
   327|     11|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/useful/test/useful_bt.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/useful/test/useful_bt.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include <gmock/gmock.h>
     3|       |#include <sys/types.h>
@@ -21950,7 +21957,7 @@
   139|       |
   140|       |//}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/useful/useful.h:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/useful/useful.h:
     1|       |#ifndef Iusefull_H
     2|       |#define Iusefull_H
     3|       |
@@ -22272,7 +22279,7 @@
   304|       |
   305|       |#endif
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/libs/useful/usefull.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/libs/useful/usefull.cpp:
     1|       |#include "useful.h"
     2|       |#include <sys/fcntl.h>
     3|       |#include <unistd.h>
@@ -22393,10 +22400,10 @@
   118|     11|}
   119|       |
   120|       |size_t useful_F_libs::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
-  121|     20|{
-  122|     20|    ((std::string*)userp)->append((char*)contents, size * nmemb);
-  123|     20|    return size * nmemb;
-  124|     20|}
+  121|     23|{
+  122|     23|    ((std::string*)userp)->append((char*)contents, size * nmemb);
+  123|     23|    return size * nmemb;
+  124|     23|}
   125|       |
   126|       |std::string useful_F_libs::find_tag(const std::string& temp)
   127|     14|{
@@ -22515,7 +22522,7 @@
   240|      4|}
   241|       |#endif
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |
     3|       |#include "../rflinkhandler.h"
@@ -22588,7 +22595,7 @@
    70|      1|    EXPECT_EQ(retStr.size(), 0);
    71|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/433MHz/RFLink/rflinkhandler.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/433MHz/RFLink/rflinkhandler.cpp:
     1|       |#include <unistd.h>
     2|       |
     3|       |#include "rflinkhandler.h"
@@ -22696,7 +22703,7 @@
   105|     44|
   106|     44|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/433MHz/RFLink/rflinkhandler.h:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/433MHz/RFLink/rflinkhandler.h:
     1|       |#ifndef RFLINKHANDLER_H
     2|       |#define RFLINKHANDLER_H
     3|       |
@@ -22754,7 +22761,7 @@
    55|       |
    56|       |#endif // RFLINKHANDLER_H
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/LCD_c/test/lcd_c_stub.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/LCD_c/test/lcd_c_stub.cpp:
     1|       |#include <iostream>
     2|       |#include "../lcd_c.h"
     3|       |
@@ -22762,7 +22769,7 @@
     5|     55|    std::cout << "LCD_c::set_print_song_state(int i)" << i <<std::endl;
     6|     55|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.cpp:
     1|       |#include <iostream>
     2|       |#include <fstream>
     3|       |#include <sstream>
@@ -22953,10 +22960,10 @@
   188|  1.05k|    if (m != m_radioEqMap.end()){
   189|  1.05k|        return (m->second);
   190|  1.05k|    }
-  191|      5|    else
-  192|      5|    {
-  193|      5|        throw std::string("433MHz equipment not found "+name);
-  194|      5|    }
+  191|      6|    else
+  192|      6|    {
+  193|      6|        throw std::string("433MHz equipment not found "+name);
+  194|      6|    }
   195|      0|}
   196|       |
   197|       |std::vector<RADIO_SWITCH*> RADIO_EQ_CONTAINER::getSwitchPointerVector()
@@ -23184,7 +23191,7 @@
   419|     35|    return RADIO_EQ::m_config.ID;
   420|     35|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.h:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/RADIO_433_eq/radio_433_eq.h:
     1|       |#ifndef RADIO_SWITCH_H
     2|       |#define RADIO_SWITCH_H
     3|       |#include <gtest/gtest.h>
@@ -23395,7 +23402,7 @@
   208|       |
   209|       |#endif // RADIO_SWITCH_H
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/RADIO_433_eq/radio_button.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/RADIO_433_eq/radio_button.cpp:
     1|       |#include "radio_433_eq.h"
     2|       |/*
     3|       | * Najpierw możliwe do uzyskania funkcje załączania
@@ -23454,7 +23461,7 @@
    56|     39|    return RADIO_EQ::m_config.ID;
    57|     39|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/RADIO_433_eq/test/radio_433_test.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/RADIO_433_eq/test/radio_433_test.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include <gmock/gmock.h>
     3|       |#include "../radio_433_eq.h"
@@ -23608,7 +23615,7 @@
   151|      1|    EXPECT_THAT(eventStr, testing::HasSubstr("cyniu OFF due to 433MHz button pressed"));
   152|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/THERMOMETER_CONTAINER/test/thermometer_container_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/THERMOMETER_CONTAINER/test/thermometer_container_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include <gmock/gmock.h>
     3|       |#include "../../iDomTools/test/iDomTools_fixture.h"
@@ -23683,7 +23690,7 @@
    72|      1|    EXPECT_TRUE(testThermo.isMoreDiff("outside",15.5));
    73|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/THERMOMETER_CONTAINER/thermometer_container.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/THERMOMETER_CONTAINER/thermometer_container.cpp:
     1|       |#include "thermometer_container.h"
     2|       |
     3|       |THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string& name)
@@ -23779,7 +23786,7 @@
    93|      6|    std::cout << std::endl << "koniec prointowania w " << std::endl;
    94|      6|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/blockQueue/blockqueue.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/blockQueue/blockqueue.cpp:
     1|       |#include "blockqueue.h"
     2|       |#include "../iDom_server_OOP.h"
     3|       |
@@ -23820,10 +23827,10 @@
    38|     50|}
    39|       |
    40|       |int blockQueue::_size()
-   41|  37.9M|{
-   42|  37.9M|    std::lock_guard <std::mutex> lock (mutex_queue_char);
-   43|  37.9M|    return static_cast<int>(_MPD_CommandQ.size());
-   44|  37.9M|}
+   41|  48.5M|{
+   42|  48.5M|    std::lock_guard <std::mutex> lock (mutex_queue_char);
+   43|  48.5M|    return static_cast<int>(_MPD_CommandQ.size());
+   44|  48.5M|}
    45|       |
    46|       |void blockQueue::_clearAll()
    47|     66|{
@@ -23833,7 +23840,7 @@
    51|     17|     }
    52|     66|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/blockQueue/test/blockqueue_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/blockQueue/test/blockqueue_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include "../blockqueue.h"
     3|       |#include <thread>
@@ -23860,13 +23867,13 @@
    24|       |    static void getFromQ_thread()
    25|      1|    {
    26|      1|        blockQueue q;
-   27|  2.08k|        while(q._size() == 0 )
-   28|  2.08k|        {
-   29|  2.08k|        }
+   27|  1.36k|        while(q._size() == 0 )
+   28|  1.36k|        {
+   29|  1.36k|        }
    30|      1|        EXPECT_EQ(q._get(), MPD_COMMAND::STOP);
-   31|  37.9M|        while(q._size() == 0 )
-   32|  37.9M|        {
-   33|  37.9M|        }
+   31|  48.5M|        while(q._size() == 0 )
+   32|  48.5M|        {
+   33|  48.5M|        }
    34|      1|        EXPECT_EQ(q._get(), MPD_COMMAND::STOP);
    35|      1|    }
    36|       |
@@ -23923,7 +23930,7 @@
    87|      1|    test_q._clearAll();
    88|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_connection/c_connection.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_connection/c_connection.cpp:
     1|       |#include <iostream>
     2|       |#include "c_connection.h"
     3|       |
@@ -24053,7 +24060,7 @@
   127|      2|    str_buf = mainCommandHandler->run(command,my_data);
   128|      2|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_connection/c_connection.h:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_connection/c_connection.h:
     1|       |#ifndef C_CONNECTION_H
     2|       |#define C_CONNECTION_H
     3|       |#include <mutex>
@@ -24111,7 +24118,7 @@
    55|       |
    56|       |#endif // C_CONNECTION_H
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_connection/c_connection2.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_connection/c_connection2.cpp:
     1|       |#include "c_connection.h"
     2|       |#include <iostream>
     3|       |
@@ -24126,7 +24133,7 @@
    12|      3|    return str_buf;
    13|      3|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_connection/c_connection_node.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_connection/c_connection_node.cpp:
     1|       |
     2|       |#include "c_connection.h"
     3|       |#include <iostream>
@@ -24219,7 +24226,7 @@
    90|      2|    crypto(toEncrypt,m_encriptionKey,m_encrypted);
    91|      2|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_connection/test/c_connection_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_connection/test/c_connection_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include "../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -24345,7 +24352,7 @@
   123|      1|    EXPECT_STREQ(test_connection->getStr_buf().c_str(), "empty command");
   124|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_irda_logic/c_irda_logic.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_irda_logic/c_irda_logic.cpp:
     1|       |#include "c_irda_logic.h"
     2|       |#include "../iDom_server_OOP.h"
     3|       |#include "../thread_functions/iDom_thread.h"
@@ -24780,7 +24787,7 @@
   432|       |//    return irda_queue.size();
   433|       |//}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_irda_logic/test/c_irda_logic_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/c_irda_logic/test/c_irda_logic_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include "../../iDom_server_OOP.h"
     3|       |#include "test_data.h"
@@ -25136,7 +25143,7 @@
   353|      1|    test_irda->_add(PILOT_KEY::KEY_0);
   354|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/command.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/command.cpp:
     1|       |#include "command.h"
     2|       |
     3|       |command::command(const std::string &commandName ) : commandName(commandName)
@@ -25154,7 +25161,7 @@
    15|    156|    return commandName;
    16|    156|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_433mhz_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_433mhz_BT.cpp:
     1|       |#include "../command_433mhz.h"
     2|       |#include "../../../functions/functions.h"
     3|       |#include "../../../RADIO_433_eq/radio_433_eq.h"
@@ -25584,7 +25591,7 @@
   427|      1|    EXPECT_THAT(retStr, testing::HasSubstr(" not found ALARM-fake"));
   428|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_ardu_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_ardu_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include "../command_ardu.h"
     3|       |#include "../../../functions/functions.h"
@@ -25754,7 +25761,7 @@
   167|      1|    EXPECT_EQ(test_my_data.main_RFLink->pingTime, Clock::getUnixTime());
   168|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_big_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_big_BT.cpp:
     1|       |#include "../command_big.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -25791,7 +25798,7 @@
    34|      1|    EXPECT_EQ(ret.size(),s);
    35|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_clock_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_clock_BT.cpp:
     1|       |#include "../command_clock.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -25834,7 +25841,7 @@
    40|      1|    EXPECT_STREQ(ret.c_str(),"can not set clock");
    41|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_cmd_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_cmd_BT.cpp:
     1|       |#include "../command_cmd.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -25878,7 +25885,7 @@
    41|      1|    EXPECT_STREQ(ret.c_str(),"error: unknown parameter: 1234");
    42|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_event_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_event_BT.cpp:
     1|       |#include "../command_event.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -25976,7 +25983,7 @@
    95|      1|    EXPECT_THAT(ret,::testing::HasSubstr("event"));
    96|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_exit_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_exit_BT.cpp:
     1|       |#include "../commandexit.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -26011,7 +26018,7 @@
    32|      1|    EXPECT_STREQ(ret.c_str(),"\nEND.\n");
    33|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_hello_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_hello_BT.cpp:
     1|       |#include "../command_hello.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -26046,7 +26053,7 @@
    32|      1|    EXPECT_STREQ(ret.c_str(),"\nHI You User!\n");
    33|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_help_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_help_BT.cpp:
     1|       |#include "../command_help.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -26100,7 +26107,7 @@
    51|      1|    EXPECT_STREQ(ret.c_str(),"unknown command: okdoki help note not found");
    52|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_idom_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_idom_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |
     3|       |#include "../command_idom.h"
@@ -26449,8 +26456,8 @@
   346|      1|    std::array<Thread_array_struc,iDomConst::MAX_CONNECTION> test_ThreadArrayStruc;
   347|      1|
   348|     11|    for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
-  349|     10|        test_ThreadArrayStruc.at(i).thread_socket = i+1;
-  350|      1|    test_ThreadArrayStruc.at(3).thread_socket = 0;
+  349|     10|        test_ThreadArrayStruc.at(i).thread_socket = 0;
+  350|      1|    //test_ThreadArrayStruc.at(3).thread_socket = 0;
   351|      1|    test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
   352|      1|
   353|      1|    test_v.clear();
@@ -26458,22 +26465,24 @@
   355|      1|    test_v.push_back("KODI");
   356|      1|    retStr = test_command_iDom->execute(test_v, &test_my_data);
   357|      1|
-  358|      1|    sleep(1);
-  359|      1|    std::cout << "retString: " << retStr << std::endl;
-  360|      1|    EXPECT_THAT(retStr,testing::HasSubstr("STARTED"));
-  361|      1|
-  362|     11|    for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
-  363|     10|        test_ThreadArrayStruc[i].thread_socket = -1;
-  364|      1|    test_v.clear();
-  365|      1|    test_v.push_back("iDom");
-  366|      1|    test_v.push_back("KODI");
-  367|      1|    retStr = test_command_iDom->execute(test_v, &test_my_data);
-  368|      1|
-  369|      1|    std::cout << "retString: " << retStr << std::endl;
-  370|      1|    EXPECT_STREQ(retStr.c_str(),"not free space to new thread");
-  371|      1|}
+  358|      1|    //sleep(1);
+  359|      1|    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+  360|      1|
+  361|      1|    std::cout << "retString: " << retStr << std::endl;
+  362|      1|    EXPECT_THAT(retStr,testing::HasSubstr("STARTED"));
+  363|      1|
+  364|     11|    for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+  365|     10|        test_ThreadArrayStruc[i].thread_socket = -1;
+  366|      1|    test_v.clear();
+  367|      1|    test_v.push_back("iDom");
+  368|      1|    test_v.push_back("KODI");
+  369|      1|    retStr = test_command_iDom->execute(test_v, &test_my_data);
+  370|      1|
+  371|      1|    std::cout << "retString: " << retStr << std::endl;
+  372|      1|    EXPECT_STREQ(retStr.c_str(),"not free space to new thread");
+  373|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_ip_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_ip_BT.cpp:
     1|       |#include "../command_ip.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -26509,7 +26518,7 @@
    33|      1|    EXPECT_STREQ(ret.c_str(),"iDom server IP: 100.001.1.0");
    34|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_log_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_log_BT.cpp:
     1|       |#include "../command_log.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -26592,7 +26601,7 @@
    80|      1|    EXPECT_THAT(ret, ::testing::HasSubstr("DONE!"));
    81|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_mpd_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_mpd_BT.cpp:
     1|       |#include "../command_mpd.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -26786,7 +26795,7 @@
   191|      1|    EXPECT_EQ(test_my_data.ptr_MPD_info->currentSongID, 3);
   192|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_ok_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_ok_BT.cpp:
     1|       |#include "../command_ok.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -26821,7 +26830,7 @@
    32|      1|    EXPECT_STREQ(ret.c_str(),"\nEND\n");
    33|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_program_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_program_BT.cpp:
     1|       |#include "../command_program.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -26951,7 +26960,7 @@
   127|      1|    EXPECT_THAT(ret,testing::HasSubstr("END"));
   128|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_put_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_put_BT.cpp:
     1|       |#include "../command_put.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -26989,7 +26998,7 @@
    35|      1|    EXPECT_STREQ(ret.c_str(), "DONE");
    36|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_rs232_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_rs232_BT.cpp:
     1|       |#include "../commandrs232.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -27106,7 +27115,7 @@
   114|      1|    EXPECT_STREQ(ret.c_str(), "default");
   115|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_show_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_show_BT.cpp:
     1|       |#include "../command_show.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -27234,7 +27243,7 @@
   125|      1|    EXPECT_STREQ(ret.c_str(), "do you mean : show log no <string>?");
   126|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_sleep_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_sleep_BT.cpp:
     1|       |#include "../command_sleep.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -27324,7 +27333,7 @@
    87|      1|    sleep(1);
    88|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_state_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_state_BT.cpp:
     1|       |#include "../command_state.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -27378,7 +27387,7 @@
    51|      1|    EXPECT_THAT(ret, testing::HasSubstr("need parameter!\n"));
    52|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_test_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_test_BT.cpp:
     1|       |#include "../commandtest.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -27429,7 +27438,7 @@
    48|      1|    EXPECT_EQ(ret.size(),49);
    49|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_uptime_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/TEST/command_uptime_BT.cpp:
     1|       |#include "../command_uptime.h"
     2|       |#include "../../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -27466,7 +27475,7 @@
    34|      1|    EXPECT_STREQ(ret.c_str(),"uptime: \n0 day 0 hours 0 minutes 0 seconds");
    35|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_433mhz.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_433mhz.cpp:
     1|       |#include "command_433mhz.h"
     2|       |#include "../../RADIO_433_eq/radio_433_eq.h"
     3|       |#include "../../433MHz/RFLink/rflinkhandler.h"
@@ -27601,7 +27610,7 @@
   132|     43|    return help.str();
   133|     43|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_ardu.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_ardu.cpp:
     1|       |#include "command_ardu.h"
     2|       |
     3|       |command_ardu::command_ardu(const std::string &name):command(name)
@@ -27677,7 +27686,7 @@
    73|      3|              << " ping time: "<<my_data->main_RFLink->pingTime<< std::endl;
    74|      3|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_big.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_big.cpp:
     1|       |#include "command_big.h"
     2|       |
     3|       |command_big::command_big(const std::string &name):command(name)
@@ -27703,7 +27712,7 @@
    23|      2|    return "big <number> - send big (number) data \n";
    24|      2|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_clock.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_clock.cpp:
     1|       |#include "command_clock.h"
     2|       |#include "../../../src/functions/functions.h"
     3|       |
@@ -27725,7 +27734,7 @@
    19|      1|    return "clock <number/string> - put number/string (max 4 digits) to 7segment LCD\n";
    20|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_cmd.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_cmd.cpp:
     1|       |#include "command_cmd.h"
     2|       |#include "../../../src/functions/functions.h"
     3|       |
@@ -27747,7 +27756,7 @@
    19|      1|    return "cmd - read char prom cmd fifo file for unblock video player\n";
    20|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_event.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_event.cpp:
     1|       |#include "command_event.h"
     2|       |
     3|       |command_event::command_event(const std::string &name) :command(name)
@@ -27791,7 +27800,7 @@
    41|      1|    return help.str();
    42|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_hello.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_hello.cpp:
     1|       |#include "command_hello.h"
     2|       |
     3|       |command_hello::command_hello(const std::string &name):command(name)
@@ -27812,7 +27821,7 @@
    18|      1|    return "hello - send test message to server if connection is ok, the server response: \"HI!\"\n";
    19|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_help.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_help.cpp:
     1|       |#include "command_help.h"
     2|       |#include <vector>
     3|       |#include <algorithm>
@@ -27849,7 +27858,7 @@
    34|      1|    return "help - show help for all command \nhelp <parameter> - show help for command\n";
    35|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_idom.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_idom.cpp:
     1|       |#include "command_idom.h"
     2|       |#include "../../functions/functions.h"
     3|       |
@@ -28117,7 +28126,7 @@
   265|      3|    return help.str();
   266|      3|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_ip.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_ip.cpp:
     1|       |#include "command_ip.h"
     2|       |
     3|       |command_ip::command_ip(const std::string &name):command(name)
@@ -28134,7 +28143,7 @@
    14|      1|    return "ip - show server IP address\n";
    15|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_log.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_log.cpp:
     1|       |#include "command_log.h"
     2|       |
     3|       |command_log::command_log(const std::string &name):command(name)
@@ -28190,7 +28199,7 @@
    53|      1|
    54|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_mpd.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_mpd.cpp:
     1|       |#include "command_mpd.h"
     2|       |#include "../../blockQueue/blockqueue.h"
     3|       |#include "../../functions/functions.h"
@@ -28307,7 +28316,7 @@
   114|      1|    return help.str();
   115|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_ok.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_ok.cpp:
     1|       |#include "command_ok.h"
     2|       |
     3|       |command_ok::command_ok(const std::string &name):command(name)
@@ -28324,7 +28333,7 @@
    14|      2|    return "ok - confirmation msg server response: END \n";
    15|      2|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_program.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_program.cpp:
     1|       |#include "command_program.h"
     2|       |#include "../../functions/functions.h"
     3|       |#include "../../433MHz/RFLink/rflinkhandler.h"
@@ -28477,7 +28486,7 @@
   150|     12|    return help.str();
   151|     12|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_put.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_put.cpp:
     1|       |#include "command_put.h"
     2|       |#include "../../../src/CRON/cron.hpp"
     3|       |
@@ -28508,7 +28517,7 @@
    28|      1|    return help.str();
    29|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_show.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_show.cpp:
     1|       |#include <strstream>
     2|       |#include "command_show.h"
     3|       |#include "../../../src/functions/functions.h"
@@ -28599,7 +28608,7 @@
    88|      1|}
    89|       |
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_sleep.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_sleep.cpp:
     1|       |#include "command_sleep.h"
     2|       |#include "../../functions/functions.h"
     3|       |#include "../../thread_functions/iDom_thread.h"
@@ -28643,7 +28652,7 @@
    41|      1|    return help.str();
    42|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_state.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_state.cpp:
     1|       |#include "command_state.h"
     2|       |
     3|       |command_state::command_state(const std::string &name):command(name)
@@ -28676,7 +28685,7 @@
    30|      4|    return help.str();
    31|      4|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_uptime.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/command_uptime.cpp:
     1|       |#include "command_uptime.h"
     2|       |#include "../../../src/functions/functions.h"
     3|       |
@@ -28701,7 +28710,7 @@
    22|      1|    return help.str();
    23|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/commandexit.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/commandexit.cpp:
     1|       |#include "commandexit.h"
     2|       |
     3|       |commandEXIT::commandEXIT(const std::string &name):command(name)
@@ -28718,7 +28727,7 @@
    14|      1|    return "exit - disconnect from server\n";
    15|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/commandrs232.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/commandrs232.cpp:
     1|       |#include "commandrs232.h"
     2|       |#include "../../../src/functions/functions.h"
     3|       |
@@ -28797,7 +28806,7 @@
    76|      1|    return help.str();
    77|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/commandtest.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandClass/commandtest.cpp:
     1|       |#include "commandtest.h"
     2|       |#include "../../functions/functions.h"
     3|       |#include "../../../ftplibpp/ftplib.h"
@@ -28829,7 +28838,7 @@
    29|      2|    return help.str();
    30|      2|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandhandler.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandhandler.cpp:
     1|       |#include <iostream>
     2|       |#include "../../libs/emoji/emoji.h"
     3|       |#include "commandhandler.h"
@@ -28935,7 +28944,7 @@
   103|      2|    }
   104|      3|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandhandlerroot.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandhandlerroot.cpp:
     1|       |#include "commandhandlerroot.h"
     2|       |#include "commandClass/command_cmd.h"
     3|       |#include "commandClass/command_event.h"
@@ -28958,7 +28967,7 @@
    20|      7|    puts("commandHandlerRoot::~commandHandlerRoot()");
    21|      7|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandhandlerrs232.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/commandhandlerrs232.cpp:
     1|       |#include "commandhandlerrs232.h"
     2|       |#include "commandClass/command_cmd.h"
     3|       |#include "commandClass/command_event.h"
@@ -28974,7 +28983,7 @@
    13|      1|    puts("commandHandlerRS232::~commandHandlerRS232()");
    14|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/test/commandhandler_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/test/commandhandler_BT.cpp:
     1|       |#include "../commandhandlerrs232.h"
     2|       |#include "../../iDomTools/test/iDomTools_fixture.h"
     3|       |
@@ -29008,7 +29017,7 @@
    31|      1|    EXPECT_STREQ(ret.c_str(), "\nEND\n");
    32|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/test/commandhandler_stub.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/command/test/commandhandler_stub.cpp:
     1|       |#include "../../src/functions/functions.h"
     2|       |#include "../../src/LCD_c/lcd_c.h"
     3|       |
@@ -29028,7 +29037,7 @@
    17|      1|    return " data test";
    18|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/files_tree/files_tree.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/files_tree/files_tree.cpp:
     1|       |#include "files_tree.h"
     2|       |
     3|       |bool comper (const movie_database & a , const movie_database& b)
@@ -29176,7 +29185,7 @@
   145|     14|    }
   146|     14|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/functions/functions2.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/functions/functions2.cpp:
     1|       |#include <iostream>
     2|       |#include <fstream>
     3|       |#include <regex>
@@ -29334,11 +29343,11 @@
   155|       |
   156|       |int useful_F::findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array)
   157|      5|{
-  158|     24|    for (std::size_t i = 0; i< array->size(); ++i)
-  159|     23|    {
-  160|     23|        if (array->at(i).thread_socket == 0)
+  158|     21|    for (std::size_t i = 0; i< array->size(); ++i)
+  159|     20|    {
+  160|     20|        if (array->at(i).thread_socket == 0)
   161|      4|            return static_cast<int>(i);
-  162|     23|    }
+  162|     20|    }
   163|      5|    puts("return -1");
   164|      1|    return -1;
   165|      5|}
@@ -29365,7 +29374,7 @@
   186|      2|    return text.str();
   187|      2|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/functions/tests/functions_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/functions/tests/functions_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include "../functions.h"
     3|       |#include "../../RADIO_433_eq/radio_433_eq.h"
@@ -29484,7 +29493,7 @@
   116|      2|    EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP) << "NIE ZATRZYMANO MUZYKI :(";
   117|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/functions/tests/functions_stub.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/functions/tests/functions_stub.cpp:
     1|       |#include "../functions.h"
     2|       |#include "test_data.h"
     3|       |
@@ -29509,7 +29518,7 @@
    22|     51|    return TEST_DATA::return_send_to_arduino;
    23|     51|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomSaveState/idom_save_state.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomSaveState/idom_save_state.cpp:
     1|       |#include <iostream>     // std::cout
     2|       |#include <fstream>
     3|       |#include "idom_save_state.h"
@@ -29552,7 +29561,7 @@
    40|     50|    o << std::setw(4) << jj << std::endl;
    41|     50|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomSaveState/test/iDomSaveState_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomSaveState/test/iDomSaveState_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |
     3|       |#include "test_data.h"
@@ -29581,7 +29590,7 @@
    26|      2|    EXPECT_TRUE(test_json2.at("happy").get<bool>()) << " nie jest happy";
    27|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomStatus/idomstatus.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomStatus/idomstatus.cpp:
     1|       |#include "idomstatus.h"
     2|       |
     3|       |iDomSTATUS::iDomSTATUS()
@@ -29609,15 +29618,15 @@
    25|    108|}
    26|       |
    27|       |STATE iDomSTATUS::getObjectState(const std::string& name)
-   28|     77|{
-   29|     77|    std::lock_guard < std::mutex > lock ( m_lockGuard);
-   30|     77|    auto i = m_stateMAP.find(name);
-   31|     77|    if (i != m_stateMAP.end())
+   28|     78|{
+   29|     78|    std::lock_guard < std::mutex > lock ( m_lockGuard);
+   30|     78|    auto i = m_stateMAP.find(name);
+   31|     78|    if (i != m_stateMAP.end())
    32|     69|    {
    33|     69|        return i->second;
    34|     69|    }
-   35|      8|    return STATE::UNKNOWN;
-   36|      8|}
+   35|      9|    return STATE::UNKNOWN;
+   36|      9|}
    37|       |
    38|       |std::string iDomSTATUS::getObjectStateString(const std::string& name)
    39|    150|{
@@ -29643,7 +29652,7 @@
    59|      3|    return st.str();
    60|      3|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/idomtools.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/idomtools.cpp:
     1|       |#include <algorithm>
     2|       |#include <fstream>
     3|       |#include <string>
@@ -29922,17 +29931,17 @@
   276|      4|}
   277|       |
   278|       |void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)
-  279|      4|{
-  280|      4|    STATE listwaState = my_data->main_iDomStatus->getObjectState(name);
-  281|      4|    RADIO_SWITCH *m_switch = nullptr;
-  282|      4|    try {
-  283|      4|        m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(name));
-  284|      4|    } catch (const std::string& e) {
-  285|      0|        log_file_mutex.mutex_lock();
-  286|      0|        log_file_cout << CRITICAL << " void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name) "<< e << std::endl;
-  287|      0|        log_file_mutex.mutex_unlock();
-  288|      0|        return;
-  289|      0|    }
+  279|      5|{
+  280|      5|    STATE listwaState = my_data->main_iDomStatus->getObjectState(name);
+  281|      5|    RADIO_SWITCH *m_switch = nullptr;
+  282|      5|    try {
+  283|      5|        m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(name));
+  284|      5|    } catch (const std::string& e) {
+  285|      1|        log_file_mutex.mutex_lock();
+  286|      1|        log_file_cout << CRITICAL << " void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name) "<< e << std::endl;
+  287|      1|        log_file_mutex.mutex_unlock();
+  288|      1|        return;
+  289|      1|    }
   290|      4|
   291|      4|    if (listwaState == STATE::ON){
   292|      2|        my_data->mainLCD->set_lcd_STATE(10);
@@ -30324,9 +30333,9 @@
   678|      3|    text << "Temperatura w pokoju: " << dayL[0] << " stopnia. \n";
   679|      3|    text << "Smog: " << smogText << " mg/m^3. \n";
   680|      3|    if (smogInt > 50){
-  681|      3|        int result = smogInt *2;
-  682|      3|        text << "UWAGA! Maksymalna wartość przekroczona " << result << "%.";
-  683|      3|    }
+  681|      0|        int result = smogInt *2;
+  682|      0|        text << "UWAGA! Maksymalna wartość przekroczona " << result << "%.";
+  683|      0|    }
   684|      3|    return text.str();
   685|      3|}
   686|       |
@@ -30684,7 +30693,7 @@
  1038|      3|    return iDOM_THREAD::start_thread("kodi smartTV",useful_F::kodi,my_data);
  1039|      3|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/idomtools_mpd.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/idomtools_mpd.cpp:
     1|       |#include "idomtools.h"
     2|       |#include "../blockQueue/blockqueue.h"
     3|       |#include "../functions/functions.h"
@@ -30766,7 +30775,7 @@
    79|     11|    return my_data->ptr_MPD_info->volume;
    80|     11|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/idomtools_system.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/idomtools_system.cpp:
     1|       |#include "idomtools.h"
     2|       |#include <sys/sysinfo.h>
     3|       |#include <sys/utsname.h>
@@ -30807,7 +30816,7 @@
    38|      2|}
    39|       |
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/lightning.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/lightning.cpp:
     1|       |#include "lightning.h"
     2|       |
     3|       |LIGHTNING::LIGHTNING()
@@ -30928,7 +30937,7 @@
   118|      4|}
   119|       |
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/lightning.h:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/lightning.h:
     1|       |#ifndef LIGHTNING_H
     2|       |#define LIGHTNING_H
     3|       |#include <iostream>
@@ -31103,7 +31112,7 @@
   172|       |
   173|       |#endif // LIGHTNING_H
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/test/iDomTools_fixture.h:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/test/iDomTools_fixture.h:
     1|       |#include <gtest/gtest.h>
     2|       |#include "test_data.h"
     3|       |#include "../idomtools.h"
@@ -31170,7 +31179,7 @@
    64|       |};
    65|       |
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/test/iDom_server_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/test/iDom_server_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include <curl/curl.h>
     3|       |#include "iDomTools_fixture.h"
@@ -31210,7 +31219,7 @@
    37|      1|    EXPECT_STREQ(test_LED.get(0,60).c_str(),"LED:[50-51-1-2-3];");
    38|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/test/idomTools_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include <curl/curl.h>
     3|       |
@@ -31627,253 +31636,254 @@
   414|      1|{
   415|      1|   EXPECT_NO_THROW(test_idomTOOLS->turnOn433MHzSwitch("B-fake"));
   416|      1|   EXPECT_NO_THROW(test_idomTOOLS->turnOff433MHzSwitch("B-fake"));
-  417|      1|}
-  418|       |
-  419|       |TEST_F(iDomTOOLS_ClassTest, turnOnOff433MHzSwitch)
-  420|      1|{
-  421|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-  422|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::UNKNOWN);
-  423|      1|    test_my_data.main_iDomStatus->setObjectState("B",STATE::ON);
-  424|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::ON);
-  425|      1|    test_idomTOOLS->turnOnOff433MHzSwitch("B");
-  426|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::OFF);
-  427|      1|    test_idomTOOLS->turnOnOff433MHzSwitch("B");
-  428|      1|    EXPECT_EQ(test_status.getObjectState("B"),STATE::ON);
-  429|      1|
-  430|      1|}
-  431|       |
-  432|       |TEST_F(iDomTOOLS_ClassTest, runOnSunset)
-  433|      1|{
-  434|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
-  435|      1|    test_idomTOOLS->runOnSunset();
-  436|      1|    std::string retStr = useful_F::myStaticData->myEventHandler.run("iDom")->getEvent();
-  437|      1|    EXPECT_THAT(retStr, testing::HasSubstr("433MHz can not start due to home state: LOCK"));
-  438|      1|
-  439|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-  440|      1|    auto ptr = static_cast<RADIO_SWITCH*>(test_my_data.main_REC->getEqPointer("B"));
-  441|      1|    ptr->m_state = STATE::ON;
-  442|      1|    test_idomTOOLS->runOnSunset();
-  443|      1|
-  444|      1|    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
-  445|      1|
-  446|      1|    RADIO_EQ_CONFIG cfg;
-  447|      1|    cfg.sunset = "on";
-  448|      1|    cfg.sunrise = "off";
-  449|      1|
-  450|      1|    ptr->setCode(cfg);
-  451|      1|    ptr->m_state = STATE::OFF;
-  452|      1|    test_idomTOOLS->runOnSunset();
-  453|      1|
-  454|      1|    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
-  455|      1|}
-  456|       |
-  457|       |TEST_F(iDomTOOLS_ClassTest, runOnSunrise)
-  458|      1|{
-  459|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
-  460|      1|    test_idomTOOLS->runOnSunrise();
-  461|      1|    std::string retStr = useful_F::myStaticData->myEventHandler.run("iDom")->getEvent();
-  462|      1|    EXPECT_THAT(retStr, testing::HasSubstr("433MHz can not start due to home state: LOCK"));
-  463|      1|
-  464|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-  465|      1|    auto ptr = static_cast<RADIO_SWITCH*>(test_my_data.main_REC->getEqPointer("B"));
-  466|      1|    ptr->m_state = STATE::OFF;
-  467|      1|    test_idomTOOLS->runOnSunrise();
-  468|      1|
-  469|      1|    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
-  470|      1|
-  471|      1|    RADIO_EQ_CONFIG cfg;
-  472|      1|    cfg.sunset = "off";
-  473|      1|    cfg.sunrise = "on";
-  474|      1|
-  475|      1|    ptr->setCode(cfg);
-  476|      1|
-  477|      1|    cfg.sunset = "on";
-  478|      1|    cfg.sunrise = "off";
-  479|      1|
-  480|      1|    ptr->setCode(cfg);
-  481|      1|    ptr->m_state = STATE::ON;
-  482|      1|    test_idomTOOLS->runOnSunrise();
-  483|      1|
-  484|      1|    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
-  485|      1|}
-  486|       |
-  487|       |TEST_F(iDomTOOLS_ClassTest, getSunrise_Sunset)
-  488|      1|{
-  489|      1|    std::string ret = test_idomTOOLS->getSunrise();
-  490|      1|    EXPECT_THAT(ret, testing::HasSubstr(":"));
-  491|      1|
-  492|      1|    ret = test_idomTOOLS->getSunset();
-  493|      1|    EXPECT_THAT(ret, testing::HasSubstr(":"));
-  494|      1|
-  495|      1|    ret = test_idomTOOLS->getSunrise(true);
-  496|      1|    EXPECT_THAT(ret, testing::HasSubstr("Sunrise time:"));
-  497|      1|
-  498|      1|    ret = test_idomTOOLS->getSunset(true);
-  499|      1|    EXPECT_THAT(ret, testing::HasSubstr("Sunset time:"));
-  500|      1|}
-  501|       |
-  502|       |TEST_F(iDomTOOLS_ClassTest, getDayLenght)
-  503|      1|{
-  504|      1|    std::string ret = test_idomTOOLS->getDayLenght();
-  505|      1|    EXPECT_THAT(ret, testing::HasSubstr(":"));
-  506|      1|
-  507|      1|    ret = test_idomTOOLS->getDayLenght(true);
-  508|      1|    EXPECT_THAT(ret, testing::HasSubstr("Day Lenght :"));
-  509|      1|}
-  510|       |
-  511|       |TEST_F(iDomTOOLS_ClassTest, getTextToSpeach)
-  512|      1|{
-  513|      1|    TEST_DATA::return_send_to_arduino = "22:23";
-  514|      1|    std::string ret = test_idomTOOLS->getTextToSpeach();
-  515|      1|    EXPECT_THAT(ret, testing::HasSubstr("Smog:"));
-  516|      1|    std::cout << "TEXT :"<< std::endl << ret << std::endl;
-  517|      1|}
-  518|       |
-  519|       |TEST_F(iDomTOOLS_ClassTest, mpd)
-  520|      1|{
-  521|      1|    MPD_info test_ptr_MPD;
-  522|      1|    test_ptr_MPD.volume = 3;
-  523|      1|    test_my_data.ptr_MPD_info = &test_ptr_MPD;
-  524|      1|    blockQueue test_q;
-  525|      1|    test_q._clearAll();
-  526|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
-  527|      1|    test_idomTOOLS->MPD_play(&test_my_data);
-  528|      1|    std::string retStr = useful_F::myStaticData->myEventHandler.run("MPD")->getEvent();
-  529|      1|    EXPECT_THAT(retStr, testing::HasSubstr("MPD can not start due to home state: LOCK"));
-  530|      1|    EXPECT_EQ(test_q._size(), 0);
-  531|      1|
-  532|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-  533|      1|    test_idomTOOLS->MPD_play(&test_my_data);
-  534|      1|    EXPECT_EQ(test_q._size(), 1);
-  535|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
-  536|      1|    EXPECT_EQ(test_q._size(), 0);
-  537|      1|    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  538|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
-  539|      1|
-  540|      1|    useful_F::myStaticData->myEventHandler.run("MPD")->clearEvent();
-  541|      1|    test_idomTOOLS->MPD_play(&test_my_data,2);
-  542|      1|    retStr = useful_F::myStaticData->myEventHandler.run("MPD")->getEvent();
-  543|      1|    EXPECT_THAT(retStr, testing::HasSubstr("MPD can not start due to home state: LOCK"));
-  544|      1|    EXPECT_EQ(test_q._size(), 0);
-  545|      1|
-  546|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-  547|      1|    test_idomTOOLS->MPD_play(&test_my_data,2);
-  548|      1|    EXPECT_EQ(test_q._size(), 1);
-  549|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY_ID);
-  550|      1|    EXPECT_EQ(test_q._size(), 0);
-  551|      1|    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  552|      1|
-  553|      1|    test_idomTOOLS->MPD_stop();
-  554|      1|    EXPECT_EQ(test_q._size(), 1);
-  555|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
-  556|      1|    EXPECT_EQ(test_q._size(), 0);
-  557|      1|
-  558|      1|    test_idomTOOLS->MPD_next();
-  559|      1|    EXPECT_EQ(test_q._size(), 1);
-  560|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::NEXT);
-  561|      1|    EXPECT_EQ(test_q._size(), 0);
-  562|      1|
-  563|      1|    test_idomTOOLS->MPD_prev();
-  564|      1|    EXPECT_EQ(test_q._size(), 1);
-  565|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::PREV);
-  566|      1|    EXPECT_EQ(test_q._size(), 0);
-  567|      1|
-  568|      1|    test_idomTOOLS->MPD_pause();
-  569|      1|    EXPECT_EQ(test_q._size(), 1);
-  570|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::PAUSE );
-  571|      1|    EXPECT_EQ(test_q._size(), 0);
-  572|      1|
-  573|      1|    test_idomTOOLS->MPD_volumeUp();
-  574|      1|    EXPECT_EQ(test_q._size(), 1);
-  575|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLUP );
-  576|      1|    EXPECT_EQ(test_q._size(), 0);
-  577|      1|
-  578|      1|    test_idomTOOLS->MPD_volumeDown();
-  579|      1|    EXPECT_EQ(test_q._size(), 1);
-  580|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLDOWN );
-  581|      1|    EXPECT_EQ(test_q._size(), 0);
-  582|      1|
-  583|      1|    test_idomTOOLS->MPD_volumeSet(&test_my_data, 99);
-  584|      1|    EXPECT_EQ(test_q._size(), 1);
-  585|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLSET );
-  586|      1|    EXPECT_EQ(test_q._size(), 0);
-  587|      1|    EXPECT_EQ(test_my_data.ptr_MPD_info->volume, 99);
-  588|      1|
-  589|      1|    EXPECT_EQ(test_idomTOOLS->MPD_getVolume(&test_my_data),99);
-  590|      1|
-  591|      1|}
-  592|       |
-  593|       |TEST_F(iDomTOOLS_ClassTest, getTemperatureString)
-  594|      1|{
-  595|      1|    TEST_DATA::return_send_to_arduino = "-2:2";
-  596|      1|    EXPECT_STREQ(test_my_data.main_iDomTools->getTemperatureString().c_str(), "-2:2");
-  597|      1|}
-  598|       |
-  599|       |TEST_F(iDomTOOLS_ClassTest, cameraLED)
-  600|      1|{
-  601|      1|    TEST_DATA::return_httpPost = "ok.\n";
-  602|      1|    test_my_data.main_iDomTools->cameraLedOFF("test_link");
-  603|      1|
-  604|      1|    ///////////////////////////////at day
-  605|      1|    Clock::setTime_forBT_usage(12,12);
-  606|      1|    test_my_data.main_iDomTools->cameraLedON("test_link");
-  607|      1|
-  608|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"), STATE::OFF);
-  609|      1|    ////////////////////////////////////// at night
-  610|      1|    Clock::setTime_forBT_usage(2,2);
-  611|      1|    test_my_data.main_iDomTools->cameraLedON("test_link");
-  612|      1|
-  613|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"), STATE::ON);
-  614|      1|}
-  615|       |
-  616|       |TEST_F(iDomTOOLS_ClassTest, textToSpeach)
-  617|      1|{
-  618|      1|    test_my_data.ptr_MPD_info->isPlay = true;
-  619|      1|    test_my_data.main_iDomStatus->setObjectState("speakers", STATE::UNDEFINE);
-  620|      1|
-  621|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
-  622|      1|    std::vector<std::string> test_v;
-  623|      1|    test_my_data.main_iDomTools->textToSpeach(&test_v); //empty
-  624|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
-  625|      1|
-  626|      1|    test_v = {"test","msg","clock"};
-  627|      1|    test_my_data.ptr_MPD_info->isPlay = true;
-  628|      1|    test_my_data.main_iDomTools->textToSpeach(&test_v);
-  629|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
-  630|      1|    test_my_data.ptr_MPD_info->isPlay = false;
-  631|      1|    test_my_data.main_iDomTools->textToSpeach(&test_v);
-  632|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
-  633|      1|}
-  634|       |
-  635|       |TEST_F(iDomTOOLS_ClassTest, getWeatherEvent)
-  636|      1|{
-  637|      1|    TEST_DATA::return_httpPost = "httpPost";
-  638|      1|    std::string retStr = test_my_data.main_iDomTools->getWeatherEvent("test",10);
-  639|      1|    EXPECT_STREQ(retStr.c_str(),"httpPost");
-  640|      1|}
-  641|       |
-  642|       |TEST_F(iDomTOOLS_ClassTest, isItDay)
-  643|      1|{
-  644|      1|    Clock::setTime_forBT_usage(12,12);
-  645|      1|    EXPECT_TRUE(test_my_data.main_iDomTools->isItDay());
-  646|      1|    Clock::setTime_forBT_usage(2,12);
-  647|      1|    EXPECT_FALSE(test_my_data.main_iDomTools->isItDay());
-  648|      1|}
-  649|       |
-  650|       |TEST_F(iDomTOOLS_ClassTest, ledClear)
-  651|      1|{
-  652|      1|    TEST_DATA::return_send_to_arduino = "done";
-  653|      1|    std::string retStr = test_my_data.main_iDomTools->ledClear();
-  654|      1|    EXPECT_STREQ(retStr.c_str(),"done");
-  655|      1|}
-  656|       |
-  657|       |TEST_F(iDomTOOLS_ClassTest, getAllDataSunrisesunset)
-  658|      1|{
-  659|      1|    EXPECT_THAT(test_my_data.main_iDomTools->getAllDataSunrisesunset(),
-  660|      1|                testing::HasSubstr("Days until Y2K"));
-  661|      1|}
+  417|      1|   EXPECT_NO_THROW(test_idomTOOLS->turnOnOff433MHzSwitch("B-fake"));
+  418|      1|}
+  419|       |
+  420|       |TEST_F(iDomTOOLS_ClassTest, turnOnOff433MHzSwitch)
+  421|      1|{
+  422|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+  423|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::UNKNOWN);
+  424|      1|    test_my_data.main_iDomStatus->setObjectState("B",STATE::ON);
+  425|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::ON);
+  426|      1|    test_idomTOOLS->turnOnOff433MHzSwitch("B");
+  427|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::OFF);
+  428|      1|    test_idomTOOLS->turnOnOff433MHzSwitch("B");
+  429|      1|    EXPECT_EQ(test_status.getObjectState("B"),STATE::ON);
+  430|      1|
+  431|      1|}
+  432|       |
+  433|       |TEST_F(iDomTOOLS_ClassTest, runOnSunset)
+  434|      1|{
+  435|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+  436|      1|    test_idomTOOLS->runOnSunset();
+  437|      1|    std::string retStr = useful_F::myStaticData->myEventHandler.run("iDom")->getEvent();
+  438|      1|    EXPECT_THAT(retStr, testing::HasSubstr("433MHz can not start due to home state: LOCK"));
+  439|      1|
+  440|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+  441|      1|    auto ptr = static_cast<RADIO_SWITCH*>(test_my_data.main_REC->getEqPointer("B"));
+  442|      1|    ptr->m_state = STATE::ON;
+  443|      1|    test_idomTOOLS->runOnSunset();
+  444|      1|
+  445|      1|    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
+  446|      1|
+  447|      1|    RADIO_EQ_CONFIG cfg;
+  448|      1|    cfg.sunset = "on";
+  449|      1|    cfg.sunrise = "off";
+  450|      1|
+  451|      1|    ptr->setCode(cfg);
+  452|      1|    ptr->m_state = STATE::OFF;
+  453|      1|    test_idomTOOLS->runOnSunset();
+  454|      1|
+  455|      1|    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
+  456|      1|}
+  457|       |
+  458|       |TEST_F(iDomTOOLS_ClassTest, runOnSunrise)
+  459|      1|{
+  460|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+  461|      1|    test_idomTOOLS->runOnSunrise();
+  462|      1|    std::string retStr = useful_F::myStaticData->myEventHandler.run("iDom")->getEvent();
+  463|      1|    EXPECT_THAT(retStr, testing::HasSubstr("433MHz can not start due to home state: LOCK"));
+  464|      1|
+  465|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+  466|      1|    auto ptr = static_cast<RADIO_SWITCH*>(test_my_data.main_REC->getEqPointer("B"));
+  467|      1|    ptr->m_state = STATE::OFF;
+  468|      1|    test_idomTOOLS->runOnSunrise();
+  469|      1|
+  470|      1|    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
+  471|      1|
+  472|      1|    RADIO_EQ_CONFIG cfg;
+  473|      1|    cfg.sunset = "off";
+  474|      1|    cfg.sunrise = "on";
+  475|      1|
+  476|      1|    ptr->setCode(cfg);
+  477|      1|
+  478|      1|    cfg.sunset = "on";
+  479|      1|    cfg.sunrise = "off";
+  480|      1|
+  481|      1|    ptr->setCode(cfg);
+  482|      1|    ptr->m_state = STATE::ON;
+  483|      1|    test_idomTOOLS->runOnSunrise();
+  484|      1|
+  485|      1|    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
+  486|      1|}
+  487|       |
+  488|       |TEST_F(iDomTOOLS_ClassTest, getSunrise_Sunset)
+  489|      1|{
+  490|      1|    std::string ret = test_idomTOOLS->getSunrise();
+  491|      1|    EXPECT_THAT(ret, testing::HasSubstr(":"));
+  492|      1|
+  493|      1|    ret = test_idomTOOLS->getSunset();
+  494|      1|    EXPECT_THAT(ret, testing::HasSubstr(":"));
+  495|      1|
+  496|      1|    ret = test_idomTOOLS->getSunrise(true);
+  497|      1|    EXPECT_THAT(ret, testing::HasSubstr("Sunrise time:"));
+  498|      1|
+  499|      1|    ret = test_idomTOOLS->getSunset(true);
+  500|      1|    EXPECT_THAT(ret, testing::HasSubstr("Sunset time:"));
+  501|      1|}
+  502|       |
+  503|       |TEST_F(iDomTOOLS_ClassTest, getDayLenght)
+  504|      1|{
+  505|      1|    std::string ret = test_idomTOOLS->getDayLenght();
+  506|      1|    EXPECT_THAT(ret, testing::HasSubstr(":"));
+  507|      1|
+  508|      1|    ret = test_idomTOOLS->getDayLenght(true);
+  509|      1|    EXPECT_THAT(ret, testing::HasSubstr("Day Lenght :"));
+  510|      1|}
+  511|       |
+  512|       |TEST_F(iDomTOOLS_ClassTest, getTextToSpeach)
+  513|      1|{
+  514|      1|    TEST_DATA::return_send_to_arduino = "22:23";
+  515|      1|    std::string ret = test_idomTOOLS->getTextToSpeach();
+  516|      1|    EXPECT_THAT(ret, testing::HasSubstr("Smog:"));
+  517|      1|    std::cout << "TEXT :"<< std::endl << ret << std::endl;
+  518|      1|}
+  519|       |
+  520|       |TEST_F(iDomTOOLS_ClassTest, mpd)
+  521|      1|{
+  522|      1|    MPD_info test_ptr_MPD;
+  523|      1|    test_ptr_MPD.volume = 3;
+  524|      1|    test_my_data.ptr_MPD_info = &test_ptr_MPD;
+  525|      1|    blockQueue test_q;
+  526|      1|    test_q._clearAll();
+  527|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+  528|      1|    test_idomTOOLS->MPD_play(&test_my_data);
+  529|      1|    std::string retStr = useful_F::myStaticData->myEventHandler.run("MPD")->getEvent();
+  530|      1|    EXPECT_THAT(retStr, testing::HasSubstr("MPD can not start due to home state: LOCK"));
+  531|      1|    EXPECT_EQ(test_q._size(), 0);
+  532|      1|
+  533|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+  534|      1|    test_idomTOOLS->MPD_play(&test_my_data);
+  535|      1|    EXPECT_EQ(test_q._size(), 1);
+  536|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
+  537|      1|    EXPECT_EQ(test_q._size(), 0);
+  538|      1|    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  539|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+  540|      1|
+  541|      1|    useful_F::myStaticData->myEventHandler.run("MPD")->clearEvent();
+  542|      1|    test_idomTOOLS->MPD_play(&test_my_data,2);
+  543|      1|    retStr = useful_F::myStaticData->myEventHandler.run("MPD")->getEvent();
+  544|      1|    EXPECT_THAT(retStr, testing::HasSubstr("MPD can not start due to home state: LOCK"));
+  545|      1|    EXPECT_EQ(test_q._size(), 0);
+  546|      1|
+  547|      1|    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+  548|      1|    test_idomTOOLS->MPD_play(&test_my_data,2);
+  549|      1|    EXPECT_EQ(test_q._size(), 1);
+  550|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY_ID);
+  551|      1|    EXPECT_EQ(test_q._size(), 0);
+  552|      1|    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  553|      1|
+  554|      1|    test_idomTOOLS->MPD_stop();
+  555|      1|    EXPECT_EQ(test_q._size(), 1);
+  556|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
+  557|      1|    EXPECT_EQ(test_q._size(), 0);
+  558|      1|
+  559|      1|    test_idomTOOLS->MPD_next();
+  560|      1|    EXPECT_EQ(test_q._size(), 1);
+  561|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::NEXT);
+  562|      1|    EXPECT_EQ(test_q._size(), 0);
+  563|      1|
+  564|      1|    test_idomTOOLS->MPD_prev();
+  565|      1|    EXPECT_EQ(test_q._size(), 1);
+  566|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::PREV);
+  567|      1|    EXPECT_EQ(test_q._size(), 0);
+  568|      1|
+  569|      1|    test_idomTOOLS->MPD_pause();
+  570|      1|    EXPECT_EQ(test_q._size(), 1);
+  571|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::PAUSE );
+  572|      1|    EXPECT_EQ(test_q._size(), 0);
+  573|      1|
+  574|      1|    test_idomTOOLS->MPD_volumeUp();
+  575|      1|    EXPECT_EQ(test_q._size(), 1);
+  576|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLUP );
+  577|      1|    EXPECT_EQ(test_q._size(), 0);
+  578|      1|
+  579|      1|    test_idomTOOLS->MPD_volumeDown();
+  580|      1|    EXPECT_EQ(test_q._size(), 1);
+  581|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLDOWN );
+  582|      1|    EXPECT_EQ(test_q._size(), 0);
+  583|      1|
+  584|      1|    test_idomTOOLS->MPD_volumeSet(&test_my_data, 99);
+  585|      1|    EXPECT_EQ(test_q._size(), 1);
+  586|      1|    EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLSET );
+  587|      1|    EXPECT_EQ(test_q._size(), 0);
+  588|      1|    EXPECT_EQ(test_my_data.ptr_MPD_info->volume, 99);
+  589|      1|
+  590|      1|    EXPECT_EQ(test_idomTOOLS->MPD_getVolume(&test_my_data),99);
+  591|      1|
+  592|      1|}
+  593|       |
+  594|       |TEST_F(iDomTOOLS_ClassTest, getTemperatureString)
+  595|      1|{
+  596|      1|    TEST_DATA::return_send_to_arduino = "-2:2";
+  597|      1|    EXPECT_STREQ(test_my_data.main_iDomTools->getTemperatureString().c_str(), "-2:2");
+  598|      1|}
+  599|       |
+  600|       |TEST_F(iDomTOOLS_ClassTest, cameraLED)
+  601|      1|{
+  602|      1|    TEST_DATA::return_httpPost = "ok.\n";
+  603|      1|    test_my_data.main_iDomTools->cameraLedOFF("test_link");
+  604|      1|
+  605|      1|    ///////////////////////////////at day
+  606|      1|    Clock::setTime_forBT_usage(12,12);
+  607|      1|    test_my_data.main_iDomTools->cameraLedON("test_link");
+  608|      1|
+  609|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"), STATE::OFF);
+  610|      1|    ////////////////////////////////////// at night
+  611|      1|    Clock::setTime_forBT_usage(2,2);
+  612|      1|    test_my_data.main_iDomTools->cameraLedON("test_link");
+  613|      1|
+  614|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"), STATE::ON);
+  615|      1|}
+  616|       |
+  617|       |TEST_F(iDomTOOLS_ClassTest, textToSpeach)
+  618|      1|{
+  619|      1|    test_my_data.ptr_MPD_info->isPlay = true;
+  620|      1|    test_my_data.main_iDomStatus->setObjectState("speakers", STATE::UNDEFINE);
+  621|      1|
+  622|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
+  623|      1|    std::vector<std::string> test_v;
+  624|      1|    test_my_data.main_iDomTools->textToSpeach(&test_v); //empty
+  625|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
+  626|      1|
+  627|      1|    test_v = {"test","msg","clock"};
+  628|      1|    test_my_data.ptr_MPD_info->isPlay = true;
+  629|      1|    test_my_data.main_iDomTools->textToSpeach(&test_v);
+  630|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
+  631|      1|    test_my_data.ptr_MPD_info->isPlay = false;
+  632|      1|    test_my_data.main_iDomTools->textToSpeach(&test_v);
+  633|      1|    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
+  634|      1|}
+  635|       |
+  636|       |TEST_F(iDomTOOLS_ClassTest, getWeatherEvent)
+  637|      1|{
+  638|      1|    TEST_DATA::return_httpPost = "httpPost";
+  639|      1|    std::string retStr = test_my_data.main_iDomTools->getWeatherEvent("test",10);
+  640|      1|    EXPECT_STREQ(retStr.c_str(),"httpPost");
+  641|      1|}
+  642|       |
+  643|       |TEST_F(iDomTOOLS_ClassTest, isItDay)
+  644|      1|{
+  645|      1|    Clock::setTime_forBT_usage(12,12);
+  646|      1|    EXPECT_TRUE(test_my_data.main_iDomTools->isItDay());
+  647|      1|    Clock::setTime_forBT_usage(2,12);
+  648|      1|    EXPECT_FALSE(test_my_data.main_iDomTools->isItDay());
+  649|      1|}
+  650|       |
+  651|       |TEST_F(iDomTOOLS_ClassTest, ledClear)
+  652|      1|{
+  653|      1|    TEST_DATA::return_send_to_arduino = "done";
+  654|      1|    std::string retStr = test_my_data.main_iDomTools->ledClear();
+  655|      1|    EXPECT_STREQ(retStr.c_str(),"done");
+  656|      1|}
+  657|       |
+  658|       |TEST_F(iDomTOOLS_ClassTest, getAllDataSunrisesunset)
+  659|      1|{
+  660|      1|    EXPECT_THAT(test_my_data.main_iDomTools->getAllDataSunrisesunset(),
+  661|      1|                testing::HasSubstr("Days until Y2K"));
+  662|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/test/lightning_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDomTools/test/lightning_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |
     3|       |#include "test_data.h"
@@ -31972,7 +31982,7 @@
    96|      1|    EXPECT_FALSE(test_result);
    97|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDom_server_OOP.h:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/iDom_server_OOP.h:
     1|       |#ifndef GLOBAL_H
     2|       |#define GLOBAL_H
     3|       |
@@ -32012,8 +32022,8 @@
    37|       |#include "iDomStatus/idomstatus.h"
    38|       |#include "iDomSaveState/idom_save_state.h"
    39|       |
-   40|    426|#define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
-   41|    180|#define log_file_mutex f_log
+   40|    431|#define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
+   41|    182|#define log_file_mutex f_log
    42|       |
    43|       |enum class iDomStateEnum{
    44|       |    CLOSE = 0,
@@ -32253,7 +32263,7 @@
   278|       |
   279|       |#endif // GLOBAL_H
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/logger/logger.cc:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/logger/logger.cc:
     1|       |/*
     2|       | * logger.cc
     3|       | *
@@ -32351,86 +32361,86 @@
    82|       | 
    83|       |
    84|       |void Logger::flush()
-   85|     94|{
-   86|     94|  if (_line_level >= _level) {
-   87|     82|    _log << get_time() << " -- [" << level_str(_line_level) << "] -- " << str();
-   88|     82|    _log.flush();
-   89|     82|  }
+   85|     95|{
+   86|     95|  if (_line_level >= _level) {
+   87|     83|    _log << get_time() << " -- [" << level_str(_line_level) << "] -- " << str();
+   88|     83|    _log.flush();
+   89|     83|  }
    90|     12|  else
    91|     12|  {
    92|     12|      _log << get_time() << " -- [" << level_str(_line_level) << "] -- " << str();
    93|     12|      _log.flush();
    94|     12|  }
-   95|     94|
-   96|     94|  str("");
-   97|     94|  _line_level = VERBOSE;
-   98|     94|}
+   95|     95|
+   96|     95|  str("");
+   97|     95|  _line_level = VERBOSE;
+   98|     95|}
    99|       |
   100|       |
   101|       |Logger& Logger::operator<<(const logger_level& level)
-  102|     89|{
-  103|     89|  _line_level = level;
-  104|     89|  return (*this);
-  105|     89|}
+  102|     90|{
+  103|     90|  _line_level = level;
+  104|     90|  return (*this);
+  105|     90|}
   106|       |
   107|       |
   108|       |Logger& Logger::operator<<(LoggerManip m)
-  109|     94|{ 
-  110|     94|  return m(*this);
-  111|     94|}
+  109|     95|{ 
+  110|     95|  return m(*this);
+  111|     95|}
   112|       |
   113|       |
   114|       |std::string Logger::get_time() const
-  115|     94|{
-  116|     94|  struct tm *timeinfo;
-  117|     94|  time_t rawtime;
-  118|     94|  char *time_buf;
-  119|     94|  
-  120|     94|  time(&rawtime);
-  121|     94|  timeinfo = localtime(&rawtime);
-  122|     94|  time_buf = asctime(timeinfo);
-  123|     94|  
-  124|     94|  std::string ret(time_buf);
-  125|     94|  if (!ret.empty() && ret[ret.length() - 1] == '\n') {
-  126|     94|    ret.erase(ret.length()-1);
-  127|     94|  }
-  128|     94|  
-  129|     94|  return (ret);
-  130|     94|}
+  115|     95|{
+  116|     95|  struct tm *timeinfo;
+  117|     95|  time_t rawtime;
+  118|     95|  char *time_buf;
+  119|     95|  
+  120|     95|  time(&rawtime);
+  121|     95|  timeinfo = localtime(&rawtime);
+  122|     95|  time_buf = asctime(timeinfo);
+  123|     95|  
+  124|     95|  std::string ret(time_buf);
+  125|     95|  if (!ret.empty() && ret[ret.length() - 1] == '\n') {
+  126|     95|    ret.erase(ret.length()-1);
+  127|     95|  }
+  128|     95|  
+  129|     95|  return (ret);
+  130|     95|}
   131|       |
   132|       |
   133|       |inline const char* Logger::level_str(const logger_level& level)
-  134|     94|{
-  135|     94|  switch (level) {
-  136|     94|  case VERBOSE:
+  134|     95|{
+  135|     95|  switch (level) {
+  136|     95|  case VERBOSE:
   137|      7|    return ("VERBOSE ");
-  138|     94|  case DEBUG:
+  138|     95|  case DEBUG:
   139|      5|    return (" DEBUG  ");
-  140|     94|  case INFO:
+  140|     95|  case INFO:
   141|     53|    return ("  INFO  ");
-  142|     94|  case WARNING:
+  142|     95|  case WARNING:
   143|      6|    return ("WARNING ");
-  144|     94|  case ERROR:
+  144|     95|  case ERROR:
   145|      9|    return (" ERROR  ");
-  146|     94|  case CRITICAL:
-  147|     13|    return ("CRITICAL");
-  148|     94|  case FATAL:
+  146|     95|  case CRITICAL:
+  147|     14|    return ("CRITICAL");
+  148|     95|  case FATAL:
   149|      1|    return (" FATAL  ");
-  150|     94|  default:
+  150|     95|  default:
   151|      0|    assert(false);
-  152|     94|  } 
-  153|     94|}
+  152|     95|  } 
+  153|     95|}
   154|       |void Logger::mutex_lock()
-  155|     89|{
-  156|     89|    pthread_mutex_lock(&Logger::mutex_log);
-  157|     89|}
+  155|     90|{
+  156|     90|    pthread_mutex_lock(&Logger::mutex_log);
+  157|     90|}
   158|       |
   159|       |void Logger::mutex_unlock()
-  160|     89|{
-  161|     89|    pthread_mutex_unlock(&Logger::mutex_log);
-  162|     89|}
+  160|     90|{
+  161|     90|    pthread_mutex_unlock(&Logger::mutex_log);
+  162|     90|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/logger/logger.hpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/logger/logger.hpp:
     1|       |/*
     2|       | * logger.hpp
     3|       | *
@@ -32514,10 +32524,10 @@
    81|       |
    82|       |    template <typename T>
    83|       |    Logger& operator<<(const T& t)
-   84|    160|    {
-   85|    160|        *static_cast<std::ostringstream *>(this) << t;
-   86|    160|        return (*this);
-   87|    160|    }
+   84|    162|    {
+   85|    162|        *static_cast<std::ostringstream *>(this) << t;
+   86|    162|        return (*this);
+   87|    162|    }
   ------------------
   | _ZN6LoggerlsIA45_cEERS_RKT_:
   |   84|      2|    {
@@ -32550,12 +32560,16 @@
   |   87|      2|    }
   ------------------
   | _ZN6LoggerlsINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEERS_RKT_:
-  |   84|     75|    {
-  |   85|     75|        *static_cast<std::ostringstream *>(this) << t;
-  |   86|     75|        return (*this);
-  |   87|     75|    }
+  |   84|     76|    {
+  |   85|     76|        *static_cast<std::ostringstream *>(this) << t;
+  |   86|     76|        return (*this);
+  |   87|     76|    }
   ------------------
-  | Unexecuted instantiation: _ZN6LoggerlsIA65_cEERS_RKT_
+  | _ZN6LoggerlsIA65_cEERS_RKT_:
+  |   84|      1|    {
+  |   85|      1|        *static_cast<std::ostringstream *>(this) << t;
+  |   86|      1|        return (*this);
+  |   87|      1|    }
   ------------------
   | _ZN6LoggerlsIA55_cEERS_RKT_:
   |   84|      1|    {
@@ -32724,16 +32738,16 @@
   104|       |
   105|       |namespace std { 
   106|       |inline Logger& endl(Logger& out)
-  107|     94|{
-  108|     94|    out.put('\n');
-  109|     94|    out.flush();
-  110|     94|    return (out);
-  111|     94|}
+  107|     95|{
+  108|     95|    out.put('\n');
+  109|     95|    out.flush();
+  110|     95|    return (out);
+  111|     95|}
   112|       |}// end namespace std
   113|       |
   114|       |#endif
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/menu_tree/menu_tree.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/menu_tree/menu_tree.cpp:
     1|       |#include "menu_tree.h"
     2|       |
     3|       |menu_tree::menu_tree (const std::string &path, LCD_c *mainLCD_PTR):database_path(path),w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
@@ -32881,7 +32895,7 @@
   145|     13|    }
   146|     14|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/thread_functions/TEST/rs232_thread_BT.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/thread_functions/TEST/rs232_thread_BT.cpp:
     1|       |#include <gtest/gtest.h>
     2|       |#include "../../iDom_server_OOP.h"
     3|       |#include "../rs232_thread.h"
@@ -32981,7 +32995,7 @@
    97|      1|    EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 1);
    98|      1|}
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/thread_functions/iDom_thread.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/thread_functions/iDom_thread.cpp:
     1|       |#include "iDom_thread.h"
     2|       |#include "../functions/functions.h"
     3|       |#include <tuple>
@@ -33044,9 +33058,9 @@
    60|      5|{
    61|      5|    try
    62|      5|    {
-   63|     24|        for (int i =0; i< iDomConst::MAX_CONNECTION; ++i)
-   64|     23|        {
-   65|     23|            if (my_data->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
+   63|     21|        for (int i =0; i< iDomConst::MAX_CONNECTION; ++i)
+   64|     20|        {
+   65|     20|            if (my_data->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
    66|      4|            {
    67|      4|                //my_data->main_THREAD_arr[i].thread.detach();
    68|      4|                my_data->main_THREAD_arr->at(i).thread_name ="  -empty-  ";
@@ -33054,7 +33068,7 @@
    70|      4|                my_data->main_THREAD_arr->at(i).thread_socket = 0;
    71|      4|                break;
    72|      4|            }
-   73|     23|        }
+   73|     20|        }
    74|      5|    }
    75|      5|    catch (std::system_error &e)
    76|      5|    {
@@ -33069,28 +33083,28 @@
    85|      5|}
    86|       |
    87|       |void iDOM_THREAD::waitUntilAllThreadEnd(thread_data *my_data)
-   88|      0|{
-   89|      0|    int threadCounter = 0;
-   90|      0|    int counter = 20;
-   91|      0|    do{
-   92|      0|        if (--counter == 0){
+   88|      1|{
+   89|      1|    int threadCounter = 0;
+   90|      1|    int counter = 20;
+   91|      1|    do{
+   92|      1|        if (--counter == 0){
    93|      0|            puts("niedoczekalem sie konca watkow");
    94|      0|            break;
    95|      0|        }
-   96|      0|        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
-   97|      0|        threadCounter = 0;
-   98|      0|        for(auto i = my_data->main_THREAD_arr->begin(); i < my_data->main_THREAD_arr->end(); ++i)
-   99|      0|        {
-  100|      0|            threadCounter += i->thread_socket;
-  101|      0|            if (i->thread_socket != 0)
+   96|      1|        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+   97|      1|        threadCounter = 0;
+   98|     11|        for(auto i = my_data->main_THREAD_arr->begin(); i < my_data->main_THREAD_arr->end(); ++i)
+   99|     10|        {
+  100|     10|            threadCounter += i->thread_socket;
+  101|     10|            if (i->thread_socket != 0)
   102|      0|                std::cout << "thread name: "<< i->thread_name << std::endl;
-  103|      0|        }
-  104|      0|        std::cout << "watki pracuja "<<threadCounter<< std::endl;
-  105|      0|    } while(threadCounter != 0);
-  106|      0|}
+  103|     10|        }
+  104|      1|        std::cout << "watki pracuja "<<threadCounter<< std::endl;
+  105|      1|    } while(threadCounter != 0);
+  106|      1|}
   107|       |
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/src/thread_functions/rs232_thread.h:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/src/thread_functions/rs232_thread.h:
     1|       |#ifndef RS232_THREAD_H
     2|       |#define RS232_THREAD_H
     3|       |
@@ -33223,7 +33237,7 @@
   130|      0|}
   131|       |#endif // RS232_THREAD_H
 
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/test/iDom_TESTs-CMAKE/main.cpp:
+/mnt/c/cyniu/PROGRAMOWANIE/malina/iDom_server_OOP/test/iDom_TESTs-CMAKE/main.cpp:
     1|       |#include <iostream>
     2|       |#include <gtest/gtest.h>
     3|       |#include <gmock/gmock.h>
@@ -33419,10 +33433,4 @@
   193|      1|    std::cout << "wersja " <<PROG_INFO <<" "<< GIT_BRANCH <<" " << GIT_COMMIT_HASH << std::endl;
   194|      1|    return ret;
   195|      1|}
-
-/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/test/iDom_TESTs-CMAKE/wiringPi.h:
-    1|     12|#define	LOW			 0
-    2|      8|#define	HIGH	1
-    3|       |int digitalRead (int pin) ;
-    4|       |void digitalWrite (int pin, int value) ;
 
