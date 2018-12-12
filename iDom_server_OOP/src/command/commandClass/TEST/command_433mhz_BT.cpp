@@ -94,7 +94,7 @@ TEST_F(command433MHz_Class_fixture, deleteSwitch)
 }
 TEST_F(command433MHz_Class_fixture, deleteFakeSwitch)
 {
-    int actualSize = test_rec->getSwitchPointerVector().size();
+    auto actualSize = test_rec->getSwitchPointerVector().size();
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) << std::endl;
@@ -116,7 +116,7 @@ TEST_F(command433MHz_Class_fixture, deleteFakeSwitch)
 }
 TEST_F(command433MHz_Class_fixture, addButton)
 {
-    int actualSize = test_rec->getButtonPointerVector().size();
+    auto actualSize = test_rec->getButtonPointerVector().size();
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) << std::endl;
@@ -143,7 +143,7 @@ TEST_F(command433MHz_Class_fixture, addButton)
 
 TEST_F(command433MHz_Class_fixture, addSwitch)
 {
-    int actualSize = test_rec->getSwitchPointerVector().size();
+    auto actualSize = test_rec->getSwitchPointerVector().size();
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) << std::endl;
