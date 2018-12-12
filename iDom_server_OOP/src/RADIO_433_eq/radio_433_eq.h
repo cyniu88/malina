@@ -194,6 +194,7 @@ public:
     bool nameExist(const std::string &name);
     void loadConfig(const std::string &filePath);
     void saveConfig(const std::string &filePath);
+    std::string showConfig(const std::string &filePath);
 };
 
 class RADIO_EQ_CONTAINER_STUB : public RADIO_EQ_CONTAINER

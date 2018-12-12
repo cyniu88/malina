@@ -84,6 +84,9 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             str_buf += ".";
 
         }
+        else if (v[1] == "show" && v[2] == "config"){
+            str_buf = my_data->main_REC->showConfig(my_data->server_settings->radio433MHzConfigFile);
+        }
         else if (v[1] == "send"){
             str_buf = "sended!;";
             my_data->main_RFLink->sendCommand(v[2]);
@@ -128,6 +131,7 @@ std::string command_433MHz::help()
     help << ("433MHz switch <name> ON/OFF/15s - change switch state") <<std::endl;
     help << ("433MHz show all - list all equipment by name") <<std::endl;
     help << ("433MHz show aether - show aether devices by ID") <<std::endl;
+    help << ("433MHz show config - show 433MHz devices config") <<std::endl;
     help << ("433MHz send <msg> - send command") <<std::endl;
     return help.str();
 }

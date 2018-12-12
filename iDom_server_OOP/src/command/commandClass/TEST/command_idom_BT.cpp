@@ -346,8 +346,8 @@ TEST_F(commandiDom_Class_fixture, kodi)
     std::array<Thread_array_struc,iDomConst::MAX_CONNECTION> test_ThreadArrayStruc;
 
     for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
-        test_ThreadArrayStruc.at(i).thread_socket = i+1;
-    test_ThreadArrayStruc.at(3).thread_socket = 0;
+        test_ThreadArrayStruc.at(i).thread_socket = 0;
+    //test_ThreadArrayStruc.at(3).thread_socket = 0;
     test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
 
     test_v.clear();
@@ -355,7 +355,9 @@ TEST_F(commandiDom_Class_fixture, kodi)
     test_v.push_back("KODI");
     retStr = test_command_iDom->execute(test_v, &test_my_data);
 
-    sleep(1);
+    //sleep(1);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("STARTED"));
 

@@ -3,7 +3,7 @@
 CRON::CRON(thread_data *my_data)
 {
     this->my_data = my_data;
-    this->check_temperature=TRUE;
+    this->check_temperature = TRUE;
 }
 
 

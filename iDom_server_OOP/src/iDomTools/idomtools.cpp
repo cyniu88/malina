@@ -56,7 +56,6 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
     buttonPointerVector = my_data->main_REC->getButtonPointerVector();
 
     lastButton433MHzLockUnlockTime = Clock::getTime() + Clock(23,58);
-
 }
 
 TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometerName, double reference, double histereza )
@@ -99,21 +98,26 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
     std::string m = "temperature "+thermomethernName+" over "+ EMOJI::emoji(E_emoji::NORTH_EAST_ARROW)
             + to_string_with_precision(reference);
 
-    if (status == TEMPERATURE_STATE::Over){
+    if (status == TEMPERATURE_STATE::Over)
+    {
         my_data->myEventHandler.run("temperature")->addEvent(m);
-        if (reference < 2){
+        if (reference < 2)
+        {
             sendViberMsg(m,my_data->server_settings->viberReceiver.at(0),my_data->server_settings->viberSender);
             sendViberMsg(m,my_data->server_settings->viberReceiver.at(1),my_data->server_settings->viberSender);
         }
-        else{
+        else
+        {
             sendViberMsg(m,my_data->server_settings->viberReceiver.at(0),my_data->server_settings->viberSender);
         }
     }
-    else if (status == TEMPERATURE_STATE::Under){
+    else if (status == TEMPERATURE_STATE::Under)
+    {
         m ="temperature " + thermomethernName+" under "+EMOJI::emoji(E_emoji::SOUTH_EAST_ARROW)
                 +to_string_with_precision(reference);
         my_data->myEventHandler.run("temperature")->addEvent(m);
-        if (reference < 2){
+        if (reference < 2)
+        {
             sendViberPicture(m,"http://canacopegdl.com/images/cold/cold-14.jpg",
                              my_data->server_settings->viberReceiver.at(0),
                              my_data->server_settings->viberSender);
@@ -144,15 +148,18 @@ void iDomTOOLS::updateTemperatureStats()
     allThermometerUpdate.updateStats("outside");
     allThermometerUpdate.updateStats("inside");
 
-    if( true == allThermometerUpdate.isMoreDiff("outside",2.1)){
+    if( true == allThermometerUpdate.isMoreDiff("outside",2.1))
+    {
         auto data = allThermometerUpdate.getLast2("outside");
         std::string msg = "alarm roznicy temeratur na polu! " + to_string_with_precision(data.first) +" na "+
                 to_string_with_precision(data.second);
 
-        if (data.first > data.second){
+        if (data.first > data.second)
+        {
             msg += " temperatura maleje " + EMOJI::emoji(E_emoji::CHART_WITH_DOWNWARDS_TREND);
         }
-        else{
+        else
+        {
             msg += " temperatura rośnie " + EMOJI::emoji(E_emoji::CHART_WITH_UPWARDS_TREND);
         }
 
@@ -164,15 +171,18 @@ void iDomTOOLS::updateTemperatureStats()
         log_file_cout << WARNING << msg << std::endl;
         log_file_mutex.mutex_unlock();
     }
-    if( true == allThermometerUpdate.isMoreDiff("inside",2.1)){
+    if( true == allThermometerUpdate.isMoreDiff("inside",2.1))
+    {
         auto data = allThermometerUpdate.getLast2("inside");
         std::string msg = "alarm roznicy temeratur na mieszkaniu! " + to_string_with_precision(data.first) +" na "+
                 to_string_with_precision(data.second);
 
-        if (data.first > data.second){
+        if (data.first > data.second)
+        {
             msg += " temperatura maleje " + EMOJI::emoji(E_emoji::CHART_WITH_DOWNWARDS_TREND);
         }
-        else{
+        else
+        {
             msg += " temperatura rośnie " + EMOJI::emoji(E_emoji::CHART_WITH_UPWARDS_TREND);
         }
 
@@ -193,7 +203,8 @@ void iDomTOOLS::turnOnSpeakers()
         digitalWrite(iDomConst::GPIO_SPIK, HIGH);
         useful_F::myStaticData->main_iDomStatus->setObjectState("speakers",STATE::ON);
     }
-    else{
+    else
+    {
         useful_F::myStaticData->myEventHandler.run("speakers")->addEvent("speakers can not start due to home state: "+
                                                                          stateToString(useful_F::myStaticData->idom_all_state.houseState));
     }
@@ -267,7 +278,16 @@ void iDomTOOLS::turnOnOffPrinter()
 void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)
 {
     STATE listwaState = my_data->main_iDomStatus->getObjectState(name);
-    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(name));
+    RADIO_SWITCH *m_switch = nullptr;
+    try {
+        m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(name));
+    } catch (const std::string& e) {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << " void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name) "<< e << std::endl;
+        log_file_mutex.mutex_unlock();
+        return;
+    }
+
     if (listwaState == STATE::ON){
         my_data->mainLCD->set_lcd_STATE(10);
         my_data->mainLCD->printString(true,0,0,"230V OFF "+name);
@@ -283,15 +303,26 @@ void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)
 
 void iDomTOOLS::turnOn433MHzSwitch(std::string name)
 {
-    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
-    m_switch->on();
-    //saveState_iDom();
+    try {
+        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
+        m_switch->on();
+    } catch (const std::string& e) {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << " void iDomTOOLS::turnOn433MHzSwitch(std::string name) "<< e << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 }
 
 void iDomTOOLS::turnOff433MHzSwitch(std::string name)
 {
-    RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
-    m_switch->off();
+    try {
+        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
+        m_switch->off();
+    } catch (const std::string& e) {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << " void iDomTOOLS::turnOff433MHzSwitch(std::string name) "<< e << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 }
 
 void iDomTOOLS::runOnSunset()
@@ -621,7 +652,7 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
         turnOnSpeakers();
     }
 
-    useful_F::runLinuxCommand(command.c_str());
+    useful_F::runLinuxCommand(command);
 
     if(my_data->ptr_MPD_info->isPlay){
 
@@ -889,7 +920,8 @@ void iDomTOOLS::checkAlarm()
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
             if(iDomTOOLS::isItDay() == false){
-                // my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
+                 my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
+                 saveState_iDom();
             }
         }
     }
