@@ -59,33 +59,23 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 
     ////// getThermoStats
 
-    std::cout <<"WYNIK: " << test_idomTOOLS->getThermoStats("inside") <<std::endl;
+    std::cout << "WYNIK: " << test_idomTOOLS->getThermoStats("inside") <<std::endl;
 }
 
 TEST_F(iDomTOOLS_ClassTest, weatherAlert)
 {
-    std::string test_data_from_www = "    <div style=\"margin:0;padding:0;width:350px;font:0.8em Lucida,Arial,sans-seri                                                                  f;background:#FFC\">\
-            <p style=\"margin:1px;padding:1px;text-align:center;background:#FF9;borde \                                                                 r:1px dotted\"><b><a href=\"http://burze.dzis.net?page=wyszukiwarka&amp;miejscowos\                                                                  c=krakow\" target=\"_blank\" style=\"color:#00E\">krakow</a></b>\
-            <i>(50°03'N 19°57'E)</i>\
-            </p>\
-            <dl style=\"margin:1px 1px 0 1px;padding:0;cl                                                                  ear:both;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:\                                                                  center\">Zarejestrowano 54 wyładowania atmosferyczne w promieniu 300km . Najbliższe 79.76km na zachód.\
-            </dl>\
-            \
-            <dl style=\"margin:1px 1px 0 1px;padding:0;cl                                                                  ear:both;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:  \                                                                center\">Mróz, brak ostrzeżeń</dl>\
-            \
-            <dl style=\"margin:1px 1px 0 1px;padding:0;clear:both                                                                  ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  \                                                                Upał, brak ostrzeżeń</dl>\
-            \
-            <dl style=\"margin:1px 1px 0 1px;padding:0;clear:both                                                                  ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  \                                                                Wiatr, brak ostrzeżeń</dl>\
-            \
-            <dl style=\"margin:1px 1px 0 1px;padding:0;clear:both                                                                  ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  \                                                                Opady, brak ostrzeżeń</dl>\
-            \
-            <dl style=\"margin:1px 1px 0 1px;padding:0;clear:both                                                                  ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  \                                                                Burze, brak ostrzeżeń</dl>\
-            \
-            <dl style=\"margin:1px 1px 0 1px;padding:0;clear:both                                                                  ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  \                                                                Trąby powietrzne, brak ostrzeżeń</dl>\
-            </div>";
+    std::string test_data_from_www = " <div style=\"margin:0;padding:0;width:350px;font:0.8em Lucida,Arial,sans-seri f;background:#FFC\">"
+                                     "<p style=\"margin:1px;padding:1px;text-align:center;background:#FF9;borde \\ r:1px dotted\"><b><a href=\"http://burze.dzis.net?page=wyszukiwarka&amp;miejscowos\\ c=krakow\" target=\"_blank\" style=\"color:#00E\">krakow</a></b>"
+                                     "<i>(50°03'N 19°57'E)</i> </p>"
+                                     "<dl style=\"margin:1px 1px 0 1px;padding:0;cl ear:both;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:\\ center\">Zarejestrowano 54 wyładowania atmosferyczne w promieniu 300km . Najbliższe 79.76km na zachód."
+                                     "</dl> <dl style=\"margin:1px 1px 0 1px;padding:0;cl ear:both;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align: \\ center\">Mróz, brak ostrzeżeń</dl>"
+                                     "<dl style=\"margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  Upał, brak ostrzeżeń</dl>"
+                                     "<dl style=\"margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  Wiatr, brak ostrzeżeń</dl>"
+                                     "<dl style=\"margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  Opady, brak ostrzeżeń</dl>"
+                                     "<dl style=\"margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  Burze, brak ostrzeżeń</dl>"
+                                     "<dl style=\"margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  Trąby powietrzne, brak ostrzeżeń</dl></div>";
 
-
-            std::vector<WEATHER_ALER> test_WA;
+    std::vector<WEATHER_ALER> test_WA;
     test_WA =  test_idomTOOLS->getAlert(test_data_from_www);
     EXPECT_EQ(1,test_WA.size()) << "ZŁY ROZMIAR VEKTORA WA";
 }
@@ -412,9 +402,9 @@ TEST_F(iDomTOOLS_ClassTest, turn_On_Off_433MHzSwitch)
 
 TEST_F(iDomTOOLS_ClassTest, turn_On_Off_fake_433MHzSwitch)
 {
-   EXPECT_NO_THROW(test_idomTOOLS->turnOn433MHzSwitch("B-fake"));
-   EXPECT_NO_THROW(test_idomTOOLS->turnOff433MHzSwitch("B-fake"));
-   EXPECT_NO_THROW(test_idomTOOLS->turnOnOff433MHzSwitch("B-fake"));
+    EXPECT_NO_THROW(test_idomTOOLS->turnOn433MHzSwitch("B-fake"));
+    EXPECT_NO_THROW(test_idomTOOLS->turnOff433MHzSwitch("B-fake"));
+    EXPECT_NO_THROW(test_idomTOOLS->turnOnOff433MHzSwitch("B-fake"));
 }
 
 TEST_F(iDomTOOLS_ClassTest, turnOnOff433MHzSwitch)

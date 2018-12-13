@@ -5,7 +5,7 @@
 #include "../../RADIO_433_eq/radio_433_eq.h"
 #include "testJSON.h"
 
-class iDomTOOLS_ClassTest : public ::testing::Test
+class iDomTOOLS_ClassTest : public testing::Test
 {
 public:
     TEST_JSON test_Json;

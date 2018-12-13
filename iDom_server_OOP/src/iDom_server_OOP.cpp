@@ -249,15 +249,13 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "thread DUMMY \t" << server_settings.THREAD_DUMMY << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
-    log_file_cout << DEBUG << "zbudowany dnia: " << __DATE__ << " o godzinie: "<< __TIME__<< std::endl;
+    log_file_cout << DEBUG << "zbudowany dnia: " << __DATE__ << " o godzinie: " << __TIME__ << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_mutex.mutex_unlock();
 
     /////////////////////////////////////////////// koniec logowania do poliku ///////////////////////////////////////////////////
 
     /////////////////////////////// RC 433MHz ////////////////////
-    //std::unique_ptr<RADIO_EQ_CONTAINER> rc433MHz(&node_data);
-    //rc433MHz->loadConfig(server_settings.radio433MHzConfigFile);
     node_data.main_REC = std::make_unique<RADIO_EQ_CONTAINER>(&node_data);
     node_data.main_REC->loadConfig(server_settings.radio433MHzConfigFile);
     RFLinkHandler rflinkHandler(&node_data);
