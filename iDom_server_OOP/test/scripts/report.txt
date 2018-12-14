@@ -1,5 +1,5 @@
-Filename                                                        Regions    Missed Regions     Cover   Functions  Missed Functions  Executed       Lines      Missed Lines     Cover
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Filename                                                                                                         Regions    Missed Regions     Cover   Functions  Missed Functions  Executed       Lines      Missed Lines     Cover
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ftplibpp/ftplib.h                                                     1                 1     0.00%           1                 1     0.00%           1                 1     0.00%
 libs/Statistic/statistic.h                                           67                 0   100.00%          20                 0   100.00%         188                 0   100.00%
 libs/Statistic/statistic_test/statistic_BT.cpp                       47                 5    89.36%          20                 0   100.00%         197                 0   100.00%
@@ -12,7 +12,7 @@ libs/event_counters/event/new_connect_event.cpp                       3         
 libs/event_counters/event_counters.cpp                               26                 0   100.00%           9                 0   100.00%          74                 0   100.00%
 libs/event_counters/event_counters_handler.cpp                       16                 0   100.00%           5                 0   100.00%          52                 0   100.00%
 libs/event_counters/test/event_BT.cpp                                31                 0   100.00%          10                 0   100.00%          82                 0   100.00%
-libs/json/single_include/nlohmann/json.hpp                         1353               687    49.22%         235                66    71.91%        4351              1732    60.19%
+libs/json/single_include/nlohmann/json.hpp                         1353               699    48.34%         235                65    72.34%        4351              1841    57.69%
 libs/sunrise-sunset/sunriseset.cpp                                   44                17    61.36%          12                 1    91.67%         303                 5    98.35%
 libs/useful/test/useful_bt.cpp                                       28                 0   100.00%          10                 0   100.00%          81                 0   100.00%
 libs/useful/useful.h                                                 87                 0   100.00%          25                 0   100.00%         174                 0   100.00%
@@ -93,14 +93,14 @@ src/functions/tests/functions_stub.cpp                                4         
 src/iDomSaveState/idom_save_state.cpp                                10                 0   100.00%           4                 0   100.00%          29                 0   100.00%
 src/iDomSaveState/test/iDomSaveState_BT.cpp                           8                 2    75.00%           1                 0   100.00%          20                 0   100.00%
 src/iDomStatus/idomstatus.cpp                                        16                 0   100.00%           6                 0   100.00%          47                 0   100.00%
-src/iDomTools/idomtools.cpp                                         369                43    88.35%          58                 1    98.28%         876                48    94.52%
+src/iDomTools/idomtools.cpp                                         375                44    88.27%          58                 1    98.28%         879                51    94.20%
 src/iDomTools/idomtools_mpd.cpp                                      16                 0   100.00%          10                 0   100.00%          57                 0   100.00%
 src/iDomTools/idomtools_system.cpp                                    3                 0   100.00%           1                 0   100.00%          30                 0   100.00%
 src/iDomTools/lightning.cpp                                          33                 0   100.00%           4                 0   100.00%         109                 0   100.00%
 src/iDomTools/lightning.h                                            88                40    54.55%           6                 0   100.00%         109                35    67.89%
 src/iDomTools/test/iDomTools_fixture.h                                3                 0   100.00%           3                 0   100.00%          34                 0   100.00%
 src/iDomTools/test/iDom_server_BT.cpp                                 9                 0   100.00%           3                 0   100.00%          22                 0   100.00%
-src/iDomTools/test/idomTools_BT.cpp                                 186                 7    96.24%          36                 0   100.00%         589                 0   100.00%
+src/iDomTools/test/idomTools_BT.cpp                                 186                 7    96.24%          36                 0   100.00%         579                 0   100.00%
 src/iDomTools/test/lightning_BT.cpp                                  59                14    76.27%           7                 0   100.00%          71                 0   100.00%
 src/iDom_server_OOP.h                                                12                 0   100.00%           7                 0   100.00%          34                 0   100.00%
 src/logger/logger.cc                                                 28                 6    78.57%          11                 3    72.73%          78                13    83.33%
@@ -109,9 +109,9 @@ src/menu_tree/menu_tree.cpp                                          41         
 src/thread_functions/TEST/rs232_thread_BT.cpp                        20                 0   100.00%           4                 0   100.00%          75                 0   100.00%
 src/thread_functions/iDom_thread.cpp                                 62                25    59.68%           4                 1    75.00%          85                28    67.06%
 src/thread_functions/rs232_thread.h                                  50                 1    98.00%           1                 0   100.00%         121                 1    99.17%
-test/iDom_TESTs-CMAKE/main.cpp                                       45                 2    95.56%          29                 1    96.55%         127                 3    97.64%
+test/iDom_TESTs-CMAKE/main.cpp                                       45                 1    97.78%          29                 1    96.55%         127                 1    99.21%
 
 Files which contain no functions:
-test/iDom_TESTs-CMAKE/wiringPi.h                                      0                 0         -           0                 0         -           0                 0         -
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-TOTAL                                                              4653              1014    78.21%        1047                80    92.36%       13614              2086    84.68%
+home/cyniu/GIT/WiringPi/wiringPi/wiringPi.h                                                                            0                 0         -           0                 0         -           0                 0         -
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                                               4659              1026    77.98%        1047                79    92.45%       13607              2196    83.86%
