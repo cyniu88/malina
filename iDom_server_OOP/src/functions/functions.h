@@ -32,7 +32,6 @@ public:
     static std::string RSHash(const std::string& data ="", unsigned int b = 378551, unsigned int a = 63689);
     static std::string l_send_file(std::string path, std::string find, bool reverse =false );
     static std::vector<std::string> split(const std::string& s, char separator );
-    static void button_interrupt();
     static bool go_while;
     static bool workServer;
     static thread_data* myStaticData;

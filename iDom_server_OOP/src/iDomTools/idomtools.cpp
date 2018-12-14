@@ -31,13 +31,6 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
     digitalWrite(iDomConst::GPIO_PRINTER,LOW);
     pinMode(iDomConst::BUTTON_PIN, INPUT); // gpio pin przycisku
 
-    if (wiringPiISR (iDomConst::BUTTON_PIN, INT_EDGE_BOTH, &useful_F::button_interrupt) < 0 ) {
-
-        log_file_cout.mutex_lock();
-        log_file_cout << CRITICAL <<"Unable to setup ISR RISING "<<std::endl;
-        log_file_cout.mutex_unlock();
-
-    }
 #endif
     my_data->main_iDomStatus->addObject("cameraLED",STATE::UNKNOWN);
     my_data->main_iDomStatus->addObject("printer",STATE::OFF);
