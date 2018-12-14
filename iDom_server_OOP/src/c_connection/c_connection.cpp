@@ -1,5 +1,6 @@
 #include <iostream>
 #include "c_connection.h"
+#include "../thread_functions/iDom_thread.h"
 
 C_connection::C_connection (thread_data *my_data):c_socket(my_data->s_client_sock),
     c_from(my_data->from),recv_size(0)
@@ -25,7 +26,8 @@ C_connection::~C_connection()
     useful_F::sleep(3);
 
     shutdown(c_socket, SHUT_RDWR );
-    useful_F::clearThreadArray(my_data);
+    //useful_F::clearThreadArray(my_data);
+    iDOM_THREAD::stop_thread("connections TCP", my_data);
     puts("C_connection::~C_connection()");
 }
 

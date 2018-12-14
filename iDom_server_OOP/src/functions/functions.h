@@ -36,7 +36,7 @@ public:
     static bool workServer;
     static thread_data* myStaticData;
     static void setStaticData(thread_data* my_dataPtr);
-    static void clearThreadArray(thread_data *my_data);
+   //S static void clearThreadArray(thread_data *my_data);
     static int findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array);
     static int runLinuxCommand(const std::string& cmd);
 

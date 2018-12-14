@@ -50,7 +50,7 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string& threadName){
 //////////// watek do obslugi polaczeni miedzy nodami //////////////
 void f_serv_con_node (thread_data *my_data, const std::string& threadName){
     my_data->myEventHandler.run("node")->addEvent("start and stop node");
-    useful_F::clearThreadArray(my_data);
+    //useful_F::clearThreadArray(my_data);
 
     iDOM_THREAD::stop_thread(threadName,my_data);
 } // koniec f_serv_con_node

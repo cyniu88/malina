@@ -29,8 +29,6 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
     digitalWrite(iDomConst::GPIO_SPIK,LOW);
     pinMode(iDomConst::GPIO_PRINTER,OUTPUT); /// gpio pin do zsilania drukarki
     digitalWrite(iDomConst::GPIO_PRINTER,LOW);
-    pinMode(iDomConst::BUTTON_PIN, INPUT); // gpio pin przycisku
-
 #endif
     my_data->main_iDomStatus->addObject("cameraLED",STATE::UNKNOWN);
     my_data->main_iDomStatus->addObject("printer",STATE::OFF);
