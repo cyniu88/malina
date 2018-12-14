@@ -36,13 +36,13 @@ void menu_tree::previous()
     --i;
     if ( i <0 )
     {
-        i=get_vector_size()-1;
+        i = get_vector_size()-1;
     }
 }
 
 int menu_tree::get_vector_size () const
 {
-    return movie_database_vector.size();
+    return static_cast<int>(movie_database_vector.size());
 }
 void menu_tree::vector_clear ()
 {
@@ -71,10 +71,6 @@ void menu_tree::enter_dir()
         i=0;
     }
 }
-//void menu_tree::enter_dir(const std::string& path)
-//{
-//    get_list (path) ;
-//}
 
 void menu_tree::back_dir()
 {
@@ -93,7 +89,7 @@ void menu_tree::back_dir()
 
 std::string menu_tree::show_list()
 {
-    if (movie_database_vector[i].is_file == true ) {
+    if (movie_database_vector.at(i).is_file == true ) {
         mainLCD->printString(true,0,0,movie_database_vector[i].files_name.substr(0,16));
 
         return movie_database_vector[i].files_name;
@@ -109,17 +105,17 @@ bool comper (const movie_database & a , const movie_database& b);
 //    return a.files_name < b.files_name;
 //}
 
-void menu_tree::get_list(const std::string& path) {
+void menu_tree::get_list(std::string path) {
     tree_stack.push(path);
     vector_clear(); // czyscimy vector
-    std::string path2(path);
+    std::string path2;
     std::string v_path ,tmp_string;
     if(sciezka = opendir( path.c_str() )) {
 
 
         while(( plik = readdir( sciezka ) ) )
         {
-            path2 =path;
+            path2 = path;
             if (static_cast<int>(plik->d_type) == 4 /*&& strcmp( plik->d_name, "..") && strcmp( plik->d_name, ".")*/ )
             {
                 if (!strcmp( plik->d_name, "..") || !strcmp( plik->d_name, "."))

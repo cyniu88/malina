@@ -26,7 +26,7 @@ class files_tree {
 private:
     LCD_c *mainLCD;
     std::string database_path;
-    std::vector < movie_database > movie_database_vector;
+    std::vector <movie_database> movie_database_vector;
     int i; // licznik
     struct dirent * plik;
     DIR * sciezka;

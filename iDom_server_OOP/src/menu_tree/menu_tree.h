@@ -14,7 +14,6 @@
 #include "../LCD_c/lcd_c.h"
 #include "../files_tree/files_tree.h"
 
-
 class menu_tree {
 private:
     LCD_c *mainLCD;
@@ -33,7 +32,7 @@ private:
 
 public:
     menu_tree(const std::string& path, LCD_c *mainLCD_PTR);
-    void get_list(const std::string& path ); // pobiera liste plikow i katalogow w katalogu glóm
+    void get_list(std::string path ); // pobiera liste plikow i katalogow w katalogu glóm
     //void get_main_list ();
     std::string show_list ( );
     int get_i(); 				//pobgiera i ze stosu do cofania sie po katalogach
