@@ -19,6 +19,12 @@ protected:
         test_connection->m_encriptionKey = "key";
         test_connection->m_encrypted = false;
         test_connection->c_socket = 0;
+        std::array<Thread_array_struc,iDomConst::MAX_CONNECTION >test_ThreadArrayStruc;
+
+        for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+            test_ThreadArrayStruc.at(i).thread_socket = i+1;
+        test_ThreadArrayStruc.at(3).thread_socket = 0;
+        test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
     }
     void TearDown() final
     {

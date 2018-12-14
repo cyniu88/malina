@@ -8,10 +8,10 @@
 std::string useful_F::send_to_arduino_clock (thread_data *my_data_logic, std::string msg){
     return "return test";
 }
-std::string useful_F::l_send_file(std::string path, std::string find, bool reverse )
-{
-    return "return test in l_send_file()";
-}
+//std::string useful_F::l_send_file(std::string path, std::string find, bool reverse )
+//{
+//    return "return test in l_send_file()";
+//}
 
 std::string LCD_c::getData(){
     return " data test";

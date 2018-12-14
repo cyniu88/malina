@@ -93,7 +93,7 @@ TEST_F(command_show_Class_fixture, showLog)
     test_v.push_back("show");
     test_v.push_back("log");
     auto ret = test_command_show->execute(test_v,&test_my_data);
-    EXPECT_STREQ(ret.c_str(), "return test in l_send_file()");
+    EXPECT_THAT(ret, testing::HasSubstr("VERBOSE"));
 }
 
 TEST_F(command_show_Class_fixture, showLogNoInfo)
@@ -103,7 +103,8 @@ TEST_F(command_show_Class_fixture, showLogNoInfo)
     test_v.push_back("no");
     test_v.push_back("INFO");
     auto ret = test_command_show->execute(test_v,&test_my_data);
-    EXPECT_STREQ(ret.c_str(), "return test in l_send_file()");
+    EXPECT_THAT(ret, testing::HasSubstr("VERBOSE"));
+    EXPECT_THAT(ret, testing::Not(testing::HasSubstr("INFO")));
 }
 
 TEST_F(command_show_Class_fixture, showLogInfo)
@@ -112,7 +113,7 @@ TEST_F(command_show_Class_fixture, showLogInfo)
     test_v.push_back("log");
     test_v.push_back("INFO");
     auto ret = test_command_show->execute(test_v,&test_my_data);
-    EXPECT_STREQ(ret.c_str(), "return test in l_send_file()");
+    EXPECT_THAT(ret, testing::HasSubstr("INFO"));
 }
 
 TEST_F(command_show_Class_fixture, showLogFakeInfo)
