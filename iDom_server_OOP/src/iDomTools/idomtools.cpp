@@ -922,6 +922,9 @@ void iDomTOOLS::checkAlarm()
             if(iDomTOOLS::isItDay() == false){
                  my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
                  saveState_iDom();
+                 log_file_mutex.mutex_lock();
+                 log_file_cout << DEBUG << "uruchamiam ALARM 433MHz"<< std::endl;
+                 log_file_mutex.mutex_unlock();
             }
         }
     }
