@@ -15,15 +15,17 @@ public:
                                     int thread_socket = 1);
 
     static std::string start_thread_RS232(const std::string &name,
-                                    std::function<void(thread_data_rs232 *, const std::string &)> functionToThread,
-                                    thread_data *my_data,
-                                    thread_data_rs232 *my_data_rs232,
-                                    int thread_socket = 1);
+                                          std::function<void(thread_data_rs232 *, const std::string &)> functionToThread,
+                                          thread_data *my_data,
+                                          thread_data_rs232 *my_data_rs232,
+                                          int thread_socket = 1);
 
     static void stop_thread(const std::string &name,
                             thread_data* my_data);
 
     static void waitUntilAllThreadEnd(thread_data* my_data);
+
+    static int findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array);
 };
 
 #endif

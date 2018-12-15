@@ -37,7 +37,7 @@ public:
     static thread_data* myStaticData;
     static void setStaticData(thread_data* my_dataPtr);
    //S static void clearThreadArray(thread_data *my_data);
-    static int findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array);
+
     static int runLinuxCommand(const std::string& cmd);
 
     static std::mutex mutex_buf;

@@ -153,17 +153,6 @@ std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned i
     return std::to_string((hash & 0x7FFFFFFF));
 }
 
-int useful_F::findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array)
-{
-    for (std::size_t i = 0; i< array->size(); ++i)
-    {
-        if (array->at(i).thread_socket == 0)
-            return static_cast<int>(i);
-    }
-    puts("return -1");
-    return -1;
-}
-
 std::string useful_F::sek_to_uptime(long long secy )
 {
     const int min = 60; //s

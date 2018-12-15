@@ -21,22 +21,47 @@ RADIO_SWITCH::~RADIO_SWITCH()
 
 void RADIO_SWITCH::on()
 {
-    main433MHz.sendCode(RADIO_EQ::m_config.onCode);
-    m_state = STATE::ON;
-    RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::ON);
+    if(RADIO_EQ::m_config.onCode != "null")
+    {
+        main433MHz.sendCode(RADIO_EQ::m_config.onCode);
+        m_state = STATE::ON;
+        RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::ON);
+    }
+    else {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << RADIO_EQ::m_config.name << " switch -  zla konfiguracja kodu ON" << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 }
 
 void RADIO_SWITCH::off()
 {
-    main433MHz.sendCode(RADIO_EQ::m_config.offCode);
-    m_state = STATE::OFF;
-    RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name,STATE::OFF);
+    if(RADIO_EQ::m_config.offCode != "null")
+    {
+        main433MHz.sendCode(RADIO_EQ::m_config.offCode);
+        m_state = STATE::OFF;
+        RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name,STATE::OFF);
+    }
+    else {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << RADIO_EQ::m_config.name << " switch -  zla konfiguracja kodu OFF" << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 }
 
 void RADIO_SWITCH::onFor15sec()
 {
-    main433MHz.sendCode(RADIO_EQ::m_config.on15sec);
-    m_state = STATE::WORKING;
+    if(RADIO_EQ::m_config.on15sec != "null")
+    {
+        main433MHz.sendCode(RADIO_EQ::m_config.on15sec);
+        m_state = STATE::TEMPORARY;
+        RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name,STATE::TEMPORARY);
+    }
+    else {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << RADIO_EQ::m_config.name << " switch - zla konfiguracja kodu ON for 15s" << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 }
 
 void RADIO_SWITCH::onSunrise()
@@ -288,9 +313,9 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
         }
         catch(...)
         {
-        log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG << "no SWITCH equipment in config" << std::endl;
-        log_file_mutex.mutex_unlock();
+            log_file_mutex.mutex_lock();
+            log_file_cout << DEBUG << "no SWITCH equipment in config" << std::endl;
+            log_file_mutex.mutex_unlock();
         }
         try
         {
