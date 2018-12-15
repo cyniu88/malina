@@ -6,7 +6,7 @@
 class blockQueue_Class_fixture : public ::testing::Test
 {
 public:
-    blockQueue_Class_fixture()  {  }
+    blockQueue_Class_fixture() { }
 
 protected:
     blockQueue test_q;

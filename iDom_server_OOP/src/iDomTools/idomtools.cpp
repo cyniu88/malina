@@ -438,7 +438,6 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
             turnOffPrinter();
             radioButton->setState(STATE::STOP);
             switchActionOnLockHome();
-            //TODO dodać wylaczanie wiatraka
         }
         else if (my_data->main_iDomStatus->getObjectState("music") == STATE::STOP)
         {

@@ -29,7 +29,7 @@ void RADIO_SWITCH::on()
     }
     else {
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << RADIO_EQ::m_config.name << " switch -  zla konfiguracja kodu ON" << std::endl;
+        log_file_cout << ERROR << RADIO_EQ::m_config.name << " switch - zla konfiguracja kodu ON" << std::endl;
         log_file_mutex.mutex_unlock();
     }
 }
@@ -44,7 +44,7 @@ void RADIO_SWITCH::off()
     }
     else {
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << RADIO_EQ::m_config.name << " switch -  zla konfiguracja kodu OFF" << std::endl;
+        log_file_cout << ERROR << RADIO_EQ::m_config.name << " switch - zla konfiguracja kodu OFF" << std::endl;
         log_file_mutex.mutex_unlock();
     }
 }
