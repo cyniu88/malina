@@ -468,7 +468,7 @@ iDomStateEnum iDom_main()
 
         //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscy ////////////////////
 
-        int freeSlotID = useful_F::findFreeThreadSlot(&thread_array);
+        int freeSlotID = iDOM_THREAD::findFreeThreadSlot(&thread_array);
 
         if( freeSlotID != -1)
 
