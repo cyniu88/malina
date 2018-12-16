@@ -7,3 +7,4 @@ cd koko
 ls
 cmake .
 make
+./koko
