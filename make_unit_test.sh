@@ -2,9 +2,8 @@
 
 echo "start build"
 
-#cd iDom*/test/iDom*
-cd koko
+cd iDom*/test/iDom*
 ls
 cmake .
 make
-./koko
+./iDom_TESTs-CMAKE

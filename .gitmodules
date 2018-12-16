@@ -1,3 +1,6 @@
 [submodule "iDom_server_OOP/libs"]
 	path = iDom_server_OOP/libs
 	url = https://github.com/cyniu88/libs.git
+[submodule "iDom_server_OOP/json"]
+	path = iDom_server_OOP/json
+	url = https://github.com/nlohmann/json.git
