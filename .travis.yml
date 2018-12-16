@@ -1,4 +1,7 @@
 language: cpp
+before_script:
+  - sudo apt-get install -y mpd
+  
 matrix:
   include:
 
@@ -15,3 +18,4 @@ matrix:
 
 before_install:
     - eval "${MATRIX_EVAL}"
+    
