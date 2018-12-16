@@ -19,6 +19,4 @@ matrix:
 before_install:
     - eval "${MATRIX_EVAL}"
     
-scritp: 
-echo "PIES"
-make
+script: "bash -c ./build.sh"
