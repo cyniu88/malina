@@ -22,9 +22,16 @@ before_install:
     - sudo ln /usr/bin/clang++-5.0 /usr/bin/clang++
     
 script: 
-  - echo "start build"
-  - pwd
+  - pwd  
   - echo "tam jestem"
+  - cd koko
+  - cmake .
+  - make
+  - ./koko
+  - cd ..
+  - echo "koniec budowania koko"
+  
+  - echo "start build iDom BT"
   - cd iDom*/test/iDom*
   - ls
   - cmake .
