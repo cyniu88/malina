@@ -19,6 +19,6 @@ matrix:
 before_install:
     - eval "${MATRIX_EVAL}"
     - chmod +x make_unit_test.sh
-    - ln /usr/bin/clang++ /usr/bin/clang++-5.0
+    - ln /usr/bin/clang++-5.0 /usr/bin/clang++
     
 script: "bash -c ./make_unit_test.sh"
