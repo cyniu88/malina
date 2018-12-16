@@ -21,4 +21,12 @@ before_install:
     - chmod +x make_unit_test.sh
     - sudo ln /usr/bin/clang++-5.0 /usr/bin/clang++
     
-script: "bash -c ./make_unit_test.sh"
+script: 
+  - echo "start build"
+  - pwd
+  - echo "tam jestem"
+  - cd iDom*/test/iDom*
+  - ls
+  - cmake .
+  - make  
+  - ./iDom_TESTs-CMAKE
