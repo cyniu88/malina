@@ -10,6 +10,7 @@ public:
     }
 
 protected:
+
     std::unique_ptr<C_connection> test_connection;
     void SetUp() final
     {
@@ -19,7 +20,6 @@ protected:
         test_connection->m_encriptionKey = "key";
         test_connection->m_encrypted = false;
         test_connection->c_socket = 0;
-
     }
     void TearDown() final
     {
@@ -112,15 +112,9 @@ TEST_F(c_connection_fixture, exitFlow)
 */
 TEST_F(c_connection_fixture, emptyCommand)
 {
+
     std::array<Thread_array_struc,iDomConst::MAX_CONNECTION >test_ThreadArrayStruc;
-
-    test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
-
-    for (std::size_t i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
-    {
-        test_my_data.main_THREAD_arr->at(i).thread_ID = std::this_thread::get_id();
-    }
-
+    test_my_data.main_THREAD_arr = &test_ThreadArrayStruc //TODO
     test_my_data.main_THREAD_arr->at(3).thread_socket = 1;
     test_my_data.main_THREAD_arr->at(3).thread_ID = std::this_thread::get_id();
 
