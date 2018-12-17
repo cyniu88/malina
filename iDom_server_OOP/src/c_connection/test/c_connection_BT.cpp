@@ -114,7 +114,7 @@ TEST_F(c_connection_fixture, emptyCommand)
 {
 
     std::array<Thread_array_struc,iDomConst::MAX_CONNECTION >test_ThreadArrayStruc;
-    test_my_data.main_THREAD_arr = &test_ThreadArrayStruc //TODO
+    test_my_data.main_THREAD_arr = &test_ThreadArrayStruc; //TODO
     test_my_data.main_THREAD_arr->at(3).thread_socket = 1;
     test_my_data.main_THREAD_arr->at(3).thread_ID = std::this_thread::get_id();
 
