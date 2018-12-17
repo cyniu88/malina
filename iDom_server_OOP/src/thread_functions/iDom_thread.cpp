@@ -7,7 +7,7 @@
 std::string iDOM_THREAD::start_thread(const std::string& name,
                                       std::function<void(thread_data*,const std::string& threadName)> functionToThread, //void(fn)(thread_data),
                                       thread_data* my_data,
-                                      int thread_socket)
+                                      unsigned int thread_socket)
 {
     int freeSlotID = iDOM_THREAD::findFreeThreadSlot(my_data->main_THREAD_arr);
 
@@ -35,7 +35,7 @@ std::string iDOM_THREAD::start_thread_RS232(const std::string &name,
                                             std::function<void (thread_data_rs232 *, const std::string &)> functionToThread,
                                             thread_data* my_data,
                                             thread_data_rs232 *my_data_rs232,
-                                            int thread_socket)
+                                            unsigned int thread_socket)
 {
     int freeSlotID = iDOM_THREAD::findFreeThreadSlot(my_data->main_THREAD_arr);
 
@@ -67,6 +67,7 @@ void iDOM_THREAD::stop_thread(const std::string& name,
         {
             if (my_data->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
             {
+                puts("TOOOOOO");
                 my_data->main_THREAD_arr->at(i).thread_name ="  -empty-  ";
                 my_data->main_THREAD_arr->at(i).thread_ID = std::thread::id();
                 my_data->main_THREAD_arr->at(i).thread_socket = 0;

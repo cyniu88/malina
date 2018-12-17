@@ -92,7 +92,7 @@ struct Thread_array_struc {
     std::thread thread;
     std::thread::id thread_ID = std::thread::id(0);
     std::string thread_name;
-    int thread_socket = 0;
+    unsigned int thread_socket = 0;
 };
 
 struct address_another_servers {

@@ -43,6 +43,7 @@ TEST_F(c_irda_logic_fixture, kodi)
     for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
         test_ThreadArrayStruc.at(i).thread_socket = i+1;
     test_ThreadArrayStruc.at(3).thread_socket = 0;
+    test_ThreadArrayStruc.at(3).thread_ID = std::this_thread::get_id();
     test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
 
     test_my_data.main_iDomTools->unlockHome();
@@ -142,6 +143,7 @@ TEST_F(c_irda_logic_fixture, sleeper_Logic_OK)
     for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
         test_ThreadArrayStruc.at(i).thread_socket = i+1;
     test_ThreadArrayStruc.at(3).thread_socket = 0;
+    test_ThreadArrayStruc.at(3).thread_ID = std::this_thread::get_id();
     test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
     test_my_data.sleeper = 0;
     EXPECT_EQ(test_my_data.sleeper, 0);

@@ -19,12 +19,7 @@ protected:
         test_connection->m_encriptionKey = "key";
         test_connection->m_encrypted = false;
         test_connection->c_socket = 0;
-        std::array<Thread_array_struc,iDomConst::MAX_CONNECTION >test_ThreadArrayStruc;
 
-        for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
-            test_ThreadArrayStruc.at(i).thread_socket = i+1;
-        test_ThreadArrayStruc.at(3).thread_socket = 0;
-        test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
     }
     void TearDown() final
     {
@@ -36,7 +31,7 @@ protected:
         test_connection->crypto(toEncrypt, std::move(key), true);
     }
 };
-
+/*
 TEST_F(c_connection_fixture, crypto)
 {
     std::string key = "210116556";
@@ -114,9 +109,29 @@ TEST_F(c_connection_fixture, exitFlow)
     test_connection->setEncrypted(false);
     EXPECT_THROW(test_connection->c_analyse(strMsg.size()),std::string );
 }
-
+*/
 TEST_F(c_connection_fixture, emptyCommand)
 {
+    std::array<Thread_array_struc,iDomConst::MAX_CONNECTION >test_ThreadArrayStruc;
+
+    test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
+
+    for (std::size_t i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+    {
+        test_my_data.main_THREAD_arr->at(i).thread_ID = std::this_thread::get_id();
+    }
+
+    test_my_data.main_THREAD_arr->at(3).thread_socket = 1;
+    test_my_data.main_THREAD_arr->at(3).thread_ID = std::this_thread::get_id();
+
+    for (std::size_t i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+    {
+
+        std::cout << "mamy DUPA:\t" << test_my_data.main_THREAD_arr->at(i).thread_ID
+                  << "\npowinno:\t"<< std::this_thread::get_id() << std::endl;
+        if(test_my_data.main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id() )
+            puts("\n\n\n JEST! \n\n");
+    }
     commandHandlerRoot* chr = new commandHandlerRoot(&test_my_data);
     test_connection->mainCommandHandler = chr;
 
@@ -125,6 +140,7 @@ TEST_F(c_connection_fixture, emptyCommand)
     for (char n : strMsg)
         test_connection->c_buffer[i++] = n;
     test_connection->setEncrypted(false);
-    test_connection->c_analyse(strMsg.size());
+    test_connection->c_analyse(static_cast<int>(strMsg.size()));
     EXPECT_STREQ(test_connection->getStr_buf().c_str(), "empty command");
 }
+
