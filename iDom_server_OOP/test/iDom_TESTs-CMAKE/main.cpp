@@ -4,11 +4,9 @@
 #include <fstream>
 #include <sstream>
 #include <test_data.h>
-#include "../../../libs/useful/useful.h"
-#include "../../../src/SerialPi/serialpi.h"
-#include "../../../src/functions/functions.h"
-
-#undef JSON_HAS_CPP_14
+#include "../../libs/useful/useful.h"
+#include "../../src/SerialPi/serialpi.h"
+#include "../../src/functions/functions.h"
 
 #define log_file_cout f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na
 std::string  _logfile = "/mnt/ramdisk/iDom_log_BT.log";
