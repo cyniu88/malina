@@ -1,7 +1,5 @@
 #ifndef RADIO_SWITCH_H
 #define RADIO_SWITCH_H
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <map>
 #include "../iDomStatus/idomstatus.h"
 #include "../433MHz/RFLink/rflinkhandler.h"
