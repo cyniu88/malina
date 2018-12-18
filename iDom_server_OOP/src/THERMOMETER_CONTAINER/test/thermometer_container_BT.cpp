@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include "../../iDomTools/test/iDomTools_fixture.h"
 #include "../thermometer_container.h"
 
