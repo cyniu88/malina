@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <curl/curl.h>
 
 #include "iDomTools_fixture.h"

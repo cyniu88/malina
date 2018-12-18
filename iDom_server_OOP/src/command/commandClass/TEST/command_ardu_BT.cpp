@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "../command_ardu.h"
 #include "../../../functions/functions.h"
 #include "../../../RADIO_433_eq/radio_433_eq.h"

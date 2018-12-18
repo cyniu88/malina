@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "test_data.h"
 #include "../idomtools.h"
 #include "../../src/functions/functions.h"

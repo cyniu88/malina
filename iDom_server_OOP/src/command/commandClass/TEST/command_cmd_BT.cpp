@@ -1,3 +1,5 @@
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "../command_cmd.h"
 #include "../../../iDomTools/test/iDomTools_fixture.h"
 

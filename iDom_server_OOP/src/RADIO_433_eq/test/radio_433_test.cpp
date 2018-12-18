@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "../radio_433_eq.h"
 #include "../../iDomTools/test/iDomTools_fixture.h"
 

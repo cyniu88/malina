@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "../../iDomTools/test/iDomTools_fixture.h"
 
 #include "../c_connection.h"

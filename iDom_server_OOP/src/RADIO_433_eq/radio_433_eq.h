@@ -195,14 +195,4 @@ public:
     std::string showConfig(const std::string &filePath);
 };
 
-class RADIO_EQ_CONTAINER_STUB : public RADIO_EQ_CONTAINER
-{
-    thread_data * k;
-public:
-    RADIO_EQ_CONTAINER_STUB(thread_data * k):RADIO_EQ_CONTAINER(k){this->k = k;}
-
-    virtual ~RADIO_EQ_CONTAINER_STUB(){puts("~RADIO_EQ_CONTAINER_STUB()");}
-    MOCK_METHOD1(getEqPointer, RADIO_EQ*(std::string name));
-};
-
 #endif // RADIO_SWITCH_H
