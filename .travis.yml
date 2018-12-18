@@ -1,6 +1,11 @@
 language: cpp
 before_script:
   - sudo apt-get install -y libmpd-dev curl libmpdclient-dev libgtest-dev libgmock-dev
+  - cd /usr/src/gmock
+  - sudo mkdir build
+  - sudo cmake ..
+  - sudo make
+  - sudo cp *.a /usr/lib
   
 matrix:
   include:
