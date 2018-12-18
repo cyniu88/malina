@@ -1,33 +1,18 @@
 language: cpp
-before_script:
-  - sudo apt-get install -y cmake libmpd-dev curl libmpdclient-dev libgtest-dev google-mock
- # - cd /usr/src/gmock
- # - sudo mkdir build
- # - sudo cmake .
- # - sudo make
- # - sudo cp *.a /usr/lib
- # - cd /home/travis/build/cyniu88/malina/
-  
-matrix:
-  include:
-
-    # works on Trusty
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-trusty-5.0
-          packages:
-            - clang-5.0
-      env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+compiler: gcc
+dist: trusty
 
 before_install:
-    - eval "${MATRIX_EVAL}"
-    - chmod +x make_unit_test.sh
-    - sudo ln /usr/bin/clang++-5.0 /usr/bin/clang++
-    
-script: 
+  # C++17
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+
+install: 
+  # C++17
+  - sudo apt-get install -qq g++-6
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
+
+script:
   - pwd  
   - echo "tam jestem"
   - cd koko
@@ -36,10 +21,3 @@ script:
   - ./koko
   - cd ..
   - echo "koniec budowania koko"
-  
-  - echo "start build iDom BT"
-  - cd iDom*/test/iDom*
-  - ls
-  - cmake .
-  - make  
-  - ./iDom_TESTs-CMAKE
