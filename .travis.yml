@@ -1,12 +1,12 @@
 language: cpp
 before_script:
-  - sudo apt-get install -y cmake libmpd-dev curl libmpdclient-dev libgtest-dev google-mock
-  - cd /usr/src/gmock
-  - sudo mkdir build
-  - sudo cmake .
-  - sudo make
-  - sudo cp *.a /usr/lib
-  - sudo cd /home/travis/build/cyniu88/malina/
+  - sudo apt-get install -y cmake libmpd-dev curl libmpdclient-dev libgtest-dev 
+ # - cd /usr/src/gmock
+ # - sudo mkdir build
+ # - sudo cmake .
+ # - sudo make
+ # - sudo cp *.a /usr/lib
+ # - cd /home/travis/build/cyniu88/malina/
   
 matrix:
   include:
