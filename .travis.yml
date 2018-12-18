@@ -1,6 +1,6 @@
 language: cpp
 before_script:
-  - sudo apt-get install -y cmake libmpd-dev curl libmpdclient-dev libgtest-dev 
+  - sudo apt-get install -y cmake libmpd-dev curl libmpdclient-dev libgtest-dev
  # - cd /usr/src/gmock
  # - sudo mkdir build
  # - sudo cmake .
@@ -16,16 +16,16 @@ matrix:
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-trusty-6.0
           packages:
-            - clang-5.0
+            - clang-6.0
       env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
 
 before_install:
     - eval "${MATRIX_EVAL}"
     - chmod +x make_unit_test.sh
-    - sudo ln /usr/bin/clang++-5.0 /usr/bin/clang++
+    - sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
     
 script: 
   - pwd  
