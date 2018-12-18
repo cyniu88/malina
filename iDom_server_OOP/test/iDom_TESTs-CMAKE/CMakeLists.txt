@@ -3,7 +3,7 @@ LINK_DIRECTORIES(/usr/local/lib )
 
 project(iDom_TESTs-CMAKE)
 
-set(INCLUDE_DIRECTORIES "../../json/single_include/nlohmann/"
+set(INCLUDE_DIRECTORIES "../../json2/" #"../../json/single_include/nlohmann/"
     "../../test/iDom_TESTs-CMAKE/"
     "/home/cyniu/GIT/WiringPi/wiringPi")
     #"/home/cyniu/GIT/malina/iDom_server_OOP/arduPi")

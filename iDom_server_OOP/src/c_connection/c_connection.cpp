@@ -26,7 +26,6 @@ C_connection::~C_connection()
     useful_F::sleep(3);
 
     shutdown(c_socket, SHUT_RDWR );
-    iDOM_THREAD::stop_thread("connections TCP", my_data);
     puts("C_connection::~C_connection()");
 }
 

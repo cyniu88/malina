@@ -299,54 +299,54 @@ TEST_F(c_irda_logic_fixture, projektor)
     test_irda->who = PILOT_STATE::PROJECTOR;
     test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
-    std::cout << "DUPA: " << retString.size() << std::endl;
+    std::cout << "retString.size() : " << retString.size() << std::endl;
    // EXPECT_EQ(retString,"+");
 
     test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
     retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
-    std::cout << "DUPA: " << retString.size() << std::endl;
+    std::cout << "retString.size() : " << retString.size() << std::endl;
    // EXPECT_EQ(retString,"+");
 
     test_irda->_add(PILOT_KEY::KEY_OK);
     retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
-    std::cout << "DUPA: " << retString.size() << std::endl;
+    std::cout << "retString.size() : " << retString.size() << std::endl;
    // EXPECT_EQ(retString,"-");
 
     test_irda->_add(PILOT_KEY::KEY_POWER);
     retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
-    std::cout << "DUPA: " << retString.size() << std::endl;
+    std::cout << "retString.size() : " << retString.size() << std::endl;
    // EXPECT_EQ(retString,"q");
 
     test_irda->_add(PILOT_KEY::KEY_DOWN);
     retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
-    std::cout << "DUPA: " << retString.size() << std::endl;
+    std::cout << "retString.size() : " << retString.size() << std::endl;
    // EXPECT_EQ(retString,"+");
 
     test_irda->_add(PILOT_KEY::KEY_UP);
     retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
-    std::cout << "DUPA: " << retString.size() << std::endl;
+    std::cout << "retString.size() : " << retString.size() << std::endl;
    // EXPECT_EQ(retString,"+");
 
     test_irda->_add(PILOT_KEY::KEY_CHANNELUP);
     retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
-    std::cout << "DUPA: " << retString.size() << std::endl;
+    std::cout << "retString.size() : " << retString.size() << std::endl;
    // EXPECT_EQ(retString,"o");
 
     test_irda->_add(PILOT_KEY::KEY_CHANNELDOWN);
     retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
-    std::cout << "DUPA: " << retString.size() << std::endl;
+    std::cout << "retString.size() : " << retString.size() << std::endl;
    // EXPECT_EQ(retString,"i");
 
     test_my_data.ptr_MPD_info->isPlay = true;
     test_irda->_add(PILOT_KEY::KEY_EXIT);
     retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
-    std::cout << "DUPA: " << retString.size() << std::endl;
+    std::cout << "retString.size() : " << retString.size() << std::endl;
     EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
 
     test_my_data.ptr_MPD_info->isPlay = false;
     test_irda->_add(PILOT_KEY::KEY_EXIT);
     retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
-    std::cout << "DUPA: " << retString.size() << std::endl;
+    std::cout << "retString.size() : " << retString.size() << std::endl;
     EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"),STATE::OFF);
 
