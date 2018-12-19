@@ -2,6 +2,24 @@ language: cpp
 compiler: clang
 dist: trusty
 
+matrix:
+include:
+# Clang 6.0
+    - env: COMPILER=clang++-6.0 BUILD_TYPE=Debug GSL_CXX_STANDARD=14
+      addons: &clang60
+        apt:
+          packages:
+            - clang-6.0
+            - g++-7
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
+            - sourceline: 'deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+
+    - env: COMPILER=clang++-6.0 BUILD_TYPE=Release GSL_CXX_STANDARD=14
+addons: *clang60
+
 before_install:
   # C++17
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
@@ -11,16 +29,6 @@ before_install:
 install: 
   # C++17
 
-  - sudo apt-get install -y clang-5.0
-  
-  - sudo wget https://github.com/google/googletest/archive/release-1.7.0.tar.gz
-  - sudo tar xf release-1.7.0.tar.gz
-  - cd googletest-release-1.7.0
-  - sudo cmake -DBUILD_SHARED_LIBS=ON .
-  - sudo make
-  - sudo cp -a include/gtest /usr/include
-  - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
-  - cd "${TRAVIS_BUILD_DIR}"
   
 script:
   - pwd  
@@ -32,7 +40,7 @@ script:
   - cd ..
   - echo "koniec budowania koko"
 
-  #- sudo ln /usr/bin/g++-6 /usr/bin/clang++
+  #- sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
   #- echo "start build iDom BT"
   #- cd iDom*/test/iDom*
  # - ls
