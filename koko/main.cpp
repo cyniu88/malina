@@ -1,9 +1,10 @@
 #include <iostream>
+#include <iomanip>
+#include <ctime>
 
-using namespace std;
-
-int main(int argc, char *argv[])
+int main()
 {
-    cout << "Hello World!" << endl;
-    return 0;
+    std::time_t t = std::time(nullptr);
+    std::tm tm = *std::localtime(&t);
+    std::cout << "ja_JP: " << std::put_time(&tm, "%c %Z") << '\n';
 }
