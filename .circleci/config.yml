@@ -26,19 +26,19 @@ jobs:
           command: 'ls'
       - run:
           name: Creating Build Files
-          command: 'cmake koko/'
+          command: 'cmake -B koko/ -H koko/'
       - run:
           name: ls
           command: 'ls'
       - run:
           name: Creating Binary Files
-          command: 'make '
+          command: 'make -C koko/'
       - run:
           name: ls
-          command: 'ls'
+          command: 'ls koko/'
       - run:
           name: permision
-          command: 'sudo chmod +x koko'
+          command: 'sudo chmod +x koko/koko'
       - run:
           name: runt
-          command: './koko'
+          command: './koko/koko'
