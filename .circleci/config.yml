@@ -28,8 +28,14 @@ jobs:
           name: Creating Build Files
           command: 'cmake koko/'
       - run:
+          name: ls
+          command: 'ls'
+      - run:
           name: Creating Binary Files
           command: 'make '
+       - run:
+          name: ls
+       command: 'ls'
       - run:
           name: permision
           command: 'sudo chmod +x koko'
