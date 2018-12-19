@@ -13,17 +13,20 @@ jobs:
           name: Installing clang
           command: 'apt-get update && apt-get install -y gcc clang'
       - run:
-          name: Install CMAKE
-          command: 'apt-get update && sudo apt-get install -y cmake'
+          name: Install CMAKE GIT
+          command: 'apt-get update && sudo apt-get install -y cmake git'
       - run:
-          name: pwd
-          command: 'pwd'
+          name: ls
+          command: 'ls'
+      - run:
+          name: clone 
+          command: 'git clone https://github.com/cyniu88/malina.git'
       - run:
           name: go to koko
-          command: 'cd koko'
+          command: 'cd malina/koko'
       - run:
-          name: pwd
-          command: 'pwd'
+          name: ls
+          command: 'ls'
       - run:
           name: Creating Build Files
           command: 'cmake .'
