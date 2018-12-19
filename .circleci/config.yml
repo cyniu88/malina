@@ -30,6 +30,9 @@ jobs:
       - run:
           name: Creating Binary Files
           command: 'make koko/'
+       - run:
+          name: permision
+          command: 'sudo chmod +x koko/koko'
       - run:
-          name: Point Unit Testing
+          name: runt
           command: './koko/koko'
