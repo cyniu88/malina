@@ -19,11 +19,8 @@ jobs:
           name: ls
           command: 'ls'
       - run:
-          name: clone 
-          command: 'git clone https://github.com/cyniu88/malina.git'
-      - run:
           name: go to koko
-          command: 'cd koko'
+          command: 'cd koko/'
       - run:
           name: ls
           command: 'ls'
