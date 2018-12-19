@@ -23,7 +23,7 @@ jobs:
           command: 'git clone https://github.com/cyniu88/malina.git'
       - run:
           name: go to koko
-          command: 'cd malina/koko'
+          command: 'cd koko'
       - run:
           name: ls
           command: 'ls'
