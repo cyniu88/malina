@@ -21,3 +21,11 @@ script:
   - ./koko
   - cd ..
   - echo "koniec budowania koko"
+
+  - sudo ln /usr/bin/g++-6 /usr/bin/clang++
+  - echo "start build iDom BT"
+  - cd iDom*/test/iDom*
+  - ls
+  - cmake .
+  - make  
+  - ./iDom_TESTs-CMAKE
