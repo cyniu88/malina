@@ -42,3 +42,22 @@ jobs:
       - run:
           name: runt
           command: './koko/koko'
+          
+      - run:
+          name: Creating Build Files
+          command: 'cmake -BiDom_server_OOP/test/iDom_TESTs-CMAKE/ -HiDom_server_OOP/test/iDom_TESTs-CMAKE/'
+      - run:
+          name: ls
+          command: 'ls iDom_server_OOP/test/iDom_TESTs-CMAKE/'
+      - run:
+          name: Creating Binary Files
+          command: 'make -C iDom_server_OOP/test/iDom_TESTs-CMAKE/'
+      - run:
+          name: ls
+          command: 'ls iDom_server_OOP/test/iDom_TESTs-CMAKE/'
+      - run:
+          name: permision
+          command: 'sudo chmod +x iDom_server_OOP/test/iDom_TESTs-CMAKE/iDom_TESTs-CMAKE'
+      - run:
+          name: runt
+          command: './iDom_server_OOP/test/iDom_TESTs-CMAKE/iDom_TESTs-CMAKE'
