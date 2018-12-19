@@ -16,6 +16,9 @@ jobs:
           name: Install CMAKE GIT
           command: 'apt-get update && sudo apt-get install -y cmake git'
       - run:
+          name: submodule
+          command: 'git submodule init'
+      - run:
           name: ls
           command: 'ls'
       - run:
