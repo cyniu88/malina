@@ -6,7 +6,9 @@ project(iDom_TESTs-CMAKE)
 set(INCLUDE_DIRECTORIES "../../json2/" #"../../json/single_include/nlohmann/"
     "../../test/iDom_TESTs-CMAKE/"
     "../../test/libs_test/wiringPi")
-    #"/home/cyniu/GIT/malina/iDom_server_OOP/arduPi")
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 include_directories(${INCLUDE_DIRECTORIES})
 
