@@ -29,10 +29,10 @@ jobs:
           command: 'cmake koko/'
       - run:
           name: Creating Binary Files
-          command: 'make koko/'
+          command: 'make '
       - run:
           name: permision
-          command: 'sudo chmod +x koko/koko'
+          command: 'sudo chmod +x koko'
       - run:
           name: runt
-          command: './koko/koko'
+          command: './koko'
