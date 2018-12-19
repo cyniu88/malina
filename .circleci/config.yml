@@ -17,7 +17,10 @@ jobs:
           command: 'apt-get update && sudo apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock'
       - run:
           name: google test init
-          command: sudo ln -s /usr/src/gtest/libgtest_main.a /usr/local/lib/libgtest_main.a && sudo ln -s /usr/src/gtest/libgtest.a /usr/local/lib/libgtest.a
+          command: cd /usr/src/gtest
+                   sudo cmake CMakeLists.txt
+                   sudo make
+                   sudo cp *.a /usr/lib
       - run:
           name: submodule init
           command: 'git submodule init && git submodule update --recursive --remote'
