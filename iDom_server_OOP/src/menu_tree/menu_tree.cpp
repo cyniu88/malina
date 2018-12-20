@@ -89,10 +89,6 @@ void menu_tree::back_dir()
 
 std::string menu_tree::show_list()
 {
-    if(movie_database_vector.empty()){
-        puts("wektor pusty");
-        return "vektor pusty";
-    }
     if (movie_database_vector.at(i).is_file == true ) {
         mainLCD->printString(true,0,0,movie_database_vector[i].files_name.substr(0,16));
 
