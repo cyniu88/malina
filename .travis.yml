@@ -44,10 +44,10 @@ script:
   - cd ..
   - echo "koniec budowania koko"
 
-  #- sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
-  #- echo "start build iDom BT"
-  #- cd iDom*/test/iDom*
- # - ls
- # - cmake .
-  #- make  
-  #- ./iDom_TESTs-CMAKE
+  - sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
+  - echo "start build iDom BT"
+  - cd iDom*/test/iDom*
+  - ls
+  - cmake .
+  - make  
+  - ./iDom_TESTs-CMAKE
