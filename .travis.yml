@@ -32,6 +32,7 @@ install:
   
 script:
   - sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
+  - sudo ln /usr/bin/clang-6.0 /usr/bin/clang
   - cd /usr/src/gtest
   - sudo cmake CMakeLists.txt
   - sudo make
