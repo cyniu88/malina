@@ -5,3 +5,6 @@
 
 
 [![Build status](https://ci.appveyor.com/api/projects/status/t0tcpo87yixo6aex?svg=true)](https://ci.appveyor.com/project/cyniu88/malina)
+
+CircleCI
+[![CircleCI](https://circleci.com/gh/cyniu88/malina.svg?style=svg)](https://circleci.com/gh/cyniu88/malina)
