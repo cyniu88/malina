@@ -51,7 +51,8 @@ script:
   - echo "koniec budowania koko"
 
   - echo "start build iDom BT"
-  - mkdir /mnt/ramdisk
+  - sudo mkdir /mnt/ramdisk
+  - sudo 777 /mnt/ramdisk
   - cd iDom*/test/iDom*
   - ls
   - cmake .
