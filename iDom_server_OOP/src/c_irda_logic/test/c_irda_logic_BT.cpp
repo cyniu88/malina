@@ -119,6 +119,7 @@ TEST_F(c_irda_logic_fixture, sleeper_Logic_EXIT)
 { puts("cyniu 1");
     test_my_data.sleeper = 0;
     EXPECT_EQ(test_my_data.sleeper, 0);
+    puts("cyniu 1.5");
     test_irda->_add(PILOT_KEY::KEY_MENU);
     puts("cyniu 2");
     do {
