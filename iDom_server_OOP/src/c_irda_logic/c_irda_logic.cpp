@@ -242,6 +242,7 @@ void c_irda_logic::movieLogic(PILOT_KEY X)
 
 void c_irda_logic::menuLogic(PILOT_KEY X)
 {
+    puts("menduLogic");
     switch (X)
     {
     case PILOT_KEY::KEY_EXIT:
