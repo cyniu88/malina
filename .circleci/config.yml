@@ -12,17 +12,20 @@ jobs:
                    apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*
                    apt-get update && apt-get install -y gcc clang
       - run:
-          name: Install CMAKE GIT
+          name: Install CMAKE GIT and libs
           command: 'apt-get update && sudo apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock'
       - run:
           name: google test init
-          command: cd /usr/src/gtest && sudo cmake CMakeLists.txt && sudo make && sudo cp *.a /usr/lib
+          command: |
+                   cd /usr/src/gtest
+                   sudo cmake CMakeLists.txt
+                   sudo make
+                   sudo cp *.a /usr/lib
       - run:
-          name: submodule init
-          command: 'git submodule init && git submodule update --recursive --remote'
-      - run:
-          name: submodule update
-          command: 'git submodule update --recursive --remote'
+          name: submodule init && update
+          command: |
+                   git submodule init
+                   git submodule update --recursive --remote
       - run:
           name: ramdisk
           command: 'mkdir /mnt/ramdisk && touch /dev/tty0'
