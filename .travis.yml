@@ -31,6 +31,7 @@ install:
 
   
 script:
+  - sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
   - cd /usr/src/gtest
   - sudo cmake CMakeLists.txt
   - sudo make
@@ -45,10 +46,9 @@ script:
   - cd ..
   - echo "koniec budowania koko"
 
-  #- sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
- # - echo "start build iDom BT"
- # - cd iDom*/test/iDom*
-  #- ls
- # - cmake .
-  #- make  
-  #- ./iDom_TESTs-CMAKE
+  - echo "start build iDom BT"
+  - cd iDom*/test/iDom*
+  - ls
+  - cmake .
+  - make  
+  - ./iDom_TESTs-CMAKE
