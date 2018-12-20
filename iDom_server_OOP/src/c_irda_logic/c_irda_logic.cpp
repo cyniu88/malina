@@ -242,7 +242,6 @@ void c_irda_logic::movieLogic(PILOT_KEY X)
 
 void c_irda_logic::menuLogic(PILOT_KEY X)
 {
-    puts("menduLogic");
     switch (X)
     {
     case PILOT_KEY::KEY_EXIT:
@@ -394,6 +393,8 @@ c_irda_logic::c_irda_logic(thread_data *my_data):my_data(my_data)
 
 void c_irda_logic::_add(PILOT_KEY X)
 {
+
+    puts("c_irda_logic::_add()");
     switch (who){
     case PILOT_STATE::MPD:
         mainPilotHandler(X);
