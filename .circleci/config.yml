@@ -71,7 +71,9 @@ jobs:
           command: 'sudo chmod +x iDom_server_OOP/test/iDom_TESTs-CMAKE/iDom_TESTs-CMAKE'
       - run:
           name: runt
-          command: './iDom_server_OOP/test/iDom_TESTs-CMAKE/iDom_TESTs-CMAKE'
+          command: |
+                 cd iDom_server_OOP/test/iDom_TESTs-CMAKE/
+                 ./iDom_TESTs-CMAKE
       - run:
           name: show logs
           command: 'cat /mnt/ramdisk/iDom_log_BT.log'
