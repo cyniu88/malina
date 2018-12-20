@@ -114,6 +114,7 @@ TEST_F(c_irda_logic_fixture, irdaMPD)
     test_irda->_add(PILOT_KEY::KEY_2); //default
     EXPECT_EQ(test_Q._size(), 0);
 }
+/*
 TEST_F(c_irda_logic_fixture, sleeper_Logic_EXIT)
 {
     test_my_data.sleeper = 0;
@@ -172,7 +173,7 @@ TEST_F(c_irda_logic_fixture, sleeper_Logic_OK)
     test_irda->who = PILOT_STATE::SLEEPER;
     test_irda->_add(PILOT_KEY::KEY_0); //default
 }
-
+*/
 TEST_F(c_irda_logic_fixture, LED_ON_OFF)
 {
     EXPECT_EQ( test_my_data.myEventHandler.run("LED")->getLast1minNumberEvent(),0);
@@ -185,6 +186,7 @@ TEST_F(c_irda_logic_fixture, LED_ON_OFF)
     }
     test_irda->_add(PILOT_KEY::KEY_SUBTITLE);
 }
+/*
 TEST_F(c_irda_logic_fixture, temp_smogINFO)
 {
     TEST_DATA::return_httpPost = "ok.\n";
@@ -283,7 +285,7 @@ TEST_F(c_irda_logic_fixture, menu_files)
 
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PAUSE);
 }
-
+*/
 TEST_F(c_irda_logic_fixture, dummy_KEY_RADIO_and_add )
 {
     test_irda->_add(PILOT_KEY::KEY_RADIO);
