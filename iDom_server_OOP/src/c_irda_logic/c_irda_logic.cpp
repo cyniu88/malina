@@ -394,9 +394,10 @@ c_irda_logic::c_irda_logic(thread_data *my_data):my_data(my_data)
 
 void c_irda_logic::_add(PILOT_KEY X)
 {
-    puts("c_irda_logic::_add()");
+    std::cout << "c_irda_logic::_add()\n\n" << std::endl;
     switch (who){
     case PILOT_STATE::MPD:
+        puts("\n\ncase PILOT_STATE::MPD:");
         mainPilotHandler(X);
         break;
     case PILOT_STATE::SLEEPER:
@@ -409,7 +410,7 @@ void c_irda_logic::_add(PILOT_KEY X)
         movieLogic(X);
         break;
     case PILOT_STATE::MENU:
-        puts("case PILOT_STATE::MENU:");
+        puts("\n\ncase PILOT_STATE::MENU:");
         menuLogic(X);
         break;
     default:
