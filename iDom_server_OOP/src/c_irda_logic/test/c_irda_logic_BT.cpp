@@ -116,18 +116,14 @@ TEST_F(c_irda_logic_fixture, irdaMPD)
 }
 
 TEST_F(c_irda_logic_fixture, sleeper_Logic_EXIT)
-{ puts("cyniu 1");
+{
     test_my_data.sleeper = 0;
     EXPECT_EQ(test_my_data.sleeper, 0);
-    puts("cyniu 1.5");
     test_irda->_add(PILOT_KEY::KEY_MENU);
-    puts("cyniu 2");
     do {
         test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
-        puts("cyniu 2.5");
     } while(TEST_DATA::LCD_print != "5.SLEEPer");
     do {
-        puts("cyniu 2,75");
         test_irda->_add(PILOT_KEY::KEY_VOLUMEDOWN);
     } while(TEST_DATA::LCD_print != "5.SLEEPer");
     test_irda->_add(PILOT_KEY::KEY_OK);
