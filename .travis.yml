@@ -61,9 +61,4 @@ script:
   - llvm-profdata-6.0  merge -o test.profdata default.profraw
   - llvm-cov-6.0 report ./iDom_TESTs-CMAKE -instr-profile=test.profdata -use-color
   - llvm-cov-6.0 show ./iDom_TESTs-CMAKE -instr-profile=test.profdata  -path-equivalence -use-color --format html > coverage.html
-  - git clone https://github.com/cyniu88/pages.git
-  - cp coverage.html pages/docs/
-  - cd pages
-  - git add .
-  - git commit -a -m "update coverage html"
-  - git push
+
