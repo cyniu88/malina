@@ -118,8 +118,9 @@ void files_tree::get_list(std::string path) {
     std::string path2 =path;
     std::string v_path ,tmp_string;
 
-    if(sciezka = opendir( path.c_str() )) {
-
+    //if()
+    {
+        sciezka = opendir( path.c_str() );
         while(( plik = readdir( sciezka ) ) )
         {
             path2 =path;

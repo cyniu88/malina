@@ -110,8 +110,9 @@ void menu_tree::get_list(std::string path) {
     vector_clear(); // czyscimy vector
     std::string path2;
     std::string v_path ,tmp_string;
-    if(sciezka = opendir( path.c_str() )) {
-
+    // if()
+    {
+        sciezka = opendir( path.c_str() );
 
         while(( plik = readdir( sciezka ) ) )
         {
@@ -120,18 +121,18 @@ void menu_tree::get_list(std::string path) {
             {
                 if (!strcmp( plik->d_name, "..") || !strcmp( plik->d_name, "."))
                 {continue;}
-                temp.is_file=false;
+                temp.is_file = false;
             }
             else //if ( (int)plik->d_type == 8 && strcmp( plik->d_name, "..") && strcmp( plik->d_name, "."))
             {
-                temp.is_file=true;
+                temp.is_file = true;
             }
 
-            v_path= path2;
-            v_path+="/";
+            v_path = path2;
+            v_path += "/";
             tmp_string.assign(plik->d_name);
-            v_path+=tmp_string;
-            temp.path =v_path;
+            v_path += tmp_string;
+            temp.path = v_path;
             temp.files_name.assign(plik->d_name);
             movie_database_vector.push_back(temp);
 

@@ -24,7 +24,7 @@ before_install:
   # C++17
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
-  - sudo apt-get install libmpd-dev curl libmpdclient-dev cmake git
+  - sudo apt-get install libmpd-dev curl libmpdclient-dev cmake git llvm llvm-6.0-dev
 
 install: 
   # C++17
@@ -58,3 +58,6 @@ script:
   - cmake .
   - make  -j4
   - ./iDom_TESTs-CMAKE
+  - ls /usr/bin
+  - llvm-profdata-6.0  merge -o test.profdata default.profraw
+  - llvm-cov-6.0 report ./iDom_TESTs-CMAKE -instr-profile=test.profdata -use-color
