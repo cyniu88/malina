@@ -58,6 +58,5 @@ script:
   - cmake .
   - make  -j4
   - ./iDom_TESTs-CMAKE
-  - ls /usr/bin
   - llvm-profdata-6.0  merge -o test.profdata default.profraw
   - llvm-cov-6.0 report ./iDom_TESTs-CMAKE -instr-profile=test.profdata -use-color
