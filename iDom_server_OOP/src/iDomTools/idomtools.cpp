@@ -453,14 +453,14 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
     else
     {
         ++counter;
-        if (counter == 2)
+        if (counter == 1)
         {
             buttonLockHome();
             puts("\nzablokuje dom\n");
             radioButton->setState(STATE::LOCK);
         }
         //#ifdef BT_TEST
-        std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()- counter: "<<counter <<std::endl;
+        std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()- counter: " << counter << std::endl;
         //#endif
     }
 
