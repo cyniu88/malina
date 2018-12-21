@@ -1,4 +1,4 @@
-#include <strstream>
+#include <sstream>
 #include "command_show.h"
 #include "../../../src/functions/functions.h"
 
