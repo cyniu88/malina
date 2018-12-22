@@ -61,4 +61,7 @@ script:
   - llvm-profdata-6.0  merge -o test.profdata default.profraw
   - llvm-cov-6.0 report ./iDom_TESTs-CMAKE -instr-profile=test.profdata -use-color
   - llvm-cov-6.0 show ./iDom_TESTs-CMAKE -instr-profile=test.profdata  -path-equivalence -use-color --format html > coverage.html
-
+  - curl --upload-file coverage.html https://transfer.sh/coverage.html > log.log
+  - export urlC = `cat log.log`
+  - echo "adres"
+  - echo $urlC
