@@ -78,7 +78,7 @@ SOURCES += src/iDom_server_OOP.cpp\
     arduPi/arduPi.cpp \
     src/thread_functions/iDom_thread.cpp
 
-INCLUDEPATH += "/home/pi/programowanie/iDom_server_OOP/libs/json/single_include/nlohmann"
+INCLUDEPATH += "json2/"
 
 HEADERS += src/c_connection/c_connection.h \
     src/functions/functions.h \
