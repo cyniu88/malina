@@ -407,7 +407,8 @@ std::string iDomTOOLS::buttonPressed(const std::string& id)
 
 void iDomTOOLS::button433MHzPressedAction(const std::string& name)
 {
-    if (name == "locker"){
+    if (useful_F_libs::hasSubstring(name,"locker") == true)  // TODO  dodac hassubstring
+    {
         RADIO_BUTTON* buttonLocker = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer(name) );
         button433mhzLockerPressed(buttonLocker);
     }
