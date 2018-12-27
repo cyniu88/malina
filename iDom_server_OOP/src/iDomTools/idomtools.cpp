@@ -954,6 +954,7 @@ void iDomTOOLS::saveState_iDom()
     json["433Mhz"] = json433Mhz;
 
     info.write(json);
+
 #ifdef BT_TEST
     std::cout << json <<std::endl;
     std::cout << " saved to " << my_data->server_settings->saveFilePath <<std::endl;

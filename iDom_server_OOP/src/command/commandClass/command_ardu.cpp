@@ -9,8 +9,7 @@ command_ardu::command_ardu(const std::string& name, thread_data *my_data):comman
   ,m_button433MHzVector(my_data->main_REC->getButtonPointerVector())
 {
     //m_button433MHzVector = my_data->main_REC->getButtonPointerVector();
-    m_mainRadioButton = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer("locker"));
-
+    //m_mainRadioButton = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer("locker"));
     m_weatherStVe = my_data->main_REC->getWeather_StationPtrVector();
     m_mainWeatherStation = static_cast<RADIO_WEATHER_STATION*>(my_data->main_REC->getEqPointer("first"));
 }
@@ -39,9 +38,12 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
             }
             //TODO add command
             try {
-                if (m_mainRadioButton->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
+                for(auto k : m_button433MHzVector)
                 {
-                    my_data->main_iDomTools->button433mhzLockerPressed(m_mainRadioButton);
+                    if (k->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
+                    {
+                        my_data->main_iDomTools->button433mhzLockerPressed(k);
+                    }
                 }
             }
             catch (const std::string& e){ }
