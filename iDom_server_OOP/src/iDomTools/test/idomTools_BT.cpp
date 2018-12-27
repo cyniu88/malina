@@ -273,12 +273,14 @@ TEST_F(iDomTOOLS_ClassTest, saveState_readState)
               testJson.at("ALARM").at("fromVolume").get<int>() );
     EXPECT_EQ(test_alarmTime.toVolume,
               testJson.at("ALARM").at("toVolume").get<int>() );
+
     ////////////////////////////////// read
-    test_idomTOOLS->readState_iDom();
+    iDom_SAVE_STATE info(test_my_data.server_settings->saveFilePath);
+    test_idomTOOLS->readState_iDom(info.read());
     EXPECT_EQ(test_my_data.alarmTime.state,STATE::ACTIVE);
 
     test_my_data.server_settings->saveFilePath = "null";
-    EXPECT_NO_THROW(test_idomTOOLS->readState_iDom());
+    EXPECT_NO_THROW(test_idomTOOLS->readState_iDom(info.read()));
 }
 
 TEST_F(iDomTOOLS_ClassTest, getLightningStruct)
