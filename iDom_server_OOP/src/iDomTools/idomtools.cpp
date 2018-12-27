@@ -960,12 +960,10 @@ void iDomTOOLS::saveState_iDom()
 #endif
 }
 
-void iDomTOOLS::readState_iDom()
+void iDomTOOLS::readState_iDom(nlohmann::json jj)
 {
     try
     {
-        iDom_SAVE_STATE info(my_data->server_settings->saveFilePath);
-        nlohmann::json jj = info.read();
 #ifdef BT_TEST
         std::cout << "JSON: " << jj.dump(4) << std::endl;
 #endif

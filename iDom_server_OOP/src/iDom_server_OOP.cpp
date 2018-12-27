@@ -219,6 +219,11 @@ iDomStateEnum iDom_main()
     node_data.server_settings = &server_settings;
     time(&node_data.start);
 
+    //////////////////////////////////// load json SaveState
+
+    iDom_SAVE_STATE info(node_data.server_settings->saveFilePath);
+    nlohmann::json jj = info.read();
+
     std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> thread_array;
     for (int i = 0; i < static_cast<int>(thread_array.size()); ++i)
     {
@@ -448,7 +453,7 @@ iDomStateEnum iDom_main()
     /////////////////////////////////////////////////// INFO PART //////////////////////////////////////////////////
     node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings.viberReceiver.at(0),server_settings.viberSender);
     /////////////////////////////////////////////////// RESTORE PART ///////////////////////////////////////////////
-    node_data.main_iDomTools->readState_iDom();
+    node_data.main_iDomTools->readState_iDom(jj);
     ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
 
     while (1)

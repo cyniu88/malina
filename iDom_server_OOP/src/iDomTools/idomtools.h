@@ -149,7 +149,7 @@ public:
 
     /////////////////////// SAVE STATE iDOM ////////////////
     void saveState_iDom();
-    void readState_iDom();
+    void readState_iDom(nlohmann::json jj);
 
     /////////////////////// system linux ///////////////////
     std::string getSystemInfo();
