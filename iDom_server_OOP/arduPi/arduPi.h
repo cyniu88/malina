@@ -37,7 +37,7 @@
 #include <sys/mman.h>
 #include <string.h>
 #include <time.h>
-#include <termios.h> 
+#include <termios.h>
 #include <ctype.h>
 #include <sys/ioctl.h>
 #include <limits.h>
@@ -123,8 +123,8 @@ typedef enum
 
 typedef enum
 {
-	RPI_V2_GPIO_P1_03     =  2,  ///< Version 2, Pin P1-03
-	RPI_V2_GPIO_P1_05     =  3,  ///< Version 2, Pin P1-05
+        RPI_V2_GPIO_P1_03     =  2,  ///< Version 2, Pin P1-03
+        RPI_V2_GPIO_P1_05     =  3,  ///< Version 2, Pin P1-05
 }RPiGPIOPin;
 
 
@@ -201,7 +201,7 @@ typedef enum
 
 
 /// Defines for SPI
-/// GPIO register offsets from BCM2835_SPI0_BASE. 
+/// GPIO register offsets from BCM2835_SPI0_BASE.
 /// Offsets into the SPI Peripheral block in bytes per 10.5 SPI Register Map
 #define BCM2835_SPI0_CS                      0x0000 ///< SPI Master Control and Status
 #define BCM2835_SPI0_FIFO                    0x0004 ///< SPI Master TX and RX FIFOs
@@ -232,8 +232,8 @@ typedef enum
 #define BCM2835_SPI0_CS_TA                   0x00000080 ///< Transfer Active
 #define BCM2835_SPI0_CS_CSPOL                0x00000040 ///< Chip Select Polarity
 #define BCM2835_SPI0_CS_CLEAR                0x00000030 ///< Clear FIFO Clear RX and TX
-#define BCM2835_SPI0_CS_CLEAR_RX             0x00000020 ///< Clear FIFO Clear RX 
-#define BCM2835_SPI0_CS_CLEAR_TX             0x00000010 ///< Clear FIFO Clear TX 
+#define BCM2835_SPI0_CS_CLEAR_RX             0x00000020 ///< Clear FIFO Clear RX
+#define BCM2835_SPI0_CS_CLEAR_TX             0x00000010 ///< Clear FIFO Clear TX
 #define BCM2835_SPI0_CS_CPOL                 0x00000008 ///< Clock Polarity
 #define BCM2835_SPI0_CS_CPHA                 0x00000004 ///< Clock Phase
 #define BCM2835_SPI0_CS_CS                   0x00000003 ///< Chip Select
@@ -322,17 +322,17 @@ typedef enum
 
 
 namespace unistd {
-	//All functions of unistd.h must be called like this: unistd::the_function()
+        //All functions of unistd.h must be called like this: unistd::the_function()
     #include <unistd.h>
 }
 
 
 enum Representation{
-	BIN,
-	OCT,
-	DEC,
-	HEX,
-	BYTE
+        BIN,
+        OCT,
+        DEC,
+        HEX,
+        BYTE
 };
 
 typedef enum {
@@ -368,87 +368,44 @@ struct ThreadArg{
 /* SerialPi Class
  * Class that provides the functionality of arduino Serial library
  */
-class SerialPi {
-
-private:
-	int sd,status;
-    std::string serialPort;
-	unsigned char c;
-	struct termios options;
-	int speed;
-	long timeOut;
-	timespec time1, time2;
-	timespec timeDiff(timespec start, timespec end);
-	char * int2bin(int i);
-	char * int2hex(int i);
-	char * int2oct(int i);
-
-public:
-
-    SerialPi(std::string adres);
-	void begin(int serialSpeed);
-	int available();
-	char read();
-	int readBytes(char message[], int size);
-	int readBytesUntil(char character,char buffer[],int length);
-	bool find(const char *target);
-	bool findUntil(const char *target, const char *terminal);
-	long parseInt();
-	float parseFloat();
-	char peek();
-	void print(const char *message);
-	void print(char message);
-	void print(unsigned char i,Representation rep);
-	void print(float f, int precission);
-	void println(const char *message);
-	void println(char message);
-	void println(int i, Representation rep);
-	void println(float f, int precission);
-	int write(unsigned char message);
-	int write(const char *message);
-	int write (char *message, int size);   
-	void flush();
-	void setTimeout(long millis);
-	void end();
-};
 
 /* WirePi Class
  * Class that provides the functionality of arduino Wire library
  */
 class WirePi{
-	private:
-		int memfd;
-		int i2c_byte_wait_us;
-		int i2c_bytes_to_read;
-		void dump_bsc_status();
-		int map_peripheral(struct bcm2835_peripheral *p);
-		void unmap_peripheral(struct bcm2835_peripheral *p);
-		void wait_i2c_done();
-	public:
-		WirePi();
-		void begin();
-		void beginTransmission(unsigned char address);
-		void write(char data);
-		uint8_t write(const char * buf, uint32_t len);
-		void endTransmission();
-		void requestFrom(unsigned char address,int quantity);
-		unsigned char read();
-		uint8_t read(char* buf);
-		uint8_t read_rs(char* regaddr, char* buf, uint32_t len);
+        private:
+                int memfd;
+                int i2c_byte_wait_us;
+                int i2c_bytes_to_read;
+                void dump_bsc_status();
+                int map_peripheral(struct bcm2835_peripheral *p);
+                void unmap_peripheral(struct bcm2835_peripheral *p);
+                void wait_i2c_done();
+        public:
+                WirePi();
+                void begin();
+                void beginTransmission(unsigned char address);
+                void write(char data);
+                uint8_t write(const char * buf, uint32_t len);
+                void endTransmission();
+                void requestFrom(unsigned char address,int quantity);
+                unsigned char read();
+                uint8_t read(char* buf);
+                uint8_t read_rs(char* regaddr, char* buf, uint32_t len);
 };
 
 class SPIPi{
-	public:
-		SPIPi();
-  		void begin();
-    	void end();
-    	void setBitOrder(uint8_t order);
- 		void setClockDivider(uint16_t divider);
-		void setDataMode(uint8_t mode);
- 		void chipSelect(uint8_t cs);
-		void setChipSelectPolarity(uint8_t cs, uint8_t active);
- 		uint8_t transfer(uint8_t value);
- 		void transfernb(char* tbuf, char* rbuf, uint32_t len);
+        public:
+                SPIPi();
+                void begin();
+        void end();
+        void setBitOrder(uint8_t order);
+                void setClockDivider(uint16_t divider);
+                void setDataMode(uint8_t mode);
+                void chipSelect(uint8_t cs);
+                void setChipSelectPolarity(uint8_t cs, uint8_t active);
+                uint8_t transfer(uint8_t value);
+                void transfernb(char* tbuf, char* rbuf, uint32_t len);
 };
 
 /* Some useful arduino functions */
@@ -484,7 +441,6 @@ void bcm2835_peri_set_bits(volatile uint32_t* paddr, uint32_t value, uint32_t ma
 void bcm2835_gpio_fsel(uint8_t pin, uint8_t mode);
 void * threadFunction(void *args);
 
-extern SerialPi Serial;
 extern WirePi Wire;
 extern SPIPi SPI;
 
