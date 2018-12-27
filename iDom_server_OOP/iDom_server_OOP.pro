@@ -15,7 +15,6 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/blockQueue/blockqueue.cpp \
     src/files_tree/files_tree.cpp \
     src/LCD_c/lcd_c.cpp \
-    ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.cpp \
     src/c_irda_logic/c_irda_logic.cpp \
     src/menu_tree/menu_tree.cpp \
     src/CRON/cron.cpp \
@@ -76,7 +75,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/SerialPi/serialpi.cpp \
     arduPi/arduPi_template.cpp \
     arduPi/arduPi.cpp \
-    src/thread_functions/iDom_thread.cpp
+    src/thread_functions/iDom_thread.cpp \
+    liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.cpp
 
 INCLUDEPATH += "json2/"
 
@@ -89,7 +89,6 @@ HEADERS += src/c_connection/c_connection.h \
     src/blockQueue/blockqueue.h \
     src/files_tree/files_tree.h \
     src/LCD_c/lcd_c.h \
-    ../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h \
     src/c_irda_logic/c_irda_logic.h \
     src/wiadomosc/wiadomosc.h \
     src/menu_tree/menu_tree.h \
@@ -151,7 +150,8 @@ HEADERS += src/c_connection/c_connection.h \
     src/iDomTools/lightning.h \
     src/iDomSaveState/idom_save_state.h \
     src/SerialPi/serialpi.h \
-    src/thread_functions/iDom_thread.h
+    src/thread_functions/iDom_thread.h \
+    liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.h
 
 DISTFILES +=
 DEFINES += GIT_CURRENT_SHA1="$(git rev-parse HEAD)"

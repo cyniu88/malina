@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <regex>
-#include "../../../liquidcrystal_i2c-for-ardupi/src/LiquidCrystal_I2C.h"
+#include "../liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.h"
 
 class LCD_c
 {
