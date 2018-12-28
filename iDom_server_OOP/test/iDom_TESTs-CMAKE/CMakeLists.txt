@@ -70,6 +70,8 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/files_tree/files_tree.cpp"
     "../../src/menu_tree/menu_tree.cpp"
     "../../src/logger/logger.cc"
+    "../../src/KEY/key.cpp"
+    "../../src/KEY/TEST/key_BT.cpp"
     )
 # Get the current working branch
 execute_process(

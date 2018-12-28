@@ -22,38 +22,38 @@ PILOT_KEY KEY::getValue() const
 }
 
 void pilot::setup(){
-    std::unique_ptr <KEY> KEY_POWER 		( new SuperKEY(PILOT_KEY::KEY_POWER, "KEY_POWER","wcisnieto POWER"));
-    std::unique_ptr <KEY> KEY_AUDIO			( new SuperKEY(PILOT_KEY::KEY_AUDIO, "KEY_AUDIO","wcisnieto PAUSE"));
-    std::unique_ptr <KEY> KEY_EPG     		( new SuperKEY(PILOT_KEY::KEY_EPG, "KEY_EPG","przegladanie katalogu z filmami"));
-    std::unique_ptr <KEY> KEY_OK      		( new SuperKEY(PILOT_KEY::KEY_OK, "KEY_OK", "wcisnieto OK"));
-    std::unique_ptr <KEY> KEY_RADIO   		( new SuperKEY(PILOT_KEY::KEY_RADIO, "KEY_RADIO","sterowanie projektorem"));
-    std::unique_ptr <KEY> KEY_TV      		( new SuperKEY(PILOT_KEY::KEY_TV, "KEY_TV", "wcisnieto PLAY"));
-    std::unique_ptr <KEY> KEY_0   			( new KEY(PILOT_KEY::KEY_0, "KEY_0"));
-    std::unique_ptr <KEY> KEY_1  			( new KEY(PILOT_KEY::KEY_1, "KEY_1"));
-    std::unique_ptr <KEY> KEY_2   			( new KEY(PILOT_KEY::KEY_2, "KEY_2"));
-    std::unique_ptr <KEY> KEY_3   			( new KEY(PILOT_KEY::KEY_3, "KEY_3"));
-    std::unique_ptr <KEY> KEY_4   			( new KEY(PILOT_KEY::KEY_4, "KEY_4"));
-    std::unique_ptr <KEY> KEY_5   			( new KEY(PILOT_KEY::KEY_5, "KEY_5"));
-    std::unique_ptr <KEY> KEY_6   			( new KEY(PILOT_KEY::KEY_6, "KEY_6"));
-    std::unique_ptr <KEY> KEY_7   			( new KEY(PILOT_KEY::KEY_7, "KEY_7"));
-    std::unique_ptr <KEY> KEY_8   			( new KEY(PILOT_KEY::KEY_8, "KEY_8"));
-    std::unique_ptr <KEY> KEY_9   			( new KEY(PILOT_KEY::KEY_9, "KEY_9"));
-    std::unique_ptr <KEY> KEY_CHANNELDOWN	( new KEY(PILOT_KEY::KEY_CHANNELDOWN, "KEY_CHANNELDOWN"));
-    std::unique_ptr <KEY> KEY_CHANNELUP		( new KEY(PILOT_KEY::KEY_CHANNELUP, "KEY_CHANNELUP"));
-    std::unique_ptr <KEY> KEY_DOWN    		( new KEY(PILOT_KEY::KEY_DOWN, "KEY_DOWN"));
-    std::unique_ptr <KEY> KEY_EXIT    		( new KEY(PILOT_KEY::KEY_EXIT, "KEY_EXIT"));
-    std::unique_ptr <KEY> KEY_FAVORITES		( new KEY(PILOT_KEY::KEY_FAVORITES, "KEY_FAVORITES"));
-    std::unique_ptr <KEY> KEY_INFO    		( new KEY(PILOT_KEY::KEY_INFO, "KEY_INFO"));
-    std::unique_ptr <KEY> KEY_LANGUAGE		( new KEY(PILOT_KEY::KEY_LANGUAGE, "KEY_LANGUAGE"));
-    std::unique_ptr <KEY> KEY_MENU    		( new KEY(PILOT_KEY::KEY_MENU, "KEY_MENU"));
-    std::unique_ptr <KEY> KEY_MUTE    		( new KEY(PILOT_KEY::KEY_MUTE, "KEY_MUTE"));
-    std::unique_ptr <KEY> KEY_REFRESH 		( new KEY(PILOT_KEY::KEY_REFRESH, "KEY_REFRESH"));
-    std::unique_ptr <KEY> KEY_SAT     		( new KEY(PILOT_KEY::KEY_SAT, "KEY_SAT"));
-    std::unique_ptr <KEY> KEY_SUBTITLE		( new KEY(PILOT_KEY::KEY_SUBTITLE, "KEY_SUBTITLE"));
-    std::unique_ptr <KEY> KEY_TEXT    		( new KEY(PILOT_KEY::KEY_TEXT, "KEY_TEXT"));
-    std::unique_ptr <KEY> KEY_UP      		( new KEY(PILOT_KEY::KEY_UP, "KEY_UP"));
-    std::unique_ptr <KEY> KEY_VOLUMEDOWN	( new KEY(PILOT_KEY::KEY_VOLUMEDOWN, "KEY_VOLUMEDOWN"));
-    std::unique_ptr <KEY> KEY_VOLUMEUP      ( new KEY(PILOT_KEY::KEY_VOLUMEUP, "KEY_VOLUMEUP"));
+    std::unique_ptr <KEY> KEY_POWER 		(new SuperKEY(PILOT_KEY::KEY_POWER, "KEY_POWER","wcisnieto POWER"));
+    std::unique_ptr <KEY> KEY_AUDIO		(new SuperKEY(PILOT_KEY::KEY_AUDIO, "KEY_AUDIO","wcisnieto PAUSE"));
+    std::unique_ptr <KEY> KEY_EPG     		(new SuperKEY(PILOT_KEY::KEY_EPG, "KEY_EPG","przegladanie katalogu z filmami"));
+    std::unique_ptr <KEY> KEY_OK      		(new SuperKEY(PILOT_KEY::KEY_OK, "KEY_OK", "wcisnieto OK"));
+    std::unique_ptr <KEY> KEY_RADIO   		(new SuperKEY(PILOT_KEY::KEY_RADIO, "KEY_RADIO","sterowanie projektorem"));
+    std::unique_ptr <KEY> KEY_TV      		(new SuperKEY(PILOT_KEY::KEY_TV, "KEY_TV", "wcisnieto PLAY"));
+    std::unique_ptr <KEY> KEY_0   		(new KEY(PILOT_KEY::KEY_0, "KEY_0"));
+    std::unique_ptr <KEY> KEY_1  		(new KEY(PILOT_KEY::KEY_1, "KEY_1"));
+    std::unique_ptr <KEY> KEY_2   		(new KEY(PILOT_KEY::KEY_2, "KEY_2"));
+    std::unique_ptr <KEY> KEY_3   		(new KEY(PILOT_KEY::KEY_3, "KEY_3"));
+    std::unique_ptr <KEY> KEY_4   		(new KEY(PILOT_KEY::KEY_4, "KEY_4"));
+    std::unique_ptr <KEY> KEY_5   		(new KEY(PILOT_KEY::KEY_5, "KEY_5"));
+    std::unique_ptr <KEY> KEY_6   		(new KEY(PILOT_KEY::KEY_6, "KEY_6"));
+    std::unique_ptr <KEY> KEY_7   		(new KEY(PILOT_KEY::KEY_7, "KEY_7"));
+    std::unique_ptr <KEY> KEY_8   		(new KEY(PILOT_KEY::KEY_8, "KEY_8"));
+    std::unique_ptr <KEY> KEY_9   		(new KEY(PILOT_KEY::KEY_9, "KEY_9"));
+    std::unique_ptr <KEY> KEY_CHANNELDOWN	(new KEY(PILOT_KEY::KEY_CHANNELDOWN, "KEY_CHANNELDOWN"));
+    std::unique_ptr <KEY> KEY_CHANNELUP		(new KEY(PILOT_KEY::KEY_CHANNELUP, "KEY_CHANNELUP"));
+    std::unique_ptr <KEY> KEY_DOWN    		(new KEY(PILOT_KEY::KEY_DOWN, "KEY_DOWN"));
+    std::unique_ptr <KEY> KEY_EXIT    		(new KEY(PILOT_KEY::KEY_EXIT, "KEY_EXIT"));
+    std::unique_ptr <KEY> KEY_FAVORITES		(new KEY(PILOT_KEY::KEY_FAVORITES, "KEY_FAVORITES"));
+    std::unique_ptr <KEY> KEY_INFO    		(new KEY(PILOT_KEY::KEY_INFO, "KEY_INFO"));
+    std::unique_ptr <KEY> KEY_LANGUAGE		(new KEY(PILOT_KEY::KEY_LANGUAGE, "KEY_LANGUAGE"));
+    std::unique_ptr <KEY> KEY_MENU    		(new KEY(PILOT_KEY::KEY_MENU, "KEY_MENU"));
+    std::unique_ptr <KEY> KEY_MUTE    		(new KEY(PILOT_KEY::KEY_MUTE, "KEY_MUTE"));
+    std::unique_ptr <KEY> KEY_REFRESH 		(new KEY(PILOT_KEY::KEY_REFRESH, "KEY_REFRESH"));
+    std::unique_ptr <KEY> KEY_SAT     		(new KEY(PILOT_KEY::KEY_SAT, "KEY_SAT"));
+    std::unique_ptr <KEY> KEY_SUBTITLE		(new KEY(PILOT_KEY::KEY_SUBTITLE, "KEY_SUBTITLE"));
+    std::unique_ptr <KEY> KEY_TEXT    		(new KEY(PILOT_KEY::KEY_TEXT, "KEY_TEXT"));
+    std::unique_ptr <KEY> KEY_UP      		(new KEY(PILOT_KEY::KEY_UP, "KEY_UP"));
+    std::unique_ptr <KEY> KEY_VOLUMEDOWN	(new KEY(PILOT_KEY::KEY_VOLUMEDOWN, "KEY_VOLUMEDOWN"));
+    std::unique_ptr <KEY> KEY_VOLUMEUP          (new KEY(PILOT_KEY::KEY_VOLUMEUP, "KEY_VOLUMEUP"));
 
     key_map->insert(std::make_pair(KEY_POWER->getName(), 	 std::move(KEY_POWER)));
     key_map->insert(std::make_pair(KEY_0->getName(), 	 std::move(KEY_0)));
@@ -102,7 +102,7 @@ pilot::~pilot()
 PILOT_KEY SuperKEY::getValue() const
 {
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< " " <<LogName<< std::endl;
+    log_file_cout << INFO<< " " << LogName << std::endl;
     log_file_mutex.mutex_unlock();
     return _value;
 }
@@ -112,5 +112,5 @@ SuperKEY::SuperKEY (PILOT_KEY v, const std::string& n, const std::string& LogNam
     //puts("konstruktos SuperKEY =)");
 }
 SuperKEY::~SuperKEY() {
-   // puts( "destruktor SuperKEY \n");
+   // puts("destruktor SuperKEY \n");
 }
