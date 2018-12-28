@@ -178,10 +178,10 @@ TEST_F(iDomTOOLS_ClassTest, buttonPressed)
 {
     std::string button433MHz_id = "01e7be";
     std::string pressedButtonName = test_idomTOOLS->buttonPressed(button433MHz_id);
-    EXPECT_EQ(1, test_my_data.main_REC->getButtonPointerVector().size());
+    EXPECT_EQ(2, test_my_data.main_REC->getButtonPointerVector().size());
     EXPECT_STREQ(std::to_string(button433MHz_id).c_str(),
-                 test_my_data.main_REC->getButtonPointerVector().at(0)->getID().c_str());
-    EXPECT_STREQ(pressedButtonName.c_str(), "locker");
+                 test_my_data.main_REC->getButtonPointerVector().at(1)->getID().c_str());
+    EXPECT_STREQ(pressedButtonName.c_str(), "locker-main");
 
     EXPECT_THROW(test_idomTOOLS->buttonPressed(button433MHz_id+"a"),
                  std::string);
@@ -196,7 +196,7 @@ TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_lockerUnlock)
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
 
     for(auto i =0 ; i < 3; ++i){
-        test_idomTOOLS->button433MHzPressedAction("locker");
+        test_idomTOOLS->button433MHzPressedAction("locker-main");
     }
     EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
 
@@ -212,7 +212,7 @@ TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_lockerLock)
 
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNDEFINE) << "nie jest UNDEFINED";
 
-    test_idomTOOLS->button433MHzPressedAction("locker");
+    test_idomTOOLS->button433MHzPressedAction("locker-main");
     EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK)<< "nie jest UNLOCK";
 
     EXPECT_EQ(test_q._size(),1);

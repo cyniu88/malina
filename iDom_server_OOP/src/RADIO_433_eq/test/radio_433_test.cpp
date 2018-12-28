@@ -25,7 +25,7 @@ TEST_F(Switch_Class_fixture, getSwitchPointerVector)
 TEST_F(Switch_Class_fixture, getButtonPointerVector)
 {
     auto v = test_rec->getButtonPointerVector();
-    EXPECT_EQ(v.size(),1);
+    EXPECT_EQ(v.size(),2);
 }
 
 TEST_F(Switch_Class_fixture, switch_alarm_on)
@@ -107,7 +107,7 @@ TEST_F(Switch_Class_fixture, loadConfig)
     test_rec.loadConfig("/mnt/ramdisk/433_eq_conf_fake.json");
 
     EXPECT_FALSE(test_my_data.main_REC->nameExist("firstt"));
-    EXPECT_TRUE(test_my_data.main_REC->nameExist("locker"));
+    EXPECT_TRUE(test_my_data.main_REC->nameExist("locker-main"));
 
     //test_rec.loadConfig("/mnt/ramdisk/433_eq_conf_fake.json");
 }
