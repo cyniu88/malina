@@ -220,6 +220,28 @@ TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_lockerLock)
     EXPECT_EQ(test_q._size(),0);
 }
 
+TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_locker_mainLock_locker_2unlock)
+{
+    blockQueue test_q;
+    test_q._clearAll();
+
+    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNDEFINE) << "nie jest UNDEFINED";
+
+    test_idomTOOLS->button433MHzPressedAction("locker-main");
+    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK)<< "nie jest UNLOCK";
+
+    EXPECT_EQ(test_q._size(),1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
+    EXPECT_EQ(test_q._size(),0);
+
+    test_idomTOOLS->button433MHzPressedAction("locker-2");
+    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK)<< "nie jest UNLOCK";
+
+    EXPECT_EQ(test_q._size(),1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
+    EXPECT_EQ(test_q._size(),0);
+}
+
 TEST_F(iDomTOOLS_ClassTest, testCPU_Load)
 {
     std::cout <<"TEST LOAD" << std::endl;

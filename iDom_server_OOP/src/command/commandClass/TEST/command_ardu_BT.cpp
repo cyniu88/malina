@@ -78,6 +78,33 @@ TEST_F(commandArdu_Class_fixture, LockHome)
     EXPECT_EQ(test_q._size(),0);
 }
 
+TEST_F(commandArdu_Class_fixture, LockHome1unlockHome2)
+{
+    test_idomTOOLS->lockHome();
+    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
+
+    ////////////////////////// unlock locker-main
+    test_v.push_back("20;EV1527;ID=01e7be;SWITCH=01;CMD=ON;");
+
+    test_ardu->execute(test_v, &test_my_data);
+
+    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
+    EXPECT_EQ(test_q._size(),1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
+    EXPECT_EQ(test_q._size(),0);
+
+    ////////////////////////// lock locker-2
+    test_v.push_back("20;EV1527;ID=123456789;SWITCH=01;CMD=ON;");
+    for(auto i = 0; i < 3; ++i){
+        test_ardu->execute(test_v, &test_my_data);
+    }
+
+    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
+    EXPECT_EQ(test_q._size(),1);
+    EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
+    EXPECT_EQ(test_q._size(),0);
+}
+
 TEST_F(commandArdu_Class_fixture, playMusic)
 {
     test_idomTOOLS->unlockHome();
