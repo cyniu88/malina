@@ -30,11 +30,11 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string& threadName){
     v.push_back("433MHz");
     v.push_back("");
 
-    std::this_thread::sleep_for( std::chrono::seconds(5));
+    std::this_thread::sleep_for(std::chrono::seconds(5));
     command_ardu workerRFLink("ardu",my_data);
 
     while(useful_F::go_while){
-        std::this_thread::sleep_for( std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
         msgFromRFLink = rc433.receiveCode();
 
@@ -71,10 +71,10 @@ void f_master_CRON (thread_data *my_data, const std::string& threadName){
 
 ///////////////////// watek polaczenia TCP /////////////////////////////////////
 void Server_connectivity_thread(thread_data *my_data, const std::string &threadName){
-    C_connection *client = new C_connection( my_data);
+    C_connection *client = new C_connection(my_data);
     static unsigned int connectionCounter = 0;
     bool key_ok = false;
-    std::string tm = inet_ntoa( my_data->from.sin_addr);
+    std::string tm = inet_ntoa(my_data->from.sin_addr);
     if("192.168.1.1" != tm && my_data->ptr_MPD_info->isPlay == false) {
         my_data->mainLCD->set_print_song_state(32);
         my_data->mainLCD->printString(true,0,0,"USER CONNECTED!");
@@ -82,7 +82,8 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
     }
     if("192.168.1.1" == tm || "192.168.1.144" == tm)
     {
-        if( ++connectionCounter > 9){
+        if(++connectionCounter > 9)
+        {
             connectionCounter = 0;
             my_data->main_iDomTools->sendViberMsg("ktoś kombinuje z polaczeniem do serwera!",
                                                   my_data->server_settings->viberReceiver.at(0),
@@ -90,7 +91,8 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
         }
         client->setEncrypted(false);
     }
-    else {
+    else
+    {
         connectionCounter = 0;
     }
 
@@ -100,7 +102,8 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
     my_data->myEventHandler.run("connections")->addEvent(tm);
 
     int recvSize = client->c_recv(0);
-    if(recvSize == -1) {
+    if(recvSize == -1)
+    {
         key_ok = false;
     }
     //std::cout <<"WYNIK:"<< client->c_read_buf().size()<<"a to wlasny" << RSHash().size()<<"!"<<std::endl;
@@ -117,17 +120,18 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
             key_ok = false;
         }
     }
-    else{
+    else
+    {
         key_ok = false;
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL <<"AUTHENTICATION FAILED! " << inet_ntoa( my_data->from.sin_addr) <<std::endl;
+        log_file_cout << CRITICAL <<"AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) <<std::endl;
         log_file_cout << CRITICAL <<"KEY RECIVED: " << KEY_rec << " KEY SERVER: "<< KEY_OWN <<std::endl;
         client->cryptoLog(KEY_rec);// setEncriptionKey(KEY_rec);
         log_file_cout << CRITICAL <<"KEY RECIVED\n\n " << KEY_rec <<"\n\n"<< std::endl;
         log_file_mutex.mutex_unlock();
 
         std::string msg ="podano zły klucz autentykacji - sprawdz logi ";
-        msg.append(inet_ntoa( my_data->from.sin_addr));
+        msg.append(inet_ntoa(my_data->from.sin_addr));
         my_data->main_iDomTools->sendViberMsg(msg,
                                               my_data->server_settings->viberReceiver.at(0),
                                               my_data->server_settings->viberSender+"_ALERT!");
@@ -136,11 +140,8 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
         if(client->c_send("\nFAIL\n") == -1)
         {
             key_ok = false;
-            //puts("FAKE CONNECTION");
-            //            my_data->mainLCD->set_print_song_state(0);
-            //            my_data->mainLCD->set_lcd_STATE(2);
-            //            sleep (3);
             delete client;
+            iDOM_THREAD::stop_thread(threadName, my_data);
             return;
         }
 
@@ -151,6 +152,7 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
         if(recvSize == -1)
         {
             delete client;
+            iDOM_THREAD::stop_thread(threadName, my_data);
             return;
         }
 
@@ -190,7 +192,7 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
         }
 
         // ############################### koniec analizy wysylanie wyniku do RS232 lub TCP ########################
-        if( client->c_send(0) == -1)
+        if(client->c_send(0) == -1)
         {
             perror("send() ERROR");
             break;
@@ -292,7 +294,7 @@ iDomStateEnum iDom_main()
     /////////////////////////////// LCD //////////////////////////////
     LCD_c mainLCD(0x27,16,2);
     ////////////// przegladanie plikow ////////////////////
-    files_tree main_tree( server_settings.MOVIES_DB_PATH, &mainLCD);
+    files_tree main_tree(server_settings.MOVIES_DB_PATH, &mainLCD);
     /////////////////////////////// iDom Tools ///////////////////////
     iDomTOOLS my_iDomTools(&node_data);
     ///////////////////////////////// MENU /////////////////////////////////
@@ -358,7 +360,7 @@ iDomStateEnum iDom_main()
     //dodanie pilota
     node_data.main_iDomTools = &my_iDomTools;
 
-    std::unique_ptr <pilot> pilotPTR( new pilot(&node_data.key_map));
+    std::unique_ptr <pilot> pilotPTR(new pilot(&node_data.key_map));
     pilotPTR->setup();
 
     // start watku irda
@@ -431,7 +433,7 @@ iDomStateEnum iDom_main()
         exit(1);
     }
     socklen_t len = sizeof(server);
-    if(bind(v_socket,( struct sockaddr *) & server, len) < 0)
+    if(bind(v_socket,(struct sockaddr *) & server, len) < 0)
     {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "BIND problem: " << strerror(errno)<< std::endl;
@@ -459,14 +461,14 @@ iDomStateEnum iDom_main()
     while (1)
     {
         int v_sock_ind = 0;
-        memset( &from,0, sizeof(from));
+        memset(&from,0, sizeof(from));
         if(!useful_F::workServer) {
             break;
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-        if(( v_sock_ind = accept( v_socket,(struct sockaddr *) & from, & len)) < 0)
+        if((v_sock_ind = accept(v_socket,(struct sockaddr *) & from, & len)) < 0)
         {
             continue;
         }
@@ -475,7 +477,7 @@ iDomStateEnum iDom_main()
 
         int freeSlotID = iDOM_THREAD::findFreeThreadSlot(&thread_array);
 
-        if( freeSlotID != -1)
+        if(freeSlotID != -1)
 
         {
             node_data.s_client_sock = v_sock_ind;
@@ -521,61 +523,61 @@ iDomStateEnum iDom_main()
     useful_F::go_while = false;
     iDOM_THREAD::waitUntilAllThreadEnd(&node_data);
     return iDomStateProgram;
-}
-
-int main(int argc, char *argv[])
-{
-    iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
-    std::cout << "startujemy program iDom" << std::endl;
-
-    if (argc == 1)
-    {
-        int t = 5;
-        do
-        {
-            try
-            {
-                iDomStateProgram = iDom_main();
-            }
-            catch (const std::exception& e)
-            {
-                std::cout << "złąpano wyjatek programu wiec restart "<< e.what() <<std::endl;
-                iDomStateProgram = iDomStateEnum::RELOAD;
-            }
-            if(iDomStateProgram == iDomStateEnum::RELOAD)
-            {
-                std::cout<<std::endl << "przeładowywuje program" << std::endl;
-                std::this_thread::sleep_for( std::chrono::seconds(++t));
-            }
-        }
-        while (iDomStateProgram == iDomStateEnum::RELOAD);
-
-        if(iDomStateProgram == iDomStateEnum::CLOSE)
-        {
-            std::cout << "zamykam program" << std::endl;
-            return 0;
-        }
-        else if (iDomStateProgram == iDomStateEnum::ERROR)
-        {
-            std::cout << "zamykam program z ERROREM" << std::endl;
-            return 1;
-        }
-        else if (iDomStateProgram == iDomStateEnum::HARD_RELOAD)
-        {
-            return 2;
-        }
     }
-    else
+
+    int main(int argc, char *argv[])
     {
-        int ret = 9;
-        while (ret != 0)
+        iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
+        std::cout << "startujemy program iDom" << std::endl;
+
+        if (argc == 1)
         {
-            std::this_thread::sleep_for( std::chrono::seconds(10));
-            std::cout << "nie ma parametru wiec odpalam program "<< std::endl;
-            ret = system("/home/pi/programowanie/iDom_server_OOP-build-clang-Release/iDom_server_OOP");
-            std::cout << "system() zwraca ret " << ret <<std::endl;
+            int t = 5;
+            do
+            {
+                try
+                {
+                    iDomStateProgram = iDom_main();
+                }
+                catch (const std::exception& e)
+                {
+                    std::cout << "złąpano wyjatek programu wiec restart "<< e.what() <<std::endl;
+                    iDomStateProgram = iDomStateEnum::RELOAD;
+                }
+                if(iDomStateProgram == iDomStateEnum::RELOAD)
+                {
+                    std::cout<<std::endl << "przeładowywuje program" << std::endl;
+                    std::this_thread::sleep_for(std::chrono::seconds(++t));
+                }
+            }
+            while (iDomStateProgram == iDomStateEnum::RELOAD);
+
+            if(iDomStateProgram == iDomStateEnum::CLOSE)
+            {
+                std::cout << "zamykam program" << std::endl;
+                return 0;
+            }
+            else if (iDomStateProgram == iDomStateEnum::ERROR)
+            {
+                std::cout << "zamykam program z ERROREM" << std::endl;
+                return 1;
+            }
+            else if (iDomStateProgram == iDomStateEnum::HARD_RELOAD)
+            {
+                return 2;
+            }
         }
-        std::cout << "ZAMYKAM NA AMEN" << std::endl;
+        else
+        {
+            int ret = 9;
+            while (ret != 0)
+            {
+                std::this_thread::sleep_for(std::chrono::seconds(10));
+                std::cout << "nie ma parametru wiec odpalam program "<< std::endl;
+                ret = system("/home/pi/programowanie/iDom_server_OOP-build-clang-Release/iDom_server_OOP");
+                std::cout << "system() zwraca ret " << ret <<std::endl;
+            }
+            std::cout << "ZAMYKAM NA AMEN" << std::endl;
+        }
+        return 0;
     }
-    return 0;
-}
