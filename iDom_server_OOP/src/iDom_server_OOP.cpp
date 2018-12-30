@@ -204,6 +204,7 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
 }
 
 iDomStateEnum iDom_main()
+
 {
     iDomStateEnum iDomStateProgram = iDomStateEnum::CLOSE;
     useful_F::go_while = true;
@@ -222,9 +223,18 @@ iDomStateEnum iDom_main()
     time(&node_data.start);
 
     //////////////////////////////////// load json SaveState
-
     iDom_SAVE_STATE info(node_data.server_settings->saveFilePath);
-    nlohmann::json jj = info.read();
+    nlohmann::json jj;
+    try
+    {
+        jj = info.read();
+    }
+    catch (...)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG <<"brak pliku z zapisanym stanem iDom" << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 
     std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> thread_array;
     for (int i = 0; i < static_cast<int>(thread_array.size()); ++i)
@@ -456,6 +466,7 @@ iDomStateEnum iDom_main()
     node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings.viberReceiver.at(0),server_settings.viberSender);
     /////////////////////////////////////////////////// RESTORE PART ///////////////////////////////////////////////
     node_data.main_iDomTools->readState_iDom(jj);
+
     ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
 
     while (1)
@@ -523,61 +534,61 @@ iDomStateEnum iDom_main()
     useful_F::go_while = false;
     iDOM_THREAD::waitUntilAllThreadEnd(&node_data);
     return iDomStateProgram;
-    }
+}
 
-    int main(int argc, char *argv[])
+int main(int argc, char *argv[])
+{
+    iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
+    std::cout << "startujemy program iDom" << std::endl;
+
+    if (argc == 1)
     {
-        iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
-        std::cout << "startujemy program iDom" << std::endl;
-
-        if (argc == 1)
+        int t = 5;
+        do
         {
-            int t = 5;
-            do
+            try
             {
-                try
-                {
-                    iDomStateProgram = iDom_main();
-                }
-                catch (const std::exception& e)
-                {
-                    std::cout << "złąpano wyjatek programu wiec restart "<< e.what() <<std::endl;
-                    iDomStateProgram = iDomStateEnum::RELOAD;
-                }
-                if(iDomStateProgram == iDomStateEnum::RELOAD)
-                {
-                    std::cout<<std::endl << "przeładowywuje program" << std::endl;
-                    std::this_thread::sleep_for(std::chrono::seconds(++t));
-                }
+                iDomStateProgram = iDom_main();
             }
-            while (iDomStateProgram == iDomStateEnum::RELOAD);
-
-            if(iDomStateProgram == iDomStateEnum::CLOSE)
+            catch (const std::exception& e)
             {
-                std::cout << "zamykam program" << std::endl;
-                return 0;
+                std::cout << "złąpano wyjatek programu wiec restart "<< e.what() <<std::endl;
+                iDomStateProgram = iDomStateEnum::RELOAD;
             }
-            else if (iDomStateProgram == iDomStateEnum::ERROR)
+            if(iDomStateProgram == iDomStateEnum::RELOAD)
             {
-                std::cout << "zamykam program z ERROREM" << std::endl;
-                return 1;
-            }
-            else if (iDomStateProgram == iDomStateEnum::HARD_RELOAD)
-            {
-                return 2;
+                std::cout<<std::endl << "przeładowywuje program" << std::endl;
+                std::this_thread::sleep_for(std::chrono::seconds(++t));
             }
         }
-        else
+        while (iDomStateProgram == iDomStateEnum::RELOAD);
+
+        if(iDomStateProgram == iDomStateEnum::CLOSE)
         {
-            int ret = 9;
-            while (ret != 0)
-            {
-                std::this_thread::sleep_for(std::chrono::seconds(10));
-                std::cout << "nie ma parametru wiec odpalam program "<< std::endl;
-                ret = system("/home/pi/programowanie/iDom_server_OOP-build-clang-Release/iDom_server_OOP");
-                std::cout << "system() zwraca ret " << ret <<std::endl;
-            }
-            std::cout << "ZAMYKAM NA AMEN" << std::endl;
+            std::cout << "zamykam program" << std::endl;
+            return 0;
         }
-        return 0;
+        else if (iDomStateProgram == iDomStateEnum::ERROR)
+        {
+            std::cout << "zamykam program z ERROREM" << std::endl;
+            return 1;
+        }
+        else if (iDomStateProgram == iDomStateEnum::HARD_RELOAD)
+        {
+            return 2;
+        }
     }
+    else
+    {
+        int ret = 9;
+        while (ret != 0)
+        {
+            std::this_thread::sleep_for(std::chrono::seconds(10));
+            std::cout << "nie ma parametru wiec odpalam program "<< std::endl;
+            ret = system("/home/pi/programowanie/iDom_server_OOP-build-clang-Release/iDom_server_OOP");
+            std::cout << "system() zwraca ret " << ret <<std::endl;
+        }
+        std::cout << "ZAMYKAM NA AMEN" << std::endl;
+    }
+    return 0;
+}
