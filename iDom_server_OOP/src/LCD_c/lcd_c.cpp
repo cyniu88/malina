@@ -169,8 +169,7 @@ void LCD_c::printVolume (int vol)
     {
         return;
     }
-    std::string tmp ="   vol";
-    //tmp+=intToStr(vol);
+    std::string tmp ="   vol ";
     tmp+=std::to_string(vol);
     tmp+=" %";
     main_lcd.backlight();
@@ -179,15 +178,3 @@ void LCD_c::printVolume (int vol)
     lcd_state=10;
 
 }
-/*std::string LCD_c::intToStr(int n)
-{
-    std::string tmp;
-    if(n < 0) {
-        tmp = "-";
-        n = -n;
-    }
-    if(n > 9)
-        tmp += intToStr(n / 10);
-    tmp += n % 10 + 48;
-    return tmp;
-}*/
