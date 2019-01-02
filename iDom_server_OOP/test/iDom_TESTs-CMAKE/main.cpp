@@ -68,13 +68,6 @@ char SerialPi::read(){
     return r;
 }
 
-void digitalWrite(int pin, int mode){}
-
-void setReturnPinState(int i)
-{
-    TEST_DATA::test_pin = i;
-}
-
 viber_API::viber_API(){}
 void viber_API::setAccessToken(const std::string& accessToken){}
 void viber_API::setURL(const std::string& url){}
@@ -142,6 +135,14 @@ std::string useful_F_libs::httpPost(const std::string& url){
     curl_global_cleanup();
 
     return readBuffer;
+}
+#define OUTPUT 0
+
+void digitalWrite(int pin, int mode){}
+
+void setReturnPinState(int i)
+{
+    TEST_DATA::test_pin = i;
 }
 
 int digitalRead(int pin){ return TEST_DATA::test_pin; }

@@ -18,7 +18,6 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
     my_data = myData;
 
     //////////////////////////////////// temeprature /////////////////
-
     allThermometer.add("inside");
     allThermometer.add("outside");
     allThermometerUpdate.add("inside");
@@ -294,10 +293,21 @@ void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)
 
 void iDomTOOLS::turnOn433MHzSwitch(std::string name)
 {
-    try {
-        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
-        m_switch->on();
-    } catch (const std::string& e) {
+    try
+    {
+//        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
+//        m_switch->on();
+        auto v_switch = my_data->main_REC->getSwitchPointerVector();
+        for(auto s : v_switch)
+        {
+            if(useful_F_libs::hasSubstring(s->getName(),name) == true)
+            {
+                s->on();
+            }
+        }
+    }
+    catch (const std::string& e)
+    {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " void iDomTOOLS::turnOn433MHzSwitch(std::string name) "<< e << std::endl;
         log_file_mutex.mutex_unlock();
@@ -307,9 +317,19 @@ void iDomTOOLS::turnOn433MHzSwitch(std::string name)
 void iDomTOOLS::turnOff433MHzSwitch(std::string name)
 {
     try {
-        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
-        m_switch->off();
-    } catch (const std::string& e) {
+//        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
+//        m_switch->off();
+        auto v_switch = my_data->main_REC->getSwitchPointerVector();
+        for(auto s : v_switch)
+        {
+            if(useful_F_libs::hasSubstring(s->getName(),name) == true)
+            {
+                s->off();
+            }
+        }
+    }
+    catch (const std::string& e)
+    {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " void iDomTOOLS::turnOff433MHzSwitch(std::string name) "<< e << std::endl;
         log_file_mutex.mutex_unlock();
