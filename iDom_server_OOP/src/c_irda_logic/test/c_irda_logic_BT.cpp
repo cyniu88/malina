@@ -3,7 +3,7 @@
 #include "test_data.h"
 #include "../../../iDom_server_OOP/src/iDomTools/test/iDomTools_fixture.h"
 #include "../c_irda_logic.h"
-
+#include "../../thread_functions/iDom_thread.h"
 
 class c_irda_logic_fixture : public iDomTOOLS_ClassTest
 {
@@ -40,17 +40,17 @@ TEST_F(c_irda_logic_fixture, kodi)
 {
     std::array<Thread_array_struc,iDomConst::MAX_CONNECTION >test_ThreadArrayStruc;
 
-    for (int i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
-        test_ThreadArrayStruc.at(i).thread_socket = i+1;
-    test_ThreadArrayStruc.at(3).thread_socket = 0;
-    test_ThreadArrayStruc.at(3).thread_ID = std::this_thread::get_id();
+    for (std::size_t i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+        test_ThreadArrayStruc.at(i).thread_socket = 0;
+    test_ThreadArrayStruc.at(1).thread_socket = 0;
+    test_ThreadArrayStruc.at(1).thread_ID = std::this_thread::get_id();
     test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
 
     test_my_data.main_iDomTools->unlockHome();
     test_my_data.main_iDomStatus->setObjectState("music",STATE::PAUSE);
     test_my_data.main_iDomStatus->setObjectState("speakers",STATE::OFF);
     test_irda->_add(PILOT_KEY::KEY_REFRESH);
-    sleep(1);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
 }
 
 TEST_F(c_irda_logic_fixture, turnOnOffListwa)

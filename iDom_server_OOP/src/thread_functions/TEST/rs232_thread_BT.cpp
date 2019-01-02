@@ -16,6 +16,13 @@ class rs232_thread_fixture : public iDomTOOLS_ClassTest
 
 TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_fixture_clock)
 {
+
+    std::array<Thread_array_struc,iDomConst::MAX_CONNECTION >test_ThreadArrayStruc;
+
+    for (std::size_t i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+        test_ThreadArrayStruc.at(i).thread_socket = 0;
+    test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
+
     useful_F::go_while = true;
     EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 0);
     thread_data_rs232 test_data_rs232;
@@ -30,8 +37,9 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_fixture_clock)
 
     SerialPi_set_recv_msg("OK");
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"OK");
-    Send_Recieve_rs232_thread(&test_data_rs232,"RS232_THREAD");
+    iDOM_THREAD::start_thread_RS232("RS232_THREAD",Send_Recieve_rs232_thread,&test_my_data,&test_data_rs232);
 
+    sleep(1);
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"");
     EXPECT_EQ(test_data_rs232.pointer.ptr_who[1], iDomConst::CLOCK);
     EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 0);
