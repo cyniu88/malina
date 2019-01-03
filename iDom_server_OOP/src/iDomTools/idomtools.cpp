@@ -495,7 +495,7 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
 
 void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
 { puts("DUPA1");
-    if(my_data->idom_all_state.houseState != STATE::UNLOCK)
+    if(my_data->idom_all_state.houseState != STATE::LOCK)
     { puts("DUPA2");
         if(radioButton->getState() != STATE::ON)
         { puts("DUPA3");
