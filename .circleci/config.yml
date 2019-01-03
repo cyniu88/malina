@@ -20,5 +20,5 @@ jobs:
           apt-get install -qq clang-6.0
       - checkout
       - run: |
-          ls
-          clang --version
+          ls /usr/bin
+          clang-6.0 --version
