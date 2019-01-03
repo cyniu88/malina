@@ -178,7 +178,7 @@ TEST_F(iDomTOOLS_ClassTest, buttonPressed)
 {
     std::string button433MHz_id = "01e7be";
     std::string pressedButtonName = test_idomTOOLS->buttonPressed(button433MHz_id);
-    EXPECT_EQ(2, test_my_data.main_REC->getButtonPointerVector().size());
+    EXPECT_EQ(3, test_my_data.main_REC->getButtonPointerVector().size());
     EXPECT_STREQ(std::to_string(button433MHz_id).c_str(),
                  test_my_data.main_REC->getButtonPointerVector().at(1)->getID().c_str());
     EXPECT_STREQ(pressedButtonName.c_str(), "locker-main");

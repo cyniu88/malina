@@ -25,7 +25,7 @@ TEST_F(Switch_Class_fixture, getSwitchPointerVector)
 TEST_F(Switch_Class_fixture, getButtonPointerVector)
 {
     auto v = test_rec->getButtonPointerVector();
-    EXPECT_EQ(v.size(),2);
+    EXPECT_EQ(v.size(),3);
 }
 
 TEST_F(Switch_Class_fixture, switch_alarm_on)

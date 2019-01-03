@@ -42,7 +42,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
                 {
                     if (k->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
                     {
-                        my_data->main_iDomTools->button433mhzLockerPressed(k);
+                        my_data->main_iDomTools->button433MHzPressedAction(k->getName());
                     }
                 }
             }

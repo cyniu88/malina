@@ -194,3 +194,19 @@ TEST_F(commandArdu_Class_fixture, command_ardu_433MHz_PING)
     EXPECT_NE(test_my_data.main_RFLink->pingTime, 0);
     EXPECT_EQ(test_my_data.main_RFLink->pingTime, Clock::getUnixTime());
 }
+
+TEST_F(commandArdu_Class_fixture, NightLight)
+{
+    EXPECT_EQ(test_status.getObjectState("Night_Light"),STATE::UNKNOWN);
+    test_idomTOOLS->unlockHome();
+    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
+    test_v.push_back("20;EV1527;ID=458;SWITCH=01;CMD=ON;");
+
+    test_ardu->execute(test_v, &test_my_data);
+
+    EXPECT_EQ(test_status.getObjectState("Night_Light"),STATE::ON);
+
+    test_ardu->execute(test_v, &test_my_data);
+
+    EXPECT_EQ(test_status.getObjectState("Night_Light"),STATE::OFF);
+}

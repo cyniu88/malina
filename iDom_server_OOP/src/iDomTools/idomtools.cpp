@@ -4,12 +4,12 @@
 #include <typeinfo>
 
 #include "idomtools.h"
-#include "../functions/functions.h"
+
 #include "../../libs/emoji/emoji.h"
-#include "../../libs/Statistic/statistic.h"
+
+#include "../functions/functions.h"
 #include "../CRON/cron.hpp"
 #include "../RADIO_433_eq/radio_433_eq.h"
-#include "json.hpp"
 #include "../thread_functions/iDom_thread.h"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
@@ -34,6 +34,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
     my_data->main_iDomStatus->addObject("speakers",STATE::OFF);
     my_data->main_iDomStatus->addObject("alarm",STATE::DEACTIVE);
     my_data->main_iDomStatus->addObject("KODI",STATE::DEACTIVE);
+    my_data->main_iDomStatus->addObject("Night_Light",STATE::UNKNOWN);
 
     ///////// setup viber api
     m_viber.setAvatar(my_data->server_settings->viberAvatar);
@@ -295,8 +296,8 @@ void iDomTOOLS::turnOn433MHzSwitch(std::string name)
 {
     try
     {
-//        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
-//        m_switch->on();
+        //        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
+        //        m_switch->on();
         auto v_switch = my_data->main_REC->getSwitchPointerVector();
         for(auto s : v_switch)
         {
@@ -317,8 +318,8 @@ void iDomTOOLS::turnOn433MHzSwitch(std::string name)
 void iDomTOOLS::turnOff433MHzSwitch(std::string name)
 {
     try {
-//        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
-//        m_switch->off();
+        //        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
+        //        m_switch->off();
         auto v_switch = my_data->main_REC->getSwitchPointerVector();
         for(auto s : v_switch)
         {
@@ -414,7 +415,7 @@ void iDomTOOLS::switchActionOnUnlockHome()
         m_switch->onUnlockHome();
     }
 }
-
+//TO DO  deprecated
 std::string iDomTOOLS::buttonPressed(const std::string& id)
 {
     for (auto n : buttonPointerVector){
@@ -427,10 +428,15 @@ std::string iDomTOOLS::buttonPressed(const std::string& id)
 
 void iDomTOOLS::button433MHzPressedAction(const std::string& name)
 {
-    if (useful_F_libs::hasSubstring(name,"locker") == true)  // TODO  dodac hassubstring
+    if (useful_F_libs::hasSubstring(name,"locker") == true)
     {
         RADIO_BUTTON* buttonLocker = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer(name) );
         button433mhzLockerPressed(buttonLocker);
+    }
+    else if (useful_F_libs::hasSubstring(name,"night") == true)
+    {
+        RADIO_BUTTON* buttonNightLight = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer(name) );
+        button433mhzNightLightPressed(buttonNightLight);
     }
 }
 
@@ -485,6 +491,27 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
         //#endif
     }
 
+}
+
+void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
+{ puts("DUPA1");
+    if(my_data->idom_all_state.houseState != STATE::UNLOCK)
+    { puts("DUPA2");
+        if(radioButton->getState() != STATE::ON)
+        { puts("DUPA3");
+            ledOn(my_data->ptr_pilot_led->colorLED[2], 25, 27);
+            radioButton->setState(STATE::ON);
+            my_data->main_iDomStatus->setObjectState("Night_Light",STATE::ON);
+            return;
+        }
+    }
+
+    if(radioButton->getState() == STATE::ON)
+    {
+        ledOFF();
+        radioButton->setState(STATE::OFF);
+        my_data->main_iDomStatus->setObjectState("Night_Light",STATE::OFF);
+    }
 }
 
 void iDomTOOLS::buttonLockHome()
@@ -931,11 +958,11 @@ void iDomTOOLS::checkAlarm()
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
             if(iDomTOOLS::isItDay() == false){
-                 my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
-                 saveState_iDom();
-                 log_file_mutex.mutex_lock();
-                 log_file_cout << DEBUG << "uruchamiam ALARM 433MHz"<< std::endl;
-                 log_file_mutex.mutex_unlock();
+                my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
+                saveState_iDom();
+                log_file_mutex.mutex_lock();
+                log_file_cout << DEBUG << "uruchamiam ALARM 433MHz"<< std::endl;
+                log_file_mutex.mutex_unlock();
             }
         }
     }

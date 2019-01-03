@@ -4,15 +4,18 @@
 #include <map>
 #include <string>
 #include <chrono>
+
+#include "idomtools_useful.h"
+#include "json.hpp"
+#include "lightning.h"
+
 #include "../iDom_server_OOP.h"
+#include "../THERMOMETER_CONTAINER/thermometer_container.h"
+
 #include "../../libs/sunrise-sunset/sunriseset.h"
 #include "../../libs/viberAPI/viber_api.h"
 #include "../../libs/facebookAPI/facebookAPI.h"
 #include "../../libs/Statistic/statistic.h"
-#include "../THERMOMETER_CONTAINER/thermometer_container.h"
-#include "idomtools_useful.h"
-#include "json.hpp"
-#include "lightning.h"
 
 struct thread_data;
 struct LED_Strip;
@@ -65,6 +68,7 @@ public:
     std::string buttonPressed(const std::string &id);
     void button433MHzPressedAction(const std::string &name);
     void button433mhzLockerPressed(RADIO_BUTTON* radioButton);
+    void button433mhzNightLightPressed(RADIO_BUTTON* radioButton);
 
     void buttonLockHome();
     void buttonUnlockHome();
