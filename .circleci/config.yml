@@ -13,16 +13,13 @@ jobs:
       - image: *docker_image
     steps:
       - run: *install_common
-      - run:
-        name: Installing SUDO && clang
-        command:|
+      - run: |
           apt-get install -qq clang-6.0 sudo
-      - run:
-          name: create symbolic link
-          command: | |
+      - checkout
+      - run: |
           ls /usr/bin
           clang-6.0 --version
-          sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
+		  sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
           sudo ln /usr/bin/clang-6.0 /usr/bin/clang
       - run:
           name: Install CMAKE GIT and libs
@@ -90,4 +87,3 @@ jobs:
       - run:
           name: show logs
           command: 'cat /mnt/ramdisk/iDom_log_BT.log'
-          
