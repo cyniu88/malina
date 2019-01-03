@@ -21,4 +21,4 @@ jobs:
       - checkout
       - run: |
           ls
-          clang++ --version
+          clang --version
