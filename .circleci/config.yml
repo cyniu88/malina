@@ -19,7 +19,7 @@ jobs:
       - run: |
           ls /usr/bin
           clang-6.0 --version
-		  sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
+          sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
           sudo ln /usr/bin/clang-6.0 /usr/bin/clang
       - run:
           name: Install CMAKE GIT and libs
