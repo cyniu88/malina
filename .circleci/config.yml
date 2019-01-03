@@ -14,7 +14,7 @@ jobs:
     steps:
       - run: *install_common
       - run: |
-          apt-get install -qq clang-6.0
+          apt-get install -qq clang-6.0 sudo
       - checkout
       - run: |
           ls /usr/bin
