@@ -494,11 +494,11 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
 }
 
 void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
-{ puts("DUPA1");
+{
     if(my_data->idom_all_state.houseState != STATE::LOCK)
-    { puts("DUPA2");
+    {
         if(radioButton->getState() != STATE::ON)
-        { puts("DUPA3");
+        {
             ledOn(my_data->ptr_pilot_led->colorLED[2], 25, 27);
             radioButton->setState(STATE::ON);
             my_data->main_iDomStatus->setObjectState("Night_Light",STATE::ON);
