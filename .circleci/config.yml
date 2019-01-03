@@ -11,7 +11,7 @@ aliases:
 
 jobs:
 
-  linux_clang6:
+  build:
     docker:
       - image: *docker_image
     steps:
