@@ -1,81 +1,24 @@
 version: 2
 
+aliases:
+  - &docker_image ubuntu:bionic
+  - &install_common |
+      apt-get update -qq
+      apt-get install -qq software-properties-common
+      add-apt-repository -y ppa:ubuntu-toolchain-r/test
+      apt-get update -qq
+      apt-get install -qq autoconf automake gcc g++ libboost-dev libgtest-dev libopenmpi-dev libsparsehash-dev make pandoc gdb valgrind
+
 jobs:
-  build:
+
+  linux_clang6:
     docker:
-      - image: "debian:stretch"
+      - image: *docker_image
     steps:
+      - run: *install_common
+      - run: |
+          apt-get install -qq clang-6.0
       - checkout
-      - run:
-          name: Installing SUDO && clang
-          command: | 
-                   apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*
-                   apt-get update && apt-get install -y gcc clang
-                   clang --version
-      - run:
-          name: Install CMAKE GIT and libs
-          command: 'apt-get update && sudo apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock'
-      - run:
-          name: google test init
-          command: |
-                   cd /usr/src/gtest
-                   sudo cmake CMakeLists.txt
-                   sudo make
-                   sudo cp *.a /usr/lib
-      - run:
-          name: submodule init && update
-          command: |
-                   git submodule init
-                   git submodule update --recursive --remote
-      - run:
-          name: ramdisk
-          command: 'mkdir /mnt/ramdisk && touch /dev/tty0'
-      - run:
-          name: go to koko
-          command: 'cd koko/'
-      - run:
-          name: ls
-          command: 'ls -R iDom_server_OOP/test/config'
-      - run:
-          name: Creating Build Files
-          command: 'cmake -Bkoko/ -Hkoko/'
-      - run:
-          name: ls
-          command: 'ls'
-      - run:
-          name: Creating Binary Files
-          command: 'make -C koko/'
-      - run:
-          name: ls
-          command: 'ls koko/'
-      - run:
-          name: permision
-          command: 'sudo chmod +x koko/koko'
-      - run:
-          name: runt
-          command: './koko/koko'
-          
-      - run:
-          name: Creating Build Files
-          command: 'cmake -BiDom_server_OOP/test/iDom_TESTs-CMAKE/ -HiDom_server_OOP/test/iDom_TESTs-CMAKE/'
-      - run:
-          name: ls
-          command: 'ls iDom_server_OOP/test/iDom_TESTs-CMAKE/'
-      - run:
-          name: Creating Binary Files
-          command: 'make -j2 -C iDom_server_OOP/test/iDom_TESTs-CMAKE/'
-      - run:
-          name: ls
-          command: 'ls iDom_server_OOP/test/iDom_TESTs-CMAKE/'
-      - run:
-          name: permision
-          command: 'sudo chmod +x iDom_server_OOP/test/iDom_TESTs-CMAKE/iDom_TESTs-CMAKE'
-      - run:
-          name: runt
-          command: |
-                 cd iDom_server_OOP/test/iDom_TESTs-CMAKE/
-                 ./iDom_TESTs-CMAKE
-      - run:
-          name: show logs
-          command: 'cat /mnt/ramdisk/iDom_log_BT.log'
-          
+      - run: |
+          ls
+          clang++ --version
