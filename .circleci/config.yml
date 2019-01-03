@@ -86,4 +86,7 @@ jobs:
                  ./iDom_TESTs-CMAKE
       - run:
           name: show logs
-          command: 'cat /mnt/ramdisk/iDom_log_BT.log'
+          command: |
+                 cat /mnt/ramdisk/iDom_log_BT.log
+                 llvm-profdata-6.0  merge -o test.profdata default.profraw
+                 llvm-cov-6.0 report ./iDom_TESTs-CMAKE -instr-profile=test.profdata -use-color
