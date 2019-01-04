@@ -223,19 +223,19 @@ struct LED_Strip{
     }
 };
 
-enum color{
+enum class color : int{
     orange = 0,
-    red,
-    green,
-    blue,
-    white,
-    yellow,
-    cyan,
-    magenta
+    red = 1,
+    green = 2,
+    blue = 3,
+    white = 4,
+    yellow = 5,
+    cyan = 6,
+    magenta = 7
 };
 
 struct pilot_led{
-    unsigned int counter=0;
+    unsigned int counter = 0;
     std::vector<LED_Strip> colorLED   = { LED_Strip(1,60,237,145,33 ,"carrot orange"),
                                           LED_Strip(1,60,255,0,0    ,"red"),
                                           LED_Strip(1,60,0,255,0    ,"green"),

@@ -473,7 +473,7 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
             switchActionOnUnlockHome();
             if(isItDay() == false)
             {
-                ledOn(my_data->ptr_pilot_led->colorLED[color::green]);
+                ledOn(my_data->ptr_pilot_led->colorLED[static_cast<int>(color::green)]);
             }
             radioButton->setState(STATE::PLAY);
         }
@@ -500,7 +500,7 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
     {
         if(my_data->main_iDomStatus->getObjectState("Night_Light") != STATE::ON)
         {
-            ledOn(my_data->ptr_pilot_led->colorLED[color::white], 25, 27);
+            ledOn(my_data->ptr_pilot_led->colorLED[static_cast<int>(color::white)], 25, 27);
             radioButton->setState(STATE::ON);
             my_data->main_iDomStatus->setObjectState("Night_Light",STATE::ON);
             return;
@@ -528,7 +528,7 @@ void iDomTOOLS::buttonUnlockHome()
     unlockHome();
     MPD_play(my_data);
     if(isItDay() == false){
-        ledOn(my_data->ptr_pilot_led->colorLED[color::green]);
+        ledOn(my_data->ptr_pilot_led->colorLED[static_cast<int>(color::green)]);
     }
 }
 
@@ -953,7 +953,7 @@ void iDomTOOLS::checkAlarm()
             MPD_volumeSet(my_data, vol);
 
             if(iDomTOOLS::isItDay() == false){
-                my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[color::green],fromVol,vol);
+                ledOn(my_data->ptr_pilot_led->colorLED[static_cast<std::size_t>(color::green)],fromVol,vol);
             }
         }
         else{
