@@ -365,7 +365,8 @@ void iDomTOOLS::runOnSunrise()
         my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "+
                                                       stateToString(my_data->idom_all_state.houseState));
     }
-    my_data->main_iDomTools->ledOFF();
+    ledOFF();
+    my_data->main_iDomStatus->setObjectState("Night_Light",STATE::OFF);
 }
 
 void iDomTOOLS::lockHome()
@@ -472,7 +473,7 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
             switchActionOnUnlockHome();
             if(isItDay() == false)
             {
-                ledOn(my_data->ptr_pilot_led->colorLED[2]);
+                ledOn(my_data->ptr_pilot_led->colorLED[color::green]);
             }
             radioButton->setState(STATE::PLAY);
         }
@@ -497,16 +498,16 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
 {
     if(my_data->idom_all_state.houseState != STATE::LOCK)
     {
-        if(radioButton->getState() != STATE::ON)
+        if(my_data->main_iDomStatus->getObjectState("Night_Light") != STATE::ON)
         {
-            ledOn(my_data->ptr_pilot_led->colorLED[2], 25, 27);
+            ledOn(my_data->ptr_pilot_led->colorLED[color::white], 25, 27);
             radioButton->setState(STATE::ON);
             my_data->main_iDomStatus->setObjectState("Night_Light",STATE::ON);
             return;
         }
     }
 
-    if(radioButton->getState() == STATE::ON)
+    if(my_data->main_iDomStatus->getObjectState("Night_Light") == STATE::ON)
     {
         ledOFF();
         radioButton->setState(STATE::OFF);
@@ -527,7 +528,7 @@ void iDomTOOLS::buttonUnlockHome()
     unlockHome();
     MPD_play(my_data);
     if(isItDay() == false){
-        ledOn(my_data->ptr_pilot_led->colorLED[2]);
+        ledOn(my_data->ptr_pilot_led->colorLED[color::green]);
     }
 }
 
@@ -952,7 +953,7 @@ void iDomTOOLS::checkAlarm()
             MPD_volumeSet(my_data, vol);
 
             if(iDomTOOLS::isItDay() == false){
-                my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[2],fromVol,vol);
+                my_data->main_iDomTools->ledOn(my_data->ptr_pilot_led->colorLED[color::green],fromVol,vol);
             }
         }
         else{
