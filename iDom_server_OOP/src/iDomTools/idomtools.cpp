@@ -505,8 +505,6 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
         if(my_data->main_iDomStatus->getObjectState("Night_Light") != STATE::ON)
         {
             int from = 10 + (Clock::getTime().m_min/ 2);
-            std::cout << "rozmar wktora: " <<my_data->ptr_pilot_led->colorLED.size () <<
-                    " rozmiar tta " << static_cast<int>(color::dark_orange)<< std::endl;
             ledOn(my_data->ptr_pilot_led->colorLED.at(static_cast<int>(color::dark_orange)), from, from + 3);
             radioButton->setState(STATE::ON);
             my_data->main_iDomStatus->setObjectState("Night_Light",STATE::ON);
