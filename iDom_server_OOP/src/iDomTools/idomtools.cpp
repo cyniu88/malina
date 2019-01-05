@@ -162,6 +162,7 @@ void iDomTOOLS::updateTemperatureStats()
         log_file_cout << WARNING << msg << std::endl;
         log_file_mutex.mutex_unlock();
     }
+
     if( true == allThermometerUpdate.isMoreDiff("inside",2.1))
     {
         auto data = allThermometerUpdate.getLast2("inside");
@@ -217,7 +218,8 @@ void iDomTOOLS::turnOnPrinter()
         my_data->myEventHandler.run("230V")->addEvent("230v drukarki ON");
         my_data->main_iDomStatus->setObjectState("printer",STATE::ON);
     }
-    else{
+    else
+    {
         my_data->myEventHandler.run("230V")->addEvent("Printer can not start due to home state: "+
                                                       stateToString(my_data->idom_all_state.houseState));
     }
@@ -258,8 +260,6 @@ void iDomTOOLS::turnOnOffPrinter()
         my_data->mainLCD->printString(true,0,0,"230V ON");
         break;
     default:
-        puts("def");
-
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " blad odczytu stanu pinu zasilania drukarki "<< std::endl;
         log_file_mutex.mutex_unlock();
@@ -270,21 +270,26 @@ void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)
 {
     STATE listwaState = my_data->main_iDomStatus->getObjectState(name);
     RADIO_SWITCH *m_switch = nullptr;
-    try {
+    try
+    {
         m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(name));
-    } catch (const std::string& e) {
+    }
+    catch (const std::string& e)
+    {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name) "<< e << std::endl;
         log_file_mutex.mutex_unlock();
         return;
     }
 
-    if (listwaState == STATE::ON){
+    if (listwaState == STATE::ON)
+    {
         my_data->mainLCD->set_lcd_STATE(10);
         my_data->mainLCD->printString(true,0,0,"230V OFF "+name);
         m_switch->off();
     }
-    else if (listwaState == STATE::OFF){
+    else if (listwaState == STATE::OFF)
+    {
         my_data->mainLCD->set_lcd_STATE(10);
         my_data->mainLCD->printString(true,0,0,"230V ON "+name);
         m_switch->on();
@@ -296,8 +301,6 @@ void iDomTOOLS::turnOn433MHzSwitch(std::string name)
 {
     try
     {
-        //        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
-        //        m_switch->on();
         auto v_switch = my_data->main_REC->getSwitchPointerVector();
         for(auto s : v_switch)
         {
@@ -317,7 +320,8 @@ void iDomTOOLS::turnOn433MHzSwitch(std::string name)
 
 void iDomTOOLS::turnOff433MHzSwitch(std::string name)
 {
-    try {
+    try
+    {
         //        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
         //        m_switch->off();
         auto v_switch = my_data->main_REC->getSwitchPointerVector();
@@ -500,7 +504,10 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
     {
         if(my_data->main_iDomStatus->getObjectState("Night_Light") != STATE::ON)
         {
-            ledOn(my_data->ptr_pilot_led->colorLED[static_cast<int>(color::white)], 25, 27);
+            int from = 10 + (Clock::getTime().m_min/ 2);
+            std::cout << "rozmar wktora: " <<my_data->ptr_pilot_led->colorLED.size () <<
+                    " rozmiar tta " << static_cast<int>(color::dark_orange)<< std::endl;
+            ledOn(my_data->ptr_pilot_led->colorLED.at(static_cast<int>(color::dark_orange)), from, from + 3);
             radioButton->setState(STATE::ON);
             my_data->main_iDomStatus->setObjectState("Night_Light",STATE::ON);
             return;

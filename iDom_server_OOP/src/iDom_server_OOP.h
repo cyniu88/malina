@@ -155,36 +155,36 @@ struct LED_Strip{
     std::string colorName;
 
     LED_Strip (int from, int to, int r, int g, int b, std::string colorName = "NULL"):from(std::to_string(from)),
-        to(std::to_string(to)),
-        R(std::to_string(r)),
-        G(std::to_string(g)),
-        B(std::to_string(b)),
-        colorName(colorName)
+                                                                                       to(std::to_string(to)),
+                                                                                       R(std::to_string(r)),
+                                                                                       G(std::to_string(g)),
+                                                                                       B(std::to_string(b)),
+                                                                                       colorName(colorName)
     {
 
     }
     LED_Strip (const std::string& from,
                const std::string& to,
-               const std::string& r,
-               const std::string& g,
-               const std::string& b,
-               const std::string& colorName = "NULL"):
-        from(from),
-        to(to),
-        R(r),
-        G(g),
-        B(b),
-        colorName(colorName)
+              const std::string& r,
+              const std::string& g,
+              const std::string& b,
+              const std::string& colorName = "NULL"):
+                                                       from(from),
+                                                       to(to),
+                                                       R(r),
+                                                       G(g),
+                                                       B(b),
+                                                       colorName(colorName)
     {
 
     }
 
     void set (const std::string& from,
-              const std::string& to,
-              const std::string& r,
-              const std::string& g,
-              const std::string& b,
-              const std::string& colorName = "NULL")
+             const std::string& to,
+             const std::string& r,
+             const std::string& g,
+             const std::string& b,
+             const std::string& colorName = "NULL")
     {
         this->from =from;
         this->to = to;
@@ -231,20 +231,21 @@ enum class color : int{
     white = 4,
     yellow = 5,
     cyan = 6,
-    magenta = 7
+    magenta = 7,
+    dark_orange = 8,
 };
 
 struct pilot_led{
     unsigned int counter = 0;
-    std::vector<LED_Strip> colorLED   = { LED_Strip(1,60,237,145,33 ,"carrot orange"),
-                                          LED_Strip(1,60,255,0,0    ,"red"),
-                                          LED_Strip(1,60,0,255,0    ,"green"),
-                                          LED_Strip(1,60,0,0,255    ,"blue"),
-                                          LED_Strip(1,60,255,255,255,"white"),
-                                          LED_Strip(1,60,255,255,0  ,"yellow"),
-                                          LED_Strip(1,60,0,255,255  ,"cyan"),
-                                          LED_Strip(1,60,255,0,255  ,"magenta")
-                                        };
+    std::vector<LED_Strip> colorLED  = { LED_Strip(1,60,237,145,33 ,"carrot orange"),
+                                         LED_Strip(1,60,255,0,0    ,"red"),
+                                         LED_Strip(1,60,0,255,0    ,"green"),
+                                         LED_Strip(1,60,0,0,255    ,"blue"),
+                                         LED_Strip(1,60,255,255,255,"white"),
+                                         LED_Strip(1,60,255,255,0  ,"yellow"),
+                                         LED_Strip(1,60,0,255,255  ,"cyan"),
+                                         LED_Strip(1,60,255,0,255  ,"magenta"),
+                                           LED_Strip(1,60,255,128,0  ,"dark orange")  };
 };
 
 class command; // for struc thread_data req
