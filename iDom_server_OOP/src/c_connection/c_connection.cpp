@@ -31,7 +31,7 @@ C_connection::~C_connection()
 
 int C_connection::c_send(int para)
 {
-    crypto(str_buf,m_encriptionKey,m_encrypted); //BUG - naprawic czytanie flagi z parametru klasy
+    crypto(str_buf,m_encriptionKey,m_encrypted);
     std::string len = std::to_string( str_buf.size());
     crypto(len,m_encriptionKey,m_encrypted);
     if(( send( c_socket, len.c_str() ,len.length(), para ) ) <= 0 )

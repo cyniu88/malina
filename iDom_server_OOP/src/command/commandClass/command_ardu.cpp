@@ -2,7 +2,7 @@
 
 command_ardu::command_ardu(const std::string &name):command(name)
 {
-    this->m_mainRadioButton = std::nullptr_t(); //TODO zamienic na wektor przyciskow
+    this->m_mainRadioButton = std::nullptr_t();
 }
 
 command_ardu::command_ardu(const std::string& name, thread_data *my_data):command(name)
