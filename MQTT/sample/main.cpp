@@ -1,63 +1,76 @@
-#include <iostream>
-#include <string.h>
-#include <unistd.h>
-#include "../raspberry_osio_client/raspberry_osio_client.h"
+#include <stdio.h>
+#include <mosquitto.h>
 
-using namespace std;
-
-RaspberryOSIOClient * client = 0;
-
-
-/*
- * Handler for incoming messages.
- */
-void onMessage(char* topic, char* payload, unsigned int length)
+void my_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
 {
-  char* clearMessage = new char[length + 1];
-  memset(clearMessage, 0, length + 1);
-  memcpy(clearMessage, payload, length);
-
-  cout << "Topic: " << topic << ", message: " << clearMessage;
-
-  // Break communication cycle when receive "exit".
-  if (strcmp(clearMessage, "exit") == 0)
-  {
-    client->disconnect();
-  }
+    puts("void my_message_callback()");
+    if(message->payloadlen){
+        printf("%s %s\n", message->topic, message->payload);
+    }else{
+        printf("%s (null)\n", message->topic);
+    }
+    fflush(stdout);
 }
 
-int main()
+void my_connect_callback(struct mosquitto *mosq, void *userdata, int result)
 {
-  // Our raspberry MQTT client instance.
-  client = new RaspberryOSIOClient("gizz", "80", "7E4ZHOQJ", onMessage);
+    puts("my_connect_callback()");
+    int i;
+    if(!result){
+        /* Subscribe to broker information topics on successful connect. */
+        mosquitto_subscribe(mosq, NULL, "iDom/#", 2);
+    }else{
+        fprintf(stderr, "Connect failed\n");
+    }
+}
 
-  cout << "Client started. When \"exit\" message is received, the program will publish test message to topic and finish its work." << endl;
+void my_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos)
+{
+    puts("my_subscribe_callback()");
+    int i;
 
-  // Subscribe for topic.
-  bool result = client->subscribe("/users/gizz/test");
+    printf("Subscribed (mid: %d): %d", mid, granted_qos[0]);
+    for(i=1; i<qos_count; i++){
+        printf(", %d", granted_qos[i]);
+    }
+    printf("\n");
+}
 
-  cout << "Subscribing result: " << (result == true ? "success" : "error") << endl;
+void my_log_callback(struct mosquitto *mosq, void *userdata, int level, const char *str)
+{
+    puts("my_log_callback()");
+    /* Pring all log messages regardless of level. */
+    printf("%s\n", str);
+}
 
-  // Main communication loop to process messages.
-  do
-  {
-    // Save loop iteration state (TRUE if all ok).
-    result = client->loop();
-    // Just show that we are alive.
-    cout << ".\r\n";
-    // Wait 1 second.
-    sleep(1);
-  }
-  while(result == true); // Break if loop returned FALSE.
+int main(int argc, char *argv[])
+{
+    int i;
+    char *host = "localhost";
+    int port = 1883;
+    int keepalive = 60;
+    bool clean_session = true;
+    struct mosquitto *mosq = NULL;
 
-  cout << "Publishing \"hi!\" message: ";
-  result = client->publish("/users/gizz/test", "hi!");
+    mosquitto_lib_init();
+    mosq = mosquitto_new(NULL, clean_session, NULL);
+    if(!mosq){
+        fprintf(stderr, "Error: Out of memory.\n");
+        return 1;
+    }
+    mosquitto_log_callback_set(mosq, my_log_callback);
+    mosquitto_connect_callback_set(mosq, my_connect_callback);
+    mosquitto_message_callback_set(mosq, my_message_callback);
+    mosquitto_subscribe_callback_set(mosq, my_subscribe_callback);
 
-  cout << (result == true ? "success" : "error") << endl;
+    if(mosquitto_connect(mosq, host, port, keepalive)){
+        fprintf(stderr, "Unable to connect.\n");
+        return 1;
+    }
 
-  delete client;
+    mosquitto_loop_forever(mosq, -1, 1);
 
-  cout << "Bye!" << endl;
-
-  return 0;
+    mosquitto_destroy(mosq);
+    mosquitto_lib_cleanup();
+    return 0;
 }
