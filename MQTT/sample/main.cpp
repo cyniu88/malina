@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <mosquitto.h>
+#include <string>
 
 void my_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
 {
@@ -10,6 +11,13 @@ void my_message_callback(struct mosquitto *mosq, void *userdata, const struct mo
         printf("%s (null)\n", message->topic);
     }
     fflush(stdout);
+
+    std::string rec = (char*)(message->payload);
+    if(rec == "EXIT")
+    {
+        puts("EXIT JEST");
+        mosquitto_disconnect(mosq);
+    }
 }
 
 void my_connect_callback(struct mosquitto *mosq, void *userdata, int result)
