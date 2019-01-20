@@ -40,6 +40,18 @@
 #define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
 
+enum class color : int{
+    orange = 0,
+    red = 1,
+    green = 2,
+    blue = 3,
+    white = 4,
+    yellow = 5,
+    cyan = 6,
+    magenta = 7,
+    dark_orange = 8,
+};
+
 enum class iDomStateEnum{
     CLOSE = 0,
     RELOAD,
@@ -107,10 +119,20 @@ struct FTP_SERVER{
 };
 struct iDOM_STATE{
     STATE houseState = STATE::UNDEFINE;
+};
 
+struct NightLight{
+int from = 48;
+int to = 50;
+int colorLED = static_cast<int>(color::green);
+};
+
+struct CONFIG_JSON{
+    NightLight _nightLight;
 };
 
 struct config{
+    CONFIG_JSON configJson;
     std::string portRS232;
     std::string portRS232_clock;
     std::string BaudRate;
@@ -164,7 +186,7 @@ struct LED_Strip{
 
     }
     LED_Strip (const std::string& from,
-               const std::string& to,
+              const std::string& to,
               const std::string& r,
               const std::string& g,
               const std::string& b,
@@ -223,29 +245,17 @@ struct LED_Strip{
     }
 };
 
-enum class color : int{
-    orange = 0,
-    red = 1,
-    green = 2,
-    blue = 3,
-    white = 4,
-    yellow = 5,
-    cyan = 6,
-    magenta = 7,
-    dark_orange = 8,
-};
-
 struct pilot_led{
     unsigned int counter = 0;
     std::vector<LED_Strip> colorLED  = { LED_Strip(1,60,237,145,33 ,"carrot orange"),
-                                         LED_Strip(1,60,255,0,0    ,"red"),
-                                         LED_Strip(1,60,0,255,0    ,"green"),
-                                         LED_Strip(1,60,0,0,255    ,"blue"),
-                                         LED_Strip(1,60,255,255,255,"white"),
-                                         LED_Strip(1,60,255,255,0  ,"yellow"),
-                                         LED_Strip(1,60,0,255,255  ,"cyan"),
-                                         LED_Strip(1,60,255,0,255  ,"magenta"),
-                                           LED_Strip(1,60,255,128,0  ,"dark orange")  };
+                                       LED_Strip(1,60,255,0,0    ,"red"),
+                                       LED_Strip(1,60,0,255,0    ,"green"),
+                                       LED_Strip(1,60,0,0,255    ,"blue"),
+                                       LED_Strip(1,60,255,255,255,"white"),
+                                       LED_Strip(1,60,255,255,0  ,"yellow"),
+                                       LED_Strip(1,60,0,255,255  ,"cyan"),
+                                       LED_Strip(1,60,255,0,255  ,"magenta"),
+                                       LED_Strip(1,60,255,128,0  ,"dark orange")  };
 };
 
 class command; // for struc thread_data req

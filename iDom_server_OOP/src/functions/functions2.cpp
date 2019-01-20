@@ -244,3 +244,9 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
     }
     return str_buf;
 }
+
+CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
+{
+    CONFIG_JSON  cj;
+    return cj;
+}
