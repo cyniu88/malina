@@ -115,3 +115,18 @@ TEST_F(functions_fixture, sleepThread)
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP) << "NIE ZATRZYMANO MUZYKI :(";
 }
+
+TEST_F(functions_fixture, json_config)
+{
+    // read a JSON file
+    std::ifstream i("../config/config_iDom.json");
+    nlohmann::json j;
+    i >> j;
+    auto ret = useful_F::configJsonFileToStruct(j);
+    EXPECT_EQ(ret._nightLight.from, 22);
+    EXPECT_EQ(ret._nightLight.to, 24);
+    EXPECT_EQ(ret._nightLight.colorLED, color::green);
+
+    EXPECT_TRUE(ret._runThread.MPD);
+    EXPECT_FALSE(ret._runThread.DUMMY);
+}

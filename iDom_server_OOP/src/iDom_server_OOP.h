@@ -124,11 +124,21 @@ struct iDOM_STATE{
 struct NightLight{
 int from = 48;
 int to = 50;
-int colorLED = static_cast<int>(color::green);
+color colorLED = color::green;
+};
+
+struct RunThread{
+    bool RFLink = false;
+    bool MPD   = false;
+    bool IRDA  = false;
+    bool CRON  = false;
+    bool RS232 = false;
+    bool DUMMY = false;
 };
 
 struct CONFIG_JSON{
     NightLight _nightLight;
+    RunThread _runThread;
 };
 
 struct config{

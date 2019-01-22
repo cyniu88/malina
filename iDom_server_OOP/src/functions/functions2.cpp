@@ -29,7 +29,9 @@ std::vector<std::string> useful_F::split(const std::string& s, char separator ){
     }
     return output;
 }
+
 thread_data* useful_F::myStaticData = std::nullptr_t();
+
 void useful_F::setStaticData(thread_data *my_dataPtr)
 {
     myStaticData = my_dataPtr;
@@ -248,5 +250,11 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
 CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
 {
     CONFIG_JSON  cj;
+    std::cout << "json: " << jj.dump(4);
+    cj._nightLight.to = jj["Night-light"].at("main").at("to").get<int>();
+    cj._nightLight.from = jj["Night-light"].at("main").at("from").get<int>();
+//TODO add color
+
+    cj._runThread.MPD = jj["THREAD"].at("MPD").at("run").get<bool>();
     return cj;
 }

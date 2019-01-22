@@ -1,0 +1,29 @@
+{
+	"Night-light": {
+		"main": {
+			"from": 22,
+			"to": 24,
+			"color": "green"
+		}
+	},
+	"THREAD": {
+	    "RFLink": {
+		    "run": true
+	    },
+		"IRDA": {
+			"run": true
+		},
+		"MPD": {
+			"run": true
+		},
+		"CRON": {
+			"run": true
+		},
+		"RS232": {
+			"run": true
+		},
+		"DUMMY": {
+			"run": true
+		}
+	}
+}
