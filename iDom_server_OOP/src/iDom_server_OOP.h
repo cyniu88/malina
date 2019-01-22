@@ -50,6 +50,20 @@ enum class color : int{
     cyan = 6,
     magenta = 7,
     dark_orange = 8,
+    //NOTE update std::unordered_map<std::string, color> stringToColor below
+};
+
+
+const std::unordered_map<std::string, color> stringToColor = {
+    {"orange", color::orange},
+    {"red", color::red},
+    {"green", color::green},
+    {"blue", color::blue},
+    {"white", color::white},
+    {"yellow", color::yellow},
+    {"cyan", color::cyan},
+    {"magenta", color::magenta},
+    {"dark_orange", color::dark_orange}
 };
 
 enum class iDomStateEnum{

@@ -3,7 +3,7 @@
 		"main": {
 			"from": 22,
 			"to": 24,
-			"color": "green"
+			"color": "red"
 		}
 	},
 	"THREAD": {

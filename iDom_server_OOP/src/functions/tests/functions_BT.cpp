@@ -125,8 +125,12 @@ TEST_F(functions_fixture, json_config)
     auto ret = useful_F::configJsonFileToStruct(j);
     EXPECT_EQ(ret._nightLight.from, 22);
     EXPECT_EQ(ret._nightLight.to, 24);
-    EXPECT_EQ(ret._nightLight.colorLED, color::green);
+    EXPECT_EQ(ret._nightLight.colorLED, color::red);
 
     EXPECT_TRUE(ret._runThread.MPD);
-    EXPECT_FALSE(ret._runThread.DUMMY);
+    EXPECT_TRUE(ret._runThread.DUMMY);
+    EXPECT_TRUE(ret._runThread.CRON);
+    EXPECT_TRUE(ret._runThread.IRDA);
+    EXPECT_TRUE(ret._runThread.RFLink);
+    EXPECT_TRUE(ret._runThread.RS232);
 }

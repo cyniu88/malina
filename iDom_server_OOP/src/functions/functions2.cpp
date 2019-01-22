@@ -250,11 +250,20 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
 CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
 {
     CONFIG_JSON  cj;
+#ifdef BT_TEST
     std::cout << "json: " << jj.dump(4);
+#endif
     cj._nightLight.to = jj["Night-light"].at("main").at("to").get<int>();
     cj._nightLight.from = jj["Night-light"].at("main").at("from").get<int>();
-//TODO add color
+    cj._nightLight.colorLED = stringToColor.at( jj["Night-light"].at("main").at("color").get<std::string>());
+    color k;
 
-    cj._runThread.MPD = jj["THREAD"].at("MPD").at("run").get<bool>();
+
+    cj._runThread.MPD    = jj["THREAD"].at("MPD").at("run").get<bool>();
+    cj._runThread.RFLink = jj["THREAD"].at("RFLink").at("run").get<bool>();
+    cj._runThread.IRDA   = jj["THREAD"].at("IRDA").at("run").get<bool>();
+    cj._runThread.CRON   = jj["THREAD"].at("CRON").at("run").get<bool>();
+    cj._runThread.RS232  = jj["THREAD"].at("RS232").at("run").get<bool>();
+    cj._runThread.DUMMY  = jj["THREAD"].at("DUMMY").at("run").get<bool>();
     return cj;
 }
