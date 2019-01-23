@@ -7,64 +7,64 @@
 		}
 	},
 	"Server_settings": {
-		"ENCRYPTED": true;
-	    "MENU_PATH": "/etc/config/iDom_SERVER/MENU",
+		"ENCRYPTED": true,
+		"MENU_PATH": "/etc/config/iDom_SERVER/MENU",
 		"MOVIES_DB_PATH": "/home/pi/hdd/FTP",
-        "ID": 1002,
+		"ID": 1002,
 		"PORT": 8833,
-        "SERVER_IP": "192.168.1.144",
+		"SERVER_IP": "192.168.1.144",
 		"saveFilePath": "/mnt/ramdisk/iDomState.save"
 	},
 	"camera_settings": {
-		"CAMERA_LED_OFF": "http://cyniu88.no-ip.pl:1183/set_misc.cgi?led_mode=1&user=admin&pwd=tajnehaslo",
-		"CAMERA_LED_ON": "http://cyniu88.no-ip.pl:1183/set_misc.cgi?led_mode=2&user=admin&pwd=tajnehaslo",
-		"CAMERA_SNAPSHOT": "http://cyniu88.no-ip.pl:1183/snapshot.cgi?rate=10&user=admin&pwd=tajnehaslo"
+		"CAMERA_LED_OFF": "http://wp",
+		"CAMERA_LED_ON": "http://wp",
+		"CAMERA_SNAPSHOT": "http://wp"
 	},
 	"433MHz_settings": {
 		"433MHz_config": "/etc/config/iDom_SERVER/433_eq_conf.json"
-    },
+	},
 	"omxplayer_settings": {
 		"omxplayerFile": "/mnt/ramdisk/cmd"
 	},
 	"FTP_settings": {
 		"FTP_URL": "192.168.1.1:21",
-		"FTP_LOGIN": "cyniu",
-		"FTP_PASS": "$506cyniU"
+		"FTP_LOGIN": "user",
+		"FTP_PASS": "password"
 	},
 	"facebook_settings": {
-		"FB_ACCESS_TOKEN": "EAAHkO5uKQ4YBAHDdy7d34k86c4b9g95WYm0YntDQkDiGaReWZCqr0taqXCNyjSICXeIATZCn9aDG4LGhnY7aS78xAqg5ZBwlqCZBHN8YC3r2GwkIuJDossx2ot6rIjoHuDZA0QjlBU5cHLptZBaAXuTOLJ6w9ySNPedwZAaDpyQLrjvqeOOemF2x"
+		"FB_ACCESS_TOKEN": "eOOemF2x"
 	},
 	"viber_settings": {
-		"VIBER_TOKEN": "46c2dee0a5e7d378-5c5c85908a22be81-b9c6d40f4ce99ce3",
-		"VIBER_AVATAR": "http://cyniu88.no-ip.pl/avatar/icon.png",
-		"VIBER_RECEIVER":{
-			"1": "932AFqHqOivwTqYWOU+y4g==",
-			"2": "5ywAWCYvX8VhAPMU7FculA=="
-			},
+		"VIBER_TOKEN": "123133",
+		"VIBER_AVATAR": "www.avatar.pl/avatar.jpg",
+		"VIBER_RECEIVER": {
+			"1": "9",
+			"2": "5"
+		},
 		"VIBER_SENDER": "iDom-server"
 	},
 	"RS232_settings": {
 		"portRS232": "/dev/ttyUSB0",
 		"portRS232_clock": "/dev/ttyAMA0",
-		"BaudRate": 9600    
+		"BaudRate": 9600
 	},
 	"RFLink_settings": {
 		"RFLinkPort": "/dev/ttyACM0",
 		"RFLinkBaudRate": 57600
 	},
 	"THINGSPEAK_settings": {
-		"TS_KEY": "47XSQ0J9CPJ4BO2O"
+		"TS_KEY": "4O"
 	},
 	"MPD_settings": {
-		"MPD_IP": "127.0.0.1" 
+		"MPD_IP": "127.0.0.1"
 	},
 	"lightning_settings": {
-		"LIGHTNING_API_URL": "http://api.aerisapi.com/lightning/krakow,pl?radius=30km&client_id=4zxBN16oTO40wzdyRj8QV&client_secret=fg8BUWdzLdDQSL6Mg2oTsgRtXblF2OzfnmtArSUJ&sort=dt:-1&from=-5minutes"
+		"LIGHTNING_API_URL": "5minutes"
 	},
 	"THREAD": {
-	    "RFLink": {
-		    "run": true
-	    },
+		"RFLink": {
+			"run": true
+		},
 		"IRDA": {
 			"run": true
 		},

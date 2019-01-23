@@ -127,6 +127,13 @@ TEST_F(functions_fixture, json_config)
     EXPECT_EQ(ret._nightLight.to, 24);
     EXPECT_EQ(ret._nightLight.colorLED, color::red);
 
+    EXPECT_EQ(ret._server.PORT, 8833);
+
+    EXPECT_TRUE(ret._server.encrypted);
+
+    EXPECT_EQ(ret._fb_viber.viberReceiver.size(),2);
+    EXPECT_STREQ(ret._fb_viber.viberReceiver.at(1).c_str(),
+                 "5");
     EXPECT_TRUE(ret._runThread.MPD);
     EXPECT_TRUE(ret._runThread.DUMMY);
     EXPECT_TRUE(ret._runThread.CRON);
