@@ -26,7 +26,7 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_fixture_clock)
     useful_F::go_while = true;
     EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 0);
     thread_data_rs232 test_data_rs232;
-    test_data_rs232.BaudRate = "9600";
+    test_data_rs232.BaudRate = 9600;
     test_data_rs232.portRS232 = "test_port";
     test_data_rs232.portRS232_clock = "test_port_clock";
     unsigned int wh[2];
@@ -49,7 +49,7 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_clock_empty_answer)
 {
     useful_F::go_while = true;
     thread_data_rs232 test_data_rs232;
-    test_data_rs232.BaudRate = "9600";
+    test_data_rs232.BaudRate = 9600;
     test_data_rs232.portRS232 = "test_port";
     test_data_rs232.portRS232_clock = "test_port_clock";
     unsigned int test_who[2] = {iDomConst::CLOCK, iDomConst::FREE};
@@ -69,7 +69,7 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_RS232)
 {
     useful_F::go_while = true;
     thread_data_rs232 test_data_rs232;
-    test_data_rs232.BaudRate = "9600";
+    test_data_rs232.BaudRate = 9600;
     test_data_rs232.portRS232 = "test_port";
     test_data_rs232.portRS232_clock = "test_port_clock";
     unsigned int test_who[2] = {iDomConst::RS232, iDomConst::FREE};
@@ -89,7 +89,7 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_FREE)
     EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 0);
     useful_F::go_while = true;
     thread_data_rs232 test_data_rs232;
-    test_data_rs232.BaudRate = "9600";
+    test_data_rs232.BaudRate = 9600;
     test_data_rs232.portRS232 = "test_port";
     test_data_rs232.portRS232_clock = "test_port_clock";
     unsigned int test_who[2] = {iDomConst::FREE, iDomConst::FREE};

@@ -14,7 +14,7 @@ public:
     void SetUp() final
     {
         test_server_set._server.TS_KEY = "key test";
-        test_server_set._rflink.RFLinkBaudRate = "57600";
+        test_server_set._rflink.RFLinkBaudRate = 57600;
         test_server_set._rflink.RFLinkPort = "/dev/fakePortRS232";
         test_my_data.server_settings = &test_server_set;
         test_my_data.main_iDomStatus = &test_status;
