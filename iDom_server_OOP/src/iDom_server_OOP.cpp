@@ -86,8 +86,8 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
         {
             connectionCounter = 0;
             my_data->main_iDomTools->sendViberMsg("ktoś kombinuje z polaczeniem do serwera!",
-                                                  my_data->server_settings->viberReceiver.at(0),
-                                                  my_data->server_settings->viberSender+"_ALERT!");
+                                                  my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                  my_data->server_settings->_fb_viber.viberSender+"_ALERT!");
         }
         client->setEncrypted(false);
     }
@@ -133,8 +133,8 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
         std::string msg ="podano zły klucz autentykacji - sprawdz logi ";
         msg.append(inet_ntoa(my_data->from.sin_addr));
         my_data->main_iDomTools->sendViberMsg(msg,
-                                              my_data->server_settings->viberReceiver.at(0),
-                                              my_data->server_settings->viberSender+"_ALERT!");
+                                              my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                              my_data->server_settings->_fb_viber.viberSender+"_ALERT!");
         KEY_rec.clear();
 
         if(client->c_send("\nFAIL\n") == -1)
@@ -204,7 +204,6 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
 }
 
 iDomStateEnum iDom_main()
-
 {
     iDomStateEnum iDomStateProgram = iDomStateEnum::CLOSE;
     useful_F::go_while = true;
@@ -214,7 +213,11 @@ iDomStateEnum iDom_main()
     pidFile.close();
 
     pthread_mutex_init(&Logger::mutex_log, NULL);
-    config server_settings = useful_F::configFileToStruct();
+    // read a JSON file
+    std::ifstream i("/etc/config/iDom_SERVER/iDom_serverConfig.json");
+    nlohmann::json j;
+    i >> j;
+    CONFIG_JSON server_settings = useful_F::configJsonFileToStruct(j);
     struct sockaddr_in server;
     int v_socket;
 
@@ -223,7 +226,7 @@ iDomStateEnum iDom_main()
     time(&node_data.start);
 
     //////////////////////////////////// load json SaveState
-    iDom_SAVE_STATE info(node_data.server_settings->saveFilePath);
+    iDom_SAVE_STATE info(node_data.server_settings->_server.saveFilePath);
     nlohmann::json jj;
     try
     {
@@ -249,21 +252,21 @@ iDomStateEnum iDom_main()
     /////////////////////////////////////////// zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
-    log_file_cout << INFO << "ID serwera\t"<< server_settings.ID_server << std::endl;
-    log_file_cout << INFO << "PortRS232\t"<< server_settings.portRS232 << std::endl;
-    log_file_cout << INFO << "PortRS232_clock\t"<< server_settings.portRS232_clock << std::endl;
-    log_file_cout << INFO << "BaudRate RS232\t"<< server_settings.BaudRate << std::endl;
-    log_file_cout << INFO << "RFLinkPort\t"<< server_settings.RFLinkPort << std::endl;
-    log_file_cout << INFO << "RFLinkBaudRate\t"<< server_settings.RFLinkBaudRate << std::endl;
-    log_file_cout << INFO << "port TCP \t"<< server_settings.PORT << std::endl;
-    log_file_cout << INFO << "serwer ip \t"<< server_settings.SERVER_IP <<std::endl;
-    log_file_cout << INFO << "baza z filami \t"<< server_settings.MOVIES_DB_PATH << std::endl;
-    log_file_cout << INFO << "klucz ThingSpeak \t"<<server_settings.TS_KEY << std::endl;
-    log_file_cout << INFO << "thread MPD \t" << server_settings.THREAD_MPD << std::endl;
-    log_file_cout << INFO << "thread CRON \t" << server_settings.THREAD_CRON << std::endl;
-    log_file_cout << INFO << "thread IRDA \t" << server_settings.THREAD_IRDA << std::endl;
-    log_file_cout << INFO << "thread RS232 \t" << server_settings.THREAD_RS232 << std::endl;
-    log_file_cout << INFO << "thread DUMMY \t" << server_settings.THREAD_DUMMY << std::endl;
+    log_file_cout << INFO << "ID serwera\t"<< server_settings._server.ID_server << std::endl;
+    log_file_cout << INFO << "PortRS232\t"<< server_settings._rs232.portRS232 << std::endl;
+    log_file_cout << INFO << "PortRS232_clock\t"<< server_settings._rs232.portRS232_clock << std::endl;
+    log_file_cout << INFO << "BaudRate RS232\t"<< server_settings._rs232.BaudRate << std::endl;
+    log_file_cout << INFO << "RFLinkPort\t"<< server_settings._rflink.RFLinkPort << std::endl;
+    log_file_cout << INFO << "RFLinkBaudRate\t"<< server_settings._rflink.RFLinkBaudRate << std::endl;
+    log_file_cout << INFO << "port TCP \t"<< server_settings._server.PORT << std::endl;
+    log_file_cout << INFO << "serwer ip \t"<< server_settings._server.SERVER_IP <<std::endl;
+    log_file_cout << INFO << "baza z filami \t"<< server_settings._server.MOVIES_DB_PATH << std::endl;
+    log_file_cout << INFO << "klucz ThingSpeak \t"<<server_settings._server.TS_KEY << std::endl;
+    log_file_cout << INFO << "thread MPD \t" << server_settings._runThread.MPD << std::endl;
+    log_file_cout << INFO << "thread CRON \t" << server_settings._runThread.CRON << std::endl;
+    log_file_cout << INFO << "thread IRDA \t" << server_settings._runThread.IRDA << std::endl;
+    log_file_cout << INFO << "thread RS232 \t" << server_settings._runThread.RS232 << std::endl;
+    log_file_cout << INFO << "thread DUMMY \t" << server_settings._runThread.DUMMY << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
     log_file_cout << DEBUG << "zbudowany dnia: " << __DATE__ << " o godzinie: " << __TIME__ << std::endl;
@@ -274,7 +277,7 @@ iDomStateEnum iDom_main()
 
     /////////////////////////////// RC 433MHz ////////////////////
     node_data.main_REC = std::make_unique<RADIO_EQ_CONTAINER>(&node_data);
-    node_data.main_REC->loadConfig(server_settings.radio433MHzConfigFile);
+    node_data.main_REC->loadConfig(server_settings._server.radio433MHzConfigFile);
     RFLinkHandler rflinkHandler(&node_data);
     bool rflink_work = rflinkHandler.init();
     node_data.main_RFLink = &rflinkHandler;
@@ -304,23 +307,23 @@ iDomStateEnum iDom_main()
     /////////////////////////////// LCD //////////////////////////////
     LCD_c mainLCD(0x27,16,2);
     ////////////// przegladanie plikow ////////////////////
-    files_tree main_tree(server_settings.MOVIES_DB_PATH, &mainLCD);
+    files_tree main_tree(server_settings._server.MOVIES_DB_PATH, &mainLCD);
     /////////////////////////////// iDom Tools ///////////////////////
     iDomTOOLS my_iDomTools(&node_data);
     ///////////////////////////////// MENU /////////////////////////////////
-    menu_tree main_MENU(server_settings.MENU_PATH, &mainLCD);
+    menu_tree main_MENU(server_settings._server.MENU_PATH, &mainLCD);
     //////////////////////////////// SETTINGS //////////////////////////////
     node_data.main_iDomStatus->addObject("house",node_data.idom_all_state.houseState);
     ///////////////////////////////////////////////// wypelniam struktury przesylane do watkow ////////////////////////
     thread_data_rs232 data_rs232;
-    data_rs232.BaudRate = server_settings.BaudRate;
-    data_rs232.portRS232 = server_settings.portRS232;
-    data_rs232.portRS232_clock = server_settings.portRS232_clock;
+    data_rs232.BaudRate = server_settings._rs232.BaudRate;
+    data_rs232.portRS232 = server_settings._rs232.portRS232;
+    data_rs232.portRS232_clock = server_settings._rs232.portRS232_clock;
     data_rs232.pointer.ptr_who = who;
 
     ///start watku do komunikacji rs232
 
-    if(server_settings.THREAD_RS232 == "YES")
+    if(server_settings._runThread.RS232 == true)
     {
         iDOM_THREAD::start_thread_RS232("RS232 thread",
                                         Send_Recieve_rs232_thread,
@@ -355,9 +358,9 @@ iDomStateEnum iDom_main()
 
     useful_F::setStaticData(&node_data);
     /////////////////////////////////////////////////////////
-    int SERVER_PORT = server_settings.PORT;
-    server_settings.SERVER_IP = useful_F::conv_dns(server_settings.SERVER_IP);
-    const char *SERVER_IP = server_settings.SERVER_IP.c_str();
+    int SERVER_PORT = server_settings._server.PORT;
+    server_settings._server.SERVER_IP = useful_F::conv_dns(server_settings._server.SERVER_IP);
+    const char *SERVER_IP = server_settings._server.SERVER_IP.c_str();
     node_data.pointer.ptr_who = who;
     node_data.mainLCD = &mainLCD;
     node_data.main_tree = &main_tree;
@@ -374,7 +377,7 @@ iDomStateEnum iDom_main()
     pilotPTR->setup();
 
     // start watku irda
-    if(server_settings.THREAD_IRDA == "YES")
+    if(server_settings._runThread.IRDA == true)
     {
         iDOM_THREAD::start_thread("IRDA thread", f_master_irda, &node_data);
     }
@@ -385,7 +388,7 @@ iDomStateEnum iDom_main()
         log_file_mutex.mutex_unlock();
     }
     // start watku mpd_cli
-    if(server_settings.THREAD_MPD == "YES")
+    if(server_settings._runThread.MPD == true)
     {
         iDOM_THREAD::start_thread("MPD  thread",main_mpd_cli, &node_data);
     }
@@ -396,7 +399,7 @@ iDomStateEnum iDom_main()
         log_file_mutex.mutex_unlock();
     }
     // start watku CRONa
-    if(server_settings.THREAD_CRON == "YES")
+    if(server_settings._runThread.CRON == true)
     {
         iDOM_THREAD::start_thread("Cron thread",f_master_CRON, &node_data);
     }
@@ -406,7 +409,7 @@ iDomStateEnum iDom_main()
         log_file_cout << DEBUG <<"nie wystartowalem wątku CRON" <<std::endl;
         log_file_mutex.mutex_unlock();
     }
-    if(server_settings.THREAD_DUMMY == "YES"){
+    if(server_settings._runThread.DUMMY == true){
         iDOM_THREAD::start_thread("node thread",f_serv_con_node,&node_data);
     }
     else
@@ -463,7 +466,8 @@ iDomStateEnum iDom_main()
     }
     struct sockaddr_in from;
     /////////////////////////////////////////////////// INFO PART //////////////////////////////////////////////////
-    node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings.viberReceiver.at(0),server_settings.viberSender);
+    node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings._fb_viber.viberReceiver.at(0),
+                                           server_settings._fb_viber.viberSender);
     /////////////////////////////////////////////////// RESTORE PART ///////////////////////////////////////////////
     node_data.main_iDomTools->readState_iDom(jj);
 

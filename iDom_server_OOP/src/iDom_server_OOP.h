@@ -158,13 +158,13 @@ struct CAMERA_CFG{
 
 struct RFLink_CFG{
     std::string RFLinkPort;
-    std::string RFLinkBaudRate;
+    int RFLinkBaudRate;
 };
 
 struct RS232_CFG{
     std::string portRS232;
     std::string portRS232_clock;
-    std::string BaudRate;
+    int BaudRate;
 };
 
 struct FB_AND_VIBER_CFG{
@@ -327,7 +327,7 @@ struct thread_data{
 struct thread_data_rs232{
     std::string portRS232;
     std::string portRS232_clock;
-    std::string BaudRate;
+    int BaudRate;
     struct s_pointer pointer;
 };
 

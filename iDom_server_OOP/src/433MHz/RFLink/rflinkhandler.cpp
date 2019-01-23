@@ -20,7 +20,7 @@ bool RFLinkHandler::init()
 {
     if( access( my_data->server_settings->_rflink.RFLinkPort.c_str(), F_OK ) != -1 )
     {
-        serial_RFLink.begin( std::stoi(my_data->server_settings->_rflink.RFLinkBaudRate));
+        serial_RFLink.begin(my_data->server_settings->_rflink.RFLinkBaudRate);
         log_file_mutex.mutex_lock();
         log_file_cout << INFO <<"otwarcie portu RS232 RFLink " << my_data->server_settings->_rflink.RFLinkPort << "  "
                       <<my_data->server_settings->_rflink.RFLinkBaudRate<<std::endl;
