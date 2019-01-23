@@ -152,8 +152,8 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             msg+=" ";
             msg+=v[i];
         }
-        STATE stMSG = my_data->main_iDomTools->sendViberMsgBool(msg, my_data->server_settings->viberReceiver.at(0),
-                                                     my_data->server_settings->viberSender);
+        STATE stMSG = my_data->main_iDomTools->sendViberMsgBool(msg, my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                     my_data->server_settings->_fb_viber.viberSender);
         if(stMSG == STATE::SEND_OK){
             return "wiadomosc wyslana poprawnie";
         }
@@ -167,10 +167,10 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             return "not enough parameters";
         }
         if (v[2]=="LED" && v[3] == "ON"){
-            my_data->main_iDomTools->cameraLedON(my_data->server_settings->cameraLedON);
+            my_data->main_iDomTools->cameraLedON(my_data->server_settings->_camera.cameraLedON);
         }
         else if (v[2]=="LED" && v[3] == "OFF"){
-            my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->cameraLedOFF);
+            my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->_camera.cameraLedOFF);
         }
         return "led DONE";
     }

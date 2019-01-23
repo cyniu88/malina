@@ -135,13 +135,13 @@ struct iDOM_STATE{
     STATE houseState = STATE::UNDEFINE;
 };
 
-struct NightLight{
+struct NightLight_CFG{
 int from = 48;
 int to = 50;
 color colorLED = color::green;
 };
 
-struct RunThread{
+struct RunThread_CFG{
     bool RFLink = false;
     bool MPD   = false;
     bool IRDA  = false;
@@ -150,46 +150,56 @@ struct RunThread{
     bool DUMMY = false;
 };
 
-struct CONFIG_JSON{
-    NightLight _nightLight;
-    RunThread _runThread;
+struct CAMERA_CFG{
+    std::string cameraLedON = "";
+    std::string cameraLedOFF = "";
+    std::string cameraURL = "";
 };
 
-struct config{
-    CONFIG_JSON configJson;
+struct RFLink_CFG{
+    std::string RFLinkPort;
+    std::string RFLinkBaudRate;
+};
+
+struct RS232_CFG{
     std::string portRS232;
     std::string portRS232_clock;
     std::string BaudRate;
-    std::string RFLinkPort;
-    std::string RFLinkBaudRate;
-    int PORT;
-    std::string SERVER_IP;
-    std::string MPD_IP;
-    std::string MOVIES_DB_PATH;
-    std::string MENU_PATH;
-    std::string THREAD_MPD   = "NULL";
-    std::string THREAD_IRDA  = "NULL";
-    std::string THREAD_CRON  = "NULL";
-    std::string THREAD_RS232 = "NULL";
-    std::string THREAD_DUMMY = "NULL";
-    std::string TS_KEY= " gg ";
-    std::string cameraLedON = "";
-    std::string cameraLedOFF ="";
-    std::string cameraURL="";
+};
+
+struct FB_AND_VIBER_CFG{
     std::string facebookAccessToken = "";
     std::string viberToken = "NULL";
     std::string viberAvatar;
     std::vector <std::string> viberReceiver;
     std::string viberSender;
+};
+
+struct CONFIG_SERVER{
+    int PORT;
+    std::string SERVER_IP;
+    std::string MPD_IP;
+    std::string MOVIES_DB_PATH;
+    std::string MENU_PATH;
+    std::string TS_KEY= " gg ";
     std::string radio433MHzConfigFile;
     std::string omxplayerFile = "NULL";
     int ID_server = 0;
     int v_delay;
     bool encrypted = true;
-
     FTP_SERVER ftpServer;
     std::string lightningApiURL = "NULL";
     std::string saveFilePath = "NULL";
+};
+
+struct CONFIG_JSON{
+    NightLight_CFG _nightLight;
+    RunThread_CFG _runThread;
+    CAMERA_CFG _camera;
+    FB_AND_VIBER_CFG _fb_viber;
+    CONFIG_SERVER _server;
+    RS232_CFG _rs232;
+    RFLink_CFG _rflink;
 };
 
 struct LED_Strip{
@@ -290,7 +300,7 @@ class RFLinkHandler;
 struct thread_data{
     int s_client_sock;
     struct sockaddr_in from;
-    struct config *server_settings = NULL;
+    struct CONFIG_JSON *server_settings = NULL;
     struct s_pointer pointer;
     LCD_c *mainLCD = NULL;
     files_tree *main_tree = NULL;

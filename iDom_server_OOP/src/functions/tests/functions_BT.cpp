@@ -101,7 +101,7 @@ TEST_F(functions_fixture, sleepThread)
 
    // RADIO_EQ_CONTAINER_STUB test_rec(&test_my_data);
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
-    test_rec->loadConfig(test_server_set.radio433MHzConfigFile);
+    test_rec->loadConfig(test_server_set._server.radio433MHzConfigFile);
     test_my_data.main_REC = (test_rec);
     test_my_data.alarmTime.time = Clock::getTime();
     test_my_data.alarmTime.state = STATE::ACTIVE;

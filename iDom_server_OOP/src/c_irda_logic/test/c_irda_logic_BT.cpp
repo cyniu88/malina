@@ -22,7 +22,7 @@ public:
         test_filesTree = new files_tree("../config/MOVIE/", test_my_data.mainLCD);
         test_my_data.main_tree = test_filesTree;
 
-        test_my_data.server_settings->omxplayerFile =  test_omxplayerFile;
+        test_my_data.server_settings->_server.omxplayerFile =  test_omxplayerFile;
 
         std::cout << "c_irda_logic_fixture SetUp()"<<std::endl;
     }

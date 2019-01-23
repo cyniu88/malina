@@ -283,7 +283,7 @@ TEST_F(iDomTOOLS_ClassTest, saveState_readState)
     test_idomTOOLS->saveState_iDom();
 
     nlohmann::json testJson;
-    std::ifstream i(test_server_set.saveFilePath);
+    std::ifstream i(test_server_set._server.saveFilePath);
     i >> testJson;
     EXPECT_STREQ(test_status.getObjectStateString("music").c_str(),
                  testJson.at("MPD").at("music").get<std::string>().c_str() );
@@ -297,11 +297,11 @@ TEST_F(iDomTOOLS_ClassTest, saveState_readState)
               testJson.at("ALARM").at("toVolume").get<int>() );
 
     ////////////////////////////////// read
-    iDom_SAVE_STATE info(test_my_data.server_settings->saveFilePath);
+    iDom_SAVE_STATE info(test_my_data.server_settings->_server.saveFilePath);
     test_idomTOOLS->readState_iDom(info.read());
     EXPECT_EQ(test_my_data.alarmTime.state,STATE::ACTIVE);
 
-    test_my_data.server_settings->saveFilePath = "null";
+    test_my_data.server_settings->_server.saveFilePath = "null";
     EXPECT_NO_THROW(test_idomTOOLS->readState_iDom(info.read()));
 }
 
@@ -320,7 +320,7 @@ TEST_F(iDomTOOLS_ClassTest, getLightningStruct)
 }
 TEST_F(iDomTOOLS_ClassTest, checkLightning)
 {
-    test_my_data.server_settings->lightningApiURL = "http://cyniu88.no-ip.pl/test/json/lightning.json";
+    test_my_data.server_settings->_server.lightningApiURL = "http://cyniu88.no-ip.pl/test/json/lightning.json";
     test_idomTOOLS->checkLightning();
     auto test_alert_info = test_idomTOOLS->getLightningStruct();
     EXPECT_EQ(test_alert_info.timestamp,210);

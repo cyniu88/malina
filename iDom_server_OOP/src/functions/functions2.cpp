@@ -256,8 +256,6 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._nightLight.to = jj["Night-light"].at("main").at("to").get<int>();
     cj._nightLight.from = jj["Night-light"].at("main").at("from").get<int>();
     cj._nightLight.colorLED = stringToColor.at( jj["Night-light"].at("main").at("color").get<std::string>());
-    color k;
-
 
     cj._runThread.MPD    = jj["THREAD"].at("MPD").at("run").get<bool>();
     cj._runThread.RFLink = jj["THREAD"].at("RFLink").at("run").get<bool>();

@@ -8,7 +8,7 @@ std::string RFLinkHandler::sm_RFLink_BUFOR;
 
 
 RFLinkHandler::RFLinkHandler(thread_data *my_data):
-    serial_RFLink(my_data->server_settings->RFLinkPort)
+                                                     serial_RFLink(my_data->server_settings->_rflink.RFLinkPort)
 {
     this->my_data = my_data;
 #ifdef BT_TEST
@@ -18,19 +18,19 @@ RFLinkHandler::RFLinkHandler(thread_data *my_data):
 
 bool RFLinkHandler::init()
 {
-    if( access( my_data->server_settings->RFLinkPort.c_str(), F_OK ) != -1 )
+    if( access( my_data->server_settings->_rflink.RFLinkPort.c_str(), F_OK ) != -1 )
     {
-        serial_RFLink.begin( std::stoi(my_data->server_settings->RFLinkBaudRate));
+        serial_RFLink.begin( std::stoi(my_data->server_settings->_rflink.RFLinkBaudRate));
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO <<"otwarcie portu RS232 RFLink " << my_data->server_settings->RFLinkPort << "  "
-                      <<my_data->server_settings->RFLinkBaudRate<<std::endl;
+        log_file_cout << INFO <<"otwarcie portu RS232 RFLink " << my_data->server_settings->_rflink.RFLinkPort << "  "
+                      <<my_data->server_settings->_rflink.RFLinkBaudRate<<std::endl;
         log_file_mutex.mutex_unlock();
         return true;
     }
     else
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR <<"brak portu RS232 RFLink " << my_data->server_settings->RFLinkPort<<std::endl;
+        log_file_cout << ERROR <<"brak portu RS232 RFLink " << my_data->server_settings->_rflink.RFLinkPort<<std::endl;
         log_file_mutex.mutex_unlock();
         return false;
     }

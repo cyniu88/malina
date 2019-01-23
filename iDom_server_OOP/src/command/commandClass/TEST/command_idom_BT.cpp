@@ -268,8 +268,8 @@ TEST_F(commandiDom_Class_fixture, lightning)
 
 TEST_F(commandiDom_Class_fixture, camera)
 {
-    test_my_data.server_settings->cameraLedOFF = "cameraOFF";
-    test_my_data.server_settings->cameraLedON = "cameraON";
+    test_my_data.server_settings->_camera.cameraLedOFF = "cameraOFF";
+    test_my_data.server_settings->_camera.cameraLedON = "cameraON";
 
     Clock::setTime_forBT_usage(23,23);
     test_v.clear();

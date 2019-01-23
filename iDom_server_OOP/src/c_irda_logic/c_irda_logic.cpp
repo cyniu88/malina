@@ -115,25 +115,25 @@ void c_irda_logic::projectorLogic(PILOT_KEY X)
     }
     case PILOT_KEY::KEY_VOLUMEUP:
     {
-        useful_F_libs::write_to_mkfifo(my_data->server_settings->omxplayerFile, "+");
+        useful_F_libs::write_to_mkfifo(my_data->server_settings->_server.omxplayerFile, "+");
         break;
     }
     case PILOT_KEY::KEY_VOLUMEDOWN:
     {
-        useful_F_libs::write_to_mkfifo(my_data->server_settings->omxplayerFile, "-");
+        useful_F_libs::write_to_mkfifo(my_data->server_settings->_server.omxplayerFile, "-");
         break;
     }
     case PILOT_KEY::KEY_OK:
     {
         my_data->mainLCD->set_print_song_state(1000);
         my_data->mainLCD->printString(false,0,0,"ODTWARZAM VIDEO");
-        useful_F_libs::write_to_mkfifo(my_data->server_settings->omxplayerFile, "p");
+        useful_F_libs::write_to_mkfifo(my_data->server_settings->_server.omxplayerFile, "p");
         break;
     }
     case PILOT_KEY::KEY_POWER:
     {
         //system("echo -n q > /mnt/ramdisk/cmd &"); // zamykanie omxplayera
-        useful_F_libs::write_to_mkfifo(my_data->server_settings->omxplayerFile, "q");
+        useful_F_libs::write_to_mkfifo(my_data->server_settings->_server.omxplayerFile, "q");
         break;
     }
     case PILOT_KEY::KEY_DOWN:
@@ -151,13 +151,13 @@ void c_irda_logic::projectorLogic(PILOT_KEY X)
     case PILOT_KEY::KEY_CHANNELUP:
     {
         //system("echo -n o > /mnt/ramdisk/cmd"); // do przodu
-        useful_F_libs::write_to_mkfifo(my_data->server_settings->omxplayerFile, "o");
+        useful_F_libs::write_to_mkfifo(my_data->server_settings->_server.omxplayerFile, "o");
         break;
     }
     case PILOT_KEY::KEY_CHANNELDOWN:
     {
         //system("echo -n i > /mnt/ramdisk/cmd"); // do tylu
-        useful_F_libs::write_to_mkfifo(my_data->server_settings->omxplayerFile, "i");
+        useful_F_libs::write_to_mkfifo(my_data->server_settings->_server.omxplayerFile, "i");
         break;
     }
     default:

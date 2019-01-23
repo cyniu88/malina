@@ -204,7 +204,7 @@ void RADIO_EQ_CONTAINER::deleteRadioEq(const std::string& name)
 {
     delete m_radioEqMap[name];
     m_radioEqMap.erase(name);
-    saveConfig(my_data->server_settings->radio433MHzConfigFile);
+    saveConfig(my_data->server_settings->_server.radio433MHzConfigFile);
 }
 
 RADIO_EQ* RADIO_EQ_CONTAINER::getEqPointer(std::string name)

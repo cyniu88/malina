@@ -82,7 +82,7 @@ void C_connection::onStartConnection()
 
 void C_connection::onStopConnection()
 {
-    my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->cameraLedOFF);
+    my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->_camera.cameraLedOFF);
 }
 
 void C_connection::cryptoLog(std::string &toEncrypt)

@@ -22,7 +22,6 @@ public:
     // void binary(int val);
     //std::string intToStr(int n);
     //////////////
-    static config configFileToStruct();
     static CONFIG_JSON configJsonFileToStruct( nlohmann::json jj);
     static std::string send_to_arduino(thread_data *my_data_logic, const std::string &msg);
     static std::string send_to_arduino_clock(thread_data *my_data_logic, std::string msg);

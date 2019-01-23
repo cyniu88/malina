@@ -7,15 +7,15 @@ class RFLinkHandler_Class_fixture : public ::testing::Test
 {
 public:
     thread_data test_my_data;
-    config test_server_set;
+    CONFIG_JSON test_server_set;
     iDomSTATUS test_status;
     std::unique_ptr<RFLinkHandler> test_RFLink;
 
     void SetUp() final
     {
-        test_server_set.TS_KEY = "key test";
-        test_server_set.RFLinkBaudRate = "57600";
-        test_server_set.RFLinkPort = "/dev/fakePortRS232";
+        test_server_set._server.TS_KEY = "key test";
+        test_server_set._rflink.RFLinkBaudRate = "57600";
+        test_server_set._rflink.RFLinkPort = "/dev/fakePortRS232";
         test_my_data.server_settings = &test_server_set;
         test_my_data.main_iDomStatus = &test_status;
         test_RFLink = std::make_unique<RFLinkHandler>(&test_my_data);
@@ -45,7 +45,7 @@ TEST_F(RFLinkHandler_Class_fixture, port_does_not_exist)
 
 TEST_F(RFLinkHandler_Class_fixture, port_exist)
 {
-    test_server_set.RFLinkPort = "/dev/tty0";
+    test_server_set._rflink.RFLinkPort = "/dev/tty0";
     bool result =  test_RFLink->init();
     EXPECT_TRUE(result);
 }

@@ -27,7 +27,7 @@ protected:
 
 TEST_F(command_ip_Class_fixture, main)
 {
-    test_my_data.server_settings->SERVER_IP = "100.001.1.0";
+    test_my_data.server_settings->_server.SERVER_IP = "100.001.1.0";
     test_v.push_back("ip");
     auto ret = test_command_ip->execute(test_v,&test_my_data);
     EXPECT_STREQ(ret.c_str(),"iDom server IP: 100.001.1.0");

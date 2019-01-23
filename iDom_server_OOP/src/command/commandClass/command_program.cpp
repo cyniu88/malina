@@ -59,47 +59,84 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << std::endl;
         r << "my_data->encriptionKey \t" << my_data->encriptionKey <<std::endl;
         r << std::endl;
-        r << "my_data->server_settings->BaudRate \t" << my_data->server_settings->BaudRate <<std::endl;
-        r << "my_data->server_settings->cameraLedOFF \t" << my_data->server_settings->cameraLedOFF <<std::endl;
-        r << "my_data->server_settings->cameraLedON \t" << my_data->server_settings->cameraLedON <<std::endl;
-        r << "my_data->server_settings->cameraURL \t" << my_data->server_settings->cameraURL <<std::endl;
-        r << "my_data->server_settings->encrypted \t" << my_data->server_settings->encrypted <<std::endl;
-        r << "my_data->server_settings->facebookAccessToken \t" << my_data->server_settings->facebookAccessToken <<std::endl;
-        r << "my_data->server_settings->ftpServer.URL \t" << my_data->server_settings->ftpServer.URL <<std::endl;
-        r << "my_data->server_settings->ftpServer.user \t" << my_data->server_settings->ftpServer.user <<std::endl;
-        r << "my_data->server_settings->ID_server \t" << my_data->server_settings->ID_server <<std::endl;
-        r << "my_data->server_settings->lightningApiURL \t" << my_data->server_settings->lightningApiURL <<std::endl;
-        r << "my_data->server_settings->MENU_PATH \t" << my_data->server_settings->MENU_PATH<<std::endl;
-        r << "my_data->server_settings->MOVIES_DB_PATH \t" << my_data->server_settings->MOVIES_DB_PATH<<std::endl;
-        r << "my_data->server_settings->MPD_IP \t" << my_data->server_settings->MPD_IP<<std::endl;
-        r << "my_data->server_settings->omxplayerFile \t" << my_data->server_settings->omxplayerFile<<std::endl;
-        r << "my_data->server_settings->PORT \t" << my_data->server_settings->PORT<<std::endl;
-        r << "my_data->server_settings->portRS232 \t" << my_data->server_settings->portRS232<<std::endl;
-        r << "my_data->server_settings->portRS232_clock \t" << my_data->server_settings->portRS232_clock<<std::endl;
-        r << "my_data->server_settings->radio433MHzConfigFile \t" << my_data->server_settings->radio433MHzConfigFile<<std::endl;
-        r << "my_data->server_settings->RFLinkBaudRate \t" << my_data->server_settings->RFLinkBaudRate<<std::endl;
-        r << "my_data->server_settings->RFLinkPort \t" << my_data->server_settings->RFLinkPort<<std::endl;
-        r << "my_data->server_settings->saveFilePath \t" << my_data->server_settings->saveFilePath<<std::endl;
-        r << "my_data->server_settings->SERVER_IP \t" << my_data->server_settings->SERVER_IP<<std::endl;
-        r << "my_data->server_settings->THREAD_CRON \t" << my_data->server_settings->THREAD_CRON<<std::endl;
-        r << "my_data->server_settings->THREAD_DUMMY \t" << my_data->server_settings->THREAD_DUMMY<<std::endl;
-        r << "my_data->server_settings->THREAD_IRDA \t" << my_data->server_settings->THREAD_IRDA<<std::endl;
-        r << "my_data->server_settings->THREAD_MPD \t" << my_data->server_settings->THREAD_MPD<<std::endl;
-        r << "my_data->server_settings->THREAD_RS232 \t" << my_data->server_settings->THREAD_RS232<<std::endl;
-        r << "my_data->server_settings->TS_KEY \t" << my_data->server_settings->TS_KEY<<std::endl;
-        r << "my_data->server_settings->viberAvatar \t" << my_data->server_settings->viberAvatar<<std::endl;
-        r << "my_data->server_settings->viberReceiver.at(0) \t" << my_data->server_settings->viberReceiver.at(0)<<std::endl;
-        r << "my_data->server_settings->viberSender \t" << my_data->server_settings->viberSender<<std::endl;
-        r << "my_data->server_settings->viberToken \t" << my_data->server_settings->viberToken<<std::endl;
-        r << "my_data->server_settings->v_delay \t" << my_data->server_settings->v_delay<<std::endl;
+        r << "my_data->server_settings->_rs232.BaudRate \t"
+          << my_data->server_settings->_rs232.BaudRate <<std::endl;
+        r << "my_data->server_settings->_camera.cameraLedOFF \t"
+          << my_data->server_settings->_camera.cameraLedOFF <<std::endl;
+        r << "my_data->server_settings->_camera.cameraLedON \t"
+          << my_data->server_settings->_camera.cameraLedON <<std::endl;
+        r << "my_data->server_settings->_camera.cameraURL \t"
+          << my_data->server_settings->_camera.cameraURL <<std::endl;
+        r << "my_data->server_settings->_server.encrypted \t"
+          << my_data->server_settings->_server.encrypted <<std::endl;
+        r << "my_data->server_settings->_fb_viber.facebookAccessToken \t"
+          << my_data->server_settings->_fb_viber.facebookAccessToken <<std::endl;
+        r << "my_data->server_settings->_server.ftpServer.URL \t"
+          << my_data->server_settings->_server.ftpServer.URL <<std::endl;
+        r << "my_data->server_settings->_server.ftpServer.user \t"
+          << my_data->server_settings->_server.ftpServer.user <<std::endl;
+        r << "my_data->server_settings->_server.ID_server \t"
+          << my_data->server_settings->_server.ID_server <<std::endl;
+        r << "my_data->server_settings->_server.lightningApiURL \t"
+          << my_data->server_settings->_server.lightningApiURL <<std::endl;
+        r << "my_data->server_settings->_server.MENU_PATH \t"
+          << my_data->server_settings->_server.MENU_PATH << std::endl;
+        r << "my_data->server_settings->_server.MOVIES_DB_PATH \t"
+          << my_data->server_settings->_server.MOVIES_DB_PATH << std::endl;
+        r << "my_data->server_settings->_server.MPD_IP \t"
+          << my_data->server_settings->_server.MPD_IP << std::endl;
+        r << "my_data->server_settings->_server.omxplayerFile \t"
+          << my_data->server_settings->_server.omxplayerFile << std::endl;
+        r << "my_data->server_settings->_server.PORT \t"
+          << my_data->server_settings->_server.PORT << std::endl;
+        r << "my_data->server_settings->_rs232.portRS232 \t"
+          << my_data->server_settings->_rs232.portRS232<<std::endl;
+        r << "my_data->server_settings->_rs232.portRS232_clock \t"
+          << my_data->server_settings->_rs232.portRS232_clock << std::endl;
+        r << "my_data->server_settings->_server.radio433MHzConfigFile \t"
+          << my_data->server_settings->_server.radio433MHzConfigFile << std::endl;
+        r << "my_data->server_settings->_rflink.RFLinkBaudRate \t"
+          << my_data->server_settings->_rflink.RFLinkBaudRate<<std::endl;
+        r << "my_data->server_settings->_rflink.RFLinkPort \t"
+          << my_data->server_settings->_rflink.RFLinkPort<<std::endl;
+        r << "my_data->server_settings->_server.saveFilePath \t"
+          << my_data->server_settings->_server.saveFilePath<<std::endl;
+        r << "my_data->server_settings->_server.SERVER_IP \t"
+          << my_data->server_settings->_server.SERVER_IP << std::endl;
+        r << "my_data->server_settings->_runThread.CRON \t"
+          << my_data->server_settings->_runThread.CRON << std::endl;
+        r << "my_data->server_settings->_runThread.DUMMY \t"
+          << my_data->server_settings->_runThread.DUMMY << std::endl;
+        r << "my_data->server_settings->_runThread.IRDA \t"
+          << my_data->server_settings->_runThread.IRDA << std::endl;
+        r << "my_data->server_settings->_runThread.MPD \t"
+          << my_data->server_settings->_runThread.MPD << std::endl;
+        r << "my_data->server_settings->_runThread.RS232 \t"
+          << my_data->server_settings->_runThread.RS232 << std::endl;
+        r << "my_data->server_settings->_server.TS_KEY \t"
+          << my_data->server_settings->_server.TS_KEY<<std::endl;
+        r << "my_data->server_settings->_fb_viber.viberAvatar \t"
+          << my_data->server_settings->_fb_viber.viberAvatar<<std::endl;
+        r << "my_data->server_settings->_fb_viber.viberReceiver.at(0) \t"
+          << my_data->server_settings->_fb_viber.viberReceiver.at(0)<<std::endl;
+        r << "my_data->server_settings->_fb_viber.viberSender \t"
+          << my_data->server_settings->_fb_viber.viberSender<<std::endl;
+        r << "my_data->server_settings->_fb_viber.viberToken \t"
+          << my_data->server_settings->_fb_viber.viberToken<<std::endl;
+        r << "my_data->server_settings->_server.v_delay \t"
+          << my_data->server_settings->_server.v_delay<<std::endl;
         r << std::endl;
-        r << "my_data->server_settings->sleeper \t" << my_data->sleeper<<std::endl;
+        r << "my_data->server_settings->sleeper \t"
+          << my_data->sleeper<<std::endl;
         r << std::endl;
-        r << "my_data->iDomProgramState \t" << static_cast<int>(my_data->iDomProgramState)<<std::endl;
+        r << "my_data->iDomProgramState \t"
+          << static_cast<int>(my_data->iDomProgramState)<<std::endl;
         r << std::endl;
-        r << "my_data->main_iDomStatus \t" << my_data->main_iDomStatus->getAllObjectsStateString()<<std::endl;
+        r << "my_data->main_iDomStatus \t"
+          << my_data->main_iDomStatus->getAllObjectsStateString()<<std::endl;
         r << std::endl;
-        r << "my_data->idom_all_state.houseState \t" <<stateToString(my_data->idom_all_state.houseState)<<std::endl;
+        r << "my_data->idom_all_state.houseState \t"
+          <<stateToString(my_data->idom_all_state.houseState)<<std::endl;
         r << std::endl;
         r << "my_data->now_time \t" << my_data->now_time<<std::endl;
         r << "my_data->start - time \t" << my_data->start<<std::endl;

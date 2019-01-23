@@ -63,7 +63,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             }
 
             str_buf = v[2] + " " + v[3] + " added";
-            my_data->main_REC->saveConfig(my_data->server_settings->radio433MHzConfigFile);
+            my_data->main_REC->saveConfig(my_data->server_settings->_server.radio433MHzConfigFile);
         }
         else if (v[1] == "show" && v[2] == "switch"){
             str_buf = "";
@@ -85,7 +85,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
 
         }
         else if (v[1] == "show" && v[2] == "config"){
-            str_buf = my_data->main_REC->showConfig(my_data->server_settings->radio433MHzConfigFile);
+            str_buf = my_data->main_REC->showConfig(my_data->server_settings->_server.radio433MHzConfigFile);
         }
         else if (v[1] == "send"){
             str_buf = "sended!;";

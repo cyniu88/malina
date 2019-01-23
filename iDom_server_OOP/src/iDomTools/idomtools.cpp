@@ -12,7 +12,7 @@
 #include "../RADIO_433_eq/radio_433_eq.h"
 #include "../thread_functions/iDom_thread.h"
 
-iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
+iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->_server.TS_KEY)
 {
     puts("iDomTOOLS::iDomTOOLS()");
     my_data = myData;
@@ -37,11 +37,11 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->TS_KEY)
     my_data->main_iDomStatus->addObject("Night_Light",STATE::UNKNOWN);
 
     ///////// setup viber api
-    m_viber.setAvatar(my_data->server_settings->viberAvatar);
-    m_viber.setAccessToken(my_data->server_settings->viberToken);
+    m_viber.setAvatar(my_data->server_settings->_fb_viber.viberAvatar);
+    m_viber.setAccessToken(my_data->server_settings->_fb_viber.viberToken);
     m_viber.setURL("https://chatapi.viber.com/pa/send_message");
     ///////// setup faceboook api
-    m_facebook.setAccessToken(my_data->server_settings->facebookAccessToken);
+    m_facebook.setAccessToken(my_data->server_settings->_fb_viber.facebookAccessToken);
 
     //////// button 433MHz
     buttonPointerVector = my_data->main_REC->getButtonPointerVector();
@@ -94,12 +94,15 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
         my_data->myEventHandler.run("temperature")->addEvent(m);
         if (reference < 2)
         {
-            sendViberMsg(m,my_data->server_settings->viberReceiver.at(0),my_data->server_settings->viberSender);
-            sendViberMsg(m,my_data->server_settings->viberReceiver.at(1),my_data->server_settings->viberSender);
+            sendViberMsg(m,my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                         my_data->server_settings->_fb_viber.viberSender);
+            sendViberMsg(m,my_data->server_settings->_fb_viber.viberReceiver.at(1),
+                         my_data->server_settings->_fb_viber.viberSender);
         }
         else
         {
-            sendViberMsg(m,my_data->server_settings->viberReceiver.at(0),my_data->server_settings->viberSender);
+            sendViberMsg(m,my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                         my_data->server_settings->_fb_viber.viberSender);
         }
     }
     else if (status == TEMPERATURE_STATE::Under)
@@ -110,16 +113,16 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
         if (reference < 2)
         {
             sendViberPicture(m,"http://canacopegdl.com/images/cold/cold-14.jpg",
-                             my_data->server_settings->viberReceiver.at(0),
-                             my_data->server_settings->viberSender);
+                             my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                             my_data->server_settings->_fb_viber.viberSender);
             sendViberPicture(m,"http://canacopegdl.com/images/cold/cold-14.jpg",
-                             my_data->server_settings->viberReceiver.at(1),
-                             my_data->server_settings->viberSender);
+                             my_data->server_settings->_fb_viber.viberReceiver.at(1),
+                             my_data->server_settings->_fb_viber.viberSender);
             postOnFacebook(m,"http://canacopegdl.com/images/cold/cold-14.jpg");
         }
         else {
-            sendViberMsg(m,my_data->server_settings->viberReceiver.at(0),
-                         my_data->server_settings->viberSender);
+            sendViberMsg(m,my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                         my_data->server_settings->_fb_viber.viberSender);
         }
     }
     else{
@@ -155,8 +158,8 @@ void iDomTOOLS::updateTemperatureStats()
         }
 
         sendViberMsg(msg,
-                     my_data->server_settings->viberReceiver.at(0),
-                     my_data->server_settings->viberSender);
+                     my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                     my_data->server_settings->_fb_viber.viberSender);
 
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << msg << std::endl;
@@ -179,8 +182,8 @@ void iDomTOOLS::updateTemperatureStats()
         }
 
         sendViberMsg(msg,
-                     my_data->server_settings->viberReceiver.at(0),
-                     my_data->server_settings->viberSender);
+                     my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                     my_data->server_settings->_fb_viber.viberSender);
 
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << msg << std::endl;
@@ -379,8 +382,8 @@ void iDomTOOLS::lockHome()
     my_data->main_iDomStatus->setObjectState("house", STATE::LOCK);
     my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/lock.jpg",
-                                              my_data->server_settings->viberReceiver.at(0),
-                                              my_data->server_settings->viberSender);
+                                              my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                              my_data->server_settings->_fb_viber.viberSender);
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<< std::endl;
@@ -395,8 +398,8 @@ void iDomTOOLS::unlockHome()
     my_data->main_iDomStatus->setObjectState("house", STATE::UNLOCK);
     my_data->main_iDomTools->sendViberPicture("dom odblokownay!",
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/unlock.jpg",
-                                              my_data->server_settings->viberReceiver.at(0),
-                                              my_data->server_settings->viberSender);
+                                              my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                              my_data->server_settings->_fb_viber.viberSender);
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "status domu - "+stateToString(my_data->idom_all_state.houseState)<< std::endl;
@@ -568,7 +571,7 @@ void iDomTOOLS::setLightningStruct(CARDINAL_DIRECTIONS::ALARM_INFO &s)
 
 void iDomTOOLS::checkLightning()
 {
-    nlohmann::json jj = useful_F_libs::getJson(my_data->server_settings->lightningApiURL);
+    nlohmann::json jj = useful_F_libs::getJson(my_data->server_settings->_server.lightningApiURL);
 
     CARDINAL_DIRECTIONS::ALARM_INFO lightningData = lightning.lightningAlert(jj);
     setLightningStruct(lightningData);
@@ -580,8 +583,8 @@ void iDomTOOLS::checkLightning()
         m_viber.setAvatar("http://cyniu88.no-ip.pl/avatar/lightning.jpg");
         STATE stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "+EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
                                           +"\\n\\n "+lightningData.data.str() ,
-                                          my_data->server_settings->viberReceiver.at(0),
-                                          my_data->server_settings->viberSender);
+                                          my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                          my_data->server_settings->_fb_viber.viberSender);
 
         if(stateMSG == STATE::SEND_NOK){
             log_file_mutex.mutex_lock();
@@ -590,10 +593,10 @@ void iDomTOOLS::checkLightning()
         }
         stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "+EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
                                     +"\\n\\n "+lightningData.data.str() ,
-                                    my_data->server_settings->viberReceiver.at(1),
-                                    my_data->server_settings->viberSender);
+                                    my_data->server_settings->_fb_viber.viberReceiver.at(1),
+                                    my_data->server_settings->_fb_viber.viberSender);
 
-        m_viber.setAvatar(my_data->server_settings->viberAvatar);
+        m_viber.setAvatar(my_data->server_settings->_fb_viber.viberAvatar);
         if(stateMSG == STATE::SEND_OK)
         {
             log_file_mutex.mutex_lock();
@@ -976,7 +979,7 @@ void iDomTOOLS::checkAlarm()
 
 void iDomTOOLS::saveState_iDom()
 {
-    iDom_SAVE_STATE info(my_data->server_settings->saveFilePath);
+    iDom_SAVE_STATE info(my_data->server_settings->_server.saveFilePath);
     nlohmann::json jsonAlarm;
     nlohmann::json jsonMPD;
     nlohmann::json json_iDomLOCK;
@@ -1010,7 +1013,7 @@ void iDomTOOLS::saveState_iDom()
 
 #ifdef BT_TEST
     std::cout << json <<std::endl;
-    std::cout << " saved to " << my_data->server_settings->saveFilePath <<std::endl;
+    std::cout << " saved to " << my_data->server_settings->_server.saveFilePath <<std::endl;
 #endif
 }
 
