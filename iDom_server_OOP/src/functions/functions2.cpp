@@ -289,7 +289,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._runThread.CRON   = jj["THREAD"].at("CRON").at("run").get<bool>();
     cj._runThread.RS232  = jj["THREAD"].at("RS232").at("run").get<bool>();
     cj._runThread.DUMMY  = jj["THREAD"].at("DUMMY").at("run").get<bool>();
-    cj._runThread.DUMMY  = jj["THREAD"].at("MQTT").at("run").get<bool>();
+    cj._runThread.MQTT   = jj["THREAD"].at("MQTT").at("run").get<bool>();
     /////////////////////// camera
     cj._camera.cameraLedOFF = jj["camera_settings"].at("CAMERA_LED_OFF").get<std::string>();
     cj._camera.cameraLedON  = jj["camera_settings"].at("CAMERA_LED_ON").get<std::string>();
