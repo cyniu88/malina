@@ -61,6 +61,13 @@
 	"lightning_settings": {
 		"LIGHTNING_API_URL": "5minutes"
 	},
+	"mqtt_broker_settings":{
+		"qos": 2,
+		"port": 1883,
+		"host": "192.168.4.1",
+		"publish topic": "iDom-server",
+		"subscribe topic": "iDom-client/#"
+	},
 	"THREAD": {
 		"RFLink": {
 			"run": true
@@ -76,6 +83,9 @@
 		},
 		"RS232": {
 			"run": true
+		},
+		"MQTT": {
+			"run": false
 		},
 		"DUMMY": {
 			"run": true

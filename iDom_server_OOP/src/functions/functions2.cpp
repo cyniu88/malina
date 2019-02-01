@@ -289,10 +289,17 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._runThread.CRON   = jj["THREAD"].at("CRON").at("run").get<bool>();
     cj._runThread.RS232  = jj["THREAD"].at("RS232").at("run").get<bool>();
     cj._runThread.DUMMY  = jj["THREAD"].at("DUMMY").at("run").get<bool>();
+    cj._runThread.DUMMY  = jj["THREAD"].at("MQTT").at("run").get<bool>();
     /////////////////////// camera
     cj._camera.cameraLedOFF = jj["camera_settings"].at("CAMERA_LED_OFF").get<std::string>();
     cj._camera.cameraLedON  = jj["camera_settings"].at("CAMERA_LED_ON").get<std::string>();
     cj._camera.cameraURL    = jj["camera_settings"].at("CAMERA_SNAPSHOT").get<std::string>();
+    /////////////////////// mqtt broker
+    cj._mqtt_broker.qos  = jj["mqtt_broker_settings"].at("qos").get<int>();
+    cj._mqtt_broker.port = jj["mqtt_broker_settings"].at("port").get<int>();
+    cj._mqtt_broker.host = jj["mqtt_broker_settings"].at("host").get<std::string>();
+    cj._mqtt_broker.topicPublish   = jj["mqtt_broker_settings"].at("publish topic").get<std::string>();
+    cj._mqtt_broker.topicSubscribe = jj["mqtt_broker_settings"].at("subscribe topic").get<std::string>();
     /////////////////////// rs232
     cj._rs232.BaudRate  = jj["RS232_settings"].at("BaudRate").get<int>();
     cj._rs232.portRS232 = jj["RS232_settings"].at("portRS232").get<std::string>();

@@ -148,6 +148,7 @@ struct RunThread_CFG{
     bool CRON  = false;
     bool RS232 = false;
     bool DUMMY = false;
+    bool MQTT  = false;
 };
 
 struct CAMERA_CFG{
@@ -192,6 +193,14 @@ struct CONFIG_SERVER{
     std::string saveFilePath = "NULL";
 };
 
+struct MQTT_BROKER_CFG{
+    std::string host = "localhost";
+    std::string topicSubscribe = "iDom";
+    std::string topicPublish = "iDom";
+    int port = 1883;
+    int qos  = 2;
+};
+
 struct CONFIG_JSON{
     NightLight_CFG _nightLight;
     RunThread_CFG _runThread;
@@ -200,6 +209,7 @@ struct CONFIG_JSON{
     CONFIG_SERVER _server;
     RS232_CFG _rs232;
     RFLink_CFG _rflink;
+    MQTT_BROKER_CFG _mqtt_broker;
 };
 
 struct LED_Strip{

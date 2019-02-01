@@ -140,4 +140,5 @@ TEST_F(functions_fixture, json_config)
     EXPECT_TRUE(ret._runThread.IRDA);
     EXPECT_TRUE(ret._runThread.RFLink);
     EXPECT_TRUE(ret._runThread.RS232);
+    EXPECT_FALSE(ret._runThread.MQTT);
 }
