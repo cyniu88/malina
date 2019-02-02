@@ -62,6 +62,15 @@ void f_master_irda (thread_data *my_data, const std::string& threadName){
     iDOM_THREAD::stop_thread(threadName, my_data);
 } // koniec master_irda
 
+///////////////////// watek MQTT subscriber
+void f_master_mqtt (thread_data *my_data, const std::string& threadName){
+    my_data->mqttHandler->connect(my_data->server_settings->_mqtt_broker.topicSubscribe,
+                                  my_data->server_settings->_mqtt_broker.host);
+    my_data->mqttHandler->subscribeHandlerRunInThread(my_data->mqttHandler);
+    iDOM_THREAD::stop_thread(threadName, my_data);
+} // koniec master_mqtt
+
+
 ///////////////////// watek CRON //////////////////////////////
 void f_master_CRON (thread_data *my_data, const std::string& threadName){
     CRON my_CRON(my_data);
@@ -252,21 +261,23 @@ iDomStateEnum iDom_main()
     /////////////////////////////////////////// zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
-    log_file_cout << INFO << "ID serwera\t"<< server_settings._server.ID_server << std::endl;
-    log_file_cout << INFO << "PortRS232\t"<< server_settings._rs232.portRS232 << std::endl;
-    log_file_cout << INFO << "PortRS232_clock\t"<< server_settings._rs232.portRS232_clock << std::endl;
-    log_file_cout << INFO << "BaudRate RS232\t"<< server_settings._rs232.BaudRate << std::endl;
-    log_file_cout << INFO << "RFLinkPort\t"<< server_settings._rflink.RFLinkPort << std::endl;
-    log_file_cout << INFO << "RFLinkBaudRate\t"<< server_settings._rflink.RFLinkBaudRate << std::endl;
-    log_file_cout << INFO << "port TCP \t"<< server_settings._server.PORT << std::endl;
-    log_file_cout << INFO << "serwer ip \t"<< server_settings._server.SERVER_IP <<std::endl;
-    log_file_cout << INFO << "baza z filami \t"<< server_settings._server.MOVIES_DB_PATH << std::endl;
-    log_file_cout << INFO << "klucz ThingSpeak \t"<<server_settings._server.TS_KEY << std::endl;
+    log_file_cout << INFO << "ID serwera\t" << server_settings._server.ID_server << std::endl;
+    log_file_cout << INFO << "PortRS232\t" << server_settings._rs232.portRS232 << std::endl;
+    log_file_cout << INFO << "PortRS232_clock\t" << server_settings._rs232.portRS232_clock << std::endl;
+    log_file_cout << INFO << "BaudRate RS232\t" << server_settings._rs232.BaudRate << std::endl;
+    log_file_cout << INFO << "RFLinkPort\t" << server_settings._rflink.RFLinkPort << std::endl;
+    log_file_cout << INFO << "RFLinkBaudRate\t" << server_settings._rflink.RFLinkBaudRate << std::endl;
+    log_file_cout << INFO << "port TCP \t" << server_settings._server.PORT << std::endl;
+    log_file_cout << INFO << "serwer ip \t" << server_settings._server.SERVER_IP <<std::endl;
+    log_file_cout << INFO << "baza z filami \t" << server_settings._server.MOVIES_DB_PATH << std::endl;
+    log_file_cout << INFO << "klucz ThingSpeak \t" <<server_settings._server.TS_KEY << std::endl;
+    log_file_cout << INFO << "broker MQTT \t" <<server_settings._mqtt_broker.host << std::endl;
     log_file_cout << INFO << "thread MPD \t" << server_settings._runThread.MPD << std::endl;
     log_file_cout << INFO << "thread CRON \t" << server_settings._runThread.CRON << std::endl;
     log_file_cout << INFO << "thread IRDA \t" << server_settings._runThread.IRDA << std::endl;
     log_file_cout << INFO << "thread RS232 \t" << server_settings._runThread.RS232 << std::endl;
     log_file_cout << INFO << "thread DUMMY \t" << server_settings._runThread.DUMMY << std::endl;
+    log_file_cout << INFO << "thread MQTT \t" << server_settings._runThread.MQTT << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
     log_file_cout << DEBUG << "zbudowany dnia: " << __DATE__ << " o godzinie: " << __TIME__ << std::endl;
@@ -321,7 +332,12 @@ iDomStateEnum iDom_main()
     data_rs232.portRS232_clock = server_settings._rs232.portRS232_clock;
     data_rs232.pointer.ptr_who = who;
 
-    ///start watku do komunikacji rs232
+    /////////////////////////////////////// MQTT ////////////////////////////
+    MQTT_mosquitto mainMQTT("iDomSERVER");
+    mainMQTT.turnOnDebugeMode();
+    node_data.mqttHandler = &mainMQTT;
+
+    ////////////////////////////////////////start watku do komunikacji rs232
 
     if(server_settings._runThread.RS232 == true)
     {
@@ -385,6 +401,17 @@ iDomStateEnum iDom_main()
     {
         log_file_mutex.mutex_lock();
         log_file_cout << DEBUG <<"nie wystartowalem wątku IRDA" <<std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+    // start watku MQTT
+    if(server_settings._runThread.MQTT == true)
+    {
+        iDOM_THREAD::start_thread("MQTT thread", f_master_mqtt, &node_data);
+    }
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG <<"nie wystartowalem wątku MQTT" <<std::endl;
         log_file_mutex.mutex_unlock();
     }
     // start watku mpd_cli
@@ -524,6 +551,7 @@ iDomStateEnum iDom_main()
     node_data.mainLCD->clear();
     node_data.mainLCD->noBacklight();
     node_data.main_iDomTools->MPD_stop();
+    node_data.mqttHandler->disconnect();
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "zamykanie gniazda wartosc " << shutdown(v_socket, SHUT_RDWR)<< std::endl;
     log_file_cout << ERROR << "gniazdo ind "<<strerror(errno) << std::endl;
@@ -589,7 +617,7 @@ int main(int argc, char *argv[])
         {
             std::this_thread::sleep_for(std::chrono::seconds(10));
             std::cout << "nie ma parametru wiec odpalam program "<< std::endl;
-            ret = system("/home/pi/programowanie/iDom_server_OOP-build-clang-Release/iDom_server_OOP");
+            ret = system("./iDom_server_OOP");
             std::cout << "system() zwraca ret " << ret <<std::endl;
         }
         std::cout << "ZAMYKAM NA AMEN" << std::endl;

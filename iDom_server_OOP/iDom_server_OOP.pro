@@ -2,7 +2,7 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
 QMAKE_CXXFLAGS += -O3   -std=c++14 -DNOSSL
-LIBS +=   -L/usr/local/lib   -lwiringPiDev -lwiringPi -llirc_client   -lrt -lpthread  -lcurl  -lmpd
+LIBS +=   -L/usr/local/lib   -lwiringPiDev -lwiringPi -llirc_client   -lrt -lpthread  -lcurl  -lmpd -lmosquitto
 
 SOURCES += src/iDom_server_OOP.cpp\
      src/c_connection/c_connection.cpp \
@@ -76,7 +76,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     arduPi/arduPi_template.cpp \
     arduPi/arduPi.cpp \
     src/thread_functions/iDom_thread.cpp \
-    liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.cpp
+    liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.cpp \
+    ../../mqtt_mosquitto/MQTT_mosquitto/mqtt.cpp
 
 INCLUDEPATH += "json2/"
 
@@ -151,7 +152,8 @@ HEADERS += src/c_connection/c_connection.h \
     src/iDomSaveState/idom_save_state.h \
     src/SerialPi/serialpi.h \
     src/thread_functions/iDom_thread.h \
-    liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.h
+    liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.h \
+    ../../mqtt_mosquitto/MQTT_mosquitto/mqtt.h
 
 DISTFILES +=
 DEFINES += GIT_CURRENT_SHA1="$(git rev-parse HEAD)"
