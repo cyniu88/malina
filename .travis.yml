@@ -25,6 +25,7 @@ before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
   - sudo apt-get install libmpd-dev curl libmpdclient-dev cmake git llvm llvm-6.0-dev
+  - sudo apt-get install -qq libmosquitto-dev
 
 install: 
   # C++17
