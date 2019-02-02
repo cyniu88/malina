@@ -36,7 +36,7 @@
 #include "iDomTools/idomtools.h"
 #include "iDomStatus/idomstatus.h"
 #include "iDomSaveState/idom_save_state.h"
-#include "../../mqtt_mosquitto/MQTT_mosquitto/mqtt.h"
+#include "../mqtt_mosquitto/MQTT_mosquitto/mqtt.h"
 
 #define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
