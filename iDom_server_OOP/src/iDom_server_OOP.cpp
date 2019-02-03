@@ -64,9 +64,20 @@ void f_master_irda (thread_data *my_data, const std::string& threadName){
 
 ///////////////////// watek MQTT subscriber
 void f_master_mqtt (thread_data *my_data, const std::string& threadName){
-    my_data->mqttHandler->connect(my_data->server_settings->_mqtt_broker.topicSubscribe,
-                                  my_data->server_settings->_mqtt_broker.host);
-    my_data->mqttHandler->subscribeHandlerRunInThread(my_data->mqttHandler);
+    bool ex = false;
+    try{
+        my_data->mqttHandler->connect(my_data->server_settings->_mqtt_broker.topicSubscribe,
+                                      my_data->server_settings->_mqtt_broker.host);}
+    catch (const std::string& e)
+    {
+        ex = true;
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL <<"MQTT: " << e <<std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+    if (ex == false)
+        my_data->mqttHandler->subscribeHandlerRunInThread(my_data->mqttHandler);
+
     iDOM_THREAD::stop_thread(threadName, my_data);
 } // koniec master_mqtt
 
