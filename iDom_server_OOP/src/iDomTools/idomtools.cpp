@@ -782,6 +782,7 @@ std::string iDomTOOLS::getSmog()
 
     readBuffer = useful_F_libs::find_tag(readBuffer);
 
+    my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/smog",readBuffer);
     return readBuffer;
 }
 
@@ -1017,6 +1018,8 @@ void iDomTOOLS::saveState_iDom()
     json["433Mhz"] = json433Mhz;
 
     info.write(json);
+
+    my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/state",json.dump(4));
 
 #ifdef BT_TEST
     std::cout << json <<std::endl;
