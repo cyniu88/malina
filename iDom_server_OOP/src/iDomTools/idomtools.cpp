@@ -740,7 +740,7 @@ std::vector<std::string> iDomTOOLS::getTemperature()
     msg.append(vect[0]);
     msg.append(" Outside: ");
     msg.append(vect[1]);
-    my_data->mqttHandler->publish("iDom/temperature",msg);
+    my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/temperature",msg);
     return vect;
 }
 

@@ -17,11 +17,16 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
         mpd_Song *song = mpd_playlist_get_current_song(mi);
         if(song)
         {
-            printf( "Song:"" %s - %s\n", song->artist, song->title);
-            std::string msg(song->artist);
-            msg.append(" ");
-            msg.append(song->title);
-            my_data->mqttHandler->publish("iDom/mpd/songID",msg);
+           try {
+                printf( "Song:"" %s - %s\n", song->artist, song->title);
+                std::string msg;//(song->artist);
+                //msg.append(" ");
+                msg.append(song->title);
+                my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/songID",msg);
+            }
+            catch(...){
+                puts("error cyniu1");
+            }
         }
     }
 
@@ -39,7 +44,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
         try
         {
             my_data->ptr_MPD_info->volume = mpd_status_get_volume(mi);
-            my_data->mqttHandler->publish("iDom/mpd/volume",
+            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/volume",
                                           std::to_string(my_data->ptr_MPD_info->volume));
         }
         catch (...)
@@ -77,10 +82,14 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             // std::cout <<" SONG: " << song->artist<<" "<< song->title << std::endl;
             printf("aktualnie gramy:"" %s - %s\n", song->artist, song->title);
 
-            std::string msg(song->artist);
-            msg.append(" ");
-            msg.append(song->title);
-            my_data->mqttHandler->publish("iDom/mpd/songID",msg);
+            try {
+                std::string msg;//(song->artist);
+               // msg.append(" ");
+                msg.append(song->title);
+                my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/songID",msg);
+            }catch(...){
+                puts("error cyniu2");
+            }
 
             try
             {
@@ -147,7 +156,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
         {
         case MPD_PLAYER_PLAY:
             printf("Playing\n");
-            my_data->mqttHandler->publish("iDom/mpd/status","PLAY");
+            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/status","PLAY");
             check_title_song_to = true;
             my_data->mainLCD->play_Y_N = true;
             my_data->ptr_MPD_info->isPlay = true;
@@ -162,7 +171,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             break;
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
-            my_data->mqttHandler->publish("iDom/mpd/status","PAUSE");
+            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/status","PAUSE");
             my_data->mainLCD->set_lcd_STATE( -1);
             my_data->mainLCD->printString(true ,0,1,"    PAUSE");
             my_data->myEventHandler.run("mpd")->addEvent("MPD pause");
@@ -171,7 +180,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             break;
         case MPD_PLAYER_STOP:
             printf("Stopped\n");
-            my_data->mqttHandler->publish("iDom/mpd/status","STOP");
+            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/status","STOP");
 
             if (my_data->ptr_MPD_info->isPlay == true){
                 my_data->main_iDomTools->ledClear();

@@ -345,7 +345,7 @@ iDomStateEnum iDom_main()
 
     /////////////////////////////////////// MQTT ////////////////////////////
     MQTT_mosquitto mainMQTT("iDomSERVER");
-    mainMQTT.turnOnDebugeMode();
+    mainMQTT.turnOffDebugeMode();
     node_data.mqttHandler = &mainMQTT;
 
     ////////////////////////////////////////start watku do komunikacji rs232
