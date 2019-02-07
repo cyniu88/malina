@@ -736,6 +736,11 @@ std::string iDomTOOLS::getTextToSpeach()
 std::vector<std::string> iDomTOOLS::getTemperature()
 {
     std::vector<std::string> vect = useful_F::split(useful_F::send_to_arduino(my_data,"temperature:22;"),':');
+    std::string msg("Inside: ");
+    msg.append(vect[0]);
+    msg.append(" Outside: ");
+    msg.append(vect[1]);
+    my_data->mqttHandler->publish("iDom/temperature",msg);
     return vect;
 }
 

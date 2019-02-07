@@ -12,17 +12,12 @@
 #include <libmpd-1.0/libmpd/libmpd.h>
 #include <libmpd-1.0/libmpd/debug_printf.h>
 #include <wiringPi.h>
-#include "../blockQueue/blockqueue.h" //brak
-//#include "../wiadomosc/wiadomosc..h"
-//#include "../functions/functions..h"
-//#include "../logger/logger..hpp"
+#include "../blockQueue/blockqueue.h"
 #include "../c_irda_logic/c_irda_logic.h"
-#include "../LCD_c/lcd_c.h" //brak
-//#include "../parser/parser..hpp"
+#include "../LCD_c/lcd_c.h"
 #include "../c_connection/c_connection.h"
-#include"../CRON/cron.hpp"
-//extern bool go_while;
-//extern Logger log_file_mutex;
+#include "../CRON/cron.hpp"
+
 void main_mpd_cli(thread_data *my_data , const std::string &threadName);
 void updatePlayList(MpdObj *mi, thread_data *my_data);
 /////////////// LCD
