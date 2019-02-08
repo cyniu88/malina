@@ -357,6 +357,8 @@ void iDomTOOLS::runOnSunset()
         my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "+
                                                       stateToString(my_data->idom_all_state.houseState));
     }
+
+    my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/sun","SUNSET");
 }
 
 void iDomTOOLS::runOnSunrise()
@@ -372,8 +374,10 @@ void iDomTOOLS::runOnSunrise()
         my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "+
                                                       stateToString(my_data->idom_all_state.houseState));
     }
+
     ledOFF();
     my_data->main_iDomStatus->setObjectState("Night_Light",STATE::OFF);
+    my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/sun","SUNRISE");
 }
 
 void iDomTOOLS::lockHome()
@@ -507,9 +511,9 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
     {
         if(my_data->main_iDomStatus->getObjectState("Night_Light") != STATE::ON)
         {
-            int from = 10 + (Clock::getTime().m_min/ 2);
+            unsigned int from = 10 + (Clock::getTime().m_min/ 2);
             ledOn(my_data->ptr_pilot_led->colorLED.
-                  at(static_cast<int>(my_data->server_settings->_nightLight.colorLED)),
+                  at(static_cast<unsigned long>(my_data->server_settings->_nightLight.colorLED)),
                   from, from + 3);
             radioButton->setState(STATE::ON);
             my_data->main_iDomStatus->setObjectState("Night_Light",STATE::ON);
@@ -770,7 +774,7 @@ std::string iDomTOOLS::getSmog()
         curl_easy_cleanup(curl);
     }
     curl_global_cleanup();
-    int start = readBuffer.find("<h2 class=\"polution\">");
+    auto start = readBuffer.find("<h2 class=\"polution\">");
     try {
         readBuffer = readBuffer.substr(start, 40);
     }
@@ -958,15 +962,15 @@ void iDomTOOLS::checkAlarm()
     Clock now = Clock::getTime();
     if (now == my_data->alarmTime.time && my_data->alarmTime.state == STATE::ACTIVE){
         my_data->alarmTime.state = STATE::WORKING;
-        MPD_volumeSet(my_data, fromVol);
-        MPD_play(my_data,radioId);
+        MPD_volumeSet(my_data, static_cast<int>(fromVol));
+        MPD_play(my_data, static_cast<int>(radioId));
         my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
     }
 
     if (my_data->alarmTime.state == STATE::WORKING){
-        unsigned int vol = MPD_getVolume(my_data) + 1;
+        auto vol = static_cast<unsigned int>(MPD_getVolume(my_data) + 1);
         if (vol < toVol){
-            MPD_volumeSet(my_data, vol);
+            MPD_volumeSet(my_data, static_cast<int>(vol));
 
             if(iDomTOOLS::isItDay() == false){
                 ledOn(my_data->ptr_pilot_led->colorLED[static_cast<std::size_t>(color::green)],fromVol,vol);
@@ -1066,9 +1070,9 @@ void iDomTOOLS::readState_iDom(nlohmann::json jj)
 
         auto alarmState = jj.at("ALARM").at("alarm").get<std::string>();
         auto alarmTime  = jj.at("ALARM").at("time").get<std::string>();
-        my_data->alarmTime.fromVolume = jj.at("ALARM").at("fromVolume").get<int>();
-        my_data->alarmTime.toVolume = jj.at("ALARM").at("toVolume").get<int>();
-        my_data->alarmTime.radioID = jj.at("ALARM").at("radioID").get<int>();
+        my_data->alarmTime.fromVolume = jj.at("ALARM").at("fromVolume").get<unsigned int>();
+        my_data->alarmTime.toVolume = jj.at("ALARM").at("toVolume").get<unsigned int>();
+        my_data->alarmTime.radioID = jj.at("ALARM").at("radioID").get<unsigned int>();
         my_data->alarmTime.time = Clock(alarmTime);
 
         if (alarmState == "ACTIVE"){
