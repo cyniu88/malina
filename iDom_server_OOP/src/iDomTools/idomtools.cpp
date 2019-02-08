@@ -104,6 +104,9 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
             sendViberMsg(m,my_data->server_settings->_fb_viber.viberReceiver.at(0),
                          my_data->server_settings->_fb_viber.viberSender);
         }
+        my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/temperature",
+                                      m);
+
     }
     else if (status == TEMPERATURE_STATE::Under)
     {
@@ -124,6 +127,9 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
             sendViberMsg(m,my_data->server_settings->_fb_viber.viberReceiver.at(0),
                          my_data->server_settings->_fb_viber.viberSender);
         }
+        my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/temperature",
+                                      m);
+
     }
     else{
         //my_data->myEventHandler.run("unknown")->addEvent("temperatura nie przeszla przez "+to_string_with_precision(reference));
@@ -161,6 +167,9 @@ void iDomTOOLS::updateTemperatureStats()
                      my_data->server_settings->_fb_viber.viberReceiver.at(0),
                      my_data->server_settings->_fb_viber.viberSender);
 
+        my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/temperature",
+                                      msg);
+
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << msg << std::endl;
         log_file_mutex.mutex_unlock();
@@ -184,6 +193,9 @@ void iDomTOOLS::updateTemperatureStats()
         sendViberMsg(msg,
                      my_data->server_settings->_fb_viber.viberReceiver.at(0),
                      my_data->server_settings->_fb_viber.viberSender);
+
+        my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/temperature",
+                                      msg);
 
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << msg << std::endl;
@@ -965,6 +977,8 @@ void iDomTOOLS::checkAlarm()
         MPD_volumeSet(my_data, static_cast<int>(fromVol));
         MPD_play(my_data, static_cast<int>(radioId));
         my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
+        my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/alarm",
+                                      stateToString(STATE::WORKING));
     }
 
     if (my_data->alarmTime.state == STATE::WORKING){
@@ -978,6 +992,8 @@ void iDomTOOLS::checkAlarm()
         }
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
+            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/alarm",
+                                          stateToString(STATE::DEACTIVE));
             if(iDomTOOLS::isItDay() == false){
                 my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
                 saveState_iDom();
