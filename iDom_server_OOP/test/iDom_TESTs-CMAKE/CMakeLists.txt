@@ -75,6 +75,7 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/KEY/key.cpp"
     "../../src/KEY/TEST/key_BT.cpp"
     "../../mqtt_mosquitto/MQTT_mosquitto/TEST/mqtt_stub.cpp"
+    "../../src/command/commandhandlermqtt.cpp"
     )
 # Get the current working branch
 execute_process(
