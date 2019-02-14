@@ -1,11 +1,19 @@
 #include "commandhandlermqtt.h"
 #include "../../libs/emoji/emoji.h"
 #include "commandClass/command_433mhz.h"
+#include "commandClass/commandrs232.h"
+#include "commandClass/command_mpd.h"
 
 CommandHandlerMQTT::CommandHandlerMQTT()
 {
     std::unique_ptr <command> r_433MHz (new command_433MHz("433MHz"));
     commandMap.insert(std::make_pair(r_433MHz->getCommandName(), std::move(r_433MHz)));
+
+    std::unique_ptr <command> MPD(new command_mpd("MPD"));
+    commandMap.insert(std::make_pair(MPD->getCommandName(), std::move (MPD)));
+
+    std::unique_ptr <command> RS232 (new commandRS232("RS232"));
+    commandMap.insert(std::make_pair(RS232->getCommandName(), std::move(RS232)));
 }
 
 std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_data *my_data)

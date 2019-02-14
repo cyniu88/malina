@@ -37,7 +37,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     else if(v[1] == "reload" && v[2] == "hard")
     {
         std::string s ="close server";
-        useful_F::send_to_arduino_clock(my_data, "UPAD");
+        useful_F::send_to_arduino_clock(my_data, "UPDA");
         iDomTOOLS::MPD_stop();
         my_data->iDomProgramState = iDomStateEnum::HARD_RELOAD;
         my_data->main_iDomTools->saveState_iDom();
