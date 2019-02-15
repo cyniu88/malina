@@ -21,7 +21,7 @@ std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_data *my
     if (commandMap.find(v[0]) == commandMap.end()){
         std::fstream log;
         log.open( "/mnt/ramdisk/command.txt", std::ios::binary | std::ios::in | std::ios::out|std::ios::app );
-        log << v[0] << std::endl;
+        log << "MQTT: " << v[0] << std::endl;
         log.close();
         return EMOJI::emoji(E_emoji::WARNING_SIGN)+" unknown command: "+ v[0];
     }
