@@ -3,6 +3,8 @@
 #include "commandClass/command_433mhz.h"
 #include "commandClass/commandrs232.h"
 #include "commandClass/command_mpd.h"
+#include "commandClass/command_event.h"
+#include "commandClass/command_log.h"
 
 CommandHandlerMQTT::CommandHandlerMQTT()
 {
@@ -14,6 +16,12 @@ CommandHandlerMQTT::CommandHandlerMQTT()
 
     std::unique_ptr <command> RS232 (new commandRS232("RS232"));
     commandMap.insert(std::make_pair(RS232->getCommandName(), std::move(RS232)));
+
+    std::unique_ptr <command> log (new command_log("log"));
+    commandMap.insert(std::make_pair(log->getCommandName(), std::move(log)));
+
+    std::unique_ptr <command> event (new command_event("event"));
+    commandMap.insert(std::make_pair(event->getCommandName(), std::move(event)));
 }
 
 std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_data *my_data)
