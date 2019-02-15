@@ -94,3 +94,16 @@ TEST_F(command_event_Class_fixture, wrongParamiter)
     auto ret = test_command_event->execute(test_v,&test_my_data);
     EXPECT_THAT(ret,::testing::HasSubstr("event"));
 }
+
+TEST_F(command_event_Class_fixture, addEvent)
+{
+    EXPECT_EQ(test_my_data.myEventHandler.run("test")->howManyEvent(),0);
+    test_v.push_back("event");
+    test_v.push_back("add");
+    test_v.push_back("test");
+    test_v.push_back("msg");
+    std::cout << test_command_event->execute(test_v,&test_my_data) << std::endl;
+    EXPECT_EQ(test_my_data.myEventHandler.run("test")->howManyEvent(),1);
+    std::cout << test_my_data.myEventHandler.run("test")->getEvent() << std::endl;
+}
+
