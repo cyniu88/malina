@@ -17,6 +17,7 @@
 #include "../../libs/facebookAPI/facebookAPI.h"
 #include "../../libs/Statistic/statistic.h"
 
+
 struct thread_data;
 struct LED_Strip;
 class RADIO_BUTTON;
@@ -159,6 +160,10 @@ public:
     std::string getSystemInfo();
     /////////////////////// KODI ////////////////////////
     std::string startKodi_Thread();
+    /////////////////////// WiFi //////////////////////////
+    STATE anyClientWiFi = STATE::UNKNOWN;
+    void wifiClientConnected();
+    void wifiClientDisconnected();
 };
 
 #endif // IDOMTOOLS_H

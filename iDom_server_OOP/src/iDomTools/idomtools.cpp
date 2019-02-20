@@ -1123,3 +1123,13 @@ std::string iDomTOOLS::startKodi_Thread()
 
     return iDOM_THREAD::start_thread("kodi smartTV", useful_F::kodi, my_data);
 }
+
+void iDomTOOLS::wifiClientConnected()
+{
+    buttonUnlockHome();
+}
+
+void iDomTOOLS::wifiClientDisconnected()
+{
+    buttonLockHome();
+}
