@@ -160,6 +160,8 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << std::endl;
         r << "my_data->mainLCD-> \t" << my_data->mainLCD->getData() <<std::endl;
 
+        r << "my_data->mqttHandler->_connected: " << my_data->mqttHandler->_connected << std::endl;
+        r << "my_data->mqttHandler->_subscribed: " << my_data->mqttHandler->_subscribed << std::endl;
         r << "buffer size:" << std::endl;
 
         r << "mqtt bffer: " << my_data->mqttHandler->getReceiveQueueSize() << std::endl;
