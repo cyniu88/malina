@@ -31,8 +31,6 @@ void TASKER::runTasker()
             my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/command",
                                           ret);
         }
-        else
-            puts(":zly topic");
 
     }
 }
