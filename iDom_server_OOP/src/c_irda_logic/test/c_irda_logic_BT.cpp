@@ -356,3 +356,10 @@ TEST_F(c_irda_logic_fixture, projektor)
     test_irda->who = PILOT_STATE::PROJECTOR;
     test_irda->_add(PILOT_KEY::KEY_0);
 }
+
+TEST(files_tree, wrong_path){
+    LCD_c *mainLCD = NULL;
+    auto test_filesTree = new files_tree("../fake/path/", mainLCD);
+    EXPECT_EQ(test_filesTree->get_vector_size() , 1);
+    delete test_filesTree;
+}

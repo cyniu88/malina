@@ -20,7 +20,7 @@ bool files_tree::is_file() const
 }
 
 void files_tree::next()
-{   
+{
     ++i;
     ////std::cout << " dodaje " << i << std::endl;
     if (get_vector_size() == i ){
@@ -115,15 +115,22 @@ std::string files_tree::show_list()
 void files_tree::get_list(std::string path) {
     tree_stack.push(path);
     vector_clear(); // czyscimy vector
-    std::string path2 =path;
+    std::string path2 = path;
     std::string v_path ,tmp_string;
 
     //if()
     {
         sciezka = opendir( path.c_str() );
+
+        if(sciezka == 0){
+            std::cout << path << " nie istnieje :( " << std::endl;
+            temp.path = "NULL";
+            movie_database_vector.push_back(temp);
+            return;
+        }
         while(( plik = readdir( sciezka ) ) )
         {
-            path2 =path;
+            path2 = path;
             if (static_cast<int>(plik->d_type) == 4 /*&& strcmp( plik->d_name, "..") && strcmp( plik->d_name, ".")*/)
             {
                 temp.is_file=false;
