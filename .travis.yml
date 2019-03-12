@@ -27,8 +27,7 @@ before_install:
   - sudo apt-get install libmpd-dev curl libmpdclient-dev cmake git llvm llvm-6.0-dev
   - sudo add-apt-repository ppa:mosquitto-dev/mosquitto-ppa -y
   - sudo apt-get update
-  - sudo apt-get install -qq libmosquitto-dev mail
-  - sudo echo "this is the body" | mail -s "this is the subject" "bazz5@wp.pl"
+  - sudo apt-get install -qq libmosquitto-dev mailutils
 
 install: 
   # C++17
@@ -65,6 +64,7 @@ script:
   - llvm-profdata-6.0  merge -o test.profdata default.profraw
   - llvm-cov-6.0 report ./iDom_TESTs-CMAKE -instr-profile=test.profdata -use-color
   - llvm-cov-6.0 show ./iDom_TESTs-CMAKE -instr-profile=test.profdata  -path-equivalence -use-color --format html > coverage.html
+  - echo "Coverage" | mail -s "TRAVIS coverage" bazz5@wp.pl -A coverage.html
   - curl --upload-file coverage.html https://transfer.sh/coverage.html > log.log
   - export urlC=`cat log.log`
   - echo "adres"
