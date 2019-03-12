@@ -27,7 +27,8 @@ before_install:
   - sudo apt-get install libmpd-dev curl libmpdclient-dev cmake git llvm llvm-6.0-dev
   - sudo add-apt-repository ppa:mosquitto-dev/mosquitto-ppa -y
   - sudo apt-get update
-  - sudo apt-get install -qq libmosquitto-dev
+  - sudo apt-get install -qq libmosquitto-dev mail
+  - sudo echo "this is the body" | mail -s "this is the subject" "bazz5@wp.pl"
 
 install: 
   # C++17

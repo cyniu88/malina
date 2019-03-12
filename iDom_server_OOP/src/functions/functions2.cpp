@@ -72,7 +72,7 @@ void useful_F::sleeper_mpd (thread_data *my_data, const std::string& threadName)
     unsigned int t = 60/my_data->sleeper;
     unsigned int k = 0;
 
-    for (; my_data->sleeper >0; my_data->sleeper-- )
+    for (; my_data->sleeper > 0; my_data->sleeper--)
     {
         useful_F::sleep(60);
         k += t;
