@@ -124,8 +124,6 @@ TEST_F(c_connection_fixture, emptyCommand)
 
     int i = 0;
     std::string strMsg = "";
-    for (char n : strMsg)
-        test_connection->c_buffer[i++] = n;
     test_connection->setEncrypted(false);
     test_connection->c_analyse(static_cast<int>(strMsg.size()));
     EXPECT_STREQ(test_connection->getStr_buf().c_str(), "empty command");
