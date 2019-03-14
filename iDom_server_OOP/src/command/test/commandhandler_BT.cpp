@@ -65,3 +65,13 @@ TEST_F(command_handler_mqtt_fixture, main)
     auto ret = test_chMQTT->run(test_v, &test_my_data);
     EXPECT_STREQ(ret.c_str(), "done");
 }
+
+TEST_F(command_handler_mqtt_fixture, unknown_command)
+{
+    time(&test_my_data.start);
+    test_v.clear();
+    test_v.push_back("fake");
+    auto ret = test_chMQTT->run(test_v, &test_my_data);
+    std::cout << "DATA: " << ret << std::endl;
+    EXPECT_THAT(ret, testing::HasSubstr("unknown") );
+}
