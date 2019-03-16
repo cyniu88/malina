@@ -503,12 +503,13 @@ iDomStateEnum iDom_main()
         exit(-1);
     }
     struct sockaddr_in from;
-    /////////////////////////////////////////////////// INFO PART //////////////////////////////////////////////////
+    ///////////////////////////////////////////////////// INFO PART ////////////////////////////////////////////////
     node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings._fb_viber.viberReceiver.at(0),
                                            server_settings._fb_viber.viberSender);
     /////////////////////////////////////////////////// RESTORE PART ///////////////////////////////////////////////
     node_data.main_iDomTools->readState_iDom(jj);
-
+    ///////////////////////////////////////////////////// TASKER PART ////////////////////////
+    TASKER mainTasker(&node_data);
     ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
 
     while (1)
@@ -519,7 +520,11 @@ iDomStateEnum iDom_main()
             break;
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
+
+        ///////////////////////////////////// TASKER //////////////////////////////////////////
+        /// call Tasker
+        mainTasker.runTasker();
 
         if((v_sock_ind = accept(v_socket,(struct sockaddr *) & from, & len)) < 0)
         {

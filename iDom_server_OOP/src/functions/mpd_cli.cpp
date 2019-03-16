@@ -223,8 +223,6 @@ mpd_status_get_elapsed_song_time(mi)%60);
 void main_mpd_cli(thread_data* my_data, const std::string &threadName )
 {
     blockQueue mpdQueue; // kolejka polecen
-    ////////////////////////////// TASKER PART ////////////////////////
-    TASKER mainTasker(my_data);
 
     ////////////////////////////// LCD PART ///////////////////////////
     my_data->mainLCD->set_print_song_state(0);
@@ -336,11 +334,8 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
 
             mpd_status_update(obj);
 
-            ///////////////////////////////////// TASKER //////////////////////////////////////////
-            /// call Tasker
-            mainTasker.runTasker();
 
-            std::this_thread::sleep_for( std::chrono::milliseconds(250) );
+            std::this_thread::sleep_for( std::chrono::milliseconds(500) );
         } while( useful_F::go_while);
 
         mpd_player_stop(obj); //wylaczanie mpd na koniec
