@@ -600,7 +600,7 @@ int main(int argc, char *argv[])
             }
             catch (const std::exception& e)
             {
-                std::cout << "złąpano wyjatek programu wiec restart "<< e.what() <<std::endl;
+                std::cout << "złąpano wyjatek programu wiec restart "<< e.what() << std::endl;
                 iDomStateProgram = iDomStateEnum::RELOAD;
             }
             if(iDomStateProgram == iDomStateEnum::RELOAD)

@@ -17,14 +17,14 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_da
     }
     else if (v[1] == "throw")
     {
-        throw std::string("test throw");
+        throw 888;
     }
     return help();
 }
 std::string commandTEST::help()
 {
     std::stringstream help;
-    help << "test - for test" << std::endl;
-    help << "throw - trow test reload program" << std::endl;
+    help << "test test - for test" << std::endl;
+    help << "test throw - trow test reload program" << std::endl;
     return help.str();
 }
