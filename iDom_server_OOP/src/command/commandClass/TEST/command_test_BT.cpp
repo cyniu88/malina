@@ -37,7 +37,7 @@ TEST_F(command_test_Class_fixture, throw)
 {
     test_v.push_back("test");
     test_v.push_back("throw");
-    EXPECT_THROW(test_command_test->execute(test_v,&test_my_data),std::string);
+    EXPECT_THROW(test_command_test->execute(test_v,&test_my_data), int);
 }
 
 TEST_F(command_test_Class_fixture, unknownParam)
@@ -45,5 +45,5 @@ TEST_F(command_test_Class_fixture, unknownParam)
     test_v.push_back("test");
     test_v.push_back("fake");
     auto ret = test_command_test->execute(test_v,&test_my_data);
-    EXPECT_EQ(ret.size(),49);
+    EXPECT_EQ(ret.size(),59);
 }
