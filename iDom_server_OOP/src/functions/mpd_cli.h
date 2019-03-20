@@ -22,7 +22,7 @@ void main_mpd_cli(thread_data *my_data , const std::string &threadName);
 void updatePlayList(MpdObj *mi, thread_data *my_data);
 /////////////// LCD
 
-static std::string _msg="null";
+static std::string _msg = "null";
 
 ///////////////////////////////////////////
 

@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "mpd_cli.h"
 #include "../TASKER/tasker.h"
 #include "../thread_functions/iDom_thread.h"
@@ -19,10 +21,9 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
         {
            try {
                 printf( "Song:"" %s - %s\n", song->artist, song->title);
-                std::string msg;//(song->artist);
-                //msg.append(" ");
-                msg.append(song->title);
-                my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/songID",msg);
+                std::stringstream msg;
+                msg << (song->title);
+                my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/songID", msg.str());
             }
             catch(...){
                 puts("error cyniu1");

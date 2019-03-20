@@ -317,7 +317,11 @@ iDomStateEnum iDom_main()
         log_file_mutex.mutex_unlock();
     }
     /////////////////////////////////////////////// start wiringPi //////////////////////////////////////////////
-    if(wiringPiSetup() == -1){
+    if(wiringPiSetup() == -1)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL <<"problem z wiringPiSetup()" << std::endl;
+        log_file_mutex.mutex_unlock();
         exit(1);
     }
 
@@ -536,7 +540,6 @@ iDomStateEnum iDom_main()
         int freeSlotID = iDOM_THREAD::findFreeThreadSlot(&thread_array);
 
         if(freeSlotID != -1)
-
         {
             node_data.s_client_sock = v_sock_ind;
             node_data.from = from;
