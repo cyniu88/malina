@@ -12,7 +12,10 @@
 #include "../RADIO_433_eq/radio_433_eq.h"
 #include "../thread_functions/iDom_thread.h"
 
-iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->_server.TS_KEY)
+iDomTOOLS::iDomTOOLS(thread_data *myData):
+    timezone(myData->server_settings->_time.timezone),
+    sun(timezone),
+    key(myData->server_settings->_server.TS_KEY)
 {
     puts("iDomTOOLS::iDomTOOLS()");
     my_data = myData;
@@ -835,7 +838,7 @@ void iDomTOOLS::send_temperature_thingSpeak()
 void iDomTOOLS::cameraLedON(const std::string& link)
 {
     Clock t = Clock::getTime();
-    SunRiseSet sun;
+    SunRiseSet sun(timezone);
     Clock sunRise, sunSet;
     sunRise = sun.getSunRise();
     sunSet = sun.getSunSet();

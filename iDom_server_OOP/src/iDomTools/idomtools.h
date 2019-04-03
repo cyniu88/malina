@@ -31,6 +31,7 @@ public:
     THERMOMETER_CONTAINER allThermometerUpdate;
 private:
     thread_data *my_data;
+    int timezone;
     SunRiseSet sun;
     std::string key;
     viber_API m_viber;

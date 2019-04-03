@@ -6,6 +6,9 @@
 			"color": "red"
 		}
 	},
+	"time_settings":{
+	    "timezone": 2
+	},
 	"Server_settings": {
 		"ENCRYPTED": true,
 		"MENU_PATH": "/etc/config/iDom_SERVER/MENU",

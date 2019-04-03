@@ -16,6 +16,7 @@ protected:
     void SetUp() final
     {
         iDomTOOLS_ClassTest::SetUp();
+        test_my_data.iDomProgramState = iDomStateEnum::WORKING;
         test_command_program = std::make_unique <command_program> ("program");
     }
 
