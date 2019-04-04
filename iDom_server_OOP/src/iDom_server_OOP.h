@@ -202,10 +202,6 @@ struct MQTT_BROKER_CFG{
     int qos  = 2;
 };
 
-struct TIME_{
-    int timezone = 2;
-};
-
 struct CONFIG_JSON{
     NightLight_CFG _nightLight;
     RunThread_CFG _runThread;
@@ -215,7 +211,6 @@ struct CONFIG_JSON{
     RS232_CFG _rs232;
     RFLink_CFG _rflink;
     MQTT_BROKER_CFG _mqtt_broker;
-    TIME_ _time;
 };
 
 struct LED_Strip{

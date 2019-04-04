@@ -504,9 +504,12 @@ TEST_F(iDomTOOLS_ClassTest, getSunrise_Sunset)
 {
     std::string ret = test_idomTOOLS->getSunrise();
     EXPECT_THAT(ret, testing::HasSubstr(":"));
+    std::cout << "sunrise: " << ret << std::endl;
 
     ret = test_idomTOOLS->getSunset();
     EXPECT_THAT(ret, testing::HasSubstr(":"));
+
+    std::cout << "sunset: " << ret << std::endl;
 
     ret = test_idomTOOLS->getSunrise(true);
     EXPECT_THAT(ret, testing::HasSubstr("Sunrise time:"));

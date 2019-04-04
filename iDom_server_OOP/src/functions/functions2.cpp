@@ -307,7 +307,6 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     /////////////////////// RFLink
     cj._rflink.RFLinkPort = jj["RFLink_settings"].at("RFLinkPort").get<std::string>();
     cj._rflink.RFLinkBaudRate = jj["RFLink_settings"].at("RFLinkBaudRate").get<int>();
-    /////////////////////// timezone sun
-    cj._time.timezone = jj["time_settings"].at("timezone").get<int>();
+
     return cj;
 }
