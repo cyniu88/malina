@@ -687,7 +687,7 @@ TEST_F(iDomTOOLS_ClassTest, health_check)
 
     auto test_RFLink = new RFLinkHandler(&test_my_data);
     test_my_data.main_RFLink = test_RFLink;
-    test_my_data.main_RFLink->pingTime = 1009;
+    test_my_data.main_RFLink->pingTime = Clock::getUnixTime() - 321;
     test_my_data.main_iDomTools->healthCheck();
     delete test_RFLink;
 }

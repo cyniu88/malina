@@ -52,13 +52,12 @@ void iDomTOOLS::healthCheck()
     }
 
     ////////////// RFLink ///////////
-    my_data->main_RFLink->sendCommand("10;PING");
-    auto t = Clock::getUnixTime();
+    auto t = Clock::getUnixTime()- my_data->main_RFLink->pingTime;
     useful_F::sleep(1);
 
-    if(my_data->main_RFLink->pingTime < t)
+    if(t > 310)
     {
-        puts("brak pingu RFLinka 433MHz");
+        std::cout << "brak pingu RFLinka 433MHz t: " << t << std::endl;
     }
 
 }
