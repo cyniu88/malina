@@ -73,6 +73,9 @@ void CRON::runEveryone_5min()
         log_file_cout << ERROR << "wyjatek w pobieraniu jsona z piorunami " << std::endl;
         log_file_mutex.mutex_unlock();
     }
+
+    my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicSubscribe,
+                                  "433MHz send 10;PING;");
 }
 
 void CRON::runEveryone_15min()
