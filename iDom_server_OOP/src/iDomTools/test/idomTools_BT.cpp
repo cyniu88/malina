@@ -3,6 +3,7 @@
 #include <curl/curl.h>
 
 #include "iDomTools_fixture.h"
+#include "../mqtt_mosquitto/MQTT_mosquitto/mqtt.h"
 
 TEST_F(iDomTOOLS_ClassTest, smog)
 {
@@ -677,4 +678,16 @@ TEST_F(iDomTOOLS_ClassTest, getAllDataSunrisesunset)
 {
     EXPECT_THAT(test_my_data.main_iDomTools->getAllDataSunrisesunset(),
                 testing::HasSubstr("Days until Y2K"));
+}
+
+TEST_F(iDomTOOLS_ClassTest, health_check)
+{
+    MQTT_mosquitto mainMQTT("iDomSERVER test");
+    test_my_data.mqttHandler = &mainMQTT;
+
+    auto test_RFLink = new RFLinkHandler(&test_my_data);
+    test_my_data.main_RFLink = test_RFLink;
+    test_my_data.main_RFLink->pingTime = 1009;
+    test_my_data.main_iDomTools->healthCheck();
+    delete test_RFLink;
 }

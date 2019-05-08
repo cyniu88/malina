@@ -165,6 +165,9 @@ public:
     STATE anyClientWiFi = STATE::UNKNOWN;
     void wifiClientConnected();
     void wifiClientDisconnected();
+
+    /////////////////////// health check //////////////////
+    void healthCheck();
 };
 
 #endif // IDOMTOOLS_H

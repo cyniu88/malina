@@ -5,6 +5,9 @@
 #include <sys/time.h>
 #include <unistd.h>
 
+#include "../functions/functions.h"
+#include "../433MHz/RFLink/rflinkhandler.h"
+
 std::string iDomTOOLS::getSystemInfo()
 {
     double load[3];
@@ -29,11 +32,33 @@ std::string iDomTOOLS::getSystemInfo()
         << " hours " << minutes << " minutes "
         << seconds << " seconds " << std::endl << "Load: "
         << (info.loads[0]/65536) << "% - 1 min, " <<(info.loads[1]/65536)
-        << "% - 5 min, "<<(info.loads[2]/65536) << "% - 15 min." << std::endl
-        << "process count : " << info.procs << std::endl
-        << "total RAM   : "<< (info.totalram / megabyte)<< "MB" << std::endl
-        << "free RAM   : " << (info.freeram / megabyte) << "MB" << std::endl;
+            << "% - 5 min, "<<(info.loads[2]/65536) << "% - 15 min." << std::endl
+                                                    << "process count : " << info.procs << std::endl
+                                                    << "total RAM   : "<< (info.totalram / megabyte)<< "MB" << std::endl
+                                                    << "free RAM   : " << (info.freeram / megabyte) << "MB" << std::endl;
 
     return ret.str();
 }
 
+/////////////////////// health check //////////////////
+void iDomTOOLS::healthCheck()
+{
+    if(my_data->mqttHandler->_connected == false){
+        puts("brak polaczenia z serverm MQTT");
+    }
+    if(my_data->mqttHandler->_subscribed == false)
+    {
+        puts("brak subskrybcji do servera mqtt");
+    }
+
+    ////////////// RFLink ///////////
+    my_data->main_RFLink->sendCommand("10;PING");
+    auto t = Clock::getUnixTime();
+    useful_F::sleep(1);
+
+    if(my_data->main_RFLink->pingTime < t)
+    {
+        puts("brak pingu RFLinka 433MHz");
+    }
+
+}
