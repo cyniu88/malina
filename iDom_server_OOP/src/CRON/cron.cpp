@@ -62,7 +62,10 @@ void CRON::runEveryone_1min(struct tm *act_date)
 
 void CRON::runEveryone_5min()
 {
-    // printf("co 5 minut! \n");
+    auto topic = my_data->server_settings->_mqtt_broker.topicSubscribe;
+    topic.pop_back();
+    my_data->mqttHandler->publish(topic +"command","433MHz send 10;PING;");
+
     try
     {
         my_data->main_iDomTools->checkLightning();
@@ -74,8 +77,6 @@ void CRON::runEveryone_5min()
         log_file_mutex.mutex_unlock();
     }
 
-    my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicSubscribe,
-                                  "433MHz send 10;PING;");
 }
 
 void CRON::runEveryone_15min()

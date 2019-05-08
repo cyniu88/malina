@@ -27,7 +27,6 @@ void TASKER::runTasker()
         {
             auto v = useful_F::split(kk.second, ' ');
             auto ret = commandMQTT.run(v,my_data);
-
             my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/command",
                                           ret);
         }
