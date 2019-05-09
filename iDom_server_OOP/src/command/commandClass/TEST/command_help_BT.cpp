@@ -30,7 +30,7 @@ TEST_F(command_help_Class_fixture, all)
     std::unique_ptr<commandHandlerRoot> chr = std::make_unique<commandHandlerRoot>(&test_my_data);
     test_v.push_back("help");
     auto size = test_command_help->execute(test_v,&test_my_data).size();
-    EXPECT_EQ(size,4434);
+    EXPECT_EQ(size,4477);
 }
 
 TEST_F(command_help_Class_fixture, one)
