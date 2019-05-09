@@ -77,6 +77,7 @@ void CRON::runEveryone_5min()
         log_file_mutex.mutex_unlock();
     }
 
+    my_data->main_iDomTools->healthCheck();
 }
 
 void CRON::runEveryone_15min()

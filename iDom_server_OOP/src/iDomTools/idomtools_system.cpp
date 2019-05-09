@@ -53,7 +53,6 @@ void iDomTOOLS::healthCheck()
 
     ////////////// RFLink ///////////
     auto t = Clock::getUnixTime()- my_data->main_RFLink->pingTime;
-    useful_F::sleep(1);
 
     if(t > 310)
     {
