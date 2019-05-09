@@ -43,6 +43,8 @@ std::string iDomTOOLS::getSystemInfo()
 /////////////////////// health check //////////////////
 void iDomTOOLS::healthCheck()
 {
+    int alarm_433MHz = 2131;
+
     if(my_data->mqttHandler->_connected == false){
         puts("brak polaczenia z serverm MQTT");
     }
@@ -54,9 +56,17 @@ void iDomTOOLS::healthCheck()
     ////////////// RFLink ///////////
     auto t = Clock::getUnixTime()- my_data->main_RFLink->pingTime;
 
-    if(t > 310)
+    if(t > 310 && my_data->mqttHandler->_subscribed == true)
     {
+        std::string m("brak połaczenia RS232 z RfLinkiem");
         std::cout << "brak pingu RFLinka 433MHz t: " << t << std::endl;
+        my_data->iDomAlarm.raiseAlarm(alarm_433MHz, m);
+        my_data->main_iDomTools->sendViberMsg(m,my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                              my_data->server_settings->_fb_viber.viberSender);
+    }
+
+    else{
+        my_data->iDomAlarm.clearAlarm(alarm_433MHz);
     }
 
 }

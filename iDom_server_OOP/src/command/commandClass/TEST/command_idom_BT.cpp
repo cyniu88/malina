@@ -61,6 +61,7 @@ TEST_F(commandiDom_Class_fixture, less_param)
     std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     EXPECT_THAT(retStr,testing::HasSubstr("need parameter!"));
 }
+
 TEST_F(commandiDom_Class_fixture, unknonw_para)
 {
     test_v.push_back("fake");
@@ -245,6 +246,7 @@ TEST_F(commandiDom_Class_fixture, say)
     std::cout << "retString: " << retStr << std::endl;
     //EXPECT_THAT(retStr,testing::HasSubstr("sad"));
 }
+
 TEST_F(commandiDom_Class_fixture, wifi)
 {
     TEST_DATA::return_httpPost = "ok";
@@ -328,6 +330,7 @@ TEST_F(commandiDom_Class_fixture, LED)
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("led OFF"));
 }
+
 TEST_F(commandiDom_Class_fixture, kodi)
 {
     test_my_data.main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);
@@ -372,4 +375,14 @@ TEST_F(commandiDom_Class_fixture, kodi)
 
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_STREQ(retStr.c_str(),"not free space to new thread");
+}
+
+TEST_F(commandiDom_Class_fixture, health_alarm)
+{
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("health");
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_THAT(retStr,testing::HasSubstr("no alarms!"));
 }

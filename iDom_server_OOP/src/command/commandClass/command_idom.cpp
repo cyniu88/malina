@@ -185,7 +185,10 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1] == "KODI"){
         return my_data->main_iDomTools->startKodi_Thread();
     }
-    else if (v[1]=="alarm"){
+    else if (v[1] == "health") {
+        return my_data->iDomAlarm.showAlarm();
+    }
+    else if (v[1] == "alarm"){
 
         if (v.size() < 3){
             return "not enough parameters";
@@ -265,5 +268,6 @@ std::string command_iDom::help()
     help << "iDom unlock - unlock home" << std::endl;
     help << "iDom KODI - start KODI smart TV" << std::endl;
     help << "iDom wifi - show all wifi client" << std::endl;
+    help << "iDom health - get iDom server alarm health" << std::endl;
     return help.str();
 }

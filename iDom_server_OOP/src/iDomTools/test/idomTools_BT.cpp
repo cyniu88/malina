@@ -684,6 +684,7 @@ TEST_F(iDomTOOLS_ClassTest, health_check)
 {
     MQTT_mosquitto mainMQTT("iDomSERVER test");
     test_my_data.mqttHandler = &mainMQTT;
+    test_my_data.mqttHandler->_subscribed = true;
 
     auto test_RFLink = new RFLinkHandler(&test_my_data);
     test_my_data.main_RFLink = test_RFLink;

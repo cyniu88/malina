@@ -37,6 +37,7 @@
 #include "iDomStatus/idomstatus.h"
 #include "iDomSaveState/idom_save_state.h"
 #include "../mqtt_mosquitto/MQTT_mosquitto/mqtt.h"
+#include "../libs/alarm/alarm.h"
 
 #define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
@@ -334,6 +335,7 @@ struct thread_data{
     std::shared_ptr<RADIO_EQ_CONTAINER> main_REC;
     iDomStateEnum iDomProgramState = iDomStateEnum::WORKING;
     MQTT_mosquitto *mqttHandler;
+    alarm_C iDomAlarm;
 };
 
 struct thread_data_rs232{
