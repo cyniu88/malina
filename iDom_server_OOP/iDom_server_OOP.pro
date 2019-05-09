@@ -79,7 +79,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.cpp \
     mqtt_mosquitto/MQTT_mosquitto/mqtt.cpp \
     src/command/commandhandlermqtt.cpp \
-    src/command/commandClass/command_wifi.cpp
+    src/command/commandClass/command_wifi.cpp \
+    libs/alarm/alarm.cpp
 
 INCLUDEPATH += "json2/"
 
@@ -157,7 +158,8 @@ HEADERS += src/c_connection/c_connection.h \
     liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.h \
     mqtt_mosquitto/MQTT_mosquitto/mqtt.h \
     src/command/commandhandlermqtt.h \
-    src/command/commandClass/command_wifi.h
+    src/command/commandClass/command_wifi.h \
+    libs/alarm/alarm.h
 
 DISTFILES +=
 DEFINES += GIT_CURRENT_SHA1="$(git rev-parse HEAD)"

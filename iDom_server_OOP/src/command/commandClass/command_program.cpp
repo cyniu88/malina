@@ -167,6 +167,9 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << "mqtt bffer: " << my_data->mqttHandler->getReceiveQueueSize() << std::endl;
         r << "rflink map size: " << my_data->main_RFLink->rflinkMAP.size() << std::endl;
 
+        r << "alarm map size: " << my_data->iDomAlarm.alarmSize() << std::endl;
+
+
         r << "END.";
         ret = r.str();
     }

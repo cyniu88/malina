@@ -33,7 +33,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
                         "ID")].msg = v[2];
             }
             catch(const std::string& e){
-                std::cout << "wyjatek w szukaniu: " << e <<std::endl;
+                //std::cout << "wyjatek w szukaniu: " << e <<std::endl;
                 pingAndOkRecv( my_data, v[2]);
             }
             //TODO add command
@@ -70,7 +70,5 @@ void command_ardu::pingAndOkRecv(thread_data *my_data, const std::string& s)
         my_data->main_RFLink->okTime = Clock::getUnixTime();
     else if (s.find("PONG;") != std::string::npos)
         my_data->main_RFLink->pingTime = Clock::getUnixTime();
-    std::cout << "poing && ok recv " << s <<std::endl
-              << " ok time: "<<my_data->main_RFLink->okTime<< std::endl
-              << " ping time: "<<my_data->main_RFLink->pingTime<< std::endl;
+
 }
