@@ -33,6 +33,8 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string& threadName){
     std::this_thread::sleep_for(std::chrono::seconds(5));
     command_ardu workerRFLink("ardu",my_data);
 
+    my_data->main_RFLink->sendCommand("10;PING;");
+
     while(useful_F::go_while){
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
@@ -40,7 +42,7 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string& threadName){
 
         if (msgFromRFLink.size() > 0){
             v[2] = msgFromRFLink;
-            workerRFLink.execute(v,my_data);
+            workerRFLink.execute(v, my_data);
         }
 
     }
