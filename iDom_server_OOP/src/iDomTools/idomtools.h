@@ -40,6 +40,8 @@ private:
     std::vector<RADIO_BUTTON*> buttonPointerVector;
     Clock lastButton433MHzLockUnlockTime;
 
+    int m_restartAlarmRFLink = 0;
+
 public:
     std::vector <std::string> textToSpeachVector;
     iDomTOOLS(thread_data *myData);
@@ -168,6 +170,12 @@ public:
 
     /////////////////////// health check //////////////////
     void healthCheck();
+
+    ////////////////////// system /////////////////////////
+
+    void close_iDomServer [[ noreturn ]]();
+    void reloadSoft_iDomServer[[ noreturn ]] ();
+    void reloadHard_iDomServer[[ noreturn ]] ();
 };
 
 #endif // IDOMTOOLS_H

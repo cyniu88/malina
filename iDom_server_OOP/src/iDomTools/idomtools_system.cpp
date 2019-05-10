@@ -58,15 +58,50 @@ void iDomTOOLS::healthCheck()
 
     if(t > 310 && my_data->mqttHandler->_subscribed == true)
     {
+        m_restartAlarmRFLink++;
+        if(m_restartAlarmRFLink == 2)
+            my_data->main_iDomTools->reloadHard_iDomServer();
+
         std::string m("brak połaczenia RS232 z RFLink'iem");
         std::cout << "brak pingu RFLinka 433MHz t: " << t << std::endl;
         my_data->iDomAlarm.raiseAlarm(alarm_433MHz, m);
         my_data->main_iDomTools->sendViberMsg(m,my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                              my_data->server_settings->_fb_viber.viberSender);
+                                              my_data->server_settings->_fb_viber.viberSender + "health");
     }
 
     else{
         my_data->iDomAlarm.clearAlarm(alarm_433MHz);
+        m_restartAlarmRFLink = 0;
     }
 
+}
+
+void iDomTOOLS::reloadSoft_iDomServer()
+{
+    std::string s ="close server";
+    useful_F::send_to_arduino_clock(my_data, "RELO");
+    iDomTOOLS::MPD_stop();
+    my_data->iDomProgramState = iDomStateEnum::RELOAD;
+    my_data->main_iDomTools->saveState_iDom();
+    throw s;
+}
+
+void iDomTOOLS::reloadHard_iDomServer()
+{
+    std::string s ="close server";
+    useful_F::send_to_arduino_clock(my_data, "UPDA");
+    iDomTOOLS::MPD_stop();
+    my_data->iDomProgramState = iDomStateEnum::HARD_RELOAD;
+    my_data->main_iDomTools->saveState_iDom();
+    throw s;
+}
+
+void  iDomTOOLS::close_iDomServer ()
+{
+    std::string s ="close server";
+    useful_F::send_to_arduino_clock(my_data, "STOP");
+    iDomTOOLS::MPD_stop();
+    my_data->iDomProgramState = iDomStateEnum::CLOSE;
+    my_data->main_iDomTools->saveState_iDom();
+    throw s;
 }

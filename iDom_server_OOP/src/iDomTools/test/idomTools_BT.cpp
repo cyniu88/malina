@@ -690,5 +690,9 @@ TEST_F(iDomTOOLS_ClassTest, health_check)
     test_my_data.main_RFLink = test_RFLink;
     test_my_data.main_RFLink->pingTime = Clock::getUnixTime() - 321;
     test_my_data.main_iDomTools->healthCheck();
+    EXPECT_EQ(test_my_data.iDomProgramState, iDomStateEnum::WORKING);
+    test_my_data.main_RFLink->pingTime = Clock::getUnixTime() - 321;
+    EXPECT_THROW(test_my_data.main_iDomTools->healthCheck(), std::string);
+    EXPECT_EQ(test_my_data.iDomProgramState, iDomStateEnum::HARD_RELOAD);
     delete test_RFLink;
 }

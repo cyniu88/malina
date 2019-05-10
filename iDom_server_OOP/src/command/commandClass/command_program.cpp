@@ -15,33 +15,18 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     }
     if (v[1] == "stop")
     {
-        std::string s ="close server";
-        useful_F::send_to_arduino_clock(my_data, "STOP");
-        iDomTOOLS::MPD_stop();
-        my_data->iDomProgramState = iDomStateEnum::CLOSE;
-        my_data->main_iDomTools->saveState_iDom();
-        throw s;
+        my_data->main_iDomTools->close_iDomServer();
     }
     if (v.size() < 3 )
     {
         return "add more paramiters";
     }
     if(v[1] == "reload" && v[2] == "soft"){
-        std::string s ="close server";
-        useful_F::send_to_arduino_clock(my_data, "RELO");
-        iDomTOOLS::MPD_stop();
-        my_data->iDomProgramState = iDomStateEnum::RELOAD;
-        my_data->main_iDomTools->saveState_iDom();
-        throw s;
+        my_data->main_iDomTools->reloadSoft_iDomServer();
     }
     else if(v[1] == "reload" && v[2] == "hard")
     {
-        std::string s ="close server";
-        useful_F::send_to_arduino_clock(my_data, "UPDA");
-        iDomTOOLS::MPD_stop();
-        my_data->iDomProgramState = iDomStateEnum::HARD_RELOAD;
-        my_data->main_iDomTools->saveState_iDom();
-        throw s;
+        my_data->main_iDomTools->reloadHard_iDomServer();
     }
     else if(v[1] == "clear" && v[2] == "ram")
     {
