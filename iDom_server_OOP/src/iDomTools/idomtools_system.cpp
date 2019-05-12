@@ -76,7 +76,7 @@ void iDomTOOLS::healthCheck()
 
 }
 
-std::string iDomTOOLS::dump() const
+std::string iDomTOOLS::dump()
 {
     std::stringstream ret;
 
