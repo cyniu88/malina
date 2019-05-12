@@ -97,7 +97,7 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
     return str_buf;
 }
 
-std::string command_mpd::help()
+std::string command_mpd::help() const
 {
     std::stringstream help;
     help << "MPD - for control music player:" << std::endl;

@@ -21,7 +21,7 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_da
     }
     return help();
 }
-std::string commandTEST::help()
+std::string commandTEST::help() const
 {
     std::stringstream help;
     help << "test test - for test" << std::endl;

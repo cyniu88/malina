@@ -237,7 +237,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     return "iDom - unknown parameter: "+ v[1];
 }
 
-std::string command_iDom::help()
+std::string command_iDom::help() const
 {
     std::stringstream help;
     help << "iDom - for control smart home" << std::endl;

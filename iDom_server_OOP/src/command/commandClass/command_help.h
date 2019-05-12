@@ -11,7 +11,7 @@ class command_help : public command
 public:
     command_help(const std::string& name);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
-    std::string help();
+    std::string help() const;
 };
 
 #endif // COMMAND_HELP_H

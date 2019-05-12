@@ -73,7 +73,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
     return str_buf;
 }
 
-std::string command_show::help()
+std::string command_show::help() const
 {
     std::stringstream help;
     help << "show <parameter>- for show something" <<std::endl << std::endl;

@@ -18,7 +18,7 @@ std::string command_log::execute(std::vector<std::string> &v, thread_data *my_da
     return "DONE!";
 }
 
-std::string command_log::help()
+std::string command_log::help() const
 {
     std::stringstream help;
     help << "log <logLevel> \"***TXT***\"- add *** to iDom logfile" << std::endl;

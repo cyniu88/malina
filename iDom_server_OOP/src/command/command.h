@@ -18,7 +18,7 @@ public:
     command(const std::string& commandName);
     virtual ~command();
     virtual std::string execute(std::vector<std::string> &v, thread_data * my_data) = 0;
-    virtual std::string help() = 0;
+    virtual std::string help() const = 0;
     virtual std::string getCommandName();
 };
 

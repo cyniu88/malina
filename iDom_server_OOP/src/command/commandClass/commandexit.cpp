@@ -9,7 +9,7 @@ std::string commandEXIT::execute(std::vector<std::string> &v, thread_data *my_da
     return "\nEND.\n";
 }
 
-std::string commandEXIT::help()
+std::string commandEXIT::help() const
 {
     return "exit - disconnect from server\n";
 }

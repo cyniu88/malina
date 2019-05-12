@@ -13,7 +13,7 @@ std::string command_hello::execute(std::vector<std::string> &v, thread_data *my_
     return "\nHI You User!\n";
 }
 
-std::string command_hello::help()
+std::string command_hello::help() const
 {
     return "hello - send test message to server if connection is ok, the server response: \"HI!\"\n";
 }

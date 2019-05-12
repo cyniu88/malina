@@ -123,7 +123,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
     return str_buf;
 }
 
-std::string command_433MHz::help()
+std::string command_433MHz::help() const
 {
     std::stringstream help;
     help << ("433MHz delete <name> - dalete radio equipment") <<std::endl;

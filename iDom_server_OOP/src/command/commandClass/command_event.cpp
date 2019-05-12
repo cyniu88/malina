@@ -35,7 +35,7 @@ std::string command_event::execute(std::vector<std::string> &v, thread_data *my_
     return my_data->myEventHandler.help();
 }
 
-std::string command_event::help()
+std::string command_event::help() const
 {
     std::stringstream help;
     help << "event- show actual event (all)" << std::endl;

@@ -32,7 +32,7 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
     return "internal error";
 }
 
-std::string command_sleep::help()
+std::string command_sleep::help() const
 {
     std::stringstream help;
     help << "sleep - show actual time to stop play music" << std::endl;

@@ -171,7 +171,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     return ret;
 }
 
-std::string command_program::help()
+std::string command_program::help() const
 {
     std::stringstream help;
     help << "program stop - close iDom server"<< std::endl;

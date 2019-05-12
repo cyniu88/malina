@@ -14,7 +14,7 @@ std::string command_cmd::execute(std::vector<std::string> &v, thread_data *my_da
     return "error: unknown parameter: "+v[1];
 }
 
-std::string command_cmd::help()
+std::string command_cmd::help() const
 {
     return "cmd - read char prom cmd fifo file for unblock video player\n";
 }

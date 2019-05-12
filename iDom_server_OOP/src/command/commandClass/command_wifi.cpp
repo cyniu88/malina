@@ -9,7 +9,7 @@ std::string command_wifi::execute(std::vector<std::string> &v, thread_data *my_d
     return "done";
 }
 
-std::string command_wifi::help()
+std::string command_wifi::help() const
 {
     return "internal wifi command";
 }

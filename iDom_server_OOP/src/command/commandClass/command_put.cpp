@@ -19,7 +19,7 @@ std::string command_put::execute(std::vector<std::string> &v, thread_data *my_da
     return str_buf;
 }
 
-std::string command_put::help()
+std::string command_put::help() const
 {
     std::stringstream help;
     help << "put <parameter> - " << std::endl << std::endl;

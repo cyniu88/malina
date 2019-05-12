@@ -17,7 +17,7 @@ public:
     command_ardu(const std::string& name);
     command_ardu(const std::string& name, thread_data* my_data );
     std::string execute(std::vector <std::string> &v,thread_data* my_data);
-    std::string help();
+    std::string help() const;
 #ifndef BT_TEST
     private:
 #endif

@@ -64,7 +64,7 @@ std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_d
     return str_buf;
 }
 
-std::string commandRS232::help()
+std::string commandRS232::help() const
 {
     std::stringstream help;
     help << "RS232 - communication with Arduino:" << std::endl;

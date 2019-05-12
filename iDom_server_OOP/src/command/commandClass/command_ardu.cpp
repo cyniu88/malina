@@ -59,7 +59,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
     return str_buf;
 }
 
-std::string command_ardu::help()
+std::string command_ardu::help() const
 {
     return " only for internal usege\n";
 }

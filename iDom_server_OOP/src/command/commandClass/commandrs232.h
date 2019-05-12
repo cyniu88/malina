@@ -12,7 +12,7 @@ class commandRS232 : public command
 public:
     commandRS232(const std::string& name);
     std::string execute(std::vector <std::string> &v,thread_data * my_data);
-    std::string help();
+    std::string help() const;
 };
 
 #endif // COMMANDRS232_H

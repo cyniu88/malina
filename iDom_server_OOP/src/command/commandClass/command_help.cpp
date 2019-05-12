@@ -29,7 +29,7 @@ std::string command_help::execute(std::vector<std::string> &v, thread_data *my_d
     return result;
 }
 
-std::string command_help::help()
+std::string command_help::help() const
 {
     return "help - show help for all command \nhelp <parameter> - show help for command\n";
 }

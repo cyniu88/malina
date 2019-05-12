@@ -9,7 +9,7 @@ std::string command_ok::execute(std::vector<std::string> &v, thread_data *my_dat
     return "\nEND\n";
 }
 
-std::string command_ok::help()
+std::string command_ok::help() const
 {
     return "ok - confirmation msg server response: END \n";
 }

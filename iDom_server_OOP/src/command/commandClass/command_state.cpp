@@ -23,7 +23,7 @@ std::string command_state::execute(std::vector<std::string> &v, thread_data *my_
     return ret;
 }
 
-std::string command_state::help()
+std::string command_state::help() const
 {
     std::stringstream help;
     help << "state all/<name> - show state" << std::endl;
