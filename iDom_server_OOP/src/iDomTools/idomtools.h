@@ -17,12 +17,13 @@
 #include "../../libs/facebookAPI/facebookAPI.h"
 #include "../../libs/Statistic/statistic.h"
 
+#include "../idom_api.h"
 
 struct thread_data;
 struct LED_Strip;
 class RADIO_BUTTON;
 
-class iDomTOOLS
+class iDomTOOLS: public iDom_API
 {
 #ifdef BT_TEST
 public:
@@ -176,6 +177,8 @@ public:
     void close_iDomServer [[ noreturn ]]();
     void reloadSoft_iDomServer[[ noreturn ]] ();
     void reloadHard_iDomServer[[ noreturn ]] ();
+
+    std::string dump();
 };
 
 #endif // IDOMTOOLS_H

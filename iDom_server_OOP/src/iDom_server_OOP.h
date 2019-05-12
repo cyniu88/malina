@@ -345,4 +345,6 @@ struct thread_data_rs232{
     struct s_pointer pointer;
 };
 
+
+
 #endif // GLOBAL_H

@@ -154,6 +154,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
 
         r << "alarm map size: " << my_data->iDomAlarm.alarmSize() << std::endl;
 
+        r << my_data->main_iDomTools->dump() << std::endl;
 
         r << "END.";
         ret = r.str();

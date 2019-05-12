@@ -76,6 +76,18 @@ void iDomTOOLS::healthCheck()
 
 }
 
+std::string iDomTOOLS::dump()
+{
+    std::stringstream ret;
+
+    ret << "iDomTOOLS m_restartAlarmRFLink: " << this->m_restartAlarmRFLink << std::endl;
+    ret << "iDomTOOLS m_lightningStruct.data: " << this->m_lightningStruct.data.str() << std::endl;
+    ret << "iDomTOOLS m_lightningStruct.distance: " << this->m_lightningStruct.distance << std::endl;
+    ret << "iDomTOOLS m_lightningStruct.riseAlarm: " << this->m_lightningStruct.riseAlarm << std::endl;
+    ret << "iDomTOOLS m_lightningStruct.timestamp: " << this->m_lightningStruct.timestamp << std::endl;
+    return ret.str();
+}
+
 void iDomTOOLS::reloadSoft_iDomServer()
 {
     std::string s ="close server";
