@@ -178,7 +178,7 @@ public:
     void reloadSoft_iDomServer[[ noreturn ]] ();
     void reloadHard_iDomServer[[ noreturn ]] ();
 
-    std::string dump();
+    std::string dump() const;
 };
 
 #endif // IDOMTOOLS_H
