@@ -322,10 +322,10 @@ TEST_F(command433MHz_Class_fixture, show_switch)
 
 TEST_F(command433MHz_Class_fixture, show_aether)
 {
-    test_my_data.main_RFLink->rflinkMAP["kk"].msg = "astro";
-    test_my_data.main_RFLink->rflinkMAP["kk"].m_counter = 99;
-    test_my_data.main_RFLink->rflinkMAP["jj"].msg = "lock";
-    test_my_data.main_RFLink->rflinkMAP["jj"].m_counter = 155;
+    test_my_data.main_RFLink->m_rflinkMAP["kk"].msg = "astro";
+    test_my_data.main_RFLink->m_rflinkMAP["kk"].m_counter = 99;
+    test_my_data.main_RFLink->m_rflinkMAP["jj"].msg = "lock";
+    test_my_data.main_RFLink->m_rflinkMAP["jj"].m_counter = 155;
     test_v.push_back("show");
     test_v.push_back("all");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;

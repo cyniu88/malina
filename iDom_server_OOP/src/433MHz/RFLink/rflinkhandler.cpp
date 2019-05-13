@@ -8,7 +8,7 @@ std::string RFLinkHandler::sm_RFLink_BUFOR;
 
 
 RFLinkHandler::RFLinkHandler(thread_data *my_data):
-                                                     serial_RFLink(my_data->server_settings->_rflink.RFLinkPort)
+                                                     m_serial_RFLink(my_data->server_settings->_rflink.RFLinkPort)
 {
     this->my_data = my_data;
 #ifdef BT_TEST
@@ -20,7 +20,7 @@ bool RFLinkHandler::init()
 {
     if( access( my_data->server_settings->_rflink.RFLinkPort.c_str(), F_OK ) != -1 )
     {
-        serial_RFLink.begin(my_data->server_settings->_rflink.RFLinkBaudRate);
+        m_serial_RFLink.begin(my_data->server_settings->_rflink.RFLinkBaudRate);
         log_file_mutex.mutex_lock();
         log_file_cout << INFO <<"otwarcie portu RS232 RFLink " << my_data->server_settings->_rflink.RFLinkPort << "  "
                       <<my_data->server_settings->_rflink.RFLinkBaudRate<<std::endl;
@@ -38,21 +38,21 @@ bool RFLinkHandler::init()
 
 void RFLinkHandler::flush()
 {
-    serial_RFLink.flush();
+    m_serial_RFLink.flush();
 }
 
 void RFLinkHandler::sendCommand(std::string cmd)
 {
     std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
     cmd.append("\n\r"); // add NL & CR
-    serial_RFLink.print(cmd.c_str());
+    m_serial_RFLink.print(cmd.c_str());
 }
 
 std::string RFLinkHandler::sendCommandAndWaitForReceive(std::string cmd)
 {
     std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
     cmd.append("\n\r"); // add NL & CR
-    serial_RFLink.print(cmd.c_str());
+    m_serial_RFLink.print(cmd.c_str());
     return internalReadFromRS232();
 }
 
@@ -66,10 +66,10 @@ std::string RFLinkHandler::internalReadFromRS232()
 {
     std::string buf;
 
-    if(serial_RFLink.available() > 0){
+    if(m_serial_RFLink.available() > 0){
         while (true){
 
-            char b = serial_RFLink.read();
+            char b = m_serial_RFLink.read();
             if (b == '\n'){
                 break;
             }

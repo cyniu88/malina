@@ -25,17 +25,17 @@ struct RFLink_DEV{
 class RFLinkHandler
 {
     thread_data *my_data;
-    SerialPi serial_RFLink;
+    SerialPi m_serial_RFLink;
 
 public:
 
     static std::mutex sm_RFLink_MUTEX;
     static std::string sm_RFLink_BUFOR;
 
-    unsigned int okTime = 0;
-    unsigned int pingTime = 0;
+    unsigned int m_okTime = 0;
+    unsigned int m_pingTime = 0;
     ////// temporarnie //////
-    std::map<std::string, RFLink_DEV> rflinkMAP;
+    std::map<std::string, RFLink_DEV> m_rflinkMAP;
     /////////////////////////////
     RFLinkHandler(thread_data *my_data);
 

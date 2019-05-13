@@ -26,10 +26,10 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
             my_data->myEventHandler.run("433MHz")->addEvent("RFLink: "+v[2]);
             try {
                 my_data->main_RFLink->
-                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],
+                        m_rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],
                         "ID")].counter();
                 my_data->main_RFLink->
-                        rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],
+                        m_rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],
                         "ID")].msg = v[2];
             }
             catch(const std::string& e){
@@ -67,8 +67,8 @@ std::string command_ardu::help() const
 void command_ardu::pingAndOkRecv(thread_data *my_data, const std::string& s)
 {
     if (s.find("OK;") != std::string::npos)
-        my_data->main_RFLink->okTime = Clock::getUnixTime();
+        my_data->main_RFLink->m_okTime = Clock::getUnixTime();
     else if (s.find("PONG;") != std::string::npos)
-        my_data->main_RFLink->pingTime = Clock::getUnixTime();
+        my_data->main_RFLink->m_pingTime = Clock::getUnixTime();
 
 }

@@ -139,8 +139,8 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << "my_data->ptr_MPD_info->volume \t" << my_data->ptr_MPD_info->volume<<std::endl;
 
         r << std::endl;
-        r << "my_data->main_RFLink->okTime \t" << my_data->main_RFLink->okTime<<std::endl;
-        r << "my_data->main_RFLink->pingTime \t" << my_data->main_RFLink->pingTime<<std::endl;
+        r << "my_data->main_RFLink->okTime \t" << my_data->main_RFLink->m_okTime<<std::endl;
+        r << "my_data->main_RFLink->pingTime \t" << my_data->main_RFLink->m_pingTime<<std::endl;
 
         r << std::endl;
         r << "my_data->mainLCD-> \t" << my_data->mainLCD->getData() <<std::endl;
@@ -150,7 +150,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << "buffer size:" << std::endl;
 
         r << "mqtt bffer: " << my_data->mqttHandler->getReceiveQueueSize() << std::endl;
-        r << "rflink map size: " << my_data->main_RFLink->rflinkMAP.size() << std::endl;
+        r << "rflink map size: " << my_data->main_RFLink->m_rflinkMAP.size() << std::endl;
 
         r << "alarm map size: " << my_data->iDomAlarm.alarmSize() << std::endl;
 

@@ -1,5 +1,6 @@
 #ifndef IDOM_API_H
 #define IDOM_API_H
+
 #include <map>
 
 class iDom_API

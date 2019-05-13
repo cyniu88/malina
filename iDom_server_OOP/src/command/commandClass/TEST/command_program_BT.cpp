@@ -108,8 +108,8 @@ TEST_F(command_program_Class_fixture, debugeVariableProgram)
     MQTT_mosquitto mqtt_test("cyniu_TEST");
     test_my_data.mqttHandler = &mqtt_test;
     test_my_data.main_RFLink = &test_RFLinkkHandler;
-    test_my_data.main_RFLink->okTime = 777;
-    test_my_data.main_RFLink->pingTime = 888;
+    test_my_data.main_RFLink->m_okTime = 777;
+    test_my_data.main_RFLink->m_pingTime = 888;
     test_my_data.server_settings->_server.PORT = 88;
     test_my_data.server_settings->_server.v_delay = 1;
     test_my_data.sleeper = 1;

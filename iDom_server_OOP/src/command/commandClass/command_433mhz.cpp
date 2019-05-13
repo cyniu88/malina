@@ -74,8 +74,8 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
         }
         else if (v[1] == "show" && v[2] == "aether"){
             str_buf.clear();
-            for(auto itr = my_data->main_RFLink->rflinkMAP.begin();
-                itr != my_data->main_RFLink->rflinkMAP.end();
+            for(auto itr = my_data->main_RFLink->m_rflinkMAP.begin();
+                itr != my_data->main_RFLink->m_rflinkMAP.end();
                 itr++)
             {
                 str_buf += itr->second.read();

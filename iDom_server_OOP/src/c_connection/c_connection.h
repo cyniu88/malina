@@ -1,5 +1,6 @@
 #ifndef C_CONNECTION_H
 #define C_CONNECTION_H
+
 #include <mutex>
 #include <unistd.h>
 #include <iostream>
@@ -25,7 +26,7 @@ public:
     sockaddr_in c_from;
 
     char c_buffer[MAX_buf];
-    int recv_size;
+    int m_recv_size;
     struct s_pointer *pointer;
 
     int c_send(int para);
@@ -35,22 +36,22 @@ public:
     void c_analyse(int recvSize);
     void setEncriptionKey(const std::string& key);
     void setEncrypted(bool flag);
-    commandHandler *mainCommandHandler = NULL;
+    commandHandler *m_mainCommandHandler = NULL;
     void onStartConnection();
     void onStopConnection();
     void cryptoLog(std::string &toEncrypt);
 #ifdef BT_TEST
     std::string getStr_buf(){
-        return str_buf;
+        return m_str_buf;
     }
 #endif
 private:
-    std::string str_buf;
-    blockQueue char_queue;
-    int counter = 0;
+    std::string m_str_buf;
+    blockQueue m_char_queue;
+    int m_counter = 0;
     std::string m_encriptionKey;
     bool m_encrypted;
     void crypto(std::string &toEncrypt, std::string key, bool encrypted);
 };
 
-#endif // C_CONNECTION_H
+#endif // C_CONNECTION1_H

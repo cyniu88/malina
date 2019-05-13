@@ -3,7 +3,7 @@
 #include "../thread_functions/iDom_thread.h"
 
 C_connection::C_connection (thread_data *my_data):c_socket(my_data->s_client_sock),
-    c_from(my_data->from),recv_size(0)
+    c_from(my_data->from),m_recv_size(0)
 {
     this -> pointer = &my_data->pointer;
     this -> my_data = my_data;
@@ -14,11 +14,11 @@ C_connection::C_connection (thread_data *my_data):c_socket(my_data->s_client_soc
 
 C_connection::~C_connection()
 {
-    if( mainCommandHandler != std::nullptr_t())
+    if( m_mainCommandHandler != std::nullptr_t())
     {
         my_data->mainLCD->set_print_song_state(0);
         my_data->mainLCD->set_lcd_STATE(2);
-        delete mainCommandHandler;
+        delete m_mainCommandHandler;
     }
     my_data->mainLCD->set_print_song_state(0);
     my_data->mainLCD->set_lcd_STATE(2);
@@ -31,45 +31,45 @@ C_connection::~C_connection()
 
 int C_connection::c_send(int para)
 {
-    crypto(str_buf,m_encriptionKey,m_encrypted);
-    std::string len = std::to_string( str_buf.size());
+    crypto(m_str_buf,m_encriptionKey,m_encrypted);
+    std::string len = std::to_string( m_str_buf.size());
     crypto(len,m_encriptionKey,m_encrypted);
     if(( send( c_socket, len.c_str() ,len.length(), para ) ) <= 0 )
     {
         return -1;
     }
-    recv_size = recv( c_socket, c_buffer , MAX_buf, para );
+    m_recv_size = recv( c_socket, c_buffer , MAX_buf, para );
 
-    if(recv_size < 0 )
+    if(m_recv_size < 0 )
     {
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "C_connection::c_send(int para) recv() error - " << strerror( errno ) << std::endl;
         log_file_mutex.mutex_unlock();
         return -1;
     }
-    else if (recv_size == 0)
+    else if (m_recv_size == 0)
     {
         return -1;
     }
 
-    auto len_send = str_buf.length();
+    auto len_send = m_str_buf.length();
 
     while (len_send > 0)
     {
-        auto len_temp = send( c_socket, str_buf.c_str() ,str_buf.length(), para );
+        auto len_temp = send( c_socket, m_str_buf.c_str() ,m_str_buf.length(), para );
         if(len_temp <= 0 )
         {
             return -1;
         }
         len_send -= len_temp;
-        str_buf.erase(0,len_temp);
+        m_str_buf.erase(0,len_temp);
     }
     return 0;
 }
 
 int C_connection::c_send(const std::string &command )
 {
-    str_buf = command;
+    m_str_buf = command;
     return c_send(0);
 }
 
@@ -80,20 +80,20 @@ int C_connection::c_recv(int para)
     tv.tv_usec = 0;
     setsockopt(c_socket,SOL_SOCKET,SO_RCVTIMEO,(char*)&tv , sizeof(struct timeval));
 
-    recv_size = recv(c_socket, c_buffer, MAX_buf, para);
+    m_recv_size = recv(c_socket, c_buffer, MAX_buf, para);
 
-    if(recv_size < 0)
+    if(m_recv_size < 0)
     {
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "C_connection::c_recv(int para) recv() error - " << strerror( errno ) << std::endl;
         log_file_mutex.mutex_unlock();
         return -1;
     }
-    else if (recv_size == 0)
+    else if (m_recv_size == 0)
     {
         return -1;
     }
-    return recv_size;
+    return m_recv_size;
 }
 
 void C_connection::c_analyse(int recvSize)
@@ -110,19 +110,19 @@ void C_connection::c_analyse(int recvSize)
         log_file_mutex.mutex_lock();
         log_file_cout << DEBUG << "brak komendy - " << k << std::endl;
         log_file_mutex.mutex_unlock();
-        str_buf = "empty command";
+        m_str_buf = "empty command";
         return;
     }
 
 #ifdef BT_TEST
-    std::cout << "komenda: " << str_buf << " command.size() " << command.size() << std::endl;
+    std::cout << "komenda: " << m_str_buf << " command.size() " << command.size() << std::endl;
 #endif
-    str_buf = "unknown command\n";
+    m_str_buf = "unknown command\n";
 
     for(std::string t : command)
     {
-        str_buf += t+" ";
+        m_str_buf += t+" ";
     }
 
-    str_buf = mainCommandHandler->run(command,my_data);
+    m_str_buf = m_mainCommandHandler->run(command,my_data);
 }
