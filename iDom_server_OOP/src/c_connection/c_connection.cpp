@@ -119,14 +119,14 @@ void C_connection::c_analyse(int recvSize)
 
 #ifdef BT_TEST
     std::cout << "komenda: " << m_str_buf << " command.size() " << command.size() << std::endl;
-#endif
+
     m_str_buf = "unknown command\n";
 
     for(std::string t : command)
     {
         m_str_buf += t+" ";
     }
-
+#endif
     m_str_buf = m_mainCommandHandler->run(command,my_data);
 }
 
