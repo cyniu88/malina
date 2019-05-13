@@ -3,6 +3,7 @@
 
 class iDom_API
 {
+
 public:
     virtual ~iDom_API(){};
     virtual std::string dump() const = 0;
