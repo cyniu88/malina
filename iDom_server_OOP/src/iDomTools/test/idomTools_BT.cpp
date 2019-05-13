@@ -23,40 +23,40 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 
     TEST_DATA::return_send_to_arduino = "20.0:-1.0;";
     test_idomTOOLS->send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::Under);
-    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::Under);
+    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
     std::cout << "##################################### 1" <<std::endl;
 
     TEST_DATA::return_send_to_arduino = "25.4:0.0;";
     test_idomTOOLS->send_temperature_thingSpeak();
 
-    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
+    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
 
     std::cout << "##################################### 2" <<std::endl;
 
     TEST_DATA::return_send_to_arduino = "21.0:1.0;";
     test_idomTOOLS->send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::Over);
-    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::Under);
+    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::Over);
+    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::Under);
 
     std::cout << "##################################### 3" <<std::endl;
     TEST_DATA::return_send_to_arduino = "21.0:5.0;";
     test_idomTOOLS->send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
 
     std::cout << "##################################### 4" <<std::endl;
     TEST_DATA::return_send_to_arduino = "21.0:4.0;";
     test_idomTOOLS->send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
     std::cout << "##################################### 5" <<std::endl;
 
     TEST_DATA::return_send_to_arduino = "31.9:11.11;";
     test_idomTOOLS->send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_idomTOOLS->allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
+    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
     std::cout << "##################################### 6" <<std::endl;
 
     ////// getThermoStats

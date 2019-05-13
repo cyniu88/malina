@@ -28,24 +28,25 @@ class iDomTOOLS: public iDom_API
 #ifdef BT_TEST
 public:
 #endif
-    THERMOMETER_CONTAINER allThermometer;
-    THERMOMETER_CONTAINER allThermometerUpdate;
+    THERMOMETER_CONTAINER m_allThermometer;
+    THERMOMETER_CONTAINER m_allThermometerUpdate;
 private:
     thread_data *my_data;
-    int timezone;
-    SunRiseSet sun;
-    std::string key;
+    int m_timezone;
+    SunRiseSet m_sun;
+    std::string m_key;
     viber_API m_viber;
     FACEBOOK_API m_facebook;
     std::mutex m_msgMutex;
-    std::vector<RADIO_BUTTON*> buttonPointerVector;
-    Clock lastButton433MHzLockUnlockTime;
+    std::vector<RADIO_BUTTON*> m_buttonPointerVector;
+    Clock m_lastButton433MHzLockUnlockTime;
 
     int m_restartAlarmRFLink = 0;
 
 public:
     std::vector <std::string> textToSpeachVector;
     iDomTOOLS(thread_data *myData);
+    ~iDomTOOLS();
 
     TEMPERATURE_STATE hasTemperatureChange(const std::string &thermometerName, double reference, double histereza);
     void sendSMSifTempChanged(const std::string& thermomethernName, int reference);
@@ -85,7 +86,7 @@ public:
 private:
     CARDINAL_DIRECTIONS::ALARM_INFO m_lightningStruct;
 public:
-    LIGHTNING lightning;
+    LIGHTNING m_lightning;
     std::mutex m_lightningMutex;
     CARDINAL_DIRECTIONS::ALARM_INFO getLightningStruct();
     void setLightningStruct(CARDINAL_DIRECTIONS::ALARM_INFO& s);
@@ -165,7 +166,7 @@ public:
     /////////////////////// KODI ////////////////////////
     std::string startKodi_Thread();
     /////////////////////// WiFi //////////////////////////
-    STATE anyClientWiFi = STATE::UNKNOWN;
+    STATE m_anyClientWiFi = STATE::UNKNOWN;
     void wifiClientConnected();
     void wifiClientDisconnected();
 
@@ -177,8 +178,10 @@ public:
     void close_iDomServer [[ noreturn ]]();
     void reloadSoft_iDomServer[[ noreturn ]] ();
     void reloadHard_iDomServer[[ noreturn ]] ();
-
+    //////////////////////// iDom_API /////////////////////
     std::string dump() const;
+    void addToMap(const std::string& name, iDom_API* ptr);
+    void removeFromMap(const std::string &name);
 };
 
 #endif // IDOMTOOLS_H

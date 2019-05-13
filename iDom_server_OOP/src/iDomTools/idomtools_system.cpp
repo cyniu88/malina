@@ -85,10 +85,20 @@ std::string iDomTOOLS::dump() const
     ret << "iDomTOOLS m_lightningStruct.distance: " << this->m_lightningStruct.distance << std::endl;
     ret << "iDomTOOLS m_lightningStruct.riseAlarm: " << this->m_lightningStruct.riseAlarm << std::endl;
     ret << "iDomTOOLS m_lightningStruct.timestamp: " << this->m_lightningStruct.timestamp << std::endl;
-    ret << "iDomTOOLS key: " << this->key << std::endl;
-    ret << "iDomTOOLS lastButton433MHzLockUnlockTime: " << this->lastButton433MHzLockUnlockTime.getString() << std::endl;
+    ret << "iDomTOOLS key: " << this->m_key << std::endl;
+    ret << "iDomTOOLS lastButton433MHzLockUnlockTime: " << this->m_lastButton433MHzLockUnlockTime.getString() << std::endl;
 
     return ret.str();
+}
+
+void iDomTOOLS::addToMap(const std::string& name, iDom_API* ptr)
+{
+    m_map_iDom_API.insert(std::make_pair(name,ptr));
+}
+
+void iDomTOOLS::removeFromMap(const std::string& name)
+{
+    m_map_iDom_API.erase(name);
 }
 
 void iDomTOOLS::reloadSoft_iDomServer()

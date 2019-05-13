@@ -12,16 +12,16 @@
 #include "../RADIO_433_eq/radio_433_eq.h"
 #include "../thread_functions/iDom_thread.h"
 
-iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->_server.TS_KEY)
+iDomTOOLS::iDomTOOLS(thread_data *myData): m_key(myData->server_settings->_server.TS_KEY)
 {
     puts("iDomTOOLS::iDomTOOLS()");
     my_data = myData;
 
     //////////////////////////////////// temeprature /////////////////
-    allThermometer.add("inside");
-    allThermometer.add("outside");
-    allThermometerUpdate.add("inside");
-    allThermometerUpdate.add("outside");
+    m_allThermometer.add("inside");
+    m_allThermometer.add("outside");
+    m_allThermometerUpdate.add("inside");
+    m_allThermometerUpdate.add("outside");
     /////////////////////////////////////////////////////////////////
 #ifndef BT_TEST
     pinMode(iDomConst::GPIO_SPIK, OUTPUT); // gpio pin do zasilania glosnikow
@@ -44,18 +44,23 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): key(myData->server_settings->_server.
     m_facebook.setAccessToken(my_data->server_settings->_fb_viber.facebookAccessToken);
 
     //////// button 433MHz
-    buttonPointerVector = my_data->main_REC->getButtonPointerVector();
+    m_buttonPointerVector = my_data->main_REC->getButtonPointerVector();
 
-    lastButton433MHzLockUnlockTime = Clock::getTime() + Clock(23,58);
+    m_lastButton433MHzLockUnlockTime = Clock::getTime() + Clock(23,58);
+    addToMap("iDomTOOLS",this);
+}
+
+iDomTOOLS::~iDomTOOLS(){
+    removeFromMap("iDomTOOLS");
 }
 
 TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometerName,
                                                   double reference, double histereza )
 {
     reference += 0.0055;
-    const auto newTemp = allThermometer.getTemp(thermometerName);
-    const auto oldTemp = allThermometer.getOldTemp(thermometerName);
-    const auto lastState = allThermometer.getLastState(thermometerName);
+    const auto newTemp = m_allThermometer.getTemp(thermometerName);
+    const auto oldTemp = m_allThermometer.getOldTemp(thermometerName);
+    const auto lastState = m_allThermometer.getLastState(thermometerName);
     if (newTemp >= reference + histereza &&
             oldTemp < reference + histereza &&
             lastState != TEMPERATURE_STATE::Over)
@@ -63,7 +68,7 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometer
         my_data->myEventHandler.run("test")->addEvent("over: new " + to_string_with_precision(newTemp) + " old: "
                                                       + to_string_with_precision(oldTemp) + " ref: "
                                                       + to_string_with_precision(reference));
-        allThermometer.setState(thermometerName, TEMPERATURE_STATE::Over);
+        m_allThermometer.setState(thermometerName, TEMPERATURE_STATE::Over);
         return TEMPERATURE_STATE::Over;
     }
     else if (newTemp <= reference - histereza &&
@@ -73,7 +78,7 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometer
         my_data->myEventHandler.run("test")->addEvent("under: new " + to_string_with_precision(newTemp) + " old: "
                                                       + to_string_with_precision(oldTemp) + " ref: "
                                                       + to_string_with_precision(reference));
-        allThermometer.setState(thermometerName, TEMPERATURE_STATE::Under);
+        m_allThermometer.setState(thermometerName, TEMPERATURE_STATE::Under);
         return TEMPERATURE_STATE::Under;
     }
 
@@ -81,7 +86,7 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometer
                                                   + to_string_with_precision(oldTemp) + " ref: "
                                                   + to_string_with_precision(reference));
 
-    allThermometer.setState(thermometerName, TEMPERATURE_STATE::NoChanges);
+    m_allThermometer.setState(thermometerName, TEMPERATURE_STATE::NoChanges);
     return TEMPERATURE_STATE::NoChanges;
 }
 
@@ -140,19 +145,19 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
 
 std::string iDomTOOLS::getThermoStats(const std::string& name)
 {
-    return allThermometerUpdate.getStatsByName(name);
+    return m_allThermometerUpdate.getStatsByName(name);
 }
 
 void iDomTOOLS::updateTemperatureStats()
 {
     auto v = getTemperature();
-    allThermometerUpdate.updateAll(&v);
-    allThermometerUpdate.updateStats("outside");
-    allThermometerUpdate.updateStats("inside");
+    m_allThermometerUpdate.updateAll(&v);
+    m_allThermometerUpdate.updateStats("outside");
+    m_allThermometerUpdate.updateStats("inside");
 
-    if( true == allThermometerUpdate.isMoreDiff("outside",2.1))
+    if( true == m_allThermometerUpdate.isMoreDiff("outside",2.1))
     {
-        auto data = allThermometerUpdate.getLast2("outside");
+        auto data = m_allThermometerUpdate.getLast2("outside");
         std::string msg = "alarm roznicy temeratur na polu! " + to_string_with_precision(data.first) + " na "
             + to_string_with_precision(data.second);
 
@@ -177,9 +182,9 @@ void iDomTOOLS::updateTemperatureStats()
         log_file_mutex.mutex_unlock();
     }
 
-    if( true == allThermometerUpdate.isMoreDiff("inside",2.1))
+    if( true == m_allThermometerUpdate.isMoreDiff("inside",2.1))
     {
-        auto data = allThermometerUpdate.getLast2("inside");
+        auto data = m_allThermometerUpdate.getLast2("inside");
         std::string msg = "alarm roznicy temeratur na mieszkaniu! " + to_string_with_precision(data.first)
             + " na " + to_string_with_precision(data.second);
 
@@ -447,7 +452,7 @@ void iDomTOOLS::switchActionOnUnlockHome()
 //TO DO deprecated
 std::string iDomTOOLS::buttonPressed(const std::string& id)
 {
-    for (auto n : buttonPointerVector){
+    for (auto n : m_buttonPointerVector){
         if (id == n->getID()){
             return n->getName();
         }
@@ -474,12 +479,12 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
     static unsigned int counter = 0;
 
     Clock t = Clock::getTime();
-    if (lastButton433MHzLockUnlockTime != t /*|| (lastButton433MHzLockUnlockTime + Clock(0,1)) == t*/)
+    if (m_lastButton433MHzLockUnlockTime != t /*|| (lastButton433MHzLockUnlockTime + Clock(0,1)) == t*/)
     {
 #ifdef BT_TEST
         std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()" <<std::endl;
 #endif
-        lastButton433MHzLockUnlockTime = t;
+        m_lastButton433MHzLockUnlockTime = t;
         counter = 0;
         if(my_data->idom_all_state.houseState != STATE::UNLOCK)
         {
@@ -574,7 +579,7 @@ bool iDomTOOLS::isItDay()
 
 std::string iDomTOOLS::getAllDataSunrisesunset()
 {
-    return sun.getAllData();
+    return m_sun.getAllData();
 }
 
 CARDINAL_DIRECTIONS::ALARM_INFO iDomTOOLS::getLightningStruct()
@@ -596,9 +601,9 @@ void iDomTOOLS::checkLightning()
 {
     nlohmann::json jj = useful_F_libs::getJson(my_data->server_settings->_server.lightningApiURL);
 
-    CARDINAL_DIRECTIONS::ALARM_INFO lightningData = lightning.lightningAlert(jj);
+    CARDINAL_DIRECTIONS::ALARM_INFO lightningData = m_lightning.lightningAlert(jj);
     setLightningStruct(lightningData);
-    bool result = lightning.checkLightningAlert(&lightningData);
+    bool result = m_lightning.checkLightningAlert(&lightningData);
 
     if(result == true)
     {
@@ -639,7 +644,7 @@ void iDomTOOLS::checkLightning()
 
 std::string iDomTOOLS::getSunrise(bool extend )
 {
-    Clock tt = sun.getSunRise();
+    Clock tt = m_sun.getSunRise();
     if (extend == true){
         return "Sunrise time: " + tt.getString();
     }
@@ -648,7 +653,7 @@ std::string iDomTOOLS::getSunrise(bool extend )
 
 std::string iDomTOOLS::getSunset(bool extend )
 {
-    Clock tt = sun.getSunSet();
+    Clock tt = m_sun.getSunSet();
     if (extend == true){
         return "Sunset time: " + tt.getString();
     }
@@ -657,17 +662,17 @@ std::string iDomTOOLS::getSunset(bool extend )
 
 Clock iDomTOOLS::getSunsetClock()
 {
-    return sun.getSunSet();
+    return m_sun.getSunSet();
 }
 
 Clock iDomTOOLS::getSunriseClock()
 {
-    return sun.getSunRise();
+    return m_sun.getSunRise();
 }
 
 std::string iDomTOOLS::getDayLenght(bool extend )
 {
-    Clock tt = sun.getDayLength();
+    Clock tt = m_sun.getDayLength();
     if (extend == true){
         return "Day Lenght : " + tt.getString();
     }
@@ -813,14 +818,14 @@ void iDomTOOLS::send_temperature_thingSpeak()
 {
     std::vector<std::string> _temperature = getTemperature();
     std::string addres = "api.thingspeak.com/update?key=";
-    addres+=key;
+    addres+=m_key;
     addres+="&field1=";
     addres+= _temperature.at(0);
     // addres.erase(addres.size()-2,addres.size());
     addres+= "&field3=" + _temperature.at(1);
     addres+="&field2=" + getSmog();
     //////////////////////////////// pozyskanie temperatury
-    allThermometer.updateAll(&_temperature);
+    m_allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);
     sendSMSifTempChanged("inside",24);
     std::string s = useful_F_libs::httpPost(addres,10);
