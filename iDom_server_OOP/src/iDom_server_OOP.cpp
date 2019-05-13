@@ -185,11 +185,11 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
 
         if(userLevel == "ROOT")
         {
-            client->mainCommandHandler = new commandHandlerRoot(my_data);
+            client->m_mainCommandHandler = new commandHandlerRoot(my_data);
         }
         else
         {
-            client->mainCommandHandler = new commandHandler(my_data);
+            client->m_mainCommandHandler = new commandHandler(my_data);
         }
     }
     while (useful_F::go_while && key_ok)

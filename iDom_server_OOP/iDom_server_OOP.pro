@@ -159,7 +159,8 @@ HEADERS += src/c_connection/c_connection.h \
     mqtt_mosquitto/MQTT_mosquitto/mqtt.h \
     src/command/commandhandlermqtt.h \
     src/command/commandClass/command_wifi.h \
-    libs/alarm/alarm.h
+    libs/alarm/alarm.h \
+    src/idom_api.h
 
 DISTFILES +=
 DEFINES += GIT_CURRENT_SHA1="$(git rev-parse HEAD)"
