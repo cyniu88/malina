@@ -12,8 +12,9 @@
 
 constexpr int MAX_buf = 32768;
 
-class C_connection
+class C_connection : public iDom_API
 {
+    std::string m_className = "IP connection ";
 #ifdef BT_TEST
    friend class c_connection_fixture;
 #endif
@@ -45,6 +46,9 @@ public:
         return m_str_buf;
     }
 #endif
+    std::string dump() const;
+    void addToMap(const std::string& , iDom_API*); // add to constructor
+    void removeFromMap(const std::string&) ;
 private:
     std::string m_str_buf;
     blockQueue m_char_queue;

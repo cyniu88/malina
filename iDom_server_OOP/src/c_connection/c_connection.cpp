@@ -10,10 +10,13 @@ C_connection::C_connection (thread_data *my_data):c_socket(my_data->s_client_soc
     this->m_encrypted = my_data->server_settings->_server.encrypted;
     std::fill(std::begin(c_buffer),std::end(c_buffer),',');
     onStartConnection();
+    m_className.append(std::to_string(c_socket));
+    addToMap(m_className,this);
 }
 
 C_connection::~C_connection()
 {
+    removeFromMap(m_className);
     if( m_mainCommandHandler != std::nullptr_t())
     {
         my_data->mainLCD->set_print_song_state(0);
@@ -104,7 +107,7 @@ void C_connection::c_analyse(int recvSize)
     my_data->myEventHandler.run("command")->addEvent(buf);
     std::vector <std::string> command;
     try{
-    useful_F::tokenizer(command," \n,", buf);
+        useful_F::tokenizer(command," \n,", buf);
     }
     catch (std::string& k){
         log_file_mutex.mutex_lock();
@@ -125,4 +128,31 @@ void C_connection::c_analyse(int recvSize)
     }
 
     m_str_buf = m_mainCommandHandler->run(command,my_data);
+}
+
+
+std::string C_connection::dump() const
+{
+    std::stringstream ret;
+
+    ret << m_className << " c_from.sin_addr.s_addr: " <<  this->c_from.sin_addr.s_addr << std::endl;
+    ret << m_className << " c_socket: " <<  this->c_socket << std::endl;
+    ret << m_className << " m_recv_size: " <<  this->m_recv_size << std::endl;
+    ret << m_className << " m_className: " <<  this->m_className << std::endl;
+    ret << m_className << " m_counter: " <<  this->m_counter << std::endl;
+    ret << m_className << " m_encriptionKey: " <<  this->m_encriptionKey << std::endl;
+    ret << m_className << " m_encrypted: " <<  this->m_encrypted << std::endl;
+    ret << m_className << " m_str_buf: " <<  this->m_str_buf << std::endl;
+
+    return ret.str();
+}
+
+void C_connection::addToMap(const std::string & name, iDom_API * ptr)
+{
+    m_map_iDom_API.insert(std::make_pair(name,ptr));
+}
+
+void C_connection::removeFromMap(const std::string & name)
+{
+    m_map_iDom_API.erase(name);
 }
