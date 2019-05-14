@@ -166,9 +166,9 @@ public:
     CARDINAL_DIRECTIONS::ALARM_INFO lightningAlert(nlohmann::json jj);
     bool checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO* info);
 private:
-    bool alarmState = false;
-    Clock lightningTime;
-    double oldDistance = 0.0;
+    bool m_alarmState = false;
+    Clock m_lightningTime;
+    double m_oldDistance = 0.0;
     std::string dump() const;
 };
 

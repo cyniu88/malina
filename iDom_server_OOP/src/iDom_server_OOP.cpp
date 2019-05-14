@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <fstream>
 #include <iostream>
+#include "CRON/cron.hpp"
+#include "functions/functions.h"
+#include "functions/mpd_cli.h"
 #include "c_connection/c_connection.h"
 #include "TASKER/tasker.h"
 #include "c_master_irda/master_irda.h"

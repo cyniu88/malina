@@ -76,28 +76,28 @@ bool LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
     std::cout << "LIGHTNING::checkLightningAlert() bool "<< info->riseAlarm <<" local " << alarmState << std::endl
               << " distance " << info->distance << std::endl;
 #endif
-    if(info->riseAlarm == false && alarmState == false){
+    if(info->riseAlarm == false && m_alarmState == false){
 #ifdef BT_TEST
         std::cout << "(info->riseAlarm == false || alarmState == false)"<<std::endl;
 #endif
         return false;
     }
-    if(info->riseAlarm == false && alarmState == true){
+    if(info->riseAlarm == false && m_alarmState == true){
 #ifdef BT_TEST
         std::cout << "(info->riseAlarm == false || alarmState == true)"<<std::endl;
 #endif
-        alarmState = false;
+        m_alarmState = false;
         return false;
     }
-    if(info->riseAlarm == true && alarmState == false){
+    if(info->riseAlarm == true && m_alarmState == false){
 
 #ifdef BT_TEST
         std::cout << "(info->riseAlarm == true || alarmState == false)"<<std::endl;
 #endif
-        alarmState = true;
-        lightningTime = Clock::getTime();
-        oldDistance = info->distance;
-        std::cout << " w true oldDistance: "<< oldDistance <<std::endl;
+        m_alarmState = true;
+        m_lightningTime = Clock::getTime();
+        m_oldDistance = info->distance;
+        std::cout << " w true oldDistance: "<< m_oldDistance <<std::endl;
         return true;
     }
 
@@ -105,15 +105,14 @@ bool LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
     std::cout << "checkLightningAlert() - dystans"<<std::endl;
     std::cout << "Dystans: " <<info->distance << " oldDistance: "<< oldDistance <<std::endl;
 #endif
-    if(oldDistance > info->distance)
+    if(m_oldDistance > info->distance)
     {
-
-        oldDistance = info->distance;
+        m_oldDistance = info->distance;
         return true;
     }
     else
     {
-        oldDistance = info->distance;
+        m_oldDistance = info->distance;
     }
     ////////////////clear
     //oldDistance = 0.0;
@@ -124,7 +123,9 @@ std::string LIGHTNING::dump() const
 {
     std::stringstream ret;
 
-    ret << iDom_API::m_className << "tet" << std::endl;
+    ret << m_className << " m_alarmState: " << this->m_alarmState << std::endl;
+    ret << m_className << " m_lightningTime: " << this->m_lightningTime.getString() << std::endl;
+    ret << m_className << " m_oldDistance: " << this->m_oldDistance << std::endl;
 
     return ret.str();
 }

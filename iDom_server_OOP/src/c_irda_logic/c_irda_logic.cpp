@@ -429,7 +429,7 @@ std::string c_irda_logic::dump() const
     std::stringstream ret;
 
     ret << m_className << " m_className: " << this->m_className << std::endl;
-    //ret << m_className << " who: " << static_cast<int>(this->who) << std::endl;
+    ret << m_className << " who: " << static_cast<int>(this->who) << std::endl;
 
     return ret.str();
 }

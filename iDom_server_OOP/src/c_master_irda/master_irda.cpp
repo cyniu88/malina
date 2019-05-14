@@ -35,6 +35,7 @@ KEY_VOLUMEUP        +
  */
 #include "master_irda.h"
 #include "../c_irda_logic/c_irda_logic.h"
+#include "../functions/functions.h"
 
 master_irda::master_irda(thread_data *my_data):buttonTimer(millis()), buttonMENU(0), my_data2(my_data)
 {
