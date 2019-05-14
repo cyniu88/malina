@@ -73,7 +73,8 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
 bool LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
 {
 #ifdef BT_TEST
-    std::cout << "LIGHTNING::checkLightningAlert() bool "<< info->riseAlarm <<" local " << alarmState << std::endl
+    std::cout << "LIGHTNING::checkLightningAlert() bool "<< info->riseAlarm <<" local "
+              << m_alarmState << std::endl
               << " distance " << info->distance << std::endl;
 #endif
     if(info->riseAlarm == false && m_alarmState == false){
@@ -97,13 +98,13 @@ bool LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
         m_alarmState = true;
         m_lightningTime = Clock::getTime();
         m_oldDistance = info->distance;
-        std::cout << " w true oldDistance: "<< m_oldDistance <<std::endl;
+        std::cout << " w true m_oldDistance: "<< m_oldDistance <<std::endl;
         return true;
     }
 
 #ifdef BT_TEST
     std::cout << "checkLightningAlert() - dystans"<<std::endl;
-    std::cout << "Dystans: " <<info->distance << " oldDistance: "<< oldDistance <<std::endl;
+    std::cout << "Dystans: " <<info->distance << " m_oldDistance: "<< m_oldDistance <<std::endl;
 #endif
     if(m_oldDistance > info->distance)
     {
