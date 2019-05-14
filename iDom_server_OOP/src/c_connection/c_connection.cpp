@@ -1,6 +1,7 @@
 #include <iostream>
 #include "c_connection.h"
 #include "../thread_functions/iDom_thread.h"
+#include "../functions/functions.h"
 
 C_connection::C_connection (thread_data *my_data):c_socket(my_data->s_client_sock),
     c_from(my_data->from),m_recv_size(0)
@@ -10,13 +11,15 @@ C_connection::C_connection (thread_data *my_data):c_socket(my_data->s_client_soc
     this->m_encrypted = my_data->server_settings->_server.encrypted;
     std::fill(std::begin(c_buffer),std::end(c_buffer),',');
     onStartConnection();
+    m_className = typeid(this).name();
+    m_className.append(" ");
     m_className.append(std::to_string(c_socket));
-    addToMap(m_className,this);
+    iDom_API::addToMap(m_className,this);
 }
 
 C_connection::~C_connection()
 {
-    removeFromMap(m_className);
+    iDom_API::removeFromMap(m_className);
     if( m_mainCommandHandler != std::nullptr_t())
     {
         my_data->mainLCD->set_print_song_state(0);
@@ -145,14 +148,4 @@ std::string C_connection::dump() const
     ret << m_className << " m_str_buf: " <<  this->m_str_buf << std::endl;
 
     return ret.str();
-}
-
-void C_connection::addToMap(const std::string & name, iDom_API * ptr)
-{
-    m_map_iDom_API.insert(std::make_pair(name,ptr));
-}
-
-void C_connection::removeFromMap(const std::string & name)
-{
-    m_map_iDom_API.erase(name);
 }

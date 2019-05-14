@@ -312,13 +312,30 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
 }
 
 std::map<std::string, iDom_API*> iDom_API::m_map_iDom_API;
+std::mutex iDom_API::m_locker;
 
 std::string iDom_API::getDump(){
-        std::stringstream ret;
-        for(auto it:m_map_iDom_API){
-            ret << std::endl << "----------------------------"
-                << std::endl << " map element: " << it.first << std::endl << it.second->dump();
-        }
 
-        return ret.str();
+    std::lock_guard <std::mutex> lock(iDom_API::m_locker);
+    std::stringstream ret;
+    for(auto it:m_map_iDom_API){
+        ret << std::endl << "----------------------------"
+            << std::endl << " map element: " << it.first << std::endl << it.second->dump();
     }
+
+    return ret.str();
+}
+
+
+
+void iDom_API::addToMap(const std::string& name, iDom_API* ptr)
+{
+    std::lock_guard <std::mutex> lock(iDom_API::m_locker);
+    m_map_iDom_API.insert(std::make_pair(name,ptr));
+}
+
+void iDom_API::removeFromMap(const std::string& name)
+{
+    std::lock_guard <std::mutex> lock(iDom_API::m_locker);
+    m_map_iDom_API.erase(name);
+}

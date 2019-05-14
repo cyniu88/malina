@@ -5,6 +5,7 @@
 #include "../TASKER/tasker.h"
 #include "../SerialPi/serialpi.h"
 #include "../thread_functions/iDom_thread.h"
+#include "../functions/functions.h"
 
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
 void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232, const std::string& threadName){

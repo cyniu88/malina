@@ -47,11 +47,13 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): m_key(myData->server_settings->_serve
     m_buttonPointerVector = my_data->main_REC->getButtonPointerVector();
 
     m_lastButton433MHzLockUnlockTime = Clock::getTime() + Clock(23,58);
-    addToMap("iDomTOOLS",this);
+
+    m_className = typeid(this).name();
+    iDom_API::addToMap(m_className,this);
 }
 
 iDomTOOLS::~iDomTOOLS(){
-    removeFromMap("iDomTOOLS");
+    iDom_API::removeFromMap(m_className);
 }
 
 TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometerName,

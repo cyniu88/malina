@@ -4,9 +4,8 @@
 #include <mutex>
 #include <unistd.h>
 #include <iostream>
-#include "../functions/functions.h"
-#include "../CRON/cron.hpp"
-#include "../functions/mpd_cli.h"
+
+#include "../blockQueue/blockqueue.h"
 #include "../command/commandhandlerroot.h"
 #include "../iDom_server_OOP.h"
 
@@ -14,7 +13,7 @@ constexpr int MAX_buf = 32768;
 
 class C_connection : public iDom_API
 {
-    std::string m_className = "IP connection ";
+    std::string m_className;
 #ifdef BT_TEST
    friend class c_connection_fixture;
 #endif
@@ -47,8 +46,6 @@ public:
     }
 #endif
     std::string dump() const;
-    void addToMap(const std::string& , iDom_API*); // add to constructor
-    void removeFromMap(const std::string&) ;
 private:
     std::string m_str_buf;
     blockQueue m_char_queue;

@@ -73,32 +73,21 @@ void iDomTOOLS::healthCheck()
         my_data->iDomAlarm.clearAlarm(alarm_433MHz);
         m_restartAlarmRFLink = 0;
     }
-
 }
 
 std::string iDomTOOLS::dump() const
 {
     std::stringstream ret;
 
-    ret << "iDomTOOLS m_restartAlarmRFLink: " << this->m_restartAlarmRFLink << std::endl;
-    ret << "iDomTOOLS m_lightningStruct.data: " << this->m_lightningStruct.data.str() << std::endl;
-    ret << "iDomTOOLS m_lightningStruct.distance: " << this->m_lightningStruct.distance << std::endl;
-    ret << "iDomTOOLS m_lightningStruct.riseAlarm: " << this->m_lightningStruct.riseAlarm << std::endl;
-    ret << "iDomTOOLS m_lightningStruct.timestamp: " << this->m_lightningStruct.timestamp << std::endl;
-    ret << "iDomTOOLS key: " << this->m_key << std::endl;
-    ret << "iDomTOOLS lastButton433MHzLockUnlockTime: " << this->m_lastButton433MHzLockUnlockTime.getString() << std::endl;
+    ret << m_className << " m_restartAlarmRFLink: " << this->m_restartAlarmRFLink << std::endl;
+    ret << m_className << " m_lightningStruct.data: " << this->m_lightningStruct.data.str() << std::endl;
+    ret << m_className << " m_lightningStruct.distance: " << this->m_lightningStruct.distance << std::endl;
+    ret << m_className << " m_lightningStruct.riseAlarm: " << this->m_lightningStruct.riseAlarm << std::endl;
+    ret << m_className << " m_lightningStruct.timestamp: " << this->m_lightningStruct.timestamp << std::endl;
+    ret << m_className << " key: " << this->m_key << std::endl;
+    ret << m_className << " lastButton433MHzLockUnlockTime: " << this->m_lastButton433MHzLockUnlockTime.getString() << std::endl;
 
     return ret.str();
-}
-
-void iDomTOOLS::addToMap(const std::string& name, iDom_API* ptr)
-{
-    m_map_iDom_API.insert(std::make_pair(name,ptr));
-}
-
-void iDomTOOLS::removeFromMap(const std::string& name)
-{
-    m_map_iDom_API.erase(name);
 }
 
 void iDomTOOLS::reloadSoft_iDomServer()

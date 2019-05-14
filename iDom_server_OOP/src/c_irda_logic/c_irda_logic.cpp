@@ -1,6 +1,6 @@
 #include "c_irda_logic.h"
-#include "../iDom_server_OOP.h"
 #include "../thread_functions/iDom_thread.h"
+#include "../functions/functions.h"
 
 void c_irda_logic::irdaMPD(PILOT_KEY X)
 {
@@ -388,7 +388,14 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
 c_irda_logic::c_irda_logic(thread_data *my_data):my_data(my_data)
 {
     // my_data = my_data;
+    m_className = typeid(this).name();
     who = PILOT_STATE::MPD;
+    iDom_API::addToMap(m_className,this);
+}
+
+c_irda_logic::~c_irda_logic()
+{
+    iDom_API::removeFromMap(m_className);
 }
 
 void c_irda_logic::_add(PILOT_KEY X)
@@ -417,17 +424,12 @@ void c_irda_logic::_add(PILOT_KEY X)
     }
 }
 
-//PILOT_KEY c_irda_logic::_get( )
-//{
-//    PILOT_KEY temp = PILOT_KEY::DUMMY;
-//    if (irda_queue.empty() == false){
-//        temp = irda_queue.front();
-//        irda_queue.pop();
-//    }
-//    return temp;
-//}
+std::string c_irda_logic::dump() const
+{
+    std::stringstream ret;
 
-//int c_irda_logic::_size() const
-//{
-//    return irda_queue.size();
-//}
+    ret << m_className << " m_className: " << this->m_className << std::endl;
+    //ret << m_className << " who: " << static_cast<int>(this->who) << std::endl;
+
+    return ret.str();
+}

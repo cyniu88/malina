@@ -7,9 +7,7 @@
 #include <wiringPi.h>
 #include <string.h>
 #include "../blockQueue/blockqueue.h" // brak
-#include "../files_tree/files_tree.h" //brak
-#include "../c_connection/c_connection.h"
-#include "../functions/functions.h"
+#include "../iDom_server_OOP.h"
 
 enum class PILOT_STATE{
     MPD,
@@ -21,12 +19,12 @@ enum class PILOT_STATE{
     SLEEPER
 };
 
-class c_irda_logic
+class c_irda_logic : public iDom_API
 {
 #ifdef BT_TEST
 public:
 #endif
-    //std::queue <PILOT_KEY> irda_queue;
+    std::string m_className = "c_irda_logic";
     blockQueue mpd_queue;
     PILOT_STATE who;
     thread_data *my_data;
@@ -39,9 +37,11 @@ public:
 
 public:
     c_irda_logic(thread_data *my_data);
+    ~c_irda_logic();
     void _add(PILOT_KEY X);
-//    PILOT_KEY _get();
-//    int _size() const;
+
+    ///////////// iDom API ///////////////
+    std::string dump() const;
 };
 
 #endif // C_IRDA_LOGIC_H

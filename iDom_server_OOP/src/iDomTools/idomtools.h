@@ -31,6 +31,7 @@ public:
     THERMOMETER_CONTAINER m_allThermometer;
     THERMOMETER_CONTAINER m_allThermometerUpdate;
 private:
+    std::string m_className;
     thread_data *my_data;
     int m_timezone;
     SunRiseSet m_sun;
@@ -180,8 +181,6 @@ public:
     void reloadHard_iDomServer[[ noreturn ]] ();
     //////////////////////// iDom_API /////////////////////
     std::string dump() const;
-    void addToMap(const std::string& name, iDom_API* ptr);
-    void removeFromMap(const std::string &name);
 };
 
 #endif // IDOMTOOLS_H
