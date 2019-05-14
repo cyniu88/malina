@@ -31,7 +31,6 @@ public:
     THERMOMETER_CONTAINER m_allThermometer;
     THERMOMETER_CONTAINER m_allThermometerUpdate;
 private:
-    std::string m_className;
     thread_data *my_data;
     int m_timezone;
     SunRiseSet m_sun;

@@ -4,6 +4,7 @@
 
 #include "../../libs/Statistic/statistic.h"
 #include "../../libs/useful/useful.h"
+#include "../idom_api.h"
 
 #include "idomtools_useful.h"
 #include "json.hpp"
@@ -157,7 +158,7 @@ public:
     };
 };
 
-class LIGHTNING
+class LIGHTNING : public iDom_API
 {
 public:
     LIGHTNING();
@@ -168,6 +169,7 @@ private:
     bool alarmState = false;
     Clock lightningTime;
     double oldDistance = 0.0;
+    std::string dump() const;
 };
 
 #endif // LIGHTNING_H

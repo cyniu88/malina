@@ -7,6 +7,7 @@
 class iDom_API
 {
 public:
+    std::string m_className;
     static std::mutex m_locker;
     static std::map<std::string, iDom_API*> m_map_iDom_API;
     virtual ~iDom_API(){};

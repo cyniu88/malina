@@ -3,11 +3,14 @@
 LIGHTNING::LIGHTNING()
 {
     puts("LIGHTNING::LIGHTNING()");
+    iDom_API::m_className = typeid (this).name();
+    iDom_API::addToMap(iDom_API::m_className,this);
 }
 
 LIGHTNING::~LIGHTNING()
 {
     puts("LIGHTNING::~LIGHTNING()");
+    iDom_API::removeFromMap(iDom_API::m_className);
 }
 
 CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
@@ -115,5 +118,14 @@ bool LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
     ////////////////clear
     //oldDistance = 0.0;
     return false;
+}
+
+std::string LIGHTNING::dump() const
+{
+    std::stringstream ret;
+
+    ret << iDom_API::m_className << "tet" << std::endl;
+
+    return ret.str();
 }
 
