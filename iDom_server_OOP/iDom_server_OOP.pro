@@ -80,7 +80,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     mqtt_mosquitto/MQTT_mosquitto/mqtt.cpp \
     src/command/commandhandlermqtt.cpp \
     src/command/commandClass/command_wifi.cpp \
-    libs/alarm/alarm.cpp
+    libs/alarm/alarm.cpp \
+    libs/generator/generator.cpp
 
 INCLUDEPATH += "json2/"
 
@@ -160,7 +161,8 @@ HEADERS += src/c_connection/c_connection.h \
     src/command/commandhandlermqtt.h \
     src/command/commandClass/command_wifi.h \
     libs/alarm/alarm.h \
-    src/idom_api.h
+    src/idom_api.h \
+    libs/generator/generator.h
 
 DISTFILES +=
 DEFINES += GIT_CURRENT_SHA1="$(git rev-parse HEAD)"

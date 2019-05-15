@@ -16,6 +16,14 @@ protected:
     double m_temperature = 0.0;
     unsigned int m_barometricPressure = 0;
 public:
+    WEATHER_STRUCT(){
+        m_className.append(typeid(this).name());
+        addToMap(m_className,this);
+    }
+    ~WEATHER_STRUCT(){
+        removeFromMap(m_className);
+    }
+
     unsigned int getHumidity(){ return m_humidity; }
     double getTemperature(){ return m_temperature; }
     unsigned int getBarometricPressure(){ return m_barometricPressure; }

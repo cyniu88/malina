@@ -138,14 +138,14 @@ std::string C_connection::dump() const
 {
     std::stringstream ret;
 
-    ret << m_className << " c_from.sin_addr.s_addr: " <<  this->c_from.sin_addr.s_addr << std::endl;
-    ret << m_className << " c_socket: " <<  this->c_socket << std::endl;
-    ret << m_className << " m_recv_size: " <<  this->m_recv_size << std::endl;
-    ret << m_className << " m_className: " <<  this->m_className << std::endl;
-    ret << m_className << " m_counter: " <<  this->m_counter << std::endl;
-    ret << m_className << " m_encriptionKey: " <<  this->m_encriptionKey << std::endl;
-    ret << m_className << " m_encrypted: " <<  this->m_encrypted << std::endl;
-    ret << m_className << " m_str_buf: " <<  this->m_str_buf << std::endl;
+    ret << " c_from.sin_addr.s_addr: " <<  this->c_from.sin_addr.s_addr << std::endl;
+    ret << " c_socket: " <<  this->c_socket << std::endl;
+    ret << " m_recv_size: " <<  this->m_recv_size << std::endl;
+    ret << " m_className: " <<  this->m_className << std::endl;
+    ret << " m_counter: " <<  this->m_counter << std::endl;
+    ret << " m_encriptionKey: " <<  this->m_encriptionKey << std::endl;
+    ret << " m_encrypted: " <<  this->m_encrypted << std::endl;
+    ret << " m_str_buf: " <<  this->m_str_buf << std::endl;
 
     return ret.str();
 }
