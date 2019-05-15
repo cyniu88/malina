@@ -159,7 +159,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             printf("Playing\n");
             my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/status","PLAY");
             check_title_song_to = true;
-            my_data->mainLCD->play_Y_N = true;
+            my_data->mainLCD->m_play_Y_N = true;
             my_data->ptr_MPD_info->isPlay = true;
             //digitalWrite(iDomConst::GPIO_SPIK, LOW);
             my_data->main_iDomTools->turnOnSpeakers();
@@ -187,7 +187,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
                 my_data->main_iDomTools->ledClear();
             }
             check_title_song_to = false;
-            my_data->mainLCD->play_Y_N = false;
+            my_data->mainLCD->m_play_Y_N = false;
             my_data->ptr_MPD_info->isPlay = false;
             my_data->ptr_MPD_info->title = "* * * *";
             my_data->main_iDomTools->turnOffSpeakers();

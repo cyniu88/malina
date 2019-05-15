@@ -11,7 +11,7 @@ class LCD_c : public iDom_API
 {
 public:
     LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows);
-    static int status;
+    ~LCD_c();
     void init();
     void set_lcd_STATE (int i);
     void set_print_song_state (int i);
@@ -25,17 +25,17 @@ public:
     LiquidCrystal_I2C main_lcd;
     void printSongName (const std::string& songName);
     void checkState();
-    bool play_Y_N = false;
+    bool m_play_Y_N = false;
     std::string getData();
     std::string dump() const;
 private:
     //std::string intToStr(int n);
-    int lcd_state = 0;
-    int print_song_state = 0;
-    int rePrint = 0;
-    std::string row1;
-    std::string row2;
-    std::string radioName;
+    int m_lcd_state = 0;
+    int m_print_song_state = 0;
+    int m_rePrint = 0;
+    std::string m_row1;
+    std::string m_row2;
+    std::string m_radioName;
 
 };
 
