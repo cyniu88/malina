@@ -5,8 +5,9 @@
 #include <string>
 #include <regex>
 #include "../liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.h"
+#include "../idom_api.h"
 
-class LCD_c
+class LCD_c : public iDom_API
 {
 public:
     LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows);
@@ -26,6 +27,7 @@ public:
     void checkState();
     bool play_Y_N = false;
     std::string getData();
+    std::string dump() const;
 private:
     //std::string intToStr(int n);
     int lcd_state = 0;

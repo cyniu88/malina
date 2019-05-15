@@ -16,3 +16,8 @@ std::string useful_F::send_to_arduino_clock (thread_data *my_data_logic, std::st
 std::string LCD_c::getData(){
     return " data test";
 }
+
+std::string LCD_c::dump() const
+{
+    return "LCD STUB DUMP";
+}
