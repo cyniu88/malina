@@ -79,13 +79,13 @@ std::string iDomTOOLS::dump() const
 {
     std::stringstream ret;
 
-    ret << m_className << " m_restartAlarmRFLink: " << this->m_restartAlarmRFLink << std::endl;
-    ret << m_className << " m_lightningStruct.data: " << this->m_lightningStruct.data.str() << std::endl;
-    ret << m_className << " m_lightningStruct.distance: " << this->m_lightningStruct.distance << std::endl;
-    ret << m_className << " m_lightningStruct.riseAlarm: " << this->m_lightningStruct.riseAlarm << std::endl;
-    ret << m_className << " m_lightningStruct.timestamp: " << this->m_lightningStruct.timestamp << std::endl;
-    ret << m_className << " key: " << this->m_key << std::endl;
-    ret << m_className << " lastButton433MHzLockUnlockTime: " << this->m_lastButton433MHzLockUnlockTime.getString() << std::endl;
+    ret << " m_restartAlarmRFLink: " << this->m_restartAlarmRFLink << std::endl;
+    ret << " m_lightningStruct.data: " << this->m_lightningStruct.data.str() << std::endl;
+    ret << " m_lightningStruct.distance: " << this->m_lightningStruct.distance << std::endl;
+    ret << " m_lightningStruct.riseAlarm: " << this->m_lightningStruct.riseAlarm << std::endl;
+    ret << " m_lightningStruct.timestamp: " << this->m_lightningStruct.timestamp << std::endl;
+    ret << " key: " << this->m_key << std::endl;
+    ret << " lastButton433MHzLockUnlockTime: " << this->m_lastButton433MHzLockUnlockTime.getString() << std::endl;
 
     return ret.str();
 }

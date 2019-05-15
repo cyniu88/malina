@@ -7,7 +7,8 @@
 #include "../433MHz/rc_433mhz.h"
 #include "json.hpp"
 
-struct WEATHER_STRUCT{
+struct WEATHER_STRUCT : public iDom_API
+{
 private:
     unsigned long int m_counter = 0;
 protected:
@@ -49,6 +50,7 @@ public:
         catch (...){ }
         //std::cout << "DUPA: "<<data<<" temp=" << m_temperature<< " hum="<<m_humidity<< std::endl;
     }
+    std::string dump() const;
 };
 
 enum class RADIO_EQ_TYPE{

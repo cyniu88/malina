@@ -48,7 +48,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData): m_key(myData->server_settings->_serve
 
     m_lastButton433MHzLockUnlockTime = Clock::getTime() + Clock(23,58);
 
-    iDom_API::m_className = typeid(this).name();
+    iDom_API::m_className.append(typeid(this).name());
     iDom_API::addToMap(m_className,this);
 }
 

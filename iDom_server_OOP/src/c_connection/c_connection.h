@@ -13,7 +13,6 @@ constexpr int MAX_buf = 32768;
 
 class C_connection : public iDom_API
 {
-    std::string m_className;
 #ifdef BT_TEST
    friend class c_connection_fixture;
 #endif
@@ -22,7 +21,7 @@ public:
     ~C_connection();
 
     thread_data *my_data;
-    int c_socket;
+    int c_socket = 0;
     sockaddr_in c_from;
 
     char c_buffer[MAX_buf];
@@ -36,7 +35,7 @@ public:
     void c_analyse(int recvSize);
     void setEncriptionKey(const std::string& key);
     void setEncrypted(bool flag);
-    commandHandler *m_mainCommandHandler = NULL;
+    commandHandler *m_mainCommandHandler = std::nullptr_t();
     void onStartConnection();
     void onStopConnection();
     void cryptoLog(std::string &toEncrypt);

@@ -3,7 +3,7 @@
 LIGHTNING::LIGHTNING()
 {
     puts("LIGHTNING::LIGHTNING()");
-    iDom_API::m_className = typeid (this).name();
+    iDom_API::m_className.append(typeid (this).name());
     iDom_API::addToMap(iDom_API::m_className,this);
 }
 

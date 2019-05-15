@@ -388,7 +388,7 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
 c_irda_logic::c_irda_logic(thread_data *my_data):my_data(my_data)
 {
     // my_data = my_data;
-    m_className = typeid(this).name();
+    m_className.append(typeid(this).name());
     who = PILOT_STATE::MPD;
     iDom_API::addToMap(m_className,this);
 }
@@ -428,8 +428,7 @@ std::string c_irda_logic::dump() const
 {
     std::stringstream ret;
 
-    ret << m_className << " m_className: " << this->m_className << std::endl;
-    ret << m_className << " who: " << static_cast<int>(this->who) << std::endl;
+    ret << " who: " << static_cast<int>(this->who) << std::endl;
 
     return ret.str();
 }

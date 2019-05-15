@@ -17,6 +17,7 @@ protected:
     {
         std::cout << "c_connection_fixture SetUp()" << std::endl;
         iDomTOOLS_ClassTest::SetUp();
+        test_my_data.s_client_sock = 0;
         test_connection = std::make_unique<C_connection>(&test_my_data);
         test_connection->m_encriptionKey = "key";
         test_connection->m_encrypted = false;

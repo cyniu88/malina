@@ -24,7 +24,6 @@ class c_irda_logic : public iDom_API
 #ifdef BT_TEST
 public:
 #endif
-    std::string m_className = "c_irda_logic";
     blockQueue mpd_queue;
     PILOT_STATE who;
     thread_data *my_data;

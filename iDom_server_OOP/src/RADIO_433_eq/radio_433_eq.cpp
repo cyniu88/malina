@@ -459,3 +459,16 @@ std::string RADIO_WEATHER_STATION::getID()
 {
     return RADIO_EQ::m_config.ID;
 }
+
+std::string WEATHER_STRUCT::dump() const
+{
+    std::stringstream ret;
+
+    ret << "m_counter: " << this->m_counter << std::endl;
+    ret << "m_humidity: " << this->m_humidity << std::endl;
+    ret << "m_temperature: " << this->m_temperature << std::endl;
+    ret << "m_barometricPressure: " << this->m_barometricPressure << std::endl;
+    ret << "m_map_iDom_API.size() : " << this->m_map_iDom_API.size() << std::endl;
+
+    return ret.str();
+}

@@ -11,7 +11,7 @@ C_connection::C_connection (thread_data *my_data):c_socket(my_data->s_client_soc
     this->m_encrypted = my_data->server_settings->_server.encrypted;
     std::fill(std::begin(c_buffer),std::end(c_buffer),',');
     onStartConnection();
-    m_className = typeid(this).name();
+    m_className.append(typeid(this).name());
     m_className.append(" ");
     m_className.append(std::to_string(c_socket));
     iDom_API::addToMap(m_className,this);
