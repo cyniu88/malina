@@ -17,6 +17,29 @@ THERMOMETER_CONTAINER::THERMOMETER_CONTAINER()
 
 THERMOMETER::THERMOMETER(int iter):m_stats(iter)
 {
+    m_className.append(typeid (this).name());
+    addToMap(m_className,this);
+}
+
+THERMOMETER::~THERMOMETER()
+{
+    removeFromMap(m_className);
+}
+
+std::string THERMOMETER::dump() const
+{
+    std::stringstream ret;
+
+    ret << "m_thermometer.maxDate: " << this->m_thermometer.maxDate << std::endl;
+    ret << "m_thermometer.minDate: " << this->m_thermometer.minDate << std::endl;
+    ret << "m_thermometer.newTemp: " << this->m_thermometer.newTemp << std::endl;
+    ret << "m_thermometer.oldTemp: " << this->m_thermometer.oldTemp << std::endl;
+    ret << "m_thermometer.maxValue: " << this->m_thermometer.maxValue << std::endl;
+    ret << "m_thermometer.minValue: " << this->m_thermometer.minValue << std::endl;
+    ret << "m_thermometer.lastState: " << static_cast<int>(this->m_thermometer.lastState) << std::endl;
+    ret << "m_thermometer.thermometrName: " << this->m_thermometer.thermometrName << std::endl;
+
+    return ret.str();
 }
 
 void THERMOMETER_CONTAINER::add(const std::string &name)

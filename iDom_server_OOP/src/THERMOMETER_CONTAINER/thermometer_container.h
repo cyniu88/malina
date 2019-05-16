@@ -3,6 +3,7 @@
 #include <map>
 #include <vector>
 #include "../../libs/Statistic/statistic.h"
+#include "../idom_api.h"
 
 enum class TEMPERATURE_STATE{
     Under,
@@ -23,12 +24,16 @@ struct temperature {
 
     TEMPERATURE_STATE lastState = TEMPERATURE_STATE::Unknown;
 };
-class THERMOMETER {
+class THERMOMETER : public iDom_API
+{
 public:
     THERMOMETER(int iter);
+    ~THERMOMETER();
 
     temperature m_thermometer;
     STATISTIC<double> m_stats;
+
+    std::string dump()const;
 };
 
 class THERMOMETER_CONTAINER

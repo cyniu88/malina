@@ -124,9 +124,9 @@ std::string LIGHTNING::dump() const
 {
     std::stringstream ret;
 
-    ret << m_className << " m_alarmState: " << this->m_alarmState << std::endl;
-    ret << m_className << " m_lightningTime: " << this->m_lightningTime.getString() << std::endl;
-    ret << m_className << " m_oldDistance: " << this->m_oldDistance << std::endl;
+    ret << " m_alarmState: " << this->m_alarmState << std::endl;
+    ret << " m_lightningTime: " << this->m_lightningTime.getString() << std::endl;
+    ret << " m_oldDistance: " << this->m_oldDistance << std::endl;
 
     return ret.str();
 }
