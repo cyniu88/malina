@@ -104,7 +104,7 @@ void LCD_c::printSongName (const std::string& songName){
 
     m_row2 = songName.substr(pos+3); //tytul
     m_row1 = songName.substr(0,pos); //autor
-    if (m_row1! = m_row2){
+    if (m_row1 != m_row2){
         if(m_row1.size() < 14)
         {
             m_row1 += " -"; // doda pauze na koncu nazwy autora
@@ -115,7 +115,6 @@ void LCD_c::printSongName (const std::string& songName){
                 m_row2.insert(0, "- "); // doda pauze na poczatku utworu ale tyko jak bedzie rizu auto i tytul
             }
             else{
-
                 m_row1 = m_row1.substr(0,18);
                 m_row2 = m_row2.substr(0,18);
             }

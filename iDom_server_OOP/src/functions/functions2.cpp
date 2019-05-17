@@ -332,10 +332,12 @@ void iDom_API::addToMap(const std::string& name, iDom_API* ptr)
 {
     std::lock_guard <std::mutex> lock(iDom_API::m_locker);
     m_map_iDom_API.insert(std::make_pair(name,ptr));
+    std::cout << "dodano do mapy " <<  name << std::endl;
 }
 
 void iDom_API::removeFromMap(const std::string& name)
 {
     std::lock_guard <std::mutex> lock(iDom_API::m_locker);
     m_map_iDom_API.erase(name);
+    std::cout << "wykasowano z mapy " <<  name << std::endl;
 }
