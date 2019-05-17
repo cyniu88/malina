@@ -21,6 +21,12 @@ THERMOMETER::THERMOMETER(int iter):m_stats(iter)
     addToMap(m_className,this);
 }
 
+THERMOMETER::THERMOMETER(const THERMOMETER &a):m_stats(a.m_stats)
+{
+    m_className.append(typeid (this).name());
+    addToMap(m_className,this);
+}
+
 THERMOMETER::~THERMOMETER()
 {
     removeFromMap(m_className);

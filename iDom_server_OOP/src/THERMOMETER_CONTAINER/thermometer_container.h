@@ -28,6 +28,7 @@ class THERMOMETER : public iDom_API
 {
 public:
     THERMOMETER(int iter);
+    THERMOMETER(const THERMOMETER& a);
     ~THERMOMETER();
 
     temperature m_thermometer;

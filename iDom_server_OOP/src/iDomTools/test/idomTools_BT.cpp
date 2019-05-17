@@ -80,6 +80,8 @@ TEST_F(iDomTOOLS_ClassTest, weatherAlert)
     std::vector<WEATHER_ALER> test_WA;
     test_WA =  test_idomTOOLS->getAlert(test_data_from_www);
     EXPECT_EQ(1,test_WA.size()) << "ZŁY ROZMIAR VEKTORA WA";
+    std::cout << std::endl << " ****************** " << std::endl <<
+    iDom_API::getDump() << std::endl << " ****************** " << std::endl;
 }
 
 TEST_F(iDomTOOLS_ClassTest, send_temperature_thingSpeak){
