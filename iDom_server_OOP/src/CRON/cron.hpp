@@ -11,6 +11,7 @@ public:
     explicit CRON( thread_data* my_data);
     void run();
 private:
+    CRON();
     bool check_temperature;
     thread_data * my_data;
     void send_time();

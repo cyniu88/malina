@@ -144,6 +144,8 @@ public:
     std::string getID();
     // data
     WEATHER_STRUCT data;
+private:
+    RADIO_WEATHER_STATION();
 };
 class RADIO_BUTTON: public RADIO_EQ
 {
@@ -156,6 +158,8 @@ public:
     void setState(STATE s);
     std::string getName();
     std::string getID();
+private:
+    RADIO_BUTTON();
 };
 
 class RADIO_SWITCH: public RADIO_EQ
@@ -181,6 +185,8 @@ public:
     void setCode(RADIO_EQ_CONFIG cfg);
     STATE m_sunrise = STATE::UNDEFINE;
     STATE m_sunset  = STATE::UNDEFINE;
+private:
+    RADIO_SWITCH();
 };
 
 class RADIO_EQ_CONTAINER
@@ -188,6 +194,7 @@ class RADIO_EQ_CONTAINER
     std::map <std::string, RADIO_EQ* > m_radioEqMap;
     thread_data * my_data;
     nlohmann::json m_configJson;
+    RADIO_EQ_CONTAINER();
 public:
     RADIO_EQ_CONTAINER(thread_data * my_data);
     virtual ~RADIO_EQ_CONTAINER();

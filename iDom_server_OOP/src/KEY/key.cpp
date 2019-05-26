@@ -6,6 +6,11 @@ KEY::KEY(PILOT_KEY value, const std::string& name) : _value{value},key_name{name
     //std::cout << "konstruktor KEY" << std::endl;
 }
 
+KEY::KEY(const KEY &k): _value{k._value},key_name{k.key_name}
+{
+
+}
+
 KEY::~KEY()
 {
     //printf("destruktor KEY\n");
