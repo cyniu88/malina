@@ -42,7 +42,7 @@ private:
     Clock m_lastButton433MHzLockUnlockTime;
 
     int m_restartAlarmRFLink = 0;
-
+    iDomTOOLS();
 public:
     std::vector <std::string> textToSpeachVector;
     iDomTOOLS(thread_data *myData);

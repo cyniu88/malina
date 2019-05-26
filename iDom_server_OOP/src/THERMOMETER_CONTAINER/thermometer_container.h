@@ -26,6 +26,8 @@ struct temperature {
 };
 class THERMOMETER : public iDom_API
 {
+private:
+    THERMOMETER();
 public:
     THERMOMETER(int iter);
     THERMOMETER(const THERMOMETER& a);
