@@ -8,6 +8,8 @@
 
 class iDOM_THREAD
 {
+private:
+    iDOM_THREAD();
 public:
     static std::string start_thread(const std::string &name,
                                     std::function<void(thread_data *, const std::string &)> functionToThread,

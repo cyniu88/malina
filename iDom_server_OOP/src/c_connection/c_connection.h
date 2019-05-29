@@ -52,6 +52,7 @@ private:
     std::string m_encriptionKey;
     bool m_encrypted;
     void crypto(std::string &toEncrypt, std::string key, bool encrypted);
+    C_connection();
 };
 
 #endif // C_CONNECTION1_H
