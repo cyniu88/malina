@@ -343,5 +343,6 @@ void iDom_API::removeFromMap(const std::string& name)
     }
     else{
         puts("nie ma w MAPIE !!");
+        puts(name.c_str());
     }
 }

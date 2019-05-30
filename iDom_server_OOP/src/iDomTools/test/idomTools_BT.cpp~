@@ -705,10 +705,7 @@ TEST_F(iDomTOOLS_ClassTest, KEYGEN)
     std::cout << "KEY " << test_idomTOOLS->m_keyHandler->listKEY() << std::endl;
     test_idomTOOLS->m_keyHandler->addTempKEY("tmp",20);
 
-    std::cout << "KEY " << test_idomTOOLS->m_keyHandler->listKEY() << std::endl;
     auto ret = test_idomTOOLS->m_keyHandler->getKEY("tmp");
 
     EXPECT_TRUE(test_idomTOOLS->m_keyHandler->useKEY("tmp",ret));
-
-    std::cout << "KEY " << test_idomTOOLS->m_keyHandler->listKEY() << std::endl;
 }
