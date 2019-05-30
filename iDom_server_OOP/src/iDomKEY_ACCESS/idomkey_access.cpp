@@ -13,11 +13,16 @@ void iDomKEY_ACCESS::readJSON()
 {
     // read a JSON file
     std::ifstream i(m_pathDatabase);
-    i >> m_data;
-
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "czytam zapisany stan kluczy iDom" << std::endl;
     log_file_mutex.mutex_unlock();
+    try {
+        i >> m_data;
+    } catch (...) {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "problem z czytaniem zapisanych stanów kluczy iDom" << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 }
 
 iDomKEY_ACCESS::iDomKEY_ACCESS(const std::string &path_database):
@@ -25,11 +30,16 @@ iDomKEY_ACCESS::iDomKEY_ACCESS(const std::string &path_database):
 {
     m_className = typeid (this).name();
     iDom_API::addToMap(m_className,this);
+    readJSON();
+}
+
+iDomKEY_ACCESS::iDomKEY_ACCESS(const iDomKEY_ACCESS &k): m_data(k.m_data), m_pathDatabase(k.m_pathDatabase)
+{
+    puts("konstruktor kopiujacy iDomKEY_ACCESS");
 }
 
 iDomKEY_ACCESS::~iDomKEY_ACCESS()
 {
-    puts("DUPA");
     iDom_API::removeFromMap(m_className);
 }
 
@@ -41,6 +51,7 @@ void iDomKEY_ACCESS::addKEY(const std::string &name, size_t size, bool temp )
     temp_J["key"] = _key;
     temp_J["temporary"] = temp;
     m_data[name] = temp_J;
+    writeJSON();
 }
 
 void iDomKEY_ACCESS::addTempKEY(const std::string &name, size_t size)
@@ -70,12 +81,15 @@ bool iDomKEY_ACCESS::useKEY(const std::string &name, const std::string &key)
 
         if(toDel){
             m_data.erase(name);
-            puts("kasuje uzyty klucz");
+            writeJSON();
         }
         return (key == k);
 }
 
 std::string iDomKEY_ACCESS::dump() const
 {
-    return "TO DO !!!";
+    std::stringstream ret;
+
+    ret << "m_data.size(): " << m_data.size() << std::endl;
+    return ret.str();
 }

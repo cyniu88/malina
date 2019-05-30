@@ -13,7 +13,7 @@
 #include "../thread_functions/iDom_thread.h"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData):
-    m_keyHandler(new iDomKEY_ACCESS("/mnt/ramdisk/KEY.data")),
+    m_keyHandler(new iDomKEY_ACCESS(myData->server_settings->_server.keyDatabasePath)),
     m_key(myData->server_settings->_server.TS_KEY)
 {
     puts("iDomTOOLS::iDomTOOLS()");

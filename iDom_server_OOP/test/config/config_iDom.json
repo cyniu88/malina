@@ -13,7 +13,8 @@
 		"ID": 1002,
 		"PORT": 8833,
 		"SERVER_IP": "192.168.1.144",
-		"saveFilePath": "/mnt/ramdisk/iDomState.save"
+		"saveFilePath": "/mnt/ramdisk/iDomState.save",
+		"key_DB_PATH": "mnt/ramdisk/key.database"
 	},
 	"camera_settings": {
 		"CAMERA_LED_OFF": "http://wp",

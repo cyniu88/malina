@@ -272,6 +272,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._server.TS_KEY = jj["THINGSPEAK_settings"].at("TS_KEY").get<std::string>();
     cj._server.lightningApiURL = jj["lightning_settings"].at("LIGHTNING_API_URL").get<std::string>();
     cj._server.MPD_IP = jj["MPD_settings"].at("MPD_IP").get<std::string>();
+    cj._server.keyDatabasePath = jj["Server_settings"].at("key_DB_PATH").get<std::string>();
     /////////////////////// viber
     cj._fb_viber.viberToken = jj["viber_settings"].at("VIBER_TOKEN").get<std::string>();
     cj._fb_viber.viberAvatar = jj["viber_settings"].at("VIBER_AVATAR").get<std::string>();

@@ -37,6 +37,7 @@ public:
         test_server_set._fb_viber.viberReceiver = {"R1","R2"};
         test_server_set._server.saveFilePath = "/mnt/ramdisk/iDomStateTest2.save";
         test_server_set._server.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
+        test_server_set._server.keyDatabasePath = "/mnt/ramdisk/key.database";
         test_rec->loadConfig(test_server_set._server.radio433MHzConfigFile);
 
         test_my_data.main_REC = test_rec;

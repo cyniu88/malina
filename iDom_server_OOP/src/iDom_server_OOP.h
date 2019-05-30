@@ -193,6 +193,7 @@ struct CONFIG_SERVER{
     FTP_SERVER ftpServer;
     std::string lightningApiURL = "NULL";
     std::string saveFilePath = "NULL";
+    std::string keyDatabasePath = "NULL";
 };
 
 struct MQTT_BROKER_CFG{

@@ -711,4 +711,6 @@ TEST_F(iDomTOOLS_ClassTest, KEYGEN)
     EXPECT_TRUE(test_idomTOOLS->m_keyHandler->useKEY("tmp",ret));
 
     std::cout << "KEY " << test_idomTOOLS->m_keyHandler->listKEY() << std::endl;
+
+
 }
