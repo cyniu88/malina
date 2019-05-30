@@ -28,7 +28,7 @@ void iDomKEY_ACCESS::readJSON()
 iDomKEY_ACCESS::iDomKEY_ACCESS(const std::string &path_database):
     m_pathDatabase(path_database)
 {
-    m_className = typeid (this).name();
+    m_className.append(typeid (this).name());
     iDom_API::addToMap(m_className,this);
     readJSON();
 }
@@ -91,5 +91,6 @@ std::string iDomKEY_ACCESS::dump() const
     std::stringstream ret;
 
     ret << "m_data.size(): " << m_data.size() << std::endl;
+    ret << "m_pathDatabase: " << m_pathDatabase << std::endl;
     return ret.str();
 }

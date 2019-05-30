@@ -81,7 +81,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     src/command/commandhandlermqtt.cpp \
     src/command/commandClass/command_wifi.cpp \
     libs/alarm/alarm.cpp \
-    libs/generator/generator.cpp
+    libs/generator/generator.cpp \
+    src/iDomKEY_ACCESS/idomkey_access.cpp
 
 INCLUDEPATH += "json2/"
 
@@ -162,7 +163,8 @@ HEADERS += src/c_connection/c_connection.h \
     src/command/commandClass/command_wifi.h \
     libs/alarm/alarm.h \
     src/idom_api.h \
-    libs/generator/generator.h
+    libs/generator/generator.h \
+    src/iDomKEY_ACCESS/idomkey_access.h
 
 DISTFILES +=
 DEFINES += GIT_CURRENT_SHA1="$(git rev-parse HEAD)"
