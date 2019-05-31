@@ -11,7 +11,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
 {
     std::string str_buf = "show what?";
     if (v.size() > 1){
-        if (v[1] =="log")
+        if (v[1] == "log")
         {
             if (v.size() >2 && v.size() < 4){
                  return useful_F::l_send_file(_logfile,v[2],true);
@@ -26,7 +26,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
             }
             return useful_F::l_send_file(_logfile,"");
         }
-        if (v[1]=="thread")
+        if (v[1] == "thread")
         {
             if (v.size() < 3){
                 return "No ID";
@@ -66,6 +66,10 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
                 }
             }
         }
+        else if (v[1] == "iDom" && v[2] == "key")
+        {
+            return my_data->main_iDomTools->m_keyHandler->listKEY();
+        }
         else {
             return "wrong parameter: "+v[1];
         }
@@ -83,6 +87,7 @@ std::string command_show::help() const
     help << "\tlog no <string> - show all server log lines which NO contain <string>" << std::endl;
     help << "\tthread all      - show all server thread pid " << std::endl;
     help << "\tthread <number> - show server <number> thread pid " << std::endl;
+    help << "\tiDom key        - show all access key" << std::endl;
 
     return help.str();
 }

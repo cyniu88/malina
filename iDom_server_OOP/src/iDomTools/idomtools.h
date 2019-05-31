@@ -32,8 +32,6 @@ public:
 #endif
     THERMOMETER_CONTAINER m_allThermometer;
     THERMOMETER_CONTAINER m_allThermometerUpdate;
-
-    std::unique_ptr<iDomKEY_ACCESS> m_keyHandler;
 private:
     thread_data *my_data;
     int m_timezone;
@@ -48,6 +46,7 @@ private:
     int m_restartAlarmRFLink = 0;
     iDomTOOLS();
 public:
+    std::unique_ptr<iDomKEY_ACCESS> m_keyHandler;
     std::vector <std::string> textToSpeachVector;
     iDomTOOLS(thread_data *myData);
     ~iDomTOOLS();

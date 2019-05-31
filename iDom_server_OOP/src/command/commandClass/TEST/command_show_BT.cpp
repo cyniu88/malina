@@ -125,3 +125,12 @@ TEST_F(command_show_Class_fixture, showLogFakeInfo)
     auto ret = test_command_show->execute(test_v,&test_my_data);
     EXPECT_STREQ(ret.c_str(), "do you mean : show log no <string>?");
 }
+
+TEST_F(command_show_Class_fixture, showKEY_all)
+{
+    test_v.push_back("show");
+    test_v.push_back("iDom");
+    test_v.push_back("key");
+    auto ret = test_command_show->execute(test_v,&test_my_data);
+    EXPECT_GT(ret.size(), 3);
+}
