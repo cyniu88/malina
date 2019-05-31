@@ -233,11 +233,17 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
                                           stateToString(STATE::ACTIVE));
             return "alarm clock has been activated";
         }
-        else if (v[2] == "add" && v[3] == "key")
-        {
-            my_data->main_iDomTools->m_keyHandler->addKEY(v[4],std::stoi(v[5]));
-            //TODO dodac rreszte
+
+    }
+
+    else if (v[1] == "key" && v[2] == "add")
+    {
+        if(v[3] == "tmp")
+            my_data->main_iDomTools->m_keyHandler->addKEY(v[4],std::stoi(v[5]),true);
+        else {
+            my_data->main_iDomTools->m_keyHandler->addKEY(v[3],std::stoi(v[4]),false);
         }
+        return my_data->main_iDomTools->m_keyHandler->listKEY();
     }
     return "iDom - unknown parameter: "+ v[1];
 }
@@ -274,6 +280,6 @@ std::string command_iDom::help() const
     help << "iDom KODI - start KODI smart TV" << std::endl;
     help << "iDom wifi - show all wifi client" << std::endl;
     help << "iDom health - get iDom server alarm health" << std::endl;
-    help << "iDom add key <name> <size> - add new access key" << std::endl;
+    help << "iDom add key ?tmp? <name> <size> - add new access key" << std::endl;
     return help.str();
 }

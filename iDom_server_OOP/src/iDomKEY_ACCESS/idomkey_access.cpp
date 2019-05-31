@@ -59,6 +59,12 @@ void iDomKEY_ACCESS::addTempKEY(const std::string &name, size_t size)
     addKEY(name,size,true);
 }
 
+void iDomKEY_ACCESS::removeKEY(const std::string &name)
+{
+    m_data.erase(name);
+    writeJSON();
+}
+
 std::string iDomKEY_ACCESS::getKEY(const std::string &name)
 {
     return m_data[name].at("key").get<std::string>();
