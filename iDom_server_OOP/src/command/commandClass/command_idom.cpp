@@ -245,6 +245,11 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
         return my_data->main_iDomTools->m_keyHandler->listKEY();
     }
+    else if (v[1] == "key" && v[2] == "remove" && v.size() == 4)
+    {
+        my_data->main_iDomTools->m_keyHandler->removeKEY(v[3]);
+        return v[3] + " removed";
+    }
     return "iDom - unknown parameter: "+ v[1];
 }
 
