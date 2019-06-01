@@ -24,7 +24,7 @@ public:
     std::string getKEY(const std::string& name);
     std::string listKEY();
     bool useKEY(const std::string& name, const std::string& key);
-
+    void removeExpiredKeys(unsigned int hours);
     std::string dump() const;
 };
 

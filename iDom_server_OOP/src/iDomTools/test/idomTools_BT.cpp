@@ -699,7 +699,7 @@ TEST_F(iDomTOOLS_ClassTest, health_check)
     delete test_RFLink;
 }
 
-TEST_F(iDomTOOLS_ClassTest, KEYGEN)
+TEST_F(iDomTOOLS_ClassTest, access_KEYGEN)
 {
     test_idomTOOLS->m_keyHandler->addKEY("test",256);
     std::cout << "KEY " << test_idomTOOLS->m_keyHandler->listKEY() << std::endl;
@@ -712,5 +712,15 @@ TEST_F(iDomTOOLS_ClassTest, KEYGEN)
 
     std::cout << "KEY " << test_idomTOOLS->m_keyHandler->listKEY() << std::endl;
 
+    ////// remove expired keys
+    std::cout << std::endl << "======== remove expired keys ==========" << std::endl;
+    test_idomTOOLS->m_keyHandler->addTempKEY("tmp1",20);
+    test_idomTOOLS->m_keyHandler->addTempKEY("tmp2",20);
 
+    std::cout << "KEY " << test_idomTOOLS->m_keyHandler->listKEY() << std::endl;
+    sleep(1);
+    ret = test_idomTOOLS->m_keyHandler->getKEY("tmp2");
+    test_idomTOOLS->m_keyHandler->removeExpiredKeys(0);
+
+    EXPECT_FALSE(test_idomTOOLS->m_keyHandler->useKEY("tmp2",ret));
 }

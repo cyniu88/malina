@@ -26,7 +26,7 @@ void iDomKEY_ACCESS::readJSON()
 }
 
 iDomKEY_ACCESS::iDomKEY_ACCESS(const std::string &path_database):
-    m_pathDatabase(path_database)
+                                                                   m_pathDatabase(path_database)
 {
     m_className.append(typeid (this).name());
     iDom_API::addToMap(m_className,this);
@@ -35,7 +35,8 @@ iDomKEY_ACCESS::iDomKEY_ACCESS(const std::string &path_database):
 
 iDomKEY_ACCESS::iDomKEY_ACCESS(const iDomKEY_ACCESS &k): m_data(k.m_data), m_pathDatabase(k.m_pathDatabase)
 {
-    puts("konstruktor kopiujacy iDomKEY_ACCESS");
+    m_className.append(typeid (this).name());
+    iDom_API::addToMap(m_className,this);
 }
 
 iDomKEY_ACCESS::~iDomKEY_ACCESS()
@@ -50,6 +51,7 @@ void iDomKEY_ACCESS::addKEY(const std::string &name, size_t size, bool temp )
     temp_J["name"] = name;
     temp_J["key"] = _key;
     temp_J["temporary"] = temp;
+    temp_J["time"] = Clock::getUnixTime();
     m_data[name] = temp_J;
     writeJSON();
 }
@@ -81,15 +83,42 @@ std::string iDomKEY_ACCESS::listKEY()
 
 bool iDomKEY_ACCESS::useKEY(const std::string &name, const std::string &key)
 {
-        std::string k = m_data[name].at("key").get<std::string>();
+    if(m_data.find(name) == m_data.end())
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "proba uzycia nieistniejacego klucza access iDom:\n "
+                      << name << " key: " << key << std::endl;
+        log_file_mutex.mutex_unlock();
+        return false;
+    }
 
-        bool toDel = m_data[name].at("temporary").get<bool>();
+    std::string k = m_data[name].at("key").get<std::string>();
+    bool toDel = m_data[name].at("temporary").get<bool>();
 
-        if(toDel){
-            m_data.erase(name);
-            writeJSON();
+    if(toDel){
+        m_data.erase(name);
+        writeJSON();
+    }
+    return (key == k);
+}
+
+void iDomKEY_ACCESS::removeExpiredKeys(unsigned int hours)
+{
+    auto timeNow = Clock::getUnixTime();
+    auto timeRef = hours * 3600;
+
+    for(auto jj : m_data)
+    {
+        if( (timeNow - jj["time"].get<unsigned int>()) > timeRef && jj["temporary"].get<bool>() )
+        {
+#ifdef BT_TEST
+            std::cout << "kasuje wygasly klucz access key iDom: "
+                      << jj["name"].get<std::string>() << std::endl;
+#endif
+            m_data.erase(jj["name"].get<std::string>());
         }
-        return (key == k);
+    }
+    writeJSON();
 }
 
 std::string iDomKEY_ACCESS::dump() const
