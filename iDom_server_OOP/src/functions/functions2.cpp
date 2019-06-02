@@ -277,7 +277,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._fb_viber.viberToken = jj["viber_settings"].at("VIBER_TOKEN").get<std::string>();
     cj._fb_viber.viberAvatar = jj["viber_settings"].at("VIBER_AVATAR").get<std::string>();
     cj._fb_viber.viberSender = jj["viber_settings"].at("VIBER_SENDER").get<std::string>();;
-    for(auto k : jj["viber_settings"].at("VIBER_RECEIVER"))
+    for(auto& k : jj["viber_settings"].at("VIBER_RECEIVER"))
     {
         cj._fb_viber.viberReceiver.push_back(k.get<std::string>());
     }
@@ -308,6 +308,9 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     /////////////////////// RFLink
     cj._rflink.RFLinkPort = jj["RFLink_settings"].at("RFLinkPort").get<std::string>();
     cj._rflink.RFLinkBaudRate = jj["RFLink_settings"].at("RFLinkBaudRate").get<int>();
+    /////////////////////// gateway
+    cj._gateway.url     = jj["gateway"].at("url").get<std::string>();
+    cj._gateway.keySize = jj["gateway"].at("key_size").get<unsigned int>();
 
     return cj;
 }

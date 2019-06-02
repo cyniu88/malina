@@ -177,12 +177,15 @@ public:
     void healthCheck();
 
     ////////////////////// system /////////////////////////
-
     void close_iDomServer [[ noreturn ]]();
     void reloadSoft_iDomServer[[ noreturn ]] ();
     void reloadHard_iDomServer[[ noreturn ]] ();
+
     //////////////////////// iDom_API /////////////////////
     std::string dump() const;
+
+    //////////////////////// link generator ///////////////
+    std::string openGateLink();
 };
 
 #endif // IDOMTOOLS_H

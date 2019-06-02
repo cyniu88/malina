@@ -137,6 +137,11 @@ struct iDOM_STATE{
     STATE houseState = STATE::UNDEFINE;
 };
 
+struct GATEWAY{
+    std::string url = "NULL";
+    unsigned int keySize = 0;
+};
+
 struct NightLight_CFG{
 int from = 48;
 int to = 50;
@@ -213,6 +218,7 @@ struct CONFIG_JSON{
     RS232_CFG _rs232;
     RFLink_CFG _rflink;
     MQTT_BROKER_CFG _mqtt_broker;
+    GATEWAY _gateway;
 };
 
 struct LED_Strip{

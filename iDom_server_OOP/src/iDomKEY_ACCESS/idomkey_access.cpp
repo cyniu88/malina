@@ -107,7 +107,7 @@ void iDomKEY_ACCESS::removeExpiredKeys(unsigned int hours)
     auto timeNow = Clock::getUnixTime();
     auto timeRef = hours * 3600;
 
-    for(auto jj : m_data)
+    for(auto& jj : m_data)
     {
         if( (timeNow - jj["time"].get<unsigned int>()) > timeRef && jj["temporary"].get<bool>() )
         {
@@ -115,7 +115,8 @@ void iDomKEY_ACCESS::removeExpiredKeys(unsigned int hours)
             std::cout << "kasuje wygasly klucz access key iDom: "
                       << jj["name"].get<std::string>() << std::endl;
 #endif
-            m_data.erase(jj["name"].get<std::string>());
+            auto n = jj["name"].get<std::string>();
+            m_data.erase(n);
         }
     }
     writeJSON();

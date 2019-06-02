@@ -90,6 +90,21 @@ std::string iDomTOOLS::dump() const
     return ret.str();
 }
 
+std::string iDomTOOLS::openGateLink()
+{
+    generator gg;
+    std::string tempName = gg.random_string(20);
+    m_keyHandler->addTempKEY(tempName, my_data->server_settings->_gateway.keySize);
+    std::string key = m_keyHandler->getKEY(tempName);
+
+    std::stringstream ret;
+
+    ret << my_data->server_settings->_gateway.url << "/name=" << tempName <<"&"
+        << "key=" << key << "&command=gate&action=open";
+
+    return ret.str();
+}
+
 void iDomTOOLS::reloadSoft_iDomServer()
 {
     std::string s ="close server";
