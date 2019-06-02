@@ -107,17 +107,23 @@ void iDomKEY_ACCESS::removeExpiredKeys(unsigned int hours)
     auto timeNow = Clock::getUnixTime();
     auto timeRef = hours * 3600;
 
+    std::vector<std::string> vv;
+
     for(auto& jj : m_data)
     {
         if( (timeNow - jj["time"].get<unsigned int>()) > timeRef && jj["temporary"].get<bool>() )
         {
-#ifdef BT_TEST
-            std::cout << "kasuje wygasly klucz access key iDom: "
-                      << jj["name"].get<std::string>() << std::endl;
-#endif
-            auto n = jj["name"].get<std::string>();
-            m_data.erase(n);
+            vv.push_back( jj["name"].get<std::string>());
         }
+    }
+
+    for (const auto& k : vv)
+    {
+#ifdef BT_TEST
+        std::cout << " kasuje wygasly klucz access key iDom: "
+                  << k << std::endl;
+#endif
+        m_data.erase(k);
     }
     writeJSON();
 }
