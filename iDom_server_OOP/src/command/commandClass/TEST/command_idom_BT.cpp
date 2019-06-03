@@ -433,3 +433,18 @@ TEST_F(commandiDom_Class_fixture, removeAccessKEY)
     EXPECT_THAT(retStr,testing::HasSubstr(s));
     test_my_data.main_iDomTools->m_keyHandler->removeKEY(s);
 }
+
+TEST_F(commandiDom_Class_fixture, getOpenLink)
+{
+    test_my_data.server_settings->_gateway.url = "http://test.pl";
+    test_my_data.server_settings->_gateway.keySize  = 128;
+    test_v.clear();
+    test_v.push_back("iDom");
+    test_v.push_back("link");
+    test_v.push_back("gate");
+    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+    std::cout << "retString: " << retStr << std::endl;
+    EXPECT_THAT(retStr,testing::HasSubstr("http://"));
+    EXPECT_NE(retStr.at(45) , '&');
+    EXPECT_EQ(retStr.at(45 + test_my_data.server_settings->_gateway.keySize) , '&');
+}

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "/mnt/e/PROGRAMOWANIE/malina/iDom_server_OOP/json2/json.hpp"
+#include "../../iDom_server_OOP/json2/json.hpp"
 
 using json = nlohmann::json;
 
@@ -15,4 +15,18 @@ int main()
     // print values
     std::cout << j_object << '\n';
     std::cout << count_one << " " << count_three << '\n';
+
+    json j;
+    j.push_back("foo");
+    j.push_back(1);
+    j.push_back(true);
+
+    // also use emplace_back
+    j.emplace_back(1.78);
+
+    // iterate the array
+    for (json::iterator it = j.begin(); it != j.end(); ++it) {
+        std::cout << *it << '\n';
+    }
+
 }

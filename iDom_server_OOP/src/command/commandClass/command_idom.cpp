@@ -250,6 +250,11 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         my_data->main_iDomTools->m_keyHandler->removeKEY(v[3]);
         return v[3] + " removed";
     }
+    else if(v[1] == "link" && v.size() > 2)
+    {
+        return my_data->main_iDomTools->openGateLink();
+    }
+    // ADD more
     return "iDom - unknown parameter: "+ v[1];
 }
 

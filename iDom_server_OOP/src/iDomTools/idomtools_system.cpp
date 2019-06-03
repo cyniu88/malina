@@ -96,7 +96,7 @@ std::string iDomTOOLS::openGateLink()
     std::string tempName = gg.random_string(20);
     m_keyHandler->addTempKEY(tempName, my_data->server_settings->_gateway.keySize);
     std::string key = m_keyHandler->getKEY(tempName);
-
+    puts(key.c_str());
     std::stringstream ret;
 
     ret << my_data->server_settings->_gateway.url << "/name=" << tempName <<"&"
