@@ -53,7 +53,7 @@ TEST_F(commandiDom_Class_fixture, help)
     std::string helpStr = test_command_iDom->help();
     EXPECT_THAT(helpStr,testing::HasSubstr("iDom"));
     std::cout << "test " << helpStr.size() << std::endl;
-    EXPECT_EQ(helpStr.size(),1286);
+    EXPECT_EQ(helpStr.size(),1335);
 }
 
 TEST_F(commandiDom_Class_fixture, less_param)
@@ -436,7 +436,7 @@ TEST_F(commandiDom_Class_fixture, removeAccessKEY)
 
 TEST_F(commandiDom_Class_fixture, getOpenLink)
 {
-    test_my_data.server_settings->_gateway.url = "http://test.pl";
+    test_my_data.server_settings->_gateway.url = "http://test.pl?";
     test_my_data.server_settings->_gateway.keySize  = 128;
     test_v.clear();
     test_v.push_back("iDom");
@@ -445,6 +445,6 @@ TEST_F(commandiDom_Class_fixture, getOpenLink)
     std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("http://"));
-    EXPECT_NE(retStr.at(45) , '&');
-    EXPECT_EQ(retStr.at(45 + test_my_data.server_settings->_gateway.keySize) , '&');
+    EXPECT_NE(retStr.at(36) , '&');
+    EXPECT_EQ(retStr.at(36 + test_my_data.server_settings->_gateway.keySize) , '&');
 }

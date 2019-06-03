@@ -727,13 +727,13 @@ TEST_F(iDomTOOLS_ClassTest, access_KEYGEN)
 
 TEST_F(iDomTOOLS_ClassTest, openGate_getLink)
 {
-    test_my_data.server_settings->_gateway.url = "http://tst.pl";
+    test_my_data.server_settings->_gateway.url = "http://tst.pl?";
     test_my_data.server_settings->_gateway.keySize  = 128;
-    auto ret = test_idomTOOLS->openGateLink();
+    auto ret = test_idomTOOLS->openGateLink({"t1","t2"});
     EXPECT_THAT(ret, testing::HasSubstr("http://"));
 
-    std::string t_name = ret.substr(19,20);
-    std::string t_key = ret.substr(44,128);
+    std::string t_name = ret.substr(14,20);
+    std::string t_key = ret.substr(35,128);
 
     EXPECT_TRUE(test_idomTOOLS->m_keyHandler->useKEY(t_name,t_key));
 

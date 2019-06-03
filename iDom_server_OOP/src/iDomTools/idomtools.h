@@ -185,7 +185,7 @@ public:
     std::string dump() const;
 
     //////////////////////// link generator ///////////////
-    std::string openGateLink();
+    std::string openGateLink(std::vector<std::string> v);
 };
 
 #endif // IDOMTOOLS_H

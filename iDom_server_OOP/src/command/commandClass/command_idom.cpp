@@ -252,7 +252,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else if(v[1] == "link" && v.size() > 2)
     {
-        return my_data->main_iDomTools->openGateLink();
+        return my_data->main_iDomTools->openGateLink(v);
     }
     // ADD more
     return "iDom - unknown parameter: "+ v[1];
@@ -291,5 +291,6 @@ std::string command_iDom::help() const
     help << "iDom wifi - show all wifi client" << std::endl;
     help << "iDom health - get iDom server alarm health" << std::endl;
     help << "iDom add key ?tmp? <name> <size> - add new access key" << std::endl;
+    help << "iDom link < - generate temporaty link for action" << std::endl;
     return help.str();
 }
