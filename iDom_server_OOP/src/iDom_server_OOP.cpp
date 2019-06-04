@@ -190,6 +190,9 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
         {
             client->m_mainCommandHandler = new commandHandlerRoot(my_data);
         }
+        else if (userLevel == "GATEWAY" || userLevel == "MQTT") {
+            client->m_mainCommandHandler = new CommandHandlerMQTT(my_data);
+        }
         else
         {
             client->m_mainCommandHandler = new commandHandler(my_data);
