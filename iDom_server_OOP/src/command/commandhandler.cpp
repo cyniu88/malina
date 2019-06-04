@@ -1,8 +1,6 @@
 #include <iostream>
 #include "../../libs/emoji/emoji.h"
 #include "commandhandler.h"
-#include "commandClass/command_mpd.h"
-#include "commandClass/commandrs232.h"
 #include "commandClass/command_uptime.h"
 #include "commandClass/command_big.h"
 #include "commandClass/command_clock.h"
@@ -10,33 +8,15 @@
 #include "commandClass/command_help.h"
 #include "commandClass/command_ip.h"
 #include "commandClass/command_put.h"
-#include "commandClass/command_sleep.h"
 #include "commandClass/command_ok.h"
 #include "commandClass/command_show.h"
-#include "commandClass/command_idom.h"
-#include "commandClass/command_program.h"
-#include "commandClass/commandexit.h"
 #include "commandClass/commandtest.h"
 #include "commandClass/command_log.h"
-#include "commandClass/command_state.h"
-#include "commandClass/command_ardu.h"
 
 commandHandler::commandHandler(thread_data * my_data)
 {
     std::unique_ptr <command> test(new commandTEST("test") );
     commandMap.insert( std::make_pair(test->getCommandName(),std::move( test )) );
-
-    std::unique_ptr <command> program(new command_program("program") );
-    commandMap.insert( std::make_pair(program->getCommandName(),std::move( program )) );
-
-    std::unique_ptr <command> eexit(new commandEXIT("exit"));
-    commandMap.insert( std::make_pair(eexit->getCommandName(),std::move( eexit )) );
-
-    std::unique_ptr <command> MPD(new command_mpd("MPD"));
-    commandMap.insert(std::make_pair(MPD->getCommandName(), std::move (MPD)));
-
-    std::unique_ptr <command> RS232 (new commandRS232("RS232"));
-    commandMap.insert(std::make_pair(RS232->getCommandName(), std::move(RS232)));
 
     std::unique_ptr <command> uptime (new command_UPTIME("uptime"));
     commandMap.insert(std::make_pair(uptime->getCommandName(), std::move(uptime)));
@@ -62,23 +42,11 @@ commandHandler::commandHandler(thread_data * my_data)
     std::unique_ptr <command> show (new command_show("show"));
     commandMap.insert(std::make_pair(show->getCommandName(), std::move(show)));
 
-    std::unique_ptr <command> sleep (new command_sleep("sleep"));
-    commandMap.insert(std::make_pair(sleep->getCommandName(), std::move(sleep)));
-
     std::unique_ptr <command> put (new command_put("put"));
     commandMap.insert(std::make_pair(put->getCommandName(), std::move(put)));
 
-    std::unique_ptr <command> iDom (new command_iDom("iDom"));
-    commandMap.insert(std::make_pair(iDom->getCommandName(), std::move(iDom)));
-
     std::unique_ptr <command> log (new command_log("log"));
     commandMap.insert(std::make_pair(log->getCommandName(), std::move(log)));
-
-    std::unique_ptr <command> state (new command_state("state"));
-    commandMap.insert(std::make_pair(state->getCommandName(), std::move(state)));
-
-    std::unique_ptr <command> ardu (new command_ardu("ardu", my_data));
-    commandMap.insert(std::make_pair(ardu->getCommandName(), std::move(ardu)));
 
     this->my_data = my_data;
     this->my_data->commandMapPtr = &commandMap;
