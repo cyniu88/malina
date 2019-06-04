@@ -2,25 +2,28 @@
 #include <vector>
 #include <algorithm>
 
-command_help::command_help(const std::string &name):command(name)
+command_help::command_help(const std::string &name,std::map <std::string, std::unique_ptr<command> >* commandMapPtr):
+    command(name),
+    commandMapPtr(commandMapPtr)
 {
 }
 
 std::string command_help::execute(std::vector<std::string> &v, thread_data *my_data)
 {
     std::string result ="";
-    if (v.size() ==2){
+    if (v.size() == 2){
 
-        if (my_data->commandMapPtr->find(v[1]) == my_data->commandMapPtr->end()){
+        if (commandMapPtr->find(v[1]) == commandMapPtr->end()){
             return "unknown command: "+ v[1]+" help note not found";
         }
         else{
-            return my_data->commandMapPtr->find(v[1])->second->help();
+            return commandMapPtr->find(v[1])->second->help();
         }
     }
     else
     {
-        for( auto iter= my_data->commandMapPtr->begin();iter != my_data->commandMapPtr->end(); ++iter ) {
+        std::cout << "mapa size: " << commandMapPtr->size() << std::endl;
+        for( auto iter = commandMapPtr->begin();iter != commandMapPtr->end(); ++iter ) {
 
             result+= iter->second->help();
             result+= "------------------------------------\n";

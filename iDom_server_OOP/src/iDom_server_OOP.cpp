@@ -15,6 +15,7 @@
 #include "433MHz/RFLink/rflinkhandler.h"
 #include "command/commandClass/command_ardu.h"
 #include "thread_functions/iDom_thread.h"
+#include "command/commandhandlergateway.h"
 
 std::string _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer;
@@ -191,7 +192,7 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
             client->m_mainCommandHandler = new commandHandlerRoot(my_data);
         }
         else if (userLevel == "GATEWAY") {
-            client->m_mainCommandHandler = new CommandHandlerMQTT(my_data);
+            client->m_mainCommandHandler = new commandHandlerGATEWAY(my_data);
         }
         else
         {

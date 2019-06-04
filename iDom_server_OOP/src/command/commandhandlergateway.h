@@ -3,7 +3,7 @@
 
 #include "commandhandler.h"
 
-class commandHandlerGATEWAY: commandHandler
+class commandHandlerGATEWAY:public commandHandler
 {
 public:
     commandHandlerGATEWAY(thread_data* my_data);

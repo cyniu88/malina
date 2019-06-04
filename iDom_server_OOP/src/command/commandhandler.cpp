@@ -30,7 +30,7 @@ commandHandler::commandHandler(thread_data * my_data)
     std::unique_ptr <command> hello (new command_hello("hello"));
     commandMap.insert(std::make_pair(hello->getCommandName(), std::move(hello)));
 
-    std::unique_ptr <command> help (new command_help("help"));
+    std::unique_ptr <command> help (new command_help("help", &commandMap));
     commandMap.insert(std::make_pair(help->getCommandName(), std::move(help)));
 
     std::unique_ptr <command> ip (new command_ip("ip"));
@@ -49,7 +49,6 @@ commandHandler::commandHandler(thread_data * my_data)
     commandMap.insert(std::make_pair(log->getCommandName(), std::move(log)));
 
     this->my_data = my_data;
-    this->my_data->commandMapPtr = &commandMap;
 }
 
 commandHandler::~commandHandler()
