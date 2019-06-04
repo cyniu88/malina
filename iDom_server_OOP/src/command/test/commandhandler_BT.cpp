@@ -1,5 +1,6 @@
 #include "../commandhandlerrs232.h"
 #include "../commandhandlermqtt.h"
+#include "../commandhandlergateway.h"
 #include "../../iDomTools/test/iDomTools_fixture.h"
 
 class command_handler_rs232_fixture : public iDomTOOLS_ClassTest
@@ -74,4 +75,39 @@ TEST_F(command_handler_mqtt_fixture, unknown_command)
     auto ret = test_chMQTT->run(test_v, &test_my_data);
     std::cout << "DATA: " << ret << std::endl;
     EXPECT_THAT(ret, testing::HasSubstr("unknown") );
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+class command_handler_gateway_fixture : public iDomTOOLS_ClassTest
+{
+public:
+    command_handler_gateway_fixture()
+    {
+
+    }
+
+protected:
+    std::unique_ptr<commandHandlerGATEWAY> test_chGATEWAY;
+    std::vector<std::string> test_v;
+    void SetUp() final
+    {
+        iDomTOOLS_ClassTest::SetUp();
+        test_chGATEWAY = std::make_unique<commandHandlerGATEWAY>(&test_my_data);
+    }
+
+    void TearDown() final
+    {
+        iDomTOOLS_ClassTest::TearDown();
+    }
+};
+
+TEST_F(command_handler_gateway_fixture, not_enough_parameters)
+{
+    time(&test_my_data.start);
+    test_v.clear();
+    test_v.push_back("fake");
+    auto ret = test_chGATEWAY->run(test_v, &test_my_data);
+    std::cout << "DATA: " << ret << std::endl;
+    EXPECT_THAT(ret, testing::HasSubstr("not enough parameters") );
 }

@@ -13,13 +13,13 @@ commandHandlerGATEWAY::~commandHandlerGATEWAY()
 
 std::string commandHandlerGATEWAY::run(std::vector<std::string> &v, thread_data *my_data)
 {
+    if(v.size() < 3){
+        return "not enough parameters";
+    }
 
     if(my_data->main_iDomTools->m_keyHandler->useKEY(v[0],v[1]) == false)
     {
         return EMOJI::emoji(E_emoji::WARNING_SIGN)+" wrong key! ";
-    }
-    else{
-        puts("klucze pasuja ");
     }
 
     v.erase(v.begin(),v.begin()+2);
