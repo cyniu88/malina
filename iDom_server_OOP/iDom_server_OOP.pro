@@ -83,7 +83,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     libs/alarm/alarm.cpp \
     libs/generator/generator.cpp \
     src/iDomKEY_ACCESS/idomkey_access.cpp \
-    src/command/commandhandlergateway.cpp
+    src/command/commandhandlergateway.cpp \
+    src/command/commandClass/command_gateway.cpp
 
 INCLUDEPATH += "json2/"
 
@@ -166,7 +167,8 @@ HEADERS += src/c_connection/c_connection.h \
     src/idom_api.h \
     libs/generator/generator.h \
     src/iDomKEY_ACCESS/idomkey_access.h \
-    src/command/commandhandlergateway.h
+    src/command/commandhandlergateway.h \
+    src/command/commandClass/command_gateway.h
 
 DISTFILES +=
 DEFINES += GIT_CURRENT_SHA1="$(git rev-parse HEAD)"
