@@ -252,6 +252,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else if(v[1] == "link" && v.size() > 2)
     {
+        v.erase(v.begin(), v.begin() + 2);
         return my_data->main_iDomTools->openGateLink(v);
     }
     // ADD more

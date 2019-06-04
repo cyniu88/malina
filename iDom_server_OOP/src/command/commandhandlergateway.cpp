@@ -1,9 +1,11 @@
 #include "commandhandlergateway.h"
 #include "../libs/emoji/emoji.h"
+#include "commandClass/command_gateway.h"
 
 commandHandlerGATEWAY::commandHandlerGATEWAY(thread_data *my_data): commandHandler(my_data)
 {
-
+    std::unique_ptr <command> gateway (new command_gateway("gateway"));
+    commandMap.insert(std::make_pair(gateway->getCommandName(), std::move(gateway)));
 }
 
 commandHandlerGATEWAY::~commandHandlerGATEWAY()

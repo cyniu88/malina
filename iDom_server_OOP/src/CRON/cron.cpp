@@ -6,7 +6,6 @@ CRON::CRON(thread_data *my_data)
     this->check_temperature = TRUE;
 }
 
-
 void CRON::run()
 {
     time_t act_time;

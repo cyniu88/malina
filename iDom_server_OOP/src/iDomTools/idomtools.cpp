@@ -384,8 +384,8 @@ void iDomTOOLS::runOnSunset()
         my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "
                                                       + stateToString(my_data->idom_all_state.houseState));
     }
-
     my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/sun","SUNSET");
+    m_keyHandler->removeExpiredKeys(8);
 }
 
 void iDomTOOLS::runOnSunrise()
