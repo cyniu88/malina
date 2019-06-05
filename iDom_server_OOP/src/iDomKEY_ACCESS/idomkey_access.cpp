@@ -86,7 +86,7 @@ bool iDomKEY_ACCESS::useKEY(const std::string &name, const std::string &key)
     if(m_data.find(name) == m_data.end())
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "proba uzycia nieistniejacego klucza access iDom:\n "
+        log_file_cout << INFO << "proba uzycia nieistniejacego klucza access iDom: "
                       << name << " key: " << key << std::endl;
         log_file_mutex.mutex_unlock();
         return false;

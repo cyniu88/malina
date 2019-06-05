@@ -22,7 +22,6 @@ std::string command_help::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else
     {
-        std::cout << "mapa size: " << commandMapPtr->size() << std::endl;
         for( auto iter = commandMapPtr->begin();iter != commandMapPtr->end(); ++iter ) {
 
             result+= iter->second->help();
