@@ -18,6 +18,6 @@ std::string command_gateway::execute(std::vector<std::string> &v, thread_data *m
 std::string command_gateway::help() const
 {
     std::stringstream ret;
-    ret << "TODO" << std::endl;
+    ret << "gateway fan  - turn on fan" << std::endl;
     return ret.str();
 }

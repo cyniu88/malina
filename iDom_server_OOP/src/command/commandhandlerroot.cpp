@@ -10,9 +10,13 @@
 #include "commandClass/command_ardu.h"
 #include "commandClass/command_state.h"
 #include "commandClass/command_sleep.h"
+#include "commandClass/command_gateway.h"
 
 commandHandlerRoot::commandHandlerRoot(thread_data * my_data): commandHandler(my_data)
 {
+    std::unique_ptr <command> gateway (new command_gateway("gateway"));
+    commandMap.insert(std::make_pair(gateway->getCommandName(), std::move(gateway)));
+
     std::unique_ptr <command> cmd (new command_cmd("cmd"));
     commandMap.insert(std::make_pair(cmd->getCommandName(), std::move(cmd)));
 

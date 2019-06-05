@@ -10,11 +10,11 @@ public:
     }
 
 protected:
-       std::vector<std::string> test_v;
+    std::vector<std::string> test_v;
+
     void SetUp() final
     {
         iDomTOOLS_ClassTest::SetUp();
-
     }
 
     void TearDown() final
@@ -28,7 +28,7 @@ TEST_F(command_help_Class_fixture, all)
     auto chr = std::make_unique<commandHandlerRoot>(&test_my_data);
     test_v.push_back("help");
     auto size = chr->run(test_v,&test_my_data).size();
-    EXPECT_EQ(size,4619);
+    EXPECT_EQ(size, 4683);
 }
 
 TEST_F(command_help_Class_fixture, one)
@@ -37,7 +37,7 @@ TEST_F(command_help_Class_fixture, one)
     test_v.push_back("help");
     test_v.push_back("ok");
     auto ret = chr->run(test_v,&test_my_data);
-    EXPECT_STREQ(ret.c_str(),"ok - confirmation msg server response: END \n");
+    EXPECT_STREQ(ret.c_str(), "ok - confirmation msg server response: END \n");
 }
 
 TEST_F(command_help_Class_fixture, nonExistingCommand)
@@ -46,5 +46,5 @@ TEST_F(command_help_Class_fixture, nonExistingCommand)
     test_v.push_back("help");
     test_v.push_back("okdoki");
     auto ret = chr->run(test_v,&test_my_data);
-    EXPECT_STREQ(ret.c_str(),"unknown command: okdoki help note not found");
+    EXPECT_STREQ(ret.c_str(), "unknown command: okdoki help note not found");
 }
