@@ -25,9 +25,17 @@ protected:
     }
 };
 
+TEST_F(command_gateway_Class_fixture, unknownParam)
+{
+    test_v.push_back("gateway");
+    test_v.push_back("fake");
+    auto ret = test_command_gateway->execute(test_v,&test_my_data);
+    EXPECT_THAT(ret,testing::HasSubstr("unknown"));
+}
+
 TEST_F(command_gateway_Class_fixture, fan)
 {
-    test_v.push_back("bgateway");
+    test_v.push_back("gateway");
     test_v.push_back("fan");
     auto ret = test_command_gateway->execute(test_v,&test_my_data);
     EXPECT_THAT(ret,testing::HasSubstr("fan on"));
