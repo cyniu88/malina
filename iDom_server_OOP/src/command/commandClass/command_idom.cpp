@@ -292,6 +292,7 @@ std::string command_iDom::help() const
     help << "iDom wifi - show all wifi client" << std::endl;
     help << "iDom health - get iDom server alarm health" << std::endl;
     help << "iDom add key ?tmp? <name> <size> - add new access key" << std::endl;
+    help << "iDom key remove <key name> - remove access key" << std::endl;
     help << "iDom link < - generate temporaty link for action" << std::endl;
     return help.str();
 }
