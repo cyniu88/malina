@@ -59,8 +59,12 @@ void iDomTOOLS::healthCheck()
     if(t > 310 && my_data->mqttHandler->_subscribed == true)
     {
         m_restartAlarmRFLink++;
-        if(m_restartAlarmRFLink == 2)
+        if(m_restartAlarmRFLink == 2){
+            log_file_mutex.mutex_lock();
+            log_file_cout << WARNING << "restart servera z powodu braku polaczenia z RFLinkiem" << std::endl;
+            log_file_mutex.mutex_unlock();
             my_data->main_iDomTools->reloadHard_iDomServer();
+        }
 
         std::string m("brak połaczenia RS232 z RFLink'iem");
         std::cout << "brak pingu RFLinka 433MHz t: " << t << std::endl;
