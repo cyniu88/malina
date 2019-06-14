@@ -1,4 +1,5 @@
 #include "lightning.h"
+#include "../functions/functions.h"
 
 LIGHTNING::LIGHTNING()
 {
@@ -21,6 +22,7 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
 #ifdef BT_TEST
     std::cout <<"\n\n data all " << i.dump(4) <<" size:"<< i.size() <<std::endl;
 #endif
+
     if (jj.find("response") != jj.end())
     {
         i = jj.at("response").get<nlohmann::json>();
@@ -31,25 +33,41 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
         return data;
     }
 
-    auto _size = i.size();
-    if (_size == 0)
+    auto error = jj.at("error");
+
+    std::size_t _size = i.size();
+    if (error.size() != 0)
     {
-        data.riseAlarm = false;
-        return data;
+        auto ret = error.at("code").get<std::string>();
+        if(ret == "warn_no_data")
+        {
+            puts("warn_no_data");
+            data.riseAlarm = false;
+            return data;
+        }
+        else
+        {
+            useful_F::myStaticData->iDomAlarm.raiseAlarm(4445,"problem z json lightning " + ret);
+            std::cout << "ERROR JSON LIGHTING " << ret << std::endl;
+            data.riseAlarm = false;
+            return data;
+        }
     }
+    useful_F::myStaticData->iDomAlarm.clearAlarm(4445);
+
     STATISTIC<int> ageAver(_size);
     STATISTIC<double> distanceKmAver(_size);
     STATISTIC<int> bearingAver(_size);
     for (auto j : i){
 #ifdef BT_TEST
-   //     std::cout <<"\n distance " << j.at("relativeTo").at("bearingENG").get<std::string>() << std::endl;
-   //     std::cout <<"distance " << j.at("relativeTo").at("distanceKM").get<double>() << std::endl;
-   //     std::cout <<"timestamp " << j.at("age").get<int>() << std::endl;
+        //     std::cout <<"\n distance " << j.at("relativeTo").at("bearingENG").get<std::string>() << std::endl;
+        //     std::cout <<"distance " << j.at("relativeTo").at("distanceKM").get<double>() << std::endl;
+        //     std::cout <<"timestamp " << j.at("age").get<int>() << std::endl;
 #endif
         ageAver.push_back(j.at("age").get<int>());
         distanceKmAver.push_back(j.at("relativeTo").at("distanceKM").get<double>());
         bearingAver.push_back(static_cast<int>(CARDINAL_DIRECTIONS::stringToCardinalDirectionsEnum(
-                                                   j.at("relativeTo").at("bearingENG").get<std::string>()))
+            j.at("relativeTo").at("bearingENG").get<std::string>()))
                               );
     }
     data.bearingENG = static_cast<CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM>(bearingAver.mode());
