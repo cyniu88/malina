@@ -41,7 +41,6 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
         auto ret = error.at("code").get<std::string>();
         if(ret == "warn_no_data")
         {
-            puts("warn_no_data");
             data.riseAlarm = false;
             return data;
         }
