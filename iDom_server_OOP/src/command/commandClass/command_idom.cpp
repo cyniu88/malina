@@ -134,7 +134,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1]=="kill"){
 
         if (v[2]=="thread"){
-            my_data->main_THREAD_arr->at(std::stoi(v[3]) ).thread.~thread();
+            my_data->main_THREAD_arr->at(std::stoul(v[3]) ).thread.~thread();
             return "done!";
         }
     }
@@ -239,9 +239,9 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1] == "key" && v[2] == "add")
     {
         if(v[3] == "tmp")
-            my_data->main_iDomTools->m_keyHandler->addKEY(v[4],std::stoi(v[5]),true);
+            my_data->main_iDomTools->m_keyHandler->addKEY(v[4],std::stoul(v[5]),true);
         else {
-            my_data->main_iDomTools->m_keyHandler->addKEY(v[3],std::stoi(v[4]),false);
+            my_data->main_iDomTools->m_keyHandler->addKEY(v[3],std::stoul(v[4]),false);
         }
         return my_data->main_iDomTools->m_keyHandler->listKEY();
     }
@@ -283,8 +283,8 @@ std::string command_iDom::help() const
     help << "iDom viber ...   - send viber msg" << std::endl;
     help << "iDom weather <city> <radius> - get weather alert" << std::endl;
     help << "iDom lightning  - get lightning alert" << std::endl;
-    help << "iDom alarm ON/OFF hh:mm - set larm clock" << std::endl;
-    help << "iDom alarm SET from/to/radio <value> - set larm clock" << std::endl;
+    help << "iDom alarm ON/OFF hh:mm - set alarm clock" << std::endl;
+    help << "iDom alarm SET from/to/radio <value> - set alarm clock" << std::endl;
     help << "iDom alarm GET - get alarm time" << std::endl;
     help << "iDom lock   - lock home" << std::endl;
     help << "iDom unlock - unlock home" << std::endl;
