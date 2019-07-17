@@ -49,11 +49,11 @@ TEST_F(commandArdu_Class_fixture, wrongMSGformat)
 TEST_F(commandArdu_Class_fixture, UnlockHome)
 {
     test_idomTOOLS->lockHome();
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
 
     test_v.push_back("20;EV1527;ID=01e7be;SWITCH=01;CMD=ON;");
     test_ardu->execute(test_v, &test_my_data);
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
 
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
@@ -63,14 +63,14 @@ TEST_F(commandArdu_Class_fixture, UnlockHome)
 TEST_F(commandArdu_Class_fixture, LockHome)
 {
     test_idomTOOLS->unlockHome();
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
 
     test_v.push_back("20;EV1527;ID=01e7be;SWITCH=01;CMD=ON;");
     for(auto i = 0; i < 3; ++i){
         test_ardu->execute(test_v, &test_my_data);
     }
 
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);
@@ -79,14 +79,14 @@ TEST_F(commandArdu_Class_fixture, LockHome)
 TEST_F(commandArdu_Class_fixture, LockHome1unlockHome2)
 {
     test_idomTOOLS->lockHome();
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
 
     ////////////////////////// unlock locker-main
     test_v.push_back("20;EV1527;ID=01e7be;SWITCH=01;CMD=ON;");
 
     test_ardu->execute(test_v, &test_my_data);
 
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
@@ -97,7 +97,7 @@ TEST_F(commandArdu_Class_fixture, LockHome1unlockHome2)
         test_ardu->execute(test_v, &test_my_data);
     }
 
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);
@@ -106,9 +106,9 @@ TEST_F(commandArdu_Class_fixture, LockHome1unlockHome2)
 TEST_F(commandArdu_Class_fixture, playMusic)
 {
     test_idomTOOLS->unlockHome();
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
-    EXPECT_EQ(test_status.getObjectState("listwa"),STATE::UNKNOWN);
-    test_status.addObject("music",STATE::STOP);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("listwa"),STATE::UNKNOWN);
+    test_my_data.main_iDomStatus->addObject("music",STATE::STOP);
 
     test_v.push_back("20;EV1527;ID=01e7be;SWITCH=01;CMD=ON;");
 
@@ -117,15 +117,15 @@ TEST_F(commandArdu_Class_fixture, playMusic)
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
-    EXPECT_EQ(test_status.getObjectState("listwa"),STATE::ON);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("listwa"),STATE::ON);
 }
 
 TEST_F(commandArdu_Class_fixture, stopMusic)
 {
     test_idomTOOLS->unlockHome();
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
-    EXPECT_EQ(test_status.getObjectState("listwa"),STATE::UNKNOWN);
-    test_status.addObject("music",STATE::PLAY);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("listwa"),STATE::UNKNOWN);
+    test_my_data.main_iDomStatus->addObject("music",STATE::PLAY);
 
     test_v.push_back("20;EV1527;ID=01e7be;SWITCH=01;CMD=ON;");
 
@@ -134,7 +134,7 @@ TEST_F(commandArdu_Class_fixture, stopMusic)
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);
-    EXPECT_EQ(test_status.getObjectState("listwa"),STATE::OFF);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("listwa"),STATE::OFF);
 }
 
 TEST_F(commandArdu_Class_fixture, weatherStationTemp)
@@ -195,16 +195,16 @@ TEST_F(commandArdu_Class_fixture, command_ardu_433MHz_PING)
 
 TEST_F(commandArdu_Class_fixture, NightLight)
 {
-    EXPECT_EQ(test_status.getObjectState("Night_Light"),STATE::UNKNOWN);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("Night_Light"),STATE::UNKNOWN);
     test_idomTOOLS->unlockHome();
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
     test_v.push_back("20;EV1527;ID=458;SWITCH=01;CMD=ON;");
 
     test_ardu->execute(test_v, &test_my_data);
 
-    EXPECT_EQ(test_status.getObjectState("Night_Light"),STATE::ON);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("Night_Light"),STATE::ON);
 
     test_ardu->execute(test_v, &test_my_data);
 
-    EXPECT_EQ(test_status.getObjectState("Night_Light"),STATE::OFF);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("Night_Light"),STATE::OFF);
 }

@@ -13,7 +13,6 @@ public:
     LIGHTNING test_lightning;
     CARDINAL_DIRECTIONS::ALARM_INFO test_struct;
     thread_data test_my_data;
-    iDomSTATUS test_status;
     CONFIG_JSON test_server_set;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     iDOM_STATE main_iDomStatus;
@@ -38,16 +37,19 @@ public:
         test_server_set._server.saveFilePath = "/mnt/ramdisk/iDomStateTest2.save";
         test_server_set._server.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
         test_server_set._server.keyDatabasePath = "/mnt/ramdisk/key.database";
+
+        test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
+
         test_rec->loadConfig(test_server_set._server.radio433MHzConfigFile);
 
         test_my_data.main_REC = test_rec;
         test_my_data.server_settings = &test_server_set;
-        test_my_data.main_iDomStatus = &test_status;
+        test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_my_data.alarmTime = test_alarmTime;
         test_my_data.idom_all_state = main_iDomStatus;
         test_my_data.ptr_pilot_led = &test_pilot_led;
 
-        test_status.addObject("house");
+        test_my_data.main_iDomStatus->addObject("house");
 
         /////////// create
         test_idomTOOLS = new iDomTOOLS(&test_my_data);

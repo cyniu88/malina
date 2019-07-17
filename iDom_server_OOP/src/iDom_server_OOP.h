@@ -335,7 +335,7 @@ struct thread_data{
     pilot_led * ptr_pilot_led = NULL;
     event_counters_handler myEventHandler;
     std::string encriptionKey = "40%";
-    iDomSTATUS *main_iDomStatus;
+    std::unique_ptr<iDomSTATUS> main_iDomStatus;
     iDOM_STATE idom_all_state;
     ALERT alarmTime;
     std::shared_ptr<RADIO_EQ_CONTAINER> main_REC;

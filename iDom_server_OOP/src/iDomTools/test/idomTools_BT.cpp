@@ -101,18 +101,18 @@ TEST_F(iDomTOOLS_ClassTest, checkAlarm)
     unsigned int  toVol = 57;
 
     ///////////////////////////////////// to save
-    test_status.setObjectState("house",STATE::UNLOCK);
-    test_status.setObjectState("music", STATE::PLAY);
-    test_status.setObjectState("speakers", STATE::ON);
+    test_my_data.main_iDomStatus->setObjectState("house",STATE::UNLOCK);
+    test_my_data.main_iDomStatus->setObjectState("music", STATE::PLAY);
+    test_my_data.main_iDomStatus->setObjectState("speakers", STATE::ON);
     test_my_data.idom_all_state.houseState = STATE::LOCK;
 
-    test_status.setObjectState("listwa",STATE::ON);
+    test_my_data.main_iDomStatus->setObjectState("listwa",STATE::ON);
 
     test_alarmTime.time = Clock::getTime();
     test_alarmTime.state = STATE::ACTIVE;
     test_alarmTime.toVolume = 58;
     test_alarmTime.fromVolume = 48;
-    test_status.setObjectState("alarm", test_alarmTime.state);
+    test_my_data.main_iDomStatus->setObjectState("alarm", test_alarmTime.state);
     test_my_data.alarmTime = test_alarmTime;
     useful_F::myStaticData = &test_my_data;
 
@@ -141,39 +141,39 @@ TEST_F(iDomTOOLS_ClassTest, checkAlarm)
 TEST_F(iDomTOOLS_ClassTest, homeLockPlayStopMusic)
 {
     ///////////////////////////////////// to save
-    test_status.setObjectState("house",STATE::UNDEFINE);
-    test_status.setObjectState("music", STATE::PLAY);
-    test_status.setObjectState("speakers", STATE::ON);
+    test_my_data.main_iDomStatus->setObjectState("house",STATE::UNDEFINE);
+    test_my_data.main_iDomStatus->setObjectState("music", STATE::PLAY);
+    test_my_data.main_iDomStatus->setObjectState("speakers", STATE::ON);
     test_my_data.idom_all_state.houseState = STATE::LOCK;
 
-    test_status.setObjectState("listwa",STATE::ON);
+    test_my_data.main_iDomStatus->setObjectState("listwa",STATE::ON);
 
     test_alarmTime.time = Clock::getTime();
     test_alarmTime.state = STATE::ACTIVE;
-    test_status.setObjectState("alarm", test_alarmTime.state);
+    test_my_data.main_iDomStatus->setObjectState("alarm", test_alarmTime.state);
 
     blockQueue test_q;
     test_q._clearAll();
     EXPECT_EQ(test_q._size(),0);
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNDEFINE);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNDEFINE);
     test_idomTOOLS->lockHome();
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
     test_idomTOOLS->MPD_play(&test_my_data);
     EXPECT_EQ(test_q._size(),0);
     test_idomTOOLS->unlockHome();
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
     test_idomTOOLS->MPD_play(&test_my_data);
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
     test_idomTOOLS->lockHome();
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
     test_idomTOOLS->MPD_stop();
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
-    std::string returnedString = test_status.getAllObjectsStateString();
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
+    std::string returnedString = test_my_data.main_iDomStatus->getAllObjectsStateString();
     EXPECT_THAT(returnedString, testing::HasSubstr("LOCK"));
 }
 
@@ -196,12 +196,12 @@ TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_lockerUnlock)
     test_q._clearAll();
 
     test_idomTOOLS->unlockHome();
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
 
     for(auto i =0 ; i < 3; ++i){
         test_idomTOOLS->button433MHzPressedAction("locker-main");
     }
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
 
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
@@ -213,10 +213,10 @@ TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_lockerLock)
     blockQueue test_q;
     test_q._clearAll();
 
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNDEFINE) << "nie jest UNDEFINED";
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNDEFINE) << "nie jest UNDEFINED";
 
     test_idomTOOLS->button433MHzPressedAction("locker-main");
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK)<< "nie jest UNLOCK";
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK)<< "nie jest UNLOCK";
 
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
@@ -228,17 +228,17 @@ TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_locker_mainLock_locker_2un
     blockQueue test_q;
     test_q._clearAll();
 
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNDEFINE) << "nie jest UNDEFINED";
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNDEFINE) << "nie jest UNDEFINED";
 
     test_idomTOOLS->button433MHzPressedAction("locker-main");
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::UNLOCK)<< "nie jest UNLOCK";
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK)<< "nie jest UNLOCK";
 
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
 
     test_idomTOOLS->button433MHzPressedAction("locker-2");
-    EXPECT_EQ(test_status.getObjectState("house"),STATE::LOCK)<< "nie jest UNLOCK";
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK)<< "nie jest UNLOCK";
 
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
@@ -268,29 +268,29 @@ TEST_F(iDomTOOLS_ClassTest, cardinalDirectionsEnumToString)
 
 TEST_F(iDomTOOLS_ClassTest, saveState_readState)
 {
-    test_status.setObjectState("house",STATE::UNLOCK);
+    test_my_data.main_iDomStatus->setObjectState("house",STATE::UNLOCK);
     //////////////////// mpd
-    test_status.setObjectState("music", STATE::PLAY);
-    test_status.setObjectState("speakers", STATE::ON);
+    test_my_data.main_iDomStatus->setObjectState("music", STATE::PLAY);
+    test_my_data.main_iDomStatus->setObjectState("speakers", STATE::ON);
     test_my_data.idom_all_state.houseState = STATE::LOCK;
 
-    test_status.setObjectState("listwa",STATE::ON);
+    test_my_data.main_iDomStatus->setObjectState("listwa",STATE::ON);
     test_alarmTime.time = Clock::getTime();
     test_alarmTime.state = STATE::ACTIVE;
     test_alarmTime.fromVolume = 0;
     test_alarmTime.toVolume = 100;
     test_alarmTime.radioID = 44;
     test_my_data.alarmTime = test_alarmTime;
-    test_status.setObjectState("alarm", test_alarmTime.state);
+    test_my_data.main_iDomStatus->setObjectState("alarm", test_alarmTime.state);
 
     test_idomTOOLS->saveState_iDom();
 
     nlohmann::json testJson;
     std::ifstream i(test_server_set._server.saveFilePath);
     i >> testJson;
-    EXPECT_STREQ(test_status.getObjectStateString("music").c_str(),
+    EXPECT_STREQ(test_my_data.main_iDomStatus->getObjectStateString("music").c_str(),
                  testJson.at("MPD").at("music").get<std::string>().c_str() );
-    EXPECT_STREQ((test_status.getObjectStateString("alarm")).c_str(),
+    EXPECT_STREQ((test_my_data.main_iDomStatus->getObjectStateString("alarm")).c_str(),
                  testJson.at("ALARM").at("alarm").get<std::string>().c_str() );
     EXPECT_EQ(test_alarmTime.radioID,
               testJson.at("ALARM").at("radioID").get<int>() );
@@ -363,15 +363,15 @@ TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
 
 TEST_F(iDomTOOLS_ClassTest, speakersON_OFF)
 {
-    EXPECT_EQ(test_status.getObjectState("speakers"), STATE::OFF);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
     test_idomTOOLS->turnOnSpeakers();
-    EXPECT_EQ(test_status.getObjectState("speakers"), STATE::ON);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::ON);
     test_idomTOOLS->turnOffSpeakers();
-    EXPECT_EQ(test_status.getObjectState("speakers"), STATE::OFF);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
     useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
     test_idomTOOLS->turnOnSpeakers();
-    EXPECT_EQ(test_status.getObjectState("speakers"), STATE::OFF);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
     std::string retStr = useful_F::myStaticData->myEventHandler.run("speakers")->getEvent();
     EXPECT_THAT(retStr, testing::HasSubstr("speakers can not start due to home state: LOCK"));
 }
@@ -380,12 +380,12 @@ TEST_F(iDomTOOLS_ClassTest, printerON_OFF)
 {
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
     test_idomTOOLS->turnOnPrinter();
-    EXPECT_EQ(test_status.getObjectState("printer"), STATE::ON);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
     test_idomTOOLS->turnOffPrinter();
-    EXPECT_EQ(test_status.getObjectState("printer"), STATE::OFF);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::OFF);
     useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
     test_idomTOOLS->turnOnPrinter();
-    EXPECT_EQ(test_status.getObjectState("printer"), STATE::OFF);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::OFF);
     std::string retStr = useful_F::myStaticData->myEventHandler.run("230V")->getEvent();
     EXPECT_THAT(retStr, testing::HasSubstr("Printer can not start due to home state: LOCK"));
 }
@@ -403,29 +403,29 @@ TEST_F(iDomTOOLS_ClassTest, getPinState)
 TEST_F(iDomTOOLS_ClassTest, turnOnOffPrinter)
 {
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-    test_status.setObjectState("printer",STATE::ON);
-    EXPECT_EQ(test_status.getObjectState("printer"), STATE::ON);
+    test_my_data.main_iDomStatus->setObjectState("printer",STATE::ON);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
     setReturnPinState(1);
     puts("off printer");
     test_idomTOOLS->turnOnOffPrinter();
-    EXPECT_EQ(test_status.getObjectState("printer"), STATE::OFF);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::OFF);
     setReturnPinState(0);
     puts("on printer");
     test_idomTOOLS->turnOnOffPrinter();
-    EXPECT_EQ(test_status.getObjectState("printer"), STATE::ON);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
     setReturnPinState(4);
     test_idomTOOLS->turnOnOffPrinter();
-    EXPECT_EQ(test_status.getObjectState("printer"), STATE::ON);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
 }
 
 TEST_F(iDomTOOLS_ClassTest, turn_On_Off_433MHzSwitch)
 {
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-    EXPECT_EQ(test_status.getObjectState("B"),STATE::UNKNOWN);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::UNKNOWN);
     test_idomTOOLS->turnOn433MHzSwitch("B");
-    EXPECT_EQ(test_status.getObjectState("B"),STATE::ON);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::ON);
     test_idomTOOLS->turnOff433MHzSwitch("B");
-    EXPECT_EQ(test_status.getObjectState("B"),STATE::OFF);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::OFF);
 }
 
 TEST_F(iDomTOOLS_ClassTest, turn_On_Off_fake_433MHzSwitch)
@@ -444,7 +444,7 @@ TEST_F(iDomTOOLS_ClassTest, turnOnOff433MHzSwitch)
     test_idomTOOLS->turnOnOff433MHzSwitch("B");
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::OFF);
     test_idomTOOLS->turnOnOff433MHzSwitch("B");
-    EXPECT_EQ(test_status.getObjectState("B"),STATE::ON);
+    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::ON);
 
 }
 
