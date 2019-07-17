@@ -8,12 +8,17 @@ std::string RFLinkHandler::sm_RFLink_BUFOR;
 
 
 RFLinkHandler::RFLinkHandler(thread_data *my_data):
-                                                     m_serial_RFLink(my_data->server_settings->_rflink.RFLinkPort)
+    m_serial_RFLink(my_data->server_settings->_rflink.RFLinkPort)
 {
     this->my_data = my_data;
 #ifdef BT_TEST
     std::cout << "RFLinkHandler::RFLinkHandler()"<<std::endl;
 #endif
+}
+
+RFLinkHandler::~RFLinkHandler()
+{
+    std::cout << "RFLinkHandler::~RFLinkHandler()"<<std::endl;
 }
 
 bool RFLinkHandler::init()

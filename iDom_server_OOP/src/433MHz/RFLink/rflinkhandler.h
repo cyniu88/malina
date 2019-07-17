@@ -38,7 +38,7 @@ public:
     std::map<std::string, RFLink_DEV> m_rflinkMAP;
     /////////////////////////////
     RFLinkHandler(thread_data *my_data);
-
+    ~RFLinkHandler();
     bool init();
     // void run();
     void flush();

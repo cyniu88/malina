@@ -325,7 +325,7 @@ struct thread_data{
     files_tree *main_tree = NULL;
     menu_tree *main_MENU = NULL;
     iDomTOOLS *main_iDomTools = NULL;
-    RFLinkHandler *main_RFLink = NULL;
+    std::shared_ptr<RFLinkHandler> main_RFLink = std::nullptr_t();
     std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *main_THREAD_arr = NULL;
     time_t start;
     time_t now_time;

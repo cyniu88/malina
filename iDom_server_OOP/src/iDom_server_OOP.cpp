@@ -309,9 +309,10 @@ iDomStateEnum iDom_main()
     /////////////////////////////// RC 433MHz ////////////////////
     node_data.main_REC = std::make_unique<RADIO_EQ_CONTAINER>(&node_data);
     node_data.main_REC->loadConfig(server_settings._server.radio433MHzConfigFile);
-    RFLinkHandler rflinkHandler(&node_data);
-    bool rflink_work = rflinkHandler.init();
-    node_data.main_RFLink = &rflinkHandler;
+    //std::unique_ptr<RFLinkHandler> rflinkHandler(new RFLinkHandler(&node_data));
+    node_data.main_RFLink = std::make_shared<RFLinkHandler>(&node_data);
+    bool rflink_work = node_data.main_RFLink->init();
+   // node_data.main_RFLink = std::move(rflinkHandler);
 
     if (rflink_work == true){
         //start watku czytania RFLinka
@@ -586,7 +587,7 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "koniec programu "<< std::endl;
     log_file_mutex.mutex_unlock();
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     pthread_mutex_destroy(&Logger::mutex_log);
     iDomStateProgram = node_data.iDomProgramState;
@@ -643,7 +644,7 @@ int main(int argc, char *argv[])
         int ret = 9;
         while (ret != 0)
         {
-            std::this_thread::sleep_for(std::chrono::seconds(10));
+            std::this_thread::sleep_for(std::chrono::seconds(1));
             std::cout << "nie ma parametru wiec odpalam program "<< std::endl;
             ret = system("./iDom_server_OOP");
             std::cout << "system() zwraca ret " << ret <<std::endl;
