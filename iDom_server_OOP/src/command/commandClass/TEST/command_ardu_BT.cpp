@@ -25,9 +25,8 @@ protected:
 
         test_q._clearAll();
 
-        test_RFLink = new RFLinkHandler(&test_my_data);
         test_ardu = new command_ardu("ardu", &test_my_data);
-        test_my_data.main_RFLink = test_RFLink;
+        test_my_data.main_RFLink = std::make_shared<RFLinkHandler>(&test_my_data);;
         test_v.push_back("433MHz");
         std::cout << "commandArdu_Class_fixture SetUp" << std::endl;
     }
@@ -35,7 +34,6 @@ protected:
     void TearDown() final
     {
         iDomTOOLS_ClassTest::TearDown();
-        delete test_RFLink;
         delete test_ardu;
         std::cout << "commandArdu_Class_fixture TearDown" << std::endl;
     }

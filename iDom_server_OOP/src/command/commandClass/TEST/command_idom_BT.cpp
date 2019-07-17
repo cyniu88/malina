@@ -28,16 +28,14 @@ protected:
 
         test_q._clearAll();
 
-        test_RFLink = new RFLinkHandler(&test_my_data);
         test_command_iDom = new command_iDom("iDom");
-        test_my_data.main_RFLink = test_RFLink;
+        test_my_data.main_RFLink = std::make_shared<RFLinkHandler>(&test_my_data);
         std::cout << "commandiDom_Class_fixture SetUp" << std::endl;
     }
 
     void TearDown() final
     {
         iDomTOOLS_ClassTest::TearDown();
-        delete test_RFLink;
         delete test_command_iDom;
         std::cout << "commandiDom_Class_fixture TearDown" << std::endl;
     }
