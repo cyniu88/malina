@@ -78,11 +78,11 @@ void f_master_mqtt (thread_data *my_data, const std::string& threadName){
     {
         ex = true;
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL <<"MQTT: " << e <<std::endl;
+        log_file_cout << CRITICAL << "MQTT: " << e <<std::endl;
         log_file_mutex.mutex_unlock();
     }
     if (ex == false)
-        my_data->mqttHandler->subscribeHandlerRunInThread(my_data->mqttHandler);
+        my_data->mqttHandler->subscribeHandlerRunInThread(my_data->mqttHandler.get());
 
     iDOM_THREAD::stop_thread(threadName, my_data);
 } // koniec master_mqtt
@@ -336,18 +336,17 @@ iDomStateEnum iDom_main()
     }
 
     /////////////////////////////// MPD info /////////////////////////
-    MPD_info my_MPD_info;
+    node_data.ptr_MPD_info = std::make_unique<MPD_info>();
     /////////////////////////////// iDom Status //////////////////////
-    iDomSTATUS my_iDomStatus;
-    node_data.main_iDomStatus = &my_iDomStatus;
+    node_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     /////////////////////////////// LCD //////////////////////////////
     LCD_c mainLCD(0x27,16,2);
     ////////////// przegladanie plikow ////////////////////
-    files_tree main_tree(server_settings._server.MOVIES_DB_PATH, &mainLCD);
+    node_data.main_tree = std::make_unique<files_tree>(server_settings._server.MOVIES_DB_PATH, &mainLCD);
     /////////////////////////////// iDom Tools ///////////////////////
-    iDomTOOLS my_iDomTools(&node_data);
+    node_data.main_iDomTools = std::make_unique <iDomTOOLS>(&node_data);
     ///////////////////////////////// MENU /////////////////////////////////
-    menu_tree main_MENU(server_settings._server.MENU_PATH, &mainLCD);
+    node_data.main_MENU = std::make_unique<menu_tree>(server_settings._server.MENU_PATH, &mainLCD);
     //////////////////////////////// SETTINGS //////////////////////////////
     node_data.main_iDomStatus->addObject("house",node_data.idom_all_state.houseState);
     ///////////////////////////////////////////////// wypelniam struktury przesylane do watkow ////////////////////////
@@ -358,9 +357,8 @@ iDomStateEnum iDom_main()
     data_rs232.pointer.ptr_who = who;
 
     /////////////////////////////////////// MQTT ////////////////////////////
-    MQTT_mosquitto mainMQTT("iDomSERVER");
-    mainMQTT.turnOffDebugeMode();
-    node_data.mqttHandler = &mainMQTT;
+    node_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER");
+    node_data.mqttHandler->turnOffDebugeMode();
 
     ////////////////////////////////////////start watku do komunikacji rs232
 
@@ -404,15 +402,11 @@ iDomStateEnum iDom_main()
     const char *SERVER_IP = server_settings._server.SERVER_IP.c_str();
     node_data.pointer.ptr_who = who;
     node_data.mainLCD = &mainLCD;
-    node_data.main_tree = &main_tree;
-    node_data.main_MENU = &main_MENU;
     node_data.sleeper = 0;
-    node_data.ptr_MPD_info = &my_MPD_info;
 
     pilot_led mainPilotLED;
     node_data.ptr_pilot_led = &mainPilotLED;
-    //dodanie pilota
-    node_data.main_iDomTools = &my_iDomTools;
+
 
     std::unique_ptr <pilot> pilotPTR(new pilot(&node_data.key_map));
     pilotPTR->setup();
