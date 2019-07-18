@@ -16,11 +16,9 @@ public:
     {
         iDomTOOLS_ClassTest::SetUp();
         test_irda = std::make_unique<c_irda_logic>(&test_my_data);
-        test_menuTree = new menu_tree("../config/MENU/", test_my_data.mainLCD);
-        test_my_data.main_MENU = test_menuTree;
+        test_my_data.main_MENU = std::make_unique<menu_tree>("../config/MENU/", test_my_data.mainLCD);
 
-        test_filesTree = new files_tree("../config/MOVIE/", test_my_data.mainLCD);
-        test_my_data.main_tree = test_filesTree;
+        test_my_data.main_tree = std::make_unique<files_tree>("../config/MOVIE/", test_my_data.mainLCD);
 
         test_my_data.server_settings->_server.omxplayerFile =  test_omxplayerFile;
 
@@ -29,8 +27,6 @@ public:
 
     void TearDown()
     {
-        delete test_menuTree;
-        delete test_filesTree;
         iDomTOOLS_ClassTest::TearDown();
         std::cout << "c_irda_logic_fixture TearDown()"<<std::endl;
     }

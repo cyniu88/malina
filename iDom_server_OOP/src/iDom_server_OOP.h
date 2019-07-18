@@ -143,9 +143,9 @@ struct GATEWAY{
 };
 
 struct NightLight_CFG{
-int from = 48;
-int to = 50;
-color colorLED = color::green;
+    int from = 48;
+    int to = 50;
+    color colorLED = color::green;
 };
 
 struct RunThread_CFG{
@@ -230,11 +230,11 @@ struct LED_Strip{
     std::string colorName;
 
     LED_Strip (int from, int to, int r, int g, int b, std::string colorName = "NULL"):from(std::to_string(from)),
-                                                                                       to(std::to_string(to)),
-                                                                                       R(std::to_string(r)),
-                                                                                       G(std::to_string(g)),
-                                                                                       B(std::to_string(b)),
-                                                                                       colorName(colorName)
+        to(std::to_string(to)),
+        R(std::to_string(r)),
+        G(std::to_string(g)),
+        B(std::to_string(b)),
+        colorName(colorName)
     {
 
     }
@@ -244,12 +244,12 @@ struct LED_Strip{
               const std::string& g,
               const std::string& b,
               const std::string& colorName = "NULL"):
-                                                       from(from),
-                                                       to(to),
-                                                       R(r),
-                                                       G(g),
-                                                       B(b),
-                                                       colorName(colorName)
+        from(from),
+        to(to),
+        R(r),
+        G(g),
+        B(b),
+        colorName(colorName)
     {
 
     }
@@ -322,15 +322,15 @@ struct thread_data{
     struct CONFIG_JSON *server_settings = NULL;
     struct s_pointer pointer;
     LCD_c *mainLCD = NULL;
-    files_tree *main_tree = NULL;
-    menu_tree *main_MENU = NULL;
+    std::unique_ptr<files_tree> main_tree = std::nullptr_t();
+    std::unique_ptr<menu_tree> main_MENU = std::nullptr_t();
     std::unique_ptr<iDomTOOLS> main_iDomTools = std::nullptr_t();
     std::shared_ptr<RFLinkHandler> main_RFLink = std::nullptr_t();
     std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *main_THREAD_arr = NULL;
     time_t start;
     time_t now_time;
     int sleeper;
-    std::map <std::string, std::unique_ptr <KEY> > key_map;
+    std::map<std::string, std::unique_ptr<KEY> > key_map;
     std::unique_ptr<MPD_info> ptr_MPD_info = std::nullptr_t();
     pilot_led * ptr_pilot_led = NULL;
     event_counters_handler myEventHandler;
