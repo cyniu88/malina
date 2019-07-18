@@ -104,8 +104,7 @@ TEST_F(command_program_Class_fixture, raspberryProgram)
 
 TEST_F(command_program_Class_fixture, debugeVariableProgram)
 {
-    MQTT_mosquitto mqtt_test("cyniu_TEST");
-    test_my_data.mqttHandler = &mqtt_test;
+    test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu_TEST");
     test_my_data.main_RFLink = std::make_shared<RFLinkHandler>(&test_my_data);
     test_my_data.main_RFLink->m_okTime = 777;
     test_my_data.main_RFLink->m_pingTime = 888;

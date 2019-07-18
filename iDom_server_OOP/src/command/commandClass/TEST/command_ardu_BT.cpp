@@ -48,7 +48,7 @@ TEST_F(commandArdu_Class_fixture, wrongMSGformat)
 
 TEST_F(commandArdu_Class_fixture, UnlockHome)
 {
-    test_idomTOOLS->lockHome();
+    test_my_data.main_iDomTools->lockHome();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
 
     test_v.push_back("20;EV1527;ID=01e7be;SWITCH=01;CMD=ON;");
@@ -62,7 +62,7 @@ TEST_F(commandArdu_Class_fixture, UnlockHome)
 
 TEST_F(commandArdu_Class_fixture, LockHome)
 {
-    test_idomTOOLS->unlockHome();
+    test_my_data.main_iDomTools->unlockHome();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
 
     test_v.push_back("20;EV1527;ID=01e7be;SWITCH=01;CMD=ON;");
@@ -78,7 +78,7 @@ TEST_F(commandArdu_Class_fixture, LockHome)
 
 TEST_F(commandArdu_Class_fixture, LockHome1unlockHome2)
 {
-    test_idomTOOLS->lockHome();
+    test_my_data.main_iDomTools->lockHome();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
 
     ////////////////////////// unlock locker-main
@@ -105,7 +105,7 @@ TEST_F(commandArdu_Class_fixture, LockHome1unlockHome2)
 
 TEST_F(commandArdu_Class_fixture, playMusic)
 {
-    test_idomTOOLS->unlockHome();
+    test_my_data.main_iDomTools->unlockHome();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("listwa"),STATE::UNKNOWN);
     test_my_data.main_iDomStatus->addObject("music",STATE::STOP);
@@ -122,7 +122,7 @@ TEST_F(commandArdu_Class_fixture, playMusic)
 
 TEST_F(commandArdu_Class_fixture, stopMusic)
 {
-    test_idomTOOLS->unlockHome();
+    test_my_data.main_iDomTools->unlockHome();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("listwa"),STATE::UNKNOWN);
     test_my_data.main_iDomStatus->addObject("music",STATE::PLAY);
@@ -196,7 +196,7 @@ TEST_F(commandArdu_Class_fixture, command_ardu_433MHz_PING)
 TEST_F(commandArdu_Class_fixture, NightLight)
 {
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("Night_Light"),STATE::UNKNOWN);
-    test_idomTOOLS->unlockHome();
+    test_my_data.main_iDomTools->unlockHome();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
     test_v.push_back("20;EV1527;ID=458;SWITCH=01;CMD=ON;");
 

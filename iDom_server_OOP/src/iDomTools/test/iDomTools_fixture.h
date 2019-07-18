@@ -20,7 +20,7 @@ public:
     pilot_led test_pilot_led;
 
     /// pointer
-    iDomTOOLS* test_idomTOOLS;
+   // iDomTOOLS* test_idomTOOLS;
     /////// method
     iDomTOOLS_ClassTest()//:test_rec(&test_my_data)
     {
@@ -51,9 +51,7 @@ public:
         test_my_data.main_iDomStatus->addObject("house");
 
         /////////// create
-        test_idomTOOLS = new iDomTOOLS(&test_my_data);
-
-        test_my_data.main_iDomTools = test_idomTOOLS;
+        test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
         test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
         test_my_data.ptr_MPD_info->volume = 3;
 
@@ -62,7 +60,6 @@ public:
 
     void TearDown()
     {
-        delete test_idomTOOLS;
     }
 };
 

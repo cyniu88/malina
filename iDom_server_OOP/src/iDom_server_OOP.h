@@ -324,7 +324,7 @@ struct thread_data{
     LCD_c *mainLCD = NULL;
     files_tree *main_tree = NULL;
     menu_tree *main_MENU = NULL;
-    iDomTOOLS *main_iDomTools = NULL;
+    std::unique_ptr<iDomTOOLS> main_iDomTools = std::nullptr_t();
     std::shared_ptr<RFLinkHandler> main_RFLink = std::nullptr_t();
     std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *main_THREAD_arr = NULL;
     time_t start;
@@ -340,7 +340,7 @@ struct thread_data{
     ALERT alarmTime;
     std::shared_ptr<RADIO_EQ_CONTAINER> main_REC;
     iDomStateEnum iDomProgramState = iDomStateEnum::WORKING;
-    MQTT_mosquitto *mqttHandler;
+    std::unique_ptr<MQTT_mosquitto> mqttHandler = std::nullptr_t();
     alarm_C iDomAlarm;
 };
 

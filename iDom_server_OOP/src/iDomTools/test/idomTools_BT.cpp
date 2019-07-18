@@ -7,7 +7,7 @@
 
 TEST_F(iDomTOOLS_ClassTest, smog)
 {
-    std::string smog = test_idomTOOLS->getSmog();
+    std::string smog = test_my_data.main_iDomTools->getSmog();
     puts(smog.c_str());
     puts(" smog");
     ASSERT_GE(smog.size(),1);
@@ -22,46 +22,46 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     std::cout << "##################################### 0" <<std::endl;
 
     TEST_DATA::return_send_to_arduino = "20.0:-1.0;";
-    test_idomTOOLS->send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::Under);
-    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
+    test_my_data.main_iDomTools->send_temperature_thingSpeak();
+    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::Under);
+    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
     std::cout << "##################################### 1" <<std::endl;
 
     TEST_DATA::return_send_to_arduino = "25.4:0.0;";
-    test_idomTOOLS->send_temperature_thingSpeak();
+    test_my_data.main_iDomTools->send_temperature_thingSpeak();
 
-    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
+    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
 
     std::cout << "##################################### 2" <<std::endl;
 
     TEST_DATA::return_send_to_arduino = "21.0:1.0;";
-    test_idomTOOLS->send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::Over);
-    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::Under);
+    test_my_data.main_iDomTools->send_temperature_thingSpeak();
+    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::Over);
+    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::Under);
 
     std::cout << "##################################### 3" <<std::endl;
     TEST_DATA::return_send_to_arduino = "21.0:5.0;";
-    test_idomTOOLS->send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
+    test_my_data.main_iDomTools->send_temperature_thingSpeak();
+    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
 
     std::cout << "##################################### 4" <<std::endl;
     TEST_DATA::return_send_to_arduino = "21.0:4.0;";
-    test_idomTOOLS->send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
+    test_my_data.main_iDomTools->send_temperature_thingSpeak();
+    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
     std::cout << "##################################### 5" <<std::endl;
 
     TEST_DATA::return_send_to_arduino = "31.9:11.11;";
-    test_idomTOOLS->send_temperature_thingSpeak();
-    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_idomTOOLS->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
+    test_my_data.main_iDomTools->send_temperature_thingSpeak();
+    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
     std::cout << "##################################### 6" <<std::endl;
 
     ////// getThermoStats
 
-    std::cout << "WYNIK: " << test_idomTOOLS->getThermoStats("inside") <<std::endl;
+    std::cout << "WYNIK: " << test_my_data.main_iDomTools->getThermoStats("inside") <<std::endl;
 }
 
 TEST_F(iDomTOOLS_ClassTest, weatherAlert)
@@ -78,7 +78,7 @@ TEST_F(iDomTOOLS_ClassTest, weatherAlert)
                                      "<dl style=\"margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  Trąby powietrzne, brak ostrzeżeń</dl></div>";
 
     std::vector<WEATHER_ALER> test_WA;
-    test_WA =  test_idomTOOLS->getAlert(test_data_from_www);
+    test_WA =  test_my_data.main_iDomTools->getAlert(test_data_from_www);
     EXPECT_EQ(1,test_WA.size()) << "ZŁY ROZMIAR VEKTORA WA";
     std::cout << std::endl << " ****************** " << std::endl <<
     iDom_API::getDump() << std::endl << " ****************** " << std::endl;
@@ -89,7 +89,7 @@ TEST_F(iDomTOOLS_ClassTest, send_temperature_thingSpeak){
     TEST_DATA::return_send_to_arduino = "-2.3:-2";
     TEST_DATA::return_httpPost_expect = "NULL";
     EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(),"NULL");
-    test_idomTOOLS->send_temperature_thingSpeak();
+    test_my_data.main_iDomTools->send_temperature_thingSpeak();
     std::cout << "DATA: "<< TEST_DATA::return_httpPost_expect <<std::endl;
     EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(),"httpPost");
 }
@@ -125,13 +125,13 @@ TEST_F(iDomTOOLS_ClassTest, checkAlarm)
 
     for(unsigned int i = fromVol; i<toVol; ++i)
     {
-        test_idomTOOLS->checkAlarm();
+        test_my_data.main_iDomTools->checkAlarm();
         test_q._get();
         EXPECT_EQ(test_my_data.alarmTime.state, STATE::WORKING)<< "zły stan w for " << i<< " "<< toVol;
         EXPECT_EQ(test_my_data.ptr_MPD_info->volume, i+1) << "zły poziom glosnosci w for";
     }
 
-    test_idomTOOLS->checkAlarm();
+    test_my_data.main_iDomTools->checkAlarm();
 
     EXPECT_EQ(test_my_data.alarmTime.state, STATE::DEACTIVE) << "nie jest STATE::DEACTIVE";
     EXPECT_EQ(test_my_data.ptr_MPD_info->volume, toVol)<< "nie inkrementowane?";
@@ -156,19 +156,19 @@ TEST_F(iDomTOOLS_ClassTest, homeLockPlayStopMusic)
     test_q._clearAll();
     EXPECT_EQ(test_q._size(),0);
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNDEFINE);
-    test_idomTOOLS->lockHome();
+    test_my_data.main_iDomTools->lockHome();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
-    test_idomTOOLS->MPD_play(&test_my_data);
+    test_my_data.main_iDomTools->MPD_play(&test_my_data);
     EXPECT_EQ(test_q._size(),0);
-    test_idomTOOLS->unlockHome();
+    test_my_data.main_iDomTools->unlockHome();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
-    test_idomTOOLS->MPD_play(&test_my_data);
+    test_my_data.main_iDomTools->MPD_play(&test_my_data);
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
-    test_idomTOOLS->lockHome();
+    test_my_data.main_iDomTools->lockHome();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
-    test_idomTOOLS->MPD_stop();
+    test_my_data.main_iDomTools->MPD_stop();
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(),0);
@@ -180,13 +180,13 @@ TEST_F(iDomTOOLS_ClassTest, homeLockPlayStopMusic)
 TEST_F(iDomTOOLS_ClassTest, buttonPressed)
 {
     std::string button433MHz_id = "01e7be";
-    std::string pressedButtonName = test_idomTOOLS->buttonPressed(button433MHz_id);
+    std::string pressedButtonName = test_my_data.main_iDomTools->buttonPressed(button433MHz_id);
     EXPECT_EQ(3, test_my_data.main_REC->getButtonPointerVector().size());
     EXPECT_STREQ(std::to_string(button433MHz_id).c_str(),
                  test_my_data.main_REC->getButtonPointerVector().at(1)->getID().c_str());
     EXPECT_STREQ(pressedButtonName.c_str(), "locker-main");
 
-    EXPECT_THROW(test_idomTOOLS->buttonPressed(button433MHz_id+"a"),
+    EXPECT_THROW(test_my_data.main_iDomTools->buttonPressed(button433MHz_id+"a"),
                  std::string);
 }
 
@@ -195,11 +195,11 @@ TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_lockerUnlock)
     blockQueue test_q;
     test_q._clearAll();
 
-    test_idomTOOLS->unlockHome();
+    test_my_data.main_iDomTools->unlockHome();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
 
     for(auto i =0 ; i < 3; ++i){
-        test_idomTOOLS->button433MHzPressedAction("locker-main");
+        test_my_data.main_iDomTools->button433MHzPressedAction("locker-main");
     }
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
 
@@ -215,7 +215,7 @@ TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_lockerLock)
 
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNDEFINE) << "nie jest UNDEFINED";
 
-    test_idomTOOLS->button433MHzPressedAction("locker-main");
+    test_my_data.main_iDomTools->button433MHzPressedAction("locker-main");
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK)<< "nie jest UNLOCK";
 
     EXPECT_EQ(test_q._size(),1);
@@ -230,14 +230,14 @@ TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_locker_mainLock_locker_2un
 
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNDEFINE) << "nie jest UNDEFINED";
 
-    test_idomTOOLS->button433MHzPressedAction("locker-main");
+    test_my_data.main_iDomTools->button433MHzPressedAction("locker-main");
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK)<< "nie jest UNLOCK";
 
     EXPECT_EQ(test_q._size(),1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(),0);
 
-    test_idomTOOLS->button433MHzPressedAction("locker-2");
+    test_my_data.main_iDomTools->button433MHzPressedAction("locker-2");
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK)<< "nie jest UNLOCK";
 
     EXPECT_EQ(test_q._size(),1);
@@ -248,7 +248,7 @@ TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_locker_mainLock_locker_2un
 TEST_F(iDomTOOLS_ClassTest, testCPU_Load)
 {
     std::cout <<"TEST LOAD" << std::endl;
-    std::cout << test_idomTOOLS->getSystemInfo() << std::endl;
+    std::cout << test_my_data.main_iDomTools->getSystemInfo() << std::endl;
 }
 TEST_F(iDomTOOLS_ClassTest, stringToCardinalDirectionsEnum)
 {
@@ -283,7 +283,7 @@ TEST_F(iDomTOOLS_ClassTest, saveState_readState)
     test_my_data.alarmTime = test_alarmTime;
     test_my_data.main_iDomStatus->setObjectState("alarm", test_alarmTime.state);
 
-    test_idomTOOLS->saveState_iDom();
+    test_my_data.main_iDomTools->saveState_iDom();
 
     nlohmann::json testJson;
     std::ifstream i(test_server_set._server.saveFilePath);
@@ -301,11 +301,11 @@ TEST_F(iDomTOOLS_ClassTest, saveState_readState)
 
     ////////////////////////////////// read
     iDom_SAVE_STATE info(test_my_data.server_settings->_server.saveFilePath);
-    test_idomTOOLS->readState_iDom(info.read());
+    test_my_data.main_iDomTools->readState_iDom(info.read());
     EXPECT_EQ(test_my_data.alarmTime.state,STATE::ACTIVE);
 
     test_my_data.server_settings->_server.saveFilePath = "null";
-    EXPECT_NO_THROW(test_idomTOOLS->readState_iDom(info.read()));
+    EXPECT_NO_THROW(test_my_data.main_iDomTools->readState_iDom(info.read()));
 }
 
 TEST_F(iDomTOOLS_ClassTest, getLightningStruct)
@@ -313,50 +313,50 @@ TEST_F(iDomTOOLS_ClassTest, getLightningStruct)
     LIGHTNING test_lightning;
     test_struct = test_lightning.lightningAlert(test_Json.jj_lightning);
 
-    test_idomTOOLS->setLightningStruct(test_struct);
+    test_my_data.main_iDomTools->setLightningStruct(test_struct);
 
     bool test_result = test_lightning.checkLightningAlert(&test_struct);
     EXPECT_TRUE(test_result);
 
-    auto test_alert_info = test_idomTOOLS->getLightningStruct();
+    auto test_alert_info = test_my_data.main_iDomTools->getLightningStruct();
     EXPECT_EQ(test_alert_info.timestamp,210);
 }
 TEST_F(iDomTOOLS_ClassTest, checkLightning)
 {
     test_my_data.server_settings->_server.lightningApiURL = "http://cyniu88.no-ip.pl/test/json/lightning.json";
-    test_idomTOOLS->checkLightning();
-    auto test_alert_info = test_idomTOOLS->getLightningStruct();
+    test_my_data.main_iDomTools->checkLightning();
+    auto test_alert_info = test_my_data.main_iDomTools->getLightningStruct();
     EXPECT_EQ(test_alert_info.timestamp,210);
 }
 
 TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
 {
     TEST_DATA::return_send_to_arduino = "12:12";
-    test_idomTOOLS->updateTemperatureStats();
+    test_my_data.main_iDomTools->updateTemperatureStats();
     TEST_DATA::return_send_to_arduino = "16:16";
-    test_idomTOOLS->updateTemperatureStats();
+    test_my_data.main_iDomTools->updateTemperatureStats();
 
     ////////////// maleje na mieskzaniu
     TEST_DATA::return_send_to_arduino = "12:16";
-    test_idomTOOLS->updateTemperatureStats();
+    test_my_data.main_iDomTools->updateTemperatureStats();
     EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("temperatura maleje"));
     EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("mieszkaniu"));
 
     ////////////// maleje na polu
     TEST_DATA::return_send_to_arduino = "12:12";
-    test_idomTOOLS->updateTemperatureStats();
+    test_my_data.main_iDomTools->updateTemperatureStats();
     EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("temperatura maleje"));
     EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("polu"));
 
     ////////////// rośnie na mieskzaniu
     TEST_DATA::return_send_to_arduino = "17:12";
-    test_idomTOOLS->updateTemperatureStats();
+    test_my_data.main_iDomTools->updateTemperatureStats();
     EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("temperatura rośnie"));
     EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("mieszkaniu"));
 
     ////////////// rośnie na polu
     TEST_DATA::return_send_to_arduino = "17:17";
-    test_idomTOOLS->updateTemperatureStats();
+    test_my_data.main_iDomTools->updateTemperatureStats();
     EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("temperatura rośnie"));
     EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("polu"));
 }
@@ -365,12 +365,12 @@ TEST_F(iDomTOOLS_ClassTest, speakersON_OFF)
 {
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-    test_idomTOOLS->turnOnSpeakers();
+    test_my_data.main_iDomTools->turnOnSpeakers();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::ON);
-    test_idomTOOLS->turnOffSpeakers();
+    test_my_data.main_iDomTools->turnOffSpeakers();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
     useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
-    test_idomTOOLS->turnOnSpeakers();
+    test_my_data.main_iDomTools->turnOnSpeakers();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
     std::string retStr = useful_F::myStaticData->myEventHandler.run("speakers")->getEvent();
     EXPECT_THAT(retStr, testing::HasSubstr("speakers can not start due to home state: LOCK"));
@@ -379,12 +379,12 @@ TEST_F(iDomTOOLS_ClassTest, speakersON_OFF)
 TEST_F(iDomTOOLS_ClassTest, printerON_OFF)
 {
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-    test_idomTOOLS->turnOnPrinter();
+    test_my_data.main_iDomTools->turnOnPrinter();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
-    test_idomTOOLS->turnOffPrinter();
+    test_my_data.main_iDomTools->turnOffPrinter();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::OFF);
     useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
-    test_idomTOOLS->turnOnPrinter();
+    test_my_data.main_iDomTools->turnOnPrinter();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::OFF);
     std::string retStr = useful_F::myStaticData->myEventHandler.run("230V")->getEvent();
     EXPECT_THAT(retStr, testing::HasSubstr("Printer can not start due to home state: LOCK"));
@@ -393,11 +393,11 @@ TEST_F(iDomTOOLS_ClassTest, printerON_OFF)
 TEST_F(iDomTOOLS_ClassTest, getPinState)
 {
     setReturnPinState(0);
-    EXPECT_EQ(test_idomTOOLS->getPinState(0), PIN_STATE::LOW_STATE);
+    EXPECT_EQ(test_my_data.main_iDomTools->getPinState(0), PIN_STATE::LOW_STATE);
     setReturnPinState(1);
-    EXPECT_EQ(test_idomTOOLS->getPinState(0), PIN_STATE::HIGH_STATE);
+    EXPECT_EQ(test_my_data.main_iDomTools->getPinState(0), PIN_STATE::HIGH_STATE);
     setReturnPinState(4);
-    EXPECT_EQ(test_idomTOOLS->getPinState(0), PIN_STATE::UNKNOWN_STATE);
+    EXPECT_EQ(test_my_data.main_iDomTools->getPinState(0), PIN_STATE::UNKNOWN_STATE);
 }
 
 TEST_F(iDomTOOLS_ClassTest, turnOnOffPrinter)
@@ -407,14 +407,14 @@ TEST_F(iDomTOOLS_ClassTest, turnOnOffPrinter)
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
     setReturnPinState(1);
     puts("off printer");
-    test_idomTOOLS->turnOnOffPrinter();
+    test_my_data.main_iDomTools->turnOnOffPrinter();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::OFF);
     setReturnPinState(0);
     puts("on printer");
-    test_idomTOOLS->turnOnOffPrinter();
+    test_my_data.main_iDomTools->turnOnOffPrinter();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
     setReturnPinState(4);
-    test_idomTOOLS->turnOnOffPrinter();
+    test_my_data.main_iDomTools->turnOnOffPrinter();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
 }
 
@@ -422,17 +422,17 @@ TEST_F(iDomTOOLS_ClassTest, turn_On_Off_433MHzSwitch)
 {
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::UNKNOWN);
-    test_idomTOOLS->turnOn433MHzSwitch("B");
+    test_my_data.main_iDomTools->turnOn433MHzSwitch("B");
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::ON);
-    test_idomTOOLS->turnOff433MHzSwitch("B");
+    test_my_data.main_iDomTools->turnOff433MHzSwitch("B");
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::OFF);
 }
 
 TEST_F(iDomTOOLS_ClassTest, turn_On_Off_fake_433MHzSwitch)
 {
-    EXPECT_NO_THROW(test_idomTOOLS->turnOn433MHzSwitch("B-fake"));
-    EXPECT_NO_THROW(test_idomTOOLS->turnOff433MHzSwitch("B-fake"));
-    EXPECT_NO_THROW(test_idomTOOLS->turnOnOff433MHzSwitch("B-fake"));
+    EXPECT_NO_THROW(test_my_data.main_iDomTools->turnOn433MHzSwitch("B-fake"));
+    EXPECT_NO_THROW(test_my_data.main_iDomTools->turnOff433MHzSwitch("B-fake"));
+    EXPECT_NO_THROW(test_my_data.main_iDomTools->turnOnOff433MHzSwitch("B-fake"));
 }
 
 TEST_F(iDomTOOLS_ClassTest, turnOnOff433MHzSwitch)
@@ -441,9 +441,9 @@ TEST_F(iDomTOOLS_ClassTest, turnOnOff433MHzSwitch)
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::UNKNOWN);
     test_my_data.main_iDomStatus->setObjectState("B",STATE::ON);
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::ON);
-    test_idomTOOLS->turnOnOff433MHzSwitch("B");
+    test_my_data.main_iDomTools->turnOnOff433MHzSwitch("B");
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::OFF);
-    test_idomTOOLS->turnOnOff433MHzSwitch("B");
+    test_my_data.main_iDomTools->turnOnOff433MHzSwitch("B");
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("B"),STATE::ON);
 
 }
@@ -451,14 +451,14 @@ TEST_F(iDomTOOLS_ClassTest, turnOnOff433MHzSwitch)
 TEST_F(iDomTOOLS_ClassTest, runOnSunset)
 {
     useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
-    test_idomTOOLS->runOnSunset();
+    test_my_data.main_iDomTools->runOnSunset();
     std::string retStr = useful_F::myStaticData->myEventHandler.run("iDom")->getEvent();
     EXPECT_THAT(retStr, testing::HasSubstr("433MHz can not start due to home state: LOCK"));
 
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
     auto ptr = static_cast<RADIO_SWITCH*>(test_my_data.main_REC->getEqPointer("B"));
     ptr->m_state = STATE::ON;
-    test_idomTOOLS->runOnSunset();
+    test_my_data.main_iDomTools->runOnSunset();
 
     EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
 
@@ -468,7 +468,7 @@ TEST_F(iDomTOOLS_ClassTest, runOnSunset)
 
     ptr->setCode(cfg);
     ptr->m_state = STATE::OFF;
-    test_idomTOOLS->runOnSunset();
+    test_my_data.main_iDomTools->runOnSunset();
 
     EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
 }
@@ -476,14 +476,14 @@ TEST_F(iDomTOOLS_ClassTest, runOnSunset)
 TEST_F(iDomTOOLS_ClassTest, runOnSunrise)
 {
     useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
-    test_idomTOOLS->runOnSunrise();
+    test_my_data.main_iDomTools->runOnSunrise();
     std::string retStr = useful_F::myStaticData->myEventHandler.run("iDom")->getEvent();
     EXPECT_THAT(retStr, testing::HasSubstr("433MHz can not start due to home state: LOCK"));
 
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
     auto ptr = static_cast<RADIO_SWITCH*>(test_my_data.main_REC->getEqPointer("B"));
     ptr->m_state = STATE::OFF;
-    test_idomTOOLS->runOnSunrise();
+    test_my_data.main_iDomTools->runOnSunrise();
 
     EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
 
@@ -498,42 +498,42 @@ TEST_F(iDomTOOLS_ClassTest, runOnSunrise)
 
     ptr->setCode(cfg);
     ptr->m_state = STATE::ON;
-    test_idomTOOLS->runOnSunrise();
+    test_my_data.main_iDomTools->runOnSunrise();
 
     EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
 }
 
 TEST_F(iDomTOOLS_ClassTest, getSunrise_Sunset)
 {
-    std::string ret = test_idomTOOLS->getSunrise();
+    std::string ret = test_my_data.main_iDomTools->getSunrise();
     EXPECT_THAT(ret, testing::HasSubstr(":"));
     std::cout << "sunrise: " << ret << std::endl;
 
-    ret = test_idomTOOLS->getSunset();
+    ret = test_my_data.main_iDomTools->getSunset();
     EXPECT_THAT(ret, testing::HasSubstr(":"));
 
     std::cout << "sunset: " << ret << std::endl;
 
-    ret = test_idomTOOLS->getSunrise(true);
+    ret = test_my_data.main_iDomTools->getSunrise(true);
     EXPECT_THAT(ret, testing::HasSubstr("Sunrise time:"));
 
-    ret = test_idomTOOLS->getSunset(true);
+    ret = test_my_data.main_iDomTools->getSunset(true);
     EXPECT_THAT(ret, testing::HasSubstr("Sunset time:"));
 }
 
 TEST_F(iDomTOOLS_ClassTest, getDayLenght)
 {
-    std::string ret = test_idomTOOLS->getDayLenght();
+    std::string ret = test_my_data.main_iDomTools->getDayLenght();
     EXPECT_THAT(ret, testing::HasSubstr(":"));
 
-    ret = test_idomTOOLS->getDayLenght(true);
+    ret = test_my_data.main_iDomTools->getDayLenght(true);
     EXPECT_THAT(ret, testing::HasSubstr("Day Lenght :"));
 }
 
 TEST_F(iDomTOOLS_ClassTest, getTextToSpeach)
 {
     TEST_DATA::return_send_to_arduino = "22:23";
-    std::string ret = test_idomTOOLS->getTextToSpeach();
+    std::string ret = test_my_data.main_iDomTools->getTextToSpeach();
     EXPECT_THAT(ret, testing::HasSubstr("Smog:"));
     std::cout << "TEXT :"<< std::endl << ret << std::endl;
 }
@@ -545,13 +545,13 @@ TEST_F(iDomTOOLS_ClassTest, mpd)
     blockQueue test_q;
     test_q._clearAll();
     useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
-    test_idomTOOLS->MPD_play(&test_my_data);
+    test_my_data.main_iDomTools->MPD_play(&test_my_data);
     std::string retStr = useful_F::myStaticData->myEventHandler.run("MPD")->getEvent();
     EXPECT_THAT(retStr, testing::HasSubstr("MPD can not start due to home state: LOCK"));
     EXPECT_EQ(test_q._size(), 0);
 
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-    test_idomTOOLS->MPD_play(&test_my_data);
+    test_my_data.main_iDomTools->MPD_play(&test_my_data);
     EXPECT_EQ(test_q._size(), 1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
     EXPECT_EQ(test_q._size(), 0);
@@ -559,55 +559,55 @@ TEST_F(iDomTOOLS_ClassTest, mpd)
     useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
 
     useful_F::myStaticData->myEventHandler.run("MPD")->clearEvent();
-    test_idomTOOLS->MPD_play(&test_my_data,2);
+    test_my_data.main_iDomTools->MPD_play(&test_my_data,2);
     retStr = useful_F::myStaticData->myEventHandler.run("MPD")->getEvent();
     EXPECT_THAT(retStr, testing::HasSubstr("MPD can not start due to home state: LOCK"));
     EXPECT_EQ(test_q._size(), 0);
 
     useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-    test_idomTOOLS->MPD_play(&test_my_data,2);
+    test_my_data.main_iDomTools->MPD_play(&test_my_data,2);
     EXPECT_EQ(test_q._size(), 1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY_ID);
     EXPECT_EQ(test_q._size(), 0);
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    test_idomTOOLS->MPD_stop();
+    test_my_data.main_iDomTools->MPD_stop();
     EXPECT_EQ(test_q._size(), 1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_EQ(test_q._size(), 0);
 
-    test_idomTOOLS->MPD_next();
+    test_my_data.main_iDomTools->MPD_next();
     EXPECT_EQ(test_q._size(), 1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::NEXT);
     EXPECT_EQ(test_q._size(), 0);
 
-    test_idomTOOLS->MPD_prev();
+    test_my_data.main_iDomTools->MPD_prev();
     EXPECT_EQ(test_q._size(), 1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PREV);
     EXPECT_EQ(test_q._size(), 0);
 
-    test_idomTOOLS->MPD_pause();
+    test_my_data.main_iDomTools->MPD_pause();
     EXPECT_EQ(test_q._size(), 1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::PAUSE );
     EXPECT_EQ(test_q._size(), 0);
 
-    test_idomTOOLS->MPD_volumeUp();
+    test_my_data.main_iDomTools->MPD_volumeUp();
     EXPECT_EQ(test_q._size(), 1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLUP );
     EXPECT_EQ(test_q._size(), 0);
 
-    test_idomTOOLS->MPD_volumeDown();
+    test_my_data.main_iDomTools->MPD_volumeDown();
     EXPECT_EQ(test_q._size(), 1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLDOWN );
     EXPECT_EQ(test_q._size(), 0);
 
-    test_idomTOOLS->MPD_volumeSet(&test_my_data, 99);
+    test_my_data.main_iDomTools->MPD_volumeSet(&test_my_data, 99);
     EXPECT_EQ(test_q._size(), 1);
     EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLSET );
     EXPECT_EQ(test_q._size(), 0);
     EXPECT_EQ(test_my_data.ptr_MPD_info->volume, 99);
 
-    EXPECT_EQ(test_idomTOOLS->MPD_getVolume(&test_my_data),99);
+    EXPECT_EQ(test_my_data.main_iDomTools->MPD_getVolume(&test_my_data),99);
 
 }
 
@@ -683,8 +683,7 @@ TEST_F(iDomTOOLS_ClassTest, getAllDataSunrisesunset)
 
 TEST_F(iDomTOOLS_ClassTest, health_check)
 {
-    MQTT_mosquitto mainMQTT("iDomSERVER test");
-    test_my_data.mqttHandler = &mainMQTT;
+    test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER test");
     test_my_data.mqttHandler->_subscribed = true;
 
 
@@ -700,41 +699,41 @@ TEST_F(iDomTOOLS_ClassTest, health_check)
 
 TEST_F(iDomTOOLS_ClassTest, access_KEYGEN)
 {
-    test_idomTOOLS->m_keyHandler->addKEY("test",256);
-    std::cout << "KEY " << test_idomTOOLS->m_keyHandler->listKEY() << std::endl;
-    test_idomTOOLS->m_keyHandler->addTempKEY("tmp",20);
+    test_my_data.main_iDomTools->m_keyHandler->addKEY("test",256);
+    std::cout << "KEY " << test_my_data.main_iDomTools->m_keyHandler->listKEY() << std::endl;
+    test_my_data.main_iDomTools->m_keyHandler->addTempKEY("tmp",20);
 
-    std::cout << "KEY " << test_idomTOOLS->m_keyHandler->listKEY() << std::endl;
-    auto ret = test_idomTOOLS->m_keyHandler->getKEY("tmp");
+    std::cout << "KEY " << test_my_data.main_iDomTools->m_keyHandler->listKEY() << std::endl;
+    auto ret = test_my_data.main_iDomTools->m_keyHandler->getKEY("tmp");
 
-    EXPECT_TRUE(test_idomTOOLS->m_keyHandler->useKEY("tmp",ret));
+    EXPECT_TRUE(test_my_data.main_iDomTools->m_keyHandler->useKEY("tmp",ret));
 
-    std::cout << "KEY " << test_idomTOOLS->m_keyHandler->listKEY() << std::endl;
+    std::cout << "KEY " << test_my_data.main_iDomTools->m_keyHandler->listKEY() << std::endl;
 
     ////// remove expired keys
     std::cout << std::endl << "======== remove expired keys ==========" << std::endl;
-    test_idomTOOLS->m_keyHandler->addTempKEY("tmp1",20);
-    test_idomTOOLS->m_keyHandler->addTempKEY("tmp2",20);
+    test_my_data.main_iDomTools->m_keyHandler->addTempKEY("tmp1",20);
+    test_my_data.main_iDomTools->m_keyHandler->addTempKEY("tmp2",20);
 
-    std::cout << "KEY " << test_idomTOOLS->m_keyHandler->listKEY() << std::endl;
+    std::cout << "KEY " << test_my_data.main_iDomTools->m_keyHandler->listKEY() << std::endl;
     sleep(1);
-    ret = test_idomTOOLS->m_keyHandler->getKEY("tmp2");
-    test_idomTOOLS->m_keyHandler->removeExpiredKeys(0);
+    ret = test_my_data.main_iDomTools->m_keyHandler->getKEY("tmp2");
+    test_my_data.main_iDomTools->m_keyHandler->removeExpiredKeys(0);
 
-    EXPECT_FALSE(test_idomTOOLS->m_keyHandler->useKEY("tmp2",ret));
+    EXPECT_FALSE(test_my_data.main_iDomTools->m_keyHandler->useKEY("tmp2",ret));
 }
 
 TEST_F(iDomTOOLS_ClassTest, openGate_getLink)
 {
     test_my_data.server_settings->_gateway.url = "http://tst.pl?";
     test_my_data.server_settings->_gateway.keySize  = 128;
-    auto ret = test_idomTOOLS->openGateLink({"t1","t2"});
+    auto ret = test_my_data.main_iDomTools->openGateLink({"t1","t2"});
     EXPECT_THAT(ret, testing::HasSubstr("http://"));
 
     std::string t_name = ret.substr(14,20);
     std::string t_key = ret.substr(35,128);
 
-    EXPECT_TRUE(test_idomTOOLS->m_keyHandler->useKEY(t_name,t_key));
+    EXPECT_TRUE(test_my_data.main_iDomTools->m_keyHandler->useKEY(t_name,t_key));
 
     std::cout << "wygenerowalem link: " << ret << std::endl;
 }
