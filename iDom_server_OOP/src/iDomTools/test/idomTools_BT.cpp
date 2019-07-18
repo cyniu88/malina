@@ -540,9 +540,8 @@ TEST_F(iDomTOOLS_ClassTest, getTextToSpeach)
 
 TEST_F(iDomTOOLS_ClassTest, mpd)
 {
-    MPD_info test_ptr_MPD;
-    test_ptr_MPD.volume = 3;
-    test_my_data.ptr_MPD_info = &test_ptr_MPD;
+    test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
+    test_my_data.ptr_MPD_info->volume = 3;
     blockQueue test_q;
     test_q._clearAll();
     useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;

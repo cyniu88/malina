@@ -331,7 +331,7 @@ struct thread_data{
     time_t now_time;
     int sleeper;
     std::map <std::string, std::unique_ptr <KEY> > key_map;
-    MPD_info *ptr_MPD_info = NULL;
+    std::unique_ptr<MPD_info> ptr_MPD_info = std::nullptr_t();
     pilot_led * ptr_pilot_led = NULL;
     event_counters_handler myEventHandler;
     std::string encriptionKey = "40%";

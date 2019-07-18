@@ -95,9 +95,8 @@ TEST_F(functions_fixture, sleepThread)
     std::array <Thread_array_struc,10> test_THRARRSTR;
     test_my_data.main_THREAD_arr = &test_THRARRSTR;
 
-    MPD_info test_ptr_MPD;
-    test_ptr_MPD.volume = 3;
-    test_my_data.ptr_MPD_info = &test_ptr_MPD;
+    test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
+    test_my_data.ptr_MPD_info->volume = 3;
 
    // RADIO_EQ_CONTAINER_STUB test_rec(&test_my_data);
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
