@@ -612,6 +612,9 @@ void iDomTOOLS::checkLightning()
 
     if(result == true)
     {
+        sendLightingCounterUP();
+        if(sendLightingCounter > 3)   // jesli wyslano juz 3 powiadomieniaw 15 minut  to nie wysylam wiecej
+            return;
 
         m_viber.setAvatar("http://cyniu88.no-ip.pl/avatar/lightning.jpg");
         STATE stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "
@@ -645,6 +648,19 @@ void iDomTOOLS::checkLightning()
             log_file_mutex.mutex_unlock();
         }
     }
+    else
+        sendLightingCounterDOWN();
+}
+
+void iDomTOOLS::sendLightingCounterUP()
+{
+    sendLightingCounter++;
+}
+
+void iDomTOOLS::sendLightingCounterDOWN()
+{
+    if(sendLightingCounter > 0)
+        sendLightingCounter--;
 }
 
 std::string iDomTOOLS::getSunrise(bool extend )

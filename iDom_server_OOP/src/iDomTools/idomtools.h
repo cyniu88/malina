@@ -85,15 +85,18 @@ public:
     bool isItDay();
     std::string getAllDataSunrisesunset();
     //////////////////////////// lightning ////////////////////////
-    /// \brief lightning
-private:
-    CARDINAL_DIRECTIONS::ALARM_INFO m_lightningStruct;
-public:
+    int sendLightingCounter = 0;
     LIGHTNING m_lightning;
     std::mutex m_lightningMutex;
     CARDINAL_DIRECTIONS::ALARM_INFO getLightningStruct();
     void setLightningStruct(CARDINAL_DIRECTIONS::ALARM_INFO& s);
     void checkLightning();
+private:
+    void sendLightingCounterUP();
+    void sendLightingCounterDOWN();
+    CARDINAL_DIRECTIONS::ALARM_INFO m_lightningStruct;
+public:
+
     //////////////////////////// weather /////////////////////////
     std::string getSunrise(bool extend = false);
     std::string getSunset(bool extend = false);
