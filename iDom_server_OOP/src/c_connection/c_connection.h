@@ -35,7 +35,7 @@ public:
     void c_analyse(int recvSize);
     void setEncriptionKey(const std::string& key);
     void setEncrypted(bool flag);
-    commandHandler *m_mainCommandHandler = std::nullptr_t();
+    std::unique_ptr<commandHandler> m_mainCommandHandler = std::nullptr_t();
     void onStartConnection();
     void onStopConnection();
     void cryptoLog(std::string &toEncrypt);

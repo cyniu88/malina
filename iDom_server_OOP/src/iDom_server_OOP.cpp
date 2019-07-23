@@ -189,14 +189,14 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
 
         if(userLevel == "ROOT")
         {
-            client->m_mainCommandHandler = new commandHandlerRoot(my_data);
+            client->m_mainCommandHandler = std::make_unique<commandHandlerRoot>(my_data);
         }
         else if (userLevel == "GATEWAY") {
-            client->m_mainCommandHandler = new commandHandlerGATEWAY(my_data);
+            client->m_mainCommandHandler = std::make_unique<commandHandlerGATEWAY>(my_data);
         }
         else
         {
-            client->m_mainCommandHandler = new commandHandler(my_data);
+            client->m_mainCommandHandler = std::make_unique<commandHandler>(my_data);
         }
     }
     while (useful_F::go_while && key_ok)
