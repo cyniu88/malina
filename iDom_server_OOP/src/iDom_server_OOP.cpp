@@ -312,7 +312,7 @@ iDomStateEnum iDom_main()
     //std::unique_ptr<RFLinkHandler> rflinkHandler(new RFLinkHandler(&node_data));
     node_data.main_RFLink = std::make_shared<RFLinkHandler>(&node_data);
     bool rflink_work = node_data.main_RFLink->init();
-   // node_data.main_RFLink = std::move(rflinkHandler);
+    // node_data.main_RFLink = std::move(rflinkHandler);
 
     if (rflink_work == true){
         //start watku czytania RFLinka
@@ -573,7 +573,9 @@ iDomStateEnum iDom_main()
     node_data.mainLCD->set_lcd_STATE(2);
     node_data.mainLCD->clear();
     node_data.mainLCD->noBacklight();
-    node_data.main_iDomTools->MPD_stop();
+    //TODO dont stop music if reload server
+    if (node_data.iDomProgramState == iDomStateEnum::CLOSE)
+        node_data.main_iDomTools->MPD_stop();
     node_data.mqttHandler->disconnect();
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "zamykanie gniazda wartosc " << shutdown(v_socket, SHUT_RDWR)<< std::endl;
