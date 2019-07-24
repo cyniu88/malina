@@ -67,6 +67,8 @@ void iDomTOOLS::healthCheck()
         }
         else if(m_restartAlarmRFLink == 2){
             my_data->main_RFLink = std::make_shared<RFLinkHandler>(my_data);
+            useful_F::sleep(1);
+            my_data->main_RFLink->sendCommand("10;REBOOT;");
         }
 
         std::string m("brak połaczenia RS232 z RFLink'iem");
