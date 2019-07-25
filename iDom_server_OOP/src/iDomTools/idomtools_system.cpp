@@ -121,7 +121,7 @@ void iDomTOOLS::reloadSoft_iDomServer()
 {
     std::string s ="close server";
     useful_F::send_to_arduino_clock(my_data, "RELO");
-    iDomTOOLS::MPD_stop();
+    //iDomTOOLS::MPD_stop();
     my_data->iDomProgramState = iDomStateEnum::RELOAD;
     my_data->main_iDomTools->saveState_iDom();
     throw s;
@@ -131,7 +131,7 @@ void iDomTOOLS::reloadHard_iDomServer()
 {
     std::string s ="close server";
     useful_F::send_to_arduino_clock(my_data, "UPDA");
-    iDomTOOLS::MPD_stop();
+    //iDomTOOLS::MPD_stop();
     my_data->iDomProgramState = iDomStateEnum::HARD_RELOAD;
     my_data->main_iDomTools->saveState_iDom();
     throw s;
