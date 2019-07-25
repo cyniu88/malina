@@ -568,14 +568,16 @@ iDomStateEnum iDom_main()
     } // while
     // zamykam gniazdo
 
-    iDomTOOLS::turnOffSpeakers();
     node_data.mainLCD->set_print_song_state(0);
     node_data.mainLCD->set_lcd_STATE(2);
     node_data.mainLCD->clear();
     node_data.mainLCD->noBacklight();
     //TODO dont stop music if reload server
     if (node_data.iDomProgramState == iDomStateEnum::CLOSE)
+    {
         node_data.main_iDomTools->MPD_stop();
+        iDomTOOLS::turnOffSpeakers();
+    }
     node_data.mqttHandler->disconnect();
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "zamykanie gniazda wartosc " << shutdown(v_socket, SHUT_RDWR)<< std::endl;
