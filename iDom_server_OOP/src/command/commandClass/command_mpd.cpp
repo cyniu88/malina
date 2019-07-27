@@ -28,13 +28,13 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
             useful_F::sleep(1);
             str_buf=my_data->ptr_MPD_info->title;
         }
-        my_data->main_iDomTools->saveState_iDom();
+        my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
     }
     else if (v[1]=="stop")
     {
         iDomTOOLS::MPD_stop();
         str_buf="stoped!";
-        my_data->main_iDomTools->saveState_iDom();
+        my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
     }
     else if (v[1]=="next")
     {

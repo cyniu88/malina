@@ -164,7 +164,7 @@ public:
     static int  MPD_getVolume(thread_data *my_data);
 
     /////////////////////// SAVE STATE iDOM ////////////////
-    void saveState_iDom();
+    void saveState_iDom(bool& started);
     void readState_iDom(nlohmann::json jj);
 
     /////////////////////// system linux ///////////////////

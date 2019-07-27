@@ -227,14 +227,14 @@ void iDomTOOLS::turnOnSpeakers()
         useful_F::myStaticData->myEventHandler.run("speakers")->addEvent("speakers can not start due to home state: "+
                                                                          stateToString(useful_F::myStaticData->idom_all_state.houseState));
     }
-    useful_F::myStaticData->main_iDomTools->saveState_iDom();
+    useful_F::myStaticData->main_iDomTools->saveState_iDom(useful_F::myStaticData->serverStarted);
 }
 
 void iDomTOOLS::turnOffSpeakers()
 {
     digitalWrite(iDomConst::GPIO_SPIK, LOW);
     useful_F::myStaticData->main_iDomStatus->setObjectState("speakers", STATE::OFF);
-    // useful_F::myStaticData->main_iDomTools->saveState_iDom();
+    // useful_F::myStaticData->main_iDomTools->saveState_iDom(my_data->serverStarted);
 }
 
 void iDomTOOLS::turnOnPrinter()
@@ -322,7 +322,7 @@ void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)
         my_data->mainLCD->printString(true,0,0,"230V ON " + name);
         m_switch->on();
     }
-    saveState_iDom();
+    saveState_iDom(my_data->serverStarted);
 }
 
 void iDomTOOLS::turnOn433MHzSwitch(std::string name)
@@ -420,7 +420,7 @@ void iDomTOOLS::lockHome()
     log_file_cout << INFO << "status domu - " + stateToString(my_data->idom_all_state.houseState) << std::endl;
     log_file_mutex.mutex_unlock();
 
-    saveState_iDom();
+    saveState_iDom(my_data->serverStarted);
 }
 
 void iDomTOOLS::unlockHome()
@@ -436,7 +436,7 @@ void iDomTOOLS::unlockHome()
     log_file_cout << INFO << "status domu - " + stateToString(my_data->idom_all_state.houseState) << std::endl;
     log_file_mutex.mutex_unlock();
 
-    saveState_iDom();
+    saveState_iDom(my_data->serverStarted);
 }
 
 void iDomTOOLS::switchActionOnLockHome()
@@ -1029,7 +1029,7 @@ void iDomTOOLS::checkAlarm()
                                           stateToString(STATE::DEACTIVE));
             if(iDomTOOLS::isItDay() == false){
                 my_data->main_iDomTools->turnOn433MHzSwitch("ALARM");
-                saveState_iDom();
+                saveState_iDom(my_data->serverStarted);
                 log_file_mutex.mutex_lock();
                 log_file_cout << DEBUG << "uruchamiam ALARM 433MHz"<< std::endl;
                 log_file_mutex.mutex_unlock();
@@ -1038,8 +1038,12 @@ void iDomTOOLS::checkAlarm()
     }
 }
 
-void iDomTOOLS::saveState_iDom()
+void iDomTOOLS::saveState_iDom(bool& started)
 {
+    if (started == false)
+    {
+        return;
+    }
     iDom_SAVE_STATE info(my_data->server_settings->_server.saveFilePath);
     nlohmann::json jsonAlarm;
     nlohmann::json jsonMPD;
@@ -1127,7 +1131,7 @@ void iDomTOOLS::readState_iDom(nlohmann::json jj)
         if (alarmState == "ACTIVE"){
             my_data->alarmTime.state = STATE::ACTIVE;
             my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
-            saveState_iDom();
+            saveState_iDom(my_data->serverStarted);
         }
     }
     catch(...)

@@ -342,6 +342,7 @@ struct thread_data{
     iDomStateEnum iDomProgramState = iDomStateEnum::WORKING;
     std::unique_ptr<MQTT_mosquitto> mqttHandler = std::nullptr_t();
     alarm_C iDomAlarm;
+    bool serverStarted = false;
 };
 
 struct thread_data_rs232{

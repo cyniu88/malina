@@ -196,7 +196,8 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         if (v[2] == "OFF"){
             my_data->alarmTime.state = STATE::DEACTIVE;
             my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
-            my_data->main_iDomTools->saveState_iDom();my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/alarm",
+            my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
+            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/alarm",
                                           stateToString(STATE::DEACTIVE));
             return "alarm clock has been deactivated";
         }
@@ -221,14 +222,14 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             ret << "From Value: " << my_data->alarmTime.fromVolume << std::endl;
             ret << "To Value: " << my_data->alarmTime.toVolume << std::endl;
             ret << "Radio ID: " << my_data->alarmTime.radioID << std::endl;
-            my_data->main_iDomTools->saveState_iDom();
+            my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
             return ret.str();
         }
         else if (v[2] == "ON" && v.size() > 3){
             my_data->alarmTime.time = Clock(v[3]);
             my_data->alarmTime.state = STATE::ACTIVE;
             my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
-            my_data->main_iDomTools->saveState_iDom();
+            my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
             my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/alarm",
                                           stateToString(STATE::ACTIVE));
             return "alarm clock has been activated";
