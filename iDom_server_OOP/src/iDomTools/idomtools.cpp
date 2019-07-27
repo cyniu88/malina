@@ -234,7 +234,7 @@ void iDomTOOLS::turnOffSpeakers()
 {
     digitalWrite(iDomConst::GPIO_SPIK, LOW);
     useful_F::myStaticData->main_iDomStatus->setObjectState("speakers", STATE::OFF);
-    // useful_F::myStaticData->main_iDomTools->saveState_iDom(my_data->serverStarted);
+    useful_F::myStaticData->main_iDomTools->saveState_iDom(useful_F::myStaticData->serverStarted);
 }
 
 void iDomTOOLS::turnOnPrinter()
