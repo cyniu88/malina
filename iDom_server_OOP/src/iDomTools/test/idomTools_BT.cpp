@@ -282,8 +282,9 @@ TEST_F(iDomTOOLS_ClassTest, saveState_readState)
     test_alarmTime.radioID = 44;
     test_my_data.alarmTime = test_alarmTime;
     test_my_data.main_iDomStatus->setObjectState("alarm", test_alarmTime.state);
+    test_my_data.serverStarted = true;
 
-    test_my_data.main_iDomTools->saveState_iDom();
+    test_my_data.main_iDomTools->saveState_iDom(test_my_data.serverStarted);
 
     nlohmann::json testJson;
     std::ifstream i(test_server_set._server.saveFilePath);
