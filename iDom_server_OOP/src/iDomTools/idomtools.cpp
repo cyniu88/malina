@@ -27,7 +27,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData):
     /////////////////////////////////////////////////////////////////
 #ifndef BT_TEST
     pinMode(iDomConst::GPIO_SPIK, OUTPUT); // gpio pin do zasilania glosnikow
-    digitalWrite(iDomConst::GPIO_SPIK,LOW);
+    //digitalWrite(iDomConst::GPIO_SPIK,LOW);
     pinMode(iDomConst::GPIO_PRINTER,OUTPUT); /// gpio pin do zsilania drukarki
     digitalWrite(iDomConst::GPIO_PRINTER,LOW);
 #endif
