@@ -36,34 +36,34 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     else if(v[1] == "debuge" && v[2] == "variable")
     {
         std::stringstream r;
-        r << "my_data->alarmTime.fromVolume \t" << my_data->alarmTime.fromVolume <<std::endl;
-        r << "my_data->alarmTime.radioID \t" << my_data->alarmTime.radioID <<std::endl;
-        r << "my_data->alarmTime.state \t" << stateToString( my_data->alarmTime.state) <<std::endl;
-        r << "my_data->alarmTime.time \t" << my_data->alarmTime.time.getString() <<std::endl;
-        r << "my_data->alarmTime.toVolume \t" << my_data->alarmTime.toVolume <<std::endl;
+        r << "my_data->alarmTime.fromVolume \t" << my_data->alarmTime.fromVolume << std::endl;
+        r << "my_data->alarmTime.radioID \t" << my_data->alarmTime.radioID << std::endl;
+        r << "my_data->alarmTime.state \t" << stateToString( my_data->alarmTime.state) << std::endl;
+        r << "my_data->alarmTime.time \t" << my_data->alarmTime.time.getString() << std::endl;
+        r << "my_data->alarmTime.toVolume \t" << my_data->alarmTime.toVolume << std::endl;
         r << std::endl;
-        r << "my_data->encriptionKey \t" << my_data->encriptionKey <<std::endl;
+        r << "my_data->encriptionKey \t" << my_data->encriptionKey << std::endl;
         r << std::endl;
         r << "my_data->server_settings->_rs232.BaudRate \t"
-          << my_data->server_settings->_rs232.BaudRate <<std::endl;
+          << my_data->server_settings->_rs232.BaudRate << std::endl;
         r << "my_data->server_settings->_camera.cameraLedOFF \t"
-          << my_data->server_settings->_camera.cameraLedOFF <<std::endl;
+          << my_data->server_settings->_camera.cameraLedOFF << std::endl;
         r << "my_data->server_settings->_camera.cameraLedON \t"
-          << my_data->server_settings->_camera.cameraLedON <<std::endl;
+          << my_data->server_settings->_camera.cameraLedON << std::endl;
         r << "my_data->server_settings->_camera.cameraURL \t"
-          << my_data->server_settings->_camera.cameraURL <<std::endl;
+          << my_data->server_settings->_camera.cameraURL << std::endl;
         r << "my_data->server_settings->_server.encrypted \t"
-          << my_data->server_settings->_server.encrypted <<std::endl;
+          << my_data->server_settings->_server.encrypted << std::endl;
         r << "my_data->server_settings->_fb_viber.facebookAccessToken \t"
-          << my_data->server_settings->_fb_viber.facebookAccessToken <<std::endl;
+          << my_data->server_settings->_fb_viber.facebookAccessToken << std::endl;
         r << "my_data->server_settings->_server.ftpServer.URL \t"
-          << my_data->server_settings->_server.ftpServer.URL <<std::endl;
+          << my_data->server_settings->_server.ftpServer.URL << std::endl;
         r << "my_data->server_settings->_server.ftpServer.user \t"
-          << my_data->server_settings->_server.ftpServer.user <<std::endl;
+          << my_data->server_settings->_server.ftpServer.user << std::endl;
         r << "my_data->server_settings->_server.ID_server \t"
-          << my_data->server_settings->_server.ID_server <<std::endl;
+          << my_data->server_settings->_server.ID_server << std::endl;
         r << "my_data->server_settings->_server.lightningApiURL \t"
-          << my_data->server_settings->_server.lightningApiURL <<std::endl;
+          << my_data->server_settings->_server.lightningApiURL << std::endl;
         r << "my_data->server_settings->_server.MENU_PATH \t"
           << my_data->server_settings->_server.MENU_PATH << std::endl;
         r << "my_data->server_settings->_server.MOVIES_DB_PATH \t"
@@ -75,17 +75,17 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << "my_data->server_settings->_server.PORT \t"
           << my_data->server_settings->_server.PORT << std::endl;
         r << "my_data->server_settings->_rs232.portRS232 \t"
-          << my_data->server_settings->_rs232.portRS232<<std::endl;
+          << my_data->server_settings->_rs232.portRS232<< std::endl;
         r << "my_data->server_settings->_rs232.portRS232_clock \t"
           << my_data->server_settings->_rs232.portRS232_clock << std::endl;
         r << "my_data->server_settings->_server.radio433MHzConfigFile \t"
           << my_data->server_settings->_server.radio433MHzConfigFile << std::endl;
         r << "my_data->server_settings->_rflink.RFLinkBaudRate \t"
-          << my_data->server_settings->_rflink.RFLinkBaudRate<<std::endl;
+          << my_data->server_settings->_rflink.RFLinkBaudRate<< std::endl;
         r << "my_data->server_settings->_rflink.RFLinkPort \t"
-          << my_data->server_settings->_rflink.RFLinkPort<<std::endl;
+          << my_data->server_settings->_rflink.RFLinkPort<< std::endl;
         r << "my_data->server_settings->_server.saveFilePath \t"
-          << my_data->server_settings->_server.saveFilePath<<std::endl;
+          << my_data->server_settings->_server.saveFilePath<< std::endl;
         r << "my_data->server_settings->_server.SERVER_IP \t"
           << my_data->server_settings->_server.SERVER_IP << std::endl;
         r << "my_data->server_settings->_runThread.CRON \t"
@@ -99,51 +99,53 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << "my_data->server_settings->_runThread.RS232 \t"
           << my_data->server_settings->_runThread.RS232 << std::endl;
         r << "my_data->server_settings->_server.TS_KEY \t"
-          << my_data->server_settings->_server.TS_KEY<<std::endl;
+          << my_data->server_settings->_server.TS_KEY<< std::endl;
         r << "my_data->server_settings->_fb_viber.viberAvatar \t"
-          << my_data->server_settings->_fb_viber.viberAvatar<<std::endl;
+          << my_data->server_settings->_fb_viber.viberAvatar<< std::endl;
         r << "my_data->server_settings->_fb_viber.viberReceiver.at(0) \t"
-          << my_data->server_settings->_fb_viber.viberReceiver.at(0)<<std::endl;
+          << my_data->server_settings->_fb_viber.viberReceiver.at(0)<< std::endl;
         r << "my_data->server_settings->_fb_viber.viberSender \t"
-          << my_data->server_settings->_fb_viber.viberSender<<std::endl;
+          << my_data->server_settings->_fb_viber.viberSender<< std::endl;
         r << "my_data->server_settings->_fb_viber.viberToken \t"
-          << my_data->server_settings->_fb_viber.viberToken<<std::endl;
+          << my_data->server_settings->_fb_viber.viberToken<< std::endl;
         r << "my_data->server_settings->_server.v_delay \t"
-          << my_data->server_settings->_server.v_delay<<std::endl;
+          << my_data->server_settings->_server.v_delay<< std::endl;
         r << std::endl;
         r << "my_data->server_settings->sleeper \t"
-          << my_data->sleeper<<std::endl;
+          << my_data->sleeper<< std::endl;
         r << std::endl;
         r << "my_data->iDomProgramState \t"
-          << static_cast<int>(my_data->iDomProgramState)<<std::endl;
+          << static_cast<int>(my_data->iDomProgramState) << std::endl;
+        r << std::endl;
+        r << "my_data->serverStarted \t"  << my_data->serverStarted << std::endl;
         r << std::endl;
         r << "my_data->main_iDomStatus \t"
-          << my_data->main_iDomStatus->getAllObjectsStateString()<<std::endl;
+          << my_data->main_iDomStatus->getAllObjectsStateString()<< std::endl;
         r << std::endl;
         r << "my_data->idom_all_state.houseState \t"
-          <<stateToString(my_data->idom_all_state.houseState)<<std::endl;
+          <<stateToString(my_data->idom_all_state.houseState)<< std::endl;
         r << std::endl;
-        r << "my_data->now_time \t" << my_data->now_time<<std::endl;
-        r << "my_data->start - time \t" << my_data->start<<std::endl;
+        r << "my_data->now_time \t" << my_data->now_time<< std::endl;
+        r << "my_data->start - time \t" << my_data->start<< std::endl;
         r << std::endl;
-        r << "my_data->pointer.ptr_buf \t" << my_data->pointer.ptr_buf<<std::endl;
-        r << "my_data->pointer.ptr_who \t" << my_data->pointer.ptr_who<<std::endl;
+        r << "my_data->pointer.ptr_buf \t" << my_data->pointer.ptr_buf<< std::endl;
+        r << "my_data->pointer.ptr_who \t" << my_data->pointer.ptr_who<< std::endl;
 
         r << std::endl;
-        r << "my_data->ptr_MPD_info->artist \t" << my_data->ptr_MPD_info->artist<<std::endl;
-        r << "my_data->ptr_MPD_info->currentSongID \t" << my_data->ptr_MPD_info->currentSongID<<std::endl;
-        r << "my_data->ptr_MPD_info->isPlay \t" << my_data->ptr_MPD_info->isPlay<<std::endl;
-        r << "my_data->ptr_MPD_info->radio \t" << my_data->ptr_MPD_info->radio<<std::endl;
-        r << "my_data->ptr_MPD_info->songList.at(0) \t" << my_data->ptr_MPD_info->songList.at(0)<<std::endl;
-        r << "my_data->ptr_MPD_info->title \t" << my_data->ptr_MPD_info->title<<std::endl;
-        r << "my_data->ptr_MPD_info->volume \t" << my_data->ptr_MPD_info->volume<<std::endl;
+        r << "my_data->ptr_MPD_info->artist \t" << my_data->ptr_MPD_info->artist<< std::endl;
+        r << "my_data->ptr_MPD_info->currentSongID \t" << my_data->ptr_MPD_info->currentSongID<< std::endl;
+        r << "my_data->ptr_MPD_info->isPlay \t" << my_data->ptr_MPD_info->isPlay<< std::endl;
+        r << "my_data->ptr_MPD_info->radio \t" << my_data->ptr_MPD_info->radio<< std::endl;
+        r << "my_data->ptr_MPD_info->songList.at(0) \t" << my_data->ptr_MPD_info->songList.at(0)<< std::endl;
+        r << "my_data->ptr_MPD_info->title \t" << my_data->ptr_MPD_info->title<< std::endl;
+        r << "my_data->ptr_MPD_info->volume \t" << my_data->ptr_MPD_info->volume<< std::endl;
 
         r << std::endl;
-        r << "my_data->main_RFLink->okTime \t" << my_data->main_RFLink->m_okTime<<std::endl;
-        r << "my_data->main_RFLink->pingTime \t" << my_data->main_RFLink->m_pingTime<<std::endl;
+        r << "my_data->main_RFLink->okTime \t" << my_data->main_RFLink->m_okTime<< std::endl;
+        r << "my_data->main_RFLink->pingTime \t" << my_data->main_RFLink->m_pingTime<< std::endl;
 
         r << std::endl;
-        r << "my_data->mainLCD-> \t" << my_data->mainLCD->getData() <<std::endl;
+        r << "my_data->mainLCD-> \t" << my_data->mainLCD->getData() << std::endl;
 
         r << "my_data->mqttHandler->_connected: " << my_data->mqttHandler->_connected << std::endl;
         r << "my_data->mqttHandler->_subscribed: " << my_data->mqttHandler->_subscribed << std::endl;
