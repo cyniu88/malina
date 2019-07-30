@@ -123,15 +123,12 @@ bool LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
     std::cout << "checkLightningAlert() - dystans"<<std::endl;
     std::cout << "Dystans: " <<info->distance << " m_oldDistance: "<< m_oldDistance <<std::endl;
 #endif
-    if(m_oldDistance > info->distance)
+    if(m_oldDistance - 1 > info->distance)
     {
         m_oldDistance = info->distance;
         return true;
     }
-    else
-    {
-        m_oldDistance = info->distance;
-    }
+    m_oldDistance = info->distance;
     ////////////////clear
     //oldDistance = 0.0;
     return false;
