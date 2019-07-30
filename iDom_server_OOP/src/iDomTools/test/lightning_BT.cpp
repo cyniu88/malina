@@ -61,6 +61,25 @@ TEST_F(lightning_Class_fixture, checkLightningAlert)
     EXPECT_FALSE(test_result) << "BRAK ALARMU 5";
 }
 
+TEST_F(lightning_Class_fixture, checkLightningAlert_stormNotEnoughCloser)
+{
+    test_struct = test_lightning.lightningAlert(test_Json.jj_noLightning);
+    bool test_result = test_lightning.checkLightningAlert(&test_struct);
+    EXPECT_FALSE(test_result) << "BRAK ALARMU 1";
+
+    test_struct = test_lightning.lightningAlert(test_Json.jj_lightning_lt15km);
+    test_result = test_lightning.checkLightningAlert(&test_struct);
+    EXPECT_TRUE(test_result) << "BRAK ALARMU 2";
+
+    test_struct = test_lightning.lightningAlert(test_Json.jj_lightning_lt15km);
+    test_result = test_lightning.checkLightningAlert(&test_struct);
+    EXPECT_FALSE(test_result) << "BRAK ALARMU 3";
+
+    test_struct = test_lightning.lightningAlert(test_Json.jj_lightning_lt14_5km);
+    test_result = test_lightning.checkLightningAlert(&test_struct);
+    EXPECT_FALSE(test_result) << "BRAK ALARMU 4";
+}
+
 TEST_F(lightning_Class_fixture, checkLightningAlert_stormCloser)
 {
     nlohmann::json test_Json2 = useful_F_libs::getJson("http://cyniu88.no-ip.pl/test/json/on_lightning.json");

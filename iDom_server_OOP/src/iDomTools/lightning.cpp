@@ -20,7 +20,7 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     nlohmann::json i;
 
 #ifdef BT_TEST
-    std::cout <<"\n\n data all " << i.dump(4) <<" size:"<< i.size() <<std::endl;
+    std::cout <<"\n\n data all " << i.dump(4) <<" size:"<< i.size() << std::endl;
 #endif
 
     if (jj.find("response") != jj.end())
@@ -29,7 +29,7 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     }
     else
     {
-        std::cout << " zly JSON " <<std::endl;
+        std::cout << " zly JSON " << std::endl;
         return data;
     }
 
@@ -80,7 +80,6 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     data.data << "kierunek uderzeń piorunów: " << CARDINAL_DIRECTIONS::cardinalDirectionsEnumToHuman(data.bearingENG);
 
     if(i.size() > 0){
-        // std::cout << "jest size: " << i.size()<<std::endl;
         data.riseAlarm = true;
     }
 
@@ -96,32 +95,33 @@ bool LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
 #endif
     if(info->riseAlarm == false && m_alarmState == false){
 #ifdef BT_TEST
-        std::cout << "(info->riseAlarm == false || alarmState == false)"<<std::endl;
+        std::cout << "(info->riseAlarm == false || alarmState == false)" << std::endl;
 #endif
         return false;
     }
     if(info->riseAlarm == false && m_alarmState == true){
 #ifdef BT_TEST
-        std::cout << "(info->riseAlarm == false || alarmState == true)"<<std::endl;
+        std::cout << "(info->riseAlarm == false || alarmState == true)" << std::endl;
 #endif
         m_alarmState = false;
         return false;
     }
+
     if(info->riseAlarm == true && m_alarmState == false){
 
 #ifdef BT_TEST
-        std::cout << "(info->riseAlarm == true || alarmState == false)"<<std::endl;
+        std::cout << "(info->riseAlarm == true || alarmState == false)" << std::endl;
 #endif
         m_alarmState = true;
         m_lightningTime = Clock::getTime();
         m_oldDistance = info->distance;
-        std::cout << " w true m_oldDistance: "<< m_oldDistance <<std::endl;
+        std::cout << " w true m_oldDistance: " << m_oldDistance << std::endl;
         return true;
     }
 
 #ifdef BT_TEST
-    std::cout << "checkLightningAlert() - dystans"<<std::endl;
-    std::cout << "Dystans: " <<info->distance << " m_oldDistance: "<< m_oldDistance <<std::endl;
+    std::cout << "checkLightningAlert() - dystans" << std::endl;
+    std::cout << "Dystans: " << info->distance << " m_oldDistance: " << m_oldDistance << std::endl;
 #endif
     if(m_oldDistance - 1 > info->distance)
     {
