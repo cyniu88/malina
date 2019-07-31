@@ -22,6 +22,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
            try {
                 printf( "Song:"" %s - %s\n", song->artist, song->title);
                 std::stringstream msg;
+                msg << " ";
                 msg << (song->title);
                 my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/songID", msg.str());
             }
@@ -76,52 +77,30 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
     }
     if(what&MPD_CST_PLAYLIST)
     {
-        printf("Playlist changed2""\n");
         if (check_title_song_to==true)
         {
             mpd_Song *song = mpd_playlist_get_current_song(mi);
-            // std::cout <<" SONG: " << song->artist<<" "<< song->title << std::endl;
             printf("aktualnie gramy:"" %s - %s\n", song->artist, song->title);
 
-            try {
-                std::string msg;//(song->artist);
-               // msg.append(" ");
-                msg.append(song->title);
-                my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/songID",msg);
-            }catch(...){
-                puts("error cyniu2");
-            }
+                std::stringstream msg;
+                msg << " ";
+                msg << song->title;
+                my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/songID",msg.str());
 
-            try
-            {
-                my_data->ptr_MPD_info->title = std::string( song->title);
-            }
-            catch (...)
-            {
-                my_data->myEventHandler.run("mpd")->addEvent("wrong title");
-                my_data->ptr_MPD_info->title = "no data";
-            }
-            try
-            {
-                my_data->ptr_MPD_info->artist = std::string( song->artist);
-            }
-            catch (...)
-            {
-                my_data->myEventHandler.run("mpd")->addEvent("wrong artist");
-                my_data->ptr_MPD_info->artist = "no data";
-            }
+                my_data->ptr_MPD_info->title = msg.str();
+
+                msg.clear();
+
+                msg << " ";
+                msg << song->artist;
+                my_data->ptr_MPD_info->artist = msg.str();
+
 
             if (song->name != NULL){
                 _msg = song->name;
 
-                try
-                {
-                    my_data->ptr_MPD_info->radio = _msg;
-                }
-                catch (...)
-                {
-                    my_data->myEventHandler.run("mpd")->addEvent("wrong radio station name");
-                }
+ my_data->ptr_MPD_info->radio = _msg;
+
                 my_data->mainLCD->printRadioName(true,0,0,_msg);
                 my_data->mainLCD->set_lcd_STATE(5);
                 std::string temp_str = my_data->main_iDomTools->getTemperatureString(); // send_to_arduino(my_data,"temperature:2;");
