@@ -19,7 +19,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
         mpd_Song *song = mpd_playlist_get_current_song(mi);
         if(song)
         {
-           try {
+            try {
                 printf( "Song:"" %s - %s\n", song->artist, song->title);
                 std::stringstream msg;
                 msg << " ";
@@ -82,24 +82,24 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             mpd_Song *song = mpd_playlist_get_current_song(mi);
             printf("aktualnie gramy:"" %s - %s\n", song->artist, song->title);
 
-                std::stringstream msg;
-                msg << " ";
-                msg << song->title;
-                my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/songID",msg.str());
+            std::stringstream msg;
+            msg << " ";
+            msg << song->title;
+            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/songID",msg.str());
 
-                my_data->ptr_MPD_info->title = msg.str();
+            my_data->ptr_MPD_info->title = msg.str();
 
-                msg.clear();
+            msg.clear();
 
-                msg << " ";
-                msg << song->artist;
-                my_data->ptr_MPD_info->artist = msg.str();
+            msg << " ";
+            msg << song->artist;
+            my_data->ptr_MPD_info->artist = msg.str();
 
 
             if (song->name != NULL){
                 _msg = song->name;
 
- my_data->ptr_MPD_info->radio = _msg;
+                my_data->ptr_MPD_info->radio = _msg;
 
                 my_data->mainLCD->printRadioName(true,0,0,_msg);
                 my_data->mainLCD->set_lcd_STATE(5);
@@ -318,7 +318,7 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
             std::this_thread::sleep_for( std::chrono::milliseconds(500) );
         } while( useful_F::go_while);
 
-       // mpd_player_stop(obj); //wylaczanie mpd na koniec
+        // mpd_player_stop(obj); //wylaczanie mpd na koniec
 
     }
     else{
