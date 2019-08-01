@@ -101,12 +101,12 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
     static unsigned int connectionCounter = 0;
     bool key_ok = false;
     std::string tm = inet_ntoa(my_data->from.sin_addr);
-    if("192.168.1.1" != tm && my_data->ptr_MPD_info->isPlay == false) {
+    if("192.168.11.1" != tm && my_data->ptr_MPD_info->isPlay == false) {
         my_data->mainLCD->set_print_song_state(32);
         my_data->mainLCD->printString(true,0,0,"USER CONNECTED!");
         my_data->mainLCD->printString(false,0,1,tm);
     }
-    if("192.168.1.1" == tm || "192.168.1.144" == tm)
+    if("192.168.11.1" == tm || "192.168.11.123" == tm)
     {
         if(++connectionCounter > 9)
         {
