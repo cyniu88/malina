@@ -613,7 +613,8 @@ void iDomTOOLS::checkLightning()
     if(result == true)
     {
         sendLightingCounterUP();
-        if(sendLightingCounter > 3)   // jesli wyslano juz 3 powiadomieniaw 15 minut  to nie wysylam wiecej
+        sendLightingCounterUP();
+        if(sendLightingCounter > 2)   // jesli wyslano juz 2 powiadomieniaw 10 minut  to nie wysylam wiecej
             return;
 
         m_viber.setAvatar("http://cyniu88.no-ip.pl/avatar/lightning.jpg");
