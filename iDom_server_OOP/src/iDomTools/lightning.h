@@ -152,7 +152,7 @@ public:
 
         bool riseAlarm;
         std::stringstream data;
-        unsigned int timestamp; //second
+        int timestamp; //second
         double distance; //km
         CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM bearingENG;
     };

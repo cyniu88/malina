@@ -175,7 +175,7 @@ int main(int argc, char **argv)
     ofs.open(_logfile, std::ios::out | std::ios::trunc);
     ofs.close(); //Using microsoft incremental linker version 14
 
-    pthread_mutex_init(&Logger::mutex_log, NULL);
+    pthread_mutex_init(&Logger::mutex_log, nullptr);
 
     log_file_mutex.mutex_lock();
     log_file_cout << std::endl<< std::endl<<"============================================"

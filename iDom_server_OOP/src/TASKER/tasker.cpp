@@ -2,10 +2,10 @@
 #include "../functions/functions.h"
 
 
-TASKER::TASKER(thread_data *my_data)
+TASKER::TASKER(thread_data *my_data):
+    topic("iDom-client/command"),
+    my_data(my_data)
 {
-    this->my_data = my_data;
-    topic = "iDom-client/command";
 }
 
 void TASKER::runTasker()

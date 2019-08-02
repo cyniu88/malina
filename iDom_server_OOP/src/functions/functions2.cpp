@@ -341,12 +341,10 @@ void iDom_API::addToMap(const std::string& name, iDom_API* ptr)
 void iDom_API::removeFromMap(const std::string& name)
 {
     std::lock_guard <std::mutex> lock(iDom_API::m_locker);
-    if(m_map_iDom_API.find(name) != m_map_iDom_API.end())
+    if(m_map_iDom_API.erase(name) == 0)
     {
-        m_map_iDom_API.erase(name);
-    }
-    else{
         puts("nie ma w MAPIE !!");
         puts(name.c_str());
     }
+
 }

@@ -130,7 +130,7 @@ TEST_F(lightning_Class_fixture, errorCode)
     EXPECT_THAT(ret, testing::HasSubstr("unauthorized_client"));
 
     test_struct = test_lightning.lightningAlert(test_Json.jj_lightning);
-    test_result = test_lightning.checkLightningAlert(&test_struct);
+    test_lightning.checkLightningAlert(&test_struct);
     ret = useful_F::myStaticData->iDomAlarm.showAlarm();
     EXPECT_THAT(ret, testing::HasSubstr("no alarms!"));
 }
