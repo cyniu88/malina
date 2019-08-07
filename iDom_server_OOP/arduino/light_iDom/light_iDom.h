@@ -4,12 +4,12 @@
 #include <Bounce2.h>
 #include <EEPROM.h>
 
+
 enum class STATE {
   ON = 1,
-  OFF = 2,
+  OFF = 0,
   UNKNOWN = 3
 };
-
 
 class iDomLIGHT {
   public:
@@ -23,6 +23,7 @@ class iDomLIGHT {
     void lightOFF();
     bool isLightON();
     bool isLightOFF();
+    String stateToString(STATE s);
 };
 
 #endif
