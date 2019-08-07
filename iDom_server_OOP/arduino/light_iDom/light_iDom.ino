@@ -26,6 +26,7 @@ void setup() {
   delay(500);
   Serial.println("iDom light - restore light");
   mainLightHandler.restorePinState();
+  Serial.println("");
   Serial.println("Done");
   Serial.println("iDom light setup done");
 }
@@ -40,15 +41,18 @@ void loop() {
     command = Serial.readStringUntil(':');
     ID = Serial.readStringUntil(':');
     value = Serial.readStringUntil(';');
-
+    Serial.flush();
     if (command == "light") {
-
+      command = "";
       if (value == "ON") {
         mainLightHandler.m_lightArray[ID.toInt()]->lightON();
       }
       else if (value == "OFF") {
         mainLightHandler.m_lightArray[ID.toInt()]->lightOFF();
       }
+    }
+    else if (command == "show"){
+      mainLightHandler.printAllNameAndState();
     }
     else {
       Serial.print ("unknown RS232 command: ");

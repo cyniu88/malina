@@ -26,20 +26,16 @@ void light_iDomHandler::restorePinState() {
 void light_iDomHandler::run() {
   for (int i = 0; i < m_lightCount; ++i) {
     if (m_lightArray[i]->m_debouncer.update()) {
-      Serial.print(".");
+      //Serial.print(".");
       // Get the update value.
       int value = m_lightArray[i]->m_debouncer.read();
       // Send in the new value.
       if (value == LOW && m_lightArray[i]->isLightON()) {
         m_lightArray[i]->lightON();
-        Serial.print("zapalam swiatlo ");
-        Serial.println(m_lightArray[i]->m_name);
         continue;
       }
       if (value == LOW && m_lightArray[i]->isLightOFF() ) {
         m_lightArray[i]->lightOFF();
-        Serial.print("gasze swiatlo ");
-        Serial.println(m_lightArray[i]->m_name);
         continue;
       }
     }
@@ -61,6 +57,6 @@ void light_iDomHandler::printAllNameAndState() {
     Serial.print(m_lightArray[i]->stateToString(m_lightArray[i]->m_state));
     Serial.print(" ID ");
     Serial.print(i);
-    Serial.print(";");
+    Serial.println(";");
   }
 }

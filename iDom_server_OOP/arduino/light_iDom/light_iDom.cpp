@@ -15,7 +15,7 @@ void iDomLIGHT::lightON() {
   m_state = STATE::ON;
   Serial.print("light on name ");
   Serial.print(m_name);
-  Serial.print(";");
+  Serial.println(";");
 }
 void iDomLIGHT::lightOFF() {
   digitalWrite(m_pinRelay, LOW);
@@ -23,15 +23,15 @@ void iDomLIGHT::lightOFF() {
   m_state = STATE::OFF;
   Serial.print("light off name ");
   Serial.print(m_name);
-  Serial.print(";");
+  Serial.println(";");
 }
 
 
 bool iDomLIGHT::isLightON() {
-  return !(m_state != STATE::ON);
+  return (m_state != STATE::ON);
 }
 bool iDomLIGHT::isLightOFF() {
-  return !(m_state != STATE::OFF);
+  return (m_state != STATE::OFF);
 }
 
 String iDomLIGHT::stateToString(STATE s) {
