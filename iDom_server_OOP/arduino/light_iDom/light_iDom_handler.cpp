@@ -14,11 +14,9 @@ void light_iDomHandler::setupPin() {
 void light_iDomHandler::restorePinState() {
   byte value;
   for (int i = 0; i < m_lightCount; ++i) {
-    //pinMode(m_lightArray[i]->m_pinRelay, OUTPUT);
     value = EEPROM.read(m_lightArray[i]->m_pinRelay);
-    if (value == HIGH) {
+    if (value == HIGH) 
       m_lightArray[i]->lightON();
-    }
     else
       m_lightArray[i]->lightOFF();
   }
@@ -28,9 +26,7 @@ void light_iDomHandler::run() {
   for (int i = 0; i < m_lightCount; ++i) {
     if (m_lightArray[i]->m_debouncer.update()) {
       //Serial.print(".");
-      // Get the update value.
       int value = m_lightArray[i]->m_debouncer.read();
-      // Send in the new value.
       if (value == LOW && m_lightArray[i]->isLightON()) {
         m_lightArray[i]->lightON();
         continue;
@@ -55,7 +51,7 @@ void light_iDomHandler::printAllNameAndState() {
     Serial.print("light status name ");
     Serial.print(m_lightArray[i]->m_name);
     Serial.print(" status ");
-    Serial.print(m_lightArray[i]->stateToString(m_lightArray[i]->m_state));
+    Serial.print(m_lightArray[i]->stateToString(m_lightArray[i]->getState()));
     Serial.print(" ID ");
     Serial.print(i);
     Serial.print(";");

@@ -16,13 +16,13 @@ class iDomLIGHT {
     int m_pinButton = 0;
     int m_pinRelay = 0;
     String m_name = "NULL";
-    STATE m_state = STATE::UNKNOWN;
     Bounce m_debouncer;
     iDomLIGHT(String name, int pinButton, int pinRelay);
     void lightON();
     void lightOFF();
     bool isLightON();
     bool isLightOFF();
+    STATE getState();
     String stateToString(STATE s);
 };
 

@@ -12,7 +12,6 @@ iDomLIGHT::iDomLIGHT(String name, int pinButton, int pinRelay): m_pinButton(pinB
 void iDomLIGHT::lightON() {
   digitalWrite(m_pinRelay, HIGH);
   EEPROM.update(m_pinRelay, HIGH);
-  m_state = STATE::ON;
   Serial.print("light on name ");
   Serial.print(m_name);
   Serial.println(";");
@@ -20,7 +19,6 @@ void iDomLIGHT::lightON() {
 void iDomLIGHT::lightOFF() {
   digitalWrite(m_pinRelay, LOW);
   EEPROM.update(m_pinRelay, LOW);
-  m_state = STATE::OFF;
   Serial.print("light off name ");
   Serial.print(m_name);
   Serial.println(";");
@@ -28,10 +26,19 @@ void iDomLIGHT::lightOFF() {
 
 
 bool iDomLIGHT::isLightON() {
-  return (m_state != STATE::ON);
+  return (getState() != STATE::ON);
 }
 bool iDomLIGHT::isLightOFF() {
-  return (m_state != STATE::OFF);
+  return (getState() != STATE::OFF);
+}
+
+STATE iDomLIGHT::getState() {
+  int value = EEPROM.read(m_pinRelay);
+  if (value == HIGH) {
+    return STATE::ON;
+  }
+  else
+    return STATE::OFF;
 }
 
 String iDomLIGHT::stateToString(STATE s) {
