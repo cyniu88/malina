@@ -3,7 +3,7 @@
 
 #include  "light_iDom.h"
 
-constexpr int arrayMaxSize = 3;
+constexpr int arrayMaxSize = 32;
 
 class light_iDomHandler {
   public:

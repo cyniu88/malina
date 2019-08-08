@@ -2,33 +2,49 @@
 #include "light_iDom_handler.h"
 
 light_iDomHandler mainLightHandler;
-
-iDomLIGHT kuchnia("kuchnia", 6, 2);
-iDomLIGHT sypialnia("sypialnia", 7, 3);
-iDomLIGHT salon("salon", 8, 4);
-
+//////////////////////////////////////////////////////////////////
+//////////////////////       EDIT HERE      //////////////////////
+///////////////    add a new lighting object here       //////////
+//////////////////////////////////////////////////////////////////
+//        light name, button pin,  relay pin            //////////
+iDomLIGHT kuchnia("kuchnia", 6, 2);                     //////////
+iDomLIGHT sypialnia("sypialnia", 7, 3);                 //////////
+iDomLIGHT salon("salon", 8, 4);                         //////////
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 String command  = "z";
 String value    = "0";
 String ID = "0";
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("iDom light v1");
-  Serial.println("iDom light - start adding light");
-  mainLightHandler.insert(&kuchnia);
-  mainLightHandler.insert(&sypialnia);
-  mainLightHandler.insert(&salon);
-  Serial.println("Done");
+  Serial.print("iDom light v1;");
+  Serial.print("iDom light - start adding light;");
+  /////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////       EDIT HERE      ////////////////////////////////
+  ///////////////////    insert new lighting object to handler     ////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////
+  mainLightHandler.insert(&kuchnia);                                              /////
+  mainLightHandler.insert(&sypialnia);                                            /////
+  mainLightHandler.insert(&salon);                                                /////
+  //support max 32 objects, if you want add more,                                 /////
+  //please change constexpr int arrayMaxSize inside file light_iDom_handler.h     /////
+  /////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////
+
+  Serial.print("Done");
   delay(500);
-  Serial.println("iDom light - setup pin");
+  Serial.print("iDom light - setup pin;");
   mainLightHandler.setupPin();
-  Serial.println("Done");
+  Serial.print("Done;");
   delay(500);
-  Serial.println("iDom light - restore light");
+  Serial.print("iDom light - restore light;");
   mainLightHandler.restorePinState();
-  Serial.println("");
-  Serial.println("Done");
-  Serial.println("iDom light setup done");
+  Serial.print(";");
+  Serial.print("Done;");
+  Serial.print("iDom light setup done;");
 }
 
 void loop() {
@@ -51,13 +67,13 @@ void loop() {
         mainLightHandler.m_lightArray[ID.toInt()]->lightOFF();
       }
     }
-    else if (command == "show"){
+    else if (command == "show") {
       mainLightHandler.printAllNameAndState();
     }
     else {
       Serial.print ("unknown RS232 command: ");
-      Serial.println (command);
-      Serial.print(';');
+      Serial.print (command);
+      Serial.print(" ;");
     }
   }
 }

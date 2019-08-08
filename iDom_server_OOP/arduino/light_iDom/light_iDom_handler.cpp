@@ -5,7 +5,8 @@ void light_iDomHandler::setupPin() {
     pinMode(m_lightArray[i]->m_pinRelay, OUTPUT);
     pinMode(m_lightArray[i]->m_pinButton, INPUT_PULLUP);
     Serial.print("setup pin ");
-    Serial.println(i);
+    Serial.print(i);
+    Serial.print(" ;");
   }
 }
 
@@ -57,6 +58,6 @@ void light_iDomHandler::printAllNameAndState() {
     Serial.print(m_lightArray[i]->stateToString(m_lightArray[i]->m_state));
     Serial.print(" ID ");
     Serial.print(i);
-    Serial.println(";");
+    Serial.print(";");
   }
 }
