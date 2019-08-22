@@ -403,7 +403,7 @@ void iDomTOOLS::runOnSunrise()
     }
 
     ledOFF();
-    my_data->main_iDomStatus->setObjectState("Night_Light",STATE::OFF);
+
     my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/sun", "SUNRISE");
 }
 
@@ -543,7 +543,7 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
                   at(static_cast<unsigned long>(my_data->server_settings->_nightLight.colorLED)),
                   from, from + 3);
             radioButton->setState(STATE::ON);
-            my_data->main_iDomStatus->setObjectState("Night_Light",STATE::ON);
+
             return;
         }
     }
@@ -552,7 +552,7 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
     {
         ledOFF();
         radioButton->setState(STATE::OFF);
-        my_data->main_iDomStatus->setObjectState("Night_Light",STATE::OFF);
+
     }
 }
 
@@ -971,6 +971,7 @@ std::string iDomTOOLS::postOnFacebook(const std::string& msg, const std::string&
 
 std::string iDomTOOLS::ledOFF()
 {
+     my_data->main_iDomStatus->setObjectState("Night_Light",STATE::OFF);
     return useful_F::send_to_arduino(my_data, "LED_STOP:2;");
 }
 
@@ -990,6 +991,7 @@ std::string iDomTOOLS::ledOn(const LED_Strip& ledColor, unsigned int from, unsig
 {
     if (my_data->idom_all_state.houseState == STATE::UNLOCK)
     {
+        my_data->main_iDomStatus->setObjectState("Night_Light",STATE::ON);
         return useful_F::send_to_arduino(my_data, ledColor.get(from, to));
     }
     else{
