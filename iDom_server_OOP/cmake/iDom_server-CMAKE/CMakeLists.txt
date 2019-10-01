@@ -88,6 +88,12 @@ set(SOURCE_FILES
     "../../src/command/commandhandlermqtt.cpp"
     "../../src/command/commandClass/command_wifi.cpp"
     "../../src/command/commandClass/command_wifi.h"
+    "../../libs/alarm/alarm.cpp"
+    "../../libs/generator/generator.cpp"
+    "../../src/iDomKEY_ACCESS/idomkey_access.cpp"
+    "../../src/command/commandhandlergateway.cpp"
+    "../../src/command/commandClass/command_gateway.cpp"
+
     )
 # Get the current working branch
 execute_process(

@@ -646,7 +646,7 @@ int main(int argc, char *argv[])
         {
             std::this_thread::sleep_for(std::chrono::seconds(1));
             std::cout << "nie ma parametru wiec odpalam program "<< std::endl;
-            ret = system("./iDom_server_OOP");
+            ret = system("./iDom_server-CMAKE");
             std::cout << "system() zwraca ret " << ret <<std::endl;
         }
         std::cout << "ZAMYKAM NA AMEN" << std::endl;
