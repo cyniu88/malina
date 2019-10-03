@@ -24,7 +24,7 @@ std::vector<std::string> useful_F::split(const std::string& s, char separator ){
     catch (...)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "wyjatek substr() w useful_F::split() !!!!!!"<< std::endl;
+        log_file_cout << CRITICAL << "wyjatek substr() w useful_F::split() !!!!!!" << std::endl;
         log_file_mutex.mutex_unlock();
     }
     return output;
@@ -37,7 +37,7 @@ void useful_F::setStaticData(thread_data *my_dataPtr)
     myStaticData = my_dataPtr;
 }
 
-void useful_F::tokenizer ( std::vector <std::string> &command, std::string separator, std::string &text){
+void useful_F::tokenizer (std::vector <std::string> &command, std::string separator, std::string &text){
     std::string temp;
 
     for(char n: text)
@@ -83,13 +83,13 @@ void useful_F::sleeper_mpd (thread_data *my_data, const std::string& threadName)
     my_data->main_iDomTools->turnOff433MHzSwitch("listwa");
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "zaczynam procedure konca watku " << threadName << std::endl;
+    log_file_cout << INFO << "zaczynam procedure konca watku " << threadName << std::endl;
     log_file_mutex.mutex_unlock();
 
     iDOM_THREAD::stop_thread(threadName,my_data);
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "koniec watku SLEEP_MPD" << std::endl;
+    log_file_cout << INFO << "koniec watku SLEEP_MPD" << std::endl;
     log_file_mutex.mutex_unlock();
 }
 
@@ -97,7 +97,7 @@ void useful_F::sleeper_mpd (thread_data *my_data, const std::string& threadName)
 void useful_F::kodi (thread_data *my_data, const std::string& threadName)
 {
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO<< "start wątku "<<threadName << std::endl;
+    log_file_cout << INFO << "start wątku " << threadName << std::endl;
     log_file_mutex.mutex_unlock();
 
     my_data->mainLCD->set_print_song_state(100);
@@ -120,7 +120,7 @@ void useful_F::kodi (thread_data *my_data, const std::string& threadName)
     if(ret != 0)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL<< "kodi zamkniete z błędem "<<ret << std::endl;
+        log_file_cout << CRITICAL << "kodi zamkniete z błędem " << ret << std::endl;
         log_file_mutex.mutex_unlock();
     }
     //przywracanie danych
