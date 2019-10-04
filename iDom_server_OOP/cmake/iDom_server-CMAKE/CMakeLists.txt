@@ -11,6 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include_directories(${INCLUDE_DIRECTORIES})
 
 set(SOURCE_FILES
+    "../../src/main.cpp"
     "../../src/iDom_server_OOP.cpp"
     "../../src/c_connection/c_connection.cpp"
     "../../src/functions/functions.cpp"
@@ -83,6 +84,7 @@ set(SOURCE_FILES
     "../../arduPi/arduPi_template.cpp"
     "../../arduPi/arduPi.cpp"
     "../../src/thread_functions/iDom_thread.cpp"
+    "../../src/thread_functions/rs232_thread.h"
     "../../liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.cpp"
     "../../mqtt_mosquitto/MQTT_mosquitto/mqtt.cpp"
     "../../src/command/commandhandlermqtt.cpp"

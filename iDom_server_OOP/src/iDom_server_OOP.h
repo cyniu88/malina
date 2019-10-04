@@ -352,6 +352,6 @@ struct thread_data_rs232{
     struct s_pointer pointer;
 };
 
-
+iDomStateEnum iDom_main();
 
 #endif // GLOBAL_H

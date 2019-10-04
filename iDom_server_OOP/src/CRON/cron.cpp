@@ -17,7 +17,7 @@ void CRON::run()
         time(&act_time);
         act_date = localtime(&act_time);
 
-        if (min != act_date->tm_min)
+        if (min != act_date->tm_min && useful_F::go_while)
         {
             runEveryone_1min(act_date);
             if (act_date->tm_min % 5 == 0 )
