@@ -95,7 +95,7 @@ void CRON::runEveryone_1h()
     // printf("co godzine! \n");
     my_data->myEventHandler.clearOld(8000, 1000, [](std::string& name){
             log_file_mutex.mutex_lock();
-            log_file_cout << INFO << "skasowanao nadmarowe eventy w: "<< name << std::endl;
+            log_file_cout << INFO << "skasowano nadmiarowe eventy w: "<< name << std::endl;
             log_file_mutex.mutex_unlock();
         });
 }
