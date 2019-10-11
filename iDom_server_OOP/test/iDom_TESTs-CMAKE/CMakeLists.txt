@@ -84,6 +84,9 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/command/commandhandlermqtt.cpp"
     "../../src/command/commandhandlergateway.cpp"
     "../../src/iDomKEY_ACCESS/idomkey_access.cpp"
+    "../../src/home_lighting/light_bulb.cpp"
+    "../../src/home_lighting/house_room.cpp"
+    "../../src/home_lighting/house_lighting_handler.cpp"
     )
 # Get the current working branch
 execute_process(

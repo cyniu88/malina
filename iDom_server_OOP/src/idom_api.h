@@ -3,6 +3,7 @@
 
 #include <map>
 #include <mutex>
+#include <sstream>
 #include "../libs/generator/generator.h"
 
 class iDom_API
