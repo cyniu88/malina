@@ -5,12 +5,34 @@ light_bulb::light_bulb(std::string &name, int id): m_name(name), m_ID(id)
 
 }
 
-light_bulb::light_bulb(light_bulb &a):
-    m_status(a.m_status),
-    m_name(a.m_name),
-    m_ID(a.m_ID)
+light_bulb::light_bulb(const light_bulb &a):
+                                              m_status(a.m_status),
+                                              m_name(a.m_name),
+                                              m_ID(a.m_ID)
 {
 
+}
+
+light_bulb::light_bulb(const light_bulb &&a)
+
+{
+    *this = std::move(a);
+}
+
+light_bulb &light_bulb::operator=(const light_bulb &a)
+{
+    m_status = a.m_status;
+    m_ID = a.m_ID;
+    m_name = a.m_name;
+    return *this;
+}
+
+light_bulb& light_bulb::operator =(const light_bulb&& a)
+{
+    m_status = std::move(a.m_status);
+    m_name = std::move(a.m_name);
+    m_ID = std::move(a.m_ID);
+    return *this;
 }
 
 void light_bulb::on(std::function<void(std::string s)>onOn)
@@ -43,7 +65,7 @@ void light_bulb::setStatus(STATE s)
     m_status = s;
 }
 
-std::string light_bulb::getName()
+std::string light_bulb::getName() const
 {
     return m_name;
 }
