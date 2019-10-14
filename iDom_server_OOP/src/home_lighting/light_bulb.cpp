@@ -27,7 +27,7 @@ light_bulb &light_bulb::operator=(const light_bulb &a)
     return *this;
 }
 
-light_bulb& light_bulb::operator =(const light_bulb&& a)
+light_bulb& light_bulb::operator =(light_bulb&& a)
 {
     m_status = std::move(a.m_status);
     m_name = std::move(a.m_name);

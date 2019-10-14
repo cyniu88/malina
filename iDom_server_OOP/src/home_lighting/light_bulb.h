@@ -19,7 +19,7 @@ public:
     light_bulb(const light_bulb& a);
     light_bulb(const light_bulb&& a);
     light_bulb& operator = (const light_bulb& a);
-    light_bulb& operator = (const light_bulb&& a);
+    light_bulb& operator = (light_bulb &&a);
     void on(std::function<void(std::string s)>onOn);
     void off(std::function<void(std::string s)>onOff);
     STATE getStatus();
