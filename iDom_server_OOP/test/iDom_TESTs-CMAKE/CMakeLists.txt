@@ -87,6 +87,7 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/home_lighting/light_bulb.cpp"
     "../../src/home_lighting/house_room.cpp"
     "../../src/home_lighting/house_lighting_handler.cpp"
+    "../../src/home_lighting/TEST/BT.cpp"
     )
 # Get the current working branch
 execute_process(

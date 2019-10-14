@@ -6,24 +6,27 @@ house_room::house_room(std::string& name):
 
 }
 
-house_room::house_room(const house_room&& other)
+house_room::house_room(house_room&& other)
 {
-    *this = std::move(other);
+   // *this = std::move(other);
+   m_lightBulbMap = other.m_lightBulbMap;
+
+   m_name = other.m_name;
 }
 
-house_room &house_room::operator=(const house_room&& other)
+house_room &house_room::operator=(house_room&& other)
 {
 
-    for(auto& a : other.m_lightBulbMap){
-        m_lightBulbMap[a.first] = std::move(other.m_lightBulbMap.at(a.first));
-    }
+    m_lightBulbMap = other.m_lightBulbMap;
+
     m_name = std::move(other.m_name);
     return *this;
 }
 
-void house_room::addBulb(std::string name, int id)
+void house_room::addBulb(std::string name, int id, std::map<int, std::shared_ptr<light_bulb>>* lightbulbMapptr)
 {
-    m_lightBulbMap[id] = std::move(std::make_unique<light_bulb>(name, id));
+    m_lightBulbMap[id] = std::make_shared<light_bulb>(name, id);
+    lightbulbMapptr->insert( std::make_pair(id, m_lightBulbMap[id])    );
 }
 
 void house_room::on(int id, std::function<void(std::string s)> func)
@@ -34,6 +37,20 @@ void house_room::on(int id, std::function<void(std::string s)> func)
 void house_room::off(int id, std::function<void(std::string s)> func)
 {
     m_lightBulbMap.at(id)->off(func);
+}
+
+void house_room::allOn(std::function<void (std::string)> func)
+{
+    for (auto& ptr: m_lightBulbMap ){
+        ptr.second->on(func);
+    }
+}
+
+void house_room::allOff(std::function<void (std::string)> func)
+{
+    for (auto& ptr: m_lightBulbMap ){
+        ptr.second->off(func);
+    }
 }
 
 std::string house_room::dump() const
