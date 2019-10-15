@@ -1,22 +1,31 @@
 #include "house_room.h"
 
 house_room::house_room(std::string& name):
-                                            m_name(name)
+    m_name(name)
 {
     m_className.append(typeid (this).name());
     iDom_API::addToMap(m_className,this);
 }
 
+house_room::~house_room()
+{
+    iDom_API::removeFromMap(m_className);
+}
+
 house_room::house_room(house_room&& other)
 {
-   // *this = std::move(other);
-   m_lightBulbMap = other.m_lightBulbMap;
+    m_className.append(typeid (this).name());
+    iDom_API::addToMap(m_className,this);
 
-   m_name = other.m_name;
+    m_lightBulbMap = other.m_lightBulbMap;
+
+    m_name = other.m_name;
 }
 
 house_room &house_room::operator=(house_room&& other)
 {
+    m_className.append(typeid (this).name());
+    iDom_API::addToMap(m_className,this);
 
     m_lightBulbMap = other.m_lightBulbMap;
 
@@ -27,7 +36,7 @@ house_room &house_room::operator=(house_room&& other)
 void house_room::addBulb(std::string name, int id, std::map<int, std::shared_ptr<light_bulb>>* lightbulbMapptr)
 {
     m_lightBulbMap[id] = std::make_shared<light_bulb>(name, id);
-    lightbulbMapptr->insert( std::make_pair(id, m_lightBulbMap[id])    );
+    lightbulbMapptr->insert( std::make_pair(id, m_lightBulbMap[id]) );
 }
 
 void house_room::on(int id, std::function<void(std::string s)> func)

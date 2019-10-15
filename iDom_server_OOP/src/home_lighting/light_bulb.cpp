@@ -6,10 +6,15 @@ light_bulb::light_bulb(std::string &name, int id): m_name(name), m_ID(id)
     iDom_API::addToMap(m_className,this);
 }
 
+light_bulb::~light_bulb()
+{
+    iDom_API::removeFromMap(m_className);
+}
+
 light_bulb::light_bulb(const light_bulb &a):
-                                              m_status(a.m_status),
-                                              m_name(a.m_name),
-                                              m_ID(a.m_ID)
+    m_status(a.m_status),
+    m_name(a.m_name),
+    m_ID(a.m_ID)
 {
 
 }
@@ -74,8 +79,10 @@ std::string light_bulb::getName() const
 std::string light_bulb::dump() const
 {
     std::stringstream str;
+
     str << "bulb name: " << m_name << std::endl;
     str << "bulb ID: " << m_ID << std::endl;
     str << "bulb status: " << stateToString(m_status) << std::endl;
+
     return str.str();
 }

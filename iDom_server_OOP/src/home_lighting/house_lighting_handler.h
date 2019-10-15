@@ -14,6 +14,7 @@ public:
     std::map<int, std::shared_ptr<light_bulb>> m_lightingBulbMap;
 
     house_lighting_handler();
+    ~house_lighting_handler();
     void addRoom(std::string& name);
     void addBulbInRoom(std::string& roomName, std::string& bulbName, int bulbID);
 

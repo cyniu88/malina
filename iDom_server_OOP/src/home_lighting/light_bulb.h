@@ -16,6 +16,7 @@ class light_bulb: public iDom_API
 
 public:
     light_bulb(std::string& name, int id);
+    ~light_bulb();
     light_bulb(const light_bulb& a);
     light_bulb(const light_bulb&& a);
     light_bulb& operator = (const light_bulb& a);

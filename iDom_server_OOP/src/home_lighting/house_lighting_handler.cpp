@@ -6,6 +6,11 @@ house_lighting_handler::house_lighting_handler()
     iDom_API::addToMap(m_className,this);
 }
 
+house_lighting_handler::~house_lighting_handler()
+{
+    iDom_API::removeFromMap(m_className);
+}
+
 void house_lighting_handler::addRoom(std::string &name)
 {
     m_roomMap[name] = std::make_unique<house_room>(name);
@@ -21,7 +26,7 @@ void house_lighting_handler::turnOnAllInRoom(std::string &roomName)
     m_roomMap[roomName]->allOn([](std::string name){
         puts("DUPA");
     }
-        );
+                               );
 }
 
 std::string house_lighting_handler::dump() const

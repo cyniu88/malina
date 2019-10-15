@@ -13,6 +13,7 @@ class house_room: public iDom_API
     std::string m_name;
 public:
     house_room(std::string& name);
+    ~house_room();
     house_room(house_room &&other);
     house_room& operator=(house_room&& other);
     void addBulb(std::string name, int id, std::map<int, std::shared_ptr<light_bulb> > *lightbulbMapptr);
