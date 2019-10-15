@@ -17,6 +17,26 @@ protected:
     }
 };
 
+TEST_F(light_house_fixture, coverage )
+{
+    std::string name = "test_name";
+    std::unique_ptr<light_bulb> a = std::make_unique<light_bulb>(name, 13);
+    a->on([](std::string name){puts(name.c_str());});
+    std::unique_ptr<light_bulb> b = std::move(a);
+    EXPECT_EQ(b->getStatus(), STATE::ON);
+
+    light_bulb lb1(name,14);
+    light_bulb lb2(lb1);
+
+    EXPECT_EQ(lb2.getStatus(), STATE::UNKNOWN);
+    lb1.off([](std::string name){puts(name.c_str());});
+    EXPECT_EQ(lb1.getStatus(), STATE::OFF);
+    EXPECT_EQ(lb2.getStatus(), STATE::UNKNOWN);
+
+    lb1 = lb2;
+    EXPECT_EQ(lb1.getStatus(), STATE::UNKNOWN);
+}
+
 TEST_F(light_house_fixture, dump )
 {
     house_lighting_handler lHandler;
@@ -47,6 +67,6 @@ TEST_F(light_house_fixture, add_new_room_and_2_bulb )
 
     EXPECT_EQ(STATE::ON, lHandler.m_lightingBulbMap[11]->getStatus());
 
-    lHandler.m_lightingBulbMap[11]->off([](std::string name){puts("KOKO");});
+    lHandler.m_lightingBulbMap[11]->off([](std::string name){puts(name.c_str());});
     EXPECT_EQ(STATE::OFF, lHandler.m_lightingBulbMap[11]->getStatus());
 }
