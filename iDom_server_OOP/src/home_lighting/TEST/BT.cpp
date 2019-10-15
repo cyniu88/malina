@@ -17,7 +17,22 @@ protected:
     }
 };
 
-TEST_F(light_house_fixture, main )
+TEST_F(light_house_fixture, dump )
+{
+    house_lighting_handler lHandler;
+    std::string nameRoom = "kuchnia";
+    std::string nameBulb1 = "glowna";
+    std::string nameBulb2 = "kiniet";
+
+    lHandler.addRoom(nameRoom);
+    lHandler.addBulbInRoom(nameRoom, nameBulb1,11);
+    lHandler.addBulbInRoom(nameRoom, nameBulb2,12);
+
+    std::cout << iDom_API::getDump() << std::endl;
+
+}
+
+TEST_F(light_house_fixture, add_new_room_and_2_bulb )
 {
     house_lighting_handler lHandler;
     std::string nameRoom = "kuchnia";
@@ -34,5 +49,4 @@ TEST_F(light_house_fixture, main )
 
     lHandler.m_lightingBulbMap[11]->off([](std::string name){puts("KOKO");});
     EXPECT_EQ(STATE::OFF, lHandler.m_lightingBulbMap[11]->getStatus());
-
 }

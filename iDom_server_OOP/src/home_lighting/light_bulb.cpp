@@ -2,7 +2,8 @@
 
 light_bulb::light_bulb(std::string &name, int id): m_name(name), m_ID(id)
 {
-
+    m_className.append(typeid (this).name());
+    iDom_API::addToMap(m_className,this);
 }
 
 light_bulb::light_bulb(const light_bulb &a):

@@ -3,7 +3,8 @@
 house_room::house_room(std::string& name):
                                             m_name(name)
 {
-
+    m_className.append(typeid (this).name());
+    iDom_API::addToMap(m_className,this);
 }
 
 house_room::house_room(house_room&& other)

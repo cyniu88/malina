@@ -2,7 +2,8 @@
 
 house_lighting_handler::house_lighting_handler()
 {
-
+    m_className.append(typeid (this).name());
+    iDom_API::addToMap(m_className,this);
 }
 
 void house_lighting_handler::addRoom(std::string &name)
