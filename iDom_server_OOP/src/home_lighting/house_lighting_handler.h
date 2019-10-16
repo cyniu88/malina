@@ -16,11 +16,11 @@ public:
 
     house_lighting_handler();
     ~house_lighting_handler();
-    void addRoom(std::string& name);
-    void addBulbInRoom(std::string& roomName, std::string& bulbName, int bulbID);
+    void addRoom(const std::string &name);
+    void addBulbInRoom(const std::string& roomName, const std::string& bulbName, int bulbID);
 
-    void turnOnAllInRoom(std::string& roomName);
-    void turnOffAllInRoom(std::string& roomName);
+    void turnOnAllInRoom(const std::string& roomName);
+    void turnOffAllInRoom(const std::string& roomName);
 
     void lockAllRoom();
     void unlockAllRoom();

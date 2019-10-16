@@ -1,6 +1,6 @@
 #include "house_room.h"
 
-house_room::house_room(std::string& name):
+house_room::house_room(const std::string &name):
     m_name(name)
 {
     m_className.append(typeid (this).name());
@@ -33,7 +33,7 @@ house_room &house_room::operator=(house_room&& other)
     return *this;
 }
 
-void house_room::addBulb(std::string name, int id, std::map<int, std::shared_ptr<light_bulb>>* lightbulbMapptr)
+void house_room::addBulb(const std::string name, int id, std::map<int, std::shared_ptr<light_bulb>>* lightbulbMapptr)
 {
     m_lightBulbMap[id] = std::make_shared<light_bulb>(name, id);
     lightbulbMapptr->insert( std::make_pair(id, m_lightBulbMap[id]) );

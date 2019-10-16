@@ -1,6 +1,6 @@
 #include "light_bulb.h"
 
-light_bulb::light_bulb(std::string &name, int id): m_name(name), m_ID(id)
+light_bulb::light_bulb(const std::string &name, int id): m_name(name), m_ID(id)
 {
 #ifdef BT_TEST
     std::cout << "light_bulb::light_bulb()" << std::endl;

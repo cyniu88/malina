@@ -15,7 +15,7 @@ class light_bulb: public iDom_API
     std::mutex m_operationMutex;
     STATE m_lock = STATE::UNLOCK;
 public:
-    light_bulb(std::string& name, int id);
+    light_bulb(const std::string& name, int id);
     ~light_bulb();
     light_bulb(const light_bulb& a);
     light_bulb(const light_bulb&& a);

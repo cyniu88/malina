@@ -15,12 +15,12 @@ class house_room: public iDom_API
     STATE m_lock = STATE::UNLOCK;
 
 public:
-    house_room(std::string& name);
+    house_room(const std::string& name);
     ~house_room();
     house_room(house_room &&other);
     house_room& operator=(house_room&& other);
 
-    void addBulb(std::string name, int id, std::map<int, std::shared_ptr<light_bulb> > *lightbulbMapptr);
+    void addBulb(const std::string name, int id, std::map<int, std::shared_ptr<light_bulb> > *lightbulbMapptr);
 
     std::string getName() const;
 

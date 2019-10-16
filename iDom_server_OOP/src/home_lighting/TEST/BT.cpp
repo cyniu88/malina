@@ -5,11 +5,21 @@
 
 class light_house_fixture : public testing::Test
 {
+public:
+    house_lighting_handler lHandler;
+    std::string nameRoom = "kuchnia";
+    std::string nameBulb1 = "glowna";
+    std::string nameBulb2 = "kinkiet";
 protected:
 
     virtual void SetUp() final
     {
         std::cout << "konfiguracja przed testem light_house_fixture " <<std::endl;
+
+
+        lHandler.addRoom(nameRoom);
+        lHandler.addBulbInRoom(nameRoom, nameBulb1,11);
+        lHandler.addBulbInRoom(nameRoom, nameBulb2,12);
     }
 
     virtual void TearDown() final
@@ -42,29 +52,13 @@ TEST_F(light_house_fixture, coverage )
 
 TEST_F(light_house_fixture, dump )
 {
-    house_lighting_handler lHandler;
-    std::string nameRoom = "kuchnia";
-    std::string nameBulb1 = "glowna";
-    std::string nameBulb2 = "kiniet";
 
-    lHandler.addRoom(nameRoom);
-    lHandler.addBulbInRoom(nameRoom, nameBulb1,11);
-    lHandler.addBulbInRoom(nameRoom, nameBulb2,12);
 
     std::cout << iDom_API::getDump() << std::endl;
 }
 
 TEST_F(light_house_fixture, add_new_room_and_2_bulb )
 {
-    house_lighting_handler lHandler;
-    std::string nameRoom = "kuchnia";
-    std::string nameBulb1 = "glowna";
-    std::string nameBulb2 = "kinkiet";
-
-    lHandler.addRoom(nameRoom);
-    lHandler.addBulbInRoom(nameRoom, nameBulb1,11);
-    lHandler.addBulbInRoom(nameRoom, nameBulb2,12);
-
     lHandler.turnOnAllInRoom(nameRoom);
 
     EXPECT_EQ(STATE::ON, lHandler.m_lightingBulbMap[11]->getStatus());
@@ -79,16 +73,24 @@ TEST_F(light_house_fixture, add_new_room_and_2_bulb )
 
 TEST_F(light_house_fixture, getJson )
 {
-    house_lighting_handler lHandler;
-    std::string nameRoom = "kuchnia";
-    std::string nameBulb1 = "glowna";
-    std::string nameBulb2 = "kinkiet";
 
-    lHandler.addRoom(nameRoom);
-    lHandler.addBulbInRoom(nameRoom, nameBulb1,11);
-    lHandler.addBulbInRoom(nameRoom, nameBulb2,12);
 
     std::string ret = lHandler.getAllInfoJSON().dump(4) ;
 
     EXPECT_THAT(ret, testing::HasSubstr("kuchnia"));
+}
+
+TEST_F(light_house_fixture, lock_unlock_all )
+{
+    lHandler.addRoom("salon");
+    lHandler.addBulbInRoom("salon", "lewe",111);
+    EXPECT_EQ(lHandler.m_lightingBulbMap.at(111)->getStatus(), STATE::UNKNOWN);
+    lHandler.lockAllRoom();
+
+    lHandler.turnOffAllInRoom("salon");
+    EXPECT_EQ(lHandler.m_lightingBulbMap.at(111)->getStatus(), STATE::UNKNOWN);
+    lHandler.unlockAllRoom();
+
+    lHandler.turnOffAllInRoom("salon");
+    EXPECT_EQ(lHandler.m_lightingBulbMap.at(111)->getStatus(), STATE::OFF);
 }
