@@ -6,6 +6,7 @@
 
 #include "../idom_api.h"
 #include "house_room.h"
+#include "json.hpp"
 
 class house_lighting_handler: public iDom_API
 {
@@ -19,6 +20,12 @@ public:
     void addBulbInRoom(std::string& roomName, std::string& bulbName, int bulbID);
 
     void turnOnAllInRoom(std::string& roomName);
+    void turnOffAllInRoom(std::string& roomName);
+
+    void lockAllRoom();
+    void unlockAllRoom();
+
+    nlohmann::json getAllInfoJSON();
 
     std::string dump() const;
 };

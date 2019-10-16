@@ -24,9 +24,46 @@ void house_lighting_handler::addBulbInRoom(std::string &roomName, std::string &b
 void house_lighting_handler::turnOnAllInRoom(std::string &roomName)
 {
     m_roomMap[roomName]->allOn([](std::string name){
-        puts("DUPA");
+        puts("test all on");
     }
                                );
+}
+
+void house_lighting_handler::turnOffAllInRoom(std::string &roomName)
+{
+    m_roomMap[roomName]->allOff([](std::string name){
+        puts("test all off");
+    }
+    );
+}
+
+void house_lighting_handler::lockAllRoom()
+{
+    for(auto& a : m_roomMap){
+        a.second->lock();
+    }
+}
+
+void house_lighting_handler::unlockAllRoom()
+{
+    for(auto& a : m_roomMap){
+        a.second->unlock();
+    }
+}
+
+nlohmann::json house_lighting_handler::getAllInfoJSON()
+{
+    nlohmann::json jj;
+
+    for(auto&a : m_roomMap){
+        nlohmann::json roomJJ;
+
+        roomJJ["STATE"] = stateToString(a.second->getLockState());
+        roomJJ["bulb"] = a.second->getJsonInfoLightBulb();
+        jj[a.second->getName()] = roomJJ;
+    }
+
+    return jj;
 }
 
 std::string house_lighting_handler::dump() const
