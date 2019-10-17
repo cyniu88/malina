@@ -33,21 +33,27 @@ TEST_F(light_house_fixture, coverage )
     std::string name = "test_name";
     std::unique_ptr<light_bulb> a = std::make_unique<light_bulb>(name, 13);
     a->on([](std::string name){puts(name.c_str());});
-    puts("move");
     std::unique_ptr<light_bulb> b = std::move(a);
-    puts("po move");
     EXPECT_EQ(b->getStatus(), STATE::ON);
 
     light_bulb lb1(name,14);
     light_bulb lb2(lb1);
+    light_bulb lb3(std::move(lb2));
 
     EXPECT_EQ(lb2.getStatus(), STATE::UNKNOWN);
     lb1.off([](std::string name){puts(name.c_str());});
     EXPECT_EQ(lb1.getStatus(), STATE::OFF);
-    EXPECT_EQ(lb2.getStatus(), STATE::UNKNOWN);
+    EXPECT_EQ(lb3.getStatus(), STATE::UNKNOWN);
 
-    lb1 = lb2;
+    lb1 = lb3;
+
+    lb3.off([](std::string name){puts(name.c_str());});
     EXPECT_EQ(lb1.getStatus(), STATE::UNKNOWN);
+    EXPECT_EQ(lb3.getStatus(), STATE::OFF);
+
+    std::swap(lb3, lb1);
+    EXPECT_EQ(lb3.getStatus(), STATE::UNKNOWN);
+    EXPECT_EQ(lb1.getStatus(), STATE::OFF);
 }
 
 TEST_F(light_house_fixture, dump )
@@ -116,6 +122,31 @@ TEST_F(light_house_fixture, on_off_bulb_in_room )
 {
     lHandler.m_roomMap[nameRoom]->on(11,[](std::string name){puts(name.c_str());});
     EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::ON);
+
+    lHandler.m_roomMap[nameRoom]->off(11,[](std::string name){puts(name.c_str());});
+    EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::OFF);
+}
+
+TEST_F(light_house_fixture, set_bulb_status )
+{
+    lHandler.m_roomMap[nameRoom]->on(11,[](std::string name){puts(name.c_str());});
+    EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::ON);
+
+    lHandler.m_lightingBulbMap[11]->setStatus(STATE::DISABLED);
+    EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::DISABLED);
+}
+
+TEST_F(light_house_fixture, room_is_lock )
+{
+    lHandler.m_roomMap[nameRoom]->allOff([](std::string name){puts(name.c_str());});
+    lHandler.m_roomMap[nameRoom]->lock();
+    EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::OFF);
+
+    lHandler.m_roomMap[nameRoom]->allOn([](std::string name){puts(name.c_str());});
+    EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::OFF);
+
+    lHandler.m_roomMap[nameRoom]->on(11,[](std::string name){puts(name.c_str());});
+    EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::OFF);
 
     lHandler.m_roomMap[nameRoom]->off(11,[](std::string name){puts(name.c_str());});
     EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::OFF);

@@ -14,6 +14,7 @@ house_room::~house_room()
 
 house_room::house_room(house_room&& other)
 {
+    assert(this != &other);
     m_className.append(typeid (this).name());
     iDom_API::addToMap(m_className,this);
 
@@ -24,6 +25,7 @@ house_room::house_room(house_room&& other)
 
 house_room &house_room::operator=(house_room&& other)
 {
+    assert(this != &other);
     m_className.append(typeid (this).name());
     iDom_API::addToMap(m_className,this);
 

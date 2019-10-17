@@ -31,8 +31,9 @@ light_bulb::light_bulb(const light_bulb &&a)
 
 {
 #ifdef BT_TEST
-            std::cout << "light_bulb::light_bulb(&&)" << std::endl;
+    std::cout << "light_bulb::light_bulb(&&)" << std::endl;
 #endif
+    assert(this != &a);
     *this = std::move(a);
 }
 
@@ -52,6 +53,7 @@ light_bulb& light_bulb::operator =(light_bulb&& a)
 #ifdef BT_TEST
     std::cout << "operator=(&&)" << std::endl;
 #endif
+    assert(this != &a);
     m_status = std::move(a.m_status);
     m_name = std::move(a.m_name);
     m_ID = std::move(a.m_ID);
