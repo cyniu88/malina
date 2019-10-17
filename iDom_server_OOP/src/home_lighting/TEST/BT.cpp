@@ -94,3 +94,29 @@ TEST_F(light_house_fixture, lock_unlock_all )
     lHandler.turnOffAllInRoom("salon");
     EXPECT_EQ(lHandler.m_lightingBulbMap.at(111)->getStatus(), STATE::OFF);
 }
+
+TEST_F(light_house_fixture, lock_unlock_bulb )
+{
+    EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::UNKNOWN);
+    lHandler.m_lightingBulbMap[11]->on([](std::string name){puts(name.c_str());});
+    EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::ON);
+
+    lHandler.m_lightingBulbMap[11]->lock();
+
+    lHandler.m_lightingBulbMap[11]->off([](std::string name){puts(name.c_str());});
+    EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::ON);
+
+    lHandler.m_lightingBulbMap[11]->unlock();
+
+    lHandler.m_lightingBulbMap[11]->off([](std::string name){puts(name.c_str());});
+    EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::OFF);
+}
+
+TEST_F(light_house_fixture, on_off_bulb_in_room )
+{
+    lHandler.m_roomMap[nameRoom]->on(11,[](std::string name){puts(name.c_str());});
+    EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::ON);
+
+    lHandler.m_roomMap[nameRoom]->off(11,[](std::string name){puts(name.c_str());});
+    EXPECT_EQ(lHandler.m_lightingBulbMap[11]->getStatus(), STATE::OFF);
+}
