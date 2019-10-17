@@ -39,12 +39,6 @@ iDomKEY_ACCESS::iDomKEY_ACCESS(const iDomKEY_ACCESS &k): m_data(k.m_data), m_pat
     iDom_API::addToMap(m_className,this);
 }
 
-iDomKEY_ACCESS::iDomKEY_ACCESS(const iDomKEY_ACCESS &&k): m_data(k.m_data), m_pathDatabase(k.m_pathDatabase)
-{
-    m_className.append(typeid (this).name());
-    iDom_API::addToMap(m_className,this);
-}
-
 iDomKEY_ACCESS::~iDomKEY_ACCESS()
 {
     iDom_API::removeFromMap(m_className);

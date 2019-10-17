@@ -17,7 +17,6 @@ class iDomKEY_ACCESS: public iDom_API
 public:
     iDomKEY_ACCESS(const std::string& path_database);
     iDomKEY_ACCESS(const iDomKEY_ACCESS& k);
-    iDomKEY_ACCESS(const iDomKEY_ACCESS&& k);
     ~iDomKEY_ACCESS();
     void addKEY(const std::string& name, size_t size, bool temp = false);
     void addTempKEY(const std::string& name, size_t size);
