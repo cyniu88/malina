@@ -2,7 +2,7 @@
 
 echo "start build"
 
-cd iDom*/test/iDom*
+cd iDom*/test/iDom* || exit
 ls
 cmake .
 make

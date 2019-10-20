@@ -2,9 +2,9 @@
 
 iDomLIGHT::iDomLIGHT(String name, int pinButton, int pinRelay): m_pinButton(pinButton),
   m_pinRelay(pinRelay),
-  m_name(name)
+  m_name(name),
+  m_debouncer(Bounce())
 {
-  m_debouncer = Bounce();
   m_debouncer.attach(pinButton);
   m_debouncer.interval(5);
 }
