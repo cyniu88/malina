@@ -5,8 +5,8 @@
 class iDom_server_Class : public iDomTOOLS_ClassTest
 {
 protected:
-    TEST_JSON test_Json;
-    LIGHTNING test_lightning;
+    TEST_JSON test_JsonIdom;
+    LIGHTNING test_lightning2;
     CARDINAL_DIRECTIONS::ALARM_INFO test_struct;
     virtual void SetUp() final
     {

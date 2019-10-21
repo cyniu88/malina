@@ -23,7 +23,7 @@ void house_lighting_handler::addBulbInRoom(const std::string &roomName, const st
 
 void house_lighting_handler::turnOnAllInRoom(const std::string &roomName)
 {
-    m_roomMap[roomName]->allOn([](std::string name){
+    m_roomMap[roomName]->allOn([](const std::string& name){
         puts("test all on");
     }
                                );
@@ -31,7 +31,7 @@ void house_lighting_handler::turnOnAllInRoom(const std::string &roomName)
 
 void house_lighting_handler::turnOffAllInRoom(const std::string &roomName)
 {
-    m_roomMap[roomName]->allOff([](std::string name){
+    m_roomMap[roomName]->allOff([](const std::string& name){
         puts("test all off");
     }
     );
