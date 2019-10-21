@@ -43,9 +43,9 @@ void CRON::run()
 
 void CRON::runEveryone_1min(struct tm *act_date)
 {
-    char buffer[5];
-    strftime(buffer,5,"%H%M",act_date);
-    useful_F::send_to_arduino_clock(my_data,buffer);
+    char buffer2[5];
+    strftime(buffer2,5,"%H%M",act_date);
+    useful_F::send_to_arduino_clock(my_data,buffer2);
     my_data->main_iDomTools->checkAlarm();
     my_data->main_iDomTools->updateTemperatureStats();
 
@@ -93,7 +93,7 @@ void CRON::runEveryone_30min()
 void CRON::runEveryone_1h()
 {
     // printf("co godzine! \n");
-    my_data->myEventHandler.clearOld(8000, 1000, [](std::string& name){
+    my_data->myEventHandler.clearOld(8000, 1000, [](const std::string& name){
             log_file_mutex.mutex_lock();
             log_file_cout << INFO << "skasowano nadmiarowe eventy w: "<< name << std::endl;
             log_file_mutex.mutex_unlock();

@@ -18,7 +18,9 @@ struct RFLink_DEV{
     }
 
     std::string read(){
-        return std::to_string(m_counter) + " \t"+ msg;
+        std::stringstream ret;
+        ret << m_counter << " \t" << msg << std::endl;
+        return ret.str();
     }
 };
 
@@ -37,7 +39,7 @@ public:
     ////// temporarnie //////
     std::map<std::string, RFLink_DEV> m_rflinkMAP;
     /////////////////////////////
-    RFLinkHandler(thread_data *my_data);
+    explicit RFLinkHandler(thread_data *my_data);
     ~RFLinkHandler();
     bool init();
     // void run();

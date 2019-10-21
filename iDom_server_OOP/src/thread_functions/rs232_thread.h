@@ -53,7 +53,7 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232, const std::string
 
                 while(useful_F::go_while){
                     if(serial_ardu.available()>0){
-                        buffer += serial_ardu.read();
+                        buffer.push_back( serial_ardu.read() );
                     }
                     if(buffer[buffer.size()-1] == ';')
                     {
@@ -78,8 +78,8 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232, const std::string
                 while(useful_F::go_while){
                     if(serial_ardu_clock.available()>0)
                     {
-                        buffer += serial_ardu_clock.read();
-                        buffer += serial_ardu_clock.read();
+                        buffer.push_back( serial_ardu_clock.read() );
+                        buffer.push_back( serial_ardu_clock.read() );
                         serial_ardu_clock.flush();
                         break;
                     }

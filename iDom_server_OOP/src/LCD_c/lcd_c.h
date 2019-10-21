@@ -27,7 +27,7 @@ public:
     void checkState();
     bool m_play_Y_N = false;
     std::string getData();
-    std::string dump() const;
+    std::string dump() const override;
 private:
     //std::string intToStr(int n);
     int m_lcd_state = 0;

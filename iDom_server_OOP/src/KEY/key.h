@@ -62,7 +62,7 @@ class SuperKEY : public KEY
 public:
     SuperKEY (PILOT_KEY v, const std::string &n, const std::string& LogName);
     virtual ~SuperKEY();
-    PILOT_KEY getValue() const;
+    PILOT_KEY getValue() const override;
 
 protected:
     std::string LogName;
@@ -74,7 +74,7 @@ class pilot
 {
     std::map <std::string , std::unique_ptr <KEY> > *key_map;
 public:
-    pilot(std::map <std::string , std::unique_ptr <KEY> > *key_map);
+    explicit pilot(std::map <std::string , std::unique_ptr <KEY> > *key_map);
     virtual ~pilot( );
     void setup();
 private:
