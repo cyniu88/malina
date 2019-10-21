@@ -169,7 +169,7 @@ private:
     bool m_alarmState = false;
     Clock m_lightningTime;
     double m_oldDistance = 0.0;
-    std::string dump() const;
+    std::string dump() const override;
 };
 
 #endif // LIGHTNING_H

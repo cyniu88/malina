@@ -229,7 +229,7 @@ struct LED_Strip{
     std::string B;
     std::string colorName;
 
-    LED_Strip (int from, int to, int r, int g, int b, std::string colorName = "NULL"):from(std::to_string(from)),
+    LED_Strip (int from, int to, int r, int g, int b, const std::string& colorName = "NULL"):from(std::to_string(from)),
         to(std::to_string(to)),
         R(std::to_string(r)),
         G(std::to_string(g)),

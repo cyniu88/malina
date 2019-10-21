@@ -5,7 +5,7 @@
 class commandHandlerRoot : public commandHandler
 {
 public:
-    commandHandlerRoot(thread_data *my_data);
+    explicit commandHandlerRoot(thread_data *my_data);
     virtual ~commandHandlerRoot();
 };
 

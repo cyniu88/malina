@@ -27,7 +27,7 @@ public:
 
     nlohmann::json getAllInfoJSON();
 
-    std::string dump() const;
+    std::string dump() const override;
 };
 
 #endif // HOUSE_LIGHTING_HANDLER_H

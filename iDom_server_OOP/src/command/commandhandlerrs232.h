@@ -5,7 +5,7 @@
 class commandHandlerRS232 : public commandHandlerRoot
 {
 public:
-    commandHandlerRS232(thread_data * my_data);
+    explicit commandHandlerRS232(thread_data * my_data);
     virtual ~commandHandlerRS232();
 };
 

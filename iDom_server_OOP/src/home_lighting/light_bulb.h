@@ -36,7 +36,7 @@ public:
 
     STATE getLockState() const;
 
-    std::string dump() const;
+    std::string dump() const override;
 };
 
 #endif // LIGHT_BULB_H

@@ -58,7 +58,7 @@ public:
         catch (...){ }
         //std::cout << "DUPA: "<<data<<" temp=" << m_temperature<< " hum="<<m_humidity<< std::endl;
     }
-    std::string dump() const;
+    std::string dump() const override;
 };
 
 enum class RADIO_EQ_TYPE{

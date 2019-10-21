@@ -29,14 +29,14 @@ class THERMOMETER : public iDom_API
 private:
     THERMOMETER();
 public:
-    THERMOMETER(int iter);
+    explicit THERMOMETER(int iter);
     THERMOMETER(const THERMOMETER& a);
     ~THERMOMETER();
 
     temperature m_thermometer;
     STATISTIC<double> m_stats;
 
-    std::string dump()const;
+    std::string dump()const override;
 };
 
 class THERMOMETER_CONTAINER

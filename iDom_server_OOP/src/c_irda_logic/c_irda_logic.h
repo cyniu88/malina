@@ -35,12 +35,12 @@ public:
     void mainPilotHandler(PILOT_KEY X);
 
 public:
-    c_irda_logic(thread_data *my_data);
+    explicit c_irda_logic(thread_data *my_data);
     ~c_irda_logic();
     void _add(PILOT_KEY X);
 
     ///////////// iDom API ///////////////
-    std::string dump() const;
+    std::string dump() const override;
 };
 
 #endif // C_IRDA_LOGIC_H

@@ -48,7 +48,7 @@ private:
 public:
     std::unique_ptr<iDomKEY_ACCESS> m_keyHandler;
     std::vector <std::string> textToSpeachVector;
-    iDomTOOLS(thread_data *myData);
+    explicit iDomTOOLS(thread_data *myData);
     ~iDomTOOLS();
 
     TEMPERATURE_STATE hasTemperatureChange(const std::string &thermometerName, double reference, double histereza);
@@ -185,7 +185,7 @@ public:
     void reloadHard_iDomServer[[ noreturn ]] ();
 
     //////////////////////// iDom_API /////////////////////
-    std::string dump() const;
+    std::string dump() const override;
 
     //////////////////////// link generator ///////////////
     std::string openGateLink(std::vector<std::string> v);

@@ -17,7 +17,7 @@ class C_connection : public iDom_API
    friend class c_connection_fixture;
 #endif
 public:
-    C_connection(thread_data *my_data);
+    explicit C_connection(thread_data *my_data);
     ~C_connection();
 
     thread_data *my_data;
@@ -44,7 +44,7 @@ public:
         return m_str_buf;
     }
 #endif
-    std::string dump() const;
+    std::string dump() const override;
 private:
     std::string m_str_buf;
     blockQueue m_char_queue;

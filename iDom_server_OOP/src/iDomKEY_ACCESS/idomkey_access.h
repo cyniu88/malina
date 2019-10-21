@@ -15,7 +15,7 @@ class iDomKEY_ACCESS: public iDom_API
     void readJSON();
 
 public:
-    iDomKEY_ACCESS(const std::string& path_database);
+    explicit iDomKEY_ACCESS(const std::string& path_database);
     iDomKEY_ACCESS(const iDomKEY_ACCESS& k);
     ~iDomKEY_ACCESS();
     void addKEY(const std::string& name, size_t size, bool temp = false);
@@ -25,7 +25,7 @@ public:
     std::string listKEY();
     bool useKEY(const std::string& name, const std::string& key);
     void removeExpiredKeys(unsigned int hours);
-    std::string dump() const;
+    std::string dump() const override;
 };
 
 #endif // IDOMKEY_ACCESS_H

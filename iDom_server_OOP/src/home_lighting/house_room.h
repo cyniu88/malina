@@ -37,7 +37,7 @@ public:
 
     nlohmann::json getJsonInfoLightBulb() const;
 
-    std::string dump() const;
+    std::string dump() const override;
 };
 
 #endif // HOUSE_ROOM_H
