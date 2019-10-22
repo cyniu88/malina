@@ -6,3 +6,5 @@ Travis ci [![Build Status](https://travis-ci.com/cyniu88/malina.svg?branch=maste
 CircleCI
 [![CircleCI](https://circleci.com/gh/cyniu88/malina.svg?style=svg)](https://circleci.com/gh/cyniu88/malina)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/cyniu88/malina.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cyniu88/malina/alerts/)
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/cyniu88/malina.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cyniu88/malina/context:cpp)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cyniu88/malina.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cyniu88/malina/context:python)
