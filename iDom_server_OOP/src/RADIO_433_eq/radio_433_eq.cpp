@@ -3,15 +3,17 @@
 #include <sstream>
 #include "radio_433_eq.h"
 
-RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type):
-    main433MHz(my_data)
+RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data,
+                           const RADIO_EQ_CONFIG &cfg
+                           , RADIO_EQ_TYPE type):
+                                                 main433MHz(my_data),
+                                                 m_sunrise(stringToState(cfg.sunrise)),
+                                                 m_sunset(stringToState(cfg.sunset))
 {
     //puts("RADIO_SWITCH::RADIO_SWITCH()");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
     RADIO_EQ::m_config = cfg;
-    m_sunrise = stringToState(cfg.sunrise);
-    m_sunset  = stringToState(cfg.sunset);
 }
 
 RADIO_SWITCH::~RADIO_SWITCH()
