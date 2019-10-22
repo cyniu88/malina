@@ -35,7 +35,6 @@ public:
 
     void putData(std::string data){
         std::string tempStr;
-        int t = 0;
         ++m_counter;
         try{
             m_humidity = std::stoi( RFLinkHandler::getArgumentValueFromRFLinkMSG(data, "HUM") );
@@ -46,6 +45,7 @@ public:
         }
         catch (...){ }
         try{
+            int t = 0;
             tempStr = RFLinkHandler::getArgumentValueFromRFLinkMSG(data, "TEMP");
             std::stringstream ss;
             ss << std::hex << tempStr.substr(tempStr.size()-3,tempStr.size());
@@ -179,9 +179,9 @@ public:
     void onSunset();
     void onLockHome();
     void onUnlockHome();
-    STATE getState();
-    std::string getName();
-    std::string getID();
+    STATE getState() override;
+    std::string getName() override;
+    std::string getID() override;
     void setCode(RADIO_EQ_CONFIG cfg);
     STATE m_sunrise = STATE::UNDEFINE;
     STATE m_sunset  = STATE::UNDEFINE;
@@ -196,7 +196,7 @@ class RADIO_EQ_CONTAINER
     nlohmann::json m_configJson;
     RADIO_EQ_CONTAINER();
 public:
-    RADIO_EQ_CONTAINER(thread_data * my_data);
+    explicit RADIO_EQ_CONTAINER(thread_data * my_data);
     virtual ~RADIO_EQ_CONTAINER();
     void addRadioEq(RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type);
     void addRadioEq(RADIO_EQ_CONFIG cfg, const std::string& type);

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
 #include "radio_433_eq.h"
 
 RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data,
@@ -198,7 +199,7 @@ void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, const std::string& type
     else if(type == "GATE") ret = RADIO_EQ_TYPE::GATE;
     else throw WRONG_FORMAT();
     std::cout << " id ma : " << cfg.ID << std::endl;
-    std::stoi(cfg.ID); //check ID is number
+    (void)std::stoi(cfg.ID); //check ID is number
     addRadioEq(cfg,ret);
 }
 
@@ -298,17 +299,17 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
             nlohmann::json switchJson = j.at("SWITCH");
             for (nlohmann::json::iterator it = switchJson.begin(); it != switchJson.end(); ++it)
             {
-                nlohmann::json switchJson = it.value();
-                cfg.name = switchJson.at("name").get<std::string>();
-                cfg.ID   = switchJson.at("id").get<std::string>();
-                cfg.offCode = switchJson.at("OFF").get<std::string>();
-                cfg.onCode  = switchJson.at("ON").get<std::string>();
-                cfg.on15sec = switchJson.at("on15sec").get<std::string>();
-                cfg.sunrise = switchJson.at("sunrise").get<std::string>();
-                cfg.sunset  = switchJson.at("sunset").get<std::string>();
-                cfg.lock    = switchJson.at("lock").get<std::string>();
-                cfg.unlock  = switchJson.at("unlock").get<std::string>();
-                cfg.type    = switchJson.at("type").get<std::string>();
+                nlohmann::json switchJson_tmp = it.value();
+                cfg.name = switchJson_tmp.at("name").get<std::string>();
+                cfg.ID   = switchJson_tmp.at("id").get<std::string>();
+                cfg.offCode = switchJson_tmp.at("OFF").get<std::string>();
+                cfg.onCode  = switchJson_tmp.at("ON").get<std::string>();
+                cfg.on15sec = switchJson_tmp.at("on15sec").get<std::string>();
+                cfg.sunrise = switchJson_tmp.at("sunrise").get<std::string>();
+                cfg.sunset  = switchJson_tmp.at("sunset").get<std::string>();
+                cfg.lock    = switchJson_tmp.at("lock").get<std::string>();
+                cfg.unlock  = switchJson_tmp.at("unlock").get<std::string>();
+                cfg.type    = switchJson_tmp.at("type").get<std::string>();
                 addRadioEq(cfg,RADIO_EQ_TYPE::SWITCH);
                 dynamic_cast<RADIO_SWITCH*>(getEqPointer(cfg.name))->setCode(cfg);
             }
@@ -324,12 +325,12 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
             nlohmann::json buttonJson = j.at("BUTTON");
             for (nlohmann::json::iterator it = buttonJson.begin(); it != buttonJson.end(); ++it)
             {
-                nlohmann::json buttonJson = it.value();
-                cfg.name = buttonJson.at("name").get<std::string>();
-                cfg.ID   = buttonJson.at("id").get<std::string>();
-                cfg.offCode = buttonJson.at("OFF").get<std::string>();
-                cfg.onCode  = buttonJson.at("ON").get<std::string>();
-                cfg.type    = buttonJson.at("type").get<std::string>();
+                nlohmann::json buttonJson_tmp = it.value();
+                cfg.name = buttonJson_tmp.at("name").get<std::string>();
+                cfg.ID   = buttonJson_tmp.at("id").get<std::string>();
+                cfg.offCode = buttonJson_tmp.at("OFF").get<std::string>();
+                cfg.onCode  = buttonJson_tmp.at("ON").get<std::string>();
+                cfg.type    = buttonJson_tmp.at("type").get<std::string>();
                 addRadioEq(cfg,RADIO_EQ_TYPE::BUTTON);
             }
         }
@@ -348,10 +349,10 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
             nlohmann::json weatherJson= j.at("WEATHER");
             for (nlohmann::json::iterator it = weatherJson.begin(); it != weatherJson.end(); ++it)
             {
-                nlohmann::json weatherJson = it.value();
-                cfg.name = weatherJson.at("name").get<std::string>();
-                cfg.ID   = weatherJson.at("id").get<std::string>();
-                cfg.type = weatherJson.at("type").get<std::string>();
+                nlohmann::json weatherJson_tmp = it.value();
+                cfg.name = weatherJson_tmp.at("name").get<std::string>();
+                cfg.ID   = weatherJson_tmp.at("id").get<std::string>();
+                cfg.type = weatherJson_tmp.at("type").get<std::string>();
                 addRadioEq(cfg,RADIO_EQ_TYPE::WEATHER_S);
             }
         }
@@ -418,7 +419,7 @@ std::string RADIO_EQ_CONTAINER::showConfig(const std::string &filePath)
     return ret;
 }
 
-RADIO_EQ::RADIO_EQ()
+RADIO_EQ::RADIO_EQ(): m_type(RADIO_EQ_TYPE::NONE)
 {
     this->m_my_data = std::nullptr_t();
     //puts("RADIO_EQ::RADIO_EQ()");

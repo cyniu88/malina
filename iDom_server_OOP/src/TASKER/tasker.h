@@ -9,7 +9,7 @@ class TASKER
     CommandHandlerMQTT commandMQTT;
     std::string topic;
 public:
-    TASKER(thread_data *my_data);
+    explicit TASKER(thread_data *my_data);
 
     void runTasker();
 private:

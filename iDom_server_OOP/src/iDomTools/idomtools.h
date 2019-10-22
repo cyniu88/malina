@@ -89,7 +89,7 @@ public:
     LIGHTNING m_lightning;
     std::mutex m_lightningMutex;
     CARDINAL_DIRECTIONS::ALARM_INFO getLightningStruct();
-    void setLightningStruct(CARDINAL_DIRECTIONS::ALARM_INFO& s);
+    void setLightningStruct(const CARDINAL_DIRECTIONS::ALARM_INFO &s);
     void checkLightning();
 private:
     void sendLightingCounterUP();
@@ -164,7 +164,7 @@ public:
     static int  MPD_getVolume(thread_data *my_data);
 
     /////////////////////// SAVE STATE iDOM ////////////////
-    void saveState_iDom(bool& started);
+    void saveState_iDom(const bool &started);
     void readState_iDom(nlohmann::json jj);
 
     /////////////////////// system linux ///////////////////

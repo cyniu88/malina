@@ -26,7 +26,7 @@ public:
 
         N = 1,NNE,NE,ENE,E,ESE,SE,SSE,S,SSW,SW,WSW,W,WNW,NW,NNW,ERROR
     };
-    static CARDINAL_DIRECTIONS_ENUM stringToCardinalDirectionsEnum(std::string s){
+    static CARDINAL_DIRECTIONS_ENUM stringToCardinalDirectionsEnum(const std::string& s){
         if (s == "N")      return CARDINAL_DIRECTIONS_ENUM::N;
         else if (s == "NNE")    return CARDINAL_DIRECTIONS_ENUM::NNE;
         else if (s == "NE")     return CARDINAL_DIRECTIONS_ENUM::NE;

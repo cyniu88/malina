@@ -593,7 +593,7 @@ CARDINAL_DIRECTIONS::ALARM_INFO iDomTOOLS::getLightningStruct()
     return m_lightningStruct;
 }
 
-void iDomTOOLS::setLightningStruct(CARDINAL_DIRECTIONS::ALARM_INFO &s)
+void iDomTOOLS::setLightningStruct(const CARDINAL_DIRECTIONS::ALARM_INFO &s)
 {
     std::lock_guard<std::mutex> lock(m_lightningMutex);
     //std::cout <<"struktura setowana " << s.data.str() <<std::endl;
@@ -740,7 +740,7 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
     std::string txt;
 
     for (auto a : *textVector){
-        txt += a;
+        txt.append(a);
     }
     /////////// start thread TTS - python use ////////////////////////
     std::string command = " python /home/pi/programowanie/iDom_server_OOP/script/PYTHON/gadacz.py \\" + txt + "\\";
@@ -1041,7 +1041,7 @@ void iDomTOOLS::checkAlarm()
     }
 }
 
-void iDomTOOLS::saveState_iDom(bool& started)
+void iDomTOOLS::saveState_iDom(const bool& started)
 {
     if (started == false)
     {

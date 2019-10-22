@@ -251,13 +251,13 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
 
     if(!work)
     {
-        MPD_COMMAND buffer;
+        MPD_COMMAND buffer_tmp;
         do{
             if(mpdQueue._size() > 0)
             {
                 //digitalWrite(LED7,1);
-                buffer = mpdQueue._get();
-                switch(buffer)
+                buffer_tmp = mpdQueue._get();
+                switch(buffer_tmp)
                 {
                 case MPD_COMMAND::NEXT:
                     mpd_player_next(obj);
@@ -298,7 +298,7 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
                     mpd_player_play_id(obj,my_data->ptr_MPD_info->currentSongID);
                     break;
                 default:
-                    printf("buffer: %c\n", buffer);
+                    printf("buffer: %c\n", buffer_tmp);
                 }
             }
             if (!mpd_check_connected(obj))

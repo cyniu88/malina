@@ -37,7 +37,9 @@ void useful_F::setStaticData(thread_data *my_dataPtr)
     myStaticData = my_dataPtr;
 }
 
-void useful_F::tokenizer (std::vector <std::string> &command, std::string separator, std::string &text){
+void useful_F::tokenizer (std::vector <std::string> &command,
+                         std::string separator,
+                         const std::string &text){
     std::string temp;
 
     for(char n: text)
@@ -141,9 +143,9 @@ std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned i
     struct tm * act_date;
     time(&act_time);
     act_date = localtime(&act_time);
-    char buffer[10];
-    strftime(buffer,10,"%M%H%w",act_date);
-    std::string str(buffer);
+    char buffer3[10];
+    strftime(buffer3,10,"%M%H%w",act_date);
+    std::string str(buffer3);
     str+=data;
     unsigned int hash = 0;
 

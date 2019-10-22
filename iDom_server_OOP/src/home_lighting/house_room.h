@@ -15,7 +15,7 @@ class house_room: public iDom_API
     STATE m_lock = STATE::UNLOCK;
 
 public:
-    house_room(const std::string& name);
+    explicit house_room(const std::string& name);
     ~house_room();
     house_room(house_room &&other);
     house_room& operator=(house_room&& other);

@@ -19,7 +19,7 @@ public:
     int buttonTimer;
     int buttonMENU;
     char *code = NULL;
-    master_irda(thread_data *my_data);
+    explicit master_irda(thread_data *my_data);
     void run();
 
 private:
