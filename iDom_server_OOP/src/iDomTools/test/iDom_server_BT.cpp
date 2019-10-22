@@ -5,9 +5,6 @@
 class iDom_server_Class : public iDomTOOLS_ClassTest
 {
 protected:
-    TEST_JSON test_Json;
-    LIGHTNING test_lightning;
-    CARDINAL_DIRECTIONS::ALARM_INFO test_struct;
     virtual void SetUp() final
     {
         std::cout << "konfiguracja przed testem iDom_server_Class " <<std::endl;

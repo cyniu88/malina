@@ -110,7 +110,7 @@ std::string files_tree::show_list()
 void files_tree::get_list(std::string path) {
     tree_stack.push(path);
     vector_clear(); // czyscimy vector
-    std::string path2 = path;
+    std::string path2;
     std::string v_path, tmp_string;
 
     //if()

@@ -80,16 +80,16 @@ struct RADIO_EQ_CONFIG{
     std::string sunset  = "NULL";
     std::string lock   = "NULL";
     std::string unlock = "NULL";
-    void set(std::string type,
-             std::string name,
-             std::string ID,
-             std::string onCode = "null",
-             std::string offCode = "null",
-             std::string on15sec = "null",
-             std::string sunrise = "null",
-             std::string sunset = "null",
-             std::string lock = "null",
-             std::string unlock = "null"){
+    void set(const std::string& type,
+             const std::string& name,
+             const std::string& ID,
+             const std::string& onCode = "null",
+             const std::string& offCode = "null",
+             const std::string& on15sec = "null",
+             const std::string& sunrise = "null",
+             const std::string& sunset = "null",
+             const std::string& lock = "null",
+             const std::string& unlock = "null"){
         this->name = name;
         this->ID   = ID;
         this->type = type;
@@ -139,9 +139,9 @@ class RADIO_WEATHER_STATION: public RADIO_EQ
 public:
     RADIO_WEATHER_STATION(thread_data * my_data, const RADIO_EQ_CONFIG& cfg, RADIO_EQ_TYPE type);
     ~RADIO_WEATHER_STATION();
-    STATE getState();
-    std::string getName();
-    std::string getID();
+    STATE getState() override;
+    std::string getName() override;
+    std::string getID() override;
     // data
     WEATHER_STRUCT data;
 private:
@@ -154,10 +154,10 @@ class RADIO_BUTTON: public RADIO_EQ
 public:
     RADIO_BUTTON(thread_data * my_data, const RADIO_EQ_CONFIG& cfg, RADIO_EQ_TYPE type);
     ~RADIO_BUTTON();
-    STATE getState();
+    STATE getState() override;
     void setState(STATE s);
-    std::string getName();
-    std::string getID();
+    std::string getName() override;
+    std::string getID() override;
 private:
     RADIO_BUTTON();
 };

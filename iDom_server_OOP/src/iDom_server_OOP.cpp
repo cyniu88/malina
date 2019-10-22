@@ -165,7 +165,6 @@ void Server_connectivity_thread(thread_data *my_data, const std::string &threadN
 
         if(client->c_send("\nFAIL\n") == -1)
         {
-            key_ok = false;
             delete client;
             iDOM_THREAD::stop_thread(threadName, my_data);
             return;
@@ -557,7 +556,7 @@ iDomStateEnum iDom_main()
         else
         {
             log_file_mutex.mutex_lock();
-            log_file_cout << INFO << "za duzo klientow "<< thread_array[freeSlotID].thread_ID << std::endl;
+            log_file_cout << INFO << "za duzo klientow " << std::endl;
             log_file_mutex.mutex_unlock();
 
             if( (send(v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT)) <= 0)
