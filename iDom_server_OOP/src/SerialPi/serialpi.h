@@ -11,8 +11,7 @@ class SerialPi{
     std::string m_address;
     int m_serial_port;
 public:
-    SerialPi(const std::string &address);
-
+    explicit SerialPi(const std::string &address);
     ~SerialPi();
 
     void begin(int budrate);

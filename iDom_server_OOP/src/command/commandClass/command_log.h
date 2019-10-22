@@ -9,9 +9,9 @@
 class command_log : public command
 {
 public:
-    command_log(const std::string& name);
-    std::string execute(std::vector <std::string> &v,thread_data * my_data);
-    std::string help() const;
+    explicit command_log(const std::string& name);
+    std::string execute(std::vector <std::string> &v,thread_data * my_data) override;
+    std::string help() const override;
 private:
    logger_level logLevel(const std::string& level);
 };

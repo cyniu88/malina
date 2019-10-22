@@ -242,9 +242,9 @@ iDomStateEnum iDom_main()
 
     pthread_mutex_init(&Logger::mutex_log, NULL);
     // read a JSON file
-    std::ifstream i("/etc/config/iDom_SERVER/iDom_serverConfig.json");
+    std::ifstream i_config("/etc/config/iDom_SERVER/iDom_serverConfig.json");
     nlohmann::json j;
-    i >> j;
+    i_config >> j;
     CONFIG_JSON server_settings = useful_F::configJsonFileToStruct(j);
     struct sockaddr_in server;
     int v_socket;

@@ -9,9 +9,9 @@
 class command_show : public command
 {
 public:
-    command_show(const std::string& name);
-    std::string execute(std::vector <std::string> &v,thread_data * my_data);
-    std::string help() const;
+    explicit command_show(const std::string& name);
+    std::string execute(std::vector <std::string> &v,thread_data * my_data) override;
+    std::string help() const override;
 };
 
 #endif // COMMAND_SHOW_H

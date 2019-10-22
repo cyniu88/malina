@@ -9,10 +9,10 @@
 class command_hello : public command
 {
 public:
-    command_hello(const std::string& name);
+    explicit command_hello(const std::string& name);
     ~command_hello();
-    std::string execute(std::vector <std::string> &v,thread_data * my_data);
-    std::string help() const;
+    std::string execute(std::vector <std::string> &v,thread_data * my_data) override;
+    std::string help() const override;
 };
 
 #endif // COMMAND_HELLO_H

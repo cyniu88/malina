@@ -10,9 +10,9 @@ class commandRS232 : public command
 {
     int counter =0;
 public:
-    commandRS232(const std::string& name);
-    std::string execute(std::vector <std::string> &v,thread_data * my_data);
-    std::string help() const;
+    explicit commandRS232(const std::string& name);
+    std::string execute(std::vector <std::string> &v,thread_data * my_data) override;
+    std::string help() const override;
 };
 
 #endif // COMMANDRS232_H

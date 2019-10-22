@@ -8,11 +8,10 @@ class Thermometer_container_fixture :  public ::testing::Test //public iDomTOOLS
 public:
     THERMOMETER_CONTAINER testThermo;
     std::string termoName = "test_thermometer";
-    std::vector<std::string> v;
+    std::vector<std::string> v = {"10.2","11.22"};
 
     void SetUp() final
     {
-        std::vector<std::string> v = {"10.2","11.22"};
         testThermo.add("inside");
         testThermo.add("outside");
         testThermo.updateAll(&v);

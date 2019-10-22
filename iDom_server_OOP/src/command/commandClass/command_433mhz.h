@@ -9,10 +9,10 @@
 class command_433MHz : public command
 {
 public:
-    command_433MHz(const std::string& name);
+    explicit command_433MHz(const std::string& name);
     ~command_433MHz();
-    std::string execute(std::vector <std::string> &v,thread_data * my_data);
-    std::string help() const;
+    std::string execute(std::vector <std::string> &v,thread_data * my_data) override;
+    std::string help() const override;
 };
 
 #endif // COMMAND_433MHZ_H

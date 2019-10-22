@@ -5,12 +5,11 @@ command_ardu::command_ardu(const std::string &name):command(name)
     this->m_mainRadioButton = std::nullptr_t();
 }
 
-command_ardu::command_ardu(const std::string& name, thread_data *my_data):command(name)
-  ,m_button433MHzVector(my_data->main_REC->getButtonPointerVector())
+command_ardu::command_ardu(const std::string& name,
+                           thread_data *my_data):command(name)
+                                                   ,m_button433MHzVector(my_data->main_REC->getButtonPointerVector()),
+                                                   m_weatherStVe(my_data->main_REC->getWeather_StationPtrVector())
 {
-    //m_button433MHzVector = my_data->main_REC->getButtonPointerVector();
-    //m_mainRadioButton = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer("locker"));
-    m_weatherStVe = my_data->main_REC->getWeather_StationPtrVector();
     m_mainWeatherStation = static_cast<RADIO_WEATHER_STATION*>(my_data->main_REC->getEqPointer("first"));
 }
 
@@ -26,11 +25,11 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
             my_data->myEventHandler.run("433MHz")->addEvent("RFLink: "+v[2]);
             try {
                 my_data->main_RFLink->
-                        m_rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],
-                        "ID")].counter();
+                    m_rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],
+                                                                                    "ID")].counter();
                 my_data->main_RFLink->
-                        m_rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],
-                        "ID")].msg = v[2];
+                    m_rflinkMAP[my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],
+                                                                                    "ID")].msg = v[2];
             }
             catch(const std::string& e){
                 //std::cout << "wyjatek w szukaniu: " << e <<std::endl;

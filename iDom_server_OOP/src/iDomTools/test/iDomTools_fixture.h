@@ -22,10 +22,11 @@ public:
     /// pointer
    // iDomTOOLS* test_idomTOOLS;
     /////// method
-    iDomTOOLS_ClassTest()//:test_rec(&test_my_data)
+    iDomTOOLS_ClassTest()
     {
         std::cout << "konstruktor testu " <<std::endl;
     }
+
     void SetUp()
     {
         std::cout << "SetUP testu iDomTOOLS_ClassTest" <<std::endl;

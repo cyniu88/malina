@@ -9,9 +9,9 @@
 class commandTEST : public command
 {
 public:
-    commandTEST(const std::string& name);
-    std::string execute(std::vector <std::string> &v , thread_data * my_data);
-    std::string help() const;
+    explicit commandTEST(const std::string& name);
+    std::string execute(std::vector <std::string> &v , thread_data * my_data) override;
+    std::string help() const override;
 };
 
 #endif // COMMANDTEST_H
