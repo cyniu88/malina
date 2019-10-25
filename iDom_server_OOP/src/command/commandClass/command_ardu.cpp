@@ -7,8 +7,9 @@ command_ardu::command_ardu(const std::string &name):command(name)
 
 command_ardu::command_ardu(const std::string& name,
                            thread_data *my_data):command(name)
-                                                   ,m_button433MHzVector(my_data->main_REC->getButtonPointerVector()),
-                                                   m_weatherStVe(my_data->main_REC->getWeather_StationPtrVector())
+    ,m_button433MHzVector(my_data->main_REC->getButtonPointerVector()),
+    m_mainRadioButton( std::nullptr_t()),
+    m_weatherStVe(my_data->main_REC->getWeather_StationPtrVector())
 {
     m_mainWeatherStation = static_cast<RADIO_WEATHER_STATION*>(my_data->main_REC->getEqPointer("first"));
 }
