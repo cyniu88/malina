@@ -10,5 +10,5 @@ CircleCI
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cyniu88/malina.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cyniu88/malina/context:python)
 
 
-[![code-inspector](https://www.code-inspector.com/project/804/score/svg)]
-[![code-inspector](https://www.code-inspector.com/project/804/status/svg)]
+[![code-inspector](https://www.code-inspector.com/project/804/score/svg)](https://www.code-inspector.com/project/preferences/804)
+[![code-inspector](https://www.code-inspector.com/project/804/status/svg)](https://www.code-inspector.com/project/preferences/804)
