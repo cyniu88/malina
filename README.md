@@ -11,3 +11,4 @@ CircleCI
 
 
 [![code-inspector](https://www.code-inspector.com/project/804/score/svg)]
+[![code-inspector](https://www.code-inspector.com/project/804/status/svg)]
