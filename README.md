@@ -8,3 +8,6 @@ CircleCI
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/cyniu88/malina.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cyniu88/malina/alerts/)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/cyniu88/malina.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cyniu88/malina/context:cpp)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cyniu88/malina.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cyniu88/malina/context:python)
+
+
+[![code-inspector](https://www.code-inspector.com/project/804/score/svg)]
