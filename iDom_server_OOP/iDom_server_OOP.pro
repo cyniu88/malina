@@ -84,7 +84,8 @@ SOURCES += src/iDom_server_OOP.cpp\
     libs/generator/generator.cpp \
     src/iDomKEY_ACCESS/idomkey_access.cpp \
     src/command/commandhandlergateway.cpp \
-    src/command/commandClass/command_gateway.cpp
+    src/command/commandClass/command_gateway.cpp \
+    src/main.cpp
 
 INCLUDEPATH += "json2/"
 

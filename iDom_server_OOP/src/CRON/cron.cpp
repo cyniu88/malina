@@ -51,10 +51,10 @@ void CRON::runEveryone_1min(struct tm *act_date)
 
     Clock now;
     now = Clock::getTime();
-    if(now == my_data->main_iDomTools->getSunset() ){
+    if(now == my_data->main_iDomTools->getSunsetClock() ){
         runOnSunset();
     }
-    if(now == my_data->main_iDomTools->getSunrise() ){
+    if(now == my_data->main_iDomTools->getSunriseClock() ){
         runOnSunrise();
     }
 }
