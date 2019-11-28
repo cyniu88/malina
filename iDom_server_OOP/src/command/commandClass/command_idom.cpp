@@ -141,16 +141,16 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1]=="facebook"){
         std::string msg;
         for (unsigned int i = 2; i < v.size(); ++i){
-            msg+=" ";
-            msg+=v[i];
+            msg.push_back(' ');
+            msg.append(v[i]);
         }
         return my_data->main_iDomTools->postOnFacebook(msg);
     }
     else if (v[1]=="viber"){
         std::string msg;
         for (unsigned int i = 2; i < v.size(); ++i){
-            msg+=" ";
-            msg+=v[i];
+            msg.push_back(' ');
+            msg.append(v[i]);
         }
         STATE stMSG = my_data->main_iDomTools->sendViberMsgBool(msg, my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                                      my_data->server_settings->_fb_viber.viberSender);

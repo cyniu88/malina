@@ -11,9 +11,9 @@ std::string command_big::execute(std::vector<std::string> &v, thread_data *my_da
     if (v.size() > 1){
         str_buf.erase();
         for (int i =0; i < std::stoi(v[1])-1; ++i){
-            str_buf += "z";
+            str_buf.push_back('z');
         }
-        str_buf += "Y";
+        str_buf.push_back('Y');
     }
     return str_buf;
 }

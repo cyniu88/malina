@@ -168,11 +168,11 @@ void iDomTOOLS::updateTemperatureStats()
 
         if (data.first > data.second)
         {
-            msg += " temperatura maleje " + EMOJI::emoji(E_emoji::CHART_WITH_DOWNWARDS_TREND);
+            msg.append(" temperatura maleje " + EMOJI::emoji(E_emoji::CHART_WITH_DOWNWARDS_TREND));
         }
         else
         {
-            msg += " temperatura rośnie " + EMOJI::emoji(E_emoji::CHART_WITH_UPWARDS_TREND);
+            msg.append(" temperatura rośnie " + EMOJI::emoji(E_emoji::CHART_WITH_UPWARDS_TREND));
         }
 
         sendViberMsg(msg,
@@ -195,11 +195,11 @@ void iDomTOOLS::updateTemperatureStats()
 
         if (data.first > data.second)
         {
-            msg += " temperatura maleje " + EMOJI::emoji(E_emoji::CHART_WITH_DOWNWARDS_TREND);
+            msg.append(" temperatura maleje " + EMOJI::emoji(E_emoji::CHART_WITH_DOWNWARDS_TREND));
         }
         else
         {
-            msg += " temperatura rośnie " + EMOJI::emoji(E_emoji::CHART_WITH_UPWARDS_TREND);
+            msg.append(" temperatura rośnie " + EMOJI::emoji(E_emoji::CHART_WITH_UPWARDS_TREND));
         }
 
         sendViberMsg(msg,
@@ -840,12 +840,12 @@ void iDomTOOLS::send_temperature_thingSpeak()
 {
     std::vector<std::string> _temperature = getTemperature();
     std::string addres = "api.thingspeak.com/update?key=";
-    addres+=m_key;
-    addres+="&field1=";
-    addres+= _temperature.at(0);
+    addres.append(m_key);
+    addres.append("&field1=");
+    addres.append(_temperature.at(0));
     // addres.erase(addres.size()-2,addres.size());
-    addres+= "&field3=" + _temperature.at(1);
-    addres+="&field2=" + getSmog();
+    addres.append("&field3=" + _temperature.at(1));
+    addres.append("&field2=" + getSmog());
     //////////////////////////////// pozyskanie temperatury
     m_allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);

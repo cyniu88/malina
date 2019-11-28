@@ -36,7 +36,7 @@ public:
 
 public:
     explicit c_irda_logic(thread_data *my_data);
-    ~c_irda_logic();
+    ~c_irda_logic() override;
     void _add(PILOT_KEY X);
 
     ///////////// iDom API ///////////////

@@ -51,13 +51,13 @@ void useful_F::tokenizer (std::vector <std::string> &command,
                 is_sep = true;
         }
         if (is_sep == false)
-            temp += n;
+            temp.push_back(n);
         else
         {
             if (!temp.empty())
             {
                 command.push_back( temp);
-                temp = "";
+                temp.clear();
             }
         }
     }
@@ -146,7 +146,7 @@ std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned i
     char buffer3[10];
     strftime(buffer3,10,"%M%H%w",act_date);
     std::string str(buffer3);
-    str+=data;
+    str.append(data);
     unsigned int hash = 0;
 
     for(std::size_t i = 0; i < str.length(); i++)
@@ -196,7 +196,7 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
             str_buf.erase();
             while( !log_file.eof() )
             {
-                str_buf += log_file.get();
+                str_buf.push_back(static_cast<char>(log_file.get()));
             }
             str_buf.erase(str_buf.length()-1, str_buf.length());
 
@@ -221,13 +221,13 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
                 {
                     if(std::string::npos!=str_temp.find(find))
                     {
-                        str_buf+=str_temp +"\n";
+                        str_buf.append(str_temp +"\n");
                     }
                     else
                     {
                         if(str_buf.size()<3)
                         {
-                            str_buf+="    ";
+                            str_buf.append("    ");
                         }
                     }
                 }
@@ -240,7 +240,7 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
                 }
                 if(str_buf.size()<3)
                 {
-                    str_buf+="    ";
+                    str_buf.append("    ");
                 }
             }
         }
@@ -278,7 +278,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     /////////////////////// viber
     cj._fb_viber.viberToken = jj["viber_settings"].at("VIBER_TOKEN").get<std::string>();
     cj._fb_viber.viberAvatar = jj["viber_settings"].at("VIBER_AVATAR").get<std::string>();
-    cj._fb_viber.viberSender = jj["viber_settings"].at("VIBER_SENDER").get<std::string>();;
+    cj._fb_viber.viberSender = jj["viber_settings"].at("VIBER_SENDER").get<std::string>();
     for(auto& k : jj["viber_settings"].at("VIBER_RECEIVER"))
     {
         cj._fb_viber.viberReceiver.push_back(k.get<std::string>());

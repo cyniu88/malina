@@ -136,9 +136,9 @@ void files_tree::get_list(std::string path) {
             }
 
             v_path = path2;
-            v_path += "/";
+            v_path.push_back('/');
             tmp_string.assign(plik->d_name);
-            v_path += tmp_string;
+            v_path.append(tmp_string);
             temp.path = v_path;
             temp.files_name.assign(plik->d_name);
             movie_database_vector.push_back(temp);

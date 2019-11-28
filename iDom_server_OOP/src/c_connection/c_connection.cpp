@@ -126,7 +126,8 @@ void C_connection::c_analyse(int recvSize)
 
     for(std::string t : command)
     {
-        m_str_buf += t+" ";
+        m_str_buf.append(t);
+        m_str_buf.push_back(' ');
     }
 #endif
     m_str_buf = m_mainCommandHandler->run(command,my_data);

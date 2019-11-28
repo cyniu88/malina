@@ -9,8 +9,8 @@ std::string command_log::execute(std::vector<std::string> &v, thread_data *my_da
     std::string msg;
     for (unsigned int i = 2; i < v.size(); ++i)
     {
-        msg+=" ";
-        msg+=v[i];
+        msg.push_back(' ');
+        msg.append(v[i]);
     }
     log_file_mutex.mutex_lock();
     log_file_cout <<"USER:- " << logLevel(v[1]) << msg <<std::endl;;

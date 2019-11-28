@@ -78,10 +78,10 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
                 itr != my_data->main_RFLink->m_rflinkMAP.end();
                 itr++)
             {
-                str_buf += itr->second.read();
-                str_buf += '\n';
+                str_buf.append(itr->second.read());
+                str_buf.push_back('\n');
             }
-            str_buf += ".";
+            str_buf.push_back('.');
 
         }
         else if (v[1] == "show" && v[2] == "config"){

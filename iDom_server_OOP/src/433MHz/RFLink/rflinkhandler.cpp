@@ -78,7 +78,7 @@ std::string RFLinkHandler::internalReadFromRS232()
             if (b == '\n'){
                 break;
             }
-            buf += b;
+            buf.push_back(b);
         }
     }
     return buf;
@@ -88,7 +88,7 @@ std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(const std::string& msg,
 {
     std::string id;
 
-    int pos = msg.find(var+"=");
+    int pos = msg.find(var + "=");
     if (pos == -1 ){
         throw "argument \""+var+"\" not found";
     }
@@ -99,12 +99,12 @@ std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(const std::string& msg,
     std::cout << "znaleziono " << var <<" na pozycji " << pos <<std::endl;
 #endif
 
-    for (int i = 1+pos+var.size();;++i ){
+    for (unsigned int i = 1+pos+var.size();;++i ){
         char t = msg.at(i);
         if (t ==';'){
             break;
         }
-        id += t;
+        id.push_back(t);
     }
     return id;
 

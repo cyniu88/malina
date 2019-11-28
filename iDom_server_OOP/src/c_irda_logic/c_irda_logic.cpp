@@ -61,7 +61,7 @@ void c_irda_logic::sleeperLogic(PILOT_KEY X)
     }
     case PILOT_KEY::KEY_CHANNELUP:
     {
-        my_data->sleeper+=10;
+        my_data->sleeper += 10;
         my_data->mainLCD->printString(true,0,0,std::to_string(my_data->sleeper)+" minut");
         break;
     }
@@ -203,7 +203,7 @@ void c_irda_logic::movieLogic(PILOT_KEY X)
             std::cout << " URUCHAMIAM PLIK! " <<my_data->main_tree->show_list() <<std::endl;
 
             std::string command = "/home/pi/programowanie/iDom_server_OOP/script/PYTHON/iDom_movie.py ";
-            command+=my_data->main_tree->show_list();
+            command.append(my_data->main_tree->show_list());
             useful_F::runLinuxCommand(command);
             std::cout << " WYSTARTOWALEM!!";
             my_data->mainLCD->set_lcd_STATE(-1);
@@ -323,7 +323,7 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
         my_data->mainLCD->printString(true,0,0,"GASZE LEDy");
         std::string temp_str="";
         temp_str.erase();
-        temp_str += my_data->main_iDomTools->ledOFF();
+        temp_str.append(my_data->main_iDomTools->ledOFF());
         my_data->mainLCD->printString(false,0,1,temp_str);
         who=PILOT_STATE::MPD;
         break;
@@ -353,8 +353,8 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
         std::string temp_str = "I:";
         std::vector<std::string> temper = my_data->main_iDomTools->getTemperature();
         //temp_str += my_data_logic->main_iDomTools->getTemperatureString();// send_to_arduino(my_data_logic,"temperature:2;");
-        temp_str += temper.at(0);
-        temp_str += " O:"+ temper.at(1);
+        temp_str.append(temper.at(0));
+        temp_str.append(" O:"+ temper.at(1));
         my_data->mainLCD->printString(false,0,1,temp_str+" c");
         who = PILOT_STATE::MPD;
         break;
