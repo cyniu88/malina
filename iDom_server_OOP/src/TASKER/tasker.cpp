@@ -28,5 +28,10 @@ void TASKER::runTasker()
             my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/command",
                                           ret);
         }
+        //TODO temporary added
+        else if (kk.first == topic+"/lusina")
+        {
+            my_data->myEventHandler.run("lusina")->addEvent(kk.second);
+        }
     }
 }
