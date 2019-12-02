@@ -32,6 +32,17 @@ void TASKER::runTasker()
         else if (kk.first == topic+"/lusina")
         {
             my_data->myEventHandler.run("lusina")->addEvent(kk.second);
+            auto v = useful_F::split(kk.second, ' ');
+
+            if (v.size() == 1)
+            {
+                my_data->lusina.temperatureDS20 = v[0];
+            }
+            else
+            {
+                my_data->lusina.humidityDTH = v[1];
+                my_data->lusina.temperatureDTH = v[3];
+            }
         }
     }
 }

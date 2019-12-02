@@ -846,6 +846,8 @@ void iDomTOOLS::send_temperature_thingSpeak()
     // addres.erase(addres.size()-2,addres.size());
     addres.append("&field3=" + _temperature.at(1));
     addres.append("&field2=" + getSmog());
+    addres.append("&field4="+ my_data->lusina.humidityDTH);
+    addres.append("&field5="+ my_data->lusina.temperatureDS20);
     //////////////////////////////// pozyskanie temperatury
     m_allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);

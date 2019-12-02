@@ -316,6 +316,14 @@ class iDomTOOLS;
 class RADIO_EQ_CONTAINER;
 class RFLinkHandler;
 
+//TODO temporary
+
+struct LUSINA{
+    std::string temperatureDS20;
+    std::string temperatureDTH;
+    std::string humidityDTH;
+};
+
 struct thread_data{
     int s_client_sock;
     struct sockaddr_in from;
@@ -343,6 +351,7 @@ struct thread_data{
     std::unique_ptr<MQTT_mosquitto> mqttHandler = std::nullptr_t();
     alarm_C iDomAlarm;
     bool serverStarted = false;
+    LUSINA  lusina;
 };
 
 struct thread_data_rs232{

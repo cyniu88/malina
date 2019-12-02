@@ -3,6 +3,7 @@
 #include "../iDom_server_OOP.h"
 #include "../command/commandhandlermqtt.h"
 
+//TODO dodac do iDom API
 class TASKER
 {
     unsigned int counter = 0;
