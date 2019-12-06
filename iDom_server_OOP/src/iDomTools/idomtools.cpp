@@ -127,13 +127,13 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
         my_data->myEventHandler.run("temperature")->addEvent(m);
         if (reference < 2)
         {
-            sendViberPicture(m, "http://canacopegdl.com/images/cold/cold-14.jpg",
+            sendViberPicture(m, "https://media.giphy.com/media/cGymv7T9ZzDdLGczy7/giphy.gif",
                              my_data->server_settings->_fb_viber.viberReceiver.at(0),
                              my_data->server_settings->_fb_viber.viberSender);
-            sendViberPicture(m, "http://canacopegdl.com/images/cold/cold-14.jpg",
+            sendViberPicture(m, "https://media.giphy.com/media/cGymv7T9ZzDdLGczy7/giphy.gif",
                              my_data->server_settings->_fb_viber.viberReceiver.at(1),
                              my_data->server_settings->_fb_viber.viberSender);
-            postOnFacebook(m, "http://canacopegdl.com/images/cold/cold-14.jpg");
+            postOnFacebook(m, "https://media.giphy.com/media/cGymv7T9ZzDdLGczy7/giphy.gif");
         }
         else {
             sendViberMsg(m,my_data->server_settings->_fb_viber.viberReceiver.at(0),
