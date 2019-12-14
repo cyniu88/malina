@@ -5,6 +5,7 @@ TASKER::TASKER(thread_data *my_data):
     topic("iDom-client/command"),
     my_data(my_data)
 {
+    my_data->lusina.statHumi.resize(270);
 }
 
 void TASKER::runTasker()
@@ -37,10 +38,12 @@ void TASKER::runTasker()
             if (v.size() == 1)
             {
                 my_data->lusina.temperatureDS20 = v[0];
+                my_data->lusina.statTemp.push_back(std::stof(v[0]));
             }
             else
             {
                 my_data->lusina.humidityDTH = v[1];
+                my_data->lusina.statHumi.push_back(std::stoi(v[1]));
                 my_data->lusina.temperatureDTH = v[3];
             }
         }

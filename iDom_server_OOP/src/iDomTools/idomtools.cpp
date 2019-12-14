@@ -127,13 +127,13 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
         my_data->myEventHandler.run("temperature")->addEvent(m);
         if (reference < 2)
         {
-            sendViberPicture(m, "https://media.giphy.com/media/cGymv7T9ZzDdLGczy7/giphy.gif",
+            sendViberPicture(m, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEU-fCklbx_ZFKaVhdGCymAg8NTldnva1GvnAEl63XfigJa2VV&s",
                              my_data->server_settings->_fb_viber.viberReceiver.at(0),
                              my_data->server_settings->_fb_viber.viberSender);
-            sendViberPicture(m, "https://media.giphy.com/media/cGymv7T9ZzDdLGczy7/giphy.gif",
+            sendViberPicture(m, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEU-fCklbx_ZFKaVhdGCymAg8NTldnva1GvnAEl63XfigJa2VV&s",
                              my_data->server_settings->_fb_viber.viberReceiver.at(1),
                              my_data->server_settings->_fb_viber.viberSender);
-            postOnFacebook(m, "https://media.giphy.com/media/cGymv7T9ZzDdLGczy7/giphy.gif");
+            postOnFacebook(m, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEU-fCklbx_ZFKaVhdGCymAg8NTldnva1GvnAEl63XfigJa2VV&s");
         }
         else {
             sendViberMsg(m,my_data->server_settings->_fb_viber.viberReceiver.at(0),
@@ -839,20 +839,21 @@ std::string iDomTOOLS::getSmog()
 void iDomTOOLS::send_temperature_thingSpeak()
 {
     std::vector<std::string> _temperature = getTemperature();
-    std::string addres = "api.thingspeak.com/update?key=";
-    addres.append(m_key);
-    addres.append("&field1=");
-    addres.append(_temperature.at(0));
+    std::stringstream addres;
+    addres << "api.thingspeak.com/update?key=";
+    addres << m_key;
+    addres << "&field1=";
+    addres << _temperature.at(0);
     // addres.erase(addres.size()-2,addres.size());
-    addres.append("&field3=" + _temperature.at(1));
-    addres.append("&field2=" + getSmog());
-    addres.append("&field4="+ my_data->lusina.humidityDTH);
-    addres.append("&field5="+ my_data->lusina.temperatureDS20);
+    addres << "&field3=" << _temperature.at(1);
+    addres << "&field2=" << getSmog();
+    addres << "&field4=" << my_data->lusina.statHumi.average();
+    addres << "&field5=" << my_data->lusina.statTemp.average();
     //////////////////////////////// pozyskanie temperatury
     m_allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);
     sendSMSifTempChanged("inside",24);
-    std::string s = useful_F_libs::httpPost(addres,10);
+    std::string s = useful_F_libs::httpPost(addres.str(), 10);
 
     if(s == "0"){
         log_file_mutex.mutex_lock();
