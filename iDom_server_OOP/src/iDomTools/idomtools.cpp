@@ -840,6 +840,7 @@ void iDomTOOLS::send_temperature_thingSpeak()
 {
     std::vector<std::string> _temperature = getTemperature();
     std::stringstream addres;
+    addres.precision(3);
     addres << "api.thingspeak.com/update?key=";
     addres << m_key;
     addres << "&field1=";

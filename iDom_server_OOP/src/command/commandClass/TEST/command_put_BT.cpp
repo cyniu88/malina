@@ -28,7 +28,8 @@ protected:
 TEST_F(command_put_Class_fixture, main)
 {
     TEST_DATA::return_send_to_arduino = "-2:3";
-
+    test_my_data.lusina.statHumi.push_back(12);
+    test_my_data.lusina.statTemp.push_back(1.13);
     test_v.push_back("put");
     test_v.push_back("temperature");
     auto ret = test_command_put->execute(test_v,&test_my_data);

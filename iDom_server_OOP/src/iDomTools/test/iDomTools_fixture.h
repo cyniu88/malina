@@ -55,7 +55,6 @@ public:
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
         test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
         test_my_data.ptr_MPD_info->volume = 3;
-
         useful_F::myStaticData = &test_my_data;
     }
 

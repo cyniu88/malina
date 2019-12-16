@@ -21,6 +21,10 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 {
     std::cout << "##################################### 0" <<std::endl;
 
+    test_my_data.lusina.statHumi.push_back(12);
+    test_my_data.lusina.statTemp.push_back(1.133333);
+    test_my_data.lusina.statTemp.push_back(1.443553);
+    test_my_data.lusina.statTemp.push_back(1.34435);
     TEST_DATA::return_send_to_arduino = "20.0:-1.0;";
     test_my_data.main_iDomTools->send_temperature_thingSpeak();
     EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::Under);
@@ -88,6 +92,8 @@ TEST_F(iDomTOOLS_ClassTest, send_temperature_thingSpeak){
 
     TEST_DATA::return_send_to_arduino = "-2.3:-2";
     TEST_DATA::return_httpPost_expect = "NULL";
+    test_my_data.lusina.statHumi.push_back(12);
+    test_my_data.lusina.statTemp.push_back(1.13);
     EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(),"NULL");
     test_my_data.main_iDomTools->send_temperature_thingSpeak();
     std::cout << "DATA: "<< TEST_DATA::return_httpPost_expect <<std::endl;
