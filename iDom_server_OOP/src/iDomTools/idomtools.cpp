@@ -840,7 +840,6 @@ void iDomTOOLS::send_temperature_thingSpeak()
 {
     std::vector<std::string> _temperature = getTemperature();
     std::stringstream addres;
-    addres.precision(3);
     addres << "api.thingspeak.com/update?key=";
     addres << m_key;
     addres << "&field1=";
@@ -849,7 +848,7 @@ void iDomTOOLS::send_temperature_thingSpeak()
     addres << "&field3=" << _temperature.at(1);
     addres << "&field2=" << getSmog();
     addres << "&field4=" << my_data->lusina.statHumi.average();
-    addres << "&field5=" << my_data->lusina.statTemp.average();
+    addres << "&field5=" << to_string_with_precision(my_data->lusina.statTemp.average());
     //////////////////////////////// pozyskanie temperatury
     m_allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);
