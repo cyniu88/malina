@@ -108,6 +108,8 @@ void C_connection::c_analyse(int recvSize)
     buf = c_read_buf(recvSize);
     my_data->myEventHandler.run("command")->addEvent(buf);
     std::vector <std::string> command;
+
+    useful_F_libs::toLower(buf);
     try{
         useful_F::tokenizer(command," \n,", buf);
     }
