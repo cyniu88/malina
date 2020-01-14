@@ -33,11 +33,16 @@ void TASKER::runTasker()
         else if (kk.first == topic+"/lusina/h")
         {
             my_data->myEventHandler.run("lusina")->addEvent(kk.second);
-            auto v = useful_F::split(kk.second, ' ');
+           try { auto v = useful_F::split(kk.second, ' ');
 
                 my_data->lusina.humidityDTH = v[1];
                 my_data->lusina.statHumi.push_back(std::stoi(v[1]));
                 my_data->lusina.temperatureDTH = v[3];
+}
+catch (...)
+{
+my_data->lusina.statHumi.push_back(-1);
+}
 
         }
         else if(kk.first == topic+"/lusina/t")
