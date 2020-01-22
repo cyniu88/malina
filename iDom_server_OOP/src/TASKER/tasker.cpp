@@ -49,7 +49,7 @@ my_data->lusina.statHumi.push_back(-1);
         {
             my_data->myEventHandler.run("lusina")->addEvent(kk.second);
             auto v = useful_F::split(kk.second, ' ');
-            if (v.size() == 1)
+            if (v.size() == 1 && v[0] != -127)
             {
                 my_data->lusina.temperatureDS20 = v[0];
                 my_data->lusina.statTemp.push_back(std::stof(v[0]));
