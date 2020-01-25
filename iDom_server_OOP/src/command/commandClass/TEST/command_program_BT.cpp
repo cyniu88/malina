@@ -131,9 +131,17 @@ TEST_F(command_program_Class_fixture, debugeVariableProgram)
 
 TEST_F(command_program_Class_fixture, version)
 {
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+    struct tm *parts = std::localtime(&now_c);
+
+
+    std::stringstream timeString;
+    timeString << parts->tm_mday << " " << (1900 + parts->tm_year);
     test_v.clear();
     test_v.push_back("program");
     test_v.push_back("version");
     auto ret = test_command_program->execute(test_v,&test_my_data);
-    EXPECT_THAT(ret,testing::HasSubstr("master"));
+
+    EXPECT_THAT(ret,testing::HasSubstr(timeString.str()));
 }
