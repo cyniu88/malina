@@ -13,6 +13,13 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     {
         return "what?\n" + help();
     }
+    if (v[1] == "version")
+    {
+        std::stringstream r;
+        const char * PROG_INFO = "iDomServer: " __DATE__ ", " __TIME__;
+        r << "wersja " <<PROG_INFO <<" "<< GIT_BRANCH <<" " << GIT_COMMIT_HASH << std::endl;
+        return r.str();
+    }
     if (v[1] == "stop")
     {
         my_data->main_iDomTools->close_iDomServer();
@@ -179,6 +186,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
 std::string command_program::help() const
 {
     std::stringstream help;
+    help << "program version - show iDom server info " << std::endl;
     help << "program stop - close iDom server"<< std::endl;
     help << "program reload soft - reload iDom server" << std::endl;
     help << "program reload hard - reload iDom server" << std::endl;
