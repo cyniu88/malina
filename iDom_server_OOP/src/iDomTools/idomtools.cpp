@@ -1082,7 +1082,7 @@ void iDomTOOLS::saveState_iDom(const bool& started)
 
     info.write(json);
 
-    my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/state", json.dump(4));
+    my_data->mqttHandler->publishRetained(my_data->server_settings->_mqtt_broker.topicPublish + "/state", json.dump(4));
 
 #ifdef BT_TEST
     std::cout << json <<std::endl;
