@@ -28,7 +28,7 @@ CommandHandlerMQTT::CommandHandlerMQTT()
     std::unique_ptr <command> wifi (new command_wifi("wifi"));
     commandMap.insert(std::make_pair(wifi->getCommandName(), std::move(wifi)));
 
-    std::unique_ptr <command> buderus (new command_wifi("buderus"));
+    std::unique_ptr <command> buderus (new command_buderus("buderus"));
     commandMap.insert(std::make_pair(buderus->getCommandName(), std::move(buderus)));
 }
 
