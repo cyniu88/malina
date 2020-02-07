@@ -38,6 +38,7 @@
 #include "iDomSaveState/idom_save_state.h"
 #include "../mqtt_mosquitto/MQTT_mosquitto/mqtt.h"
 #include "../libs/alarm/alarm.h"
+#include "buderus/buderus.h"
 
 #define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
@@ -343,6 +344,7 @@ struct thread_data{
     int sleeper;
     std::map<std::string, std::unique_ptr<KEY> > key_map;
     std::unique_ptr<MPD_info> ptr_MPD_info = std::nullptr_t();
+    std::unique_ptr<BUDERUS> ptr_buderus = std::nullptr_t();
     pilot_led * ptr_pilot_led = NULL;
     event_counters_handler myEventHandler;
     std::string encriptionKey = "40%";

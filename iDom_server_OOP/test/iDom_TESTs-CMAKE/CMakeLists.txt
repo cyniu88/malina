@@ -68,6 +68,7 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/command/commandClass/command_gateway.cpp"
     "../../src/command/commandClass/TEST/command_gateway_bt.cpp"
     "../../src/command/commandClass/TEST/command_wifi_bt.cpp"
+    "../../src/command/commandClass/command_buderus.cpp"
     "../../src/c_connection/c_connection_node.cpp"
     "../../src/c_connection/c_connection2.cpp"
     "../../src/c_connection/c_connection.cpp"
@@ -88,6 +89,7 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/home_lighting/house_room.cpp"
     "../../src/home_lighting/house_lighting_handler.cpp"
     "../../src/home_lighting/TEST/BT.cpp"
+    "../../src/buderus/buderus.cpp"
     )
 # Get the current working branch
 execute_process(

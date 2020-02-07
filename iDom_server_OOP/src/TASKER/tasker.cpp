@@ -21,8 +21,13 @@ void TASKER::runTasker()
     if(my_data->mqttHandler->getReceiveQueueSize() > 0)
     {
         auto kk = my_data->mqttHandler->getMessage();
+        auto workTopic = useful_F::split(kk.first, '/');
 
-        if(kk.first == topic)
+        if(workTopic.size() > 3 && workTopic.at(1) =="iDom-client" && workTopic.at(2) == "buderus"){
+            puts("MQTT BUDERUS");
+
+        }
+        else if(kk.first == topic)
         {
             auto v = useful_F::split(kk.second, ' ');
             auto ret = commandMQTT.run(v, my_data);
