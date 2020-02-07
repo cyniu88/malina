@@ -344,6 +344,8 @@ iDomStateEnum iDom_main()
     node_data.main_tree = std::make_unique<files_tree>(server_settings._server.MOVIES_DB_PATH, &mainLCD);
     /////////////////////////////// iDom Tools ///////////////////////
     node_data.main_iDomTools = std::make_unique <iDomTOOLS>(&node_data);
+    ///////////////////////////////// BUDERUS //////////////////////////////
+    node_data.ptr_buderus = std::make_unique<BUDERUS>();
     ///////////////////////////////// MENU /////////////////////////////////
     node_data.main_MENU = std::make_unique<menu_tree>(server_settings._server.MENU_PATH, &mainLCD);
     //////////////////////////////// SETTINGS //////////////////////////////
