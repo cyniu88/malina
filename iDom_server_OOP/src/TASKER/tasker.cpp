@@ -22,9 +22,14 @@ void TASKER::runTasker()
     {
         auto kk = my_data->mqttHandler->getMessage();
         auto workTopic = useful_F::split(kk.first, '/');
-
-        if(workTopic.size() > 3 && workTopic.at(1) =="iDom-client" && workTopic.at(2) == "buderus"){
-            puts("MQTT BUDERUS");
+#ifdef BT_TEST
+        std::cout << "workTopic.size() " << workTopic.size() << std::endl
+                  << "workTopic.at(0) " << workTopic.at(0) << std::endl
+                  << "workTopic.at(1) " << workTopic.at(1) << std::endl;
+#endif
+        if(workTopic.size() > 3 && workTopic.at(0) =="iDom-client" && workTopic.at(1) == "buderus"){
+           auto v  = useful_F::split(kk.first + " " + kk.second, ' ');
+           auto ret = commandMQTT.run(v, my_data);
 
         }
         else if(kk.first == topic)
