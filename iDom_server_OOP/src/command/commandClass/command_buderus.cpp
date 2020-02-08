@@ -9,6 +9,17 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
 {
     std::string str_buf = "command buderus - wrong paramiter:\n "+ help();
 
+    if(v.at(1) == "heating_active")
+    {
+        my_data->ptr_buderus->setHeating(v.at(2) == "1");
+        return "done";
+    }
+
+    else if(v.at(1) == "boiler_data")
+    {
+        my_data->ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(v.at(2))));
+        return "done";
+    }
     return str_buf;
 }
 

@@ -2,8 +2,8 @@
 #include "../functions/functions.h"
 
 TASKER::TASKER(thread_data *my_data):
-    topic("iDom-client/command"),
-    my_data(my_data)
+                                       topic("iDom-client/command"),
+                                       my_data(my_data)
 {
     my_data->lusina.statHumi.resize(270);
 }
@@ -21,16 +21,18 @@ void TASKER::runTasker()
     if(my_data->mqttHandler->getReceiveQueueSize() > 0)
     {
         auto kk = my_data->mqttHandler->getMessage();
-        auto workTopic = useful_F::split(kk.first, '/');
-#ifdef BT_TEST
-        std::cout << "workTopic.size() " << workTopic.size() << std::endl
-                  << "workTopic.at(0) " << workTopic.at(0) << std::endl
-                  << "workTopic.at(1) " << workTopic.at(1) << std::endl;
-#endif
-        if(workTopic.size() > 3 && workTopic.at(0) =="iDom-client" && workTopic.at(1) == "buderus"){
-           auto v  = useful_F::split(kk.first + " " + kk.second, ' ');
-           auto ret = commandMQTT.run(v, my_data);
 
+        if(kk.first == "iDom-client/buderus/ems-esp/heating_active")
+        {
+            std::vector<std::string> v = {"buderus","heating_active"};
+            v.push_back(kk.second);
+            auto ret = commandMQTT.run(v, my_data);
+        }
+        else if(kk.first == "iDom-client/buderus/ems-esp/boiler_data")
+        {
+            std::vector<std::string> v = {"buderus","boiler_data"};
+            v.push_back(kk.second);
+            auto ret = commandMQTT.run(v, my_data);
         }
         else if(kk.first == topic)
         {
@@ -43,16 +45,16 @@ void TASKER::runTasker()
         else if (kk.first == topic+"/lusina/h")
         {
             my_data->myEventHandler.run("lusina")->addEvent(kk.second);
-           try { auto v = useful_F::split(kk.second, ' ');
+            try { auto v = useful_F::split(kk.second, ' ');
 
                 my_data->lusina.humidityDTH = v[1];
                 my_data->lusina.statHumi.push_back(std::stoi(v[1]));
                 my_data->lusina.temperatureDTH = v[3];
-}
-catch (...)
-{
-my_data->lusina.statHumi.push_back(-1);
-}
+            }
+            catch (...)
+            {
+                my_data->lusina.statHumi.push_back(-1);
+            }
 
         }
         else if(kk.first == topic+"/lusina/t")

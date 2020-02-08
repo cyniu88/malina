@@ -23,6 +23,8 @@ public:
     void tapWaterDeactivated();
     void heatingActivated();
     void heatingDeactivated();
+    void setHeating(bool b);
+    void setTapWater(bool b);
 
     bool isHeatingActiv();
     bool isTapWaterActiv();

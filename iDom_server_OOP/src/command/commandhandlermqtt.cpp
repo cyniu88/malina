@@ -34,6 +34,7 @@ CommandHandlerMQTT::CommandHandlerMQTT()
 
 std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_data *my_data)
 {
+    std::cout << "na zero jest" << v.at(0) << std::endl;
     if (commandMap.find(v[0]) == commandMap.end()){
         std::fstream log;
         log.open( "/mnt/ramdisk/command.txt", std::ios::binary | std::ios::in | std::ios::out|std::ios::app );

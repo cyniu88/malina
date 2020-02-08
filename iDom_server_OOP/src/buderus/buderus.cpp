@@ -48,6 +48,16 @@ void BUDERUS::heatingDeactivated()
     m_heating_active = false;
 }
 
+void BUDERUS::setHeating(bool b)
+{
+    m_heating_active = b;
+}
+
+void BUDERUS::setTapWater(bool b)
+{
+    m_tapwater_active = b;
+}
+
 bool BUDERUS::isHeatingActiv()
 {
     std::lock_guard <std::mutex> lock ( m_lockGuard);
