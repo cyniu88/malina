@@ -9,6 +9,8 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
 {
     std::string str_buf = "command buderus - wrong paramiter:\n "+ help();
 
+    if(v.size() < 2)
+        return str_buf;
     if(v.at(1) == "heating_active")
     {
         my_data->ptr_buderus->setHeating(v.at(2) == "1");

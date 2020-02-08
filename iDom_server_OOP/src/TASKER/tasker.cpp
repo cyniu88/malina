@@ -26,13 +26,13 @@ void TASKER::runTasker()
         {
             std::vector<std::string> v = {"buderus","heating_active"};
             v.push_back(kk.second);
-            auto ret = commandMQTT.run(v, my_data);
+            (void) commandMQTT.run(v, my_data);
         }
         else if(kk.first == "iDom-client/buderus/ems-esp/boiler_data")
         {
             std::vector<std::string> v = {"buderus","boiler_data"};
             v.push_back(kk.second);
-            auto ret = commandMQTT.run(v, my_data);
+            (void) commandMQTT.run(v, my_data);
         }
         else if(kk.first == topic)
         {

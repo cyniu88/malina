@@ -142,6 +142,6 @@ TEST_F(command_program_Class_fixture, version)
     test_v.push_back("program");
     test_v.push_back("version");
     auto ret = test_command_program->execute(test_v,&test_my_data);
-
-    EXPECT_THAT(ret,testing::HasSubstr(timeString.str()));
+    std::cout << ret << std::endl;
+    EXPECT_THAT(ret, testing::HasSubstr(timeString.str()));
 }
