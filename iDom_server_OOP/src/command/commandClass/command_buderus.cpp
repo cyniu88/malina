@@ -22,6 +22,12 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
         my_data->ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(v.at(2))));
         return "done";
     }
+
+    else if(v.at(1) == "thermostat_data")
+    {
+        my_data->ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(v.at(2))));
+        return "done";
+    }
     return str_buf;
 }
 

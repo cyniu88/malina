@@ -34,6 +34,12 @@ void TASKER::runTasker()
             v.push_back(kk.second);
             (void) commandMQTT.run(v, my_data);
         }
+        else if(kk.first == "iDom-client/buderus/ems-esp/thermostat_data")
+        {
+            std::vector<std::string> v = {"buderus","thermostat_data"};
+            v.push_back(kk.second);
+            (void) commandMQTT.run(v, my_data);
+        }
         else if(kk.first == topic)
         {
             auto v = useful_F::split(kk.second, ' ');
