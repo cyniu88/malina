@@ -95,7 +95,8 @@ set(SOURCE_FILES
     "../../src/iDomKEY_ACCESS/idomkey_access.cpp"
     "../../src/command/commandhandlergateway.cpp"
     "../../src/command/commandClass/command_gateway.cpp"
-
+    "../../src/command/commandClass/command_buderus.cpp" 
+    "../../src/buderus/buderus.cpp"
     )
 # Get the current working branch
 execute_process(
