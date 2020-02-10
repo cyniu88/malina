@@ -11,6 +11,7 @@
 #include "commandClass/command_state.h"
 #include "commandClass/command_sleep.h"
 #include "commandClass/command_gateway.h"
+#include "commandClass/command_buderus.h"
 
 commandHandlerRoot::commandHandlerRoot(thread_data * my_data): commandHandler(my_data)
 {
@@ -49,6 +50,9 @@ commandHandlerRoot::commandHandlerRoot(thread_data * my_data): commandHandler(my
 
     std::unique_ptr <command> sleep (new command_sleep("sleep"));
     commandMap.insert(std::make_pair(sleep->getCommandName(), std::move(sleep)));
+
+    std::unique_ptr <command> buderus (new command_buderus("buderus"));
+    commandMap.insert(std::make_pair(buderus->getCommandName(), std::move(buderus)));
 }
 
 commandHandlerRoot::~commandHandlerRoot()

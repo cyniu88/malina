@@ -70,8 +70,17 @@ bool BUDERUS::isTapWaterActiv()
     return m_tapwater_active;
 }
 
+std::string BUDERUS::getAllData()
+{
+    std::lock_guard <std::mutex> lock ( m_lockGuard);
+    std::stringstream ret;
+    ret << dump();
+    return ret.str();
+}
+
 std::string BUDERUS::dump() const
 {
+
     std::stringstream ret;
 
     ret << "m_boiler_data: " << m_boiler_data.dump(4) << std::endl;

@@ -29,6 +29,8 @@ public:
     bool isHeatingActiv();
     bool isTapWaterActiv();
 
+    std::string getAllData();
+
     std::string dump() const override;
 };
 
