@@ -46,11 +46,11 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
 std::string command_buderus::help() const
 {
     std::stringstream ret;
-    ret << "print - show all data" << std::endl;
-    ret << "thermostat_data <json>  - set termostat data" << std::endl;
-    ret << "boiler_data <json>  - set boiler data" << std::endl;
-    ret << "tapwater_active <1/0>  - set tapwater activ" << std::endl;
-    ret << "heating_active <1/0>  - set heating activ" << std::endl;
+    ret << "buderus print - show all data" << std::endl;
+    ret << "buderus thermostat_data <json>  - set termostat data" << std::endl;
+    ret << "buderus boiler_data <json>  - set boiler data" << std::endl;
+    ret << "buderus tapwater_active <1/0>  - set tapwater activ" << std::endl;
+    ret << "buderus heating_active <1/0>  - set heating activ" << std::endl;
 
     return ret.str();
 }

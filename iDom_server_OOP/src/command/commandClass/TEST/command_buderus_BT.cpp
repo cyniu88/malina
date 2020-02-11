@@ -46,14 +46,14 @@ TEST_F(command_buderus_Class_fixture, heating_active)
     test_v.push_back("buderus");
     test_v.push_back("heating_active");
     test_v.push_back("1");
-    auto ret = test_command_buderus->execute(test_v,&test_my_data);
+    (void) test_command_buderus->execute(test_v,&test_my_data);
     EXPECT_TRUE(test_my_data.ptr_buderus->isHeatingActiv());
 
     test_v.clear();
     test_v.push_back("buderus");
     test_v.push_back("heating_active");
     test_v.push_back("0");
-    ret = test_command_buderus->execute(test_v,&test_my_data);
+    (void) test_command_buderus->execute(test_v,&test_my_data);
     EXPECT_FALSE(test_my_data.ptr_buderus->isHeatingActiv());
 }
 
@@ -84,4 +84,24 @@ TEST_F(command_buderus_Class_fixture, boiler_data)
     (void)test_command_buderus->execute(test_v,&test_my_data);
     auto ret = test_my_data.ptr_buderus->getAllData();
     EXPECT_THAT(ret, ::testing::HasSubstr("13594"));
+}
+
+TEST_F(command_buderus_Class_fixture, thermostat_data)
+{
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("thermostat_data");
+    test_v.push_back("{\"thermostat_data\":55}");
+    (void)test_command_buderus->execute(test_v,&test_my_data);
+    auto ret = test_my_data.ptr_buderus->getAllData();
+    EXPECT_THAT(ret, ::testing::HasSubstr(": 55"));
+}
+
+TEST_F(command_buderus_Class_fixture, print)
+{
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("print");
+    auto ret = test_command_buderus->execute(test_v,&test_my_data);
+    EXPECT_THAT(ret, ::testing::HasSubstr("null"));
 }
