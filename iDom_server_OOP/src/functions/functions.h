@@ -43,5 +43,6 @@ public:
     static std::mutex mutex_buf;
     static std::mutex mutex_who;
     static void sleep(int sec);
+    static void Server_connectivity_thread(thread_data *my_data, const std::string &threadName);
 };
 #endif // FUNCTIONS_H
