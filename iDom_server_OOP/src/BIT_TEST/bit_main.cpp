@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <thread>
 
 #include "../iDomTools/test/iDomTools_fixture.h"
 #include "../TASKER/tasker.h"
@@ -18,14 +19,25 @@ protected:
 
     }
 public:
-
+    void start_iDomServer();
+    static void iDomServerStub();
     std::unique_ptr<TASKER> bit_Tasker;
 };
 
-//TEST_F(bit_fixture, heandle_command){
-//    C_connection test_connection(&test_my_data);
-//    test_connection.c_analyse(3);
-//}
+void bit_fixture::start_iDomServer()
+{
+    std::thread t(&iDomServerStub);
+    t.join();
+}
+
+void bit_fixture::iDomServerStub()
+{
+    std::cout << "Działa!!!!" << std::endl;
+}
+
+TEST_F(bit_fixture, heandle_command){
+    start_iDomServer();
+}
 
 TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
 
@@ -58,3 +70,4 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
     std::cout << ret << std::endl;
     EXPECT_THAT(ret, ::testing::HasSubstr("13594"));
 }
+
