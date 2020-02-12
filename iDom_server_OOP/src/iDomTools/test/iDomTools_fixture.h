@@ -48,6 +48,7 @@ public:
         test_my_data.alarmTime = test_alarmTime;
         test_my_data.idom_all_state = main_iDomStatus;
         test_my_data.ptr_pilot_led = &test_pilot_led;
+        test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
 
         test_my_data.main_iDomStatus->addObject("house");
 

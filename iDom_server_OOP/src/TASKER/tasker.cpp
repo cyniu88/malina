@@ -73,9 +73,6 @@ int TASKER::runTasker()
                 my_data->lusina.statTemp.push_back(std::stof(v[0]));
             }
         }
-        log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG << " strasznie zarobiony mqtt "<< std::endl;
-        log_file_mutex.mutex_unlock();
         return 10;
     }
     return 256;

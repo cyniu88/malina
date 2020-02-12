@@ -103,7 +103,7 @@ void iDOM_THREAD::waitUntilAllThreadEnd(thread_data *my_data)
             if (i->thread_socket != 0)
                 std::cout << "thread name: "<< i->thread_name << std::endl;
         }
-        std::cout << "watki pracuja "<<threadCounter<< std::endl;
+        std::cout << "watki pracuja " << threadCounter << std::endl;
     } while(threadCounter != 0);
 }
 

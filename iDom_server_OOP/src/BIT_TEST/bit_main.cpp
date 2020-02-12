@@ -7,43 +7,55 @@
 #include "../src/thread_functions/iDom_thread.h"
 #define SERVER_PORT 8833
 #define SERVER_IP "localhost"
+
 class bit_fixture : public iDomTOOLS_ClassTest
 {
 protected:
     struct sockaddr_in server;
     int v_socket;
-    std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> thread_array;
+    CONFIG_JSON testCS;
+
     void SetUp()
     {
         bit_Tasker = std::make_unique<TASKER>(&test_my_data);
         test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu-BIT");
         test_my_data.ptr_buderus = std::make_unique<BUDERUS>();
+        for (int i = 0; i < static_cast<int>(thread_array.size()); ++i)
+        {
+            thread_array[i].thread_name = "  -empty-  ";
+            thread_array[i].thread_socket = 0;
+        }
+        test_my_data.main_THREAD_arr = &thread_array;
+        test_my_data.server_settings = &testCS;
+        test_my_data.mainLCD = new LCD_c(static_cast<uint8_t>(2),static_cast<uint8_t>(2),static_cast<uint8_t>(2));
     }
     void TearDown()
     {
-
+        delete test_my_data.mainLCD ;
     }
 public:
     void start_iDomServer();
     void iDomServerStub();
     std::unique_ptr<TASKER> bit_Tasker;
+
+    std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> thread_array;
 };
 
 void bit_fixture::start_iDomServer()
 {
-    std::thread t(&bit_fixture::iDomServerStub,this);
+    auto t = std::thread(&bit_fixture::iDomServerStub,this);
+    //t.detach();
     t.join();
+
+    std::cout << "Działa!!!!3@" << std::endl;
 }
 
 void bit_fixture::iDomServerStub()
 {
-    std::cout << "Działa!!!!" << std::endl;
-
     memset(&server, 0, sizeof(server));
-
     server.sin_family = AF_INET;
     server.sin_port = htons(SERVER_PORT);
-    if(inet_pton(AF_INET, SERVER_IP, & server.sin_addr) <= 0)
+    if(inet_pton(AF_INET, SERVER_IP, & server.sin_addr) < 0)
     {
         perror("inet_pton() ERROR");
         exit(-1);
@@ -100,6 +112,7 @@ void bit_fixture::iDomServerStub()
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
 
+
         if((v_sock_ind = accept(v_socket,(struct sockaddr *) & from, & len)) < 0)
         {
             continue;
@@ -107,7 +120,7 @@ void bit_fixture::iDomServerStub()
 
         //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscy ////////////////////
 
-        int freeSlotID = iDOM_THREAD::findFreeThreadSlot(&thread_array);
+        int freeSlotID = iDOM_THREAD::findFreeThreadSlot( & this->thread_array);
 
         if(freeSlotID != -1)
         {
@@ -137,7 +150,7 @@ void bit_fixture::iDomServerStub()
 }
 
 TEST_F(bit_fixture, heandle_command){
-   // start_iDomServer();
+    start_iDomServer();
 }
 
 TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
