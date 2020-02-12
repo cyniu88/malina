@@ -6,6 +6,7 @@
 
 #include "functions.h"
 #include "../thread_functions/iDom_thread.h"
+#include "../command/commandhandlergateway.h"
 
 std::vector<std::string> useful_F::split(const std::string& s, char separator ){
     std::vector<std::string> output;
@@ -247,6 +248,143 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
         log_file.close();
     }
     return str_buf;
+}
+
+
+///////////////////// watek polaczenia TCP /////////////////////////////////////
+void useful_F::Server_connectivity_thread(thread_data *my_data, const std::string &threadName){
+    C_connection *client = new C_connection(my_data);
+    static unsigned int connectionCounter = 0;
+    bool key_ok = false;
+    std::string tm = inet_ntoa(my_data->from.sin_addr);
+    if("192.168.11.1" != tm && my_data->ptr_MPD_info->isPlay == false) {
+        my_data->mainLCD->set_print_song_state(32);
+        my_data->mainLCD->printString(true,0,0,"USER CONNECTED!");
+        my_data->mainLCD->printString(false,0,1,tm);
+    }
+    if("192.168.11.1" == tm || "192.168.11.123" == tm)
+    {
+        if(++connectionCounter > 9)
+        {
+            connectionCounter = 0;
+            my_data->main_iDomTools->sendViberMsg("ktoś kombinuje z polaczeniem do serwera!",
+                                                  my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                  my_data->server_settings->_fb_viber.viberSender+"_ALERT!");
+        }
+        client->setEncrypted(false);
+    }
+    else
+    {
+        connectionCounter = 0;
+    }
+
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << threadName <<": polaczenie z adresu " << tm <<std::endl;
+    log_file_mutex.mutex_unlock();
+    my_data->myEventHandler.run("connections")->addEvent(tm);
+
+    int recvSize = client->c_recv(0);
+    if(recvSize == -1)
+    {
+        key_ok = false;
+    }
+    //std::cout <<"WYNIK:"<< client->c_read_buf().size()<<"a to wlasny" << RSHash().size()<<"!"<<std::endl;
+    std::string KEY_OWN = useful_F::RSHash();
+    client->setEncriptionKey(KEY_OWN);
+    std::string KEY_rec = client->c_read_buf(recvSize);
+
+    if(KEY_rec == KEY_OWN) // stop runing idom_server
+    {
+        key_ok = true;
+        if(client->c_send("OK") == -1)
+        {
+            puts("FAKE CONNECTION send OK");
+            key_ok = false;
+        }
+    }
+    else
+    {
+        key_ok = false;
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL <<"AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) <<std::endl;
+        log_file_cout << CRITICAL <<"KEY RECIVED: " << KEY_rec << " KEY SERVER: "<< KEY_OWN <<std::endl;
+        client->cryptoLog(KEY_rec);// setEncriptionKey(KEY_rec);
+        log_file_cout << CRITICAL <<"KEY RECIVED\n\n " << KEY_rec <<"\n\n"<< std::endl;
+        log_file_mutex.mutex_unlock();
+
+        std::string msg ="podano zły klucz autentykacji - sprawdz logi ";
+        msg.append(inet_ntoa(my_data->from.sin_addr));
+        my_data->main_iDomTools->sendViberMsg(msg,
+                                              my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                              my_data->server_settings->_fb_viber.viberSender+"_ALERT!");
+        KEY_rec.clear();
+
+        if(client->c_send("\nFAIL\n") == -1)
+        {
+            delete client;
+            iDOM_THREAD::stop_thread(threadName, my_data);
+            return;
+        }
+
+    }
+    /// ///////////////////////user level
+    {
+        int recvSize = client->c_recv(0);
+        if(recvSize == -1)
+        {
+            delete client;
+            iDOM_THREAD::stop_thread(threadName, my_data);
+            return;
+        }
+
+        std::string userLevel = client->c_read_buf(recvSize);
+        client->c_send("OK you are "+ userLevel);
+        puts("user level to:");
+        puts(userLevel.c_str());
+
+        if(userLevel == "ROOT")
+        {
+            client->m_mainCommandHandler = std::make_unique<commandHandlerRoot>(my_data);
+        }
+        else if (userLevel == "GATEWAY") {
+            client->m_mainCommandHandler = std::make_unique<commandHandlerGATEWAY>(my_data);
+        }
+        else
+        {
+            client->m_mainCommandHandler = std::make_unique<commandHandler>(my_data);
+        }
+    }
+    while (useful_F::go_while && key_ok)
+    {
+        int recvSize = client->c_recv(0);
+        if(recvSize == -1)
+        {
+            puts("klient sie rozlaczyl");
+            break;
+        }
+        // ########################### analia wiadomoscu ####################################//
+        try
+        {
+            client->c_analyse(recvSize);
+        }
+        catch (std::string& s)
+        {
+            puts("close server - throw");
+            useful_F::workServer = false;
+            client->c_send("CLOSE");
+            break;
+        }
+
+        // ############################### koniec analizy wysylanie wyniku do RS232 lub TCP ########################
+        if(client->c_send(0) == -1)
+        {
+            perror("send() ERROR");
+            break;
+        }
+    }
+    client->onStopConnection();
+    delete client;
+    iDOM_THREAD::stop_thread(threadName, my_data);
 }
 
 CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)

@@ -60,7 +60,7 @@ TEST_F(c_connection_fixture, c_analyse)
     for (char n : strMsg)
         test_connection->c_buffer[i++] = n;
     test_connection->setEncrypted(false);
-    test_connection->c_analyse(strMsg.size());
+    test_connection->c_analyse(static_cast<int>(strMsg.size()));
     EXPECT_THAT(test_my_data.myEventHandler.run("command")->getEvent()
                 ,testing::HasSubstr(strMsg));
 }

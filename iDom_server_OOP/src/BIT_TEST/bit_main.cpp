@@ -22,6 +22,11 @@ public:
     std::unique_ptr<TASKER> bit_Tasker;
 };
 
+//TEST_F(bit_fixture, heandle_command){
+//    C_connection test_connection(&test_my_data);
+//    test_connection.c_analyse(3);
+//}
+
 TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
 
     EXPECT_FALSE(test_my_data.ptr_buderus->isHeatingActiv());
