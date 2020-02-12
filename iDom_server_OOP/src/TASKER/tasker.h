@@ -12,7 +12,7 @@ class TASKER
 public:
     explicit TASKER(thread_data *my_data);
 
-    void runTasker();
+    int runTasker();
 private:
      thread_data * my_data;
 };

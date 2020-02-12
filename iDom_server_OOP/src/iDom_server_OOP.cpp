@@ -396,11 +396,11 @@ iDomStateEnum iDom_main()
             break;
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
         ///////////////////////////////////// TASKER //////////////////////////////////////////
         /// call Tasker
-        mainTasker.runTasker();
+        int delayMS = mainTasker.runTasker();
+        std::this_thread::sleep_for(std::chrono::milliseconds(delayMS));
 
         if((v_sock_ind = accept(v_socket,(struct sockaddr *) & from, & len)) < 0)
         {

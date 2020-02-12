@@ -8,7 +8,7 @@ TASKER::TASKER(thread_data *my_data):
     my_data->lusina.statHumi.resize(270);
 }
 
-void TASKER::runTasker()
+int TASKER::runTasker()
 {
     if(counter == 0){
         my_data->mainLCD->checkState();
@@ -73,5 +73,10 @@ void TASKER::runTasker()
                 my_data->lusina.statTemp.push_back(std::stof(v[0]));
             }
         }
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG << " strasznie zarobiony mqtt "<< std::endl;
+        log_file_mutex.mutex_unlock();
+        return 10;
     }
+    return 256;
 }
