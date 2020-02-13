@@ -100,13 +100,6 @@ std::string FACEBOOK_API::postPhotoOnWall(const std::string& url,
                                           const std::string& accessToken ){return "";}
 void FACEBOOK_API::setAccessToken(const std::string& token){}
 
-void LCD_c::set_lcd_STATE(int i){}
-void LCD_c::checkState(){std::cout << "LCD_c::checkState()" << std::endl;}
-void LCD_c::printString(bool clear, int col, int row, const std::string& str){
-    std::cout << "LCD_c::printString() "<< str << std::endl;
-    TEST_DATA::LCD_print = str;
-}
-
 std::string useful_F_libs::httpPost(const std::string& url, int timeoutSeconds){
 
     std::cout << "url: "<< url << " return "<< TEST_DATA::return_httpPost << "|"<< std::endl;

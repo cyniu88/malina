@@ -13,21 +13,30 @@ class bit_fixture : public iDomTOOLS_ClassTest
 protected:
     struct sockaddr_in server;
     int v_socket;
+
     CONFIG_JSON testCS;
+    CAMERA_CFG testCamera;
 
     void SetUp()
     {
         bit_Tasker = std::make_unique<TASKER>(&test_my_data);
         test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu-BIT");
         test_my_data.ptr_buderus = std::make_unique<BUDERUS>();
-        for (int i = 0; i < static_cast<int>(thread_array.size()); ++i)
+        for (size_t i = 0; i < thread_array.size(); ++i)
         {
             thread_array[i].thread_name = "  -empty-  ";
             thread_array[i].thread_socket = 0;
         }
+        test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
         test_my_data.main_THREAD_arr = &thread_array;
         test_my_data.server_settings = &testCS;
+        test_my_data.server_settings->_server.encrypted = false;
+        test_my_data.server_settings->_camera = testCamera;
+        test_my_data.server_settings->_camera.cameraLedOFF = " null";
         test_my_data.mainLCD = new LCD_c(static_cast<uint8_t>(2),static_cast<uint8_t>(2),static_cast<uint8_t>(2));
+        test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
+        test_my_data.main_REC = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
+        test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
     }
     void TearDown()
     {
@@ -36,18 +45,17 @@ protected:
 public:
     void start_iDomServer();
     void iDomServerStub();
-    std::unique_ptr<TASKER> bit_Tasker;
 
+    std::unique_ptr<TASKER> bit_Tasker;
     std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> thread_array;
+    std::string send_receive(int socket, std::string msg);
 };
 
 void bit_fixture::start_iDomServer()
 {
     auto t = std::thread(&bit_fixture::iDomServerStub,this);
-    //t.detach();
-    t.join();
-
-    std::cout << "Działa!!!!3@" << std::endl;
+    t.detach();
+    //t.join();
 }
 
 void bit_fixture::iDomServerStub()
@@ -97,10 +105,10 @@ void bit_fixture::iDomServerStub()
         perror("listen() ERROR");
         exit(-1);
     }
-    struct sockaddr_in from;
 
     ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
 
+    struct sockaddr_in from;
     while (1)
     {
         int v_sock_ind = 0;
@@ -113,7 +121,7 @@ void bit_fixture::iDomServerStub()
 
 
 
-        if((v_sock_ind = accept(v_socket,(struct sockaddr *) & from, & len)) < 0)
+        if((v_sock_ind = accept(v_socket,(struct sockaddr *) &from, & len)) < 0)
         {
             continue;
         }
@@ -149,8 +157,49 @@ void bit_fixture::iDomServerStub()
 
 }
 
+std::string bit_fixture::send_receive(int socket, std::string msg)
+{
+    char buffer[10000];
+    send( socket, msg.c_str(), msg.size(), 0 );
+    recv( socket, buffer, sizeof( buffer ), 0 );
+    return std::string(buffer);
+}
+
 TEST_F(bit_fixture, heandle_command){
     start_iDomServer();
+
+    struct sockaddr_in serwer =
+        {
+            .sin_family = AF_INET,
+            .sin_port = htons( 8833 )
+        };
+
+    const char * ipAddress = "127.0.0.1";
+
+    inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
+
+    const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
+
+    connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+
+
+    auto key =  useful_F::RSHash();
+
+    std::cout << "odebrano1: " << send_receive(s, key) << std::endl;
+
+    std::cout << "odebrano2: " << send_receive(s, "OK") << std::endl;
+
+    std::cout << "odebrano3: " << send_receive(s, "TEST") << std::endl;
+
+    std::cout << "odebrano4: " << send_receive(s, "OK") << std::endl;
+
+    std::cout << "odebrano4: " << send_receive(s, "help") << std::endl;
+
+    std::cout << "odebrano4: " << send_receive(s, "ok") << std::endl;
+
+
+    shutdown( s, SHUT_RDWR );
+
 }
 
 TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
