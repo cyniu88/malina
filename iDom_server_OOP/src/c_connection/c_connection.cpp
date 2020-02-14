@@ -15,6 +15,9 @@ C_connection::C_connection (thread_data *my_data):c_socket(my_data->s_client_soc
     m_className.append(" ");
     m_className.append(std::to_string(c_socket));
     iDom_API::addToMap(m_className,this);
+#ifdef BT_TEST
+    std::cout << "C_connection::C_connection "<< std::endl;
+#endif
 }
 
 C_connection::~C_connection()
@@ -31,7 +34,9 @@ C_connection::~C_connection()
     useful_F::sleep(3);
 
     shutdown(c_socket, SHUT_RDWR );
-    puts("C_connection::~C_connection()");
+#ifdef BT_TEST
+    std::cout << "C_connection::~C_connection "<< std::endl;
+#endif
 }
 
 int C_connection::c_send(int para)
@@ -121,7 +126,7 @@ void C_connection::c_analyse(int recvSize)
     }
 
 #ifdef BT_TEST
-    std::cout << "komenda: " << m_str_buf << " command.size() " << command.size() << std::endl;
+    std::cout << "komenda: " << command.at(0) << " command.size() " << command.size() << std::endl;
 
     m_str_buf = "unknown command\n";
 

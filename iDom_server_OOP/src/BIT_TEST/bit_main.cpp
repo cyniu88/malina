@@ -32,11 +32,12 @@ protected:
         test_my_data.server_settings = &testCS;
         test_my_data.server_settings->_server.encrypted = false;
         test_my_data.server_settings->_camera = testCamera;
-        test_my_data.server_settings->_camera.cameraLedOFF = " null";
+        test_my_data.server_settings->_camera.cameraLedOFF = " not set";
         test_my_data.mainLCD = new LCD_c(static_cast<uint8_t>(2),static_cast<uint8_t>(2),static_cast<uint8_t>(2));
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_my_data.main_REC = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
+
     }
     void TearDown()
     {
@@ -55,11 +56,14 @@ void bit_fixture::start_iDomServer()
 {
     auto t = std::thread(&bit_fixture::iDomServerStub,this);
     t.detach();
-    //t.join();
+    // t.join();
+    std::cout << "EXIT bit_fixture::start_iDomServer()" << std::endl;
 }
 
 void bit_fixture::iDomServerStub()
 {
+    std::cout << "bit_fixture::iDomServerStub()" << std::endl;
+    useful_F::workServer = true;
     memset(&server, 0, sizeof(server));
     server.sin_family = AF_INET;
     server.sin_port = htons(SERVER_PORT);
@@ -114,6 +118,7 @@ void bit_fixture::iDomServerStub()
         int v_sock_ind = 0;
         memset(&from,0, sizeof(from));
         if(!useful_F::workServer) {
+            std::cout << "cyniu1" << std::endl;
             break;
         }
 
@@ -173,8 +178,10 @@ std::string bit_fixture::send_receive(int socket, std::string msg)
 
 TEST_F(bit_fixture, heandle_command){
 
+    useful_F::workServer = true; // wylaczamy nasluchiwanie polaczenia
     std::cout << "poczatek testu start servera" << std::endl;
     start_iDomServer();
+
     std::cout << "poczatek testu nawizaanie polaczenia " << std::endl;
 
     struct sockaddr_in serwer =
@@ -191,24 +198,42 @@ TEST_F(bit_fixture, heandle_command){
 
     std::cout << "przed connect " << std::endl;
 
-    connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    std::cout << "connect status: "<<  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) ) <<std::endl;
 
-
+    useful_F::workServer = false; // wylaczamy nasluchiwanie polaczenia
     std::cout << "po connect " << std::endl;
 
-    useful_F::workServer = false;
-    auto key =  useful_F::RSHash();
 
+    auto key =  useful_F::RSHash();
+    std::string toCheck;
     std::cout << "odebrano1: " << send_receive(s, key) << std::endl;
     std::cout << "odebrano2: " << send_receive(s, "ok") << std::endl;
     std::cout << "odebrano3: " << send_receive(s, "TEST") << std::endl;
-    std::cout << "odebrano4: " << send_receive(s, "ok") << std::endl;
+    toCheck = send_receive(s, "ok");
+    EXPECT_STREQ(toCheck.c_str(), "OK you are TEST");
+
+    std::cout << "odebrano4: " << toCheck << std::endl;
+    sleep(1);
     std::cout << "odebrano5: " << send_receive(s, "help") << std::endl;
+    sleep(1);
     std::cout << "odebrano6: " << send_receive(s, "ok") << std::endl;
+    sleep(1);
     std::cout << "odebrano7: " << send_receive(s, "exit") << std::endl;
-    std::cout << "odebrano8: " << send_receive(s, "ok") << std::endl;
-    sleep(2);
-    shutdown( s, SHUT_RDWR );
+    sleep(1);
+
+    toCheck = send_receive(s, "ok");
+
+    std::cout << "odebrano8: " << toCheck << std::endl;
+    EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "END."));
+
+    //sleep(5);
+    shutdown(s, SHUT_RDWR );
+
+
+    while(thread_array.at(0).thread_socket != 0)
+    {
+        std::cout << "czekam na zakonczenie wątku" << std::endl;
+    }
     std::cout << "koniec testu " << std::endl;
 }
 

@@ -2,6 +2,16 @@
 
 iDomSTATUS::iDomSTATUS()
 {
+#ifdef BT_TEST
+    std::cout << "iDomSTATUS::iDomSTATUS()" << std::endl;
+#endif
+}
+
+iDomSTATUS::~iDomSTATUS()
+{
+#ifdef BT_TEST
+    std::cout << "iDomSTATUS::~iDomSTATUS()" << std::endl;
+#endif
 }
 
 void iDomSTATUS::addObject(std::string name, STATE st)
