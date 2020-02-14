@@ -80,7 +80,7 @@ TEST_F(blockQueue_Class_fixture, capacityExceeded)
 
     for (auto i = 0 ; i <10 ; ++i)
     {
-      test_q._add(MPD_COMMAND::PLAY);
+        test_q._add(MPD_COMMAND::PLAY);
     }
 
     EXPECT_THROW(test_q._add(MPD_COMMAND::PLAY), std::string );

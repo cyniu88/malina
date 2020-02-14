@@ -121,11 +121,13 @@ void bit_fixture::iDomServerStub()
 
 
 
-        if((v_sock_ind = accept(v_socket,(struct sockaddr *) &from, & len)) < 0)
+        if((v_sock_ind = accept(v_socket, (struct sockaddr *)&from, & len)) < 0)
         {
+            std::cout << "czekamy " << std::endl;
             continue;
         }
 
+        std::cout << "jedzimy dalej " << std::endl;
         //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscy ////////////////////
 
         int freeSlotID = iDOM_THREAD::findFreeThreadSlot( & this->thread_array);
@@ -160,13 +162,20 @@ void bit_fixture::iDomServerStub()
 std::string bit_fixture::send_receive(int socket, std::string msg)
 {
     char buffer[10000];
+    std::string ret;
     send( socket, msg.c_str(), msg.size(), 0 );
-    recv( socket, buffer, sizeof( buffer ), 0 );
-    return std::string(buffer);
+    ssize_t size = recv( socket, buffer, sizeof( buffer ), 0 );
+    for (ssize_t i = 0 ; i < size; ++i){
+        ret.push_back(buffer[i]);
+    }
+    return ret;
 }
 
 TEST_F(bit_fixture, heandle_command){
+
+    std::cout << "poczatek testu start servera" << std::endl;
     start_iDomServer();
+    std::cout << "poczatek testu nawizaanie polaczenia " << std::endl;
 
     struct sockaddr_in serwer =
         {
@@ -180,26 +189,27 @@ TEST_F(bit_fixture, heandle_command){
 
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
 
+    std::cout << "przed connect " << std::endl;
+
     connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
 
 
+    std::cout << "po connect " << std::endl;
+
+    useful_F::workServer = false;
     auto key =  useful_F::RSHash();
 
     std::cout << "odebrano1: " << send_receive(s, key) << std::endl;
-
-    std::cout << "odebrano2: " << send_receive(s, "OK") << std::endl;
-
+    std::cout << "odebrano2: " << send_receive(s, "ok") << std::endl;
     std::cout << "odebrano3: " << send_receive(s, "TEST") << std::endl;
-
-    std::cout << "odebrano4: " << send_receive(s, "OK") << std::endl;
-
-    std::cout << "odebrano4: " << send_receive(s, "help") << std::endl;
-
     std::cout << "odebrano4: " << send_receive(s, "ok") << std::endl;
-
-
+    std::cout << "odebrano5: " << send_receive(s, "help") << std::endl;
+    std::cout << "odebrano6: " << send_receive(s, "ok") << std::endl;
+    std::cout << "odebrano7: " << send_receive(s, "exit") << std::endl;
+    std::cout << "odebrano8: " << send_receive(s, "ok") << std::endl;
+    sleep(2);
     shutdown( s, SHUT_RDWR );
-
+    std::cout << "koniec testu " << std::endl;
 }
 
 TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){

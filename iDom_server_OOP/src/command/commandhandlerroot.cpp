@@ -6,7 +6,6 @@
 #include "commandClass/commandrs232.h"
 #include "commandClass/command_idom.h"
 #include "commandClass/command_program.h"
-#include "commandClass/commandexit.h"
 #include "commandClass/command_ardu.h"
 #include "commandClass/command_state.h"
 #include "commandClass/command_sleep.h"
@@ -29,9 +28,6 @@ commandHandlerRoot::commandHandlerRoot(thread_data * my_data): commandHandler(my
 
     std::unique_ptr <command> program(new command_program("program") );
     commandMap.insert( std::make_pair(program->getCommandName(),std::move( program )) );
-
-    std::unique_ptr <command> eexit(new commandEXIT("exit"));
-    commandMap.insert( std::make_pair(eexit->getCommandName(),std::move( eexit )) );
 
     std::unique_ptr <command> MPD(new command_mpd("MPD"));
     commandMap.insert(std::make_pair(MPD->getCommandName(), std::move (MPD)));
