@@ -19,6 +19,7 @@ protected:
 
     void SetUp()
     {
+        iDomTOOLS_ClassTest::SetUp();
         bit_Tasker = std::make_unique<TASKER>(&test_my_data);
         test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu-BIT");
         test_my_data.ptr_buderus = std::make_unique<BUDERUS>();
@@ -37,11 +38,12 @@ protected:
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_my_data.main_REC = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
-
     }
+
     void TearDown()
     {
-        delete test_my_data.mainLCD ;
+        delete test_my_data.mainLCD;
+        iDomTOOLS_ClassTest::TearDown();
     }
 public:
     void start_iDomServer();
@@ -63,7 +65,6 @@ void bit_fixture::start_iDomServer()
 void bit_fixture::iDomServerStub()
 {
     std::cout << "bit_fixture::iDomServerStub()" << std::endl;
-    useful_F::workServer = true;
     memset(&server, 0, sizeof(server));
     server.sin_family = AF_INET;
     server.sin_port = htons(SERVER_PORT);
@@ -118,7 +119,7 @@ void bit_fixture::iDomServerStub()
         int v_sock_ind = 0;
         memset(&from,0, sizeof(from));
         if(!useful_F::workServer) {
-            std::cout << "cyniu1" << std::endl;
+            std::cout << "DUPA ZE TO JEST" << std::endl;
             break;
         }
 
@@ -178,8 +179,9 @@ std::string bit_fixture::send_receive(int socket, std::string msg)
 
 TEST_F(bit_fixture, heandle_command){
 
-    useful_F::workServer = true; // wylaczamy nasluchiwanie polaczenia
-    std::cout << "poczatek testu start servera" << std::endl;
+    useful_F::workServer =  true; // włącz nasluchwianie servera
+    useful_F::go_while = true;
+
     start_iDomServer();
 
     std::cout << "poczatek testu nawizaanie polaczenia " << std::endl;
@@ -200,9 +202,9 @@ TEST_F(bit_fixture, heandle_command){
 
     std::cout << "connect status: "<<  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) ) <<std::endl;
 
-    useful_F::workServer = false; // wylaczamy nasluchiwanie polaczenia
     std::cout << "po connect " << std::endl;
 
+    useful_F::workServer = false; // wylacz nasluchwianie servera
 
     auto key =  useful_F::RSHash();
     std::string toCheck;
