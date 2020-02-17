@@ -65,6 +65,7 @@ void bit_fixture::start_iDomServer()
 void bit_fixture::iDomServerStub()
 {
     std::cout << "bit_fixture::iDomServerStub()" << std::endl;
+    std::cout << "useful_F::workServer" << useful_F::workServer << std::endl;
     memset(&server, 0, sizeof(server));
     server.sin_family = AF_INET;
     server.sin_port = htons(SERVER_PORT);
@@ -120,6 +121,7 @@ void bit_fixture::iDomServerStub()
         memset(&from,0, sizeof(from));
         if(!useful_F::workServer) {
             std::cout << "DUPA ZE TO JEST" << std::endl;
+            std::cout << "useful_F::workServer" << useful_F::workServer << std::endl;
             break;
         }
 
@@ -137,7 +139,7 @@ void bit_fixture::iDomServerStub()
         //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscy ////////////////////
 
         int freeSlotID = iDOM_THREAD::findFreeThreadSlot( & this->thread_array);
-
+        std::cout << "wolny slot: " << freeSlotID << std::endl;
         if(freeSlotID != -1)
         {
             test_my_data.s_client_sock = v_sock_ind;
@@ -170,10 +172,12 @@ std::string bit_fixture::send_receive(int socket, std::string msg)
     char buffer[10000];
     std::string ret;
     send( socket, msg.c_str(), msg.size(), 0 );
+    std::cout << " wysłałem" << std::endl;
     ssize_t size = recv( socket, buffer, sizeof( buffer ), 0 );
     for (ssize_t i = 0 ; i < size; ++i){
         ret.push_back(buffer[i]);
     }
+    std::cout << " kończymy ()" << std::endl;
     return ret;
 }
 
@@ -185,7 +189,10 @@ TEST_F(bit_fixture, heandle_command){
     start_iDomServer();
 
     std::cout << "poczatek testu nawizaanie polaczenia " << std::endl;
-
+//    while(thread_array.at(0).thread_socket == 0)
+//    {
+//        std::cout << "czekam na start servera" << std::endl;
+//    }
     struct sockaddr_in serwer =
         {
             .sin_family = AF_INET,
@@ -200,11 +207,11 @@ TEST_F(bit_fixture, heandle_command){
 
     std::cout << "przed connect " << std::endl;
 
-    std::cout << "connect status: "<<  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) ) <<std::endl;
+    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    ASSERT_EQ(connectStatus,0);
+    std::cout << "connect status: "<< connectStatus <<std::endl;
 
     std::cout << "po connect " << std::endl;
-
-    useful_F::workServer = false; // wylacz nasluchwianie servera
 
     auto key =  useful_F::RSHash();
     std::string toCheck;
@@ -231,11 +238,8 @@ TEST_F(bit_fixture, heandle_command){
     //sleep(5);
     shutdown(s, SHUT_RDWR );
 
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
 
-    while(thread_array.at(0).thread_socket != 0)
-    {
-        std::cout << "czekam na zakonczenie wątku" << std::endl;
-    }
     std::cout << "koniec testu " << std::endl;
 }
 

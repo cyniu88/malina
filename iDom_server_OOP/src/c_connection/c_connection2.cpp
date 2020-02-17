@@ -1,5 +1,6 @@
-#include "c_connection.h"
 #include <iostream>
+
+#include "c_connection.h"
 
 std::string C_connection::c_read_buf (int recvSize)
 {
