@@ -38,6 +38,9 @@ protected:
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_my_data.main_REC = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
+        RADIO_EQ_CONFIG cfg;
+        cfg.name = "first";
+        test_my_data.main_REC->addRadioEq(cfg,RADIO_EQ_TYPE::WEATHER_S);
     }
 
     void TearDown()
@@ -164,7 +167,7 @@ void bit_fixture::iDomServerStub()
         }
     } // while
     // zamykam gniazdo
-
+std::cout << "***ZAMYKAMY bit_fixture::iDomServerStub()" << std::endl;
 }
 
 std::string bit_fixture::send_receive(int socket, std::string msg)
@@ -206,7 +209,7 @@ TEST_F(bit_fixture, heandle_command){
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
 
     std::cout << "przed connect " << std::endl;
-
+    sleep(10);
     int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
@@ -217,29 +220,41 @@ TEST_F(bit_fixture, heandle_command){
     std::string toCheck;
     std::cout << "odebrano1: " << send_receive(s, key) << std::endl;
     std::cout << "odebrano2: " << send_receive(s, "ok") << std::endl;
-    std::cout << "odebrano3: " << send_receive(s, "TEST") << std::endl;
+    std::cout << "odebrano3: " << send_receive(s, "ROOT") << std::endl;
     toCheck = send_receive(s, "ok");
-    EXPECT_STREQ(toCheck.c_str(), "OK you are TEST");
+    EXPECT_STREQ(toCheck.c_str(), "OK you are ROOT");
 
+
+    {
+        std::cout << "tablica 0: " << test_my_data.main_THREAD_arr->at(0).thread_socket << std::endl;
+        std::cout << "tablica 1: " << test_my_data.main_THREAD_arr->at(1).thread_socket << std::endl;
+        std::cout << "tablica 2: " << test_my_data.main_THREAD_arr->at(2).thread_socket << std::endl;
+        std::cout << "tablica 3: " << test_my_data.main_THREAD_arr->at(3).thread_socket << std::endl;
+    }
     std::cout << "odebrano4: " << toCheck << std::endl;
-    sleep(1);
+   // sleep(1);
     std::cout << "odebrano5: " << send_receive(s, "help") << std::endl;
-    sleep(1);
+   // sleep(1);
     std::cout << "odebrano6: " << send_receive(s, "ok") << std::endl;
-    sleep(1);
-    std::cout << "odebrano7: " << send_receive(s, "exit") << std::endl;
-    sleep(1);
+    //sleep(1);
+    std::cout << "odebrano7: " << send_receive(s, "program stop") << std::endl;
+   // sleep(1);
 
     toCheck = send_receive(s, "ok");
 
     std::cout << "odebrano8: " << toCheck << std::endl;
-    EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "END."));
-
-    //sleep(5);
+    EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "CLOSE"));
+    //char buffer[1000];
+   // recv( s, buffer, sizeof( buffer ), 0 );
     shutdown(s, SHUT_RDWR );
 
     iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
-
+    {
+        std::cout << "tablica 0: " << test_my_data.main_THREAD_arr->at(0).thread_socket << std::endl;
+        std::cout << "tablica 1: " << test_my_data.main_THREAD_arr->at(1).thread_socket << std::endl;
+        std::cout << "tablica 2: " << test_my_data.main_THREAD_arr->at(2).thread_socket << std::endl;
+        std::cout << "tablica 3: " << test_my_data.main_THREAD_arr->at(3).thread_socket << std::endl;
+    }
     std::cout << "koniec testu " << std::endl;
 }
 

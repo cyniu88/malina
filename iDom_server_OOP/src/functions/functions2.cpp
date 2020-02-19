@@ -65,8 +65,12 @@ void useful_F::tokenizer (std::vector <std::string> &command,
     if (!temp.empty())
         command.push_back(temp);
 
-    if (command.size() == 0)
+    if (command.size() == 0){
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL <<" throw useful_F::tokenizer ()"<<std::endl;
+        log_file_mutex.mutex_unlock();
         throw std::string("command empty");
+    }
 }
 
 ////// watek sleeper

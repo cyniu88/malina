@@ -13,6 +13,7 @@ std::string iDOM_THREAD::start_thread(const std::string& name,
 
     if ( freeSlotID != -1)
     {
+        std::cout << "@@wolny slot: " << freeSlotID << std::endl;
         std::size_t it = static_cast<std::size_t>(freeSlotID);
         my_data->main_THREAD_arr->at(it).thread = std::thread(functionToThread ,my_data, name);
 

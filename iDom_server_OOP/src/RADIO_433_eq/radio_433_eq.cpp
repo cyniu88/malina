@@ -197,7 +197,12 @@ void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, const std::string& type
     else if(type == "WEATHER") ret = RADIO_EQ_TYPE::WEATHER_S;
     else if(type == "PIR") ret = RADIO_EQ_TYPE::PIR;
     else if(type == "GATE") ret = RADIO_EQ_TYPE::GATE;
-    else throw WRONG_FORMAT();
+    else {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL <<" throw RADIO_EQ_CONTAINER::addRadioEq()"<<std::endl;
+        log_file_mutex.mutex_unlock();
+        throw WRONG_FORMAT();
+    }
     std::cout << " id ma : " << cfg.ID << std::endl;
     (void)std::stoi(cfg.ID); //check ID is number
     addRadioEq(cfg,ret);
@@ -218,6 +223,9 @@ RADIO_EQ* RADIO_EQ_CONTAINER::getEqPointer(std::string name)
     }
     else
     {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL <<" throw RADIO_EQ_CONTAINER::getEqPointer()"<<std::endl;
+        log_file_mutex.mutex_unlock();
         throw std::string("433MHz equipment not found "+name);
     }
 }

@@ -462,6 +462,9 @@ std::string iDomTOOLS::buttonPressed(const std::string& id)
             return n->getName();
         }
     }
+    log_file_mutex.mutex_lock();
+    log_file_cout << CRITICAL <<" throw iDomTOOLS::buttonPressed()"<<std::endl;
+    log_file_mutex.mutex_unlock();
     throw "UNKNOWN BUTTON ID: " + std::to_string(id);
 }
 
