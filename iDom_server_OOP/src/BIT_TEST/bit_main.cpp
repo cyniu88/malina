@@ -167,20 +167,36 @@ void bit_fixture::iDomServerStub()
         }
     } // while
     // zamykam gniazdo
-std::cout << "***ZAMYKAMY bit_fixture::iDomServerStub()" << std::endl;
+    std::cout << "***ZAMYKAMY bit_fixture::iDomServerStub()" << std::endl;
 }
 
 std::string bit_fixture::send_receive(int socket, std::string msg)
 {
     char buffer[10000];
     std::string ret;
+    std::string ok = "ok";
+
     send( socket, msg.c_str(), msg.size(), 0 );
     std::cout << " wysłałem" << std::endl;
     ssize_t size = recv( socket, buffer, sizeof( buffer ), 0 );
     for (ssize_t i = 0 ; i < size; ++i){
         ret.push_back(buffer[i]);
     }
-    std::cout << " kończymy ()" << std::endl;
+    std::cout << " w połowie " << ret << std::endl;
+
+
+    unsigned long sizeRec = std::stoul(ret);
+
+    ret.clear();
+    send( socket, ok.c_str(), ok.size(), 0 );
+    size = recv( socket, buffer, sizeof( buffer ), 0 );
+
+    EXPECT_EQ(size, sizeRec);
+
+    for (ssize_t i = 0 ; i < size; ++i){
+        ret.push_back(buffer[i]);
+    }
+    std::cout << " kończymy z " << ret<< std::endl;
     return ret;
 }
 
@@ -192,10 +208,10 @@ TEST_F(bit_fixture, heandle_command){
     start_iDomServer();
 
     std::cout << "poczatek testu nawizaanie polaczenia " << std::endl;
-//    while(thread_array.at(0).thread_socket == 0)
-//    {
-//        std::cout << "czekam na start servera" << std::endl;
-//    }
+    //    while(thread_array.at(0).thread_socket == 0)
+    //    {
+    //        std::cout << "czekam na start servera" << std::endl;
+    //    }
     struct sockaddr_in serwer =
         {
             .sin_family = AF_INET,
@@ -209,7 +225,7 @@ TEST_F(bit_fixture, heandle_command){
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
 
     std::cout << "przed connect " << std::endl;
-    sleep(10);
+    sleep(1);
     int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
@@ -218,12 +234,10 @@ TEST_F(bit_fixture, heandle_command){
 
     auto key =  useful_F::RSHash();
     std::string toCheck;
-    std::cout << "odebrano1: " << send_receive(s, key) << std::endl;
-    std::cout << "odebrano2: " << send_receive(s, "ok") << std::endl;
-    std::cout << "odebrano3: " << send_receive(s, "ROOT") << std::endl;
-    toCheck = send_receive(s, "ok");
-    EXPECT_STREQ(toCheck.c_str(), "OK you are ROOT");
 
+    send_receive(s, key);
+    toCheck = send_receive(s, "ROOT");
+    EXPECT_STREQ(toCheck.c_str(), "OK you are ROOT");
 
     {
         std::cout << "tablica 0: " << test_my_data.main_THREAD_arr->at(0).thread_socket << std::endl;
@@ -232,20 +246,16 @@ TEST_F(bit_fixture, heandle_command){
         std::cout << "tablica 3: " << test_my_data.main_THREAD_arr->at(3).thread_socket << std::endl;
     }
     std::cout << "odebrano4: " << toCheck << std::endl;
-   // sleep(1);
+    // sleep(1);
     std::cout << "odebrano5: " << send_receive(s, "help") << std::endl;
-   // sleep(1);
-    std::cout << "odebrano6: " << send_receive(s, "ok") << std::endl;
-    //sleep(1);
-    std::cout << "odebrano7: " << send_receive(s, "program stop") << std::endl;
-   // sleep(1);
 
-    toCheck = send_receive(s, "ok");
+    toCheck = send_receive(s, "program stop");
 
     std::cout << "odebrano8: " << toCheck << std::endl;
     EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "CLOSE"));
-    //char buffer[1000];
-   // recv( s, buffer, sizeof( buffer ), 0 );
+
+    close(s);
+
     shutdown(s, SHUT_RDWR );
 
     iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
