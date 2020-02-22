@@ -53,6 +53,8 @@ script:
   - echo "start build iDom BT"
   - sudo mkdir /mnt/ramdisk
   - sudo chmod 777 /mnt/ramdisk
+  - sudo  touch /dev/tty0
+  - sudo chmod 777 /dev/tty0
   - cd iDom*/test/iDom*
   - ls
   - cmake .
