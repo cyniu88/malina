@@ -10,10 +10,6 @@ arch:
 jobs:
   include:
   - os: linux
-    dist: trusty
-    compiler: gcc
-
-  - os: linux
     dist: bionic
     compiler: gcc
 
