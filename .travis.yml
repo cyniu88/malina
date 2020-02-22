@@ -1,24 +1,21 @@
 language: cpp
-compiler: clang
-dist: trusty
+os: linux
+dist: bionic
+compiler:
+- gcc
 
-matrix:
-include:
-# Clang 6.0
-    - env: COMPILER=clang++-6.0 BUILD_TYPE=Debug GSL_CXX_STANDARD=14
-      addons: &clang60
-        apt:
-          packages:
-            - clang-6.0
-            - g++-7
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
-            - sourceline: 'deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main'
-              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+arch:
+- arm64
 
-    - env: COMPILER=clang++-6.0 BUILD_TYPE=Release GSL_CXX_STANDARD=14
-addons: *clang60
+jobs:
+  include:
+  - os: linux
+    dist: trusty
+    compiler: gcc
+
+  - os: linux
+    dist: xenial
+    compiler: gcc
 
 before_install:
   # C++17
@@ -34,8 +31,8 @@ install:
 
   
 script:
-  - sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
-  - sudo ln /usr/bin/clang-6.0 /usr/bin/clang
+  #- sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
+ # - sudo ln /usr/bin/clang-6.0 /usr/bin/clang
 
   - git clone https://github.com/google/googletest.git
   - cd googletest
