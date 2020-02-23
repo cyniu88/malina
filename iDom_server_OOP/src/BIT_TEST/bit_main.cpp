@@ -38,9 +38,6 @@ protected:
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_my_data.main_REC = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
-        RADIO_EQ_CONFIG cfg;
-        cfg.name = "first";
-        // test_my_data.main_REC->addRadioEq(cfg,RADIO_EQ_TYPE::WEATHER_S);
     }
 
     void TearDown()
