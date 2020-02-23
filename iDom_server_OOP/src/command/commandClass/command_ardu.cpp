@@ -3,6 +3,7 @@
 command_ardu::command_ardu(const std::string &name):command(name)
 {
     this->m_mainRadioButton = std::nullptr_t();
+    this->m_mainWeatherStation = std::nullptr_t();
 }
 
 command_ardu::command_ardu(const std::string& name,
@@ -11,7 +12,13 @@ command_ardu::command_ardu(const std::string& name,
     m_mainRadioButton( std::nullptr_t()),
     m_weatherStVe(my_data->main_REC->getWeather_StationPtrVector())
 {
-    m_mainWeatherStation = static_cast<RADIO_WEATHER_STATION*>(my_data->main_REC->getEqPointer("first"));
+    try{
+            m_mainWeatherStation = static_cast<RADIO_WEATHER_STATION*>(my_data->main_REC->getEqPointer("first"));
+    }
+    catch(std::string &e)
+    {
+        my_data->iDomAlarm.raiseAlarm(88756, e);
+    }
 }
 
 std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_data)

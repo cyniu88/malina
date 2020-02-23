@@ -40,7 +40,7 @@ protected:
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
         RADIO_EQ_CONFIG cfg;
         cfg.name = "first";
-        test_my_data.main_REC->addRadioEq(cfg,RADIO_EQ_TYPE::WEATHER_S);
+       // test_my_data.main_REC->addRadioEq(cfg,RADIO_EQ_TYPE::WEATHER_S);
     }
 
     void TearDown()
@@ -266,6 +266,8 @@ TEST_F(bit_fixture, heandle_command){
         std::cout << "tablica 3: " << test_my_data.main_THREAD_arr->at(3).thread_socket << std::endl;
     }
     std::cout << "koniec testu " << std::endl;
+    toCheck = test_my_data.iDomAlarm.showAlarm();
+    EXPECT_STREQ(toCheck.c_str(), "88756: 433MHz equipment not found first\n");
 }
 
 TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
