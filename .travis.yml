@@ -3,6 +3,7 @@ os: linux
 dist: bionic
 compiler:
 - gcc
+- clang
 
 arch:
 - arm64
@@ -12,6 +13,9 @@ jobs:
   - os: linux
     dist: bionic
     compiler: gcc
+  - os: linux
+    dist: bionic
+    compiler: clang
 
 before_install:
   # C++17
