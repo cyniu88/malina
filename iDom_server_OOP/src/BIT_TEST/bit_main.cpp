@@ -40,7 +40,7 @@ protected:
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
         RADIO_EQ_CONFIG cfg;
         cfg.name = "first";
-       // test_my_data.main_REC->addRadioEq(cfg,RADIO_EQ_TYPE::WEATHER_S);
+        // test_my_data.main_REC->addRadioEq(cfg,RADIO_EQ_TYPE::WEATHER_S);
     }
 
     void TearDown()
@@ -300,5 +300,48 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
     auto ret = test_my_data.ptr_buderus->dump();
     std::cout << ret << std::endl;
     EXPECT_THAT(ret, ::testing::HasSubstr("13594"));
+
+    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/thermostat_data",
+                                                "{\"some\":\"data\"}");
+    bit_Tasker->runTasker();
+    ret = test_my_data.ptr_buderus->dump();
+    std::cout << ret << std::endl;
+    EXPECT_THAT(ret, ::testing::HasSubstr("some\":"));
 }
 
+TEST_F(bit_fixture, tasker_lusina){
+    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/t", "11");
+    bit_Tasker->runTasker();
+    EXPECT_STREQ(test_my_data.lusina.temperatureDS20.c_str() , "11");
+
+    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/t", "112");
+    bit_Tasker->runTasker();
+    EXPECT_STREQ(test_my_data.lusina.temperatureDS20.c_str() , "112");
+
+    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h","wilgotnosc 22 temepratura 33");
+    bit_Tasker->runTasker();
+    EXPECT_STREQ(test_my_data.lusina.humidityDTH.c_str() , "22");
+
+    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h","wilgotnosc 33 temepratura 33");
+    bit_Tasker->runTasker();
+    EXPECT_STREQ(test_my_data.lusina.humidityDTH.c_str() , "33");
+    //////////////////////// now fake data
+    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h","wilgotnosc brak temepratura 33");
+    bit_Tasker->runTasker();
+    EXPECT_EQ(test_my_data.lusina.statHumi.min() , -1);
+
+}
+
+TEST_F(bit_fixture, tasker_no_action){
+    EXPECT_EQ(256, bit_Tasker->runTasker());
+}
+
+TEST_F(bit_fixture, mqtt_command){
+    blockQueue testMPD_Q;
+    testMPD_Q._clearAll();
+
+    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command","MPD volume up");
+    bit_Tasker->runTasker();
+    EXPECT_EQ(1, testMPD_Q._size());
+    EXPECT_EQ(testMPD_Q._get(), MPD_COMMAND::VOLUP);
+}

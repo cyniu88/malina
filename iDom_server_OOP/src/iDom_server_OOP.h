@@ -325,7 +325,7 @@ struct LUSINA{
     std::string humidityDTH;
     STATISTIC <int>statHumi;
     STATISTIC <float>statTemp;
-    LUSINA(): statHumi(2700),statTemp(270){}
+    LUSINA(): statHumi(270),statTemp(270){}
 };
 
 struct thread_data{
