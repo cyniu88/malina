@@ -165,6 +165,12 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
     log_file_cout << DEBUG << "zbudowany dnia: " << __DATE__ << " o godzinie: " << __TIME__ << std::endl;
+
+    std::stringstream r;
+    const char * PROG_INFO = "iDomServer: " __DATE__ ", " __TIME__;
+    r << "wersja " <<PROG_INFO <<" "<< GIT_BRANCH <<" " << GIT_COMMIT_HASH << std::endl;
+
+    log_file_cout << DEBUG <<  r.str()  << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_mutex.mutex_unlock();
 
