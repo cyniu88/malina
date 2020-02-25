@@ -90,9 +90,9 @@ std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(const std::string& msg,
 
     int pos = msg.find(var + "=");
     if (pos == -1 ){
-        log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL <<" throw RFLinkHandler::getArgumentValueFromRFLinkMSG()-1"<<std::endl;
-        log_file_mutex.mutex_unlock();
+//        log_file_mutex.mutex_lock();
+//        log_file_cout << CRITICAL <<" throw RFLinkHandler::getArgumentValueFromRFLinkMSG()-1"<<std::endl;
+//        log_file_mutex.mutex_unlock();
         throw "argument \""+var+"\" not found";
     }
     if (msg.at(0) != '2' || msg.at(1) != '0'){
