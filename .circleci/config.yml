@@ -38,7 +38,7 @@ jobs:
                    git submodule update --recursive --remote
       - run:
           name: ramdisk
-          command: 'mkdir /mnt/ramdisk && touch /dev/tty0'
+          command: 'mkdir -p /mnt/ramdisk && touch /dev/tty0'
       - run:
           name: go to koko
           command: 'cd koko/'
