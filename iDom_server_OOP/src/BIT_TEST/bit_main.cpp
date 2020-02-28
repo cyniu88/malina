@@ -6,7 +6,7 @@
 #include "../TASKER/tasker.h"
 #include "../src/thread_functions/iDom_thread.h"
 #define SERVER_PORT 8833
-#define SERVER_IP "localhost"
+#define SERVER_IP "127.0.0.1"
 
 class bit_fixture : public iDomTOOLS_ClassTest
 {
@@ -16,6 +16,8 @@ protected:
 
     CONFIG_JSON testCS;
     CAMERA_CFG testCamera;
+
+    const char * ipAddress = "127.0.0.1";
 
     void SetUp()
     {
@@ -31,9 +33,12 @@ protected:
         test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
         test_my_data.main_THREAD_arr = &thread_array;
         test_my_data.server_settings = &testCS;
-        test_my_data.server_settings->_server.encrypted = false;
+        test_my_data.server_settings->_server.encrypted = true;
         test_my_data.server_settings->_camera = testCamera;
         test_my_data.server_settings->_camera.cameraLedOFF = " not set";
+        test_my_data.server_settings->_fb_viber.viberReceiver = {"test1","test2};"};
+        test_my_data.server_settings->_fb_viber.viberSender = "testViberSender";
+
         test_my_data.mainLCD = new LCD_c(static_cast<uint8_t>(2),static_cast<uint8_t>(2),static_cast<uint8_t>(2));
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_my_data.main_REC = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
@@ -48,12 +53,28 @@ protected:
 public:
     void start_iDomServer();
     void iDomServerStub();
+    void crypto(std::string & toEncrypt, std::string key,bool encrypted);
 
     std::unique_ptr<TASKER> bit_Tasker;
     std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> thread_array;
-    std::string send_receive(int socket, std::string msg);
+    std::string send_receive(int socket, std::string msg, std::string key, bool crypt = true);
 };
 
+void bit_fixture::crypto (std::string & toEncrypt, std::string key,bool encrypted)
+{
+    if (!encrypted){
+        return;
+    }
+    unsigned int keySize = key.size()-1;
+
+    for (char & i : toEncrypt)
+    {
+
+        if (keySize==0) keySize = key.size()-1;
+        else --keySize;
+        i ^= key[keySize];
+    }
+}
 void bit_fixture::start_iDomServer()
 {
     auto t = std::thread(&bit_fixture::iDomServerStub,this);
@@ -64,8 +85,6 @@ void bit_fixture::start_iDomServer()
 
 void bit_fixture::iDomServerStub()
 {
-    std::cout << "bit_fixture::iDomServerStub()" << std::endl;
-    std::cout << "useful_F::workServer" << useful_F::workServer << std::endl;
     memset(&server, 0, sizeof(server));
     server.sin_family = AF_INET;
     server.sin_port = htons(SERVER_PORT);
@@ -120,26 +139,19 @@ void bit_fixture::iDomServerStub()
         int v_sock_ind = 0;
         memset(&from,0, sizeof(from));
         if(!useful_F::workServer) {
-            std::cout << "DUPA ZE TO JEST" << std::endl;
-            std::cout << "useful_F::workServer" << useful_F::workServer << std::endl;
             break;
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
-
-
         if((v_sock_ind = accept(v_socket, (struct sockaddr *)&from, & len)) < 0)
         {
-            std::cout << "czekamy " << std::endl;
             continue;
         }
 
-        std::cout << "jedzimy dalej " << std::endl;
         //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscy ////////////////////
 
         int freeSlotID = iDOM_THREAD::findFreeThreadSlot( & this->thread_array);
-        std::cout << "wolny slot: " << freeSlotID << std::endl;
         if(freeSlotID != -1)
         {
             test_my_data.s_client_sock = v_sock_ind;
@@ -163,108 +175,133 @@ void bit_fixture::iDomServerStub()
             continue;
         }
     } // while
+    close(v_socket);
+    //shutdown(v_socket, SHUT_RDWR );
     // zamykam gniazdo
-    std::cout << "***ZAMYKAMY bit_fixture::iDomServerStub()" << std::endl;
 }
 
-std::string bit_fixture::send_receive(int socket, std::string msg)
+std::string bit_fixture::send_receive(int socket, std::string msg, std::string key,bool crypt)
 {
     char buffer[10000];
     std::string ret;
     std::string ok = "ok";
 
+    std::cout << " wysłałem: " << msg << std::endl;
+    crypto(msg,key, crypt);
     send( socket, msg.c_str(), msg.size(), 0 );
-    std::cout << " wysłałem" << std::endl;
     ssize_t size = recv( socket, buffer, sizeof( buffer ), 0 );
     for (ssize_t i = 0 ; i < size; ++i){
         ret.push_back(buffer[i]);
     }
+    crypto(ret,key, crypt);
     std::cout << " w połowie " << ret << std::endl;
 
 
-    unsigned long sizeRec = std::stoul(ret);
+    ssize_t sizeRec = static_cast<ssize_t>(std::stoul(ret));
 
     ret.clear();
+    crypto(ok,key, crypt);
     send( socket, ok.c_str(), ok.size(), 0 );
+
     size = recv( socket, buffer, sizeof( buffer ), 0 );
+
+    while(size != sizeRec){
+        std::cout << " w while: " << size << " recSize: " << sizeRec << std::endl;
+        size += recv( socket, buffer, sizeof( buffer ), 0 );
+    }
+    // size = recv( socket, buffer, sizeof( buffer ), 0 );
 
     EXPECT_EQ(size, sizeRec);
 
     for (ssize_t i = 0 ; i < size; ++i){
         ret.push_back(buffer[i]);
     }
+    crypto(ret,key, crypt);
     std::cout << " kończymy z " << ret<< std::endl;
     return ret;
 }
 
 TEST_F(bit_fixture, heandle_command){
 
-    useful_F::workServer =  true; // włącz nasluchwianie servera
+    useful_F::workServer = true; // włącz nasluchwianie servera
     useful_F::go_while = true;
 
     start_iDomServer();
 
-    std::cout << "poczatek testu nawizaanie polaczenia " << std::endl;
-    //    while(thread_array.at(0).thread_socket == 0)
-    //    {
-    //        std::cout << "czekam na start servera" << std::endl;
-    //    }
     struct sockaddr_in serwer =
         {
             .sin_family = AF_INET,
             .sin_port = htons( 8833 )
         };
 
-    const char * ipAddress = "127.0.0.1";
-
     inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
 
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
 
-    std::cout << "przed connect " << std::endl;
     sleep(1);
     int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
-    std::cout << "po connect " << std::endl;
-
     auto key =  useful_F::RSHash();
     std::string toCheck;
 
-    send_receive(s, key);
-    toCheck = send_receive(s, "ROOT");
+    send_receive(s, key,key);
+    toCheck = send_receive(s, "ROOT",key);
     EXPECT_STREQ(toCheck.c_str(), "OK you are ROOT");
 
-    {
-        std::cout << "tablica 0: " << test_my_data.main_THREAD_arr->at(0).thread_socket << std::endl;
-        std::cout << "tablica 1: " << test_my_data.main_THREAD_arr->at(1).thread_socket << std::endl;
-        std::cout << "tablica 2: " << test_my_data.main_THREAD_arr->at(2).thread_socket << std::endl;
-        std::cout << "tablica 3: " << test_my_data.main_THREAD_arr->at(3).thread_socket << std::endl;
-    }
     std::cout << "odebrano4: " << toCheck << std::endl;
-    // sleep(1);
-    std::cout << "odebrano5: " << send_receive(s, "help") << std::endl;
+    std::cout << "odebrano5: " << send_receive(s, "help",key) << std::endl;
 
-    toCheck = send_receive(s, "program stop");
+    toCheck = send_receive(s, "exit",key);
 
     std::cout << "odebrano8: " << toCheck << std::endl;
-    EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "CLOSE"));
+    EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "END"));
 
     close(s);
 
+    useful_F::workServer = false;
     shutdown(s, SHUT_RDWR );
 
     iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
-    {
-        std::cout << "tablica 0: " << test_my_data.main_THREAD_arr->at(0).thread_socket << std::endl;
-        std::cout << "tablica 1: " << test_my_data.main_THREAD_arr->at(1).thread_socket << std::endl;
-        std::cout << "tablica 2: " << test_my_data.main_THREAD_arr->at(2).thread_socket << std::endl;
-        std::cout << "tablica 3: " << test_my_data.main_THREAD_arr->at(3).thread_socket << std::endl;
-    }
-    std::cout << "koniec testu " << std::endl;
+
     toCheck = test_my_data.iDomAlarm.showAlarm();
     EXPECT_STREQ(toCheck.c_str(), "88756: 433MHz equipment not found first\n");
+}
+
+TEST_F(bit_fixture, connection_wrong_key){
+    useful_F::workServer =  true; // włącz nasluchwianie servera
+    useful_F::go_while = true;
+
+    start_iDomServer();
+
+    struct sockaddr_in serwer =
+        {
+            .sin_family = AF_INET,
+            .sin_port = htons( 8833 )
+        };
+
+    inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
+
+    const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
+
+    sleep(1);
+    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    ASSERT_EQ(connectStatus,0);
+    std::cout << "connect status: "<< connectStatus <<std::endl;
+
+    auto key =  useful_F::RSHash();
+    std::string fakeKey = key+"fake";
+    std::string toCheck = send_receive(s, fakeKey,key);
+    std::cout << "odebrano: " << toCheck << std::endl;
+    EXPECT_STREQ(toCheck.c_str(), "\nFAIL\n");
+
+    close(s);
+
+    useful_F::workServer = false;
+    shutdown(s, SHUT_RDWR );
+
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
 }
 
 TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){

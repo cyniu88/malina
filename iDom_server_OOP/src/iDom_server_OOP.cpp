@@ -440,6 +440,7 @@ iDomStateEnum iDom_main()
             continue;
         }
     } // while
+    close(v_socket);
     // zamykam gniazdo
 
     node_data.mainLCD->set_print_song_state(0);
