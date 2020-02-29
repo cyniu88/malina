@@ -10,13 +10,14 @@
 
 #include "../iDom_server_OOP.h"
 #include "../c_connection/c_connection.h"
+#include "../TASKER/tasker.h"
 
 class useful_F {
 
 public:
     volatile static unsigned int lastInterruptTime;
     static std::mutex mut;
-    static std::string conv_dns(std::string temp);
+    static std::string conv_dns(std::string &temp);
     /////// not used now
     // void ChangeEndianness(int32_t * value, int MAX_MSG_LEN_INT);
     // void binary(int val);
@@ -44,5 +45,6 @@ public:
     static std::mutex mutex_who;
     static void sleep(int sec);
     static void Server_connectivity_thread(thread_data *my_data, const std::string &threadName);
+    static void startServer(thread_data *my_data, TASKER *my_tasker);
 };
 #endif // FUNCTIONS_H

@@ -111,8 +111,7 @@ iDomStateEnum iDom_main()
     nlohmann::json j;
     i_config >> j;
     CONFIG_JSON server_settings = useful_F::configJsonFileToStruct(j);
-    struct sockaddr_in server;
-    int v_socket;
+
 
     thread_data node_data; // przekazywanie do watku
     node_data.server_settings = &server_settings;
@@ -345,107 +344,8 @@ iDomStateEnum iDom_main()
     TASKER mainTasker(&node_data);
     ///////////////////////////////////////////////////// STARTED //////////////////////////////////////////////////
     node_data.serverStarted = true;
-    ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
-
-    int SERVER_PORT = server_settings._server.PORT;
-    server_settings._server.SERVER_IP = useful_F::conv_dns(server_settings._server.SERVER_IP);
-    const char *SERVER_IP = server_settings._server.SERVER_IP.c_str();
-
-    memset(&server, 0, sizeof(server));
-
-    server.sin_family = AF_INET;
-    server.sin_port = htons(SERVER_PORT);
-    if(inet_pton(AF_INET, SERVER_IP, & server.sin_addr) <= 0)
-    {
-        perror("inet_pton() ERROR");
-        exit(-1);
-    }
-
-    if((v_socket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-    {
-        perror("socket() ERROR");
-        exit(-1);
-    }
-
-    if(fcntl(v_socket, F_SETFL, O_NONBLOCK) < 0) // fcntl()
-    {
-        perror("fcntl() ERROR");
-        exit(-1);
-    }
-    // zgub wkurzający komunikat błędu "address already in use"
-    int yes = 1;
-    if(setsockopt(v_socket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == - 1) {
-        perror("setsockopt");
-        exit(1);
-    }
-    socklen_t len = sizeof(server);
-    if(bind(v_socket,(struct sockaddr *) & server, len) < 0)
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "BIND problem: " << strerror(errno)<< std::endl;
-        log_file_cout << CRITICAL << "awaryjne ! zamykanie gniazda " << shutdown(v_socket, SHUT_RDWR) << std::endl;
-        log_file_mutex.mutex_unlock();
-        perror("bind() ERROR");
-        exit(-1);
-    }
-
-    if(listen(v_socket, iDomConst::MAX_CONNECTION) < 0)
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "Listen problem: " << strerror(errno)<< std::endl;
-        log_file_mutex.mutex_unlock();
-        perror("listen() ERROR");
-        exit(-1);
-    }
-    struct sockaddr_in from;
-    while (1)
-    {
-        int v_sock_ind = 0;
-        memset(&from,0, sizeof(from));
-        if(!useful_F::workServer) {
-            break;
-        }
-
-
-        ///////////////////////////////////// TASKER //////////////////////////////////////////
-        /// call Tasker
-        int delayMS = mainTasker.runTasker();
-        std::this_thread::sleep_for(std::chrono::milliseconds(delayMS));
-
-        if((v_sock_ind = accept(v_socket,(struct sockaddr *) & from, & len)) < 0)
-        {
-            continue;
-        }
-
-        //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscy ////////////////////
-
-        int freeSlotID = iDOM_THREAD::findFreeThreadSlot(&thread_array);
-
-        if(freeSlotID != -1)
-        {
-            node_data.s_client_sock = v_sock_ind;
-            node_data.from = from;
-            iDOM_THREAD::start_thread(inet_ntoa(node_data.from.sin_addr),
-                                      useful_F::Server_connectivity_thread,
-                                      &node_data,
-                                      v_sock_ind);
-        }
-        else
-        {
-            log_file_mutex.mutex_lock();
-            log_file_cout << INFO << "za duzo klientow " << std::endl;
-            log_file_mutex.mutex_unlock();
-
-            if( (send(v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT)) <= 0)
-            {
-                perror("send() ERROR");
-                break;
-            }
-            continue;
-        }
-    } // while
-    close(v_socket);
-    // zamykam gniazdo
+    ///////////////////////////////////////////////////// start server ////////////////////////////////////////////////////
+    useful_F ::startServer(&node_data, &mainTasker);
 
     node_data.mainLCD->set_print_song_state(0);
     node_data.mainLCD->set_lcd_STATE(2);
@@ -458,11 +358,7 @@ iDomStateEnum iDom_main()
         iDomTOOLS::turnOffSpeakers();
     }
     node_data.mqttHandler->disconnect();
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "zamykanie gniazda wartosc " << shutdown(v_socket, SHUT_RDWR)<< std::endl;
-    log_file_cout << ERROR << "gniazdo ind "<<strerror(errno) << std::endl;
-    log_file_cout << INFO << "koniec programu "<< std::endl;
-    log_file_mutex.mutex_unlock();
+
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 

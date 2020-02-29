@@ -1,4 +1,4 @@
-#include <netdb.h>
+
 #include "functions.h"
 #include "../../libs/config_parser/parser.hpp"
 
@@ -7,32 +7,6 @@ bool useful_F::workServer = true;
 std::mutex useful_F::mutex_buf;
 std::mutex useful_F::mutex_who;
 
-// przerobka adresu na ip . //////////////////////////////////
-std::string useful_F::conv_dns (std::string temp){
-
-    int i;
-    struct hostent * he;
-    struct in_addr ** addr_list;
-    std::string s_ip;
-
-    if(( he = gethostbyname( temp.c_str() ) ) == NULL )
-    {
-        herror( "gethostbyname");
-        return "- 1";
-    }
-    // print information about this host:
-    printf( "Official name is: %s\n", he->h_name );
-    printf( "IP addresses: ");
-    addr_list =( struct in_addr ** ) he->h_addr_list;
-
-    for( i = 0; addr_list[ i ] != NULL; i++ )
-    {
-        printf( "%s ", inet_ntoa( * addr_list[ i ] ) );
-        s_ip += inet_ntoa( * addr_list[ i ] );
-    }
-    printf( "\ndone ");
-    return s_ip;
-}
 
 ////////////////////////////////////////// not used now
 /*

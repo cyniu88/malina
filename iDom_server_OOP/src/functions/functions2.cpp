@@ -3,6 +3,7 @@
 #include <regex>
 #include <iterator>
 #include <vector>
+#include <netdb.h>
 
 #include "functions.h"
 #include "../thread_functions/iDom_thread.h"
@@ -393,6 +394,144 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     useful_F::workServer = false; // wylacz nasluchwianie servera
 #endif
     iDOM_THREAD::stop_thread(threadName, my_data);
+}
+// przerobka adresu na ip . //////////////////////////////////
+std::string useful_F::conv_dns (std::string& temp){
+
+    int i;
+    struct hostent * he;
+    struct in_addr ** addr_list;
+    std::string s_ip;
+
+    if(( he = gethostbyname( temp.c_str() ) ) == NULL )
+    {
+        herror( "gethostbyname");
+        return "- 1";
+    }
+    // print information about this host:
+    printf( "Official name is: %s\n", he->h_name );
+    printf( "IP addresses: ");
+    addr_list =( struct in_addr ** ) he->h_addr_list;
+
+    for( i = 0; addr_list[ i ] != NULL; i++ )
+    {
+        printf( "%s ", inet_ntoa( * addr_list[ i ] ) );
+        s_ip += inet_ntoa( * addr_list[ i ] );
+    }
+    printf( "\ndone ");
+    return s_ip;
+}
+
+void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
+{
+    struct sockaddr_in server;
+    int v_socket;
+    int SERVER_PORT = my_data->server_settings->_server.PORT;
+    my_data->server_settings->_server.SERVER_IP =
+        useful_F::conv_dns(my_data->server_settings->_server.SERVER_IP);
+    const char *SERVER_IP = my_data->server_settings->_server.SERVER_IP.c_str();
+
+    memset(&server, 0, sizeof(server));
+
+    server.sin_family = AF_INET;
+    server.sin_port = htons(SERVER_PORT);
+    if(inet_pton(AF_INET, SERVER_IP, & server.sin_addr) <= 0)
+    {
+        perror("inet_pton() ERROR");
+        exit(-1);
+    }
+
+    if((v_socket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    {
+        perror("socket() ERROR");
+        exit(-1);
+    }
+
+    if(fcntl(v_socket, F_SETFL, O_NONBLOCK) < 0) // fcntl()
+    {
+        perror("fcntl() ERROR");
+        exit(-1);
+    }
+    // zgub wkurzający komunikat błędu "address already in use"
+    int yes = 1;
+    if(setsockopt(v_socket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == - 1) {
+        perror("setsockopt");
+        exit(1);
+    }
+    socklen_t len = sizeof(server);
+    if(bind(v_socket,(struct sockaddr *) & server, len) < 0)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "BIND problem: " << strerror(errno)<< std::endl;
+        log_file_cout << CRITICAL << "awaryjne ! zamykanie gniazda " << shutdown(v_socket, SHUT_RDWR) << std::endl;
+        log_file_mutex.mutex_unlock();
+        perror("bind() ERROR");
+        exit(-1);
+    }
+
+    if(listen(v_socket, iDomConst::MAX_CONNECTION) < 0)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "Listen problem: " << strerror(errno)<< std::endl;
+        log_file_mutex.mutex_unlock();
+        perror("listen() ERROR");
+        exit(-1);
+    }
+    struct sockaddr_in from;
+    while (1)
+    {
+        int v_sock_ind = 0;
+        memset(&from,0, sizeof(from));
+        if(!useful_F::workServer) {
+            break;
+        }
+
+
+        ///////////////////////////////////// TASKER //////////////////////////////////////////
+        /// call Tasker
+        int delayMS = my_tasker->runTasker();
+        std::this_thread::sleep_for(std::chrono::milliseconds(delayMS));
+
+        if((v_sock_ind = accept(v_socket,(struct sockaddr *) & from, & len)) < 0)
+        {
+            continue;
+        }
+
+        //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscy ////////////////////
+
+        int freeSlotID = iDOM_THREAD::findFreeThreadSlot(my_data->main_THREAD_arr);
+
+        if(freeSlotID != -1)
+        {
+            my_data->s_client_sock = v_sock_ind;
+            my_data->from = from;
+            iDOM_THREAD::start_thread(inet_ntoa(my_data->from.sin_addr),
+                                      useful_F::Server_connectivity_thread,
+                                      my_data,
+                                      v_sock_ind);
+        }
+        else
+        {
+            log_file_mutex.mutex_lock();
+            log_file_cout << INFO << "za duzo klientow " << std::endl;
+            log_file_mutex.mutex_unlock();
+
+            if( (send(v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT)) <= 0)
+            {
+                perror("send() ERROR");
+                break;
+            }
+            continue;
+        }
+    } // while
+    close(v_socket);
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "zamykanie gniazda wartosc " << shutdown(v_socket, SHUT_RDWR)<< std::endl;
+    log_file_cout << ERROR << "gniazdo ind "<<strerror(errno) << std::endl;
+    log_file_cout << INFO << "koniec programu "<< std::endl;
+    log_file_mutex.mutex_unlock();
+    // zamykam gniazdo
+
 }
 
 CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
