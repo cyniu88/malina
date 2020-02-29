@@ -77,6 +77,8 @@ void bit_fixture::crypto (std::string & toEncrypt, std::string key,bool encrypte
 }
 void bit_fixture::start_iDomServer()
 {
+    useful_F::workServer = true; // włącz nasluchwianie servera
+    useful_F::go_while = true;
     auto t = std::thread(&bit_fixture::iDomServerStub,this);
     t.detach();
     // t.join();
@@ -139,6 +141,7 @@ void bit_fixture::iDomServerStub()
         int v_sock_ind = 0;
         memset(&from,0, sizeof(from));
         if(!useful_F::workServer) {
+            std::cout << "konczymy server" << std::endl;
             break;
         }
 
@@ -166,12 +169,12 @@ void bit_fixture::iDomServerStub()
             log_file_mutex.mutex_lock();
             log_file_cout << INFO << "za duzo klientow " << std::endl;
             log_file_mutex.mutex_unlock();
-
-            if( (send(v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT)) <= 0)
+            if((send(v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT)) <= 0)
             {
                 perror("send() ERROR");
                 break;
             }
+            std::cout << "wysyłam ze za duzo klientów i jade dalej " << std::endl;
             continue;
         }
     } // while
@@ -195,11 +198,9 @@ std::string bit_fixture::send_receive(int socket, std::string msg, std::string k
     }
     crypto(ret,key, crypt);
     std::cout << " w połowie " << ret << std::endl;
-
-
     ssize_t sizeRec = static_cast<ssize_t>(std::stoul(ret));
-
     ret.clear();
+
     crypto(ok,key, crypt);
     send( socket, ok.c_str(), ok.size(), 0 );
 
@@ -221,10 +222,7 @@ std::string bit_fixture::send_receive(int socket, std::string msg, std::string k
     return ret;
 }
 
-TEST_F(bit_fixture, heandle_command){
-
-    useful_F::workServer = true; // włącz nasluchwianie servera
-    useful_F::go_while = true;
+TEST_F(bit_fixture, socket_heandle_command){
 
     start_iDomServer();
 
@@ -269,10 +267,105 @@ TEST_F(bit_fixture, heandle_command){
     EXPECT_STREQ(toCheck.c_str(), "88756: 433MHz equipment not found first\n");
 }
 
-TEST_F(bit_fixture, connection_wrong_key){
-    useful_F::workServer =  true; // włącz nasluchwianie servera
-    useful_F::go_while = true;
+TEST_F(bit_fixture, socket_wrong_key_after_while){
 
+    start_iDomServer();
+
+    struct sockaddr_in serwer =
+        {
+            .sin_family = AF_INET,
+            .sin_port = htons( 8833 )
+        };
+
+    inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
+
+    const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
+
+    sleep(1);
+    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    ASSERT_EQ(connectStatus,0);
+    std::cout << "connect status: "<< connectStatus <<std::endl;
+
+    auto key =  useful_F::RSHash();
+    std::string toCheck;
+
+    send_receive(s, key,key);
+    toCheck = send_receive(s, "ROOT",key);
+    EXPECT_STREQ(toCheck.c_str(), "OK you are ROOT");
+
+    std::cout << "odebrano4: " << toCheck << std::endl;
+    std::cout << "odebrano5: " << send_receive(s, "help",key) << std::endl;
+
+    EXPECT_ANY_THROW(send_receive(s, "test",key+"fake"));
+
+    close(s);
+
+    useful_F::workServer = false;
+    shutdown(s, SHUT_RDWR );
+
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+}
+TEST_F(bit_fixture, socket_no_space_left_on_server){
+
+    for(auto& i : *test_my_data.main_THREAD_arr){
+        i.thread_socket = 1;
+    }
+    start_iDomServer();
+
+    struct sockaddr_in serwer =
+        {
+            .sin_family = AF_INET,
+            .sin_port = htons( 8833 )
+        };
+
+    inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
+
+    const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
+
+    sleep(1);
+    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    ASSERT_EQ(connectStatus,0);
+    std::cout << "connect status: "<< connectStatus <<std::endl;
+
+    auto key =  useful_F::RSHash();
+    std::string toCheck;
+
+    EXPECT_ANY_THROW(send_receive(s, key,key));
+    ////////////////////////////////////////////////// one free slot
+
+    test_my_data.main_THREAD_arr->at(3).thread_socket = 0;
+    const int s2 = socket( serwer.sin_family, SOCK_STREAM, 0 );
+    connectStatus =  connect(s2,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    ASSERT_EQ(connectStatus,0);
+    std::cout << "connect status: "<< connectStatus <<std::endl;
+
+
+
+    EXPECT_NO_THROW(send_receive(s2, key,key));
+
+    toCheck = send_receive(s2, "ROOT",key);
+    EXPECT_STREQ(toCheck.c_str(), "OK you are ROOT");
+
+    std::cout << "odebrano4: " << toCheck << std::endl;
+    std::cout << "odebrano5: " << send_receive(s2, "help",key) << std::endl;
+
+    toCheck = send_receive(s2, "exit",key);
+
+    std::cout << "odebrano8: " << toCheck << std::endl;
+    EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "END"));
+
+    useful_F::workServer = false;
+    close(s);
+    close(s2);
+    shutdown(s, SHUT_RDWR );
+    shutdown(s2, SHUT_RDWR );
+    for(auto& i : *test_my_data.main_THREAD_arr){
+        i.thread_socket = 0;
+    }
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+}
+
+TEST_F(bit_fixture, socket_connection_wrong_key){
     start_iDomServer();
 
     struct sockaddr_in serwer =

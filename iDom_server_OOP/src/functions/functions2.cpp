@@ -322,6 +322,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         my_data->main_iDomTools->sendViberMsg(msg,
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender+"_ALERT!");
+
         if(client->c_send("\nFAIL\n") == -1)
         {
             delete client;
