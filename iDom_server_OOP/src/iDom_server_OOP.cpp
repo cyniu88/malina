@@ -269,9 +269,7 @@ iDomStateEnum iDom_main()
 
     useful_F::setStaticData(&node_data);
     /////////////////////////////////////////////////////////
-    int SERVER_PORT = server_settings._server.PORT;
-    server_settings._server.SERVER_IP = useful_F::conv_dns(server_settings._server.SERVER_IP);
-    const char *SERVER_IP = server_settings._server.SERVER_IP.c_str();
+
     node_data.pointer.ptr_who = who;
     node_data.mainLCD = &mainLCD;
     node_data.sleeper = 0;
@@ -336,6 +334,23 @@ iDomStateEnum iDom_main()
         log_file_cout << INFO << "NIE startuje NODA MASTERA do polaczen z innymi " << std::endl;
         log_file_mutex.mutex_unlock();
     }
+
+
+    ///////////////////////////////////////////////////// INFO PART ////////////////////////////////////////////////
+    node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings._fb_viber.viberReceiver.at(0),
+                                           server_settings._fb_viber.viberSender);
+    /////////////////////////////////////////////////// RESTORE PART ///////////////////////////////////////////////
+    node_data.main_iDomTools->readState_iDom(jj);
+    ///////////////////////////////////////////////////// TASKER PART ////////////////////////
+    TASKER mainTasker(&node_data);
+    ///////////////////////////////////////////////////// STARTED //////////////////////////////////////////////////
+    node_data.serverStarted = true;
+    ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
+
+    int SERVER_PORT = server_settings._server.PORT;
+    server_settings._server.SERVER_IP = useful_F::conv_dns(server_settings._server.SERVER_IP);
+    const char *SERVER_IP = server_settings._server.SERVER_IP.c_str();
+
     memset(&server, 0, sizeof(server));
 
     server.sin_family = AF_INET;
@@ -383,17 +398,6 @@ iDomStateEnum iDom_main()
         exit(-1);
     }
     struct sockaddr_in from;
-    ///////////////////////////////////////////////////// INFO PART ////////////////////////////////////////////////
-    node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings._fb_viber.viberReceiver.at(0),
-                                           server_settings._fb_viber.viberSender);
-    /////////////////////////////////////////////////// RESTORE PART ///////////////////////////////////////////////
-    node_data.main_iDomTools->readState_iDom(jj);
-    ///////////////////////////////////////////////////// TASKER PART ////////////////////////
-    TASKER mainTasker(&node_data);
-    ///////////////////////////////////////////////////// STARTED //////////////////////////////////////////////////
-    node_data.serverStarted = true;
-    ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
-
     while (1)
     {
         int v_sock_ind = 0;
