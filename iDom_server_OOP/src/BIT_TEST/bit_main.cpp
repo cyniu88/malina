@@ -44,7 +44,7 @@ protected:
         test_my_data.main_REC = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
         test_my_data.server_settings->_server.PORT = 8833;
-        test_my_data.server_settings->_server.SERVER_IP = "localhost";
+        test_my_data.server_settings->_server.SERVER_IP = "127.0.0.1";
     }
 
     void TearDown()
