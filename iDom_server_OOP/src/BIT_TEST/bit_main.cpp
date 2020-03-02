@@ -5,8 +5,7 @@
 #include "../iDomTools/test/iDomTools_fixture.h"
 #include "../TASKER/tasker.h"
 #include "../src/thread_functions/iDom_thread.h"
-#define SERVER_PORT 8833
-#define SERVER_IP "127.0.0.1"
+
 
 class bit_fixture : public iDomTOOLS_ClassTest
 {
@@ -18,6 +17,7 @@ protected:
     CAMERA_CFG testCamera;
 
     const char * ipAddress = "127.0.0.1";
+
 
     void SetUp()
     {
@@ -43,6 +43,8 @@ protected:
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_my_data.main_REC = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
+        test_my_data.server_settings->_server.PORT = 8833;
+        test_my_data.server_settings->_server.SERVER_IP = "localhost";
     }
 
     void TearDown()
@@ -53,19 +55,19 @@ protected:
 public:
     void start_iDomServer();
     void iDomServerStub();
-    void crypto(std::string & toEncrypt, std::string key,bool encrypted);
+    void crypto(std::string & toEncrypt, std::string &key, bool encrypted);
 
     std::unique_ptr<TASKER> bit_Tasker;
     std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> thread_array;
     std::string send_receive(int socket, std::string msg, std::string key, bool crypt = true);
 };
 
-void bit_fixture::crypto (std::string & toEncrypt, std::string key,bool encrypted)
+void bit_fixture::crypto (std::string & toEncrypt, std::string& key,bool encrypted)
 {
     if (!encrypted){
         return;
     }
-    unsigned int keySize = key.size()-1;
+    unsigned int keySize = key.size() - 1;
 
     for (char & i : toEncrypt)
     {
@@ -79,12 +81,12 @@ void bit_fixture::start_iDomServer()
 {
     useful_F::workServer = true; // włącz nasluchwianie servera
     useful_F::go_while = true;
-    auto t = std::thread(&bit_fixture::iDomServerStub,this);
+    auto t = std::thread(&useful_F::startServer, &test_my_data,bit_Tasker.get());
     t.detach();
     // t.join();
     std::cout << "EXIT bit_fixture::start_iDomServer()" << std::endl;
 }
-
+/*
 void bit_fixture::iDomServerStub()
 {
     memset(&server, 0, sizeof(server));
@@ -182,7 +184,7 @@ void bit_fixture::iDomServerStub()
     //shutdown(v_socket, SHUT_RDWR );
     // zamykam gniazdo
 }
-
+*/
 std::string bit_fixture::send_receive(int socket, std::string msg, std::string key,bool crypt)
 {
     char buffer[10000];
@@ -296,7 +298,7 @@ TEST_F(bit_fixture, socket_wrong_key_after_while){
     std::cout << "odebrano4: " << toCheck << std::endl;
     std::cout << "odebrano5: " << send_receive(s, "help",key) << std::endl;
 
-    EXPECT_ANY_THROW(send_receive(s, "test",key+"fake"));
+    EXPECT_ANY_THROW(send_receive(s, "test","fake"));
 
     close(s);
 
