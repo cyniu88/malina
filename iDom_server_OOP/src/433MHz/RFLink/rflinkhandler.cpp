@@ -107,7 +107,7 @@ std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(const std::string& msg,
 
     for (unsigned int i = 1+pos+var.size();;++i ){
         char t = msg.at(i);
-        if (t ==';'){
+        if (t == ';'){
             break;
         }
         id.push_back(t);

@@ -10,13 +10,13 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     if (v.size()<2){
         return "need parameter!\n" + help();
     }
-    if (v[1]=="speakers")
+    if (v[1] == "speakers")
     {
-        if (v[2] =="ON"){
+        if (v[2] == "ON"){
             iDomTOOLS::turnOnSpeakers();
             return "speakers ON";
         }
-        else if (v[2]=="OFF"){
+        else if (v[2] == "OFF"){
             iDomTOOLS::turnOffSpeakers();
             return "speakers OFF";
         }
@@ -24,16 +24,16 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             return "unknow speakers action: "+v[2];
         }
     }
-    else if (v[1]=="sunset"){
+    else if (v[1] == "sunset"){
         return my_data->main_iDomTools->getSunset(true);
     }
-    else if (v[1]=="sunrise"){
+    else if (v[1] == "sunrise"){
         return my_data->main_iDomTools->getSunrise(true);
     }
-    else if (v[1]=="day" && v[2]=="lenght"){
+    else if (v[1] == "day" && v[2] == "lenght"){
         return my_data->main_iDomTools->getDayLenght(true);
     }
-    else if (v[1]=="sun"){
+    else if (v[1] == "sun"){
         std::string ret;
         ret = my_data->main_iDomTools->getSunrise(true);
         ret.append("\n");
@@ -43,7 +43,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         ret.append("\n");
         return ret;
     }
-    else if (v[1]=="sysinfo"){
+    else if (v[1] == "sysinfo"){
         return my_data->main_iDomTools->getSystemInfo();
     }
     else if (v[1] == "lusina") //TODO temorary
@@ -53,7 +53,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         ret << my_data->lusina.statTemp.stats();
         return ret.str();
     }
-    else if (v[1]=="temperature"){
+    else if (v[1] == "temperature"){
         if ( v.size() < 3){
             return my_data->main_iDomTools->getTemperatureString();
         }
@@ -70,7 +70,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             }
         }
     }
-    else if (v[1]=="text"){
+    else if (v[1] == "text"){
         return my_data->main_iDomTools->getTextToSpeach();
     }
     else if (v[1] == "lock"){
@@ -81,9 +81,9 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         my_data->main_iDomTools->unlockHome();
         return "hous unlocked";
     }
-    else if (v[1]=="LED"){
+    else if (v[1] == "LED"){
         if (v.size() != 7){
-            if (v[2]=="OFF"){
+            if (v[2] == "OFF"){
                 return my_data->main_iDomTools->ledOFF();
             }
             else if(v[2] == "set"){
@@ -102,22 +102,22 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             return my_data->main_iDomTools->ledOn(strip);
         }
     }
-    else if (v[1]=="say"){
+    else if (v[1] == "say"){
         if (v.size() > 3){
-            std::vector<std::string> vTTS ={ my_data->main_iDomTools->getTextToSpeach()};
+            std::vector<std::string> vTTS = { my_data->main_iDomTools->getTextToSpeach()};
             my_data->main_iDomTools->textToSpeach(&vTTS);
             return "sad";
         }
     }
-    else if (v[1]=="smog"){
+    else if (v[1] == "smog"){
         return my_data->main_iDomTools->getSmog()+" mg/m^3";
     }
-    else if (v[1]=="230V"){
-        if (v.size() > 2 && v[2]=="ON"){
+    else if (v[1] == "230V"){
+        if (v.size() > 2 && v[2] == "ON"){
             my_data->main_iDomTools->turnOnPrinter();
             return "230V ON";
         }
-        else if(v.size() > 2 && v[2]=="OFF"){
+        else if(v.size() > 2 && v[2] == "OFF"){
             my_data->main_iDomTools->turnOffPrinter();
             return "230V OFF";
         }
@@ -125,11 +125,11 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             return "wrong paramiter";
         }
     }
-    else if (v[1]=="wifi"){
+    else if (v[1] == "wifi"){
         std::string readBuffer = useful_F_libs::httpPost("http://cyniu88.no-ip.pl/cgi-bin/kto_wifi.sh",10);
         return readBuffer;
     }
-    else if (v[1]=="lightning"){
+    else if (v[1] == "lightning"){
         std::stringstream readBuffer;
         readBuffer << my_data->main_iDomTools->getLightningStruct().data.str();
         readBuffer << std::endl;
@@ -138,14 +138,14 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         readBuffer << Clock::getTime().getString();
         return readBuffer.str();
     }
-    else if (v[1]=="kill"){
+    else if (v[1] == "kill"){
 
         if (v[2]=="thread"){
             my_data->main_THREAD_arr->at(std::stoul(v[3]) ).thread.~thread();
             return "done!";
         }
     }
-    else if (v[1]=="facebook"){
+    else if (v[1] == "facebook"){
         std::string msg;
         for (unsigned int i = 2; i < v.size(); ++i){
             msg.push_back(' ');
@@ -153,7 +153,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
         return my_data->main_iDomTools->postOnFacebook(msg);
     }
-    else if (v[1]=="viber"){
+    else if (v[1] == "viber"){
         std::string msg;
         for (unsigned int i = 2; i < v.size(); ++i){
             msg.push_back(' ');
@@ -173,15 +173,15 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         if (v.size() < 4){
             return "not enough parameters";
         }
-        if (v[2]=="LED" && v[3] == "ON"){
+        if (v[2] == "LED" && v[3] == "ON"){
             my_data->main_iDomTools->cameraLedON(my_data->server_settings->_camera.cameraLedON);
         }
-        else if (v[2]=="LED" && v[3] == "OFF"){
+        else if (v[2] == "LED" && v[3] == "OFF"){
             my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->_camera.cameraLedOFF);
         }
         return "led DONE";
     }
-    else if (v[1]=="weather"){
+    else if (v[1] == "weather"){
 
         if (v.size() < 4){
             return "not enough parameters";

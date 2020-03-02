@@ -10,7 +10,7 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
 {
     std::string str_buf;
 
-    if (v[1]=="start")
+    if (v[1] == "start")
     {
         if (v.size()>2)
         {
@@ -26,40 +26,40 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
         {
             iDomTOOLS::MPD_play(my_data);
             useful_F::sleep(1);
-            str_buf=my_data->ptr_MPD_info->title;
+            str_buf = my_data->ptr_MPD_info->title;
         }
         my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
     }
-    else if (v[1]=="stop")
+    else if (v[1] == "stop")
     {
         iDomTOOLS::MPD_stop();
-        str_buf="stoped!";
+        str_buf = "stoped!";
         my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
     }
-    else if (v[1]=="next")
+    else if (v[1] == "next")
     {
         iDomTOOLS::MPD_next();
         useful_F::sleep(1);
         str_buf = my_data->ptr_MPD_info->radio + " : "+ my_data->ptr_MPD_info->title;
     }
-    else if (v[1]=="prev")
+    else if (v[1] == "prev")
     {
         iDomTOOLS::MPD_prev();
         useful_F::sleep(1);
-        str_buf=my_data->ptr_MPD_info->radio+ " : "+ my_data->ptr_MPD_info->title;
+        str_buf = my_data->ptr_MPD_info->radio+ " : "+ my_data->ptr_MPD_info->title;
     }
-    else if (v[1]=="pause")
+    else if (v[1] == "pause")
     {
         iDomTOOLS::MPD_pause();
-        str_buf="paused!";
+        str_buf = "paused!";
     }
-    else if (v[1]=="volume")
+    else if (v[1] == "volume")
     {
-        if (v[2]=="up")
+        if (v[2] == "up")
         {
             iDomTOOLS::MPD_volumeUp();
         }
-        else if (v[2]=="down")
+        else if (v[2] == "down")
         {
             iDomTOOLS::MPD_volumeDown();
         }
@@ -72,23 +72,23 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
             }
         }
         //sleep(1);
-        str_buf=std::to_string(my_data->ptr_MPD_info->volume);
+        str_buf = std::to_string(my_data->ptr_MPD_info->volume);
     }
-    else if (v[1]=="get")
+    else if (v[1] == "get")
     {
-        if(v[2]=="volume")
+        if(v[2] == "volume")
         {
-            str_buf=std::to_string(my_data->ptr_MPD_info->volume);
+            str_buf = std::to_string(my_data->ptr_MPD_info->volume);
         }
-        else if (v[2]=="info")
+        else if (v[2] == "info")
         {
-            str_buf = my_data->ptr_MPD_info->radio + " : "+ my_data->ptr_MPD_info->title;
+            str_buf = my_data->ptr_MPD_info->radio + " : " + my_data->ptr_MPD_info->title;
         }
     }
-    else if (v[1]=="list")
+    else if (v[1] == "list")
     {
         for (auto i : my_data->ptr_MPD_info->songList)
-            str_buf.append(i+"\n");
+            str_buf.append(i + "\n");
     }
     else
     {

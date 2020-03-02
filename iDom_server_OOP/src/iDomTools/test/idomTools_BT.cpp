@@ -204,7 +204,7 @@ TEST_F(iDomTOOLS_ClassTest, button433MHzPressedAction_lockerUnlock)
     test_my_data.main_iDomTools->unlockHome();
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
 
-    for(auto i =0 ; i < 3; ++i){
+    for(auto i = 0 ; i < 3; ++i){
         test_my_data.main_iDomTools->button433MHzPressedAction("locker-main");
     }
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);

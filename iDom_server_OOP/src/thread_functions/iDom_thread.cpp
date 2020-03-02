@@ -68,7 +68,7 @@ void iDOM_THREAD::stop_thread(const std::string& name,
         {
             if (my_data->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
             {
-                my_data->main_THREAD_arr->at(i).thread_name ="  -empty-  ";
+                my_data->main_THREAD_arr->at(i).thread_name = "  -empty-  ";
                 my_data->main_THREAD_arr->at(i).thread_ID = std::thread::id();
                 my_data->main_THREAD_arr->at(i).thread_socket = 0;
                 break;

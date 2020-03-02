@@ -42,7 +42,7 @@ void c_irda_logic::sleeperLogic(PILOT_KEY X)
     switch (X){
     case PILOT_KEY::KEY_EXIT:
     {
-        my_data->sleeper=0;
+        my_data->sleeper = 0;
         my_data->mainLCD->set_print_song_state(0);
         who = PILOT_STATE::MPD;
         break;
@@ -67,7 +67,7 @@ void c_irda_logic::sleeperLogic(PILOT_KEY X)
     }
     case PILOT_KEY::KEY_CHANNELDOWN:
     {
-        my_data->sleeper-=10;
+        my_data->sleeper -= 10;
         my_data->mainLCD->printString(true,0,0,std::to_string(my_data->sleeper)+" minut");
         break;
     }
@@ -275,16 +275,16 @@ void c_irda_logic::menuLogic(PILOT_KEY X)
             // menu start
             if (my_data->main_MENU->show_list() == "5.SLEEPer"){
                 std::cout << " POBUDKA!!!!" << std::endl;
-                who=PILOT_STATE::SLEEPER;
+                who = PILOT_STATE::SLEEPER;
             }
             else if (my_data->main_MENU->show_list() == "2.TEMPERATURA"){
                 std::cout << " temperatura !!!!" << std::endl;
-                who=PILOT_STATE::MPD;
+                who = PILOT_STATE::MPD;
                 _add(PILOT_KEY::KEY_SAT);
             }
             else if (my_data->main_MENU->show_list() == "4.PLIKI"){
                 std::cout << " do filmow" << std::endl;
-                who=PILOT_STATE::MPD;
+                who = PILOT_STATE::MPD;
                 _add(PILOT_KEY::KEY_EPG);
                 _add(PILOT_KEY::KEY_VOLUMEUP);
             }
@@ -321,11 +321,11 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
     {
         my_data->mainLCD->set_lcd_STATE(10);
         my_data->mainLCD->printString(true,0,0,"GASZE LEDy");
-        std::string temp_str="";
+        std::string temp_str = "";
         temp_str.erase();
         temp_str.append(my_data->main_iDomTools->ledOFF());
         my_data->mainLCD->printString(false,0,1,temp_str);
-        who=PILOT_STATE::MPD;
+        who = PILOT_STATE::MPD;
         break;
     }
 
@@ -338,7 +338,7 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
 
         if (++my_data->ptr_pilot_led->counter > my_data->ptr_pilot_led->colorLED.size()-1 )
         {
-            my_data->ptr_pilot_led->counter=0;
+            my_data->ptr_pilot_led->counter = 0;
         }
 
         my_data->mainLCD->printString(false,0,1,temp_str);

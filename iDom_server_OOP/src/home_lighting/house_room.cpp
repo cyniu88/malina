@@ -21,7 +21,7 @@ house_room::house_room(house_room&& other)
     m_name = std::move(other.m_name);
 }
 
-house_room &house_room::operator=(house_room&& other)
+house_room &house_room::operator= (house_room&& other)
 {
     assert(this != &other);
 

@@ -23,7 +23,7 @@ void files_tree::next()
 {
     ++i;
     if (get_vector_size() == i)
-        i=0;
+        i = 0;
 }
 
 void files_tree::previous()
@@ -31,7 +31,7 @@ void files_tree::previous()
     --i;
 
     if (i <0)
-        i=get_vector_size()-1;
+        i = get_vector_size()-1;
 }
 
 int files_tree::get_vector_size () const
@@ -58,13 +58,13 @@ void files_tree::enter_dir()
 
     if (movie_database_vector[i].is_file == false) {
         get_list (movie_database_vector[i].path);
-        i=0;
+        i = 0;
     }
 
 }
 void files_tree::enter_dir(const std::string& path)
 {	//tree_stack.push(path);
-    get_list (path);
+    get_list(path);
 }
 
 void files_tree::back_dir()

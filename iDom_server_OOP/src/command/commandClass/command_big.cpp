@@ -10,7 +10,7 @@ std::string command_big::execute(std::vector<std::string> &v, thread_data *my_da
     std::string str_buf = "command big - wrong paramiter:\n "+ help();
     if (v.size() > 1){
         str_buf.erase();
-        for (int i =0; i < std::stoi(v[1])-1; ++i){
+        for (int i = 0; i < std::stoi(v[1])-1; ++i){
             str_buf.push_back('z');
         }
         str_buf.push_back('Y');

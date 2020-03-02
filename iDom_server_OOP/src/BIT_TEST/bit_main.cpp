@@ -72,7 +72,7 @@ void bit_fixture::crypto (std::string & toEncrypt, std::string& key,bool encrypt
     for (char & i : toEncrypt)
     {
 
-        if (keySize==0) keySize = key.size()-1;
+        if (keySize == 0) keySize = key.size()-1;
         else --keySize;
         i ^= key[keySize];
     }
@@ -83,108 +83,9 @@ void bit_fixture::start_iDomServer()
     useful_F::go_while = true;
     auto t = std::thread(&useful_F::startServer, &test_my_data,bit_Tasker.get());
     t.detach();
-    // t.join();
     std::cout << "EXIT bit_fixture::start_iDomServer()" << std::endl;
 }
-/*
-void bit_fixture::iDomServerStub()
-{
-    memset(&server, 0, sizeof(server));
-    server.sin_family = AF_INET;
-    server.sin_port = htons(SERVER_PORT);
-    if(inet_pton(AF_INET, SERVER_IP, & server.sin_addr) < 0)
-    {
-        perror("inet_pton() ERROR");
-        exit(-1);
-    }
 
-    if((v_socket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-    {
-        perror("socket() ERROR");
-        exit(-1);
-    }
-
-    if(fcntl(v_socket, F_SETFL, O_NONBLOCK) < 0) // fcntl()
-    {
-        perror("fcntl() ERROR");
-        exit(-1);
-    }
-    // zgub wkurzający komunikat błędu "address already in use"
-    int yes = 1;
-    if(setsockopt(v_socket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == - 1) {
-        perror("setsockopt");
-        exit(1);
-    }
-    socklen_t len = sizeof(server);
-    if(bind(v_socket,(struct sockaddr *) & server, len) < 0)
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "BIND problem: " << strerror(errno)<< std::endl;
-        log_file_cout << CRITICAL << "awaryjne ! zamykanie gniazda " << shutdown(v_socket, SHUT_RDWR) << std::endl;
-        log_file_mutex.mutex_unlock();
-        perror("bind() ERROR");
-        exit(-1);
-    }
-
-    if(listen(v_socket, iDomConst::MAX_CONNECTION) < 0)
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "Listen problem: " << strerror(errno)<< std::endl;
-        log_file_mutex.mutex_unlock();
-        perror("listen() ERROR");
-        exit(-1);
-    }
-
-    ///////////////////////////////////////////////////// WHILE ////////////////////////////////////////////////////
-
-    struct sockaddr_in from;
-    while (1)
-    {
-        int v_sock_ind = 0;
-        memset(&from,0, sizeof(from));
-        if(!useful_F::workServer) {
-            std::cout << "konczymy server" << std::endl;
-            break;
-        }
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(250));
-
-        if((v_sock_ind = accept(v_socket, (struct sockaddr *)&from, & len)) < 0)
-        {
-            continue;
-        }
-
-        //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscy ////////////////////
-
-        int freeSlotID = iDOM_THREAD::findFreeThreadSlot( & this->thread_array);
-        if(freeSlotID != -1)
-        {
-            test_my_data.s_client_sock = v_sock_ind;
-            test_my_data.from = from;
-            iDOM_THREAD::start_thread(inet_ntoa(test_my_data.from.sin_addr),
-                                      useful_F::Server_connectivity_thread,
-                                      &test_my_data,
-                                      v_sock_ind);
-        }
-        else
-        {
-            log_file_mutex.mutex_lock();
-            log_file_cout << INFO << "za duzo klientow " << std::endl;
-            log_file_mutex.mutex_unlock();
-            if((send(v_sock_ind, "za duzo kientow \nEND.\n",22 , MSG_DONTWAIT)) <= 0)
-            {
-                perror("send() ERROR");
-                break;
-            }
-            std::cout << "wysyłam ze za duzo klientów i jade dalej " << std::endl;
-            continue;
-        }
-    } // while
-    close(v_socket);
-    //shutdown(v_socket, SHUT_RDWR );
-    // zamykam gniazdo
-}
-*/
 std::string bit_fixture::send_receive(int socket, std::string msg, std::string key,bool crypt)
 {
     char buffer[10000];
@@ -212,7 +113,6 @@ std::string bit_fixture::send_receive(int socket, std::string msg, std::string k
         std::cout << " w while: " << size << " recSize: " << sizeRec << std::endl;
         size += recv( socket, buffer, sizeof( buffer ), 0 );
     }
-    // size = recv( socket, buffer, sizeof( buffer ), 0 );
 
     EXPECT_EQ(size, sizeRec);
 

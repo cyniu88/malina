@@ -7,7 +7,7 @@ command_sleep::command_sleep(const std::string &name):command(name)
 }
 
 std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_data)
-{   if (v.size()== 1)
+{   if (v.size() == 1)
     {
         return "sleep set to: "+ std::to_string(my_data->sleeper);
     }

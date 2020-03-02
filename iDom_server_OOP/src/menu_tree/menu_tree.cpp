@@ -2,10 +2,10 @@
 
 menu_tree::menu_tree (const std::string &path, LCD_c *mainLCD_PTR):database_path(path),w_serial( "([Ss]\\d{1,3}[Ee]\\d{1,3})")
 {
-    mainLCD=mainLCD_PTR;
+    mainLCD = mainLCD_PTR;
 
     i_stack.push(0);
-    i=0;
+    i = 0;
     get_list(database_path);
 }
 
@@ -24,7 +24,7 @@ bool menu_tree::is_file() const
 //    get_list( database_path );
 //}
 void menu_tree::next()
-{   
+{
     ++i;
     if (get_vector_size() == i ){
         i=0;
@@ -62,13 +62,13 @@ int menu_tree::get_i()
 void menu_tree::enter_dir()
 {
     i_stack.push(i); // wpisuje na stos kolejna wersje licznika i
-    
+
     if (movie_database_vector[i].is_file == true ) {
 
     }
     else {
         get_list (movie_database_vector[i].path);
-        i=0;
+        i = 0;
     }
 }
 

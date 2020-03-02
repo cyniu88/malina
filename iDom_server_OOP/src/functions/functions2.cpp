@@ -189,7 +189,7 @@ std::string useful_F::sek_to_uptime(long long secy )
 std::string useful_F::l_send_file(std::string path, std::string find, bool reverse )
 {
     std::string str_buf;
-    if(find.empty()==true)
+    if(find.empty() == true)
     {
         std::fstream log_file;
         log_file.open(path.c_str(),std::ios::in);
@@ -225,7 +225,7 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
             {
                 if (reverse)
                 {
-                    if(std::string::npos!=str_temp.find(find))
+                    if(std::string::npos != str_temp.find(find))
                     {
                         str_buf.append(str_temp +"\n");
                     }
@@ -241,7 +241,7 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
                 {
                     if(std::string::npos == str_temp.find(find))
                     {
-                        str_buf+=str_temp+"\n";
+                        str_buf += str_temp+"\n";
                     }
                 }
                 if(str_buf.size()<3)
@@ -318,7 +318,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         log_file_cout << CRITICAL <<"KEY RECIVED\n\n " << KEY_rec <<"\n\n"<< std::endl;
         log_file_mutex.mutex_unlock();
 
-        std::string msg ="podano zły klucz autentykacji - sprawdz logi ";
+        std::string msg = "podano zły klucz autentykacji - sprawdz logi ";
         msg.append(inet_ntoa(my_data->from.sin_addr));
         my_data->main_iDomTools->sendViberMsg(msg,
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),

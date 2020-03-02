@@ -10,7 +10,7 @@ command_help::command_help(const std::string &name,std::map <std::string, std::u
 
 std::string command_help::execute(std::vector<std::string> &v, thread_data *my_data)
 {
-    std::string result ="";
+    std::string result = "";
     if (v.size() == 2){
 
         if (commandMapPtr->find(v[1]) == commandMapPtr->end()){

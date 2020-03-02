@@ -9,7 +9,7 @@ std::string command_put::execute(std::vector<std::string> &v, thread_data *my_da
 {
     std::string str_buf = "command put - wrong paramiter: ";
     if (v.size() > 1){
-        if (v[1] =="temperature")
+        if (v[1] == "temperature")
         {
             str_buf.erase();
             my_data->main_iDomTools->send_temperature_thingSpeak();

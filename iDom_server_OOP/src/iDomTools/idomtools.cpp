@@ -122,7 +122,7 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
     }
     else if (status == TEMPERATURE_STATE::Under)
     {
-        m ="temperature " + thermomethernName+" under " + EMOJI::emoji(E_emoji::SOUTH_EAST_ARROW)
+        m = "temperature " + thermomethernName + " under " + EMOJI::emoji(E_emoji::SOUTH_EAST_ARROW)
             + to_string_with_precision(reference);
         my_data->myEventHandler.run("temperature")->addEvent(m);
         if (reference < 2)
