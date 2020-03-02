@@ -23,7 +23,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
         {
             if (my_data->main_REC->nameExist(v[2]) == false)
             {
-                return "equipment "+ v[2]+" not exist ";
+                return "equipment "+ v[2] + " not exist ";
             }
             my_data->main_REC->deleteRadioEq(v[2]);
             str_buf = v[2] + " deleted";
@@ -47,7 +47,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             /////////////////////////////////////////////////////////////
             if (my_data->main_REC->nameExist(v[3]) == true)
             {
-                return "equipment "+ v[3]+" exist ";
+                return "equipment "+ v[3] + " exist ";
             }
             try
             {
@@ -55,11 +55,11 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             }
             catch(const WRONG_FORMAT& )
             {
-                return "wrong type "+v[2];
+                return "wrong type " + v[2];
             }
             catch(const std::invalid_argument& )
             {
-                return "wrong ID "+v[4];
+                return "wrong ID " + v[4];
             }
 
             str_buf = v[2] + " " + v[3] + " added";

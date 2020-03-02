@@ -15,22 +15,22 @@ std::string command_event::execute(std::vector<std::string> &v, thread_data *my_
     }
     if (v.size() == 3 && v[2] == "clear"){
         my_data->myEventHandler.run(v[1])->clearEvent();
-        return "event " +v[1]+ " has been cleared!";
+        return "event " + v[1] + " has been cleared!";
     }
     if (v.size() == 3 && v[2] == "intensity"){
         std::stringstream intensity;
         intensity << my_data->myEventHandler.run(v[1])->getLast1minNumberEvent();
-        return "event " +v[1]+" "+ intensity.str() +" intensity per last minute!";
+        return "event " + v[1] + " " + intensity.str() +" intensity per last minute!";
     }
     if (v.size() == 4 && v[1] == "add"){
          my_data->myEventHandler.run(v[2])->addEvent(v[3]);
-        return "event " +v[1]+" " +" added!";
+        return "event " + v[1] +" " + " added!";
     }
     if (v.size() == 5 && v[2] == "clear"){
         int from = std::stoi(v[3]);
         int to = std::stoi(v[4]);
         my_data->myEventHandler.run(v[1])->clearEvent(from, to);
-        return "event " +v[1]+ " has been cleared!";
+        return "event " + v[1] + " has been cleared!";
     }
     return my_data->myEventHandler.help();
 }

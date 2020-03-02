@@ -49,7 +49,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
                     {
                         ss.clear();
                         ss = std::stringstream();
-                        str_buf.append(std::to_string(i)+" ");
+                        str_buf.append(std::to_string(i) + " ");
                         str_buf.append(my_data->main_THREAD_arr->at(i).thread_name);
                         str_buf.append("\t ID: ");
                         ss << my_data->main_THREAD_arr->at(i).thread_ID;
@@ -71,7 +71,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
             return my_data->main_iDomTools->m_keyHandler->listKEY();
         }
         else {
-            return "wrong parameter: "+v[1];
+            return "wrong parameter: " + v[1];
         }
     }
     return str_buf;

@@ -48,7 +48,7 @@ int TASKER::runTasker()
                                           ret);
         }
         //TODO temporary added
-        else if (kk.first == topic+"/lusina/h")
+        else if (kk.first == topic + "/lusina/h")
         {
             my_data->myEventHandler.run("lusina")->addEvent(kk.second);
             try { auto v = useful_F::split(kk.second, ' ');
@@ -63,7 +63,7 @@ int TASKER::runTasker()
             }
 
         }
-        else if(kk.first == topic+"/lusina/t")
+        else if(kk.first == topic + "/lusina/t")
         {
             my_data->myEventHandler.run("lusina")->addEvent(kk.second);
             auto v = useful_F::split(kk.second, ' ');

@@ -227,7 +227,8 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
                 {
                     if(std::string::npos != str_temp.find(find))
                     {
-                        str_buf.append(str_temp +"\n");
+                        str_buf.append(str_temp);
+                        str_buf.append("\n");
                     }
                     else
                     {
@@ -241,7 +242,8 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
                 {
                     if(std::string::npos == str_temp.find(find))
                     {
-                        str_buf += str_temp+"\n";
+                        str_buf.append(str_temp);
+                        str_buf.append("\n");
                     }
                 }
                 if(str_buf.size()<3)
@@ -274,7 +276,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
             connectionCounter = 0;
             my_data->main_iDomTools->sendViberMsg("ktoś kombinuje z polaczeniem do serwera!",
                                                   my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                                  my_data->server_settings->_fb_viber.viberSender+"_ALERT!");
+                                                  my_data->server_settings->_fb_viber.viberSender + "_ALERT!");
         }
         client->setEncrypted(false);
     }
@@ -322,7 +324,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         msg.append(inet_ntoa(my_data->from.sin_addr));
         my_data->main_iDomTools->sendViberMsg(msg,
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                              my_data->server_settings->_fb_viber.viberSender+"_ALERT!");
+                                              my_data->server_settings->_fb_viber.viberSender + "_ALERT!");
 
         if(client->c_send("\nFAIL\n") == -1)
         {

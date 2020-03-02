@@ -286,7 +286,7 @@ TEST_F(bit_fixture, socket_connection_wrong_key){
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
     auto key =  useful_F::RSHash();
-    std::string fakeKey = key+"fake";
+    std::string fakeKey = key + "fake";
     std::string toCheck = send_receive(s, fakeKey,key);
     std::cout << "odebrano: " << toCheck << std::endl;
     EXPECT_STREQ(toCheck.c_str(), "\nFAIL\n");

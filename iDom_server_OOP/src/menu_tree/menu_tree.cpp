@@ -95,7 +95,7 @@ std::string menu_tree::show_list()
         return movie_database_vector[i].files_name;
     }
     else {
-        mainLCD->printString(true,0,0,movie_database_vector[i].files_name+" ->");
+        mainLCD->printString(true,0,0,movie_database_vector[i].files_name + " ->");
     }
 
     return movie_database_vector[i].path;

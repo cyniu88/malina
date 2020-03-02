@@ -173,7 +173,7 @@ TEST_F(c_irda_logic_fixture, sleeper_Logic_OK)
 TEST_F(c_irda_logic_fixture, LED_ON_OFF)
 {
     EXPECT_EQ( test_my_data.myEventHandler.run("LED")->getLast1minNumberEvent(),0);
-    for (int i = 1 ; i < test_my_data.ptr_pilot_led->colorLED.size()+2; ++i)
+    for (int i = 1 ; i < test_my_data.ptr_pilot_led->colorLED.size() + 2; ++i)
     {
         test_irda->_add(PILOT_KEY::KEY_LANGUAGE);
         EXPECT_EQ( test_my_data.myEventHandler.run("LED")->getLast1minNumberEvent(),i);

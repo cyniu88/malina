@@ -134,7 +134,7 @@ TEST_F(iDomTOOLS_ClassTest, checkAlarm)
         test_my_data.main_iDomTools->checkAlarm();
         test_q._get();
         EXPECT_EQ(test_my_data.alarmTime.state, STATE::WORKING)<< "zły stan w for " << i<< " "<< toVol;
-        EXPECT_EQ(test_my_data.ptr_MPD_info->volume, i+1) << "zły poziom glosnosci w for";
+        EXPECT_EQ(test_my_data.ptr_MPD_info->volume, i + 1) << "zły poziom glosnosci w for";
     }
 
     test_my_data.main_iDomTools->checkAlarm();
@@ -192,7 +192,7 @@ TEST_F(iDomTOOLS_ClassTest, buttonPressed)
                  test_my_data.main_REC->getButtonPointerVector().at(1)->getID().c_str());
     EXPECT_STREQ(pressedButtonName.c_str(), "locker-main");
 
-    EXPECT_THROW(test_my_data.main_iDomTools->buttonPressed(button433MHz_id+"a"),
+    EXPECT_THROW(test_my_data.main_iDomTools->buttonPressed(button433MHz_id + "a"),
                  std::string);
 }
 

@@ -130,7 +130,7 @@ TEST_F(command433MHz_Class_fixture, addButton)
     test_v.push_back("offCode");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) << std::endl;
     v = test_rec->getButtonPointerVector();
-    EXPECT_EQ(v.size(),actualSize+1);
+    EXPECT_EQ(v.size(),actualSize + 1);
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("show");
@@ -162,7 +162,7 @@ TEST_F(command433MHz_Class_fixture, addSwitch)
     test_v.push_back("unlock_A");
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) << std::endl;
     v = test_rec->getSwitchPointerVector();
-    EXPECT_EQ(v.size(),actualSize+1);
+    EXPECT_EQ(v.size(),actualSize + 1);
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("show");

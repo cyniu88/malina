@@ -18,7 +18,7 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
                 sleep = std::stoi(v[2]);
             }
             catch (...){
-                return "system need intiger > 0 not: " +v[2];
+                return "system need intiger > 0 not: " + v[2];
             }
 
             my_data->sleeper = sleep;
@@ -26,7 +26,7 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
             return iDOM_THREAD::start_thread("Sleep MPD",useful_F::sleeper_mpd,my_data);
         }
         else {
-            return "wrong parametr "+v[1];
+            return "wrong parametr " + v[1];
         }
     }
     return "internal error";

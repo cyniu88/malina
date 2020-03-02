@@ -62,7 +62,8 @@ void RADIO_SWITCH::onFor15sec()
     }
     else {
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << RADIO_EQ::m_config.name << " switch - zla konfiguracja kodu ON for 15s" << std::endl;
+        log_file_cout << ERROR << RADIO_EQ::m_config.name <<
+            " switch - zla konfiguracja kodu ON for 15s" << std::endl;
         log_file_mutex.mutex_unlock();
     }
 }
@@ -71,11 +72,15 @@ void RADIO_SWITCH::onSunrise()
 {
     if(m_sunrise == STATE::ON ){
         on();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to sunrise");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
+                                                        RADIO_EQ::m_config.name +
+                                                        " ON due to sunrise");
     }
     else if(m_sunrise == STATE::OFF){
         off();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to sunrise");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
+                                                        RADIO_EQ::m_config.name +
+                                                        " OFF due to sunrise");
     }
 }
 
@@ -83,11 +88,15 @@ void RADIO_SWITCH::onSunset()
 {
     if(m_sunset == STATE::ON ){
         on();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to sunset");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
+                                                        RADIO_EQ::m_config.name +
+                                                        " ON due to sunset");
     }
     else if(m_sunset == STATE::OFF){
         off();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to sunset");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
+                                                        RADIO_EQ::m_config.name +
+                                                        " OFF due to sunset");
     }
 }
 
@@ -96,12 +105,16 @@ void RADIO_SWITCH::onLockHome()
     if (m_config.lock == "ON")
     {
         on();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to 433MHz button pressed");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
+                                                        RADIO_EQ::m_config.name +
+                                                        " ON due to 433MHz button pressed");
     }
     else if(m_config.lock == "OFF")
     {
         off();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to 433MHz button pressed");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
+                                                        RADIO_EQ::m_config.name +
+                                                        " OFF due to 433MHz button pressed");
     }
 }
 
@@ -110,12 +123,16 @@ void RADIO_SWITCH::onUnlockHome()
     if (m_config.unlock == "ON")
     {
         on();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " ON due to 433MHz button pressed");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
+                                                        RADIO_EQ::m_config.name +
+                                                        " ON due to 433MHz button pressed");
     }
     else if (m_config.unlock == "OFF")
     {
         off();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "+RADIO_EQ::m_config.name + " OFF due to 433MHz button pressed");
+        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "
+                                                        + RADIO_EQ::m_config.name +
+                                                        " OFF due to 433MHz button pressed");
     }
 }
 
@@ -182,7 +199,8 @@ void RADIO_EQ_CONTAINER::addRadioEq( RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
         m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_BUTTON(my_data, cfg, RADIO_EQ_TYPE::BUTTON) ) );
         break;
     case RADIO_EQ_TYPE::WEATHER_S:
-        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_WEATHER_STATION(my_data, cfg, RADIO_EQ_TYPE::WEATHER_S) ) );
+        m_radioEqMap.insert(std::make_pair(cfg.name,
+                                           new RADIO_WEATHER_STATION(my_data, cfg, RADIO_EQ_TYPE::WEATHER_S) ) );
         break;
     default:
         break;
@@ -199,7 +217,7 @@ void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, const std::string& type
     else if(type == "GATE") ret = RADIO_EQ_TYPE::GATE;
     else {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL <<" throw RADIO_EQ_CONTAINER::addRadioEq()"<<std::endl;
+        log_file_cout << CRITICAL <<" throw RADIO_EQ_CONTAINER::addRadioEq()" << std::endl;
         log_file_mutex.mutex_unlock();
         throw WRONG_FORMAT();
     }

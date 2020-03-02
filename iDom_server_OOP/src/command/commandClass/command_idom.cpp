@@ -64,7 +64,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
                  ret = my_data->main_iDomTools->getThermoStats(v[3]);
                 }
                 catch (std::string& obj){
-                    ret = obj +" "+v[3];
+                    ret = obj + " " + v[3];
                 }
                return ret;
             }
@@ -110,7 +110,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
     }
     else if (v[1] == "smog"){
-        return my_data->main_iDomTools->getSmog()+" mg/m^3";
+        return my_data->main_iDomTools->getSmog() + " mg/m^3";
     }
     else if (v[1] == "230V"){
         if (v.size() > 2 && v[2] == "ON"){

@@ -17,7 +17,7 @@ std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_d
         }
         else
         {
-            str_buf = ("wrong parameter: "+v[2]);
+            str_buf = ("wrong parameter: " + v[2]);
         }
     }
 
@@ -38,7 +38,7 @@ std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_d
         if(v[2] == "Temperature" && v[3] == "error")
         {
 
-            my_data->myEventHandler.run("RS232")->addEvent("RS232 error event: "+msg);
+            my_data->myEventHandler.run("RS232")->addEvent("RS232 error event: " + msg);
             log_file_mutex.mutex_lock();
             log_file_cout << WARNING<< "RS232 ERROR event: " << msg << std::endl;
             log_file_mutex.mutex_unlock();
@@ -59,7 +59,7 @@ std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else
     {
-        str_buf = ("wrong parameter: "+v[1]);
+        str_buf = ("wrong parameter: " + v[1]);
     }
     return str_buf;
 }

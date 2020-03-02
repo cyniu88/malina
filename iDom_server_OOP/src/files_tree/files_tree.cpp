@@ -102,7 +102,7 @@ std::string files_tree::show_list()
         }
     }
     else {
-        mainLCD->printString(true,0,0,movie_database_vector[i].files_name+"/");
+        mainLCD->printString(true,0,0,movie_database_vector[i].files_name + "/");
     }
     return movie_database_vector[i].path;
 }

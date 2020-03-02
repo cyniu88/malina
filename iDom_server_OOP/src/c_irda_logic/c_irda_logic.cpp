@@ -37,7 +37,7 @@ void c_irda_logic::irdaMPD(PILOT_KEY X)
 void c_irda_logic::sleeperLogic(PILOT_KEY X)
 {
     my_data->mainLCD->set_print_song_state(100);
-    my_data->mainLCD->printString(true,0,0,std::to_string(my_data->sleeper)+" minut");
+    my_data->mainLCD->printString(true,0,0,std::to_string(my_data->sleeper) + " minut");
 
     switch (X){
     case PILOT_KEY::KEY_EXIT:
@@ -50,25 +50,25 @@ void c_irda_logic::sleeperLogic(PILOT_KEY X)
     case PILOT_KEY::KEY_UP:
     {
         ++my_data->sleeper;
-        my_data->mainLCD->printString(true,0,0,std::to_string(my_data->sleeper)+" minut");
+        my_data->mainLCD->printString(true,0,0,std::to_string(my_data->sleeper) + " minut");
         break;
     }
     case PILOT_KEY::KEY_DOWN:
     {
         --my_data->sleeper;
-        my_data->mainLCD->printString(true,0,0,std::to_string(my_data->sleeper)+" minut");
+        my_data->mainLCD->printString(true,0,0,std::to_string(my_data->sleeper) + " minut");
         break;
     }
     case PILOT_KEY::KEY_CHANNELUP:
     {
         my_data->sleeper += 10;
-        my_data->mainLCD->printString(true,0,0,std::to_string(my_data->sleeper)+" minut");
+        my_data->mainLCD->printString(true,0,0,std::to_string(my_data->sleeper) + " minut");
         break;
     }
     case PILOT_KEY::KEY_CHANNELDOWN:
     {
         my_data->sleeper -= 10;
-        my_data->mainLCD->printString(true,0,0,std::to_string(my_data->sleeper)+" minut");
+        my_data->mainLCD->printString(true,0,0,std::to_string(my_data->sleeper) + " minut");
         break;
     }
     case PILOT_KEY::KEY_OK:
@@ -349,13 +349,13 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
     case PILOT_KEY::KEY_SAT:
     {
         my_data->mainLCD->set_lcd_STATE(10);
-        my_data->mainLCD->printString(true,0,0,"SMOG: "+my_data->main_iDomTools->getSmog()+" mg/m^3");
+        my_data->mainLCD->printString(true,0,0,"SMOG: " + my_data->main_iDomTools->getSmog() + " mg/m^3");
         std::string temp_str = "I:";
         std::vector<std::string> temper = my_data->main_iDomTools->getTemperature();
         //temp_str += my_data_logic->main_iDomTools->getTemperatureString();// send_to_arduino(my_data_logic,"temperature:2;");
         temp_str.append(temper.at(0));
         temp_str.append(" O:"+ temper.at(1));
-        my_data->mainLCD->printString(false,0,1,temp_str+" c");
+        my_data->mainLCD->printString(false,0,1,temp_str + " c");
         who = PILOT_STATE::MPD;
         break;
     }

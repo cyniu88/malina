@@ -67,7 +67,7 @@ std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_dat
         log.open( "/mnt/ramdisk/command.txt", std::ios::binary | std::ios::in | std::ios::out|std::ios::app );
         log << v[0] << std::endl;
         log.close();
-        return EMOJI::emoji(E_emoji::WARNING_SIGN)+" unknown command: "+ v[0];
+        return EMOJI::emoji(E_emoji::WARNING_SIGN) + " unknown command: "+ v[0];
     }
     else{
         return commandMap[v[0]]->execute(v,my_data);

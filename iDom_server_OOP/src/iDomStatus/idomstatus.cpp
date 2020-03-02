@@ -53,7 +53,7 @@ std::string iDomSTATUS::getObjectStateString(const std::string& name)
     {
         return stateToString( i->second);
     }
-    return stateToString(STATE::UNKNOWN) + " "+name;
+    return stateToString(STATE::UNKNOWN) + " " + name;
 }
 
 std::string iDomSTATUS::getAllObjectsStateString()
