@@ -8,7 +8,7 @@ public:
                                   "\"boilTemp\":16.4,   \"wWActivated\":\"off\",   \"wWOnetime\":\"on\",   \"burnGas\":\"off\",   \"flameCurr\":0,   \"heatPmp\":\"on\",   \"fanWork\":\"off\",   \"ignWork\":\"off\",   \"wWCirc\":\"off\","
                                   "\"heating_temp\":50,   \"pump_mod_max\":100,   \"pump_mod_min\":10,   \"wWHeat\":\"off\",   \"UBAuptime\":14590,   \"burnStarts\":27,   \"burnWorkMin\":13594,   \"heatWorkMin\":13594,   \"ServiceCode\":\"0H\","
                                   "\"ServiceCodeNumber\":203}";
-
+    std::string test_boielrDataWrongJSON = "fake json";
     command_buderus_Class_fixture()
     {
 
@@ -86,6 +86,18 @@ TEST_F(command_buderus_Class_fixture, boiler_data)
     EXPECT_THAT(ret, ::testing::HasSubstr("13594"));
 }
 
+TEST_F(command_buderus_Class_fixture, boiler_data_wrong_json_format)
+{
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("boiler_data");
+    test_v.push_back(test_boielrDataWrongJSON);
+    (void)test_command_buderus->execute(test_v,&test_my_data);
+    auto ret = test_my_data.iDomAlarm.showAlarm();
+    std::cout << "alarmy: " << ret << std::endl;
+    EXPECT_THAT(ret, ::testing::HasSubstr("buderus boile_data - wrong JSON format!"));
+}
+
 TEST_F(command_buderus_Class_fixture, thermostat_data)
 {
     test_v.clear();
@@ -95,6 +107,18 @@ TEST_F(command_buderus_Class_fixture, thermostat_data)
     (void)test_command_buderus->execute(test_v,&test_my_data);
     auto ret = test_my_data.ptr_buderus->getAllData();
     EXPECT_THAT(ret, ::testing::HasSubstr(": 55"));
+}
+
+TEST_F(command_buderus_Class_fixture, thermostat_data_wrong_json_format)
+{
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("thermostat_data");
+    test_v.push_back("fake json");
+    (void)test_command_buderus->execute(test_v,&test_my_data);
+    auto ret = test_my_data.iDomAlarm.showAlarm();
+    std::cout << "alarmy: " << ret << std::endl;
+    EXPECT_THAT(ret, ::testing::HasSubstr("buderus thermostat_data - wrong JSON format!"));
 }
 
 TEST_F(command_buderus_Class_fixture, print)

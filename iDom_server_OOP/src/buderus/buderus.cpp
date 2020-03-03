@@ -13,38 +13,38 @@ BUDERUS::~BUDERUS()
 
 void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
 {
-    std::lock_guard <std::mutex> lock( m_lockGuard);
+    std::lock_guard <std::mutex> lock(m_lockGuard);
     m_boiler_data = jj;
 }
 
 void BUDERUS::updateThermostatDataFromMQTT(nlohmann::json jj)
 {
-    std::lock_guard <std::mutex> lock ( m_lockGuard);
+    std::lock_guard <std::mutex> lock(m_lockGuard);
     m_thermostat_data = jj;
 }
 
 void BUDERUS::tapWaterActivated()
 {
-    std::lock_guard <std::mutex> lock ( m_lockGuard);
+    std::lock_guard <std::mutex> lock(m_lockGuard);
     m_tapwater_active = true;
 
 }
 
 void BUDERUS::tapWaterDeactivated()
 {
-    std::lock_guard <std::mutex> lock ( m_lockGuard);
+    std::lock_guard <std::mutex> lock(m_lockGuard);
     m_tapwater_active = false;
 }
 
 void BUDERUS::heatingActivated()
 {
-    std::lock_guard <std::mutex> lock ( m_lockGuard);
+    std::lock_guard <std::mutex> lock(m_lockGuard);
     m_heating_active = true;
 }
 
 void BUDERUS::heatingDeactivated()
 {
-    std::lock_guard <std::mutex> lock ( m_lockGuard);
+    std::lock_guard <std::mutex> lock(m_lockGuard);
     m_heating_active = false;
 }
 
@@ -60,19 +60,19 @@ void BUDERUS::setTapWater(bool b)
 
 bool BUDERUS::isHeatingActiv()
 {
-    std::lock_guard <std::mutex> lock ( m_lockGuard);
+    std::lock_guard <std::mutex> lock(m_lockGuard);
     return m_heating_active;
 }
 
 bool BUDERUS::isTapWaterActiv()
 {
-    std::lock_guard <std::mutex> lock ( m_lockGuard);
+    std::lock_guard <std::mutex> lock(m_lockGuard);
     return m_tapwater_active;
 }
 
 std::string BUDERUS::getAllData()
 {
-    std::lock_guard <std::mutex> lock ( m_lockGuard);
+    std::lock_guard <std::mutex> lock(m_lockGuard);
     std::stringstream ret;
     ret << dump();
     return ret.str();

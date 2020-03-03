@@ -25,19 +25,32 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
 
     else if(v.at(1) == "boiler_data")
     {
-        my_data->ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(v.at(2))));
+        try{
+            my_data->ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(v.at(2))));
+        }
+        catch(...)
+        {
+            my_data->iDomAlarm.raiseAlarm(879,"buderus boile_data - wrong JSON format!");
+        }
+
         return "done";
     }
 
     else if(v.at(1) == "thermostat_data")
     {
+        try{
         my_data->ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(v.at(2))));
+        }
+        catch(...){
+            my_data->iDomAlarm.raiseAlarm(878,"buderus thermostat_data - wrong JSON format!");
+        }
+
         return "done";
     }
 
     else if(v.at(1) == "print")
     {
-       str_buf = my_data->ptr_buderus->getAllData();
+        str_buf = my_data->ptr_buderus->getAllData();
     }
 
     return str_buf;

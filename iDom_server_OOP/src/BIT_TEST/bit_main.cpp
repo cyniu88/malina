@@ -326,14 +326,17 @@ TEST_F(bit_fixture, socket_send_key_fast_disconnect){
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
     std::string key =  useful_F::RSHash();
-    int r = send( s, key.c_str(), key.size(), 0 );
-    EXPECT_EQ(r, key.size());
+    std::string msgKey(key);
+    crypto(msgKey,key,true);
+    int r = send( s, msgKey.c_str(), msgKey.size(), 0 );
+
     close(s);
 
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR );
 
     iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    EXPECT_EQ(r, key.size());
 }
 TEST_F(bit_fixture, socket_connection_wrong_key_fast_disconnect){
     start_iDomServer();
@@ -433,6 +436,18 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
     ret = test_my_data.ptr_buderus->dump();
     std::cout << ret << std::endl;
     EXPECT_THAT(ret, ::testing::HasSubstr("some\":"));
+}
+
+TEST_F(bit_fixture, buderus_mqtt_command_from_boiler_wrong_json_format){
+    /////////////////////////////////  boiler data //////////////////////////////////////////////////////
+    std::string test_boilerData = "not json";
+
+    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data",test_boilerData);
+    bit_Tasker->runTasker();
+    auto ret = test_my_data.ptr_buderus->dump();
+    std::cout << ret << std::endl;
+    ret = test_my_data.iDomAlarm.showAlarm();
+    EXPECT_THAT(ret, ::testing::HasSubstr("buderus boile_data - wrong JSON format!"));
 }
 
 TEST_F(bit_fixture, tasker_lusina){

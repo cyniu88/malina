@@ -306,7 +306,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         key_ok = true;
         if(client->c_send("OK") == -1)
         {
-            puts("FAKE CONNECTION send OK");
+            std::cout << "FAKE CONNECTION send OK" << std::endl;
             key_ok = false;
         }
     }
