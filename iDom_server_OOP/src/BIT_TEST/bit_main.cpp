@@ -169,6 +169,47 @@ TEST_F(bit_fixture, socket_heandle_command){
     EXPECT_STREQ(toCheck.c_str(), "88756: 433MHz equipment not found first\n");
 }
 
+TEST_F(bit_fixture, socket_close_server_command){
+
+    start_iDomServer();
+
+    struct sockaddr_in serwer =
+        {
+            .sin_family = AF_INET,
+            .sin_port = htons( 8833 )
+        };
+
+    inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
+
+    const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
+
+    sleep(1);
+    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    ASSERT_EQ(connectStatus,0);
+    std::cout << "connect status: "<< connectStatus <<std::endl;
+
+    auto key =  useful_F::RSHash();
+    std::string toCheck;
+
+    send_receive(s, key,key);
+    toCheck = send_receive(s, "ROOT",key);
+    EXPECT_STREQ(toCheck.c_str(), "OK you are ROOT");
+
+    std::cout << "odebrano4: " << toCheck << std::endl;
+
+    EXPECT_TRUE(useful_F::workServer);
+    toCheck = send_receive(s, "program stop",key);
+
+    std::cout << "odebrano8: " << toCheck << std::endl;
+    EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "CLOSE"));
+
+    close(s);
+
+    shutdown(s, SHUT_RDWR );
+
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    EXPECT_FALSE(useful_F::workServer);
+}
 TEST_F(bit_fixture, socket_wrong_key_after_while){
 
     start_iDomServer();
@@ -264,6 +305,62 @@ TEST_F(bit_fixture, socket_no_space_left_on_server){
     for(auto& i : *test_my_data.main_THREAD_arr){
         i.thread_socket = 0;
     }
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+}
+TEST_F(bit_fixture, socket_send_key_fast_disconnect){
+    start_iDomServer();
+
+    struct sockaddr_in serwer =
+        {
+            .sin_family = AF_INET,
+            .sin_port = htons( 8833 )
+        };
+
+    inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
+
+    const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
+
+    sleep(1);
+    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    ASSERT_EQ(connectStatus,0);
+    std::cout << "connect status: "<< connectStatus <<std::endl;
+
+    std::string key =  useful_F::RSHash();
+    int r = send( s, key.c_str(), key.size(), 0 );
+    EXPECT_EQ(r, 9);
+    close(s);
+
+    useful_F::workServer = false;
+    shutdown(s, SHUT_RDWR );
+
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+}
+TEST_F(bit_fixture, socket_connection_wrong_key_fast_disconnect){
+    start_iDomServer();
+
+    struct sockaddr_in serwer =
+        {
+            .sin_family = AF_INET,
+            .sin_port = htons( 8833 )
+        };
+
+    inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
+
+    const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
+
+    sleep(1);
+    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    ASSERT_EQ(connectStatus,0);
+    std::cout << "connect status: "<< connectStatus <<std::endl;
+
+    std::string fakeKey =  "fake";
+    int r = send( s, fakeKey.c_str(), fakeKey.size(), 0 );
+    EXPECT_EQ(r, 4);
+    close(s);
+
+    useful_F::workServer = false;
+    shutdown(s, SHUT_RDWR );
+
     iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
 }
 
