@@ -327,7 +327,7 @@ TEST_F(bit_fixture, socket_send_key_fast_disconnect){
 
     std::string key =  useful_F::RSHash();
     int r = send( s, key.c_str(), key.size(), 0 );
-    EXPECT_EQ(r, 10);
+    EXPECT_EQ(r, key.size());
     close(s);
 
     useful_F::workServer = false;
