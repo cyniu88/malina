@@ -125,7 +125,24 @@ TEST_F(command_buderus_Class_fixture, print)
 {
     test_v.clear();
     test_v.push_back("buderus");
+    test_v.push_back("boiler_data");
+    test_v.push_back(test_boilerData);
+    (void)test_command_buderus->execute(test_v,&test_my_data);
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("thermostat_data");
+    test_v.push_back("{\"thermostat_data\":55}");
+    (void)test_command_buderus->execute(test_v,&test_my_data);
+
+
+    test_v.clear();
+    test_v.push_back("buderus");
     test_v.push_back("print");
     auto ret = test_command_buderus->execute(test_v,&test_my_data);
-    EXPECT_THAT(ret, ::testing::HasSubstr("null"));
+    std::cout << ret << std::endl;
+    EXPECT_THAT(ret, ::testing::HasSubstr("thermostat_data"));
+    nlohmann::json checkJson(nlohmann::json::parse(ret));
+    EXPECT_FALSE(checkJson["m_tapwater_active"].get<int>());
+    EXPECT_FALSE(checkJson.at("m_boiler_data").at("curBurnPow").get<int>());
+    EXPECT_STREQ(checkJson.at("m_boiler_data").at("wWHeat").get<std::string>().c_str(), "off");
 }

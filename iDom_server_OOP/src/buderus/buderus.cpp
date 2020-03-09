@@ -80,13 +80,12 @@ std::string BUDERUS::getAllData()
 
 std::string BUDERUS::dump() const
 {
-
     std::stringstream ret;
 
-    ret << "m_boiler_data: " << m_boiler_data.dump(4) << std::endl;
-    ret << "m_thermostat_data " << m_thermostat_data.dump(4) << std::endl;
-    ret << "m_tapwater_active " <<  m_tapwater_active << std::endl;
-    ret << "m_heating_active " << m_heating_active << std::endl;
+    ret << "{\n\"m_boiler_data\": " << m_boiler_data.dump(4) << "," << std::endl;
+    ret << "\"m_thermostat_data\": " << m_thermostat_data.dump(4) << "," << std::endl;
+    ret << "\"m_tapwater_active\": " <<  m_tapwater_active << "," << std::endl;
+    ret << "\"m_heating_active\": " << m_heating_active << "\n}" << std::endl;
 
     return ret.str();
 }
