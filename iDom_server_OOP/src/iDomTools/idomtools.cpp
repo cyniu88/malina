@@ -831,6 +831,7 @@ std::string iDomTOOLS::getSmog()
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "wyjatek substr() e getSmog() !!!!!!" << std::endl;
         log_file_mutex.mutex_unlock();
+      return  "-1";
     }
 
     readBuffer = useful_F_libs::find_tag(readBuffer);
