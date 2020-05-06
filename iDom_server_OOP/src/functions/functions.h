@@ -25,6 +25,7 @@ public:
     //////////////
     static CONFIG_JSON configJsonFileToStruct( nlohmann::json jj);
     static std::string send_to_arduino(thread_data *my_data_logic, const std::string &msg);
+    static std::string send_to_arduinoStub(thread_data *my_data_logic, const std::string &msg);
     static std::string send_to_arduino_clock(thread_data *my_data_logic, std::string msg);
     static std::string sek_to_uptime(long long secy );
     static void sleeper_mpd(thread_data* my_data, const std::string &threadName);

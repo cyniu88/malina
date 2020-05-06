@@ -120,8 +120,6 @@ std::string iDomTOOLS::openGateLink(std::vector<std::string> v)
 void iDomTOOLS::reloadSoft_iDomServer()
 {
     std::string s = "close server";
-    useful_F::send_to_arduino_clock(my_data, "RELO");
-    //iDomTOOLS::MPD_stop();
     my_data->iDomProgramState = iDomStateEnum::RELOAD;
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
     throw s;
@@ -130,8 +128,6 @@ void iDomTOOLS::reloadSoft_iDomServer()
 void iDomTOOLS::reloadHard_iDomServer()
 {
     std::string s = "close server";
-    useful_F::send_to_arduino_clock(my_data, "UPDA");
-    //iDomTOOLS::MPD_stop();
     my_data->iDomProgramState = iDomStateEnum::HARD_RELOAD;
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
     throw s;
@@ -140,7 +136,6 @@ void iDomTOOLS::reloadHard_iDomServer()
 void  iDomTOOLS::close_iDomServer ()
 {
     std::string s = "close server";
-    useful_F::send_to_arduino_clock(my_data, "STOP");
     iDomTOOLS::MPD_stop();
     my_data->iDomProgramState = iDomStateEnum::CLOSE;
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);

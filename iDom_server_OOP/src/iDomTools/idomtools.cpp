@@ -788,7 +788,7 @@ std::string iDomTOOLS::getTextToSpeach()
 
 std::vector<std::string> iDomTOOLS::getTemperature()
 {
-    std::vector<std::string> vect = useful_F::split(useful_F::send_to_arduino(my_data,"temperature:22;"),':');
+    std::vector<std::string> vect = useful_F::split(useful_F::send_to_arduinoStub(my_data,"temperature:22;"),':');
     std::string msg("Inside: ");
     msg.append(vect[0]);
     msg.append(" Outside: ");
@@ -799,7 +799,7 @@ std::vector<std::string> iDomTOOLS::getTemperature()
 
 std::string iDomTOOLS::getTemperatureString()
 {
-    return useful_F::send_to_arduino(my_data,"temperature:22;");
+    return useful_F::send_to_arduinoStub(my_data,"temperature:22;");
 }
 
 std::string iDomTOOLS::getSmog()
@@ -979,18 +979,18 @@ std::string iDomTOOLS::postOnFacebook(const std::string& msg, const std::string&
 std::string iDomTOOLS::ledOFF()
 {
     my_data->main_iDomStatus->setObjectState("Night_Light",STATE::OFF);
-    return useful_F::send_to_arduino(my_data, "LED_STOP:2;");
+    return useful_F::send_to_arduinoStub(my_data, "LED_STOP:2;");
 }
 
 std::string iDomTOOLS::ledClear()
 {
-    return useful_F::send_to_arduino(my_data, "LED_CLEAR:2;");
+    return useful_F::send_to_arduinoStub(my_data, "LED_CLEAR:2;");
 }
 
 std::string iDomTOOLS::ledClear(unsigned int from, unsigned int to)
 {
     LED_Strip ledColor(0,60,0,0,0,"BLACK");
-    useful_F::send_to_arduino(my_data,ledColor.get(from, to));
+    useful_F::send_to_arduinoStub(my_data,ledColor.get(from, to));
     return "Led cleared";
 }
 
@@ -999,7 +999,7 @@ std::string iDomTOOLS::ledOn(const LED_Strip& ledColor, unsigned int from, unsig
     if (my_data->idom_all_state.houseState == STATE::UNLOCK)
     {
         my_data->main_iDomStatus->setObjectState("Night_Light",STATE::ON);
-        return useful_F::send_to_arduino(my_data, ledColor.get(from, to));
+        return useful_F::send_to_arduinoStub(my_data, ledColor.get(from, to));
     }
     else{
         my_data->myEventHandler.run("LED")->addEvent("LED can not start due to home state: "

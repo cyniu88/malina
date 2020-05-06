@@ -43,9 +43,6 @@ void CRON::run()
 
 void CRON::runEveryone_1min(struct tm *act_date)
 {
-    char buffer2[5];
-    strftime(buffer2,5,"%H%M",act_date);
-    useful_F::send_to_arduino_clock(my_data,buffer2);
     my_data->main_iDomTools->checkAlarm();
     my_data->main_iDomTools->updateTemperatureStats();
 

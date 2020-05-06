@@ -12,7 +12,7 @@ std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_d
     {
         if (v[2] == "temperature")
         {
-            str_buf = useful_F::send_to_arduino(my_data,"temperature:339;");
+            str_buf = useful_F::send_to_arduinoStub(my_data,"temperature:339;");
             str_buf.append(std::to_string(++counter));
         }
         else
@@ -23,7 +23,7 @@ std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_d
 
     else if (v[1] == "send")
     {
-        str_buf = useful_F::send_to_arduino(my_data,v[2]);
+        str_buf = useful_F::send_to_arduinoStub(my_data,v[2]);
     }
     else if (v[1] == "error")
     {

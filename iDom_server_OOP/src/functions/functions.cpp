@@ -121,6 +121,11 @@ std::string useful_F::send_to_arduino (thread_data *my_data_logic, const std::st
         }
     }
     return msg2;
+}
+
+std::string useful_F::send_to_arduinoStub(thread_data *my_data_logic, const std::string &msg)
+{
+    return "0:0;";
 } //end send_to_arduino
 
 
