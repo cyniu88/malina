@@ -801,7 +801,9 @@ std::vector<std::string> iDomTOOLS::getTemperature()
 
 std::string iDomTOOLS::getTemperatureString()
 {
-    return useful_F::send_to_arduinoStub(my_data,"temperature:22;");
+    std::stringstream str;
+    str << my_data->ptr_buderus->getInsideTemp() << ":" << my_data->ptr_buderus->getOutdoorTemp() << ";" ;
+    return str.str();
 }
 
 std::string iDomTOOLS::getSmog()
