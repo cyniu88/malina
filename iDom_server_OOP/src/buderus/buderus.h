@@ -13,6 +13,9 @@ class BUDERUS: public iDom_API
     nlohmann::json m_thermostat_data;
     bool m_tapwater_active = false;
     bool m_heating_active = false;
+    double m_outdoorTemp = 0.0;
+    double m_insideTemp = 0.0;
+    double m_boilerTemp = 0.0;
 
 public:
     BUDERUS();
@@ -30,6 +33,10 @@ public:
     bool isTapWaterActiv();
 
     std::string getAllData();
+
+    double getOutdoorTemp();
+    double getInsideTemp();
+    double getBoilerTemp();
 
     std::string dump() const override;
 };

@@ -6,8 +6,9 @@ class command_buderus_Class_fixture : public iDomTOOLS_ClassTest
 public:
     std::string test_boilerData = "{\"wWComfort\":\"Hot\",   \"wWSelTemp\":60,   \"wWDesiredTemp\":70,   \"selFlowTemp\":5,   \"selBurnPow\":0,   \"curBurnPow\":0,   \"pumpMod\":10,   \"wWCircPump\":0,   \"curFlowTemp\":30.9,   \"switchTemp\":0,"
                                   "\"boilTemp\":16.4,   \"wWActivated\":\"off\",   \"wWOnetime\":\"on\",   \"burnGas\":\"off\",   \"flameCurr\":0,   \"heatPmp\":\"on\",   \"fanWork\":\"off\",   \"ignWork\":\"off\",   \"wWCirc\":\"off\","
-                                  "\"heating_temp\":50,   \"pump_mod_max\":100,   \"pump_mod_min\":10,   \"wWHeat\":\"off\",   \"UBAuptime\":14590,   \"burnStarts\":27,   \"burnWorkMin\":13594,   \"heatWorkMin\":13594,   \"ServiceCode\":\"0H\","
+                                  "\"heating_temp\":50,   \"outdoorTemp\":9.99,   \"wwStorageTemp2\":62.2,   \"pump_mod_max\":100,   \"pump_mod_min\":10,   \"wWHeat\":\"off\",   \"UBAuptime\":14590,   \"burnStarts\":27,   \"burnWorkMin\":13594,   \"heatWorkMin\":13594,   \"ServiceCode\":\"0H\","
                                   "\"ServiceCodeNumber\":203}";
+    std::string test_thermostatData = " {\"hc1\": {\"currtemp\": 22.5,   \"mode\": \"manual\",  \"seltemp\": 22  } }";
     std::string test_boielrDataWrongJSON = "fake json";
     command_buderus_Class_fixture()
     {
@@ -103,10 +104,10 @@ TEST_F(command_buderus_Class_fixture, thermostat_data)
     test_v.clear();
     test_v.push_back("buderus");
     test_v.push_back("thermostat_data");
-    test_v.push_back("{\"thermostat_data\":55}");
+    test_v.push_back(test_thermostatData);
     (void)test_command_buderus->execute(test_v,&test_my_data);
     auto ret = test_my_data.ptr_buderus->getAllData();
-    EXPECT_THAT(ret, ::testing::HasSubstr(": 55"));
+    EXPECT_THAT(ret, ::testing::HasSubstr(": 22"));
 }
 
 TEST_F(command_buderus_Class_fixture, thermostat_data_wrong_json_format)
@@ -131,7 +132,7 @@ TEST_F(command_buderus_Class_fixture, print)
     test_v.clear();
     test_v.push_back("buderus");
     test_v.push_back("thermostat_data");
-    test_v.push_back("{\"thermostat_data\":55}");
+    test_v.push_back(test_thermostatData);
     (void)test_command_buderus->execute(test_v,&test_my_data);
 
 

@@ -788,7 +788,9 @@ std::string iDomTOOLS::getTextToSpeach()
 
 std::vector<std::string> iDomTOOLS::getTemperature()
 {
-    std::vector<std::string> vect = useful_F::split(useful_F::send_to_arduinoStub(my_data,"temperature:22;"),':');
+    std::vector<std::string> vect;
+    vect.push_back(std::to_string(my_data->ptr_buderus->getInsideTemp()));
+    vect.push_back(std::to_string(my_data->ptr_buderus->getOutdoorTemp()));
     std::string msg("Inside: ");
     msg.append(vect[0]);
     msg.append(" Outside: ");
