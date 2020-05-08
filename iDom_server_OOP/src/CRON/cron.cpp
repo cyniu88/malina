@@ -79,7 +79,7 @@ void CRON::runEveryone_5min()
 void CRON::runEveryone_15min()
 {
     // printf("co 15 minut! \n");
-    my_data->main_iDomTools->send_temperature_thingSpeak();
+    my_data->main_iDomTools->send_data_to_thingSpeak();
 }
 
 void CRON::runEveryone_30min()
