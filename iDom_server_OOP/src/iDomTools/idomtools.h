@@ -113,7 +113,7 @@ public:
     std::vector <std::string> getTemperature();
     std::string getTemperatureString();
     std::string getSmog();
-    void send_temperature_thingSpeak();
+    void send_data_to_thingSpeak();
 
     //////////////////// camera part ///////////////////////
     void cameraLedON(const std::string &link);

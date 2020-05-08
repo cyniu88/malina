@@ -802,7 +802,7 @@ std::vector<std::string> iDomTOOLS::getTemperature()
 std::string iDomTOOLS::getTemperatureString()
 {
     std::stringstream str;
-    str << my_data->ptr_buderus->getInsideTemp() << ":" << my_data->ptr_buderus->getOutdoorTemp() << ";" ;
+    str << my_data->ptr_buderus->getInsideTemp() << ":" << my_data->ptr_buderus->getOutdoorTemp()  ;
     return str.str();
 }
 
@@ -844,7 +844,7 @@ std::string iDomTOOLS::getSmog()
     return readBuffer;
 }
 
-void iDomTOOLS::send_temperature_thingSpeak()
+void iDomTOOLS::send_data_to_thingSpeak()
 {
     std::vector<std::string> _temperature = getTemperature();
     std::stringstream addres;

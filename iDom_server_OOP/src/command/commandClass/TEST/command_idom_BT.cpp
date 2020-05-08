@@ -145,7 +145,11 @@ TEST_F(commandiDom_Class_fixture, sysinfo)
 
 TEST_F(commandiDom_Class_fixture, temperature)
 {
-    TEST_DATA::return_send_to_arduino = "-12:22";
+    //TEST_DATA::return_send_to_arduino = "-12:22";
+    std::string strJJ_boiler = "{  \"outdoorTemp\":22.0,   \"wwStorageTemp2\":62.2}";
+    std::string strJJ_thermostat = " {\"hc1\": {\"currtemp\": -12.0 } }";
+    test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
+    test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("temperature");
@@ -165,7 +169,6 @@ TEST_F(commandiDom_Class_fixture, temperature)
 
 TEST_F(commandiDom_Class_fixture, text)
 {
-    TEST_DATA::return_send_to_arduino = "-12:22";
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("text");
