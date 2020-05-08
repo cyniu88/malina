@@ -850,13 +850,14 @@ void iDomTOOLS::send_data_to_thingSpeak()
     std::stringstream addres;
     addres << "api.thingspeak.com/update?key=";
     addres << m_key;
-    addres << "&field1=";
-    addres << _temperature.at(0);
-    // addres.erase(addres.size()-2,addres.size());
-    addres << "&field3=" << _temperature.at(1);
-    addres << "&field2=" << getSmog();
+    addres << "&field1=" << _temperature.at(1);
+    addres << "&field2=" << _temperature.at(0);
+    addres << "&field3=" << to_string_with_precision(my_data->lusina.statTemp.average());
     addres << "&field4=" << my_data->lusina.statHumi.average();
-    addres << "&field5=" << to_string_with_precision(my_data->lusina.statTemp.average());
+    addres << "&field5=" << getSmog();
+    addres << "&field6=" << to_string_with_precision(my_data->ptr_buderus->getBoilerTemp());
+    addres << "&field7=" << 0;
+    addres << "&field8=" << 0;
     //////////////////////////////// pozyskanie temperatury
     m_allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);
