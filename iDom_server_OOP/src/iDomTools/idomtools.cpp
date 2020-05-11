@@ -856,7 +856,7 @@ void iDomTOOLS::send_data_to_thingSpeak()
     addres << "&field4=" << my_data->lusina.statHumi.average();
     addres << "&field5=" << getSmog();
     addres << "&field6=" << to_string_with_precision(my_data->ptr_buderus->getBoilerTemp());
-    addres << "&field7=" << 0;
+    addres << "&field7=" << my_data->ptr_buderus->isHeatingActiv();
     addres << "&field8=" << 0;
     //////////////////////////////// pozyskanie temperatury
     m_allThermometer.updateAll(&_temperature);
