@@ -11,7 +11,6 @@ BUDERUS::BUDERUS()
     std::cout << "BUDERUS::BUDERUS()" << std::endl;
 #endif
 
-    useful_F::myStaticData->main_iDomTools->turnOff433MHzSwitch("circlePomp");
 }
 
 BUDERUS::~BUDERUS()
