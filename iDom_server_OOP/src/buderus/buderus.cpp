@@ -10,6 +10,7 @@ BUDERUS::BUDERUS()
 #ifdef BT_TEST
     std::cout << "BUDERUS::BUDERUS()" << std::endl;
 #endif
+
 }
 
 BUDERUS::~BUDERUS()
