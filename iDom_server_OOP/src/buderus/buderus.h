@@ -44,6 +44,7 @@ public:
     void runCirclePompForWhileThread();
     static void runCirclePompForWhile(thread_data *my_data, const std::string &threadName);
 
+    void boilerHeatOneTime();
 
     std::string dump() const override;
 };

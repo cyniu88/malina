@@ -10,8 +10,6 @@ BUDERUS::BUDERUS()
 #ifdef BT_TEST
     std::cout << "BUDERUS::BUDERUS()" << std::endl;
 #endif
-
-    useful_F::myStaticData->main_iDomTools->turnOff433MHzSwitch("circlePomp");
 }
 
 BUDERUS::~BUDERUS()
@@ -144,6 +142,11 @@ void BUDERUS::runCirclePompForWhile(thread_data *my_data, const std::string& thr
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "koniec watku " << threadName << std::endl;
     log_file_mutex.mutex_unlock();
+}
+
+void BUDERUS::boilerHeatOneTime()
+{
+    useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler_cmd_wwonetime","1");
 }
 
 std::string BUDERUS::dump() const

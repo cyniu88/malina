@@ -55,7 +55,13 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
 
     else if(v.at(1) == "circPomp")
     {
-        str_buf = my_data->ptr_buderus->getAllData();
+         my_data->ptr_buderus->runCirclePompForWhileThread();
+         str_buf = "RUN circle pomp";
+    }
+    else if(v.at(1) == "boiler" && v.at(1) == "heating")
+    {
+        my_data->ptr_buderus->boilerHeatOneTime();
+        str_buf = "Start heating boiler";
     }
     return str_buf;
 }
@@ -69,6 +75,7 @@ std::string command_buderus::help() const
     ret << "buderus tapwater_active <1/0>  - set tapwater activ" << std::endl;
     ret << "buderus heating_active <1/0>  - set heating activ" << std::endl;
     ret << "buderus circPomp  - run circle pomp tap water for while" << std::endl;
+    ret << "buderus boiler heating - heat boiler one time" << std::endl;
 
     return ret.str();
 }
