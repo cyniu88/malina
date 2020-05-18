@@ -58,7 +58,7 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
          my_data->ptr_buderus->runCirclePompForWhileThread();
          str_buf = "RUN circle pomp";
     }
-    else if(v.at(1) == "boiler" && v.at(1) == "heating")
+    else if(v.at(1) == "boiler" && v.at(2) == "heating")
     {
         my_data->ptr_buderus->boilerHeatOneTime();
         str_buf = "Start heating boiler";
