@@ -54,6 +54,7 @@ void CRON::runEveryone_1min(struct tm *act_date)
     if(now == my_data->main_iDomTools->getSunriseClock() ){
         runOnSunrise();
     }
+    my_data->ptr_buderus->circlePompToRun();
 }
 
 void CRON::runEveryone_5min()

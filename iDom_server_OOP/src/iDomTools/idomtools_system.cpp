@@ -7,6 +7,7 @@
 
 #include "../functions/functions.h"
 #include "../433MHz/RFLink/rflinkhandler.h"
+#include "../thread_functions/iDom_thread.h"
 
 std::string iDomTOOLS::getSystemInfo()
 {

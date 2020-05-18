@@ -316,6 +316,7 @@ class command; // for struc thread_data req
 class iDomTOOLS;
 class RADIO_EQ_CONTAINER;
 class RFLinkHandler;
+class BUDERUS;
 
 //TODO temporary
 

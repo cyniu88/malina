@@ -5,6 +5,7 @@
 
 #include "../json2/json.hpp"
 #include "../idom_api.h"
+#include "../iDom_server_OOP.h"
 
 class BUDERUS: public iDom_API
 {
@@ -16,6 +17,7 @@ class BUDERUS: public iDom_API
     double m_outdoorTemp = 0.0;
     double m_insideTemp = 0.0;
     double m_boilerTemp = 0.0;
+    bool m_circlePompCanRun = false;
 
 public:
     BUDERUS();
@@ -37,6 +39,11 @@ public:
     double getOutdoorTemp();
     double getInsideTemp();
     double getBoilerTemp();
+
+    void circlePompToRun();
+    void runCirclePompForWhileThread();
+    static void runCirclePompForWhile(thread_data *my_data, const std::string &threadName);
+
 
     std::string dump() const override;
 };
