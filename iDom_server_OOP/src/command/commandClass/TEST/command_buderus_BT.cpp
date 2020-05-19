@@ -147,3 +147,38 @@ TEST_F(command_buderus_Class_fixture, print)
     EXPECT_FALSE(checkJson.at("m_boiler_data").at("curBurnPow").get<int>());
     EXPECT_STREQ(checkJson.at("m_boiler_data").at("wWHeat").get<std::string>().c_str(), "off");
 }
+
+TEST_F(command_buderus_Class_fixture, circle_pomp)
+{
+    std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> threadArray;
+
+    test_my_data.main_THREAD_arr = &threadArray;
+
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("print");
+    auto ret = test_command_buderus->execute(test_v,&test_my_data);
+    std::cout << ret << std::endl;
+    EXPECT_THAT(ret, ::testing::HasSubstr("\"m_circlePompCanRun\": 0"));
+
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("circPomp");
+
+    ret = test_command_buderus->execute(test_v,&test_my_data);
+
+    std::cout << ret << std::endl;
+    EXPECT_THAT(ret, ::testing::HasSubstr("RUN circle pomp"));
+      sleep(1);
+}
+
+TEST_F(command_buderus_Class_fixture, boiler_heating)
+{
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("boiler");
+    test_v.push_back("heating");
+    auto ret = test_command_buderus->execute(test_v,&test_my_data);
+    std::cout << ret << std::endl;
+    EXPECT_THAT(ret, ::testing::HasSubstr("Start heating boiler"));
+}
