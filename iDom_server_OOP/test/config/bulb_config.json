@@ -1,0 +1,55 @@
+{
+  "100": {
+    "bulbName": "lazienka wejscie",
+    "room": "lazienka",
+    "switchID": [
+      33
+    ],
+    "bulbID": 100,
+    "ON": [
+      104,
+      105
+    ],
+    "OFF": [
+      107,
+      104,
+      105
+    ]
+  },
+  "101": {
+    "bulbName": "lazienka wanna",
+    "room": "lazienka",
+    "switchID": [
+      34
+    ],
+    "bulbID": 101,
+    "ON": [],
+    "OFF": [
+      107,
+      104,
+      105
+    ]
+  },
+    "102": {
+    "bulbName": "sypialnia A",
+    "room": "sypialnia",
+    "switchID": [
+      34
+    ],
+    "bulbID": 102,
+    "ON": [
+    ],
+    "OFF": [
+    ]
+  },
+  "103": {
+    "bulbName": "sypialnia B",
+    "room": "sypialnia",
+    "switchID": [
+    ],
+    "bulbID": 103,
+    "ON": [],
+    "OFF": [
+    ]
+  }
+}

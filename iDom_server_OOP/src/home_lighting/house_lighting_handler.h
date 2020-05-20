@@ -5,22 +5,24 @@
 #include <memory>
 
 #include "../idom_api.h"
-#include "house_room.h"
 #include "json.hpp"
+#include "../iDom_server_OOP.h"
+#include "light_bulb.h"
 
 class house_lighting_handler: public iDom_API
 {
 public:
-    std::map<std::string, std::unique_ptr<house_room>> m_roomMap;
     std::map<int, std::shared_ptr<light_bulb>> m_lightingBulbMap;
+    std::map<std::string, std::vector<std::shared_ptr<light_bulb>> > m_roomMap;
 
-    house_lighting_handler();
+    house_lighting_handler(std::string& configPath);
     ~house_lighting_handler();
-    void addRoom(const std::string &name);
-    void addBulbInRoom(const std::string& roomName, const std::string& bulbName, int bulbID);
 
     void turnOnAllInRoom(const std::string& roomName);
     void turnOffAllInRoom(const std::string& roomName);
+
+    void turnOnBulb(const int bulbID);
+    void turnOffBulb(const int bulbID);
 
     void lockAllRoom();
     void unlockAllRoom();

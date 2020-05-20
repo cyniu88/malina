@@ -1,6 +1,9 @@
 #include "light_bulb.h"
 
-light_bulb::light_bulb(const std::string &name, int id): m_name(name), m_ID(id)
+light_bulb::light_bulb(const std::string& roomName, const std::string &bulbName, int id):
+    m_roomName(roomName),
+    m_bulbName(bulbName),
+    m_ID(id)
 {
 #ifdef BT_TEST
     std::cout << "light_bulb::light_bulb()" << std::endl;
@@ -19,7 +22,7 @@ light_bulb::~light_bulb()
 
 light_bulb::light_bulb(const light_bulb &a):
     m_status(a.m_status),
-    m_name(a.m_name),
+    m_bulbName(a.m_bulbName),
     m_ID(a.m_ID)
 {
 #ifdef BT_TEST
@@ -44,7 +47,7 @@ light_bulb &light_bulb::operator=(const light_bulb &a)
 #endif
     m_status = a.m_status;
     m_ID = a.m_ID;
-    m_name = a.m_name;
+    m_bulbName = a.m_bulbName;
     return *this;
 }
 
@@ -55,7 +58,7 @@ light_bulb& light_bulb::operator =(light_bulb&& a)
 #endif
     assert(this != &a);
     m_status = std::move(a.m_status);
-    m_name = std::move(a.m_name);
+    m_bulbName = std::move(a.m_bulbName);
     m_ID = std::move(a.m_ID);
     return *this;
 }
@@ -66,7 +69,7 @@ void light_bulb::on(std::function<void(std::string s)>onOn)
         return;
     std::lock_guard<std::mutex> lock (m_operationMutex);
     std::stringstream ss;
-    ss << ":on:" << m_ID << ";";
+    ss << "0;" << m_ID << ";1;0;2;1";
     onOn(ss.str());
     m_status = STATE::ON;
 }
@@ -77,7 +80,7 @@ void light_bulb::off(std::function<void(std::string s)> onOff)
         return;
     std::lock_guard<std::mutex> lock (m_operationMutex);
     std::stringstream ss;
-    ss << ":off:" << m_ID << ";";
+    ss << "0;" << m_ID << ";1;0;2;0";
     onOff(ss.str());
     m_status = STATE::OFF;
 }
@@ -94,9 +97,14 @@ void light_bulb::setStatus(STATE s)
     m_status = s;
 }
 
-std::string light_bulb::getName() const
+std::string light_bulb::getBulbName() const
 {
-    return m_name;
+    return m_bulbName;
+}
+
+std::string light_bulb::getRoomName() const
+{
+    return m_roomName;
 }
 
 int light_bulb::getID() const
@@ -123,9 +131,10 @@ std::string light_bulb::dump() const
 {
     std::stringstream str;
 
-    str << "bulb name: " << m_name << std::endl;
+    str << "bulb name: " << m_bulbName << std::endl;
     str << "bulb ID: " << m_ID << std::endl;
     str << "bulb status: " << stateToString(m_status) << std::endl;
+    str << "bulb in room: " << m_roomName << std::endl;
 
     return str.str();
 }
