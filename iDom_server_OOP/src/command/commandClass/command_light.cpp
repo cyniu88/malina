@@ -8,14 +8,17 @@ command_light::command_light(const std::string &name):command(name)
 std::string command_light::execute(std::vector<std::string> &v, thread_data *my_data)
 {
     std::string str_buf = "command light - wrong paramiter:\n "+ help();
-    if (v.size() > 1){
+    if (v.at(1) == "test"){
+
+    }
+    else{
         str_buf.erase();
-        for (auto& a : v){
-            str_buf.append(" ");
-            str_buf.append(a);
-        }
+        str_buf.append("odpowiadam: ");
+        str_buf.append(v.at(1));
+
+        std::replace( str_buf.begin(), str_buf.end(), '\n', '@');
         my_data->main_iDomTools->sendViberMsg(str_buf,my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                              my_data->server_settings->_fb_viber.viberSender + "OSWIETLENIE");
+                                                my_data->server_settings->_fb_viber.viberSender + "-light");
     }
     return str_buf;
 }
