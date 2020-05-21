@@ -7,6 +7,7 @@
 #include "commandClass/command_log.h"
 #include "commandClass/command_wifi.h"
 #include "commandClass/command_buderus.h"
+#include "commandClass/command_light.h"
 
 CommandHandlerMQTT::CommandHandlerMQTT()
 {
@@ -30,6 +31,9 @@ CommandHandlerMQTT::CommandHandlerMQTT()
 
     std::unique_ptr <command> buderus (new command_buderus("buderus"));
     commandMap.insert(std::make_pair(buderus->getCommandName(), std::move(buderus)));
+
+    std::unique_ptr <command> light (new command_light("light"));
+    commandMap.insert(std::make_pair(light->getCommandName(), std::move(light)));
 }
 
 std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_data *my_data)
