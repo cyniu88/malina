@@ -17,6 +17,8 @@ protected:
     {
         iDomTOOLS_ClassTest::SetUp();
         test_command_light = std::make_unique <command_light> ("light");
+        test_my_data.main_house_lighting_handler = std::make_shared<house_lighting_handler>(&test_my_data);
+
     }
 
     void TearDown() final

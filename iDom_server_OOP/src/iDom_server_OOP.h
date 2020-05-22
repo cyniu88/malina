@@ -39,6 +39,7 @@
 #include "../mqtt_mosquitto/MQTT_mosquitto/mqtt.h"
 #include "../libs/alarm/alarm.h"
 #include "buderus/buderus.h"
+#include "home_lighting/house_lighting_handler.h"
 
 #define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
@@ -339,6 +340,7 @@ struct thread_data{
     std::unique_ptr<menu_tree> main_MENU = std::nullptr_t();
     std::unique_ptr<iDomTOOLS> main_iDomTools = std::nullptr_t();
     std::shared_ptr<RFLinkHandler> main_RFLink = std::nullptr_t();
+    std::shared_ptr<house_lighting_handler> main_house_lighting_handler = std::nullptr_t();
     std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *main_THREAD_arr = NULL;
     time_t start;
     time_t now_time;

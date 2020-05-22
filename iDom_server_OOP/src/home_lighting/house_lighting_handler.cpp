@@ -3,11 +3,19 @@
 #include "../functions/functions.h"
 #include <fstream>
 
-house_lighting_handler::house_lighting_handler(std::string &configPath)
-{
+house_lighting_handler::house_lighting_handler(thread_data *my_data){
     m_className.append(typeid (this).name());
+    this->my_data =  my_data;
     iDom_API::addToMap(m_className,this);
+}
 
+house_lighting_handler::~house_lighting_handler()
+{
+    iDom_API::removeFromMap(m_className);
+}
+
+void house_lighting_handler::loadConfig(std::string &configPath)
+{
     std::ifstream i(configPath);
     nlohmann::json j;
     i >> j;
@@ -22,19 +30,9 @@ house_lighting_handler::house_lighting_handler(std::string &configPath)
     }
 }
 
-house_lighting_handler::~house_lighting_handler()
-{
-    iDom_API::removeFromMap(m_className);
-}
-
 
 void house_lighting_handler::turnOnAllInRoom(const std::string &roomName)
 {
-    //    m_roomMap[roomName]->allOn([](const std::string& name){
-    //        useful_F::myStaticData->mqttHandler->publish("test topick",name);
-    //    }
-    //                               );
-
     for( auto& a :m_roomMap[roomName])
     {
         a->on([](const std::string& name){
@@ -46,11 +44,6 @@ void house_lighting_handler::turnOnAllInRoom(const std::string &roomName)
 
 void house_lighting_handler::turnOffAllInRoom(const std::string &roomName)
 {
-    //    m_roomMap[roomName]->allOff([](const std::string& name){
-    //        useful_F::myStaticData->mqttHandler->publish("test topick",name);
-    //    }
-    //                                );
-
     for( auto& a :m_roomMap[roomName])
     {
         a->off([](const std::string& name){
@@ -80,9 +73,7 @@ void house_lighting_handler::turnOffBulb(const int bulbID)
 
 void house_lighting_handler::lockAllRoom()
 {
-    //    for(auto& a : m_roomMap){
-    //        a.second->lock();
-    //    }
+  //  my_data->mqttHandler->publish("lkoko","kokok");
 }
 
 void house_lighting_handler::unlockAllRoom()
@@ -106,6 +97,13 @@ nlohmann::json house_lighting_handler::getAllInfoJSON()
     }
 
     return jj;
+}
+
+void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
+{
+    auto vv = useful_F::split(msg,';');
+
+    std::cout << "dupa: "<< vv.at(1) << std::endl;
 }
 
 std::string house_lighting_handler::dump() const

@@ -6,17 +6,20 @@
 
 #include "../idom_api.h"
 #include "json.hpp"
-#include "../iDom_server_OOP.h"
+//#include "../iDom_server_OOP.h"
 #include "light_bulb.h"
-
+struct thread_data;
 class house_lighting_handler: public iDom_API
 {
+    thread_data* my_data;
 public:
     std::map<int, std::shared_ptr<light_bulb>> m_lightingBulbMap;
     std::map<std::string, std::vector<std::shared_ptr<light_bulb>> > m_roomMap;
 
-    house_lighting_handler(std::string& configPath);
+    explicit house_lighting_handler(thread_data *my_data);
     ~house_lighting_handler();
+
+    void loadConfig(std::string& configPath);
 
     void turnOnAllInRoom(const std::string& roomName);
     void turnOffAllInRoom(const std::string& roomName);
@@ -28,6 +31,8 @@ public:
     void unlockAllRoom();
 
     nlohmann::json getAllInfoJSON();
+
+    void executeCommandFromMQTT(std::string& msg);
 
     std::string dump() const override;
 };
