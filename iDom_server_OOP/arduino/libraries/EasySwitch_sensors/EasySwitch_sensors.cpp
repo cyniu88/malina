@@ -30,9 +30,11 @@ void EasySwitch_sensors::sendPresentation(String version , String name){
  	Serial.print("0;255;3;0;12;");
  	Serial.println(version);
 }
-void EasySwitch_sensors::sendState(int id, bool state, bool ack){
+void EasySwitch_sensors::sendState(int id, bool state, bool ack, int buttonPin){
 	Serial.print("state;");
 	Serial.print(id);
+	Serial.print(";");
+	Serial.print(buttonPin);
 	Serial.print(";");
 	Serial.print(state);
   Serial.print('\n');
@@ -303,7 +305,7 @@ void EasySwitch_sensors::Click(int i, int button, byte click){
   			}
   			saveState(relay, relayState);
   			id = pgm_read_word_near(sensorId_t + j);
-  			sendState(id, relayState,0);
+  			sendState(id, relayState,0,button);
 		} 
 	}
 }
@@ -426,6 +428,14 @@ void EasySwitch_sensors::parseAll(){
 		  	}				
 		}
 	}
+	else if (_command == 88){
+
+sendAllState();
+}
+else if (_command == 89){
+
+sendPresentationId();
+}
 	_node_id = 0;
 	_child_sensor_id = 0;
 	_command = 0;

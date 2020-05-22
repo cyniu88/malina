@@ -16,9 +16,10 @@ protected:
     void SetUp() final
     {
         iDomTOOLS_ClassTest::SetUp();
+        std::string cfg("../config/bulb_config.json");
         test_command_light = std::make_unique <command_light> ("light");
         test_my_data.main_house_lighting_handler = std::make_shared<house_lighting_handler>(&test_my_data);
-
+        test_my_data.main_house_lighting_handler->loadConfig(cfg);
     }
 
     void TearDown() final
@@ -27,10 +28,52 @@ protected:
     }
 };
 
-TEST_F(command_light_Class_fixture, main)
+TEST_F(command_light_Class_fixture, mqtt_bulb_state_update)
 {
+    test_v.clear();
     test_v.push_back("light");
-    test_v.push_back(std::to_string("0;111;46;1;0;2;0"));
+    test_v.push_back("state;100;30;1");
     auto ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
+    EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[100]->getStatus(), STATE::ON);
+
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("state;100;30;0");
+    ret = test_command_light->execute(test_v,&test_my_data);
+    std::cout << "ret: " << ret << std::endl;
+    EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[100]->getStatus(), STATE::OFF);
+}
+
+TEST_F(command_light_Class_fixture, mqtt_bulb_state_update_bulb_not_exist)
+{
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("state;330;30;1");
+    auto ret = test_command_light->execute(test_v,&test_my_data);
+    std::cout << "ret: " << ret << std::endl;
+    EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[330]->getStatus(), STATE::ON);
+
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("state;330;30;0");
+    ret = test_command_light->execute(test_v,&test_my_data);
+    std::cout << "ret: " << ret << std::endl;
+    EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[330]->getStatus(), STATE::OFF);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("info");
+    ret = test_command_light->execute(test_v,&test_my_data);
+    std::cout << "ret: " << ret << std::endl;
+}
+
+TEST_F(command_light_Class_fixture, light_info)
+{
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("info");
+    auto ret = test_command_light->execute(test_v,&test_my_data);
+    std::cout << "ret: " << ret << std::endl;
+
+    EXPECT_THAT(ret, testing::HasSubstr("lazienka wanna"));
 }

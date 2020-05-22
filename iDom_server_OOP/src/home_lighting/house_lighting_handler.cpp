@@ -36,9 +36,9 @@ void house_lighting_handler::turnOnAllInRoom(const std::string &roomName)
     for( auto& a :m_roomMap[roomName])
     {
         a->on([](const std::string& name){
-           useful_F::myStaticData->mqttHandler->publish("test topick",name);
-    }
-    );
+            useful_F::myStaticData->mqttHandler->publish("test topick",name);
+        }
+              );
     }
 }
 
@@ -49,7 +49,7 @@ void house_lighting_handler::turnOffAllInRoom(const std::string &roomName)
         a->off([](const std::string& name){
             useful_F::myStaticData->mqttHandler->publish("test topick",name);
         }
-              );
+               );
     }
 
 }
@@ -59,7 +59,7 @@ void house_lighting_handler::turnOnBulb(const int bulbID)
     m_lightingBulbMap.at(bulbID)->on([](const std::string& name){
         useful_F::myStaticData->mqttHandler->publish("test topick",name);
     }
-                                         );
+                                     );
 }
 
 void house_lighting_handler::turnOffBulb(const int bulbID)
@@ -67,13 +67,13 @@ void house_lighting_handler::turnOffBulb(const int bulbID)
     m_lightingBulbMap.at(bulbID)->off([](const std::string& name){
         useful_F::myStaticData->mqttHandler->publish("test topick",name);
     }
-                                     );
+                                      );
 }
 
 
 void house_lighting_handler::lockAllRoom()
 {
-  //  my_data->mqttHandler->publish("lkoko","kokok");
+    //  my_data->mqttHandler->publish("lkoko","kokok");
 }
 
 void house_lighting_handler::unlockAllRoom()
@@ -102,8 +102,19 @@ nlohmann::json house_lighting_handler::getAllInfoJSON()
 void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
 {
     auto vv = useful_F::split(msg,';');
+    int bulbID = std::stoi(vv.at(1));
 
-    std::cout << "dupa: "<< vv.at(1) << std::endl;
+    if(vv.at(0) == "state"){
+        if(m_lightingBulbMap.find(bulbID) == m_lightingBulbMap.end()){
+            m_lightingBulbMap.emplace(bulbID, std::make_shared<light_bulb>("roomName", "bulbName", bulbID));
+        }
+        if(vv.at(3) == "1"){
+            m_lightingBulbMap[bulbID]->setStatus(STATE::ON);
+        }
+        else{
+            m_lightingBulbMap[bulbID]->setStatus(STATE::OFF);
+        }
+    }
 }
 
 std::string house_lighting_handler::dump() const

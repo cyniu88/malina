@@ -62,15 +62,15 @@ TEST_F(light_house_fixture, bulb_on_bulb_off)
     auto testLightingHandler = std::make_unique<house_lighting_handler>(&test_my_data);
     testLightingHandler->loadConfig(cfg);
 
-    //EXPECT_EQ(testLightingHandler->m_lightingBulbMap[100]->getStatus() , STATE::UNDEFINE);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[100]->getStatus() , STATE::UNDEFINE);
 
     testLightingHandler->turnOnBulb(100);
 
-    //EXPECT_EQ(testLightingHandler->m_lightingBulbMap[100]->getStatus() , STATE::ON);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[100]->getStatus() , STATE::ON);
 
     testLightingHandler->turnOffBulb(100);
 
-    //EXPECT_EQ(testLightingHandler->m_lightingBulbMap[100]->getStatus() , STATE::OFF);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[100]->getStatus() , STATE::OFF);
 }
 
 TEST_F(light_house_fixture, dump)

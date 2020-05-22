@@ -100,7 +100,7 @@ public:
 	EasySwitch_sensors();
 	void begin();
 	void sendPresentation(String version , String name);
-	void sendState(int id, bool state, bool ack);
+	void sendState(int id, bool state, bool ack, int buttonPin = -1);
 	void sendPresentationId();
 	void sendAllState();
 	void saveState(int relay, byte state);
