@@ -71,7 +71,18 @@ TEST_F(command_light_Class_fixture, light_info)
 {
     test_v.clear();
     test_v.push_back("light");
+    test_v.push_back("state;330;30;0");
+    (void)test_command_light->execute(test_v,&test_my_data);
+
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("state;333;30;0");
+    (void)test_command_light->execute(test_v,&test_my_data);
+
+    test_v.clear();
+    test_v.push_back("light");
     test_v.push_back("info");
+
     auto ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
 
