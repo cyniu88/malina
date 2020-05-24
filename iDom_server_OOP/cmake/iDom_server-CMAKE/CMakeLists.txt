@@ -45,6 +45,7 @@ set(SOURCE_FILES
     "../../src/command/commandClass/command_put.cpp"
     "../../src/command/commandClass/command_show.cpp"
     "../../src/command/commandClass/command_sleep.cpp"
+    "../../src/command/commandClass/command_light.cpp"
     "../../libs/event_counters/event/event_unknown.cpp"
     "../../libs/event_counters/event/new_connect_event.cpp"
     "../../libs/event_counters/event_counters_handler.cpp"
@@ -97,6 +98,8 @@ set(SOURCE_FILES
     "../../src/command/commandClass/command_gateway.cpp"
     "../../src/command/commandClass/command_buderus.cpp" 
     "../../src/buderus/buderus.cpp"
+    "../../src/home_lighting/house_lighting_handler.cpp"
+    "../../src/home_lighting/light_bulb.cpp"
     )
 # Get the current working branch
 execute_process(

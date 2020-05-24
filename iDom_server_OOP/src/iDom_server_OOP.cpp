@@ -218,6 +218,10 @@ iDomStateEnum iDom_main()
     node_data.ptr_buderus = std::make_unique<BUDERUS>();
     ///////////////////////////////// MENU /////////////////////////////////
     node_data.main_MENU = std::make_unique<menu_tree>(server_settings._server.MENU_PATH, &mainLCD);
+    //////////////////////////////// LIGHY  ///////////////////////////////////
+    node_data.main_house_lighting_handler = std::make_shared<house_lighting_handler>(&node_data);
+    std::string cf("/etc/config/iDom_SERVER/bulb_config.json");
+    node_data.main_house_lighting_handler->loadConfig(cf);
     //////////////////////////////// SETTINGS //////////////////////////////
     node_data.main_iDomStatus->addObject("house",node_data.idom_all_state.houseState);
     ///////////////////////////////////////////////// wypelniam struktury przesylane do watkow ////////////////////////

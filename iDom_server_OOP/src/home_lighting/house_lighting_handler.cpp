@@ -93,6 +93,7 @@ nlohmann::json house_lighting_handler::getAllInfoJSON()
         roomJJ["STATE"] = stateToString(a.second->getLockState());
         roomJJ["STATUS"] = stateToString(a.second->getStatus());
         roomJJ["room"] = a.second->getRoomName();
+        roomJJ["bulb ID"] = a.second->getID();
         jj[a.second->getBulbName()] = roomJJ;
     }
 
