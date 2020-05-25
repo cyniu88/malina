@@ -76,7 +76,7 @@ TEST_F(command_light_Class_fixture, light_info)
 
     test_v.clear();
     test_v.push_back("light");
-    test_v.push_back("state;333;30;0");
+    test_v.push_back("state;333;30;1");
     (void)test_command_light->execute(test_v,&test_my_data);
 
     test_v.clear();
@@ -86,5 +86,6 @@ TEST_F(command_light_Class_fixture, light_info)
     auto ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
 
-    EXPECT_THAT(ret, testing::HasSubstr("lazienka wanna"));
+    EXPECT_THAT(ret, testing::HasSubstr("bulb ID\": 333,"));
+    EXPECT_THAT(ret, testing::HasSubstr("bulb ID\": 330,"));
 }

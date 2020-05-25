@@ -86,16 +86,18 @@ void house_lighting_handler::unlockAllRoom()
 nlohmann::json house_lighting_handler::getAllInfoJSON()
 {
     nlohmann::json jj;
+#ifdef BT_TEST
+    std::cout << "mapa m_lightingBulbMap size: " << m_lightingBulbMap.size() << std::endl;
+#endif
 
     for(auto&a : m_lightingBulbMap){
         nlohmann::json roomJJ;
-
         roomJJ["STATE"] = stateToString(a.second->getLockState());
         roomJJ["STATUS"] = stateToString(a.second->getStatus());
         roomJJ["room"] = a.second->getRoomName();
         roomJJ["bulb ID"] = a.second->getID();
         roomJJ["bubl name"] = a.second->getBulbName();
-        jj[a.second->getID()] = roomJJ;
+        jj.push_back(roomJJ);//[a.second->getID()] = roomJJ;
     }
 
     return jj;
