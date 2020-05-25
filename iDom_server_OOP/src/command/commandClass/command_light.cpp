@@ -15,7 +15,7 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
         str_buf.erase();
         str_buf.append(v.at(1));
 
-        std::replace( str_buf.begin(), str_buf.end(), '\n', '@');
+        std::replace( str_buf.begin(), str_buf.end(), '\n', ';');
         my_data->main_house_lighting_handler->executeCommandFromMQTT(str_buf);
         //TODO temporary added viber notifiction
         my_data->main_iDomTools->sendViberMsg(str_buf,my_data->server_settings->_fb_viber.viberReceiver.at(0),

@@ -32,31 +32,31 @@ TEST_F(command_light_Class_fixture, mqtt_bulb_state_update)
 {
     test_v.clear();
     test_v.push_back("light");
-    test_v.push_back("state;100;30;1");
+    test_v.push_back("state;111;30;1\n");
     auto ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
-    EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[100]->getStatus(), STATE::ON);
+    EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[111]->getStatus(), STATE::ON);
 
     test_v.clear();
     test_v.push_back("light");
-    test_v.push_back("state;100;30;0");
+    test_v.push_back("state;111;30;0\n");
     ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
-    EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[100]->getStatus(), STATE::OFF);
+    EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[111]->getStatus(), STATE::OFF);
 }
 
 TEST_F(command_light_Class_fixture, mqtt_bulb_state_update_bulb_not_exist)
 {
     test_v.clear();
     test_v.push_back("light");
-    test_v.push_back("state;330;30;1");
+    test_v.push_back("state;330;30;1\n");
     auto ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
     EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[330]->getStatus(), STATE::ON);
 
     test_v.clear();
     test_v.push_back("light");
-    test_v.push_back("state;330;30;0");
+    test_v.push_back("state;330;30;0\n");
     ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
     EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[330]->getStatus(), STATE::OFF);
@@ -71,21 +71,10 @@ TEST_F(command_light_Class_fixture, light_info)
 {
     test_v.clear();
     test_v.push_back("light");
-    test_v.push_back("state;330;30;0");
-    (void)test_command_light->execute(test_v,&test_my_data);
-
-    test_v.clear();
-    test_v.push_back("light");
-    test_v.push_back("state;333;30;1");
-    (void)test_command_light->execute(test_v,&test_my_data);
-
-    test_v.clear();
-    test_v.push_back("light");
     test_v.push_back("info");
 
     auto ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
 
-    EXPECT_THAT(ret, testing::HasSubstr("bulb ID\": 333,"));
-    EXPECT_THAT(ret, testing::HasSubstr("bulb ID\": 330,"));
+    EXPECT_THAT(ret, testing::HasSubstr("bulb ID\": 126,"));
 }
