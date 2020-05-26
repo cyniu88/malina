@@ -73,8 +73,36 @@ TEST_F(light_house_fixture, bulb_on_bulb_off)
     EXPECT_EQ(testLightingHandler->m_lightingBulbMap[111]->getStatus() , STATE::OFF);
 }
 
+TEST_F(light_house_fixture, bulb_status_from_mqtt)
+{
+    std::string cfg("../config/bulb_config.json");
+    auto testLightingHandler = std::make_unique<house_lighting_handler>(&test_my_data);
+    testLightingHandler->loadConfig(cfg);
+
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(111)->getStatus(), STATE::UNDEFINE);
+
+    std::string mqttMSG("state;111;-1;0;");
+    testLightingHandler->executeCommandFromMQTT(mqttMSG);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(111)->getStatus(), STATE::ON);
+
+    mqttMSG = "state;111;44;0;";
+    testLightingHandler->executeCommandFromMQTT(mqttMSG);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(111)->getStatus(), STATE::OFF);
+
+    mqttMSG = "state;111;44;1;";
+    testLightingHandler->executeCommandFromMQTT(mqttMSG);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(111)->getStatus(), STATE::ON);
+
+    mqttMSG = "state;111;-1;1;";
+    testLightingHandler->executeCommandFromMQTT(mqttMSG);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(111)->getStatus(), STATE::OFF);
+}
+
 TEST_F(light_house_fixture, dump)
 {
+    std::string cfg("../config/bulb_config.json");
+    auto testLightingHandler = std::make_unique<house_lighting_handler>(&test_my_data);
+    testLightingHandler->loadConfig(cfg);
     std::cout << iDom_API::getDump() << std::endl;
 }
 
