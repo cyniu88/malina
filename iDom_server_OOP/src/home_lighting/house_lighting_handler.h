@@ -12,6 +12,7 @@ struct thread_data;
 class house_lighting_handler: public iDom_API
 {
     thread_data* my_data;
+    static std::string  m_mqttPublishTopic;
 public:
     std::map<int, std::shared_ptr<light_bulb>> m_lightingBulbMap;
     std::map<std::string, std::vector<std::shared_ptr<light_bulb>> > m_roomMap;

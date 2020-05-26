@@ -3,6 +3,8 @@
 #include "../functions/functions.h"
 #include <fstream>
 
+std::string house_lighting_handler::m_mqttPublishTopic = "swiatlo/output/";
+
 house_lighting_handler::house_lighting_handler(thread_data *my_data){
     m_className.append(typeid (this).name());
     this->my_data =  my_data;
@@ -36,7 +38,7 @@ void house_lighting_handler::turnOnAllInRoom(const std::string &roomName)
     for( auto& a :m_roomMap[roomName])
     {
         a->on([](const std::string& name){
-            useful_F::myStaticData->mqttHandler->publish("test topick",name);
+            useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
         }
               );
     }
@@ -47,7 +49,7 @@ void house_lighting_handler::turnOffAllInRoom(const std::string &roomName)
     for( auto& a :m_roomMap[roomName])
     {
         a->off([](const std::string& name){
-            useful_F::myStaticData->mqttHandler->publish("test topick",name);
+            useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
         }
                );
     }
@@ -57,7 +59,7 @@ void house_lighting_handler::turnOffAllInRoom(const std::string &roomName)
 void house_lighting_handler::turnOnBulb(const int bulbID)
 {
     m_lightingBulbMap.at(bulbID)->on([](const std::string& name){
-        useful_F::myStaticData->mqttHandler->publish("test topick",name);
+        useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
     }
                                      );
 }
@@ -65,7 +67,7 @@ void house_lighting_handler::turnOnBulb(const int bulbID)
 void house_lighting_handler::turnOffBulb(const int bulbID)
 {
     m_lightingBulbMap.at(bulbID)->off([](const std::string& name){
-        useful_F::myStaticData->mqttHandler->publish("test topick",name);
+        useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
     }
                                       );
 }
@@ -128,5 +130,6 @@ std::string house_lighting_handler::dump() const
     for(auto& a : m_lightingBulbMap)
         str << "light " << a.first << " name " << a.second->getBulbName() << std::endl;
 
+    str << "m_mqttPublishTopic: " << m_mqttPublishTopic << std::endl;
     return str.str();
 }
