@@ -103,3 +103,34 @@ TEST_F(command_light_Class_fixture, on_off_bulb_command)
     EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::OFF);
 }
+
+TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
+{
+    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
+              STATE::UNDEFINE);
+    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(104)->getStatus(),
+              STATE::UNDEFINE);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("room");
+    test_v.push_back("lazienka");
+    test_v.push_back("on");
+
+    auto ret = test_command_light->execute(test_v,&test_my_data);
+    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
+              STATE::ON);
+    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(104)->getStatus(),
+              STATE::ON);
+
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("room");
+    test_v.push_back("lazienka");
+    test_v.push_back("off");
+
+    ret = test_command_light->execute(test_v,&test_my_data);
+    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
+              STATE::OFF);
+    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(104)->getStatus(),
+              STATE::OFF);
+}
