@@ -53,7 +53,20 @@ void house_lighting_handler::turnOffAllInRoom(const std::string &roomName)
         }
                );
     }
+}
 
+void house_lighting_handler::turnOnAllBulb()
+{
+    for(auto& b : m_roomMap){
+        turnOnAllInRoom(b.second.at(0)->getRoomName());
+    }
+}
+
+void house_lighting_handler::turnOffAllBulb()
+{
+    for(auto& b : m_roomMap){
+        turnOffAllInRoom(b.second.at(0)->getRoomName());
+    }
 }
 
 void house_lighting_handler::turnOnBulb(const int bulbID)

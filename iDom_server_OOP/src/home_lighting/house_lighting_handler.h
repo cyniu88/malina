@@ -25,6 +25,9 @@ public:
     void turnOnAllInRoom(const std::string& roomName);
     void turnOffAllInRoom(const std::string& roomName);
 
+    void turnOnAllBulb();
+    void turnOffAllBulb();
+
     void turnOnBulb(const int bulbID);
     void turnOffBulb(const int bulbID);
 

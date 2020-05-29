@@ -134,3 +134,26 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
     EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(104)->getStatus(),
               STATE::OFF);
 }
+
+TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_home_command)
+{
+    auto ret = test_my_data.main_house_lighting_handler->getAllInfoJSON().dump(4);
+    EXPECT_THAT(ret, testing::HasSubstr("UNDEFINE"));
+
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("all");
+    test_v.push_back("on");
+
+    (void)test_command_light->execute(test_v,&test_my_data);
+    ret = test_my_data.main_house_lighting_handler->getAllInfoJSON().dump(4);
+    EXPECT_THAT(ret, testing::Not(testing::HasSubstr("OFF")));
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("all");
+    test_v.push_back("off");
+
+    (void)test_command_light->execute(test_v,&test_my_data);
+    ret = test_my_data.main_house_lighting_handler->getAllInfoJSON().dump(4);
+    EXPECT_THAT(ret, testing::Not(testing::HasSubstr("ON")));
+}

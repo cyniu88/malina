@@ -32,6 +32,16 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
 
         return "done";
     }
+    else if(v.at(1) == "all"){
+        if(v.at(2) == "on"){
+            my_data->main_house_lighting_handler->turnOnAllBulb();
+        }
+        else if(v.at(2) == "off"){
+            my_data->main_house_lighting_handler->turnOffAllBulb();
+        }
+
+        return "done";
+    }
     else{
         str_buf.erase();
         str_buf.append(v.at(1));
@@ -49,7 +59,8 @@ std::string command_light::help() const
 {
     std::stringstream ret;
     ret << "info - get bulb info" << std::endl;
-    ret << "bulb on/off <bulbID> - turn on/off bubl" << std::endl;
-    ret << "room <room name> on/off - turn on/off all bulb in room" << std::endl;
+    ret << "bulb on/off <bulbID> - turn on/off bulb" << std::endl;
+    ret << "room <room name> on/off - turn on/off all bulbs in room" << std::endl;
+    ret << "all on/off - turn on/off all bulbs in house" << std::endl;
     return ret.str();
 }
