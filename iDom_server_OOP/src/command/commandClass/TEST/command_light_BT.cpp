@@ -157,3 +157,13 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_home_command)
     ret = test_my_data.main_house_lighting_handler->getAllInfoJSON().dump(4);
     EXPECT_THAT(ret, testing::Not(testing::HasSubstr("ON")));
 }
+
+TEST_F(command_light_Class_fixture, wrong_param)
+{
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("lazienka");
+    test_v.push_back("off");
+
+    EXPECT_NO_THROW( test_command_light->execute(test_v,&test_my_data));
+}

@@ -120,31 +120,44 @@ nlohmann::json house_lighting_handler::getAllInfoJSON()
 
 void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
 {
-    auto vv = useful_F::split(msg,';');
-    int bulbID = std::stoi(vv.at(1));
+    try {
 
-    if(vv.at(0) == "state"){
-        if(m_lightingBulbMap.find(bulbID) == m_lightingBulbMap.end()){
-            m_lightingBulbMap.emplace(bulbID, std::make_shared<light_bulb>("roomName", "bulbName", bulbID));
-        }
 
-        STATE state;
-        if(vv.at(2) == "-1"){
-            if(vv.at(3) == "0")
-                state = STATE::ON;
-            else
-                state = STATE::OFF;
-        }
-        else{
-            if(vv.at(3) == "1")
-                state = STATE::ON;
-            else
-                state = STATE::OFF;
-        }
+        auto vv = useful_F::split(msg,';');
+        int bulbID = std::stoi(vv.at(1));
 
-        m_lightingBulbMap[bulbID]->setStatus(state);
+        if(vv.at(0) == "state"){
+            if(m_lightingBulbMap.find(bulbID) == m_lightingBulbMap.end()){
+                m_lightingBulbMap.emplace(bulbID, std::make_shared<light_bulb>("roomName", "bulbName", bulbID));
+            }
+
+            STATE state;
+            if(vv.at(2) == "-1"){
+                if(vv.at(3) == "0")
+                    state = STATE::ON;
+                else
+                    state = STATE::OFF;
+            }
+            else{
+                if(vv.at(3) == "1")
+                    state = STATE::ON;
+                else
+                    state = STATE::OFF;
+            }
+
+            m_lightingBulbMap[bulbID]->setStatus(state);
+        }
+    } catch (...) {
+        std::stringstream ret;
+        ret << "bład odbioru mqtt light: " << msg;
+        my_data->iDomAlarm.raiseAlarm(122333,ret.str());
+
+        log_file_mutex.mutex_lock();
+        log_file_cout << WARNING << ret.str() << std::endl;
+        log_file_mutex.mutex_unlock();
     }
 }
+
 std::string house_lighting_handler::dump() const
 {
     std::stringstream str;
