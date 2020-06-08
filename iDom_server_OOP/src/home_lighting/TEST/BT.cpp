@@ -12,6 +12,7 @@ protected:
 
     virtual void SetUp() final
     {
+        iDomTOOLS_ClassTest::SetUp();
         std::cout << "konfiguracja przed testem light_house_fixture " <<std::endl;
         test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER test");
         test_my_data.mqttHandler->_subscribed = true;
@@ -21,6 +22,7 @@ protected:
     virtual void TearDown() final
     {
         std::cout << "czyszczenie po tescie light_house_fixture" <<std::endl;
+        iDomTOOLS_ClassTest::TearDown();
     }
 };
 
@@ -75,6 +77,7 @@ TEST_F(light_house_fixture, bulb_on_bulb_off)
 
 TEST_F(light_house_fixture, bulb_status_from_mqtt)
 {
+
     std::string cfg("../config/bulb_config.json");
     auto testLightingHandler = std::make_unique<house_lighting_handler>(&test_my_data);
     testLightingHandler->loadConfig(cfg);

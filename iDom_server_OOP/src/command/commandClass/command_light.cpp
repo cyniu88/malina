@@ -47,9 +47,6 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
         puts("dupa");
         std::replace( str_buf.begin(), str_buf.end(), '\n', ';');
         my_data->main_house_lighting_handler->executeCommandFromMQTT(str_buf);
-        //TODO temporary added viber notifiction
-        my_data->main_iDomTools->sendViberMsg(str_buf,my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                              my_data->server_settings->_fb_viber.viberSender + "-light");
     }
     return str_buf;
 }

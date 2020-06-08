@@ -121,8 +121,6 @@ nlohmann::json house_lighting_handler::getAllInfoJSON()
 void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
 {
     try {
-
-
         auto vv = useful_F::split(msg,';');
         int bulbID = std::stoi(vv.at(1));
 
@@ -145,7 +143,14 @@ void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
                     state = STATE::OFF;
             }
 
-            m_lightingBulbMap[bulbID]->setStatus(state);
+            m_lightingBulbMap.at(bulbID)->setStatus(state);
+            //TODO temporary added viber notifiction
+            std::stringstream str_buf;
+            str_buf << "zmana statusu lampy " << bulbID
+                    << " w pomieszczeniu: " << m_lightingBulbMap.at(bulbID)->getRoomName()
+                    << " na " << stateToString(state);
+            my_data->main_iDomTools->sendViberMsg(str_buf.str(),my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                  my_data->server_settings->_fb_viber.viberSender + "-light");
         }
     } catch (...) {
         std::stringstream ret;
