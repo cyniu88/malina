@@ -148,7 +148,8 @@ void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
             std::stringstream str_buf;
             str_buf << "zmana statusu lampy " << bulbID
                     << " w pomieszczeniu: " << m_lightingBulbMap.at(bulbID)->getRoomName()
-                    << " na " << stateToString(state);
+                    << " na " << stateToString(state)
+                    << " przyciskiem: " << vv.at(2);
             my_data->main_iDomTools->sendViberMsg(str_buf.str(),my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                                   my_data->server_settings->_fb_viber.viberSender + "-light");
         }
