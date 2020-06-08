@@ -684,7 +684,7 @@ TEST_F(iDomTOOLS_ClassTest, getTemperatureString)
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
-    EXPECT_STREQ(test_my_data.main_iDomTools->getTemperatureString().c_str(), "-2:2");
+    EXPECT_STREQ(test_my_data.main_iDomTools->getTemperatureString().c_str(), "-2:2:62.2:");
 }
 
 TEST_F(iDomTOOLS_ClassTest, cameraLED)

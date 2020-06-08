@@ -802,7 +802,10 @@ std::vector<std::string> iDomTOOLS::getTemperature()
 std::string iDomTOOLS::getTemperatureString()
 {
     std::stringstream str;
-    str << my_data->ptr_buderus->getInsideTemp() << ":" << my_data->ptr_buderus->getOutdoorTemp()  ;
+    str << my_data->ptr_buderus->getInsideTemp() << ":"
+        << my_data->ptr_buderus->getOutdoorTemp() << ":"
+        << my_data->ptr_buderus->getBoilerTemp() << ":"
+        << my_data->lusina.temperatureDS20;
     return str.str();
 }
 
