@@ -28,6 +28,11 @@ void house_lighting_handler::loadConfig(std::string &configPath)
 
         m_lightingBulbMap.emplace(bulbID, std::make_shared<light_bulb>(roomName, bulbName, bulbID));
 
+        for (const auto& jj :  element.at("switchID"))
+        {
+            m_lightingBulbMap.at(bulbID)->addBulbPin(jj.get<int>());
+        }
+
         m_roomMap[roomName].push_back(m_lightingBulbMap[bulbID]);
     }
 }
@@ -112,6 +117,7 @@ nlohmann::json house_lighting_handler::getAllInfoJSON()
         roomJJ["room"] = a.second->getRoomName();
         roomJJ["bulb ID"] = a.second->getID();
         roomJJ["bubl name"] = a.second->getBulbName();
+        roomJJ["switch"] = a.second->getBulbPin();
         jj.push_back(roomJJ);//[a.second->getID()] = roomJJ;
     }
 

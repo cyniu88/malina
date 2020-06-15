@@ -127,6 +127,20 @@ STATE light_bulb::getLockState() const
     return m_lock;
 }
 
+void light_bulb::addBulbPin(int i)
+{
+    m_pins.push_back(i);
+}
+
+std::string light_bulb::getBulbPin()
+{
+    std::stringstream str;
+    for(const auto& a : m_pins){
+        str << a <<",";
+    }
+    return str.str();
+}
+
 std::string light_bulb::dump() const
 {
     std::stringstream str;
@@ -135,6 +149,10 @@ std::string light_bulb::dump() const
     str << "bulb ID: " << m_ID << std::endl;
     str << "bulb status: " << stateToString(m_status) << std::endl;
     str << "bulb in room: " << m_roomName << std::endl;
-
+    str << "switch pin: ";
+    for(const auto& a : m_pins){
+        str << a <<",";
+    }
+    str << std::endl;
     return str.str();
 }

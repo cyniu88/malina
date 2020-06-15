@@ -15,6 +15,7 @@ class light_bulb: public iDom_API
     int m_ID;
     std::mutex m_operationMutex;
     STATE m_lock = STATE::UNLOCK;
+    std::vector<int> m_pins;
 public:
     light_bulb(const std::string& roomName, const std::string& bulbName, int id);
     ~light_bulb();
@@ -37,6 +38,9 @@ public:
     void unlock();
 
     STATE getLockState() const;
+
+    void addBulbPin(int i);
+    std::string getBulbPin();
 
     std::string dump() const override;
 };

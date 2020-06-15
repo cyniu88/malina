@@ -23,7 +23,7 @@
     "bulbName": "1 zarowka",
     "room": "pokoj dzieci",
     "switchID": [
-      47
+      47, 55, 34
     ],
     "bulbID": 110,
     "ON": [],
