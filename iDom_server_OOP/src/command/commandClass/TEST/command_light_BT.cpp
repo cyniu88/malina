@@ -79,6 +79,26 @@ TEST_F(command_light_Class_fixture, light_info)
     EXPECT_THAT(ret, testing::HasSubstr("bulb ID\": 126,"));
 }
 
+TEST_F(command_light_Class_fixture, light_info_on)
+{
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("bulb");
+    test_v.push_back("on");
+    test_v.push_back("126");
+
+    (void)test_command_light->execute(test_v,&test_my_data);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("info");
+    test_v.push_back("on");
+
+    auto ret = test_command_light->execute(test_v,&test_my_data);
+    std::cout << "ret: " << ret << std::endl;
+
+    EXPECT_THAT(ret, testing::HasSubstr("bulb ID\": 126,"));
+}
+
 TEST_F(command_light_Class_fixture, on_off_bulb_command)
 {
     EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),

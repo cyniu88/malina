@@ -35,6 +35,7 @@ public:
     void unlockAllRoom();
 
     nlohmann::json getAllInfoJSON();
+    nlohmann::json getInfoJSON_allON();
 
     void executeCommandFromMQTT(std::string& msg);
 
