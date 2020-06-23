@@ -16,6 +16,8 @@ class light_bulb: public iDom_API
     std::mutex m_operationMutex;
     STATE m_lock = STATE::UNLOCK;
     std::vector<int> m_pins;
+    Clock m_onTime;
+    Clock m_offTime;
 public:
     light_bulb(const std::string& roomName, const std::string& bulbName, int id);
     ~light_bulb();
@@ -41,6 +43,8 @@ public:
 
     void addBulbPin(int i);
     std::string getBulbPin();
+
+    Clock howLongBulbOn();
 
     std::string dump() const override;
 };

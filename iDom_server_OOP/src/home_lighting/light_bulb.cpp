@@ -3,13 +3,16 @@
 light_bulb::light_bulb(const std::string& roomName, const std::string &bulbName, int id):
     m_roomName(roomName),
     m_bulbName(bulbName),
-    m_ID(id)
+    m_ID(id),
+    m_onTime(Clock::getTime()),
+    m_offTime(m_onTime)
 {
 #ifdef BT_TEST
     std::cout << "light_bulb::light_bulb()" << std::endl;
 #endif
     m_className.append(typeid (this).name());
     iDom_API::addToMap(m_className,this);
+
 }
 
 light_bulb::~light_bulb()
@@ -94,6 +97,13 @@ STATE light_bulb::getStatus()
 void light_bulb::setStatus(STATE s)
 {
     std::lock_guard<std::mutex> lock (m_operationMutex);
+    if(s == STATE::ON){
+        m_onTime = Clock::getTime();
+    }
+    else if(s == STATE::OFF){
+        m_offTime = Clock::getTime();
+    }
+
     m_status = s;
 }
 
@@ -141,6 +151,14 @@ std::string light_bulb::getBulbPin()
     return str.str();
 }
 
+Clock light_bulb::howLongBulbOn()
+{
+    Clock ret(0,0);
+    if(m_status == STATE::OFF)
+        ret = Clock::periodOfTime(m_offTime, m_onTime);
+    return ret;
+}
+
 std::string light_bulb::dump() const
 {
     std::stringstream str;
@@ -154,5 +172,7 @@ std::string light_bulb::dump() const
         str << a <<",";
     }
     str << std::endl;
+    str << "bulb m_onTime: " << m_onTime.getString() << std::endl;
+    str << "bulb m_offTime: " << m_offTime.getString() << std::endl;
     return str.str();
 }

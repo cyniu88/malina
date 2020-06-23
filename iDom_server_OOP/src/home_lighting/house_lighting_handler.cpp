@@ -118,6 +118,7 @@ nlohmann::json house_lighting_handler::getAllInfoJSON()
         roomJJ["bulb ID"] = a.second->getID();
         roomJJ["bubl name"] = a.second->getBulbName();
         roomJJ["switch"] = a.second->getBulbPin();
+        roomJJ["working time"] = a.second->howLongBulbOn().getString();
         jj.push_back(roomJJ);//[a.second->getID()] = roomJJ;
     }
     return jj;
