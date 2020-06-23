@@ -118,7 +118,7 @@ nlohmann::json house_lighting_handler::getAllInfoJSON()
         roomJJ["bulb ID"] = a.second->getID();
         roomJJ["bubl name"] = a.second->getBulbName();
         roomJJ["switch"] = a.second->getBulbPin();
-        roomJJ["working time"] = a.second->howLongBulbOn().getString();
+        roomJJ["last working time"] = a.second->howLongBulbOn().getString();
         jj.push_back(roomJJ);//[a.second->getID()] = roomJJ;
     }
     return jj;
@@ -179,7 +179,8 @@ void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
             str_buf << "zmana statusu lampy " << bulbID
                     << " w pomieszczeniu: " << m_lightingBulbMap.at(bulbID)->getRoomName()
                     << " na " << stateToString(state)
-                    << " przyciskiem: " << vv.at(2);
+                    << " przyciskiem: " << vv.at(2)
+                    << " czas trwania: " <<  m_lightingBulbMap.at(bulbID)->howLongBulbOn().getString();
             my_data->main_iDomTools->sendViberMsg(str_buf.str(),my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                                   my_data->server_settings->_fb_viber.viberSender + "-light");
         }

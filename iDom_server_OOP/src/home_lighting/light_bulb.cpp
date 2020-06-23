@@ -155,7 +155,7 @@ Clock light_bulb::howLongBulbOn()
 {
     Clock ret(0,0);
     if(m_status == STATE::OFF)
-        ret = Clock::periodOfTime(m_offTime, m_onTime);
+        ret = Clock::periodOfTime(m_onTime, m_offTime);
     return ret;
 }
 
