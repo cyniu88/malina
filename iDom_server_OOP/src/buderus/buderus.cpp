@@ -150,6 +150,11 @@ void BUDERUS::boilerHeatOneTime()
     useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler_cmd_wwonetime","1");
 }
 
+void BUDERUS::setTempInsideBuilding(const std::string& t)
+{
+    useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/thermostat_cmd_temp1",t);
+}
+
 std::string BUDERUS::dump() const
 {
     std::stringstream ret;

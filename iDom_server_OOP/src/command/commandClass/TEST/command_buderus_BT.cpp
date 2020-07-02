@@ -182,3 +182,27 @@ TEST_F(command_buderus_Class_fixture, boiler_heating)
     std::cout << ret << std::endl;
     EXPECT_THAT(ret, ::testing::HasSubstr("Start heating boiler"));
 }
+
+TEST_F(command_buderus_Class_fixture, set_desired_temp)
+{
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("set");
+    test_v.push_back("temp");
+    test_v.push_back("2.2");
+    auto ret = test_command_buderus->execute(test_v,&test_my_data);
+    std::cout << ret << std::endl;
+    EXPECT_THAT(ret, ::testing::HasSubstr("2.2"));
+}
+
+TEST_F(command_buderus_Class_fixture, set_desired_temp_fake)
+{
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("set");
+    test_v.push_back("temp");
+    test_v.push_back("fake");
+    auto ret = test_command_buderus->execute(test_v,&test_my_data);
+    std::cout << ret << std::endl;
+    EXPECT_STREQ(ret.c_str(), "cannot convert to float");
+}

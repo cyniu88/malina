@@ -63,6 +63,16 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
         my_data->ptr_buderus->boilerHeatOneTime();
         str_buf = "Start heating boiler";
     }
+    else if(v.at(1) == "set" && v.at(2) == "temp")
+    {
+        try {
+            float num_float = std::stof(v.at(3));
+        } catch (...) {
+            return "cannot convert to float";
+        }
+        my_data->ptr_buderus->setTempInsideBuilding(v.at(3));
+        str_buf = "temp has been set to: " + v.at(3);
+    }
     return str_buf;
 }
 
@@ -76,6 +86,7 @@ std::string command_buderus::help() const
     ret << "buderus heating_active <1/0>  - set heating activ" << std::endl;
     ret << "buderus circPomp  - run circle pomp tap water for while" << std::endl;
     ret << "buderus boiler heating - heat boiler one time" << std::endl;
+    ret << "buderus set temp <float> - set thermostat temperature <degrees>" << std::endl;
 
     return ret.str();
 }

@@ -45,6 +45,7 @@ public:
     static void runCirclePompForWhile(thread_data *my_data, const std::string &threadName);
 
     void boilerHeatOneTime();
+    void setTempInsideBuilding(const std::string &t);
 
     std::string dump() const override;
 };

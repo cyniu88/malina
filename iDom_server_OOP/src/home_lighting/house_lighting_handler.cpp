@@ -90,7 +90,6 @@ void house_lighting_handler::turnOffBulb(const int bulbID)
                                       );
 }
 
-
 void house_lighting_handler::lockAllRoom()
 {
     //  my_data->mqttHandler->publish("lkoko","kokok");
@@ -142,6 +141,7 @@ nlohmann::json house_lighting_handler::getInfoJSON_allON()
             roomJJ["bulb ID"] = a.second->getID();
             roomJJ["bubl name"] = a.second->getBulbName();
             roomJJ["switch"] = a.second->getBulbPin();
+            roomJJ["last working time"] = a.second->howLongBulbOn().getString();
             jj.push_back(roomJJ);//[a.second->getID()] = roomJJ;
         }
     }
