@@ -174,6 +174,8 @@ void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
             }
 
             m_lightingBulbMap.at(bulbID)->setStatus(state);
+            // it is working only for room with one bulb
+            my_data->main_iDomStatus->setObjectState(m_lightingBulbMap.at(bulbID)->getRoomName(),state);
             //TODO temporary added viber notifiction
             std::stringstream str_buf;
             str_buf << "zmana statusu lampy " << bulbID
