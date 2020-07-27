@@ -546,19 +546,17 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
     {
         if(my_data->main_iDomStatus->getObjectState("Night_Light") != STATE::ON)
         {
-            unsigned int from = 10 + (Clock::getTime().m_min/ 2);
-            ledOn(my_data->ptr_pilot_led->colorLED.
-                  at(static_cast<unsigned long>(my_data->server_settings->_nightLight.colorLED)),
-                  from, from + 3);
+           // turn on lights in kitchen
+           turnOn433MHzSwitch("B");
             radioButton->setState(STATE::ON);
-
             return;
         }
     }
 
     if(my_data->main_iDomStatus->getObjectState("Night_Light") == STATE::ON)
     {
-        ledOFF();
+        // turn on lights in kitchen
+        turnOff433MHzSwitch("B");
         radioButton->setState(STATE::OFF);
 
     }
