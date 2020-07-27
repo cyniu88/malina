@@ -403,7 +403,6 @@ void iDomTOOLS::runOnSunrise()
     }
 
     ledOFF();
-
     my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/sun", "SUNRISE");
 }
 

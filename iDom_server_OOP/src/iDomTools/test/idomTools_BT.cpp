@@ -551,7 +551,7 @@ TEST_F(iDomTOOLS_ClassTest, runOnSunrise)
     ptr->m_state = STATE::OFF;
     test_my_data.main_iDomTools->runOnSunrise();
 
-    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
 
     RADIO_EQ_CONFIG cfg;
     cfg.sunset = "off";
