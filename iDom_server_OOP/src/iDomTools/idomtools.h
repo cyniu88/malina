@@ -78,6 +78,7 @@ public:
     void button433MHzPressedAction(const std::string &name);
     void button433mhzLockerPressed(RADIO_BUTTON* radioButton);
     void button433mhzNightLightPressed(RADIO_BUTTON* radioButton);
+    void button433mhzDoorBellPressed(RADIO_BUTTON* radioButton);
 
     void buttonLockHome();
     void buttonUnlockHome();

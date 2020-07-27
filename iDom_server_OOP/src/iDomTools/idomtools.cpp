@@ -13,8 +13,8 @@
 #include "../thread_functions/iDom_thread.h"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData):
-    m_key(myData->server_settings->_server.TS_KEY),
-    m_keyHandler(new iDomKEY_ACCESS(myData->server_settings->_server.keyDatabasePath))
+                                            m_key(myData->server_settings->_server.TS_KEY),
+                                            m_keyHandler(new iDomKEY_ACCESS(myData->server_settings->_server.keyDatabasePath))
 {
     puts("iDomTOOLS::iDomTOOLS()");
     my_data = myData;
@@ -99,7 +99,7 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
 {
     TEMPERATURE_STATE status = hasTemperatureChange(thermomethernName,reference,0.5);
     std::string m = "temperature " + thermomethernName + " over " + EMOJI::emoji(E_emoji::NORTH_EAST_ARROW)
-                    + to_string_with_precision(reference);
+        + to_string_with_precision(reference);
 
     if (status == TEMPERATURE_STATE::Over)
     {
@@ -164,7 +164,7 @@ void iDomTOOLS::updateTemperatureStats()
     {
         auto data = m_allThermometerUpdate.getLast2("outside");
         std::string msg = "alarm roznicy temeratur na polu! " + to_string_with_precision(data.first) + " na "
-                          + to_string_with_precision(data.second);
+            + to_string_with_precision(data.second);
 
         if (data.first > data.second)
         {
@@ -191,7 +191,7 @@ void iDomTOOLS::updateTemperatureStats()
     {
         auto data = m_allThermometerUpdate.getLast2("inside");
         std::string msg = "alarm roznicy temeratur na mieszkaniu! " + to_string_with_precision(data.first)
-                          + " na " + to_string_with_precision(data.second);
+            + " na " + to_string_with_precision(data.second);
 
         if (data.first > data.second)
         {
@@ -480,6 +480,11 @@ void iDomTOOLS::button433MHzPressedAction(const std::string& name)
         RADIO_BUTTON* buttonNightLight = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer(name) );
         button433mhzNightLightPressed(buttonNightLight);
     }
+    else if (useful_F_libs::hasSubstring(name,"dzwonek") == true)
+    {
+        RADIO_BUTTON* buttonDoorBell = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer(name) );
+        button433mhzDoorBellPressed(buttonDoorBell);
+    }
 }
 
 void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
@@ -557,6 +562,18 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
         radioButton->setState(STATE::OFF);
 
     }
+}
+
+void iDomTOOLS::button433mhzDoorBellPressed(RADIO_BUTTON *radioButton)
+{
+    radioButton->setState(STATE::ON);
+    sendViberPicture("DZWONEK do drzwi!",
+                     "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
+                     my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                     my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "DZwonek do drzwi"<< std::endl;
+    log_file_mutex.mutex_unlock();
 }
 
 void iDomTOOLS::buttonLockHome()
@@ -838,7 +855,7 @@ std::string iDomTOOLS::getSmog()
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "wyjatek substr() e getSmog() !!!!!!" << std::endl;
         log_file_mutex.mutex_unlock();
-      return  "-1";
+        return  "-1";
     }
 
     readBuffer = useful_F_libs::find_tag(readBuffer);
