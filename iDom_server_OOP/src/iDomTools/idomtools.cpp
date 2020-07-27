@@ -546,8 +546,11 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
     {
         if(my_data->main_iDomStatus->getObjectState("Night_Light") != STATE::ON)
         {
-           // turn on lights in kitchen
-           turnOn433MHzSwitch("B");
+            // turn on lights in kitchen inside ledON()
+            unsigned int from = 10 + (Clock::getTime().m_min/ 2);
+            ledOn(my_data->ptr_pilot_led->colorLED.
+                  at(static_cast<unsigned long>(my_data->server_settings->_nightLight.colorLED)),
+                  from, from + 3);
             radioButton->setState(STATE::ON);
             return;
         }
@@ -556,7 +559,7 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
     if(my_data->main_iDomStatus->getObjectState("Night_Light") == STATE::ON)
     {
         // turn on lights in kitchen
-        turnOff433MHzSwitch("B");
+        ledOFF();
         radioButton->setState(STATE::OFF);
 
     }
@@ -1002,6 +1005,8 @@ std::string iDomTOOLS::postOnFacebook(const std::string& msg, const std::string&
 std::string iDomTOOLS::ledOFF()
 {
     my_data->main_iDomStatus->setObjectState("Night_Light",STATE::OFF);
+    // temporary
+    turnOff433MHzSwitch("B");
     return useful_F::send_to_arduinoStub(my_data, "LED_STOP:2;");
 }
 
@@ -1022,6 +1027,8 @@ std::string iDomTOOLS::ledOn(const LED_Strip& ledColor, unsigned int from, unsig
     if (my_data->idom_all_state.houseState == STATE::UNLOCK)
     {
         my_data->main_iDomStatus->setObjectState("Night_Light",STATE::ON);
+        // temporary
+        turnOn433MHzSwitch("B");
         return useful_F::send_to_arduinoStub(my_data, ledColor.get(from, to));
     }
     else{
