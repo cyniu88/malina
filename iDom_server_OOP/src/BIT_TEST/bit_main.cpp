@@ -430,7 +430,7 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
     std::cout << ret << std::endl;
     EXPECT_THAT(ret, ::testing::HasSubstr("13594"));
 
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/thermostat_data",
+    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/thermostat_data1",
                                                 "{\"some\":\"data\"}");
     bit_Tasker->runTasker();
     ret = test_my_data.ptr_buderus->dump();

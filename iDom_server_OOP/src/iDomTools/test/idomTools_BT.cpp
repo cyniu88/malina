@@ -27,7 +27,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     test_my_data.lusina.statTemp.push_back(1.34435);
     //TEST_DATA::return_send_to_arduino = "20.0:-1.0;";
     std::string strJJ_boiler = "{  \"outdoorTemp\":-1.0,   \"wwStorageTemp2\":62.2}";
-    std::string strJJ_thermostat = " {\"hc1\": {\"currtemp\": 20.0 } }";
+    std::string strJJ_thermostat = "{\"currtemp\": 20.0 }";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -38,7 +38,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 
     //TEST_DATA::return_send_to_arduino = "25.4:0.0;";
     strJJ_boiler = "{  \"outdoorTemp\":0.0,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 25.4 } }";
+    strJJ_thermostat = " {\"currtemp\": 25.4 }";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -51,7 +51,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 
     //TEST_DATA::return_send_to_arduino = "21.0:1.0;";
     strJJ_boiler = "{  \"outdoorTemp\":11.0,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 21.0 } }";
+    strJJ_thermostat = " {\"currtemp\": 21.0 }";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -62,7 +62,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     std::cout << "##################################### 3" <<std::endl;
     //TEST_DATA::return_send_to_arduino = "21.0:5.0;";
     strJJ_boiler = "{  \"outdoorTemp\":5.0,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 21.0 } }";
+    strJJ_thermostat = " {\"currtemp\": 21.0 }";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -73,7 +73,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     std::cout << "##################################### 4" <<std::endl;
     //TEST_DATA::return_send_to_arduino = "21.0:4.0;";
     strJJ_boiler = "{  \"outdoorTemp\":4.0,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 21.0 } }";
+    strJJ_thermostat = " {\"currtemp\": 21.0 }";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -84,7 +84,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 
     //TEST_DATA::return_send_to_arduino = "31.9:11.11;";
     strJJ_boiler = "{  \"outdoorTemp\":11.11,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 31.9 } }";
+    strJJ_thermostat = "{\"currtemp\": 31.9 }";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -370,13 +370,13 @@ TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
 {
    // TEST_DATA::return_send_to_arduino = "12:12";
     std::string strJJ_boiler = "{  \"outdoorTemp\":12,   \"wwStorageTemp2\":62.2}";
-    std::string strJJ_thermostat = " {\"hc1\": {\"currtemp\": 12 } }";
+    std::string strJJ_thermostat = " {\"currtemp\": 12}";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
     test_my_data.main_iDomTools->updateTemperatureStats();
     //TEST_DATA::return_send_to_arduino = "16:16";
     strJJ_boiler = "{  \"outdoorTemp\":16,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 16 } }";
+    strJJ_thermostat = "{\"currtemp\": 16 }";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -385,7 +385,7 @@ TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
     ////////////// maleje na mieskzaniu
     //TEST_DATA::return_send_to_arduino = "12:16";
     strJJ_boiler = "{  \"outdoorTemp\":16,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 12 } }";
+    strJJ_thermostat = "{\"currtemp\": 12 }";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -396,7 +396,7 @@ TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
     ////////////// maleje na polu
     //TEST_DATA::return_send_to_arduino = "12:12";
     strJJ_boiler = "{  \"outdoorTemp\":12,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 12 } }";
+    strJJ_thermostat = "{\"currtemp\": 12 }";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -407,7 +407,7 @@ TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
     ////////////// rośnie na mieskzaniu
     //TEST_DATA::return_send_to_arduino = "17:12";
     strJJ_boiler = "{  \"outdoorTemp\":12,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 17 } }";
+    strJJ_thermostat = "{\"currtemp\": 17 }";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -418,7 +418,7 @@ TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
     ////////////// rośnie na polu
     //TEST_DATA::return_send_to_arduino = "17:17";
     strJJ_boiler = "{  \"outdoorTemp\":17,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 17 } }";
+    strJJ_thermostat = "{\"currtemp\": 17 }";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -680,7 +680,7 @@ TEST_F(iDomTOOLS_ClassTest, mpd)
 TEST_F(iDomTOOLS_ClassTest, getTemperatureString)
 {
     std::string strJJ_boiler = "{  \"outdoorTemp\":2,   \"wwStorageTemp2\":62.2}";
-    std::string strJJ_thermostat = " {\"hc1\": {\"currtemp\": -2 } }";
+    std::string strJJ_thermostat = "{\"currtemp\": -2 }";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
