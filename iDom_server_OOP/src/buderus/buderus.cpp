@@ -147,7 +147,7 @@ void BUDERUS::runCirclePompForWhile(thread_data *my_data, const std::string& thr
 
 void BUDERUS::boilerHeatOneTime()
 {
-    useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler_cmd_wwonetime","1");
+    useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler","{\"cmd\":\"wwonetime\",\"data\":\"on\"}");
 }
 
 void BUDERUS::setTempInsideBuilding(const std::string& t)

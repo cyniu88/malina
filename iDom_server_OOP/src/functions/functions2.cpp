@@ -269,7 +269,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         my_data->mainLCD->printString(true,0,0,"USER CONNECTED!");
         my_data->mainLCD->printString(false,0,1,tm);
     }
-    if("192.168.13.1" == tm || "192.168.13.181" == tm)
+    if("192.168.13.101" == tm || "192.168.13.181" == tm)  //TODO  change ip adres
     {
         if(++connectionCounter > 9)
         {
