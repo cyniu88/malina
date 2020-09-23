@@ -30,7 +30,7 @@ void BUDERUS::updateThermostatDataFromMQTT(nlohmann::json jj)
 {
     std::lock_guard <std::mutex> lock(m_lockGuard);
     m_thermostat_data = jj;
-    m_insideTemp = jj.at("currtemp").get<double>();
+    m_insideTemp = jj["hc1"].at("currtemp").get<double>();
 }
 
 void BUDERUS::tapWaterActivated()
@@ -156,7 +156,7 @@ void BUDERUS::setTempInsideBuilding(const std::string& t)
     tt << "{\"cmd\":\"temp\",\"data\":";
     tt << t;
     tt << ",\"id\":1}";
-    useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/thermostat_cmd",tt.str());
+    useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/thermostat",tt.str());
 }
 
 std::string BUDERUS::dump() const
