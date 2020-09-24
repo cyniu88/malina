@@ -22,8 +22,17 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
 {
     std::lock_guard <std::mutex> lock(m_lockGuard);
     m_boiler_data = jj;
-    m_outdoorTemp = jj.at("outdoorTemp").get<double>();
-    m_boilerTemp  = jj.at("wwStorageTemp2").get<double>();
+    try{
+        m_outdoorTemp = jj.at("outdoorTemp").get<double>();
+        m_boilerTemp  = jj.at("wwStorageTemp2").get<double>();
+        if(jj.at("burnGas").get<std::string>() == "on")
+            m_heating_active = true;
+        else
+            m_heating_active = false;
+    }
+    catch(nlohmann::json::exception& e){
+        std::cout << "wyjatek w boiler data " << e.what() << std::endl;
+    }
 }
 
 void BUDERUS::updateThermostatDataFromMQTT(nlohmann::json jj)
