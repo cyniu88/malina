@@ -34,7 +34,7 @@ TEST_F(light_house_fixture, load_config)
 
     std::string ret = testLightingHandler->getAllInfoJSON().dump(4);
 
-    EXPECT_THAT(ret, testing::HasSubstr("room\": \"lazienka"));
+    EXPECT_THAT(ret, testing::HasSubstr(R"(room": "lazienka)"));
 }
 
 TEST_F(light_house_fixture, all_on_all_off)
@@ -44,17 +44,17 @@ TEST_F(light_house_fixture, all_on_all_off)
     testLightingHandler->loadConfig(cfg);
 
     std::string ret = testLightingHandler->getAllInfoJSON().dump(4);
-    EXPECT_THAT(ret, testing::HasSubstr("STATUS\": \"UNDEFINE\""));
+    EXPECT_THAT(ret, testing::HasSubstr(R"(STATUS": "UNDEFINE")"));
 
     testLightingHandler->turnOnAllInRoom("lazienka");
 
     ret = testLightingHandler->getAllInfoJSON().dump(4);
-    EXPECT_THAT(ret, testing::HasSubstr("STATUS\": \"ON\""));
+    EXPECT_THAT(ret, testing::HasSubstr(R"(STATUS": "ON")"));
 
     testLightingHandler->turnOffAllInRoom("lazienka");
 
     ret = testLightingHandler->getAllInfoJSON().dump(4);
-    EXPECT_THAT(ret, testing::HasSubstr("STATUS\": \"OFF\""));
+    EXPECT_THAT(ret, testing::HasSubstr(R"(STATUS": "OFF")"));
 }
 
 

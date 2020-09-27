@@ -847,7 +847,7 @@ std::string iDomTOOLS::getSmog()
         curl_easy_cleanup(curl);
     }
     curl_global_cleanup();
-    auto start = readBuffer.find("<h2 class=\"polution\">");
+    auto start = readBuffer.find(R"(<h2 class="polution">)");
     try {
         readBuffer = readBuffer.substr(start, 40);
     }

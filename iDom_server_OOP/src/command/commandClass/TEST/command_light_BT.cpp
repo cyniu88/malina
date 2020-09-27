@@ -76,7 +76,7 @@ TEST_F(command_light_Class_fixture, light_info)
     auto ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
 
-    EXPECT_THAT(ret, testing::HasSubstr("bulb ID\": 126,"));
+    EXPECT_THAT(ret, testing::HasSubstr(R"(bulb ID": 126,)"));
 }
 
 TEST_F(command_light_Class_fixture, light_info_on)
@@ -96,7 +96,7 @@ TEST_F(command_light_Class_fixture, light_info_on)
     auto ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
 
-    EXPECT_THAT(ret, testing::HasSubstr("bulb ID\": 126,"));
+    EXPECT_THAT(ret, testing::HasSubstr(R"(bulb ID": 126,)"));
 }
 
 TEST_F(command_light_Class_fixture, on_off_bulb_command)

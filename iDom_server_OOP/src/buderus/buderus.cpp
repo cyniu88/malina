@@ -156,15 +156,16 @@ void BUDERUS::runCirclePompForWhile(thread_data *my_data, const std::string& thr
 
 void BUDERUS::boilerHeatOneTime()
 {
-    useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler","{\"cmd\":\"wwonetime\",\"data\":\"on\"}");
+    useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler",
+                                                 R"({"cmd":"wwonetime","data":"on"})");
 }
 
 void BUDERUS::setTempInsideBuilding(const std::string& t)
 {
     std::stringstream tt;
-    tt << "{\"cmd\":\"temp\",\"data\":";
+    tt << R"(){"cmd":"temp","data":)";
     tt << t;
-    tt << ",\"id\":1}";
+    tt << R"(,"id":1})";
     useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/thermostat",tt.str());
 }
 
@@ -172,15 +173,16 @@ std::string BUDERUS::dump() const
 {
     std::stringstream ret;
 
-    ret << "{\n\"m_boiler_data\": " << m_boiler_data.dump(4) << "," << std::endl;
-    ret << "\"m_thermostat_data\": " << m_thermostat_data.dump(4) << "," << std::endl;
-    ret << "\"m_tapwater_active\": " <<  m_tapwater_active << "," << std::endl;
-    ret << "\"m_heating_active\": " << m_heating_active << "," << std::endl;
+    ret << std::endl;
+    ret << R"({"m_boiler_data": )" << m_boiler_data.dump(4) << "," << std::endl;
+    ret << R"("m_thermostat_data": )" << m_thermostat_data.dump(4) << "," << std::endl;
+    ret << R"("m_tapwater_active": )" <<  m_tapwater_active << "," << std::endl;
+    ret << R"("m_heating_active": )" << m_heating_active << "," << std::endl;
 
-    ret << "\"m_boilerTemp\": " << m_boilerTemp << "," << std::endl;
-    ret << "\"m_insideTemp\": " << m_insideTemp << "," << std::endl;
-    ret << "\"m_outdoorTemp\": " << m_outdoorTemp << "," << std::endl;
-    ret << "\"m_circlePompCanRun\": " << m_circlePompCanRun << "\n}" << std::endl;
+    ret << R"("m_boilerTemp": )" << m_boilerTemp << "," << std::endl;
+    ret << R"("m_insideTemp": )" << m_insideTemp << "," << std::endl;
+    ret << R"("m_outdoorTemp": )" << m_outdoorTemp << "," << std::endl;
+    ret << R"("m_circlePompCanRun": )" << m_circlePompCanRun << std::endl << "}" << std::endl;
 
     return ret.str();
 }

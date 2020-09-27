@@ -419,10 +419,10 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
     bit_Tasker->runTasker();
     EXPECT_FALSE(test_my_data.ptr_buderus->isHeatingActiv());
     /////////////////////////////////  boiler data //////////////////////////////////////////////////////
-    std::string test_boilerData = "{\"wWComfort\":\"Hot\",   \"wWSelTemp\":60,   \"wWDesiredTemp\":70,   \"selFlowTemp\":5,   \"selBurnPow\":0,   \"curBurnPow\":0,   \"pumpMod\":10,   \"wWCircPump\":0,   \"curFlowTemp\":30.9,   \"switchTemp\":0,"
-                                  "\"boilTemp\":16.4,   \"wWActivated\":\"off\",   \"wWOnetime\":\"on\",   \"burnGas\":\"off\",   \"flameCurr\":0,   \"heatPmp\":\"on\",   \"fanWork\":\"off\",   \"ignWork\":\"off\",   \"wWCirc\":\"off\","
-                                  "\"heating_temp\":50,   \"pump_mod_max\":100,   \"pump_mod_min\":10,   \"wWHeat\":\"off\",   \"UBAuptime\":14590,   \"burnStarts\":27,   \"burnWorkMin\":13594,   \"heatWorkMin\":13594,   \"ServiceCode\":\"0H\","
-                                  "\"ServiceCodeNumber\":203}";
+    std::string test_boilerData = R"({"wWComfort":"Hot",   "wWSelTemp":60,   "wWDesiredTemp":70,   "selFlowTemp":5,   "selBurnPow":0,   "curBurnPow":0,   "pumpMod":10,   "wWCircPump":0,   "curFlowTemp":30.9,   "switchTemp":0,)"
+                                  R"("boilTemp":16.4,   "wWActivated":"off",   "wWOnetime":"on",   "burnGas":"on",   "flameCurr":0,   "heatPmp":"on",   "fanWork":"off",   "ignWork":"off",   "wWCirc":"off",)"
+                                  R"("heating_temp":50,   "outdoorTemp":9.99,   "wwStorageTemp2":62.2,   "pump_mod_max":100,   "pump_mod_min":10,   "wWHeat":"off",   "UBAuptime":14590,   "burnStarts":27,   "burnWorkMin":13594,   "heatWorkMin":13594,   "ServiceCode":"0H",)"
+                                  R"("ServiceCodeNumber":203})";
 
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data",test_boilerData);
     bit_Tasker->runTasker();
@@ -431,11 +431,11 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
     EXPECT_THAT(ret, ::testing::HasSubstr("13594"));
 
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/thermostat_data",
-                                                "{\"some\":\"data\"}");
+                                                R"({"some":"data"})");
     bit_Tasker->runTasker();
     ret = test_my_data.ptr_buderus->dump();
     std::cout << ret << std::endl;
-    EXPECT_THAT(ret, ::testing::HasSubstr("some\":"));
+    EXPECT_THAT(ret, ::testing::HasSubstr(R"(some":)"));
 }
 
 TEST_F(bit_fixture, buderus_mqtt_command_from_boiler_wrong_json_format){

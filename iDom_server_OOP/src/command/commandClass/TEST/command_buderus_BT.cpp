@@ -4,11 +4,11 @@
 class command_buderus_Class_fixture : public iDomTOOLS_ClassTest
 {
 public:
-    std::string test_boilerData = "{\"wWComfort\":\"Hot\",   \"wWSelTemp\":60,   \"wWDesiredTemp\":70,   \"selFlowTemp\":5,   \"selBurnPow\":0,   \"curBurnPow\":0,   \"pumpMod\":10,   \"wWCircPump\":0,   \"curFlowTemp\":30.9,   \"switchTemp\":0,"
-                                  "\"boilTemp\":16.4,   \"wWActivated\":\"off\",   \"wWOnetime\":\"on\",   \"burnGas\":\"on\",   \"flameCurr\":0,   \"heatPmp\":\"on\",   \"fanWork\":\"off\",   \"ignWork\":\"off\",   \"wWCirc\":\"off\","
-                                  "\"heating_temp\":50,   \"outdoorTemp\":9.99,   \"wwStorageTemp2\":62.2,   \"pump_mod_max\":100,   \"pump_mod_min\":10,   \"wWHeat\":\"off\",   \"UBAuptime\":14590,   \"burnStarts\":27,   \"burnWorkMin\":13594,   \"heatWorkMin\":13594,   \"ServiceCode\":\"0H\","
-                                  "\"ServiceCodeNumber\":203}";
-    std::string test_thermostatData = " {\"hc1\": {\"currtemp\": 22.5,   \"mode\": \"manual\",  \"seltemp\": 22  } }";
+    std::string test_boilerData = R"({"wWComfort":"Hot",   "wWSelTemp":60,   "wWDesiredTemp":70,   "selFlowTemp":5,   "selBurnPow":0,   "curBurnPow":0,   "pumpMod":10,   "wWCircPump":0,   "curFlowTemp":30.9,   "switchTemp":0,)"
+                                  R"("boilTemp":16.4,   "wWActivated":"off",   "wWOnetime":"on",   "burnGas":"on",   "flameCurr":0,   "heatPmp":"on",   "fanWork":"off",   "ignWork":"off",   "wWCirc":"off",)"
+                                  R"("heating_temp":50,   "outdoorTemp":9.99,   "wwStorageTemp2":62.2,   "pump_mod_max":100,   "pump_mod_min":10,   "wWHeat":"off",   "UBAuptime":14590,   "burnStarts":27,   "burnWorkMin":13594,   "heatWorkMin":13594,   "ServiceCode":"0H",)"
+                                  R"("ServiceCodeNumber":203})";
+    std::string test_thermostatData = R"({"hc1": {"currtemp": 22.5,"mode": "manual", "seltemp": 22  } })";
     std::string test_boielrDataWrongJSON = "fake json";
     command_buderus_Class_fixture()
     {
@@ -161,7 +161,7 @@ TEST_F(command_buderus_Class_fixture, circle_pomp)
     test_v.push_back("print");
     auto ret = test_command_buderus->execute(test_v,&test_my_data);
     std::cout << ret << std::endl;
-    EXPECT_THAT(ret, ::testing::HasSubstr("\"m_circlePompCanRun\": 0"));
+    EXPECT_THAT(ret, ::testing::HasSubstr(R"("m_circlePompCanRun": 0)"));
 
     test_v.clear();
     test_v.push_back("buderus");

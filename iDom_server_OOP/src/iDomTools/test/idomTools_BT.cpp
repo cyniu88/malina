@@ -26,8 +26,8 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     test_my_data.lusina.statTemp.push_back(1.443553);
     test_my_data.lusina.statTemp.push_back(1.34435);
     //TEST_DATA::return_send_to_arduino = "20.0:-1.0;";
-    std::string strJJ_boiler = "{  \"outdoorTemp\":-1.0,   \"wwStorageTemp2\":62.2}";
-    std::string strJJ_thermostat = "{\"hc1\": {\"currtemp\": 20.0 }}";
+    std::string strJJ_boiler = R"({ "outdoorTemp":-1.0, "wwStorageTemp2":62.2})";
+    std::string strJJ_thermostat = R"({"hc1": {"currtemp": 20.0 }})";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -37,8 +37,8 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     std::cout << "##################################### 1" <<std::endl;
 
     //TEST_DATA::return_send_to_arduino = "25.4:0.0;";
-    strJJ_boiler = "{  \"outdoorTemp\":0.0,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 25.4} }";
+    strJJ_boiler = R"({"outdoorTemp":0.0,  "wwStorageTemp2":62.2})";
+    strJJ_thermostat = R"( {"hc1": {"currtemp": 25.4} })";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -50,8 +50,8 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     std::cout << "##################################### 2" <<std::endl;
 
     //TEST_DATA::return_send_to_arduino = "21.0:1.0;";
-    strJJ_boiler = "{  \"outdoorTemp\":11.0,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 21.0 }}";
+    strJJ_boiler = R"({ "outdoorTemp":11.0, "wwStorageTemp2":62.2})";
+    strJJ_thermostat = R"( {"hc1": {"currtemp": 21.0 }})";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -61,8 +61,8 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 
     std::cout << "##################################### 3" <<std::endl;
     //TEST_DATA::return_send_to_arduino = "21.0:5.0;";
-    strJJ_boiler = "{  \"outdoorTemp\":5.0,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 21.0 }}";
+    strJJ_boiler = R"({ "outdoorTemp":5.0, "wwStorageTemp2":62.2})";
+    strJJ_thermostat = R"( {"hc1": {"currtemp": 21.0 }})";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -72,8 +72,8 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 
     std::cout << "##################################### 4" <<std::endl;
     //TEST_DATA::return_send_to_arduino = "21.0:4.0;";
-    strJJ_boiler = "{  \"outdoorTemp\":4.0,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = " {\"hc1\": {\"currtemp\": 21.0 }}";
+    strJJ_boiler = R"({  "outdoorTemp":4.0,   "wwStorageTemp2":62.2})";
+    strJJ_thermostat = R"( {"hc1": {"currtemp": 21.0 }})";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -83,8 +83,8 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     std::cout << "##################################### 5" <<std::endl;
 
     //TEST_DATA::return_send_to_arduino = "31.9:11.11;";
-    strJJ_boiler = "{  \"outdoorTemp\":11.11,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = "{\"hc1\": {\"currtemp\": 31.9 }}";
+    strJJ_boiler = R"({ "outdoorTemp":11.11, "wwStorageTemp2":62.2})";
+    strJJ_thermostat = R"({"hc1": {"currtemp": 31.9 }})";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -100,16 +100,16 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 
 TEST_F(iDomTOOLS_ClassTest, weatherAlert)
 {
-    std::string test_data_from_www = " <div style=\"margin:0;padding:0;width:350px;font:0.8em Lucida,Arial,sans-seri f;background:#FFC\">"
-                                     "<p style=\"margin:1px;padding:1px;text-align:center;background:#FF9;borde \\ r:1px dotted\"><b><a href=\"http://burze.dzis.net?page=wyszukiwarka&amp;miejscowos\\ c=krakow\" target=\"_blank\" style=\"color:#00E\">krakow</a></b>"
-                                     "<i>(50°03'N 19°57'E)</i> </p>"
-                                     "<dl style=\"margin:1px 1px 0 1px;padding:0;cl ear:both;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:\\ center\">Zarejestrowano 54 wyładowania atmosferyczne w promieniu 300km . Najbliższe 79.76km na zachód."
-                                     "</dl> <dl style=\"margin:1px 1px 0 1px;padding:0;cl ear:both;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align: \\ center\">Mróz, brak ostrzeżeń</dl>"
-                                     "<dl style=\"margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  Upał, brak ostrzeżeń</dl>"
-                                     "<dl style=\"margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  Wiatr, brak ostrzeżeń</dl>"
-                                     "<dl style=\"margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  Opady, brak ostrzeżeń</dl>"
-                                     "<dl style=\"margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  Burze, brak ostrzeżeń</dl>"
-                                     "<dl style=\"margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center\">  Trąby powietrzne, brak ostrzeżeń</dl></div>";
+    std::string test_data_from_www = R"( <div style="margin:0;padding:0;width:350px;font:0.8em Lucida,Arial,sans-seri f;background:#FFC">)"
+                                     R"(<p style="margin:1px;padding:1px;text-align:center;background:#FF9;borde \\ r:1px dotted"><b><a href="http://burze.dzis.net?page=wyszukiwarka&amp;miejscowos\\ c=krakow" target="_blank" style="color:#00E">krakow</a></b>)"
+                                     R"(<i>(50°03'N 19°57'E)</i> </p>)"
+                                     R"(<dl style="margin:1px 1px 0 1px;padding:0;cl ear:both;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:\\ center">Zarejestrowano 54 wyładowania atmosferyczne w promieniu 300km . Najbliższe 79.76km na zachód.)"
+                                     R"(</dl> <dl style="margin:1px 1px 0 1px;padding:0;cl ear:both;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align: \\ center">Mróz, brak ostrzeżeń</dl>)"
+                                     R"(<dl style="margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center">  Upał, brak ostrzeżeń</dl>)"
+                                     R"(<dl style="margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center">  Wiatr, brak ostrzeżeń</dl>)"
+                                     R"(<dl style="margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center">  Opady, brak ostrzeżeń</dl>)"
+                                     R"(<dl style="margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center">  Burze, brak ostrzeżeń</dl>)"
+                                     R"(<dl style="margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center">  Trąby powietrzne, brak ostrzeżeń</dl></div>)";
 
     std::vector<WEATHER_ALER> test_WA;
     test_WA =  test_my_data.main_iDomTools->getAlert(test_data_from_www);
@@ -369,14 +369,14 @@ TEST_F(iDomTOOLS_ClassTest, checkLightning)
 TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
 {
    // TEST_DATA::return_send_to_arduino = "12:12";
-    std::string strJJ_boiler = "{  \"outdoorTemp\":12,   \"wwStorageTemp2\":62.2}";
-    std::string strJJ_thermostat = " {\"hc1\": {\"currtemp\": 12}}";
+    std::string strJJ_boiler = R"({ "outdoorTemp":12,   "wwStorageTemp2":62.2})";
+    std::string strJJ_thermostat = R"( {"hc1": {"currtemp": 12}})";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
     test_my_data.main_iDomTools->updateTemperatureStats();
     //TEST_DATA::return_send_to_arduino = "16:16";
-    strJJ_boiler = "{  \"outdoorTemp\":16,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = "{\"hc1\": {\"currtemp\": 16 }}";
+    strJJ_boiler = R"({  "outdoorTemp":16,   "wwStorageTemp2":62.2})";
+    strJJ_thermostat = R"({"hc1": {"currtemp": 16 }})";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -384,8 +384,8 @@ TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
 
     ////////////// maleje na mieskzaniu
     //TEST_DATA::return_send_to_arduino = "12:16";
-    strJJ_boiler = "{  \"outdoorTemp\":16,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = "{\"hc1\": {\"currtemp\": 12} }";
+    strJJ_boiler = R"({"outdoorTemp":16, "wwStorageTemp2":62.2})";
+    strJJ_thermostat = R"({"hc1": {"currtemp": 12} })";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -395,8 +395,8 @@ TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
 
     ////////////// maleje na polu
     //TEST_DATA::return_send_to_arduino = "12:12";
-    strJJ_boiler = "{  \"outdoorTemp\":12,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = "{\"hc1\": {\"currtemp\": 12} }";
+    strJJ_boiler = R"({"outdoorTemp":12, "wwStorageTemp2":62.2})";
+    strJJ_thermostat = R"({"hc1": {"currtemp": 12} })";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -406,8 +406,8 @@ TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
 
     ////////////// rośnie na mieskzaniu
     //TEST_DATA::return_send_to_arduino = "17:12";
-    strJJ_boiler = "{  \"outdoorTemp\":12,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = "{\"hc1\": {\"currtemp\": 17} }";
+    strJJ_boiler = R"({"outdoorTemp":12,   "wwStorageTemp2":62.2})";
+    strJJ_thermostat = R"({"hc1": {"currtemp": 17} })";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -417,8 +417,8 @@ TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
 
     ////////////// rośnie na polu
     //TEST_DATA::return_send_to_arduino = "17:17";
-    strJJ_boiler = "{  \"outdoorTemp\":17,   \"wwStorageTemp2\":62.2}";
-    strJJ_thermostat = "{\"hc1\": {\"currtemp\": 17} }";
+    strJJ_boiler = R"({"outdoorTemp":17,  "wwStorageTemp2":62.2})";
+    strJJ_thermostat = R"({"hc1": {"currtemp": 17} })";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
@@ -679,8 +679,8 @@ TEST_F(iDomTOOLS_ClassTest, mpd)
 
 TEST_F(iDomTOOLS_ClassTest, getTemperatureString)
 {
-    std::string strJJ_boiler = "{  \"outdoorTemp\":2,   \"wwStorageTemp2\":62.2}";
-    std::string strJJ_thermostat = "{\"hc1\": {\"currtemp\": -2} }";
+    std::string strJJ_boiler = R"({ "outdoorTemp":2, "wwStorageTemp2":62.2})";
+    std::string strJJ_thermostat = R"({"hc1": {"currtemp": -2} })";
     test_my_data.ptr_buderus->updateBoilerDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_boiler)));
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
