@@ -41,7 +41,7 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
             }
         }
         else {
-            if(m_circlePump != STATE::OFF){
+            if(m_circlePump == STATE::ON){
                 useful_F::myStaticData->main_iDomTools->sendViberMsg("zakończono precę pompy obiegowej CWU",
                                                                      useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
                                                                      useful_F::myStaticData->server_settings->_fb_viber.viberSender + "BUDERUS");
@@ -146,7 +146,7 @@ void BUDERUS::circlePompToRun()
 void BUDERUS::runCirclePompForWhile()
 {
     useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler",
-                                                 R"({"cmd":"wwcirculation ","data":"on"})");
+                                                 R"({"cmd":"wwcirculation","data":"on"})");
 }
 
 void BUDERUS::boilerHeatOneTime()
