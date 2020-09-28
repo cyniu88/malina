@@ -28,6 +28,26 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
             m_heating_active = true;
         else
             m_heating_active = false;
+        if (jj.at("wWCirc").get<std::string>() == "on") {
+            if (m_circlePump != STATE::ON) {
+                useful_F::myStaticData->main_iDomTools->sendViberMsg(
+                    "uruchamiam pompe obiegową CWU",
+                    useful_F::myStaticData->server_settings->_fb_viber
+                        .viberReceiver.at(0),
+                    useful_F::myStaticData->server_settings->_fb_viber
+                            .viberSender +
+                        "BUDERUS");
+                m_circlePump = STATE::ON;
+            }
+        }
+        else {
+            if(m_circlePump != STATE::OFF){
+                useful_F::myStaticData->main_iDomTools->sendViberMsg("zakończono precę pompy obiegowej CWU",
+                                                                     useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
+                                                                     useful_F::myStaticData->server_settings->_fb_viber.viberSender + "BUDERUS");
+                m_circlePump = STATE::OFF;
+            }
+        }
     }
     catch(nlohmann::json::exception& e){
         std::cout << "wyjatek w boiler data " << e.what() << std::endl;
@@ -114,7 +134,7 @@ double BUDERUS::getBoilerTemp()
 void BUDERUS::circlePompToRun()
 {
     if (m_boilerTemp > 55 && m_heating_active == true && m_circlePompCanRun == true){
-        runCirclePompForWhileThread();
+        runCirclePompForWhile();
         m_circlePompCanRun = false;
     }
 
@@ -123,33 +143,10 @@ void BUDERUS::circlePompToRun()
     }
 }
 
-void BUDERUS::runCirclePompForWhileThread()
+void BUDERUS::runCirclePompForWhile()
 {
-    iDOM_THREAD::start_thread("circle pomp", runCirclePompForWhile, useful_F::myStaticData);
-}
-
-void BUDERUS::runCirclePompForWhile(thread_data *my_data, const std::string& threadName)
-{
-    my_data->main_iDomTools->sendViberMsg("uruchamiam pompe obiegową CWU",my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                          my_data->server_settings->_fb_viber.viberSender + "BUDERUS");
-    my_data->main_iDomTools->turnOn433MHzSwitch("circlePomp");
-    useful_F::sleep(120);
-    my_data->main_iDomTools->turnOff433MHzSwitch("circlePomp");
-    useful_F::sleep(20);
-    my_data->main_iDomTools->turnOff433MHzSwitch("circlePomp");
-
-    my_data->main_iDomTools->sendViberMsg("zakończono precę pompy obiegowej CWU",my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                          my_data->server_settings->_fb_viber.viberSender + "BUDERUS");
-
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "zaczynam procedure konca watku " << threadName << std::endl;
-    log_file_mutex.mutex_unlock();
-
-    iDOM_THREAD::stop_thread(threadName,my_data);
-
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "koniec watku " << threadName << std::endl;
-    log_file_mutex.mutex_unlock();
+    useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler",
+                                                 R"({"cmd":"wwcirculation ","data":"on"})");
 }
 
 void BUDERUS::boilerHeatOneTime()
@@ -180,7 +177,8 @@ std::string BUDERUS::dump() const
     ret << R"("m_boilerTemp": )" << m_boilerTemp << "," << std::endl;
     ret << R"("m_insideTemp": )" << m_insideTemp << "," << std::endl;
     ret << R"("m_outdoorTemp": )" << m_outdoorTemp << "," << std::endl;
-    ret << R"("m_circlePompCanRun": )" << m_circlePompCanRun << std::endl << "}" << std::endl;
+    ret << R"("m_circlePompCanRun": )" << m_circlePompCanRun << "," << std::endl;
+    ret << R"("m_circlePump": ")" <<  stateToString(m_circlePump) << R"(")" << std::endl << "}" << std::endl;
 
     return ret.str();
 }

@@ -18,6 +18,7 @@ class BUDERUS: public iDom_API
     double m_insideTemp = 0.0;
     double m_boilerTemp = 0.0;
     bool m_circlePompCanRun = false;
+    STATE m_circlePump = STATE::UNDEFINE;
 
 public:
     BUDERUS();
@@ -41,8 +42,7 @@ public:
     double getBoilerTemp();
 
     void circlePompToRun();
-    void runCirclePompForWhileThread();
-    static void runCirclePompForWhile(thread_data *my_data, const std::string &threadName);
+    void runCirclePompForWhile();
 
     void boilerHeatOneTime();
     void setTempInsideBuilding(const std::string &t);

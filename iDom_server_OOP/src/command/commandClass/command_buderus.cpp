@@ -55,7 +55,7 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
 
     else if(v.at(1) == "circPomp")
     {
-         my_data->ptr_buderus->runCirclePompForWhileThread();
+         my_data->ptr_buderus->runCirclePompForWhile();
          str_buf = "RUN circle pomp";
     }
     else if(v.at(1) == "boiler" && v.at(2) == "heating")
@@ -66,7 +66,7 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
     else if(v.at(1) == "set" && v.at(2) == "temp")
     {
         try {
-            float num_float = std::stof(v.at(3));
+            (void)std::stof(v.at(3));
         } catch (...) {
             return "cannot convert to float";
         }
