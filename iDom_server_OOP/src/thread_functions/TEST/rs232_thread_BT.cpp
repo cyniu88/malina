@@ -6,17 +6,14 @@
 
 std::mutex useful_F::mutex_buf;
 std::mutex useful_F::mutex_who;
-
 std::string buffer;
 
 class rs232_thread_fixture : public iDomTOOLS_ClassTest
 {
-
 };
 
 TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_fixture_clock)
 {
-
     std::array<Thread_array_struc,iDomConst::MAX_CONNECTION >test_ThreadArrayStruc;
 
     for (std::size_t i = 0 ; i < iDomConst::MAX_CONNECTION; i++)

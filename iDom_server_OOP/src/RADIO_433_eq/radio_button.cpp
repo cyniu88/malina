@@ -25,7 +25,6 @@ Wszystkie te funkcje działają równolegle bo układ może zapamiętać do 50 k
  */
 RADIO_BUTTON::RADIO_BUTTON(thread_data *my_data, const RADIO_EQ_CONFIG& cfg, RADIO_EQ_TYPE type)
 {
-    //puts("RADIO_BUTTON::RADIO_BUTTON()");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
     RADIO_EQ::m_config = cfg;
@@ -33,7 +32,6 @@ RADIO_BUTTON::RADIO_BUTTON(thread_data *my_data, const RADIO_EQ_CONFIG& cfg, RAD
 
 RADIO_BUTTON::~RADIO_BUTTON()
 {
-    //puts("RADIO_BUTTON::~RADIO_BUTTON()");
 }
 
 STATE RADIO_BUTTON::getState()

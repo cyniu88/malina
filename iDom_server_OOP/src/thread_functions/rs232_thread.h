@@ -26,19 +26,15 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232, const std::string
 
     /////////////////////////////////////////////////// RESET ARDUINO AFTER RESTART ////////////////////////////////
     puts("restart arduino\n");
-    //C_connection::mutex_who.lock();
     {
         std::lock_guard<std::mutex> lockWho(useful_F::mutex_who);
         buffer = "reset:00;";
         serial_ardu.print(buffer.c_str());
     }
-    //C_connection::mutex_who.unlock();
-    //puts("test testo po lock");
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     while(useful_F::go_while)
     {
         std::this_thread::sleep_for( std::chrono::milliseconds(50));
-        //puts("test testo po lock");
         { //mutex who
             std::lock_guard<std::mutex> lockWho(useful_F::mutex_who);
 
@@ -103,10 +99,8 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232, const std::string
                 if(serial_ardu.available()>0) {
 
                     while (useful_F::go_while){
-                        // std::cout << "serial_ardu.available(): "<<serial_ardu.available()<<std::endl;
                         if(serial_ardu.available()>0){
                             char t = serial_ardu.read();
-                            // std::cout << "t: "<<t<<std::endl;
                             if(t == ';'){
                                 serial_ardu.flush();
                                 break;
@@ -117,14 +111,12 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232, const std::string
                         }
                     }
                     useful_F::myStaticData->myEventHandler.run("RS232")->addEvent(bufor);
-
                 }
 #ifdef BT_TEST
                 useful_F::go_while = false;
                 return;
 #endif
             }
-
         }
     }
     iDOM_THREAD::stop_thread(threadName, useful_F::myStaticData);

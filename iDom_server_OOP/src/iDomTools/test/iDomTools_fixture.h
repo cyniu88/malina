@@ -19,8 +19,6 @@ public:
     ALERT test_alarmTime;
     pilot_led test_pilot_led;
 
-    /// pointer
-   // iDomTOOLS* test_idomTOOLS;
     /////// method
     iDomTOOLS_ClassTest()
     {
@@ -53,7 +51,6 @@ public:
         test_my_data.main_iDomStatus->addObject("house");
 
         /////////// create
-
         test_my_data.ptr_buderus = std::make_unique<BUDERUS>();
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
         test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
@@ -65,4 +62,3 @@ public:
     {
     }
 };
-

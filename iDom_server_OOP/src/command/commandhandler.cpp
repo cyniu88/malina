@@ -57,7 +57,6 @@ commandHandler::commandHandler(thread_data * my_data)
 
 commandHandler::~commandHandler()
 {
-    puts("commandHandler::~commandHandler()");
 }
 
 std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_data)

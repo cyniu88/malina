@@ -8,7 +8,6 @@ class command_handler_rs232_fixture : public iDomTOOLS_ClassTest
 public:
     command_handler_rs232_fixture()
     {
-
     }
 
 protected:
@@ -33,15 +32,12 @@ TEST_F(command_handler_rs232_fixture, main)
     EXPECT_STREQ(ret.c_str(), "\nEND\n");
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
 class command_handler_mqtt_fixture : public iDomTOOLS_ClassTest
 {
 public:
     command_handler_mqtt_fixture()
     {
-
     }
 
 protected:
@@ -58,7 +54,6 @@ protected:
         iDomTOOLS_ClassTest::TearDown();
     }
 };
-
 
 TEST_F(command_handler_mqtt_fixture, main)
 {
@@ -78,13 +73,11 @@ TEST_F(command_handler_mqtt_fixture, unknown_command)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
 class command_handler_gateway_fixture : public iDomTOOLS_ClassTest
 {
 public:
     command_handler_gateway_fixture()
     {
-
     }
 
 protected:

@@ -10,7 +10,6 @@ commandHandlerGATEWAY::commandHandlerGATEWAY(thread_data *my_data): commandHandl
 
 commandHandlerGATEWAY::~commandHandlerGATEWAY()
 {
-    puts("commandHandlerGATEWAY::~commandHandlerGATEWAY()");
 }
 
 std::string commandHandlerGATEWAY::run(std::vector<std::string> &v, thread_data *my_data)

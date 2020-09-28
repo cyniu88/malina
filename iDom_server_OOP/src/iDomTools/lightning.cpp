@@ -144,4 +144,3 @@ std::string LIGHTNING::dump() const
 
     return ret.str();
 }
-

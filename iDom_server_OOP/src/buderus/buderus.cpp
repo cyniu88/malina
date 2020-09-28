@@ -10,7 +10,6 @@ BUDERUS::BUDERUS()
 #ifdef BT_TEST
     std::cout << "BUDERUS::BUDERUS()" << std::endl;
 #endif
-
 }
 
 BUDERUS::~BUDERUS()
@@ -46,7 +45,6 @@ void BUDERUS::tapWaterActivated()
 {
     std::lock_guard <std::mutex> lock(m_lockGuard);
     m_tapwater_active = true;
-
 }
 
 void BUDERUS::tapWaterDeactivated()

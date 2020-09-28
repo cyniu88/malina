@@ -75,9 +75,7 @@ std::string iDomKEY_ACCESS::getKEY(const std::string &name)
 std::string iDomKEY_ACCESS::listKEY()
 {
     std::stringstream ret;
-
     ret << m_data.dump(4);
-
     return ret.str();
 }
 
@@ -131,7 +129,6 @@ void iDomKEY_ACCESS::removeExpiredKeys(unsigned int hours)
 std::string iDomKEY_ACCESS::dump() const
 {
     std::stringstream ret;
-
     ret << "m_data.size(): " << m_data.size() << std::endl;
     ret << "m_pathDatabase: " << m_pathDatabase << std::endl;
     return ret.str();

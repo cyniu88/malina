@@ -6,7 +6,6 @@
 std::mutex RFLinkHandler::sm_RFLink_MUTEX;
 std::string RFLinkHandler::sm_RFLink_BUFOR;
 
-
 RFLinkHandler::RFLinkHandler(thread_data *my_data):
     m_serial_RFLink(my_data->server_settings->_rflink.RFLinkPort)
 {
@@ -70,7 +69,6 @@ std::string RFLinkHandler::readFromRS232()
 std::string RFLinkHandler::internalReadFromRS232()
 {
     std::string buf;
-
     if(m_serial_RFLink.available() > 0){
         while (true){
 
@@ -87,12 +85,8 @@ std::string RFLinkHandler::internalReadFromRS232()
 std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(const std::string& msg, const std::string& var)
 {
     std::string id;
-
     int pos = msg.find(var + "=");
     if (pos == -1 ){
-//        log_file_mutex.mutex_lock();
-//        log_file_cout << CRITICAL <<" throw RFLinkHandler::getArgumentValueFromRFLinkMSG()-1"<<std::endl;
-//        log_file_mutex.mutex_unlock();
         throw R"(argument ")" + var + R"(" not found)";
     }
     if (msg.at(0) != '2' || msg.at(1) != '0'){
@@ -113,5 +107,4 @@ std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(const std::string& msg,
         id.push_back(t);
     }
     return id;
-
 }

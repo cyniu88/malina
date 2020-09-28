@@ -132,31 +132,26 @@ void c_irda_logic::projectorLogic(PILOT_KEY X)
     }
     case PILOT_KEY::KEY_POWER:
     {
-        //system("echo -n q > /mnt/ramdisk/cmd &"); // zamykanie omxplayera
         useful_F_libs::write_to_mkfifo(my_data->server_settings->_server.omxplayerFile, "q");
         break;
     }
     case PILOT_KEY::KEY_DOWN:
     {
         useful_F::runLinuxCommand("echo -n $'\x1b\x5b\x43' > /mnt/ramdisk/cmd"); // do przodu
-        //write_to_mkfifo("$'\x1b\x5b\x43'");
         break;
     }
     case PILOT_KEY::KEY_UP:
     {
         useful_F::runLinuxCommand("echo -n $'\x1b\x5b\x44' > /mnt/ramdisk/cmd"); // do tylu
-        // write_to_mkfifo("$'\x1b\x5b\x44'");
         break;
     }
     case PILOT_KEY::KEY_CHANNELUP:
     {
-        //system("echo -n o > /mnt/ramdisk/cmd"); // do przodu
         useful_F_libs::write_to_mkfifo(my_data->server_settings->_server.omxplayerFile, "o");
         break;
     }
     case PILOT_KEY::KEY_CHANNELDOWN:
     {
-        //system("echo -n i > /mnt/ramdisk/cmd"); // do tylu
         useful_F_libs::write_to_mkfifo(my_data->server_settings->_server.omxplayerFile, "i");
         break;
     }
@@ -192,7 +187,6 @@ void c_irda_logic::movieLogic(PILOT_KEY X)
     case PILOT_KEY::KEY_OK:
     {
         // whodze w katalog lub odtwarzma plik
-
         if (my_data->main_tree->is_file() == false)
         {
             my_data->main_tree->enter_dir();
@@ -236,7 +230,6 @@ void c_irda_logic::movieLogic(PILOT_KEY X)
         log_file_mutex.mutex_unlock();
         break;
     }
-
     my_data->main_tree->show_list();
 }
 
@@ -264,7 +257,6 @@ void c_irda_logic::menuLogic(PILOT_KEY X)
     case PILOT_KEY::KEY_OK:
     {
         // whodze w katalog lub odtwarzma plik
-
         if (my_data->main_MENU->is_file() == false)
         {
             my_data->main_MENU->enter_dir();
@@ -301,7 +293,6 @@ void c_irda_logic::menuLogic(PILOT_KEY X)
         log_file_cout << CRITICAL << "nieznany case w menuLogic"<< std::endl;
         log_file_mutex.mutex_unlock();
         break;
-
     }
     my_data->main_MENU->show_list();
 }
@@ -309,14 +300,12 @@ void c_irda_logic::menuLogic(PILOT_KEY X)
 void c_irda_logic::mainPilotHandler(PILOT_KEY X)
 {
     switch (X){
-
     case PILOT_KEY::KEY_RADIO:
     {
         who = PILOT_STATE::PROJECTOR;
         _add(PILOT_KEY::DUMMY);
         break;
     }
-
     case PILOT_KEY::KEY_SUBTITLE:
     {
         my_data->mainLCD->set_lcd_STATE(10);
@@ -328,7 +317,6 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
         who = PILOT_STATE::MPD;
         break;
     }
-
     case PILOT_KEY::KEY_LANGUAGE:
     {
         my_data->mainLCD->set_lcd_STATE(10);
@@ -345,7 +333,6 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
         who = PILOT_STATE::MPD;
         break;
     }
-
     case PILOT_KEY::KEY_SAT:
     {
         my_data->mainLCD->set_lcd_STATE(10);
@@ -359,13 +346,11 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
         who = PILOT_STATE::MPD;
         break;
     }
-
     case PILOT_KEY::KEY_EPG:
         who = PILOT_STATE::MOVIE;
         my_data->main_tree->show_list(); //printuje pierwszy element
         my_data->mainLCD->set_print_song_state(100);
         break;
-
     case PILOT_KEY::KEY_MENU:
         who = PILOT_STATE::MENU;
         my_data->main_MENU->show_list();
@@ -387,7 +372,6 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
 
 c_irda_logic::c_irda_logic(thread_data *my_data):my_data(my_data)
 {
-    // my_data = my_data;
     m_className.append(typeid(this).name());
     who = PILOT_STATE::MPD;
     iDom_API::addToMap(m_className,this);
@@ -427,8 +411,6 @@ void c_irda_logic::_add(PILOT_KEY X)
 std::string c_irda_logic::dump() const
 {
     std::stringstream ret;
-
     ret << " who: " << static_cast<int>(this->who) << std::endl;
-
     return ret.str();
 }

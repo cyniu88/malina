@@ -6,18 +6,14 @@
 #include "../TASKER/tasker.h"
 #include "../src/thread_functions/iDom_thread.h"
 
-
 class bit_fixture : public iDomTOOLS_ClassTest
 {
 protected:
     struct sockaddr_in server;
     int v_socket;
-
     CONFIG_JSON testCS;
     CAMERA_CFG testCamera;
-
     const char * ipAddress = "127.0.0.1";
-
 
     void SetUp()
     {
@@ -46,7 +42,6 @@ protected:
         test_my_data.server_settings->_server.PORT = 8833;
         test_my_data.server_settings->_server.SERVER_IP = "127.0.0.1";
     }
-
     void TearDown()
     {
         delete test_my_data.mainLCD;
@@ -71,7 +66,6 @@ void bit_fixture::crypto (std::string & toEncrypt, std::string& key,bool encrypt
 
     for (char & i : toEncrypt)
     {
-
         if (keySize == 0) keySize = key.size()-1;
         else --keySize;
         i ^= key[keySize];
@@ -115,7 +109,6 @@ std::string bit_fixture::send_receive(int socket, std::string msg, std::string k
     }
 
     EXPECT_EQ(size, sizeRec);
-
     for (ssize_t i = 0 ; i < size; ++i){
         ret.push_back(buffer[i]);
     }
@@ -125,9 +118,7 @@ std::string bit_fixture::send_receive(int socket, std::string msg, std::string k
 }
 
 TEST_F(bit_fixture, socket_heandle_command){
-
     start_iDomServer();
-
     struct sockaddr_in serwer =
         {
             .sin_family = AF_INET,
@@ -135,9 +126,7 @@ TEST_F(bit_fixture, socket_heandle_command){
         };
 
     inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
-
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
-
     sleep(1);
     int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
@@ -204,9 +193,7 @@ TEST_F(bit_fixture, socket_close_server_command){
     EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "CLOSE"));
 
     close(s);
-
     shutdown(s, SHUT_RDWR );
-
     iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
     EXPECT_FALSE(useful_F::workServer);
 }
@@ -275,14 +262,11 @@ TEST_F(bit_fixture, socket_no_space_left_on_server){
 
     EXPECT_ANY_THROW(send_receive(s, key,key));
     ////////////////////////////////////////////////// one free slot
-
     test_my_data.main_THREAD_arr->at(3).thread_socket = 0;
     const int s2 = socket( serwer.sin_family, SOCK_STREAM, 0 );
     connectStatus =  connect(s2,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
-
-
 
     EXPECT_NO_THROW(send_receive(s2, key,key));
 
@@ -441,7 +425,6 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
 TEST_F(bit_fixture, buderus_mqtt_command_from_boiler_wrong_json_format){
     /////////////////////////////////  boiler data //////////////////////////////////////////////////////
     std::string test_boilerData = "not json";
-
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data",test_boilerData);
     bit_Tasker->runTasker();
     auto ret = test_my_data.ptr_buderus->dump();
@@ -470,7 +453,6 @@ TEST_F(bit_fixture, tasker_lusina){
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h","wilgotnosc brak temepratura 33");
     bit_Tasker->runTasker();
     EXPECT_EQ(test_my_data.lusina.statHumi.min() , -1);
-
 }
 
 TEST_F(bit_fixture, tasker_no_action){
@@ -480,7 +462,6 @@ TEST_F(bit_fixture, tasker_no_action){
 TEST_F(bit_fixture, mqtt_command){
     blockQueue testMPD_Q;
     testMPD_Q._clearAll();
-
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command","MPD volume up");
     bit_Tasker->runTasker();
     EXPECT_EQ(1, testMPD_Q._size());

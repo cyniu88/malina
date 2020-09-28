@@ -119,7 +119,7 @@ TEST_F(command_light_Class_fixture, on_off_bulb_command)
     test_v.push_back("off");
     test_v.push_back("126");
 
-    ret = test_command_light->execute(test_v,&test_my_data);
+    (void)test_command_light->execute(test_v,&test_my_data);
     EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::OFF);
 }

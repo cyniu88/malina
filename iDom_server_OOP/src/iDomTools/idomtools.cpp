@@ -4,9 +4,7 @@
 #include <typeinfo>
 
 #include "idomtools.h"
-
 #include "../../libs/emoji/emoji.h"
-
 #include "../functions/functions.h"
 #include "../CRON/cron.hpp"
 #include "../RADIO_433_eq/radio_433_eq.h"
@@ -47,12 +45,10 @@ iDomTOOLS::iDomTOOLS(thread_data *myData):
 
     //////// button 433MHz
     m_buttonPointerVector = my_data->main_REC->getButtonPointerVector();
-
     m_lastButton433MHzLockUnlockTime = Clock::getTime() + Clock(23,58);
 
     iDom_API::m_className.append(typeid(this).name());
     iDom_API::addToMap(m_className,this);
-
 }
 
 iDomTOOLS::~iDomTOOLS(){
@@ -90,7 +86,6 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometer
     my_data->myEventHandler.run("test")->addEvent("noChanges: new " + to_string_with_precision(newTemp) + " old: "
                                                   + to_string_with_precision(oldTemp) + " ref: "
                                                   + to_string_with_precision(reference));
-
     m_allThermometer.setState(thermometerName, TEMPERATURE_STATE::NoChanges);
     return TEMPERATURE_STATE::NoChanges;
 }
@@ -141,10 +136,6 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
         }
         my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/temperature",
                                       m);
-
-    }
-    else{
-        //my_data->myEventHandler.run("unknown")->addEvent("temperatura nie przeszla przez " +to_string_with_precision(reference));
     }
 }
 
@@ -201,7 +192,6 @@ void iDomTOOLS::updateTemperatureStats()
         {
             msg.append(" temperatura rośnie " + EMOJI::emoji(E_emoji::CHART_WITH_UPWARDS_TREND));
         }
-
         sendViberMsg(msg,
                      my_data->server_settings->_fb_viber.viberReceiver.at(0),
                      my_data->server_settings->_fb_viber.viberSender);
@@ -351,8 +341,6 @@ void iDomTOOLS::turnOff433MHzSwitch(std::string name)
 {
     try
     {
-        //        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer(std::move(name)));
-        //        m_switch->off();
         auto v_switch = my_data->main_REC->getSwitchPointerVector();
         for(auto s : v_switch)
         {
@@ -536,7 +524,6 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
         std::cout << "LOCKER TEST iDomTOOLS::button433mhzLockerPressed()- counter: " << counter << std::endl;
         //#endif
     }
-
 }
 
 void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
@@ -560,7 +547,6 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
         // turn on lights in kitchen
         ledOFF();
         radioButton->setState(STATE::OFF);
-
     }
 }
 
@@ -618,8 +604,6 @@ void iDomTOOLS::setLightningStruct(const CARDINAL_DIRECTIONS::ALARM_INFO &s)
     std::lock_guard<std::mutex> lock(m_lightningMutex);
     //std::cout <<"struktura setowana " << s.data.str() <<std::endl;
     m_lightningStruct = s;
-
-    //std::cout <<"struktura już po setowaniu " << m_lightningStruct.data.str() <<std::endl;
 }
 
 void iDomTOOLS::checkLightning()
@@ -764,19 +748,13 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
     }
     /////////// start thread TTS - python use ////////////////////////
     std::string command = " python /home/pi/programowanie/iDom_server_OOP/script/PYTHON/gadacz.py \\" + txt + "\\";
-    if(my_data->ptr_MPD_info->isPlay){
-
-    }
-    else {
+    if(my_data->ptr_MPD_info->isPlay == false){
         turnOnSpeakers();
     }
 
     useful_F::runLinuxCommand(command);
 
-    if(my_data->ptr_MPD_info->isPlay){
-
-    }
-    else {
+    if(my_data->ptr_MPD_info->isPlay == false){
         turnOffSpeakers();
     }
 }
@@ -900,23 +878,18 @@ void iDomTOOLS::cameraLedON(const std::string& link)
     sunSet = sun.getSunSet();
     sunSet += Clock(23,30); // +23:30 == -00:30
     if (t <= sunRise || t >= sunSet){
-        //printf("zapalam leda!\n");
         std::string s = useful_F_libs::httpPost(link,10);
         if (s == "ok.\n"){
             my_data->main_iDomStatus->setObjectState("cameraLED", STATE::ON);
-            // printf("w ifie\n");
         }
     }
-    // printf("nie odpalam leda!\n");
 }
 
 void iDomTOOLS::cameraLedOFF(const std::string& link)
 {
     std::string s = useful_F_libs::httpPost(link, 10);
-    //printf (" camera response '%s' \n", s.c_str());
     if (s == "ok.\n"){
         my_data->main_iDomStatus->setObjectState("cameraLED", STATE::OFF);
-        //printf("w ifie\n");
     }
 }
 
@@ -1189,7 +1162,6 @@ std::string iDomTOOLS::startKodi_Thread()
     STATE kodiState = my_data->main_iDomStatus->getObjectState("KODI");
     if (kodiState == STATE::ACTIVE)
         return "kodi already run";
-
     return iDOM_THREAD::start_thread("kodi smartTV", useful_F::kodi, my_data);
 }
 

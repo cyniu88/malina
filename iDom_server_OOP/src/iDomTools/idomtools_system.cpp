@@ -79,7 +79,6 @@ void iDomTOOLS::healthCheck()
         my_data->main_iDomTools->sendViberMsg(m,my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender + "health");
     }
-
     else{
         my_data->iDomAlarm.clearAlarm(alarm_433MHz);
         m_restartAlarmRFLink = 0;

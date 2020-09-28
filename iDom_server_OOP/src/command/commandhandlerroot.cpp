@@ -57,5 +57,4 @@ commandHandlerRoot::commandHandlerRoot(thread_data * my_data): commandHandler(my
 
 commandHandlerRoot::~commandHandlerRoot()
 {
-    puts("commandHandlerRoot::~commandHandlerRoot()");
 }

@@ -5,13 +5,12 @@
 #include "radio_433_eq.h"
 
 RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data,
-                           const RADIO_EQ_CONFIG &cfg
-                           , RADIO_EQ_TYPE type):
+                           const RADIO_EQ_CONFIG &cfg,
+                           RADIO_EQ_TYPE type):
                                                  main433MHz(my_data),
                                                  m_sunrise(stringToState(cfg.sunrise)),
                                                  m_sunset(stringToState(cfg.sunset))
 {
-    //puts("RADIO_SWITCH::RADIO_SWITCH()");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
     RADIO_EQ::m_config = cfg;
@@ -19,7 +18,6 @@ RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data,
 
 RADIO_SWITCH::~RADIO_SWITCH()
 {
-    //puts("RADIO_SWITCH::~RADIO_SWITCH()");
 }
 
 void RADIO_SWITCH::on()
@@ -177,7 +175,6 @@ void RADIO_SWITCH::setCode(RADIO_EQ_CONFIG cfg)
 
 RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_data *my_data)
 {
-    //puts("RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER()");
     this->my_data = my_data;
 }
 
@@ -186,7 +183,6 @@ RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()
     for(auto it = m_radioEqMap.begin(); it != m_radioEqMap.end(); ++it) {
         delete it->second;
     }
-    //puts("RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()");
 }
 
 void RADIO_EQ_CONTAINER::addRadioEq( RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
@@ -251,7 +247,6 @@ RADIO_EQ* RADIO_EQ_CONTAINER::getEqPointer(std::string name)
 std::vector<RADIO_SWITCH*> RADIO_EQ_CONTAINER::getSwitchPointerVector()
 {
     std::vector<RADIO_SWITCH*> switchVector;
-
     for (auto it : m_radioEqMap){
         if (it.second->getType() == RADIO_EQ_TYPE::SWITCH){
             switchVector.push_back(static_cast<RADIO_SWITCH*>(it.second));
@@ -263,7 +258,6 @@ std::vector<RADIO_SWITCH*> RADIO_EQ_CONTAINER::getSwitchPointerVector()
 std::vector<RADIO_BUTTON *> RADIO_EQ_CONTAINER::getButtonPointerVector()
 {
     std::vector<RADIO_BUTTON*> buttonVector;
-
     for (auto it : m_radioEqMap){
         if (it.second->getType() == RADIO_EQ_TYPE::BUTTON){
             buttonVector.push_back(static_cast<RADIO_BUTTON*>(it.second));
@@ -317,7 +311,6 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
         m_radioEqMap.clear();
         nlohmann::json j;
         myfile >> j;
-
         RADIO_EQ_CONFIG cfg;
 
         try
@@ -439,7 +432,6 @@ std::string RADIO_EQ_CONTAINER::showConfig(const std::string &filePath)
     {
         nlohmann::json j;
         myfile >> j;
-
         ret = j.dump(4);
     }
     return ret;
@@ -448,12 +440,10 @@ std::string RADIO_EQ_CONTAINER::showConfig(const std::string &filePath)
 RADIO_EQ::RADIO_EQ(): m_type(RADIO_EQ_TYPE::NONE)
 {
     this->m_my_data = std::nullptr_t();
-    //puts("RADIO_EQ::RADIO_EQ()");
 }
 
 RADIO_EQ::~RADIO_EQ()
 {
-    //puts("RADIO_EQ::~RADIO_EQ()");
 }
 
 RADIO_EQ_TYPE RADIO_EQ::getType()
@@ -463,7 +453,6 @@ RADIO_EQ_TYPE RADIO_EQ::getType()
 
 RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *my_data, const RADIO_EQ_CONFIG& cfg, RADIO_EQ_TYPE type)
 {
-    //puts("RADIO_WEATHER_STATION::RADIO_WEATHER_STATION()");
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
     RADIO_EQ::m_config = cfg;
@@ -471,7 +460,6 @@ RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *my_data, const RADIO_E
 
 RADIO_WEATHER_STATION::~RADIO_WEATHER_STATION()
 {
-    //puts("RADIO_WEATHER_STATION::~RADIO_WEATHER_STATION()");
 }
 
 STATE RADIO_WEATHER_STATION::getState()

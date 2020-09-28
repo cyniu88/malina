@@ -108,7 +108,6 @@ void iDOM_THREAD::waitUntilAllThreadEnd(thread_data *my_data)
     } while(threadCounter != 0);
 }
 
-
 int iDOM_THREAD::findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array)
 {
     for (std::size_t i = 0; i< array->size(); ++i)
@@ -116,6 +115,5 @@ int iDOM_THREAD::findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MA
         if (array->at(i).thread_socket == 0)
             return static_cast<int>(i);
     }
-    puts("return -1");
     return -1;
 }

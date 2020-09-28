@@ -1,8 +1,7 @@
 #include "tasker.h"
 #include "../functions/functions.h"
 
-TASKER::TASKER(thread_data *my_data):
-                                       topic("iDom-client/command"),
+TASKER::TASKER(thread_data *my_data):  topic("iDom-client/command"),
                                        my_data(my_data)
 {
     my_data->lusina.statHumi.resize(270);
@@ -61,7 +60,6 @@ int TASKER::runTasker()
             {
                 my_data->lusina.statHumi.push_back(-1);
             }
-
         }
         else if(kk.first == topic + "/lusina/t")
         {

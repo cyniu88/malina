@@ -488,7 +488,6 @@ void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
             break;
         }
 
-
         ///////////////////////////////////// TASKER //////////////////////////////////////////
         /// call Tasker
         int delayMS = my_tasker->runTasker();
@@ -533,7 +532,6 @@ void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
     log_file_cout << INFO << "koniec programu "<< std::endl;
     log_file_mutex.mutex_unlock();
     // zamykam gniazdo
-
 }
 
 CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
@@ -608,18 +606,14 @@ std::map<std::string, iDom_API*> iDom_API::m_map_iDom_API;
 std::mutex iDom_API::m_locker;
 
 std::string iDom_API::getDump(){
-
     std::lock_guard <std::mutex> lock(iDom_API::m_locker);
     std::stringstream ret;
     for(auto it : m_map_iDom_API){
         ret << std::endl << "----------------------------"
             << std::endl << " map element: " << it.first << std::endl << it.second->dump();
     }
-
     return ret.str();
 }
-
-
 
 void iDom_API::addToMap(const std::string& name, iDom_API* ptr)
 {
@@ -635,5 +629,4 @@ void iDom_API::removeFromMap(const std::string& name)
         puts("nie ma w MAPIE !!");
         puts(name.c_str());
     }
-
 }

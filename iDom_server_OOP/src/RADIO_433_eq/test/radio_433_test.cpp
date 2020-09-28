@@ -108,8 +108,6 @@ TEST_F(Switch_Class_fixture, loadConfig)
 
     EXPECT_FALSE(test_my_data.main_REC->nameExist("firstt"));
     EXPECT_TRUE(test_my_data.main_REC->nameExist("locker-main"));
-
-    //test_rec.loadConfig("/mnt/ramdisk/433_eq_conf_fake.json");
 }
 
 TEST_F(Switch_Class_fixture, getUnexistPtr)

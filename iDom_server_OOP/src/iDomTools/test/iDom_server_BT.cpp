@@ -24,12 +24,10 @@ TEST_F(iDom_server_Class, LED_Strip )
     EXPECT_STREQ(test_LED.makeCommand("1","60","128","128","128").c_str(),"LED:[1-60-128-128-128];");
 
     test_LED.set("1","60","0","255","0","UNKNOWN");
-
     EXPECT_STREQ(test_LED.getColorName().c_str(), "UNKNOWN");
     EXPECT_STREQ(test_LED.get(0,60).c_str(),"LED:[1-60-0-255-0];");
 
     test_LED.set(50,51,1,2,3,"BLACK");
-
     EXPECT_STREQ(test_LED.getColorName().c_str(), "BLACK");
     EXPECT_STREQ(test_LED.get(0,60).c_str(),"LED:[50-51-1-2-3];");
 }
