@@ -4,8 +4,8 @@
 class command_buderus_Class_fixture : public iDomTOOLS_ClassTest
 {
 public:
-    std::string test_boilerData = R"({"wWComfort":"Hot",   "wWSelTemp":60,   "wWDesiredTemp":70,   "selFlowTemp":5,   "selBurnPow":0,   "curBurnPow":0,   "pumpMod":10,   "wWCircPump":0,   "curFlowTemp":30.9,   "switchTemp":0,)"
-                                  R"("boilTemp":16.4,   "wWActivated":"off",   "wWOnetime":"on",   "burnGas":"on",   "flameCurr":0,   "heatPmp":"on",   "fanWork":"off",   "ignWork":"off",   "wWCirc":"off",)"
+    std::string test_boilerData = R"({"wWComfort":"Hot",  "burnGas":"on", "wWSelTemp":60,   "wWDesiredTemp":70,   "selFlowTemp":5,   "selBurnPow":0,   "curBurnPow":0,   "pumpMod":10, "wWCirc":"on", "wWCircPump":"off",   "curFlowTemp":30.9,   "switchTemp":0,)"
+                                  R"("boilTemp":16.4,   "wWActivated":"off",   "wWOnetime":"on",    "flameCurr":0,   "heatPmp":"on",   "fanWork":"off",   "ignWork":"off",   )"
                                   R"("heating_temp":50,   "outdoorTemp":9.99,   "wwStorageTemp2":62.2,   "pump_mod_max":100,   "pump_mod_min":10,   "wWHeat":"off",   "UBAuptime":14590,   "burnStarts":27,   "burnWorkMin":13594,   "heatWorkMin":13594,   "ServiceCode":"0H",)"
                                   R"("ServiceCodeNumber":203})";
     std::string test_thermostatData = R"({"hc1": {"currtemp": 22.5,"mode": "manual", "seltemp": 22  } })";
@@ -202,4 +202,40 @@ TEST_F(command_buderus_Class_fixture, set_desired_temp_fake)
     auto ret = test_command_buderus->execute(test_v,&test_my_data);
     std::cout << ret << std::endl;
     EXPECT_STREQ(ret.c_str(), "cannot convert to float");
+}
+
+TEST_F(command_buderus_Class_fixture, circlePump_handling) {
+    EXPECT_THAT(test_my_data.ptr_buderus->getCirclePumpState(),
+                STATE::UNDEFINE);
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("boiler_data");
+    test_v.push_back(test_boilerData);
+    (void)test_command_buderus->execute(test_v,&test_my_data);
+    EXPECT_THAT(test_my_data.ptr_buderus->getCirclePumpState(),
+                STATE::ON);
+
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("boiler_data");
+    test_v.push_back(R"({ "wWCirc":"on", "burnGas":"on", "outdoorTemp":9.99, "wwStorageTemp2":62.2 })");
+    (void)test_command_buderus->execute(test_v,&test_my_data);
+    EXPECT_THAT(test_my_data.ptr_buderus->getCirclePumpState(),
+                STATE::ON);
+
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("boiler_data");
+    test_v.push_back(R"({ "wWCirc":"off", "burnGas":"on", "outdoorTemp":9.99, "wwStorageTemp2":62.2 })");
+    (void)test_command_buderus->execute(test_v,&test_my_data);
+    EXPECT_THAT(test_my_data.ptr_buderus->getCirclePumpState(),
+                STATE::OFF);
+
+    test_v.clear();
+    test_v.push_back("buderus");
+    test_v.push_back("boiler_data");
+    test_v.push_back(R"({ "wWCirc":"off", "burnGas":"on", "outdoorTemp":9.99, "wwStorageTemp2":62.2 })");
+    (void)test_command_buderus->execute(test_v,&test_my_data);
+    EXPECT_THAT(test_my_data.ptr_buderus->getCirclePumpState(),
+                STATE::OFF);
 }

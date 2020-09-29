@@ -23,20 +23,17 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
     m_boiler_data = jj;
     try{
         m_outdoorTemp = jj.at("outdoorTemp").get<double>();
-        m_boilerTemp  = jj.at("wwStorageTemp2").get<double>();
+        m_boilerTemp = jj.at("wwStorageTemp2").get<double>();
         if(jj.at("burnGas").get<std::string>() == "on")
             m_heating_active = true;
         else
             m_heating_active = false;
+
         if (jj.at("wWCirc").get<std::string>() == "on") {
             if (m_circlePump != STATE::ON) {
-                useful_F::myStaticData->main_iDomTools->sendViberMsg(
-                    "uruchamiam pompe obiegową CWU",
-                    useful_F::myStaticData->server_settings->_fb_viber
-                        .viberReceiver.at(0),
-                    useful_F::myStaticData->server_settings->_fb_viber
-                            .viberSender +
-                        "BUDERUS");
+                useful_F::myStaticData->main_iDomTools->sendViberMsg("uruchamiam pompe obiegową CWU",
+                                                                     useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
+                                                                     useful_F::myStaticData->server_settings->_fb_viber.viberSender + "BUDERUS");
                 m_circlePump = STATE::ON;
             }
         }
@@ -149,6 +146,11 @@ void BUDERUS::runCirclePompForWhile()
                                                  R"({"cmd":"wwcirculation","data":"on"})");
 }
 
+STATE BUDERUS::getCirclePumpState()
+{
+    return m_circlePump;
+}
+
 void BUDERUS::boilerHeatOneTime()
 {
     useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler",
@@ -173,7 +175,6 @@ std::string BUDERUS::dump() const
     ret << R"("m_thermostat_data": )" << m_thermostat_data.dump(4) << "," << std::endl;
     ret << R"("m_tapwater_active": )" <<  m_tapwater_active << "," << std::endl;
     ret << R"("m_heating_active": )" << m_heating_active << "," << std::endl;
-
     ret << R"("m_boilerTemp": )" << m_boilerTemp << "," << std::endl;
     ret << R"("m_insideTemp": )" << m_insideTemp << "," << std::endl;
     ret << R"("m_outdoorTemp": )" << m_outdoorTemp << "," << std::endl;

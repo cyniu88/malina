@@ -43,6 +43,7 @@ public:
 
     void circlePompToRun();
     void runCirclePompForWhile();
+    STATE getCirclePumpState();
 
     void boilerHeatOneTime();
     void setTempInsideBuilding(const std::string &t);
