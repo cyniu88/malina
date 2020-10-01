@@ -170,8 +170,8 @@ std::string BUDERUS::dump() const
 {
     std::stringstream ret;
 
-    ret << std::endl;
-    ret << R"({"m_boiler_data": )" << m_boiler_data.dump(4) << "," << std::endl;
+    ret << '{' << std::endl;
+    ret << R"("m_boiler_data": )" << m_boiler_data.dump(4) << "," << std::endl;
     ret << R"("m_thermostat_data": )" << m_thermostat_data.dump(4) << "," << std::endl;
     ret << R"("m_tapwater_active": )" <<  m_tapwater_active << "," << std::endl;
     ret << R"("m_heating_active": )" << m_heating_active << "," << std::endl;

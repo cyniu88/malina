@@ -338,7 +338,6 @@ iDomStateEnum iDom_main()
         log_file_mutex.mutex_unlock();
     }
 
-
     ///////////////////////////////////////////////////// INFO PART ////////////////////////////////////////////////
     node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings._fb_viber.viberReceiver.at(0),
                                            server_settings._fb_viber.viberSender);
@@ -348,7 +347,6 @@ iDomStateEnum iDom_main()
     TASKER mainTasker(&node_data);
     ///////////////////////////////////////////////////// STARTED //////////////////////////////////////////////////
     node_data.serverStarted = true;
-    node_data.main_iDomTools->turnOn433MHzSwitch("circlePomp");
     ///////////////////////////////////////////////////// start server ////////////////////////////////////////////////////
     useful_F ::startServer(&node_data, &mainTasker);
 
@@ -374,4 +372,3 @@ iDomStateEnum iDom_main()
     iDOM_THREAD::waitUntilAllThreadEnd(&node_data);
     return iDomStateProgram;
 }
-

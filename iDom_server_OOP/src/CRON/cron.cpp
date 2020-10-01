@@ -3,7 +3,7 @@
 CRON::CRON(thread_data *my_data)
 {
     this->my_data = my_data;
-    this->check_temperature = TRUE;
+    this->check_temperature = true;
 }
 
 void CRON::run()
@@ -19,7 +19,7 @@ void CRON::run()
 
         if (min != act_date->tm_min && useful_F::go_while)
         {
-            runEveryone_1min(act_date);
+            runEveryone_1min();
             if (act_date->tm_min % 5 == 0 )
             {
                 runEveryone_5min();
@@ -41,20 +41,19 @@ void CRON::run()
     }
 }
 
-void CRON::runEveryone_1min(struct tm *act_date)
+void CRON::runEveryone_1min()
 {
     my_data->main_iDomTools->checkAlarm();
     my_data->main_iDomTools->updateTemperatureStats();
+    my_data->ptr_buderus->circlePompToRun();
 
-    Clock now;
-    now = Clock::getTime();
+    auto now = Clock::getTime();
     if(now == my_data->main_iDomTools->getSunsetClock() ){
         runOnSunset();
     }
     if(now == my_data->main_iDomTools->getSunriseClock() ){
         runOnSunrise();
     }
-    my_data->ptr_buderus->circlePompToRun();
 }
 
 void CRON::runEveryone_5min()
@@ -79,7 +78,6 @@ void CRON::runEveryone_5min()
 
 void CRON::runEveryone_15min()
 {
-    // printf("co 15 minut! \n");
     my_data->main_iDomTools->send_data_to_thingSpeak();
 }
 
@@ -90,7 +88,6 @@ void CRON::runEveryone_30min()
 
 void CRON::runEveryone_1h()
 {
-    // printf("co godzine! \n");
     my_data->myEventHandler.clearOld(8000, 1000, [](const std::string& name){
             log_file_mutex.mutex_lock();
             log_file_cout << INFO << "skasowano nadmiarowe eventy w: "<< name << std::endl;
@@ -105,7 +102,6 @@ void CRON::runOnSunset()
     log_file_mutex.mutex_unlock();
 
     my_data->main_iDomTools->runOnSunset();
-
 }
 
 void CRON::runOnSunrise()

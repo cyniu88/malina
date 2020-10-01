@@ -257,7 +257,6 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
     return str_buf;
 }
 
-
 ///////////////////// watek polaczenia TCP /////////////////////////////////////
 void useful_F::Server_connectivity_thread(thread_data *my_data, const std::string &threadName){
     C_connection *client = new C_connection(my_data);
@@ -489,7 +488,7 @@ void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
         }
 
         ///////////////////////////////////// TASKER //////////////////////////////////////////
-        /// call Tasker
+        /// call Tasker, if Tasker has a lot of work to do, we cut waiting times
         int delayMS = my_tasker->runTasker();
         std::this_thread::sleep_for(std::chrono::milliseconds(delayMS));
 
