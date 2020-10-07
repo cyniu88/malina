@@ -160,7 +160,7 @@ void BUDERUS::boilerHeatOneTime()
 void BUDERUS::setTempInsideBuilding(const std::string& t)
 {
     std::stringstream tt;
-    tt << R"(){"cmd":"temp","data":)";
+    tt << R"({"cmd":"temp","data":)";
     tt << t;
     tt << R"(,"id":1})";
     useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/thermostat",tt.str());
