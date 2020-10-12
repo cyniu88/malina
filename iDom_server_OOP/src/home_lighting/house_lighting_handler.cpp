@@ -118,7 +118,7 @@ nlohmann::json house_lighting_handler::getAllInfoJSON()
         roomJJ["bubl name"] = a.second->getBulbName();
         roomJJ["switch"] = a.second->getBulbPin();
         roomJJ["last working time"] = a.second->howLongBulbOn().getString();
-        jj.push_back(roomJJ);//[a.second->getID()] = roomJJ;
+        jj.push_back(roomJJ);
     }
     return jj;
 }
@@ -126,7 +126,7 @@ nlohmann::json house_lighting_handler::getAllInfoJSON()
 nlohmann::json house_lighting_handler::getInfoJSON_allON()
 {
     nlohmann::json jj;
-   // jj["all"] = "ON";
+
 #ifdef BT_TEST
     std::cout << "mapa m_lightingBulbMap size: " << m_lightingBulbMap.size() << std::endl;
 #endif
@@ -142,7 +142,7 @@ nlohmann::json house_lighting_handler::getInfoJSON_allON()
             roomJJ["bubl name"] = a.second->getBulbName();
             roomJJ["switch"] = a.second->getBulbPin();
             roomJJ["last working time"] = a.second->howLongBulbOn().getString();
-            jj.push_back(roomJJ);//[a.second->getID()] = roomJJ;
+            jj.push_back(roomJJ);
         }
     }
     return jj;
@@ -176,15 +176,20 @@ void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
             m_lightingBulbMap.at(bulbID)->setStatus(state);
             // it is working only for room with one bulb
             my_data->main_iDomStatus->setObjectState(m_lightingBulbMap.at(bulbID)->getRoomName(),state);
-            //TODO temporary added viber notifiction
-            std::stringstream str_buf;
-            str_buf << "zmana statusu lampy " << bulbID
-                    << " w pomieszczeniu: " << m_lightingBulbMap.at(bulbID)->getRoomName()
-                    << " na " << stateToString(state)
-                    << " przyciskiem: " << vv.at(2)
-                    << " czas trwania: " <<  m_lightingBulbMap.at(bulbID)->howLongBulbOn().getString();
-            my_data->main_iDomTools->sendViberMsg(str_buf.str(),my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                                  my_data->server_settings->_fb_viber.viberSender + "-light");
+            // TODO temporary added viber notifiction
+            auto time = Clock::getUnixTime() - m_lastNotifyUnixTime;
+            if (/*my_data->main_iDomTools->isItDay() == true ||*/
+                time > 60) {
+                m_lastNotifyUnixTime += time;
+                std::stringstream str_buf;
+                str_buf << "zmana statusu lampy " << bulbID
+                        << " w pomieszczeniu: " << m_lightingBulbMap.at(bulbID)->getRoomName()
+                        << " na " << stateToString(state)
+                        << " przyciskiem: " << vv.at(2)
+                        << " czas trwania: " <<  m_lightingBulbMap.at(bulbID)->howLongBulbOn().getString();
+                my_data->main_iDomTools->sendViberMsg(str_buf.str(),my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                      my_data->server_settings->_fb_viber.viberSender + "-light");
+            }
         }
     } catch (...) {
         std::stringstream ret;
@@ -205,5 +210,6 @@ std::string house_lighting_handler::dump() const
         str << "light " << a.first << " name " << a.second->getBulbName() << std::endl;
 
     str << "m_mqttPublishTopic: " << m_mqttPublishTopic << std::endl;
+    str << "m_lastNotifyUnixTime: " << m_lastNotifyUnixTime << std::endl;
     return str.str();
 }

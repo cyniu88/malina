@@ -4,14 +4,10 @@
 class command_light_Class_fixture : public iDomTOOLS_ClassTest
 {
 public:
-    command_light_Class_fixture()
-    {
-
-    }
+    command_light_Class_fixture(){}
 
 protected:
     std::unique_ptr<command_light> test_command_light;
-
     std::vector<std::string> test_v;
     void SetUp() final
     {
@@ -109,7 +105,7 @@ TEST_F(command_light_Class_fixture, on_off_bulb_command)
     test_v.push_back("on");
     test_v.push_back("126");
 
-    auto ret = test_command_light->execute(test_v,&test_my_data);
+    (void)test_command_light->execute(test_v,&test_my_data);
     EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::ON);
 
@@ -136,7 +132,7 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
     test_v.push_back("lazienka");
     test_v.push_back("on");
 
-    auto ret = test_command_light->execute(test_v,&test_my_data);
+    (void)test_command_light->execute(test_v,&test_my_data);
     EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::ON);
     EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(104)->getStatus(),
@@ -148,7 +144,7 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
     test_v.push_back("lazienka");
     test_v.push_back("off");
 
-    ret = test_command_light->execute(test_v,&test_my_data);
+    (void)test_command_light->execute(test_v,&test_my_data);
     EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::OFF);
     EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(104)->getStatus(),
