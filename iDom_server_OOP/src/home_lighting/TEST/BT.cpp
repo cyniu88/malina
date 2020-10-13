@@ -75,9 +75,8 @@ TEST_F(light_house_fixture, bulb_on_bulb_off)
     EXPECT_EQ(testLightingHandler->m_lightingBulbMap[111]->getStatus() , STATE::OFF);
 }
 
-TEST_F(light_house_fixture, bulb_status_from_mqtt)
-{
-
+TEST_F(light_house_fixture, bulb_status_from_mqtt) {
+    test_my_data.main_iDomTools->lockHome();
     std::string cfg("../config/bulb_config.json");
     auto testLightingHandler = std::make_unique<house_lighting_handler>(&test_my_data);
     testLightingHandler->loadConfig(cfg);

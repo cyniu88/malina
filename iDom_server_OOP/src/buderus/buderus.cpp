@@ -24,10 +24,18 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
     try{
         m_outdoorTemp = jj.at("outdoorTemp").get<double>();
         m_boilerTemp = jj.at("wwStorageTemp2").get<double>();
-        if(jj.at("burnGas").get<std::string>() == "on")
+        auto burnGas = jj.at("burnGas").get<std::string>();
+        if ( burnGas == "on" && m_heating_active == false) {
             m_heating_active = true;
-        else
+            useful_F::myStaticData->main_iDomStatus->setObjectState(
+                "burnGas", STATE::ACTIVE);
+        }
+        else if (burnGas == "off" && m_heating_active == true)
+        {
             m_heating_active = false;
+            useful_F::myStaticData->main_iDomStatus->setObjectState(
+                "burnGas", STATE::DEACTIVE);
+        }
 
         if (jj.at("wWCirc").get<std::string>() == "on") {
             if (m_circlePump != STATE::ON) {
