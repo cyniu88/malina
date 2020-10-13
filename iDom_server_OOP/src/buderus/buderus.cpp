@@ -10,8 +10,6 @@ BUDERUS::BUDERUS()
 #ifdef BT_TEST
     std::cout << "BUDERUS::BUDERUS()" << std::endl;
 #endif
-    useful_F::myStaticData->main_iDomStatus->setObjectState(
-        "burnGas", STATE::DEACTIVE);
 }
 
 BUDERUS::~BUDERUS()
@@ -27,16 +25,13 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
         m_outdoorTemp = jj.at("outdoorTemp").get<double>();
         m_boilerTemp = jj.at("wwStorageTemp2").get<double>();
         auto burnGas = jj.at("burnGas").get<std::string>();
-        if ( burnGas == "on" && m_heating_active == false) {
+        if (burnGas == "on" && m_heating_active == false) {
             m_heating_active = true;
-            useful_F::myStaticData->main_iDomStatus->setObjectState(
-                "burnGas", STATE::ACTIVE);
+            m_heating_time = Clock::getUnixTime();
         }
         else if (burnGas == "off" && m_heating_active == true)
         {
             m_heating_active = false;
-            useful_F::myStaticData->main_iDomStatus->setObjectState(
-                "burnGas", STATE::DEACTIVE);
         }
 
         if (jj.at("wWCirc").get<std::string>() == "on") {
@@ -176,6 +171,11 @@ void BUDERUS::setTempInsideBuilding(const std::string& t)
     useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/thermostat",tt.str());
 }
 
+unsigned int BUDERUS::getHeatingStartTime() {
+    std::lock_guard<std::mutex> lock(m_lockGuard);
+    return m_heating_time;
+}
+
 std::string BUDERUS::dump() const
 {
     std::stringstream ret;
@@ -185,6 +185,7 @@ std::string BUDERUS::dump() const
     ret << R"("m_thermostat_data": )" << m_thermostat_data.dump(4) << "," << std::endl;
     ret << R"("m_tapwater_active": )" <<  m_tapwater_active << "," << std::endl;
     ret << R"("m_heating_active": )" << m_heating_active << "," << std::endl;
+    ret << R"("m_heating_time":)" << m_heating_time << ',' << std::endl;
     ret << R"("m_boilerTemp": )" << m_boilerTemp << "," << std::endl;
     ret << R"("m_insideTemp": )" << m_insideTemp << "," << std::endl;
     ret << R"("m_outdoorTemp": )" << m_outdoorTemp << "," << std::endl;

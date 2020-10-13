@@ -14,6 +14,7 @@ class BUDERUS: public iDom_API
     nlohmann::json m_thermostat_data;
     bool m_tapwater_active = false;
     bool m_heating_active = false;
+    unsigned int m_heating_time = 0;
     double m_outdoorTemp = 0.0;
     double m_insideTemp = 0.0;
     double m_boilerTemp = 0.0;
@@ -47,6 +48,8 @@ public:
 
     void boilerHeatOneTime();
     void setTempInsideBuilding(const std::string &t);
+
+    unsigned int getHeatingStartTime();
 
     std::string dump() const override;
 };

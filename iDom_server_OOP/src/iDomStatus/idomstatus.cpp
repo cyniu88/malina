@@ -1,4 +1,5 @@
 #include "idomstatus.h"
+#include "../functions/functions.h"
 
 iDomSTATUS::iDomSTATUS()
 {
@@ -66,5 +67,15 @@ std::string iDomSTATUS::getAllObjectsStateString()
         st << elm.first << "=";
         st << stateToString(elm.second) << " ";
     }
+    // shortcut solution for buderus
+    st << "burnGas=";
+    auto heating = useful_F::myStaticData->ptr_buderus->isHeatingActiv();
+    if (heating == true) {
+        st << stateToString(STATE::ACTIVE);
+        st << " burnGasStartTime="
+           << useful_F::myStaticData->ptr_buderus->getHeatingStartTime() << ' ';
+    }
+    else
+        st << stateToString(STATE::DEACTIVE) << ' ';
     return st.str();
 }
