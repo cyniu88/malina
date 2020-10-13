@@ -10,6 +10,8 @@ BUDERUS::BUDERUS()
 #ifdef BT_TEST
     std::cout << "BUDERUS::BUDERUS()" << std::endl;
 #endif
+    useful_F::myStaticData->main_iDomStatus->setObjectState(
+        "burnGas", STATE::DEACTIVE);
 }
 
 BUDERUS::~BUDERUS()
