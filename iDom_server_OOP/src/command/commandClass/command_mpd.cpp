@@ -87,7 +87,7 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
     }
     else if (v[1] == "list")
     {
-        for (auto i : my_data->ptr_MPD_info->songList)
+        for (const auto& i : my_data->ptr_MPD_info->songList)
             str_buf.append(i + "\n");
     }
     else

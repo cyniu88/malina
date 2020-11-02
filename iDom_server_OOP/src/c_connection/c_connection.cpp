@@ -130,7 +130,7 @@ void C_connection::c_analyse(int recvSize)
 
     m_str_buf = "unknown command\n";
 
-    for(std::string t : command)
+    for(const std::string& t : command)
     {
         m_str_buf.append(t);
         m_str_buf.push_back(' ');

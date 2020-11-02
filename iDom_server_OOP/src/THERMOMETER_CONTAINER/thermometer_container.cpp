@@ -121,7 +121,7 @@ int THERMOMETER_CONTAINER::sizeOf()
 
 void THERMOMETER_CONTAINER::showAll()
 {
-    for(auto n : thermoMap)
+    for(const auto& n : thermoMap)
     {
         std::cout << n.first << " ";
     }

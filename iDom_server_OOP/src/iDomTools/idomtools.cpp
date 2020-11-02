@@ -723,7 +723,7 @@ std::vector<WEATHER_ALER> iDomTOOLS::getAlert(std::string data)
 
     vect = useful_F::split(d,'\n');
     vect.pop_back();
-    for (auto n : vect)
+    for (const auto& n : vect)
     {
         if (n.find("brak") == std::string::npos)
         {
@@ -743,7 +743,7 @@ void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)
     }
     std::string txt;
 
-    for (auto a : *textVector){
+    for (const auto& a : *textVector){
         txt.append(a);
     }
     /////////// start thread TTS - python use ////////////////////////
@@ -1173,4 +1173,24 @@ void iDomTOOLS::wifiClientConnected()
 void iDomTOOLS::wifiClientDisconnected()
 {
     buttonLockHome();
+}
+
+void iDomTOOLS::doorbellDingDong()
+{
+    try {
+        RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer("DingDong"));
+        m_switch->onFor15sec();
+        my_data->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
+                         "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
+                         my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                         my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "Dzwonek do drzwi"<< std::endl;
+        log_file_mutex.mutex_unlock();
+    }  catch (...) {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "Dbrak dzwonka do drzwi!!! w paśmie 433MHz"<< std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+
 }

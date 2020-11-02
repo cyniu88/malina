@@ -191,6 +191,8 @@ public:
     //////////////////////// link generator ///////////////
     std::string openGateLink(std::vector<std::string> v);
 
+    //////////////////  doorbell  ////////////////////////
+    void doorbellDingDong();
 };
 
 #endif // IDOMTOOLS_H

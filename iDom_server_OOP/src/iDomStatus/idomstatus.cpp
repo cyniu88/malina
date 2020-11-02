@@ -62,7 +62,7 @@ std::string iDomSTATUS::getAllObjectsStateString()
     std::stringstream st;
     st << "state: ";
     std::lock_guard < std::mutex > lock( m_lockGuard);
-    for (auto elm : m_stateMAP)
+    for (const auto& elm : m_stateMAP)
     {
         st << elm.first << "=";
         st << stateToString(elm.second) << " ";

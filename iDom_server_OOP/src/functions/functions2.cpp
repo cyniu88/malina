@@ -607,7 +607,7 @@ std::mutex iDom_API::m_locker;
 std::string iDom_API::getDump(){
     std::lock_guard <std::mutex> lock(iDom_API::m_locker);
     std::stringstream ret;
-    for(auto it : m_map_iDom_API){
+    for(const auto& it : m_map_iDom_API){
         ret << std::endl << "----------------------------"
             << std::endl << " map element: " << it.first << std::endl << it.second->dump();
     }

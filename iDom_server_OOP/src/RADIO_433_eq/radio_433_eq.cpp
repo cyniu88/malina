@@ -247,7 +247,7 @@ RADIO_EQ* RADIO_EQ_CONTAINER::getEqPointer(std::string name)
 std::vector<RADIO_SWITCH*> RADIO_EQ_CONTAINER::getSwitchPointerVector()
 {
     std::vector<RADIO_SWITCH*> switchVector;
-    for (auto it : m_radioEqMap){
+    for (const auto& it : m_radioEqMap){
         if (it.second->getType() == RADIO_EQ_TYPE::SWITCH){
             switchVector.push_back(static_cast<RADIO_SWITCH*>(it.second));
         }
@@ -258,7 +258,7 @@ std::vector<RADIO_SWITCH*> RADIO_EQ_CONTAINER::getSwitchPointerVector()
 std::vector<RADIO_BUTTON *> RADIO_EQ_CONTAINER::getButtonPointerVector()
 {
     std::vector<RADIO_BUTTON*> buttonVector;
-    for (auto it : m_radioEqMap){
+    for (const auto& it : m_radioEqMap){
         if (it.second->getType() == RADIO_EQ_TYPE::BUTTON){
             buttonVector.push_back(static_cast<RADIO_BUTTON*>(it.second));
         }
@@ -269,7 +269,7 @@ std::vector<RADIO_BUTTON *> RADIO_EQ_CONTAINER::getButtonPointerVector()
 std::vector<RADIO_WEATHER_STATION *> RADIO_EQ_CONTAINER::getWeather_StationPtrVector()
 {
     std::vector<RADIO_WEATHER_STATION*> weatherStVe;
-    for (auto it : m_radioEqMap){
+    for (const auto& it : m_radioEqMap){
         if (it.second->getType() == RADIO_EQ_TYPE::WEATHER_S){
             weatherStVe.push_back(static_cast<RADIO_WEATHER_STATION*>(it.second));
         }

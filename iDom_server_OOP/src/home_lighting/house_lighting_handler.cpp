@@ -48,7 +48,7 @@ void house_lighting_handler::turnOnAllInRoom(const std::string &roomName)
         a->on([](const std::string& name){
             useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
         }
-              );
+        );
     }
 }
 
@@ -59,7 +59,7 @@ void house_lighting_handler::turnOffAllInRoom(const std::string &roomName)
         a->off([](const std::string& name){
             useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
         }
-               );
+        );
     }
 }
 
@@ -82,7 +82,7 @@ void house_lighting_handler::turnOnBulb(const int bulbID)
     m_lightingBulbMap.at(bulbID)->on([](const std::string& name){
         useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
     }
-                                     );
+    );
 }
 
 void house_lighting_handler::turnOffBulb(const int bulbID)
@@ -90,7 +90,7 @@ void house_lighting_handler::turnOffBulb(const int bulbID)
     m_lightingBulbMap.at(bulbID)->off([](const std::string& name){
         useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
     }
-                                      );
+    );
 }
 
 void house_lighting_handler::lockAllRoom()
@@ -158,15 +158,7 @@ void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
         int bulbID = std::stoi(vv.at(1));
         // DingDong  dzownek
         if(bulbID == 888){
-            RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer("DingDong"));
-            m_switch->onFor15sec();
-            my_data->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
-                             "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
-                             my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                             my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
-            log_file_mutex.mutex_lock();
-            log_file_cout << INFO << "Dzwonek do drzwi"<< std::endl;
-            log_file_mutex.mutex_unlock();
+            my_data->main_iDomTools->doorbellDingDong();
         }
         if(vv.at(0) == "state"){
             if(m_lightingBulbMap.find(bulbID) == m_lightingBulbMap.end()){
@@ -194,7 +186,7 @@ void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
             // TODO temporary added viber notifiction
             auto time = Clock::getUnixTime() - m_lastNotifyUnixTime;
             if (my_data->idom_all_state.houseState == STATE::LOCK ||
-                time > 60) {
+                    time > 60) {
                 m_lastNotifyUnixTime += time;
                 std::stringstream str_buf;
                 str_buf << "zmana statusu lampy " << bulbID
