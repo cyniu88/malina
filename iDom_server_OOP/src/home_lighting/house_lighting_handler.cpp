@@ -1,7 +1,10 @@
+#include <fstream>
+
 #include "house_lighting_handler.h"
 #include "json.hpp"
 #include "../functions/functions.h"
-#include <fstream>
+#include "../RADIO_433_eq/radio_433_eq.h"
+#include "../433MHz/RFLink/rflinkhandler.h"
 
 std::string house_lighting_handler::m_mqttPublishTopic = "swiatlo/output/";
 
@@ -153,7 +156,18 @@ void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
     try {
         auto vv = useful_F::split(msg,';');
         int bulbID = std::stoi(vv.at(1));
-
+        // DingDong  dzownek
+        if(bulbID == 888){
+            RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer("DingDong"));
+            m_switch->onFor15sec();
+            my_data->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
+                             "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
+                             my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                             my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
+            log_file_mutex.mutex_lock();
+            log_file_cout << INFO << "Dzwonek do drzwi"<< std::endl;
+            log_file_mutex.mutex_unlock();
+        }
         if(vv.at(0) == "state"){
             if(m_lightingBulbMap.find(bulbID) == m_lightingBulbMap.end()){
                 m_lightingBulbMap.emplace(bulbID, std::make_shared<light_bulb>("roomName", "bulbName", bulbID));
@@ -176,6 +190,7 @@ void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
             m_lightingBulbMap.at(bulbID)->setStatus(state);
             // it is working only for room with one bulb
             my_data->main_iDomStatus->setObjectState(m_lightingBulbMap.at(bulbID)->getRoomName(),state);
+
             // TODO temporary added viber notifiction
             auto time = Clock::getUnixTime() - m_lastNotifyUnixTime;
             if (my_data->idom_all_state.houseState == STATE::LOCK ||

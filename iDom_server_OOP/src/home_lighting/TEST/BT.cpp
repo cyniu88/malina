@@ -100,6 +100,21 @@ TEST_F(light_house_fixture, bulb_status_from_mqtt) {
     EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(111)->getStatus(), STATE::OFF);
 }
 
+TEST_F(light_house_fixture, dingDong)
+{
+    RADIO_EQ_CONFIG tCfg;
+    tCfg.name = "DingDong";
+    tCfg.ID = "8899";
+    std::string _name = tCfg.name;
+    test_rec->addRadioEq(tCfg, "SWITCH");
+    std::string cfg("../config/bulb_config.json");
+    auto testLightingHandler = std::make_unique<house_lighting_handler>(&test_my_data);
+    testLightingHandler->loadConfig(cfg);
+    std::string mqttMSG("state;888;-1;0;");
+    testLightingHandler->executeCommandFromMQTT(mqttMSG);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(888)->getStatus(), STATE::ON);
+}
+
 TEST_F(light_house_fixture, dump)
 {
     std::string cfg("../config/bulb_config.json");
