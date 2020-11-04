@@ -11,8 +11,8 @@
 #include "../thread_functions/iDom_thread.h"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData):
-                                            m_key(myData->server_settings->_server.TS_KEY),
-                                            m_keyHandler(new iDomKEY_ACCESS(myData->server_settings->_server.keyDatabasePath))
+    m_key(myData->server_settings->_server.TS_KEY),
+    m_keyHandler(new iDomKEY_ACCESS(myData->server_settings->_server.keyDatabasePath))
 {
     puts("iDomTOOLS::iDomTOOLS()");
     my_data = myData;
@@ -63,8 +63,8 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometer
     const auto oldTemp = m_allThermometer.getOldTemp(thermometerName);
     const auto lastState = m_allThermometer.getLastState(thermometerName);
     if (newTemp >= reference + histereza &&
-        oldTemp < reference + histereza &&
-        lastState != TEMPERATURE_STATE::Over)
+            oldTemp < reference + histereza &&
+            lastState != TEMPERATURE_STATE::Over)
     {
         my_data->myEventHandler.run("test")->addEvent("over: new " + to_string_with_precision(newTemp) + " old: "
                                                       + to_string_with_precision(oldTemp) + " ref: "
@@ -94,7 +94,7 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
 {
     TEMPERATURE_STATE status = hasTemperatureChange(thermomethernName,reference,0.5);
     std::string m = "temperature " + thermomethernName + " over " + EMOJI::emoji(E_emoji::NORTH_EAST_ARROW)
-        + to_string_with_precision(reference);
+            + to_string_with_precision(reference);
 
     if (status == TEMPERATURE_STATE::Over)
     {
@@ -118,7 +118,7 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string& thermomethernName, int r
     else if (status == TEMPERATURE_STATE::Under)
     {
         m = "temperature " + thermomethernName + " under " + EMOJI::emoji(E_emoji::SOUTH_EAST_ARROW)
-            + to_string_with_precision(reference);
+                + to_string_with_precision(reference);
         my_data->myEventHandler.run("temperature")->addEvent(m);
         if (reference < 2)
         {
@@ -155,7 +155,7 @@ void iDomTOOLS::updateTemperatureStats()
     {
         auto data = m_allThermometerUpdate.getLast2("outside");
         std::string msg = "alarm roznicy temeratur na polu! " + to_string_with_precision(data.first) + " na "
-            + to_string_with_precision(data.second);
+                + to_string_with_precision(data.second);
 
         if (data.first > data.second)
         {
@@ -182,7 +182,7 @@ void iDomTOOLS::updateTemperatureStats()
     {
         auto data = m_allThermometerUpdate.getLast2("inside");
         std::string msg = "alarm roznicy temeratur na mieszkaniu! " + to_string_with_precision(data.first)
-            + " na " + to_string_with_precision(data.second);
+                + " na " + to_string_with_precision(data.second);
 
         if (data.first > data.second)
         {
@@ -398,6 +398,11 @@ void iDomTOOLS::lockHome()
 {
     my_data->idom_all_state.houseState = STATE::LOCK;
     my_data->main_iDomStatus->setObjectState("house", STATE::LOCK);
+    ////switch 433mhz
+    for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
+        m_switch->onLockHome();
+    }
+
     my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/lock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
@@ -558,7 +563,7 @@ void iDomTOOLS::button433mhzDoorBellPressed(RADIO_BUTTON *radioButton)
                      my_data->server_settings->_fb_viber.viberReceiver.at(0),
                      my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "DZwonek do drzwi"<< std::endl;
+    log_file_cout << INFO << "Dzwonek do drzwi"<< std::endl;
     log_file_mutex.mutex_unlock();
 }
 
@@ -623,8 +628,8 @@ void iDomTOOLS::checkLightning()
 
         m_viber.setAvatar("http://cyniu88.no-ip.pl/avatar/lightning.jpg");
         STATE stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "
-                                              + EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
-                                              + "\\n\\n " + lightningData.data.str(),
+                                          + EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
+                                          + "\\n\\n " + lightningData.data.str(),
                                           my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                           my_data->server_settings->_fb_viber.viberSender);
 
@@ -634,8 +639,8 @@ void iDomTOOLS::checkLightning()
             log_file_mutex.mutex_unlock();
         }
         stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "
-                                        + EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
-                                        + "\\n\\n " + lightningData.data.str(),
+                                    + EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
+                                    + "\\n\\n " + lightningData.data.str(),
                                     my_data->server_settings->_fb_viber.viberReceiver.at(1),
                                     my_data->server_settings->_fb_viber.viberSender);
 
@@ -1181,15 +1186,15 @@ void iDomTOOLS::doorbellDingDong()
         RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer("DingDong"));
         m_switch->onFor15sec();
         my_data->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
-                         "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
-                         my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                         my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
+                                                  "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
+                                                  my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                  my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "Dzwonek do drzwi"<< std::endl;
         log_file_mutex.mutex_unlock();
     }  catch (...) {
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << "Dbrak dzwonka do drzwi!!! w paśmie 433MHz"<< std::endl;
+        log_file_cout << ERROR << "brak dzwonka do drzwi!!! w paśmie 433MHz"<< std::endl;
         log_file_mutex.mutex_unlock();
     }
 

@@ -47,7 +47,7 @@ private:
     iDomTOOLS();
 public:
     std::unique_ptr<iDomKEY_ACCESS> m_keyHandler;
-    std::vector <std::string> textToSpeachVector;
+    std::vector<std::string> textToSpeachVector;
     explicit iDomTOOLS(thread_data *myData);
     ~iDomTOOLS();
 

@@ -105,7 +105,6 @@ TEST_F(light_house_fixture, dingDong)
     RADIO_EQ_CONFIG tCfg;
     tCfg.name = "DingDong";
     tCfg.ID = "8899";
-    std::string _name = tCfg.name;
     test_rec->addRadioEq(tCfg, "SWITCH");
     std::string cfg("../config/bulb_config.json");
     auto testLightingHandler = std::make_unique<house_lighting_handler>(&test_my_data);
@@ -122,4 +121,3 @@ TEST_F(light_house_fixture, dump)
     testLightingHandler->loadConfig(cfg);
     std::cout << iDom_API::getDump() << std::endl;
 }
-
