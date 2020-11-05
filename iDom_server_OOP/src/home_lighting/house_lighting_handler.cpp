@@ -24,12 +24,16 @@ void house_lighting_handler::loadConfig(std::string &configPath)
     std::ifstream i(configPath);
     nlohmann::json j;
     i >> j;
-    for (auto& element : j) {
+    for (const auto& element : j) {
         std::string roomName = element.at("room").get<std::string>();
         std::string bulbName = element.at("bulbName").get<std::string>();
         int bulbID = element.at("bulbID").get<int>();
 
         m_lightingBulbMap.emplace(bulbID, std::make_shared<light_bulb>(roomName, bulbName, bulbID));
+        m_lightingBulbMap[bulbID]->m_onLock = stringToState(element.at("lock").get<std::string>());
+        m_lightingBulbMap[bulbID]->m_onUnlock = stringToState(element.at("unlock").get<std::string>());
+        m_lightingBulbMap[bulbID]->m_onSunrise = stringToState(element.at("sunrise").get<std::string>());
+        m_lightingBulbMap[bulbID]->m_onSunset = stringToState(element.at("sunset").get<std::string>());
 
         for (const auto& jj :  element.at("switchID"))
         {
@@ -121,6 +125,10 @@ nlohmann::json house_lighting_handler::getAllInfoJSON()
         roomJJ["bubl name"] = a.second->getBulbName();
         roomJJ["switch"] = a.second->getBulbPin();
         roomJJ["last working time"] = a.second->howLongBulbOn().getString();
+        roomJJ["lock"] = stateToString(a.second->m_onLock);
+        roomJJ["unlock"] = stateToString(a.second->m_onUnlock);
+        roomJJ["sunset"] = stateToString(a.second->m_onSunset);
+        roomJJ["sunrise"] = stateToString(a.second->m_onSunrise);
         jj.push_back(roomJJ);
     }
     return jj;
@@ -145,6 +153,10 @@ nlohmann::json house_lighting_handler::getInfoJSON_allON()
             roomJJ["bubl name"] = a.second->getBulbName();
             roomJJ["switch"] = a.second->getBulbPin();
             roomJJ["last working time"] = a.second->howLongBulbOn().getString();
+            roomJJ["lock"] = stateToString(a.second->m_onLock);
+            roomJJ["unlock"] = stateToString(a.second->m_onUnlock);
+            roomJJ["sunset"] = stateToString(a.second->m_onSunset);
+            roomJJ["sunrise"] = stateToString(a.second->m_onSunrise);
             jj.push_back(roomJJ);
         }
     }

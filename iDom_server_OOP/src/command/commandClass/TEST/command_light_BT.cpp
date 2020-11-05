@@ -163,7 +163,8 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_home_command)
 
     (void)test_command_light->execute(test_v,&test_my_data);
     ret = test_my_data.main_house_lighting_handler->getAllInfoJSON().dump(4);
-    EXPECT_THAT(ret, testing::Not(testing::HasSubstr("OFF")));
+    std::cout << ret << std::endl;
+    EXPECT_THAT(ret, testing::Not(testing::HasSubstr(R"("STATUS": "OFF")")));
     test_v.clear();
     test_v.push_back("light");
     test_v.push_back("all");
@@ -171,7 +172,7 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_home_command)
 
     (void)test_command_light->execute(test_v,&test_my_data);
     ret = test_my_data.main_house_lighting_handler->getAllInfoJSON().dump(4);
-    EXPECT_THAT(ret, testing::Not(testing::HasSubstr("ON")));
+    EXPECT_THAT(ret, testing::Not(testing::HasSubstr(R"("STATUS": "ON")")));
 }
 
 TEST_F(command_light_Class_fixture, wrong_param)

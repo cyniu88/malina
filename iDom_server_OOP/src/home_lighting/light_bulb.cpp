@@ -26,7 +26,12 @@ light_bulb::~light_bulb()
 light_bulb::light_bulb(const light_bulb &a):
     m_status(a.m_status),
     m_bulbName(a.m_bulbName),
-    m_ID(a.m_ID)
+    m_ID(a.m_ID),
+    m_onTime(a.m_onTime),
+    m_onLock(a.m_onLock),
+    m_onUnlock(a.m_onUnlock),
+    m_onSunset(a.m_onSunset),
+    m_onSunrise(a.m_onSunrise)
 {
 #ifdef BT_TEST
     std::cout << "light_bulb::light_bulb(&)" << std::endl;
@@ -51,6 +56,11 @@ light_bulb &light_bulb::operator=(const light_bulb &a)
     m_status = a.m_status;
     m_ID = a.m_ID;
     m_bulbName = a.m_bulbName;
+    m_onLock = a.m_onLock;
+    m_onUnlock = a.m_onUnlock;
+    m_onSunset = a.m_onSunset;
+    m_onSunrise = a.m_onSunrise;
+    m_onTime = a.m_onTime;
     return *this;
 }
 
@@ -63,6 +73,11 @@ light_bulb& light_bulb::operator =(light_bulb&& a)
     m_status = std::move(a.m_status);
     m_bulbName = std::move(a.m_bulbName);
     m_ID = std::move(a.m_ID);
+    m_onLock = std::move(a.m_onLock);
+    m_onUnlock = std::move(a.m_onUnlock);
+    m_onSunset = std::move(a.m_onSunset);
+    m_onSunrise = std::move(a.m_onSunrise);
+    m_onTime = std::move(a.m_onTime);
     return *this;
 }
 
@@ -174,5 +189,9 @@ std::string light_bulb::dump() const
     str << std::endl;
     str << "bulb m_onTime: " << m_onTime.getString() << std::endl;
     str << "bulb m_offTime: " << m_offTime.getString() << std::endl;
+    str << "bulb m_onLock: " << stateToString(m_onLock) << std::endl;
+    str << "bulb m_onUnlock: " << stateToString(m_onUnlock) << std::endl;
+    str << "bulb m_onSunrise: " << stateToString(m_onSunrise) << std::endl;
+    str << "bulb m_onSunset: " << stateToString(m_onSunset) << std::endl;
     return str.str();
 }

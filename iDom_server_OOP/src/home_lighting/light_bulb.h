@@ -18,6 +18,7 @@ class light_bulb: public iDom_API
     std::vector<int> m_pins;
     Clock m_onTime;
     Clock m_offTime;
+
 public:
     light_bulb(const std::string& roomName, const std::string& bulbName, int id);
     ~light_bulb();
@@ -47,6 +48,11 @@ public:
     Clock howLongBulbOn();
 
     std::string dump() const override;
+
+    STATE m_onLock = STATE::UNDEFINE;
+    STATE m_onUnlock = STATE::UNDEFINE;
+    STATE m_onSunset = STATE::UNDEFINE;
+    STATE m_onSunrise = STATE::UNDEFINE;
 };
 
 #endif // LIGHT_BULB_H

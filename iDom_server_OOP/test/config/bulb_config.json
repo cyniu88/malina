@@ -7,7 +7,12 @@
     ],
     "bulbID": 104,
     "ON": [],
-    "OFF": []
+    "OFF": [],
+    "lock":"ON",
+    "unlock":"OFF",
+    "sunrise":"null",
+    "sunset":"null"
+
   },
   "126": {
     "bulbName": "lazienka wanna",
@@ -17,7 +22,12 @@
     ],
     "bulbID": 126,
     "ON": [],
-    "OFF": []
+    "OFF": [],
+    "lock":"null",
+    "unlock":"null",
+    "sunrise":"OFF",
+    "sunset":"ON"
+
   },
   "110": {
     "bulbName": "1 zarowka",
@@ -27,7 +37,12 @@
     ],
     "bulbID": 110,
     "ON": [],
-    "OFF": []
+    "OFF": [],
+    "lock":"null",
+    "unlock":"null",
+    "sunrise":"null",
+    "sunset":"null"
+
   },
   "111": {
     "bulbName": "2 zarowki",
@@ -37,6 +52,11 @@
     ],
     "bulbID": 111,
     "ON": [],
-    "OFF": []
+    "OFF": [],
+    "lock":"null",
+    "unlock":"null",
+    "sunrise":"null",
+    "sunset":"null"
+
   }
 }

@@ -47,7 +47,6 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
     else{
         str_buf.erase();
         str_buf.append(v.at(1));
-        puts("dupa");
         std::replace( str_buf.begin(), str_buf.end(), '\n', ';');
         my_data->main_house_lighting_handler->executeCommandFromMQTT(str_buf);
     }
