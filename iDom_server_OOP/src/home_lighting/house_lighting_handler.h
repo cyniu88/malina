@@ -41,6 +41,11 @@ public:
 
     void executeCommandFromMQTT(std::string& msg);
 
+    void onLock();
+    void onUnlock();
+    void onSunset();
+    void onSunrise();
+
     std::string dump() const override;
 };
 

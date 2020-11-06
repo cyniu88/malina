@@ -221,6 +221,46 @@ void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
     }
 }
 
+void house_lighting_handler::onLock()
+{
+    for(const auto &  jj : m_lightingBulbMap){
+        if(jj.second->m_onLock == STATE::ON)
+            turnOnBulb(jj.first);
+        else if(jj.second->m_onLock == STATE::OFF)
+            turnOffBulb(jj.first);
+    }
+}
+
+void house_lighting_handler::onUnlock()
+{
+    for(const auto &  jj : m_lightingBulbMap){
+        if(jj.second->m_onUnlock == STATE::ON)
+            turnOnBulb(jj.first);
+        else if(jj.second->m_onUnlock == STATE::OFF)
+            turnOffBulb(jj.first);
+    }
+}
+
+void house_lighting_handler::onSunset()
+{
+    for(const auto &  jj : m_lightingBulbMap){
+        if(jj.second->m_onSunset == STATE::ON)
+            turnOnBulb(jj.first);
+        else if(jj.second->m_onSunset == STATE::OFF)
+            turnOffBulb(jj.first);
+    }
+}
+
+void house_lighting_handler::onSunrise()
+{
+    for(const auto &  jj : m_lightingBulbMap){
+        if(jj.second->m_onSunrise == STATE::ON)
+            turnOnBulb(jj.first);
+        else if(jj.second->m_onSunrise == STATE::OFF)
+            turnOffBulb(jj.first);
+    }
+}
+
 std::string house_lighting_handler::dump() const
 {
     std::stringstream str;
