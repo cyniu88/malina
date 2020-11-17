@@ -372,6 +372,17 @@ void iDomTOOLS::runOnSunset()
         my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "
                                                       + stateToString(my_data->idom_all_state.houseState));
     }
+    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
+    {
+        ////house light
+        my_data->main_house_lighting_handler->onSunset();
+    }
+
+    else{
+        my_data->myEventHandler.run("iDom")->addEvent("house light can not start due to home state: "
+                                                      + stateToString(my_data->idom_all_state.houseState));
+    }
+
     my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/sun","SUNSET");
     m_keyHandler->removeExpiredKeys(8);
 }
@@ -389,6 +400,15 @@ void iDomTOOLS::runOnSunrise()
         my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "
                                                       + stateToString(my_data->idom_all_state.houseState));
     }
+    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
+    {
+        ////house light
+        my_data->main_house_lighting_handler->onSunrise();
+    }
+    else{
+        my_data->myEventHandler.run("iDom")->addEvent("light can not start due to home state: "
+                                                      + stateToString(my_data->idom_all_state.houseState));
+    }
 
     ledOFF();
     my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/sun", "SUNRISE");
@@ -403,9 +423,7 @@ void iDomTOOLS::lockHome()
         m_switch->onLockHome();
     }
     ///// light bubl
-#ifndef BT_TEST
     my_data->main_house_lighting_handler->onLock();
-#endif
     my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/lock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
@@ -423,10 +441,8 @@ void iDomTOOLS::unlockHome()
     my_data->idom_all_state.houseState = STATE::UNLOCK;
     my_data->main_iDomStatus->setObjectState("house", STATE::UNLOCK);
 
-///// light bubl
-#ifndef BT_TEST
+    ///// light bubl
     my_data->main_house_lighting_handler->onUnlock();
-#endif
     my_data->main_iDomTools->sendViberPicture("dom odblokownay!",
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/unlock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),

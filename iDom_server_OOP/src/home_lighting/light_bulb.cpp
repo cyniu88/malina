@@ -12,7 +12,6 @@ light_bulb::light_bulb(const std::string& roomName, const std::string &bulbName,
 #endif
     m_className.append(typeid (this).name());
     iDom_API::addToMap(m_className,this);
-
 }
 
 light_bulb::~light_bulb()
@@ -177,7 +176,6 @@ Clock light_bulb::howLongBulbOn()
 std::string light_bulb::dump() const
 {
     std::stringstream str;
-
     str << "bulb name: " << m_bulbName << std::endl;
     str << "bulb ID: " << m_ID << std::endl;
     str << "bulb status: " << stateToString(m_status) << std::endl;

@@ -5,6 +5,7 @@
 #include "../../src/functions/functions.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
 #include "testJSON.h"
+#include "../../home_lighting/TEST/house_lighting_handler_stub.h"
 
 class iDomTOOLS_ClassTest : public testing::Test
 {
@@ -55,6 +56,7 @@ public:
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
         test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
         test_my_data.ptr_MPD_info->volume = 3;
+        test_my_data.main_house_lighting_handler = std::make_shared<house_lighting_handler_stub>(&test_my_data);
         useful_F::myStaticData = &test_my_data;
     }
 
