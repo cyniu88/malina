@@ -4,5 +4,5 @@
 int main()
 {
 
-    std::cout << "chyba dziala ja_JP: " << '\n';
+puts( "viomi chyba dziala ja_JP: " );
 }
