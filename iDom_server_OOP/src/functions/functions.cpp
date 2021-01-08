@@ -41,47 +41,6 @@ void binary(int val)
      std::cout << std::endl;
 }
 */
-std::string useful_F::send_to_arduino_clock (thread_data *my_data_logic, std::string msg){
-
-    while (go_while)
-    {
-        std::this_thread::sleep_for( std::chrono::milliseconds(50) );
-        {
-            std::lock_guard<std::mutex> lockWho(useful_F::mutex_who);
-
-            if (my_data_logic->pointer.ptr_who[0] == iDomConst::FREE)
-            {
-                {
-                    std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
-                    my_data_logic->pointer.ptr_who[0]=iDomConst::CLOCK;
-                    my_data_logic->pointer.ptr_who[1]= pthread_self();
-                    buffer=msg;
-                }
-                break;
-            }
-        }
-    }
-
-    while (go_while)
-    {
-        std::this_thread::sleep_for( std::chrono::milliseconds(50) );
-        {
-            std::lock_guard<std::mutex> lockWho(useful_F::mutex_who);
-            if (my_data_logic->pointer.ptr_who[0] == pthread_self())
-            {
-                {
-                    std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
-                    //C_connection::mutex_buf.lock();
-                    my_data_logic->pointer.ptr_who[0]=iDomConst::FREE;
-                    my_data_logic->pointer.ptr_who[1]= 0;
-                    msg=buffer;
-                }
-                break;
-            }
-        }
-    }
-    return msg;
-} //end send_to_arduino_clock
 
 std::string useful_F::send_to_arduino (thread_data *my_data_logic, const std::string& msg){
 

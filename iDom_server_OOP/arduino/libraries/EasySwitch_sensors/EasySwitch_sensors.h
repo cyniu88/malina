@@ -6,10 +6,10 @@
 #include <Wire.h>    
 #include "Adafruit_MCP23017.h"
 const PROGMEM uint16_t sensorId_t[] = {
-100,101,101,102,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,999,106,125,125,125,125,125,125,125,125,125,109,105,105,105,123,};
+100,101,101,101,101,101,101,101,101,102,103,104,105,106,107,108,109,110,111,111,112,113,114,115,116,117,117,118,119,120,121,121,121,121,122,123,124,125,125,126,126,127,128,128,129,130,130,131,888,999,};
 
 const PROGMEM uint16_t relay_t[] = {
-127,128,128,129,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,38,133,152,152,152,152,152,152,152,152,152,136,132,132,132,150,};
+127,128,128,128,128,128,128,128,128,129,130,131,132,133,134,135,136,137,138,138,139,140,141,142,143,144,144,145,146,147,148,148,148,148,149,150,149,152,152,153,153,154,155,155,156,157,157,258,243,38,};
 
 const PROGMEM uint8_t relayOptions_t[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
@@ -21,70 +21,70 @@ const PROGMEM uint8_t relayType_t[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
 
 const PROGMEM int button_t[] = {
--1,49,48,52,44,-1,40,28,35,21,-1,42,47,46,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,50,20,36,41,-1,-1,-1,-1,-1,-1,19,25,24,23,22,34,33,32,31,30,43,29,26,27,51,};
+-1,36,25,24,22,34,32,31,30,41,-1,-1,45,-1,20,-1,47,46,42,43,-1,40,-1,-1,-1,52,44,-1,-1,-1,28,29,26,27,-1,21,-1,49,48,23,33,-1,50,51,-1,35,19,-1,17,-1,};
 
 const PROGMEM uint16_t button_type_t[] = {
 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,};
 
 const PROGMEM int button_next_t[] = {
--1,49,48,52,44,-1,40,28,35,21,-1,42,47,46,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,50,20,36,41,-1,-1,-1,-1,-1,-1,19,25,24,23,22,34,33,32,31,30,43,29,26,27,51,};
+-1,36,25,24,22,34,32,31,30,41,-1,-1,45,-1,20,-1,47,46,42,43,-1,40,-1,-1,-1,52,44,-1,-1,-1,28,29,26,27,-1,21,-1,49,48,23,33,-1,50,51,-1,35,19,-1,17,-1,};
 
 const PROGMEM uint16_t button_click_t[] = {
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,};
 
 const PROGMEM byte one_button_or_more_t[] = {
-1,0,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
+1,0,0,0,0,0,0,0,0,0,1,1,0,1,0,1,0,0,0,0,1,0,1,1,1,0,0,1,1,1,0,0,0,0,1,0,1,0,0,0,0,1,0,0,1,0,0,1,0,1,};
 
 const char s_0[] PROGMEM = "";
-const char s_1[] PROGMEM = "maly_pokoj";
-const char s_2[] PROGMEM = "maly_pokoj";
-const char s_3[] PROGMEM = "korytarz";
-const char s_4[] PROGMEM = "korytarz";
-const char s_5[] PROGMEM = "";
-const char s_6[] PROGMEM = "lazienka";
-const char s_7[] PROGMEM = "salon_nad_stolem";
-const char s_8[] PROGMEM = "wiatrolap";
-const char s_9[] PROGMEM = "Kanciapa";
+const char s_1[] PROGMEM = "salon_kinkiet";
+const char s_2[] PROGMEM = "salon_kinkiet";
+const char s_3[] PROGMEM = "salon_kinkiet";
+const char s_4[] PROGMEM = "salon_kinkiet";
+const char s_5[] PROGMEM = "salon_kinkiet";
+const char s_6[] PROGMEM = "salon_kinkiet";
+const char s_7[] PROGMEM = "salon_kinkiet";
+const char s_8[] PROGMEM = "salon_kinkiet";
+const char s_9[] PROGMEM = "lazienka";
 const char s_10[] PROGMEM = "";
-const char s_11[] PROGMEM = "sypialnia";
-const char s_12[] PROGMEM = "pokojDzieci";
-const char s_13[] PROGMEM = "pokojDzieci";
-const char s_14[] PROGMEM = "";
+const char s_11[] PROGMEM = "";
+const char s_12[] PROGMEM = "spizarka";
+const char s_13[] PROGMEM = "";
+const char s_14[] PROGMEM = "wejscie";
 const char s_15[] PROGMEM = "";
-const char s_16[] PROGMEM = "";
-const char s_17[] PROGMEM = "";
-const char s_18[] PROGMEM = "";
-const char s_19[] PROGMEM = "";
+const char s_16[] PROGMEM = "pokojDzieci";
+const char s_17[] PROGMEM = "pokojDzieci";
+const char s_18[] PROGMEM = "sypialnia";
+const char s_19[] PROGMEM = "sypialnia";
 const char s_20[] PROGMEM = "";
-const char s_21[] PROGMEM = "";
+const char s_21[] PROGMEM = "lazienka";
 const char s_22[] PROGMEM = "";
 const char s_23[] PROGMEM = "";
 const char s_24[] PROGMEM = "";
-const char s_25[] PROGMEM = "pokoj_Kini";
-const char s_26[] PROGMEM = "wejscie";
-const char s_27[] PROGMEM = "salon_kinkiet";
-const char s_28[] PROGMEM = "lazienka";
+const char s_25[] PROGMEM = "korytarz";
+const char s_26[] PROGMEM = "korytarz";
+const char s_27[] PROGMEM = "";
+const char s_28[] PROGMEM = "";
 const char s_29[] PROGMEM = "";
-const char s_30[] PROGMEM = "";
-const char s_31[] PROGMEM = "";
-const char s_32[] PROGMEM = "";
-const char s_33[] PROGMEM = "";
-const char s_34[] PROGMEM = "gniazdko_taras";
-const char s_35[] PROGMEM = "wiatrolap";
-const char s_36[] PROGMEM = "salon_kinkiet";
-const char s_37[] PROGMEM = "salon_kinkiet";
-const char s_38[] PROGMEM = "salon_kinkiet";
-const char s_39[] PROGMEM = "salon_kinkiet";
-const char s_40[] PROGMEM = "salon_kinkiet";
-const char s_41[] PROGMEM = "salon_kinkiet";
-const char s_42[] PROGMEM = "salon_kinkiet";
-const char s_43[] PROGMEM = "salon_kinkiet";
-const char s_44[] PROGMEM = "salon_kinkiet";
-const char s_45[] PROGMEM = "sypialnia";
-const char s_46[] PROGMEM = "salon_nad_stolem";
-const char s_47[] PROGMEM = "salon_nad_stolem";
-const char s_48[] PROGMEM = "salon_nad_stolem";
-const char s_49[] PROGMEM = "pokoj_Kini";
+const char s_30[] PROGMEM = "salon_nad_stolem";
+const char s_31[] PROGMEM = "salon_nad_stolem";
+const char s_32[] PROGMEM = "salon_nad_stolem";
+const char s_33[] PROGMEM = "salon_nad_stolem";
+const char s_34[] PROGMEM = "";
+const char s_35[] PROGMEM = "Kanciapa";
+const char s_36[] PROGMEM = "";
+const char s_37[] PROGMEM = "maly_pokoj";
+const char s_38[] PROGMEM = "maly_pokoj";
+const char s_39[] PROGMEM = "kuchnia_kinkiet";
+const char s_40[] PROGMEM = "kuchnia_kinkiet";
+const char s_41[] PROGMEM = "";
+const char s_42[] PROGMEM = "pokoj_Kini";
+const char s_43[] PROGMEM = "pokoj_Kini";
+const char s_44[] PROGMEM = "";
+const char s_45[] PROGMEM = "wiatrolap";
+const char s_46[] PROGMEM = "wiatrolap";
+const char s_47[] PROGMEM = "";
+const char s_48[] PROGMEM = "dzwonek";
+const char s_49[] PROGMEM = "gniazdko_taras";
 
 const char *const relayDescription[] PROGMEM = {
   s_0,  s_1,  s_2,  s_3,  s_4,  s_5,  s_6,  s_7,  s_8,  s_9,  s_10,  s_11,  s_12,  s_13,  s_14,  s_15,  s_16,  s_17,  s_18,  s_19,  s_20,  s_21,  s_22,  s_23,  s_24,  s_25,  s_26,  s_27,  s_28,  s_29,  s_30,  s_31,  s_32,  s_33,  s_34,  s_35,  s_36,  s_37,  s_38,  s_39,  s_40,  s_41,  s_42,  s_43,  s_44,  s_45,  s_46,  s_47,  s_48,  s_49,};
@@ -141,7 +141,7 @@ private:
 	uint8_t expanderAddresses[8];
 	const int numberOfExpanders = sizeof(expanderAddresses);
 	Adafruit_MCP23017 expander[8];
-byte _eepromerrase =244;
+byte _eepromerrase =226;
 uint8_t _buttonTime[50] ;
 uint8_t _buttonState[50];
 uint16_t _numberOfRelayButtons = 50;

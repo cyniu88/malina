@@ -19,7 +19,7 @@ void CRON::run()
 
         if (min != act_date->tm_min && useful_F::go_while)
         {
-            runEveryone_1min();
+            runEveryone_1min(act_date);
             if (act_date->tm_min % 5 == 0 )
             {
                 runEveryone_5min();
@@ -41,8 +41,14 @@ void CRON::run()
     }
 }
 
-void CRON::runEveryone_1min()
+void CRON::runEveryone_1min(struct tm *act_date)
 {
+    char buffer2[5];
+    strftime(buffer2,5,"%H%M",act_date);
+    std::string msg = "CLOCK:";
+    msg.append(buffer2);
+    msg.append(";");
+    useful_F::send_to_arduino(my_data,msg);
     my_data->main_iDomTools->checkAlarm();
     my_data->main_iDomTools->updateTemperatureStats();
     my_data->ptr_buderus->circlePompToRun();

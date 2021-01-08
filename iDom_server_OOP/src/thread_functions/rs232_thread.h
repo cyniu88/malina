@@ -17,13 +17,6 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232, const std::string
     log_file_cout << INFO <<"otwarcie portu RS232 " << data_rs232->portRS232 << " " <<data_rs232->BaudRate<<std::endl;
     log_file_mutex.mutex_unlock();
 
-    SerialPi serial_ardu_clock(data_rs232->portRS232_clock);
-    serial_ardu_clock.begin(data_rs232->BaudRate);
-
-    log_file_mutex.mutex_lock();
-    log_file_cout << INFO <<"otwarcie portu RS232_clock " << data_rs232->portRS232_clock <<" "<< data_rs232->BaudRate <<std::endl;
-    log_file_mutex.mutex_unlock();
-
     /////////////////////////////////////////////////// RESET ARDUINO AFTER RESTART ////////////////////////////////
     puts("restart arduino\n");
     {
@@ -47,47 +40,6 @@ void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232, const std::string
 
                 buffer.erase();
 
-                while(useful_F::go_while){
-                    if(serial_ardu.available()>0){
-                        buffer.push_back( serial_ardu.read() );
-                    }
-                    if(buffer[buffer.size()-1] == ';')
-                    {
-                        buffer.erase(buffer.end()-1);
-                        break;
-                    }
-                }
-#ifdef BT_TEST
-                useful_F::go_while = false;
-                return;
-#endif
-            }
-            else if(data_rs232->pointer.ptr_who[0] == iDomConst::CLOCK)
-            {
-                std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
-                data_rs232->pointer.ptr_who[0] = data_rs232->pointer.ptr_who[1];
-                data_rs232->pointer.ptr_who[1] = iDomConst::CLOCK;
-                serial_ardu_clock.print(buffer.c_str());
-
-                buffer.erase();
-
-                while(useful_F::go_while){
-                    if(serial_ardu_clock.available()>0)
-                    {
-                        buffer.push_back( serial_ardu_clock.read() );
-                        buffer.push_back( serial_ardu_clock.read() );
-                        serial_ardu_clock.flush();
-                        break;
-                    }
-                    else
-                    {
-                        puts("w buforze serial_ardu_clock nie ma avaiable ");
-
-                        useful_F::myStaticData->myEventHandler.run("RS232")
-                                ->addEvent("w buforze serial_ardu_clock nie ma avaiable ");
-                        break;
-                    }
-                }
 #ifdef BT_TEST
                 useful_F::go_while = false;
                 return;

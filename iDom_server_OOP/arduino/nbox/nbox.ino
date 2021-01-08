@@ -1,7 +1,7 @@
 /*       ___________________________________
     GND | o o |IrDa DATA                    |
-     DG | o o |STB                          |
-        | o o |CLK                          |
+     DG | o o |CLK                          |
+        | o o |STB                          |
         | o o |                             |
         | o o |5V                           |
         |_____|_____________________________|
@@ -27,7 +27,7 @@ String command = "z";
 String value;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   apiNbox.setup(clk, stb, dg);
   IrReceiver.enableIRIn();  // Start the receiver
 }
