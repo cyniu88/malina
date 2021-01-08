@@ -525,6 +525,8 @@ void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
         }
     } // while
     close(v_socket);
+
+    useful_F::send_to_arduino(my_data, "LED_POWER:0;");
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "zamykanie gniazda wartosc " << shutdown(v_socket, SHUT_RDWR)<< std::endl;
     log_file_cout << ERROR << "gniazdo ind "<<strerror(errno) << std::endl;
