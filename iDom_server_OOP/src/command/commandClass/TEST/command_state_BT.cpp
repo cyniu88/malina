@@ -31,7 +31,7 @@ TEST_F(command_state_Class_fixture, stateAll)
     test_v.push_back("state");
     test_v.push_back("all");
     auto ret = test_command_state->execute(test_v,&test_my_data);
-    EXPECT_STREQ(ret.c_str(), "state: KODI=DEACTIVE Night_Light=UNKNOWN alarm=DEACTIVE cameraLED=UNKNOWN house=UNDEFINE printer=OFF speakers=OFF burnGas=DEACTIVE ");
+    EXPECT_STREQ(ret.c_str(), "state: KODI=DEACTIVE alarm=DEACTIVE cameraLED=UNKNOWN house=UNDEFINE printer=OFF speakers=OFF burnGas=DEACTIVE ");
 }
 
 TEST_F(command_state_Class_fixture, stateGetOne)

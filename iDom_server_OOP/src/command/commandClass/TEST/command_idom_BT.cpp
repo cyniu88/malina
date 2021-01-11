@@ -51,7 +51,7 @@ TEST_F(commandiDom_Class_fixture, help)
     std::string helpStr = test_command_iDom->help();
     EXPECT_THAT(helpStr,testing::HasSubstr("iDom"));
     std::cout << "test " << helpStr.size() << std::endl;
-    EXPECT_EQ(helpStr.size(),1384);
+    EXPECT_EQ(helpStr.size(),1218);
 }
 
 TEST_F(commandiDom_Class_fixture, less_param)
@@ -306,30 +306,6 @@ TEST_F(commandiDom_Class_fixture, camera)
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::OFF);
     EXPECT_STREQ(retStr.c_str(),"led DONE");
-}
-
-TEST_F(commandiDom_Class_fixture, LED)
-{
-    test_my_data.main_iDomTools->unlockHome();
-
-    test_v.clear();
-    test_v.push_back("iDom");
-    test_v.push_back("LED");
-    test_v.push_back("33");
-    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
-    std::cout << "retString: " << retStr << std::endl;
-    EXPECT_THAT(retStr,testing::HasSubstr("need more parameter from-to-R-G-B"));
-
-    ///////////////////////////////////// OFF
-    TEST_DATA::return_send_to_arduino = "led OFF";
-
-    test_v.clear();
-    test_v.push_back("iDom");
-    test_v.push_back("LED");
-    test_v.push_back("OFF");
-    retStr = test_command_iDom->execute(test_v, &test_my_data);
-    std::cout << "retString: " << retStr << std::endl;
-    EXPECT_THAT(retStr,testing::HasSubstr("led OFF"));
 }
 
 TEST_F(commandiDom_Class_fixture, kodi)

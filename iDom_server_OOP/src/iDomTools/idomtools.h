@@ -22,7 +22,6 @@
 #include "../idom_api.h"
 
 struct thread_data;
-struct LED_Strip;
 class RADIO_BUTTON;
 
 class iDomTOOLS: public iDom_API
@@ -149,7 +148,7 @@ public:
     std::string ledOFF();
     std::string ledClear();
     std::string ledClear(unsigned int from, unsigned int to);
-    std::string ledOn(const LED_Strip& ledColor, unsigned int from = 0, unsigned int to = 60);
+    std::string ledOn();
     //////////////////// ALERT //////////////////////////
     void checkAlarm();
     //////////////////// MPD part //////////////////////////
