@@ -6,7 +6,6 @@
 C_connection::C_connection (thread_data *my_data):c_socket(my_data->s_client_sock),
     c_from(my_data->from),m_recv_size(0)
 {
-    this -> pointer = &my_data->pointer;
     this -> my_data = my_data;
     this->m_encrypted = my_data->server_settings->_server.encrypted;
     std::fill(std::begin(c_buffer),std::end(c_buffer),',');

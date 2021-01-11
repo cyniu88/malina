@@ -16,7 +16,6 @@ class useful_F {
 
 public:
     volatile static unsigned int lastInterruptTime;
-    static std::mutex mut;
     static std::string conv_dns(std::string &temp);
     /////// not used now
     // void ChangeEndianness(int32_t * value, int MAX_MSG_LEN_INT);
@@ -42,8 +41,6 @@ public:
 
     static int runLinuxCommand(const std::string& cmd);
 
-    static std::mutex mutex_buf;
-    static std::mutex mutex_who;
     static void sleep(int sec);
     static void Server_connectivity_thread(thread_data *my_data, const std::string &threadName);
     static void startServer(thread_data *my_data, TASKER *my_tasker);

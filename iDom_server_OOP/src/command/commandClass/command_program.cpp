@@ -135,8 +135,6 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << "my_data->now_time \t" << my_data->now_time<< std::endl;
         r << "my_data->start - time \t" << my_data->start<< std::endl;
         r << std::endl;
-        r << "my_data->pointer.ptr_buf \t" << my_data->pointer.ptr_buf<< std::endl;
-        r << "my_data->pointer.ptr_who \t" << my_data->pointer.ptr_who<< std::endl;
 
         r << std::endl;
         r << "my_data->ptr_MPD_info->artist \t" << my_data->ptr_MPD_info->artist<< std::endl;

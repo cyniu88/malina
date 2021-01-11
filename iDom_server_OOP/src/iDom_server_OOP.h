@@ -113,10 +113,6 @@ struct MPD_info{
     int currentSongID = 0;
     std::vector <std::string> songList = {"NULL"};
 };
-struct s_pointer{
-    unsigned int *ptr_who;
-    int32_t *ptr_buf;
-};
 
 struct Thread_array_struc {
     std::thread thread;
@@ -334,7 +330,6 @@ struct thread_data{
     int s_client_sock;
     struct sockaddr_in from;
     struct CONFIG_JSON *server_settings = NULL;
-    struct s_pointer pointer;
     LCD_c *mainLCD = NULL;
     std::unique_ptr<files_tree> main_tree = std::nullptr_t();
     std::unique_ptr<menu_tree> main_MENU = std::nullptr_t();
@@ -364,9 +359,7 @@ struct thread_data{
 
 struct thread_data_rs232{
     std::string portRS232;
-    std::string portRS232_clock;
     int BaudRate;
-    struct s_pointer pointer;
 };
 
 iDomStateEnum iDom_main();

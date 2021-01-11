@@ -26,7 +26,6 @@ public:
 
     char c_buffer[MAX_buf];
     int m_recv_size;
-    struct s_pointer *pointer;
 
     int c_send(int para);
     int c_send(const std::string& command);

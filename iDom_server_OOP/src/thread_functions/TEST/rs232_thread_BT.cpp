@@ -4,9 +4,7 @@
 #include "test_data.h"
 #include "../../../iDom_server_OOP/src/iDomTools/test/iDomTools_fixture.h"
 
-std::mutex useful_F::mutex_buf;
-std::mutex useful_F::mutex_who;
-std::string buffer;
+
 
 class rs232_thread_fixture : public iDomTOOLS_ClassTest
 {

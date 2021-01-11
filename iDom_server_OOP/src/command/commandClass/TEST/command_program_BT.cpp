@@ -113,10 +113,6 @@ TEST_F(command_program_Class_fixture, debugeVariableProgram)
     test_my_data.sleeper = 1;
     test_my_data.now_time = 123;
     test_my_data.start = 12;
-    int32_t buf = 1;
-    unsigned int who = 0;
-    test_my_data.pointer.ptr_buf = &buf;
-    test_my_data.pointer.ptr_who = &who;
 
     test_my_data.server_settings->_rs232.BaudRate = 9600;
     test_my_data.server_settings->_rflink.RFLinkBaudRate = 576000;
