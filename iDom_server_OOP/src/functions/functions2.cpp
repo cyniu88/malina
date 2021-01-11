@@ -540,15 +540,9 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     CONFIG_JSON  cj;
 #ifdef BT_TEST
     std::cout << "json: " << jj.dump(4);
-#endif
-    cj._nightLight.to = jj["Night-light"].at("main").at("to").get<int>();
-    cj._nightLight.from = jj["Night-light"].at("main").at("from").get<int>();
-    cj._nightLight.colorLED = stringToColor.at( jj["Night-light"].at("main").at("color").get<std::string>());
-    /////////////////////// server settings
+#endif/////////////////////// server settings
     cj._server.PORT = jj["Server_settings"].at("PORT").get<int>();
     cj._server.encrypted =  jj["Server_settings"].at("ENCRYPTED").get<bool>();
-    cj._server.MENU_PATH =  jj["Server_settings"].at("MENU_PATH").get<std::string>();
-    cj._server.MOVIES_DB_PATH = jj["Server_settings"].at("MOVIES_DB_PATH").get<std::string>();
     cj._server.ID_server = jj["Server_settings"].at("ID").get<int>();
     cj._server.SERVER_IP = jj["Server_settings"].at("SERVER_IP").get<std::string>();
     cj._server.saveFilePath = jj["Server_settings"].at("saveFilePath").get<std::string>();
@@ -574,7 +568,6 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     /////////////////////// thread settings
     cj._runThread.MPD    = jj["THREAD"].at("MPD").at("run").get<bool>();
     cj._runThread.RFLink = jj["THREAD"].at("RFLink").at("run").get<bool>();
-    cj._runThread.IRDA   = jj["THREAD"].at("IRDA").at("run").get<bool>();
     cj._runThread.CRON   = jj["THREAD"].at("CRON").at("run").get<bool>();
     cj._runThread.RS232  = jj["THREAD"].at("RS232").at("run").get<bool>();
     cj._runThread.DUMMY  = jj["THREAD"].at("DUMMY").at("run").get<bool>();

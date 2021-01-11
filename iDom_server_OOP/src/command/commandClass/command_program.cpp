@@ -71,10 +71,6 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
           << my_data->server_settings->_server.ID_server << std::endl;
         r << "my_data->server_settings->_server.lightningApiURL \t"
           << my_data->server_settings->_server.lightningApiURL << std::endl;
-        r << "my_data->server_settings->_server.MENU_PATH \t"
-          << my_data->server_settings->_server.MENU_PATH << std::endl;
-        r << "my_data->server_settings->_server.MOVIES_DB_PATH \t"
-          << my_data->server_settings->_server.MOVIES_DB_PATH << std::endl;
         r << "my_data->server_settings->_server.MPD_IP \t"
           << my_data->server_settings->_server.MPD_IP << std::endl;
         r << "my_data->server_settings->_server.omxplayerFile \t"
@@ -99,8 +95,6 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
           << my_data->server_settings->_runThread.CRON << std::endl;
         r << "my_data->server_settings->_runThread.DUMMY \t"
           << my_data->server_settings->_runThread.DUMMY << std::endl;
-        r << "my_data->server_settings->_runThread.IRDA \t"
-          << my_data->server_settings->_runThread.IRDA << std::endl;
         r << "my_data->server_settings->_runThread.MPD \t"
           << my_data->server_settings->_runThread.MPD << std::endl;
         r << "my_data->server_settings->_runThread.RS232 \t"
@@ -136,7 +130,6 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << "my_data->start - time \t" << my_data->start<< std::endl;
         r << std::endl;
 
-        r << std::endl;
         r << "my_data->ptr_MPD_info->artist \t" << my_data->ptr_MPD_info->artist<< std::endl;
         r << "my_data->ptr_MPD_info->currentSongID \t" << my_data->ptr_MPD_info->currentSongID<< std::endl;
         r << "my_data->ptr_MPD_info->isPlay \t" << my_data->ptr_MPD_info->isPlay<< std::endl;
