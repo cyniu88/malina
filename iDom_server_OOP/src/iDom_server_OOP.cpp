@@ -9,7 +9,6 @@
 #include "functions/mpd_cli.h"
 #include "c_connection/c_connection.h"
 #include "TASKER/tasker.h"
-#include "c_master_irda/master_irda.h"
 #include "RADIO_433_eq//radio_433_eq.h"
 #include "thread_functions/rs232_thread.h"
 #include "433MHz/RFLink/rflinkhandler.h"
@@ -61,12 +60,6 @@ void f_serv_con_node (thread_data *my_data, const std::string& threadName){
     iDOM_THREAD::stop_thread(threadName,my_data);
 } // koniec f_serv_con_node
 
-///////////////////// watek do obslugi irda //////////////////////////////
-void f_master_irda (thread_data *my_data, const std::string& threadName){
-    master_irda irda(my_data);
-    irda.run();
-    iDOM_THREAD::stop_thread(threadName, my_data);
-} // koniec master_irda
 
 ///////////////////// watek MQTT subscriber
 void f_master_mqtt (thread_data *my_data, const std::string& threadName){
@@ -140,7 +133,6 @@ iDomStateEnum iDom_main()
 
     node_data.main_THREAD_arr = &thread_array;
 
-    unsigned int who[2] = {iDomConst::FREE, iDomConst::FREE};
     /////////////////////////////////////////// zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
@@ -152,12 +144,10 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "RFLinkBaudRate\t" << server_settings._rflink.RFLinkBaudRate << std::endl;
     log_file_cout << INFO << "port TCP \t" << server_settings._server.PORT << std::endl;
     log_file_cout << INFO << "serwer ip \t" << server_settings._server.SERVER_IP <<std::endl;
-    log_file_cout << INFO << "baza z filami \t" << server_settings._server.MOVIES_DB_PATH << std::endl;
     log_file_cout << INFO << "klucz ThingSpeak \t" <<server_settings._server.TS_KEY << std::endl;
     log_file_cout << INFO << "broker MQTT \t" <<server_settings._mqtt_broker.host << std::endl;
     log_file_cout << INFO << "thread MPD \t" << server_settings._runThread.MPD << std::endl;
     log_file_cout << INFO << "thread CRON \t" << server_settings._runThread.CRON << std::endl;
-    log_file_cout << INFO << "thread IRDA \t" << server_settings._runThread.IRDA << std::endl;
     log_file_cout << INFO << "thread RS232 \t" << server_settings._runThread.RS232 << std::endl;
     log_file_cout << INFO << "thread DUMMY \t" << server_settings._runThread.DUMMY << std::endl;
     log_file_cout << INFO << "thread MQTT \t" << server_settings._runThread.MQTT << std::endl;
@@ -210,14 +200,10 @@ iDomStateEnum iDom_main()
     node_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     /////////////////////////////// LCD //////////////////////////////
     LCD_c mainLCD(0x27,16,2);
-    ////////////// przegladanie plikow ////////////////////
-    node_data.main_tree = std::make_unique<files_tree>(server_settings._server.MOVIES_DB_PATH, &mainLCD);
     /////////////////////////////// iDom Tools ///////////////////////
     node_data.main_iDomTools = std::make_unique <iDomTOOLS>(&node_data);
     ///////////////////////////////// BUDERUS //////////////////////////////
     node_data.ptr_buderus = std::make_unique<BUDERUS>();
-    ///////////////////////////////// MENU /////////////////////////////////
-    node_data.main_MENU = std::make_unique<menu_tree>(server_settings._server.MENU_PATH, &mainLCD);
     //////////////////////////////// LIGHY  ///////////////////////////////////
     node_data.main_house_lighting_handler = std::make_shared<house_lighting_handler>(&node_data);
     std::string cf("/etc/config/iDom_SERVER/bulb_config.json");
@@ -229,7 +215,6 @@ iDomStateEnum iDom_main()
     data_rs232.BaudRate = server_settings._rs232.BaudRate;
     data_rs232.portRS232 = server_settings._rs232.portRS232;
     data_rs232.portRS232_clock = server_settings._rs232.portRS232_clock;
-    data_rs232.pointer.ptr_who = who;
 
     /////////////////////////////////////// MQTT ////////////////////////////
     node_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER");
@@ -273,28 +258,9 @@ iDomStateEnum iDom_main()
     useful_F::setStaticData(&node_data);
     /////////////////////////////////////////////////////////
 
-    node_data.pointer.ptr_who = who;
     node_data.mainLCD = &mainLCD;
     node_data.sleeper = 0;
 
-    pilot_led mainPilotLED;
-    node_data.ptr_pilot_led = &mainPilotLED;
-
-
-    std::unique_ptr <pilot> pilotPTR(new pilot(&node_data.key_map));
-    pilotPTR->setup();
-
-    // start watku irda
-    if(server_settings._runThread.IRDA == true)
-    {
-        iDOM_THREAD::start_thread("IRDA thread", f_master_irda, &node_data);
-    }
-    else
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG <<"nie wystartowalem wątku IRDA" <<std::endl;
-        log_file_mutex.mutex_unlock();
-    }
     // start watku MQTT
     if(server_settings._runThread.MQTT == true)
     {

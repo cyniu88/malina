@@ -13,7 +13,6 @@
 #include <libmpd-1.0/libmpd/debug_printf.h>
 #include <wiringPi.h>
 #include "../blockQueue/blockqueue.h"
-#include "../c_irda_logic/c_irda_logic.h"
 #include "../LCD_c/lcd_c.h"
 #include "../c_connection/c_connection.h"
 #include "../CRON/cron.hpp"

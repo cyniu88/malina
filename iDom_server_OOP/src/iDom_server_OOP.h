@@ -26,10 +26,7 @@
 #include <array>
 
 // MOJE BIBLIOTEKI
-#include "KEY/key.h"
 #include "logger/logger.hpp"
-#include "files_tree/files_tree.h"
-#include "menu_tree/menu_tree.h"
 #include "LCD_c/lcd_c.h"
 #include "command/command.h"
 #include "../libs/event_counters/event_counters_handler.h"
@@ -102,7 +99,6 @@ extern Logger log_file_mutex;
 extern std::string buffer;
 
 enum class TEMPERATURE_STATE;
-enum class PILOT_KEY;
 
 struct MPD_info{
     std::string title   = "NULL";
@@ -144,16 +140,9 @@ struct GATEWAY{
     unsigned int keySize = 0;
 };
 
-struct NightLight_CFG{
-    int from = 48;
-    int to = 50;
-    color colorLED = color::green;
-};
-
 struct RunThread_CFG{
     bool RFLink = false;
     bool MPD   = false;
-    bool IRDA  = false;
     bool CRON  = false;
     bool RS232 = false;
     bool DUMMY = false;
@@ -189,8 +178,6 @@ struct CONFIG_SERVER{
     int PORT;
     std::string SERVER_IP;
     std::string MPD_IP;
-    std::string MOVIES_DB_PATH;
-    std::string MENU_PATH;
     std::string TS_KEY= " gg ";
     std::string radio433MHzConfigFile;
     std::string omxplayerFile = "NULL";
@@ -212,7 +199,6 @@ struct MQTT_BROKER_CFG{
 };
 
 struct CONFIG_JSON{
-    NightLight_CFG _nightLight;
     RunThread_CFG _runThread;
     CAMERA_CFG _camera;
     FB_AND_VIBER_CFG _fb_viber;
@@ -223,95 +209,7 @@ struct CONFIG_JSON{
     GATEWAY _gateway;
 };
 
-struct LED_Strip{
-    std::string from;
-    std::string to;
-    std::string R;
-    std::string G;
-    std::string B;
-    std::string colorName;
 
-    LED_Strip (int from, int to, int r, int g, int b, const std::string& colorName = "NULL"):from(std::to_string(from)),
-        to(std::to_string(to)),
-        R(std::to_string(r)),
-        G(std::to_string(g)),
-        B(std::to_string(b)),
-        colorName(colorName)
-    {
-
-    }
-    LED_Strip (const std::string& from,
-              const std::string& to,
-              const std::string& r,
-              const std::string& g,
-              const std::string& b,
-              const std::string& colorName = "NULL"):
-        from(from),
-        to(to),
-        R(r),
-        G(g),
-        B(b),
-        colorName(colorName)
-    {
-
-    }
-
-    void set (const std::string& from,
-             const std::string& to,
-             const std::string& r,
-             const std::string& g,
-             const std::string& b,
-             const std::string& colorName = "NULL")
-    {
-        this->from =from;
-        this->to = to;
-        R = r;
-        G = g;
-        B = b;
-        this->colorName =colorName;
-    }
-
-    void set (int from, int to, int r, int g, int b, const std::string& colorName = "NULL"){
-        this->from = std::to_string(from);
-        this->to = std::to_string(to);
-        R = std::to_string(r);
-        G = std::to_string(g);
-        B = std::to_string(b);
-        this->colorName =colorName;
-    }
-
-    std::string getColorName() const{
-        return colorName;
-    }
-
-    std::string get(unsigned int _from, unsigned int _to) const{
-        if (_from != 0 || _to != 60){
-            return "LED:["+std::to_string(_from)+"-"+std::to_string(_to)+"-"+R+"-"+G+"-"+B+"];";
-        }
-        return "LED:["+from+"-"+to+"-"+R+"-"+G+"-"+B+"];";
-    }
-
-    std::string makeCommand(const std::string& from,
-                            const std::string& to,
-                            const std::string& R,
-                            const std::string& G,
-                            const std::string& B){
-        return "LED:["+from+"-"+to+"-"+R+"-"+G+"-"+B+"];";
-    }
-};
-
-struct pilot_led{
-    unsigned int counter = 0;
-    std::vector<LED_Strip> colorLED  = { LED_Strip(1,60,237,145,33 ,"carrot orange"),
-                                       LED_Strip(1,60,255,0,0    ,"red"),
-                                       LED_Strip(1,60,0,255,0    ,"green"),
-                                       LED_Strip(1,60,0,0,255    ,"blue"),
-                                       LED_Strip(1,60,255,255,255,"white"),
-                                       LED_Strip(1,60,255,255,0  ,"yellow"),
-                                       LED_Strip(1,60,0,255,255  ,"cyan"),
-                                       LED_Strip(1,60,255,0,255  ,"magenta"),
-                                       LED_Strip(1,60,255,128,0  ,"dark orange")  };
-};
 
 class command; // for struc thread_data req
 class iDomTOOLS;
@@ -336,8 +234,6 @@ struct thread_data{
     struct CONFIG_JSON *server_settings = NULL;
     struct s_pointer pointer;
     LCD_c *mainLCD = NULL;
-    std::unique_ptr<files_tree> main_tree = std::nullptr_t();
-    std::unique_ptr<menu_tree> main_MENU = std::nullptr_t();
     std::unique_ptr<iDomTOOLS> main_iDomTools = std::nullptr_t();
     std::shared_ptr<RFLinkHandler> main_RFLink = std::nullptr_t();
     std::shared_ptr<house_lighting_handler> main_house_lighting_handler = std::nullptr_t();
@@ -345,10 +241,8 @@ struct thread_data{
     time_t start;
     time_t now_time;
     int sleeper;
-    std::map<std::string, std::unique_ptr<KEY> > key_map;
     std::unique_ptr<MPD_info> ptr_MPD_info = std::nullptr_t();
     std::unique_ptr<BUDERUS> ptr_buderus = std::nullptr_t();
-    pilot_led * ptr_pilot_led = NULL;
     event_counters_handler myEventHandler;
     std::string encriptionKey = "40%";
     std::unique_ptr<iDomSTATUS> main_iDomStatus;

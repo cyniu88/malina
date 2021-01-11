@@ -81,27 +81,6 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         my_data->main_iDomTools->unlockHome();
         return "hous unlocked";
     }
-    else if (v[1] == "LED"){
-        if (v.size() != 7){
-            if (v[2] == "OFF"){
-                return my_data->main_iDomTools->ledOFF();
-            }
-            else if(v[2] == "set"){
-               return my_data->main_iDomTools->ledOn(
-                            my_data->ptr_pilot_led->colorLED[2],
-                            std::stoi(v[3]),
-                            std::stoi(v[4])
-                            );
-            }
-            else{
-                return "need more parameter from-to-R-G-B";
-            }
-        }
-        else {
-            LED_Strip strip(v[2],v[3],v[4],v[5],v[6]);
-            return my_data->main_iDomTools->ledOn(strip);
-        }
-    }
     else if (v[1] == "say"){
         if (v.size() > 3){
             std::vector<std::string> vTTS = { my_data->main_iDomTools->getTextToSpeach()};
@@ -279,9 +258,6 @@ std::string command_iDom::help() const
     help << "iDom text       - get text to speach" << std::endl;
     help << "iDom say <text> - say standatrd info or <text>" << std::endl;
     help << "iDom sms <text> - send sms<text>" << std::endl;
-    help << "iDom LED <FROM> <TO> <R> <G> <B> - set RGB LED strip" << std::endl;
-    help << "iDom LED OFF    - led off" << std::endl;
-    help << "iDom LED set <from> <to> - set green led from to" << std::endl;
     help << "iDom temperature - get temperature from all termomether" << std::endl;
     help << "iDom temperature stats <name> - get temperature stats from termomether <name>" << std::endl;
     help << "iDom smog       - get current SMOG level (KRAKOW)" << std::endl;
@@ -290,7 +266,6 @@ std::string command_iDom::help() const
     help << "iDom facebook ... - post on facebook wall" << std::endl;
     help << "iDom viber ...   - send viber msg" << std::endl;
     help << "iDom weather <city> <radius> - get weather alert" << std::endl;
-    help << "iDom lightning  - get lightning alert" << std::endl;
     help << "iDom alarm ON/OFF hh:mm - set alarm clock" << std::endl;
     help << "iDom alarm SET from/to/radio <value> - set alarm clock" << std::endl;
     help << "iDom alarm GET - get alarm time" << std::endl;

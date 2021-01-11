@@ -34,7 +34,6 @@ iDomTOOLS::iDomTOOLS(thread_data *myData):
     my_data->main_iDomStatus->addObject("speakers", STATE::OFF);
     my_data->main_iDomStatus->addObject("alarm", STATE::DEACTIVE);
     my_data->main_iDomStatus->addObject("KODI", STATE::DEACTIVE);
-    my_data->main_iDomStatus->addObject("Night_Light", STATE::UNKNOWN);
 
     ///////// setup viber api
     m_viber.setAvatar(my_data->server_settings->_fb_viber.viberAvatar);
@@ -539,10 +538,6 @@ void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)
         {
             MPD_play(my_data);
             switchActionOnUnlockHome();
-            if(isItDay() == false)
-            {
-                ledOn(my_data->ptr_pilot_led->colorLED[static_cast<int>(color::green)]);
-            }
             radioButton->setState(STATE::PLAY);
         }
     }
@@ -568,10 +563,7 @@ void iDomTOOLS::button433mhzNightLightPressed(RADIO_BUTTON *radioButton)
         if(my_data->main_iDomStatus->getObjectState("Night_Light") != STATE::ON)
         {
             // turn on lights in kitchen inside ledON()
-            unsigned int from = 10 + (Clock::getTime().m_min/ 2);
-            ledOn(my_data->ptr_pilot_led->colorLED.
-                  at(static_cast<unsigned long>(my_data->server_settings->_nightLight.colorLED)),
-                  from, from + 3);
+            //TODO  dodac
             radioButton->setState(STATE::ON);
             return;
         }
@@ -609,9 +601,6 @@ void iDomTOOLS::buttonUnlockHome()
 {
     unlockHome();
     MPD_play(my_data);
-    if(isItDay() == false){
-        ledOn(my_data->ptr_pilot_led->colorLED[static_cast<int>(color::green)]);
-    }
 }
 
 bool iDomTOOLS::isItDay()
@@ -1024,25 +1013,7 @@ std::string iDomTOOLS::ledClear()
 
 std::string iDomTOOLS::ledClear(unsigned int from, unsigned int to)
 {
-    LED_Strip ledColor(0,60,0,0,0,"BLACK");
-    useful_F::send_to_arduinoStub(my_data,ledColor.get(from, to));
     return "Led cleared";
-}
-
-std::string iDomTOOLS::ledOn(const LED_Strip& ledColor, unsigned int from, unsigned int to)
-{
-    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
-    {
-        my_data->main_iDomStatus->setObjectState("Night_Light",STATE::ON);
-        // temporary
-        turnOn433MHzSwitch("B");
-        return useful_F::send_to_arduinoStub(my_data, ledColor.get(from, to));
-    }
-    else{
-        my_data->myEventHandler.run("LED")->addEvent("LED can not start due to home state: "
-                                                     + stateToString(my_data->idom_all_state.houseState));
-    }
-    return "iDom LOCKED!";
 }
 
 void iDomTOOLS::checkAlarm()
@@ -1065,10 +1036,6 @@ void iDomTOOLS::checkAlarm()
         auto vol = static_cast<unsigned int>(MPD_getVolume(my_data) + 1);
         if (vol < toVol){
             MPD_volumeSet(my_data, static_cast<int>(vol));
-
-            if(iDomTOOLS::isItDay() == false){
-                ledOn(my_data->ptr_pilot_led->colorLED[static_cast<std::size_t>(color::green)], fromVol, vol);
-            }
         }
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
