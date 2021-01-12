@@ -48,7 +48,7 @@ void CRON::runEveryone_1min(struct tm *act_date)
     std::string msg = "CLOCK:";
     msg.append(buffer2);
     msg.append(";");
-    useful_F::send_to_arduino(my_data,msg);
+    my_data->main_Rs232->print(msg);
     my_data->main_iDomTools->checkAlarm();
     my_data->main_iDomTools->updateTemperatureStats();
     my_data->ptr_buderus->circlePompToRun();

@@ -36,5 +36,6 @@ void SerialPi::flush()
 }
 void SerialPi::print(const std::string &m)
 {
+    std::lock_guard <std::mutex> lock (mutex_rs232);
     serialPrintf(m_serial_port,m.c_str());
 }

@@ -105,7 +105,7 @@ class NBOX_API {
       if (tempButtonState != buttonState) {
         buttonState = tempButtonState;
         Serial.print("KEY_PAD:");
-        Serial.println(buttonState, BIN);
+        Serial.println(buttonState);
       }
       digitalWrite(stb, HIGH);
     }

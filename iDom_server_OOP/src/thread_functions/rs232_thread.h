@@ -8,20 +8,33 @@
 #include "../functions/functions.h"
 
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
-void Send_Recieve_rs232_thread (thread_data_rs232 *data_rs232, const std::string& threadName){
-
-    SerialPi serial_ardu(data_rs232->portRS232);
-    serial_ardu.begin( data_rs232->BaudRate);
-
+void Send_Recieve_rs232_thread (thread_data *my_data, const std::string& threadName){
+    my_data->main_Rs232 = std::make_unique<SerialPi>(my_data->server_settings->_rs232.portRS232);
+    my_data->main_Rs232->begin(my_data->server_settings->_rs232.BaudRate);
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO <<"otwarcie portu RS232 " << data_rs232->portRS232 << " " <<data_rs232->BaudRate<<std::endl;
+    log_file_cout << INFO << "otwarcie portu RS232 " << my_data->server_settings->_rs232.portRS232 <<
+                     " " << my_data->server_settings->_rs232.BaudRate << std::endl;
     log_file_mutex.mutex_unlock();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    std::string buffor;
     while(useful_F::go_while)
     {
-
+        if(my_data->main_Rs232->available() > 0){
+            char t = my_data->main_Rs232->read();
+            if(t == '\n'){
+                my_data->main_Rs232->flush();
+                std::cout << "odebrano z RS232: " << buffor << std::endl;
+                buffor.clear();
+            }
+            else{
+                buffor.push_back(t);
+            }
+        }
+        std::this_thread::sleep_for( std::chrono::milliseconds(50));
     }
-    iDOM_THREAD::stop_thread(threadName, useful_F::myStaticData);
+    std::this_thread::sleep_for( std::chrono::milliseconds(1500));
+    my_data->main_Rs232->flush();
+    iDOM_THREAD::stop_thread(threadName, my_data);
 }
 #endif // RS232_THREAD_H

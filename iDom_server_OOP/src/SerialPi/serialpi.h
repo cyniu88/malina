@@ -2,14 +2,14 @@
 #define SERIALPI_H
 #include <wiringPi.h>
 #include <wiringSerial.h>
-
 #include <string>
-
-#include  <exception>
+#include <exception>
+#include <mutex>
 
 class SerialPi{
     std::string m_address;
     int m_serial_port;
+    std::mutex mutex_rs232;
 public:
     explicit SerialPi(const std::string &address);
     ~SerialPi();

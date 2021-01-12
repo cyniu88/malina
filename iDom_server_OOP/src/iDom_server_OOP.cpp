@@ -209,10 +209,6 @@ iDomStateEnum iDom_main()
     node_data.main_house_lighting_handler->loadConfig(cf);
     //////////////////////////////// SETTINGS //////////////////////////////
     node_data.main_iDomStatus->addObject("house",node_data.idom_all_state.houseState);
-    ///////////////////////////////////////////////// wypelniam struktury przesylane do watkow ////////////////////////
-    thread_data_rs232 data_rs232;
-    data_rs232.BaudRate = server_settings._rs232.BaudRate;
-    data_rs232.portRS232 = server_settings._rs232.portRS232;
 
     /////////////////////////////////////// MQTT ////////////////////////////
     node_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER");
@@ -222,11 +218,10 @@ iDomStateEnum iDom_main()
 
     if(server_settings._runThread.RS232 == true)
     {
-        iDOM_THREAD::start_thread_RS232("RS232 thread",
-                                        Send_Recieve_rs232_thread,
-                                        &node_data,
-                                        &data_rs232,
-                                        1);
+        iDOM_THREAD::start_thread("RS232 thread",
+                                  Send_Recieve_rs232_thread,
+                                  &node_data,
+                                  1);
     }
     else
     {
@@ -235,7 +230,7 @@ iDomStateEnum iDom_main()
         log_file_mutex.mutex_unlock();
     }
     ///////////////////////////////// tworzenie pliku mkfifo dla sterowania omx playerem
-/*
+    /*
     int temp = mkfifo("/mnt/ramdisk/cmd",0666);
 
     if(temp == 0)
@@ -312,7 +307,7 @@ iDomStateEnum iDom_main()
     ///////////////////////////////////////////////////// STARTED //////////////////////////////////////////////////
     node_data.serverStarted = true;
     ///////////////////////////////////////////////////// start server ////////////////////////////////////////////////////
-    useful_F::send_to_arduino(&node_data, "LED_POWER:1;");
+    node_data.main_Rs232->print( "LED_POWER:1;");
     useful_F ::startServer(&node_data, &mainTasker);
 
     node_data.mainLCD->set_print_song_state(0);

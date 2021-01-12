@@ -32,32 +32,7 @@ std::string iDOM_THREAD::start_thread(const std::string& name,
     return "not free space to new thread";
 }
 
-std::string iDOM_THREAD::start_thread_RS232(const std::string &name,
-                                            std::function<void (thread_data_rs232 *, const std::string &)> functionToThread,
-                                            thread_data* my_data,
-                                            thread_data_rs232 *my_data_rs232,
-                                            unsigned int thread_socket)
-{
-    int freeSlotID = iDOM_THREAD::findFreeThreadSlot(my_data->main_THREAD_arr);
 
-    if ( freeSlotID != -1)
-    {
-        std::size_t it = static_cast<std::size_t>(freeSlotID);
-        my_data->main_THREAD_arr->at(it).thread = std::thread(functionToThread ,my_data_rs232, name);
-
-        my_data->main_THREAD_arr->at(it).thread_name   = name;
-        my_data->main_THREAD_arr->at(it).thread_ID     = my_data->main_THREAD_arr->at(it).thread.get_id();
-        my_data->main_THREAD_arr->at(it).thread_socket = thread_socket;
-        my_data->main_THREAD_arr->at(it).thread.detach();
-
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "watek " << name << " wystartowal "<< my_data->main_THREAD_arr->at(it).thread_ID << std::endl;
-        log_file_mutex.mutex_unlock();
-
-        return "DONE - " + name + " STARTED";
-    }
-    return "not free space to new thread";
-}
 
 void iDOM_THREAD::stop_thread(const std::string& name,
                               thread_data* my_data)

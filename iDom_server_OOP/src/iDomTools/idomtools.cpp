@@ -1003,12 +1003,12 @@ std::string iDomTOOLS::ledOFF()
     my_data->main_iDomStatus->setObjectState("Night_Light",STATE::OFF);
     // temporary
     turnOff433MHzSwitch("B");
-    return useful_F::send_to_arduinoStub(my_data, "LED_STOP:2;");
+    return "done";
 }
 
 std::string iDomTOOLS::ledClear()
 {
-    return useful_F::send_to_arduinoStub(my_data, "LED_CLEAR:2;");
+    return "done";
 }
 
 std::string iDomTOOLS::ledClear(unsigned int from, unsigned int to)

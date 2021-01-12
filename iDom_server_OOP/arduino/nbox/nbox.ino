@@ -28,7 +28,7 @@ String command = "z";
 String value;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   apiNbox.setup(clk, stb, dg);
   IrReceiver.enableIRIn();  // Start the receiver
  
