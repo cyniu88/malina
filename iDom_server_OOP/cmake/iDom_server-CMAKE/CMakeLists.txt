@@ -95,6 +95,9 @@ set(SOURCE_FILES
     "../../src/buderus/buderus.cpp"
     "../../src/home_lighting/house_lighting_handler.cpp"
     "../../src/home_lighting/light_bulb.cpp"
+    "../../src/MENU/menu.cpp"
+    "../../src/MENU/menu_main.cpp"
+    "../../src/MENU/state_machine.cpp"
     )
 # Get the current working branch
 execute_process(
