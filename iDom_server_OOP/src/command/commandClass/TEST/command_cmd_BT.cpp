@@ -27,14 +27,6 @@ protected:
     }
 };
 
-TEST_F(command_cmd_Class_fixture, main)
-{
-    test_my_data.server_settings->_server.omxplayerFile = "/mnt/ramdisk/cmd";
-    test_v.push_back("cmd");
-    auto ret = test_command_cmd->execute(test_v,&test_my_data);
-    EXPECT_THAT(ret, ::testing::HasSubstr("fifo file contain:"));
-}
-
 TEST_F(command_cmd_Class_fixture, wrongParamiter)
 {
     test_v.push_back("cmd");

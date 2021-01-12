@@ -12,7 +12,7 @@ std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_d
     if (v[1] == "send")
     {
         my_data->main_Rs232->print(v[2]);
-        str_buf = "wysłano";
+        str_buf = "done";
     }
     else if (v[1] == "error")
     {

@@ -8,13 +8,3 @@ int useful_F::runLinuxCommand(const std::string& cmd){
 
 bool useful_F::go_while = true;
 bool useful_F::workServer = true;
-
-std::string useful_F::send_to_arduino(thread_data *my_data, const std::string& d){
-    puts("useful_F::send_to_arduino()");
-    return TEST_DATA::return_send_to_arduino;
-}
-
-std::string useful_F::send_to_arduinoStub(thread_data *my_data, const std::string& d){
-    puts("useful_F::send_to_arduino()");
-    return TEST_DATA::return_send_to_arduino;
-}
