@@ -214,7 +214,6 @@ iDomStateEnum iDom_main()
     thread_data_rs232 data_rs232;
     data_rs232.BaudRate = server_settings._rs232.BaudRate;
     data_rs232.portRS232 = server_settings._rs232.portRS232;
-    data_rs232.portRS232_clock = server_settings._rs232.portRS232_clock;
 
     /////////////////////////////////////// MQTT ////////////////////////////
     node_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER");

@@ -4,8 +4,6 @@
 
 bool useful_F::go_while = true;
 bool useful_F::workServer = true;
-std::mutex useful_F::mutex_buf;
-std::mutex useful_F::mutex_who;
 
 
 ////////////////////////////////////////// not used now
@@ -44,41 +42,7 @@ void binary(int val)
 
 std::string useful_F::send_to_arduino (thread_data *my_data_logic, const std::string& msg){
 
-    while (go_while)
-    {
-        std::this_thread::sleep_for( std::chrono::milliseconds(50) );
-        {
-            std::lock_guard<std::mutex> lockWho(useful_F::mutex_who);
-            if (my_data_logic->pointer.ptr_who[0] == iDomConst::FREE)
-            {
-                {
-                    std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
-                    my_data_logic->pointer.ptr_who[0]=iDomConst::RS232;
-                    my_data_logic->pointer.ptr_who[1]= pthread_self();
-                    buffer=msg;
-                }
-                break;
-            }
-        }
-    }
-    std::string msg2;
-    while (go_while)
-    {
-        std::this_thread::sleep_for( std::chrono::milliseconds(50) );
-        {
-            std::lock_guard<std::mutex> lockWho(useful_F::mutex_who);
-            if (my_data_logic->pointer.ptr_who[0] == pthread_self())
-            {
-                {
-                    std::lock_guard<std::mutex> lockBuf(useful_F::mutex_buf);
-                    my_data_logic->pointer.ptr_who[0]=iDomConst::FREE;
-                    my_data_logic->pointer.ptr_who[1]= 0;
-                    msg2 = buffer;
-                }
-                break;
-            }
-        }
-    }
+   std::string msg2 = "0:0;";
     return msg2;
 }
 

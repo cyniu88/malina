@@ -1,10 +1,11 @@
-/*       ___________________________________
+
+/*    ___________________________________
  GND | o o |IrDa DATA                    |
- DG | o o |STB                          |
- | o o |CLK                          |
- | o o |                             |
- | o o |5V                           |
- |_____|_____________________________|
+ DG  | o o |STB                          |
+     | o o |CLK                          |
+     | o o |                             |
+     | o o |5V                           |
+     |_____|_____________________________|
  */
 
 #include <IRremote.h>
@@ -88,16 +89,17 @@ void loop() {
     apiNbox.ledBrightness(ON, value.toInt());
     command = "z";
   }
+  if (command == "PING")
+  {
+    Serial.println("PONG");
+    command = "z";
+  }
   if (command != "z")
   {
     Serial.print ("unknown RS232 command: ");
     Serial.println (command);
     command = "z";
     //delay(2000);
-  }
-  if (command != "PING")
-  {
-    Serial.println("PONG");
   }
 
 
