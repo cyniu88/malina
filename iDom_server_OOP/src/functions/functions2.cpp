@@ -547,7 +547,6 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._server.SERVER_IP = jj["Server_settings"].at("SERVER_IP").get<std::string>();
     cj._server.saveFilePath = jj["Server_settings"].at("saveFilePath").get<std::string>();
     cj._server.radio433MHzConfigFile = jj["433MHz_settings"].at("433MHz_config").get<std::string>();
-    cj._server.omxplayerFile = jj["omxplayer_settings"].at("omxplayerFile").get<std::string>();
     cj._server.ftpServer.URL = jj["FTP_settings"].at("FTP_URL").get<std::string>();
     cj._server.ftpServer.user = jj["FTP_settings"].at("FTP_LOGIN").get<std::string>();
     cj._server.ftpServer.pass = jj["FTP_settings"].at("FTP_PASS").get<std::string>();
@@ -585,7 +584,6 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     /////////////////////// rs232
     cj._rs232.BaudRate  = jj["RS232_settings"].at("BaudRate").get<int>();
     cj._rs232.portRS232 = jj["RS232_settings"].at("portRS232").get<std::string>();
-    cj._rs232.portRS232_clock = jj["RS232_settings"].at("portRS232_clock").get<std::string>();
     /////////////////////// RFLink
     cj._rflink.RFLinkPort = jj["RFLink_settings"].at("RFLinkPort").get<std::string>();
     cj._rflink.RFLinkBaudRate = jj["RFLink_settings"].at("RFLinkBaudRate").get<int>();

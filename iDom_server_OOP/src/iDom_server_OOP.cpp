@@ -138,7 +138,6 @@ iDomStateEnum iDom_main()
     log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
     log_file_cout << INFO << "ID serwera\t" << server_settings._server.ID_server << std::endl;
     log_file_cout << INFO << "PortRS232\t" << server_settings._rs232.portRS232 << std::endl;
-    log_file_cout << INFO << "PortRS232_clock\t" << server_settings._rs232.portRS232_clock << std::endl;
     log_file_cout << INFO << "BaudRate RS232\t" << server_settings._rs232.BaudRate << std::endl;
     log_file_cout << INFO << "RFLinkPort\t" << server_settings._rflink.RFLinkPort << std::endl;
     log_file_cout << INFO << "RFLinkBaudRate\t" << server_settings._rflink.RFLinkBaudRate << std::endl;
@@ -236,7 +235,7 @@ iDomStateEnum iDom_main()
         log_file_mutex.mutex_unlock();
     }
     ///////////////////////////////// tworzenie pliku mkfifo dla sterowania omx playerem
-
+/*
     int temp = mkfifo("/mnt/ramdisk/cmd",0666);
 
     if(temp == 0)
@@ -251,7 +250,7 @@ iDomStateEnum iDom_main()
         log_file_cout << ERROR << "mkfifo - "<<strerror(errno) << std::endl;
         log_file_mutex.mutex_unlock();
     }
-
+*/
     //////////////////////////////////////////////////////////////////////
 
     useful_F::setStaticData(&node_data);

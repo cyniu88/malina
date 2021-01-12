@@ -73,14 +73,10 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
           << my_data->server_settings->_server.lightningApiURL << std::endl;
         r << "my_data->server_settings->_server.MPD_IP \t"
           << my_data->server_settings->_server.MPD_IP << std::endl;
-        r << "my_data->server_settings->_server.omxplayerFile \t"
-          << my_data->server_settings->_server.omxplayerFile << std::endl;
         r << "my_data->server_settings->_server.PORT \t"
           << my_data->server_settings->_server.PORT << std::endl;
         r << "my_data->server_settings->_rs232.portRS232 \t"
           << my_data->server_settings->_rs232.portRS232<< std::endl;
-        r << "my_data->server_settings->_rs232.portRS232_clock \t"
-          << my_data->server_settings->_rs232.portRS232_clock << std::endl;
         r << "my_data->server_settings->_server.radio433MHzConfigFile \t"
           << my_data->server_settings->_server.radio433MHzConfigFile << std::endl;
         r << "my_data->server_settings->_rflink.RFLinkBaudRate \t"

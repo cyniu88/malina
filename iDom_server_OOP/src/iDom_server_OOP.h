@@ -158,7 +158,6 @@ struct RFLink_CFG{
 
 struct RS232_CFG{
     std::string portRS232;
-    std::string portRS232_clock;
     int BaudRate;
 };
 
@@ -176,7 +175,6 @@ struct CONFIG_SERVER{
     std::string MPD_IP;
     std::string TS_KEY= " gg ";
     std::string radio433MHzConfigFile;
-    std::string omxplayerFile = "NULL";
     int ID_server = 0;
     int v_delay;
     bool encrypted = true;
