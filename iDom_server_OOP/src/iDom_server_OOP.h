@@ -211,7 +211,6 @@ class iDomTOOLS;
 class RADIO_EQ_CONTAINER;
 class RFLinkHandler;
 class BUDERUS;
-
 //TODO temporary
 
 struct LUSINA{
@@ -248,7 +247,8 @@ struct thread_data{
     std::unique_ptr<MQTT_mosquitto> mqttHandler = std::nullptr_t();
     alarm_C iDomAlarm;
     bool serverStarted = false;
-    LUSINA  lusina;
+    LUSINA lusina;
+   // std::unique_ptr<MENU_STATE_BASE> main_menu = std::make_unique<MENU_MAIN>();
 };
 
 iDomStateEnum iDom_main();

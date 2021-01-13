@@ -50,16 +50,30 @@ enum class KEY_PAD{
     LEFT = 512,
     EPG = 1024,
 };
-class STATE_MACHINE;
-class MENU_STATE_BASE
-{
-    STATE_MACHINE* stateMachnie;
+class MENU_STATE_BASE_IMPL{
 public:
-    MENU_STATE_BASE(STATE_MACHINE* stateMachnie);
+    virtual void entry() = 0;
+    virtual void exit() = 0;
+    virtual void printStateName() = 0;
+    virtual void cyniu() = 0;
+};
+
+class MENU_STATE_BASE: public MENU_STATE_BASE_IMPL
+{
+public:
+    static std::shared_ptr<MENU_STATE_BASE_IMPL> ptr;
+    MENU_STATE_BASE();
     virtual void entry() = 0;
     virtual void exit() = 0;
     virtual ~MENU_STATE_BASE() = default;
-    void changeTo(std::unique_ptr<MENU_STATE_BASE> newState);
-};
+    virtual void printStateName() = 0;
+    virtual void cyniu();
+    template<class State>
+    void changeTo(){
+        ptr->exit();
+        ptr = std::make_shared<State>();
+        ptr->entry();
+    }
 
+};
 #endif // MENU_H
