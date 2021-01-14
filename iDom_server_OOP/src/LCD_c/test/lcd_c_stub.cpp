@@ -18,8 +18,13 @@ LCD_c::~LCD_c()
     std::cout << "LCD_c::~LCD_c()"  <<std::endl;
 }
 
+void LCD_c::noBacklight()
+{
+      std::cout << "LCD_c::noBacklight()"  <<std::endl;
+}
+
 void LCD_c::printString(const std::string &row1, const std::string &row2, bool clear)
 {
-
+   std::cout << "Wyświetlam: " << row1 << " " << row2 << std::endl;
 }
 

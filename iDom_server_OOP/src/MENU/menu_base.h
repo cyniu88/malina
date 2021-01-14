@@ -3,6 +3,8 @@
 #include <memory>
 #include <iostream>
 
+#include "../LCD_c/lcd_c.h"
+
 enum class PILOT_KEY{
     KEY_POWER,
     KEY_AUDIO,
@@ -70,6 +72,8 @@ public:
 
 class MENU_STATE_BASE: public MENU_STATE_BASE_IMPL
 {
+protected:
+    std::shared_ptr<LCD_c> lcd;
 public:
     static std::unique_ptr<MENU_STATE_BASE_IMPL> ptr;
     MENU_STATE_BASE();
@@ -101,6 +105,7 @@ class KEY_HANDLER{
 public:
     KEY_HANDLER();
     void recKeyEvent(KEY_PAD eventId);
+    std::shared_ptr<LCD_c> lcd;
 };
 
 #endif // MENU_H

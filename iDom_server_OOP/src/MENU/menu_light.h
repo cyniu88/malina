@@ -10,6 +10,7 @@ public:
     void entry();
     void exit();
     void printStateName();
+    void keyPadRes();
 };
 
 #endif // MENU_LIGHT_H

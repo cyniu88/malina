@@ -26,5 +26,6 @@ TEST_F(menu_state_machine_fixture, main)
     std::unique_ptr<KEY_HANDLER> mainHandler = std::make_unique<KEY_HANDLER>();
     mainHandler->recKeyEvent(KEY_PAD::MENU);
     mainHandler->recKeyEvent(KEY_PAD::OK);
+    mainHandler->recKeyEvent(KEY_PAD::RES);
 
 }

@@ -1,17 +1,17 @@
-#include "menu_base.h"
 #include <iostream>
-#include "menu_main.h"
+#include "menu_base.h"
+#include "menu_root.h"
 
 std::unique_ptr<MENU_STATE_BASE_IMPL> MENU_STATE_BASE::ptr = std::nullptr_t(); //std::make_shared<MENU_STATE_BASE>();
 MENU_STATE_BASE::MENU_STATE_BASE()
 {
+    std::cout << "MENU_STATE_BASE::MENU_STATE_BASE()" << std::endl;
 }
-
-
 
 KEY_HANDLER::KEY_HANDLER()
 {
-    MENU_STATE_BASE::ptr = std::make_unique<MENU_MAIN>();
+    lcd = std::make_shared<LCD_c>(0x27,16,2);
+    MENU_STATE_BASE::ptr = std::make_unique<MENU_ROOT>(lcd);
     MENU_STATE_BASE::ptr->entry();
 }
 

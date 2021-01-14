@@ -12,6 +12,7 @@ public:
     void exit();
     void printStateName();
     void keyPadOk();
+    void keyPadRes();
 };
 
 #endif // MENU_MAIN_H
