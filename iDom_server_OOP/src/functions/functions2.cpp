@@ -108,8 +108,8 @@ void useful_F::kodi (thread_data *my_data, const std::string& threadName)
     log_file_cout << INFO << "start wątku " << threadName << std::endl;
     log_file_mutex.mutex_unlock();
 
-    my_data->mainLCD->set_print_song_state(100);
-    my_data->mainLCD->printString(false,2,1,"  KODI");
+    //my_data->mainLCD->set_print_song_state(100);
+    //my_data->mainLCD->printString(false,2,1,"  KODI");
 
     my_data->main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);
     //status mpd
@@ -140,7 +140,6 @@ void useful_F::kodi (thread_data *my_data, const std::string& threadName)
     //koniec
 
     my_data->main_iDomStatus->setObjectState("KODI",STATE::DEACTIVE);
-    my_data->mainLCD->set_print_song_state(0);
     iDOM_THREAD::stop_thread("kodi smartTV",my_data);
 }
 std::string useful_F::RSHash(const std::string& data, unsigned int b, unsigned int a)
@@ -263,11 +262,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     static unsigned int connectionCounter = 0;
     bool key_ok = false;
     std::string tm = inet_ntoa(my_data->from.sin_addr);
-    if("192.168.13.1" != tm && my_data->ptr_MPD_info->isPlay == false) {
-        my_data->mainLCD->set_print_song_state(32);
-        my_data->mainLCD->printString(true,0,0,"USER CONNECTED!");
-        my_data->mainLCD->printString(false,0,1,tm);
-    }
+
     if("192.168.13.101" == tm || "192.168.13.181" == tm)  //TODO  change ip adres
     {
         if(++connectionCounter > 9)

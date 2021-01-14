@@ -95,9 +95,6 @@ set(SOURCE_FILES
     "../../src/buderus/buderus.cpp"
     "../../src/home_lighting/house_lighting_handler.cpp"
     "../../src/home_lighting/light_bulb.cpp"
-    "../../src/MENU/menu.cpp"
-    "../../src/MENU/menu_main.cpp"
-    "../../src/MENU/state_machine.cpp"
     )
 # Get the current working branch
 execute_process(
@@ -122,6 +119,7 @@ message(${GIT_COMMIT_HASH})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14  -DNOSSL -O3 ")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 file(GLOB SOURCE_FILES2 "../../src/command/*.cpp"
-    "../../src/command/commandClass/*.cpp")
+    "../../src/command/commandClass/*.cpp"
+    "../../src/MENU/*.cpp")
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${SOURCE_FILES2})
 TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  wiringPiDev wiringPi lirc_client rt pthread curl mpd mosquitto )

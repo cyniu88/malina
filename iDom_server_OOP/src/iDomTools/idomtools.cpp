@@ -273,13 +273,13 @@ void iDomTOOLS::turnOnOffPrinter()
     switch (pinState){
     case PIN_STATE::HIGH_STATE:
         turnOffPrinter();
-        my_data->mainLCD->set_lcd_STATE(10);
-        my_data->mainLCD->printString(true,0,0,"230V OFF");
+       // my_data->mainLCD->set_lcd_STATE(10);
+       // my_data->mainLCD->printString(true,0,0,"230V OFF");
         break;
     case PIN_STATE::LOW_STATE:
         turnOnPrinter();
-        my_data->mainLCD->set_lcd_STATE(10);
-        my_data->mainLCD->printString(true,0,0,"230V ON");
+       // my_data->mainLCD->set_lcd_STATE(10);
+       // my_data->mainLCD->printString(true,0,0,"230V ON");
         break;
     default:
         log_file_mutex.mutex_lock();
@@ -307,14 +307,14 @@ void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)
 
     if (listwaState == STATE::ON)
     {
-        my_data->mainLCD->set_lcd_STATE(10);
-        my_data->mainLCD->printString(true,0,0,"230V OFF " + name);
+       // my_data->mainLCD->set_lcd_STATE(10);
+       // my_data->mainLCD->printString(true,0,0,"230V OFF " + name);
         m_switch->off();
     }
     else if (listwaState == STATE::OFF)
     {
-        my_data->mainLCD->set_lcd_STATE(10);
-        my_data->mainLCD->printString(true,0,0,"230V ON " + name);
+       // my_data->mainLCD->set_lcd_STATE(10);
+        //my_data->mainLCD->printString(true,0,0,"230V ON " + name);
         m_switch->on();
     }
     saveState_iDom(my_data->serverStarted);

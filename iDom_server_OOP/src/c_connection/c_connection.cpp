@@ -22,13 +22,6 @@ C_connection::C_connection (thread_data *my_data):c_socket(my_data->s_client_soc
 C_connection::~C_connection()
 {
     iDom_API::removeFromMap(m_className);
-//    if( m_mainCommandHandler != std::nullptr_t())
-//    {
-//        my_data->mainLCD->set_print_song_state(0);
-//        my_data->mainLCD->set_lcd_STATE(2);
-//    }
-    my_data->mainLCD->set_print_song_state(0);
-    my_data->mainLCD->set_lcd_STATE(2);
 
     useful_F::sleep(3);
 

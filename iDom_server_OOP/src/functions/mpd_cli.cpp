@@ -42,7 +42,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
         printf("Volume:"" %03i%%\n",
                mpd_status_get_volume(mi));
 
-        my_data->mainLCD->printVolume(mpd_status_get_volume(mi));
+        //my_data->mainLCD->printVolume(mpd_status_get_volume(mi));
         try
         {
             my_data->ptr_MPD_info->volume = mpd_status_get_volume(mi);
@@ -101,11 +101,11 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
 
                 my_data->ptr_MPD_info->radio = _msg;
 
-                my_data->mainLCD->printRadioName(true,0,0,_msg);
-                my_data->mainLCD->set_lcd_STATE(5);
+                //my_data->mainLCD->printRadioName(true,0,0,_msg);
+                //my_data->mainLCD->set_lcd_STATE(5);
                 std::string temp_str = my_data->main_iDomTools->getTemperatureString(); // send_to_arduino(my_data,"temperature:2;");
 
-                my_data->mainLCD->printString(false,0,1,"temp:"+temp_str+" c");
+                //my_data->mainLCD->printString(false,0,1,"temp:"+temp_str+" c");
 
                 updatePlayList(mi,my_data);
             }
@@ -126,7 +126,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
                 _msg += " -     brak nazwy      ";
             }
             // my_data->ptr_MPD_info->title = _msg;
-            my_data->mainLCD->printSongName(_msg);
+           // my_data->mainLCD->printSongName(_msg);
         }
     }
     if(what&MPD_CST_STATE)
@@ -138,12 +138,9 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             printf("Playing\n");
             my_data->mqttHandler->publishRetained(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/status","PLAY");
             check_title_song_to = true;
-            my_data->mainLCD->m_play_Y_N = true;
-            my_data->ptr_MPD_info->isPlay = true;
             //digitalWrite(iDomConst::GPIO_SPIK, LOW);
             my_data->main_iDomTools->turnOnSpeakers();
-            my_data->mainLCD->set_lcd_STATE(1);
-            my_data->mainLCD->song_printstr();
+            //my_data->mainLCD->song_printstr();
             updatePlayList(mi,my_data);
             my_data->myEventHandler.run("mpd")->addEvent("MPD playing");
             my_data->main_iDomStatus->setObjectState("music",STATE::PLAY);
@@ -152,8 +149,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
             my_data->mqttHandler->publishRetained(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/status","PAUSE");
-            my_data->mainLCD->set_lcd_STATE( -1);
-            my_data->mainLCD->printString(true ,0,1,"    PAUSE");
+            //my_data->mainLCD->printString(true ,0,1,"    PAUSE");
             my_data->myEventHandler.run("mpd")->addEvent("MPD pause");
             my_data->main_iDomStatus->setObjectState("music",STATE::PAUSE);
             my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
@@ -166,12 +162,11 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
                 my_data->main_iDomTools->ledClear();
             }
             check_title_song_to = false;
-            my_data->mainLCD->m_play_Y_N = false;
             my_data->ptr_MPD_info->isPlay = false;
             my_data->ptr_MPD_info->title = "* * * *";
             my_data->main_iDomTools->turnOffSpeakers();
             //digitalWrite(iDomConst::GPIO_SPIK,HIGH);
-            my_data->mainLCD->noBacklight();
+           // my_data->mainLCD->noBacklight();
             sleep(1);
             my_data->myEventHandler.run("mpd")->addEvent("MPD stopped");
             my_data->main_iDomStatus->setObjectState("music",STATE::STOP);
@@ -204,8 +199,6 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
 {
     blockQueue mpdQueue; // kolejka polecen
 
-    ////////////////////////////// LCD PART ///////////////////////////
-    my_data->mainLCD->set_print_song_state(0);
     ///////////////////////////////////////////////////////////////////
     int iport = 6600;
     char *hostname = getenv("MPD_HOST");
