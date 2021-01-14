@@ -2,9 +2,7 @@
 #include <gmock/gmock.h>
 #include <memory>
 #include "../../iDom_server_OOP.h"
-#include "../menu_main.h"
-#include "../menu_light.h"
-#include "../menu_state_machine.h"
+#include "../menu_base.h"
 
 class menu_state_machine_fixture: public testing::Test
 {
@@ -25,12 +23,8 @@ protected:
 
 TEST_F(menu_state_machine_fixture, main)
 {
-    MENU_STATE_BASE::ptr = std::make_unique<MENU_MAIN>();
-    //main_menu->ptr = main_menu;
-    MENU_STATE_BASE::ptr->printStateName();
-    MENU_STATE_BASE::ptr->cyniu();
-    MENU_STATE_BASE::ptr->printStateName();
-    MENU_STATE_BASE::ptr->cyniu();
-    MENU_STATE_BASE::ptr->printStateName();
+    std::unique_ptr<KEY_HANDLER> mainHandler = std::make_unique<KEY_HANDLER>();
+    mainHandler->recKeyEvent(KEY_PAD::MENU);
+    mainHandler->recKeyEvent(KEY_PAD::OK);
 
 }

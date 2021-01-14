@@ -27,8 +27,8 @@ void MENU_MAIN::printStateName()
     std::cout << "klasa state: " << typeid (this).name() << std::endl;
 }
 
-void MENU_MAIN::cyniu()
+void MENU_MAIN::keyPadOk()
 {
-    std::cout << "MENU_MAIN::cyniu() " << std::endl;
-     changeTo<MENU_LIGHT>();
+    changeTo<MENU_LIGHT>();
 }
+

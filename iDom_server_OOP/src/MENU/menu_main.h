@@ -11,7 +11,7 @@ public:
     void entry();
     void exit();
     void printStateName();
-    void cyniu();
+    void keyPadOk();
 };
 
 #endif // MENU_MAIN_H

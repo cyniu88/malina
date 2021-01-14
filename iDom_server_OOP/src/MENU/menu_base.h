@@ -1,6 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 #include <memory>
+#include <iostream>
 
 enum class PILOT_KEY{
     KEY_POWER,
@@ -56,7 +57,15 @@ public:
     virtual void entry() = 0;
     virtual void exit() = 0;
     virtual void printStateName() = 0;
-    virtual void cyniu() = 0;
+    virtual void keyPadPower() = 0;
+    virtual void keyPadOk() = 0;
+    virtual void keyPadRes() = 0;
+    virtual void keyPadUp() = 0;
+    virtual void keyPadDown() = 0;
+    virtual void keyPadLeft() = 0;
+    virtual void keyPadRight() = 0;
+    virtual void keyPadMenu() = 0;
+    virtual void keyPadEpg() = 0;
 };
 
 class MENU_STATE_BASE: public MENU_STATE_BASE_IMPL
@@ -68,7 +77,17 @@ public:
     virtual void exit() = 0;
     virtual ~MENU_STATE_BASE() = default;
     virtual void printStateName() = 0;
-    virtual void cyniu();
+    virtual void keyPadPower(){std::cout << __func__ << " pressed" << std::endl;};
+    virtual void keyPadOk()   {std::cout << __func__ << " pressed" << std::endl;};
+    virtual void keyPadRes()  {std::cout << __func__ << " pressed" << std::endl;};
+    virtual void keyPadUp()   {std::cout << __func__ << " pressed" << std::endl;};
+    virtual void keyPadDown() {std::cout << __func__ << " pressed" << std::endl;};
+    virtual void keyPadLeft() {std::cout << __func__ << " pressed" << std::endl;};
+    virtual void keyPadRight(){std::cout << __func__ << " pressed" << std::endl;};
+    virtual void keyPadMenu() {std::cout << __func__ << " pressed" << std::endl;};
+    virtual void keyPadEpg()  {std::cout << __func__ << " pressed" << std::endl;};
+
+
     template<class State>
     void changeTo(){
         ptr->exit();
@@ -77,4 +96,11 @@ public:
     }
 
 };
+
+class KEY_HANDLER{
+public:
+    KEY_HANDLER();
+    void recKeyEvent(KEY_PAD eventId);
+};
+
 #endif // MENU_H

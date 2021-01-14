@@ -10,7 +10,6 @@ public:
     void entry();
     void exit();
     void printStateName();
-    void cyniu();
 };
 
 #endif // MENU_LIGHT_H

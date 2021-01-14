@@ -29,8 +29,3 @@ void MENU_LIGHT::printStateName()
     std::cout << "klasa state: " << typeid (this).name() << std::endl;
 }
 
-void MENU_LIGHT::cyniu()
-{
-    std::cout << "MENU_LIGHT::cyniu()" << std::endl;
-    changeTo<MENU_VOLUME>();
-}
