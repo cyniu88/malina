@@ -25,7 +25,7 @@ protected:
 
 TEST_F(menu_state_machine_fixture, main)
 {
-    MENU_STATE_BASE::ptr = std::make_shared<MENU_MAIN>();
+    MENU_STATE_BASE::ptr = std::make_unique<MENU_MAIN>();
     //main_menu->ptr = main_menu;
     MENU_STATE_BASE::ptr->printStateName();
     MENU_STATE_BASE::ptr->cyniu();

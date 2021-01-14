@@ -52,6 +52,7 @@ enum class KEY_PAD{
 };
 class MENU_STATE_BASE_IMPL{
 public:
+    virtual ~MENU_STATE_BASE_IMPL() = default;
     virtual void entry() = 0;
     virtual void exit() = 0;
     virtual void printStateName() = 0;
@@ -61,7 +62,7 @@ public:
 class MENU_STATE_BASE: public MENU_STATE_BASE_IMPL
 {
 public:
-    static std::shared_ptr<MENU_STATE_BASE_IMPL> ptr;
+    static std::unique_ptr<MENU_STATE_BASE_IMPL> ptr;
     MENU_STATE_BASE();
     virtual void entry() = 0;
     virtual void exit() = 0;
@@ -71,7 +72,7 @@ public:
     template<class State>
     void changeTo(){
         ptr->exit();
-        ptr = std::make_shared<State>();
+        ptr = std::make_unique<State>();
         ptr->entry();
     }
 
