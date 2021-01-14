@@ -18,15 +18,8 @@ LCD_c::~LCD_c()
     std::cout << "LCD_c::~LCD_c()"  <<std::endl;
 }
 
-void LCD_c::set_print_song_state(int i){
-    std::cout << "LCD_c::set_print_song_state(int i)" << i <<std::endl;
+void LCD_c::printString(const std::string &row1, const std::string &row2, bool clear)
+{
+
 }
 
-void LCD_c::set_lcd_STATE(int i){}
-
-void LCD_c::checkState(){std::cout << "LCD_c::checkState()" << std::endl;}
-
-void LCD_c::printString(bool clear, int col, int row, const std::string& str){
-    std::cout << "LCD_c::printString() "<< str << std::endl;
-    TEST_DATA::LCD_print = str;
-}
