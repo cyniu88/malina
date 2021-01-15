@@ -5,7 +5,7 @@
 class MENU_VOLUME : public MENU_STATE_BASE
 {
 public:
-    MENU_VOLUME();
+    MENU_VOLUME(thread_data *my_data);
     ~MENU_VOLUME();
     void entry();
     void exit();

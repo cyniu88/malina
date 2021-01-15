@@ -5,7 +5,7 @@
 class MENU_LIGHT : public MENU_STATE_BASE
 {
 public:
-    MENU_LIGHT();
+    MENU_LIGHT(thread_data *my_data);
     ~MENU_LIGHT();
     void entry();
     void exit();

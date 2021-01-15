@@ -3,7 +3,7 @@
 #include "menu_light.h"
 #include "menu_root.h"
 
-MENU_MAIN::MENU_MAIN()
+MENU_MAIN::MENU_MAIN(thread_data* my_data): MENU_STATE_BASE (my_data)
 {
     std::cout << "MENU_MAIN::MENU_MAIN()" << std::endl;
 }
@@ -16,7 +16,7 @@ MENU_MAIN::~MENU_MAIN()
 void MENU_MAIN::entry()
 {
     std::cout << "MENU_MAIN::entry()" << std::endl;
-    lcd->printString("TEST1","MAIN");
+    my_dataPTR->mainLCD->printString("TEST1","MAIN");
 }
 
 void MENU_MAIN::exit()

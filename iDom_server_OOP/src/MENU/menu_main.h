@@ -6,7 +6,7 @@
 class MENU_MAIN : public MENU_STATE_BASE
 {
 public:
-    MENU_MAIN();
+    MENU_MAIN(thread_data *my_data);
     ~MENU_MAIN();
     void entry();
     void exit();

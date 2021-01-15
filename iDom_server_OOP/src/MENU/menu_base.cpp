@@ -3,15 +3,16 @@
 #include "menu_root.h"
 
 std::unique_ptr<MENU_STATE_BASE_IMPL> MENU_STATE_BASE::ptr = std::nullptr_t(); //std::make_shared<MENU_STATE_BASE>();
-MENU_STATE_BASE::MENU_STATE_BASE()
+MENU_STATE_BASE::MENU_STATE_BASE(thread_data *my_data)
 {
+    this->my_dataPTR = my_data;
     std::cout << "MENU_STATE_BASE::MENU_STATE_BASE()" << std::endl;
 }
 
-KEY_HANDLER::KEY_HANDLER()
+KEY_HANDLER::KEY_HANDLER(thread_data *my_data)
 {
-    lcd = std::make_shared<LCD_c>(0x27,16,2);
-    MENU_STATE_BASE::ptr = std::make_unique<MENU_ROOT>(lcd);
+
+    MENU_STATE_BASE::ptr = std::make_unique<MENU_ROOT>(my_data);
     MENU_STATE_BASE::ptr->entry();
 }
 

@@ -1,7 +1,7 @@
 #include <iostream>
 #include "menu_volume.h"
 
-MENU_VOLUME::MENU_VOLUME()
+MENU_VOLUME::MENU_VOLUME(thread_data *my_data): MENU_STATE_BASE (my_data)
 {
     std::cout << "MENU_VOLUME::MENU_VOLUME()" << std::endl;
 }

@@ -1,14 +1,13 @@
 #include "menu_root.h"
 #include "menu_main.h"
 
-MENU_ROOT::MENU_ROOT(std::shared_ptr<LCD_c> _lcdPtr)
+MENU_ROOT::MENU_ROOT(thread_data *my_data): MENU_STATE_BASE (my_data)
 {
-  lcd = _lcdPtr;
 }
 
 void MENU_ROOT::entry()
 {
-    lcd->noBacklight();
+    my_dataPTR->mainLCD->noBacklight();
 }
 
 void MENU_ROOT::exit()

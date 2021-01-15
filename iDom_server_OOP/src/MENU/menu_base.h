@@ -2,8 +2,7 @@
 #define MENU_H
 #include <memory>
 #include <iostream>
-
-#include "../LCD_c/lcd_c.h"
+#include "../iDom_server_OOP.h"
 
 enum class PILOT_KEY{
     KEY_POWER,
@@ -73,10 +72,10 @@ public:
 class MENU_STATE_BASE: public MENU_STATE_BASE_IMPL
 {
 protected:
-    std::shared_ptr<LCD_c> lcd;
+    thread_data* my_dataPTR;
 public:
     static std::unique_ptr<MENU_STATE_BASE_IMPL> ptr;
-    MENU_STATE_BASE();
+    MENU_STATE_BASE(thread_data* my_data);
     virtual void entry() = 0;
     virtual void exit() = 0;
     virtual ~MENU_STATE_BASE() = default;
@@ -95,7 +94,7 @@ public:
     template<class State>
     void changeTo(){
         ptr->exit();
-        ptr = std::make_unique<State>();
+        ptr = std::make_unique<State>(my_dataPTR);
         ptr->entry();
     }
 
@@ -103,9 +102,8 @@ public:
 
 class KEY_HANDLER{
 public:
-    KEY_HANDLER();
+    KEY_HANDLER(thread_data *my_data);
     void recKeyEvent(KEY_PAD eventId);
-    std::shared_ptr<LCD_c> lcd;
 };
 
 #endif // MENU_H

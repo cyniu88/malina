@@ -18,7 +18,7 @@ void Send_Recieve_rs232_thread (thread_data *my_data, const std::string& threadN
     log_file_mutex.mutex_unlock();
     std::string buffor;
 
-    std::unique_ptr<KEY_HANDLER> mainMenuHandler = std::make_unique<KEY_HANDLER>();
+    std::unique_ptr<KEY_HANDLER> mainMenuHandler = std::make_unique<KEY_HANDLER>(my_data);
 
     while(useful_F::go_while)
     {

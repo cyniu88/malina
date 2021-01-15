@@ -6,8 +6,7 @@
 class MENU_ROOT : public MENU_STATE_BASE
 {
 public:
-    MENU_ROOT(std::shared_ptr<LCD_c> _lcdPtr);
-    MENU_ROOT() = default;
+    MENU_ROOT(thread_data *my_data);
     ~MENU_ROOT() = default;
     void entry();
     void exit();

@@ -5,7 +5,7 @@
 #include "menu_volume.h"
 #include "menu_root.h"
 
-MENU_LIGHT::MENU_LIGHT()
+MENU_LIGHT::MENU_LIGHT(thread_data *my_data):MENU_STATE_BASE (my_data)
 {
     std::cout << "MENU_LIGHT::MENU_LIGHT()" << std::endl;
 }
@@ -32,7 +32,7 @@ void MENU_LIGHT::printStateName()
 
 void MENU_LIGHT::keyPadRes()
 {
-    lcd->printString("TEST3", "LIGHT");
+    my_dataPTR->mainLCD->printString("TEST3", "LIGHT");
     changeTo<MENU_ROOT>();
 }
 
