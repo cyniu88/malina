@@ -10,7 +10,7 @@ public:
     ~MENU_MAIN();
     void entry();
     void exit();
-    void printStateName();
+    std::string getStateName();
     void keyPadOk();
     void keyPadRes();
 };

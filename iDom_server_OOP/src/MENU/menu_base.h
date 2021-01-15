@@ -57,7 +57,7 @@ public:
     virtual ~MENU_STATE_BASE_IMPL() = default;
     virtual void entry() = 0;
     virtual void exit() = 0;
-    virtual void printStateName() = 0;
+    virtual std::string getStateName() = 0;
     virtual void keyPadPower() = 0;
     virtual void keyPadOk() = 0;
     virtual void keyPadRes() = 0;
@@ -79,7 +79,7 @@ public:
     virtual void entry() = 0;
     virtual void exit() = 0;
     virtual ~MENU_STATE_BASE() = default;
-    virtual void printStateName() = 0;
+    virtual std::string getStateName() = 0;
     virtual void keyPadPower(){std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadOk()   {std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadRes()  {std::cout << __func__ << " pressed" << std::endl;};

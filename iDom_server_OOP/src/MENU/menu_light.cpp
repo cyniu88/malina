@@ -25,14 +25,13 @@ void MENU_LIGHT::exit()
     std::cout << "MENU_LIGHT::exit()" << std::endl;
 }
 
-void MENU_LIGHT::printStateName()
+std::string MENU_LIGHT::getStateName()
 {
-    std::cout << "klasa state: " << typeid (this).name() << std::endl;
+    return typeid (this).name();
 }
 
 void MENU_LIGHT::keyPadRes()
 {
-    my_dataPTR->mainLCD->printString("TEST3", "LIGHT");
     changeTo<MENU_ROOT>();
 }
 

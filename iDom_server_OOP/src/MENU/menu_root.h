@@ -10,7 +10,7 @@ public:
     ~MENU_ROOT() = default;
     void entry();
     void exit();
-    void printStateName();
+    std::string getStateName();
     void keyPadMenu();
 };
 

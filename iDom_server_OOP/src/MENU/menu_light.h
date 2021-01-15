@@ -9,7 +9,7 @@ public:
     ~MENU_LIGHT();
     void entry();
     void exit();
-    void printStateName();
+    std::string getStateName();
     void keyPadRes();
 };
 

@@ -24,9 +24,9 @@ void MENU_MAIN::exit()
     std::cout << "MENU_MAIN::exit()" << std::endl;
 }
 
-void MENU_MAIN::printStateName()
+std::string MENU_MAIN::getStateName()
 {
-    std::cout << "klasa state: " << typeid (this).name() << std::endl;
+    return typeid (this).name();
 }
 
 void MENU_MAIN::keyPadOk()
