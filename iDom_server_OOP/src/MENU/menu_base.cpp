@@ -11,7 +11,6 @@ MENU_STATE_BASE::MENU_STATE_BASE(thread_data *my_data)
 
 KEY_HANDLER::KEY_HANDLER(thread_data *my_data)
 {
-
     MENU_STATE_BASE::ptr = std::make_unique<MENU_ROOT>(my_data);
     MENU_STATE_BASE::ptr->entry();
 }
