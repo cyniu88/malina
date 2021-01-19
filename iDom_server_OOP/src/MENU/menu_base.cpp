@@ -2,40 +2,75 @@
 #include "menu_base.h"
 #include "menu_root.h"
 
-std::unique_ptr<MENU_STATE_BASE_IMPL> MENU_STATE_BASE::ptr = std::nullptr_t(); //std::make_shared<MENU_STATE_BASE>();
-MENU_STATE_BASE::MENU_STATE_BASE(thread_data *my_data)
+
+MENU_STATE_BASE::MENU_STATE_BASE(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm)
 {
     this->my_dataPTR = my_data;
+    this->lcdPTR = lcdPTR;
+    this->stateMachinePTR = msm;
     std::cout << "MENU_STATE_BASE::MENU_STATE_BASE()" << std::endl;
 }
 
-KEY_HANDLER::KEY_HANDLER(thread_data *my_data)
+MENU_STATE_BASE::MENU_STATE_BASE(const MENU_STATE_BASE &base): my_dataPTR(base.my_dataPTR), lcdPTR(base.lcdPTR), stateMachinePTR(base.stateMachinePTR)
 {
-    MENU_STATE_BASE::ptr = std::make_unique<MENU_ROOT>(my_data);
-    MENU_STATE_BASE::ptr->entry();
+    std::cout << "MENU_STATE_BASE::MENU_STATE_BASE() kopiujacy" << std::endl;
+}
+
+MENU_STATE_BASE::MENU_STATE_BASE(const MENU_STATE_BASE &&base)
+{
+    std::cout << "MENU_STATE_BASE::MENU_STATE_BASE() przenoszacy" << std::endl;
+    my_dataPTR = std::move(base.my_dataPTR);
+    lcdPTR = std::move(base.lcdPTR);
+    stateMachinePTR = std::move(base.stateMachinePTR);
+}
+
+MENU_STATE_BASE &MENU_STATE_BASE::operator =(const MENU_STATE_BASE &base)
+{
+    std::cout << "MENU_STATE_BASE::operator = kopiujacy" << std::endl;
+    if (&base != this) {
+        my_dataPTR = base.my_dataPTR;
+        lcdPTR = base.lcdPTR;
+        stateMachinePTR = base.stateMachinePTR;
+    }
+    return * this;
+}
+
+MENU_STATE_BASE &MENU_STATE_BASE::operator =(MENU_STATE_BASE &&base)
+{
+    std::cout << "MENU_STATE_BASE::operator = przenoszacy" << std::endl;
+    if (&base != this) {
+        my_dataPTR = std::move(base.my_dataPTR);
+        lcdPTR = std::move(base.lcdPTR);
+        stateMachinePTR = std::move(base.stateMachinePTR);
+    }
+    return * this;
+}
+
+KEY_HANDLER::KEY_HANDLER( MENU_STATE_MACHINE *msm)
+{
+    this->stateMachinePtr = msm;
 }
 
 void KEY_HANDLER::recKeyEvent(KEY_PAD eventId)
 {
     switch (eventId) {
-    case KEY_PAD::OK : MENU_STATE_BASE::ptr->keyPadOk();
+    case KEY_PAD::OK : stateMachinePtr->currentState->keyPadOk();
         break;
-    case KEY_PAD::MENU: MENU_STATE_BASE::ptr->keyPadMenu();
+    case KEY_PAD::MENU: stateMachinePtr->currentState->keyPadMenu();
         break;
-    case KEY_PAD::POWER: MENU_STATE_BASE::ptr->keyPadPower();
+    case KEY_PAD::POWER: stateMachinePtr->currentState->keyPadPower();
         break;
-    case KEY_PAD::RES: MENU_STATE_BASE::ptr->keyPadRes();
+    case KEY_PAD::RES: stateMachinePtr->currentState->keyPadRes();
         break;
-    case KEY_PAD::EPG: MENU_STATE_BASE::ptr->keyPadEpg();
+    case KEY_PAD::EPG: stateMachinePtr->currentState->keyPadEpg();
         break;
-    case KEY_PAD::UP: MENU_STATE_BASE::ptr->keyPadUp();
+    case KEY_PAD::UP: stateMachinePtr->currentState->keyPadUp();
         break;
-    case KEY_PAD::DOWN: MENU_STATE_BASE::ptr->keyPadDown();
+    case KEY_PAD::DOWN: stateMachinePtr->currentState->keyPadDown();
         break;
-    case KEY_PAD::RIGHT: MENU_STATE_BASE::ptr->keyPadRight();
+    case KEY_PAD::RIGHT: stateMachinePtr->currentState->keyPadRight();
         break;
-    case KEY_PAD::LEFT: MENU_STATE_BASE::ptr->keyPadLeft();
+    case KEY_PAD::LEFT: stateMachinePtr->currentState->keyPadLeft();
         break;
-
     }
 }

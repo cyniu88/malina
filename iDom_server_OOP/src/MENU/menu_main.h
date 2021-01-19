@@ -6,7 +6,11 @@
 class MENU_MAIN : public MENU_STATE_BASE
 {
 public:
-    MENU_MAIN(thread_data *my_data);
+    MENU_MAIN(thread_data *my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm);
+    MENU_MAIN(const MENU_MAIN &base);
+    MENU_MAIN(MENU_MAIN &&base);
+    MENU_MAIN &operator= (const MENU_MAIN & base);
+    MENU_MAIN &operator= (MENU_MAIN &&base);
     ~MENU_MAIN();
     void entry();
     void exit();

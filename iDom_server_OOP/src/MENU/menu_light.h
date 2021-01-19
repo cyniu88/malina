@@ -5,7 +5,11 @@
 class MENU_LIGHT : public MENU_STATE_BASE
 {
 public:
-    MENU_LIGHT(thread_data *my_data);
+    MENU_LIGHT(thread_data *my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm);
+    MENU_LIGHT(const MENU_LIGHT & base);
+    MENU_LIGHT(MENU_LIGHT && base);
+    MENU_LIGHT &operator= (const MENU_LIGHT& base);
+    MENU_LIGHT &operator= (MENU_LIGHT &&base);
     ~MENU_LIGHT();
     void entry();
     void exit();

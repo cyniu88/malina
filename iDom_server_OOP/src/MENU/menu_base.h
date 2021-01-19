@@ -3,6 +3,7 @@
 #include <memory>
 #include <iostream>
 #include "../iDom_server_OOP.h"
+#include "../LCD_c/lcd_c.h"
 
 enum class PILOT_KEY{
     KEY_POWER,
@@ -52,33 +53,55 @@ enum class KEY_PAD{
     LEFT = 512,
     EPG = 1024,
 };
-class MENU_STATE_BASE_IMPL{
+
+//class MENU_STATE_BASE_IMPL{
+//public:
+//    MENU_STATE_BASE_IMPL & operator= (MENU_STATE_BASE_IMPL &&base){
+//    return * this;
+//    }
+//    MENU_STATE_BASE_IMPL & operator= (MENU_STATE_BASE_IMPL &base){
+//    return * this;
+//    }
+//    virtual ~MENU_STATE_BASE_IMPL() = default;
+//    virtual void entry() = 0;
+//    virtual void exit() = 0;
+//    virtual std::string getStateName() = 0;
+//    virtual void keyPadPower() = 0;
+//    virtual void keyPadOk() = 0;
+//    virtual void keyPadRes() = 0;
+//    virtual void keyPadUp() = 0;
+//    virtual void keyPadDown() = 0;
+//    virtual void keyPadLeft() = 0;
+//    virtual void keyPadRight() = 0;
+//    virtual void keyPadMenu() = 0;
+//    virtual void keyPadEpg() = 0;
+//};
+
+class MENU_STATE_BASE;
+class MENU_STATE_MACHINE{
 public:
-    virtual ~MENU_STATE_BASE_IMPL() = default;
-    virtual void entry() = 0;
-    virtual void exit() = 0;
-    virtual std::string getStateName() = 0;
-    virtual void keyPadPower() = 0;
-    virtual void keyPadOk() = 0;
-    virtual void keyPadRes() = 0;
-    virtual void keyPadUp() = 0;
-    virtual void keyPadDown() = 0;
-    virtual void keyPadLeft() = 0;
-    virtual void keyPadRight() = 0;
-    virtual void keyPadMenu() = 0;
-    virtual void keyPadEpg() = 0;
+
+    std::unique_ptr<MENU_STATE_BASE> currentState;
+    void setStateMachine(std::unique_ptr<MENU_STATE_BASE> smPtr){
+        currentState = std::move(smPtr);
+    }
 };
 
-class MENU_STATE_BASE: public MENU_STATE_BASE_IMPL
+class MENU_STATE_BASE
 {
 protected:
     thread_data* my_dataPTR;
+    LCD_c* lcdPTR;
+    MENU_STATE_MACHINE* stateMachinePTR;
 public:
-    static std::unique_ptr<MENU_STATE_BASE_IMPL> ptr;
-    MENU_STATE_BASE(thread_data* my_data);
+    MENU_STATE_BASE(thread_data* my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm);
+    MENU_STATE_BASE(const MENU_STATE_BASE& base);
+    MENU_STATE_BASE(const MENU_STATE_BASE&& base);
+    MENU_STATE_BASE &operator = (const MENU_STATE_BASE &base);
+    MENU_STATE_BASE &operator = ( MENU_STATE_BASE &&base);
+    virtual ~MENU_STATE_BASE() = default;
     virtual void entry() = 0;
     virtual void exit() = 0;
-    virtual ~MENU_STATE_BASE() = default;
     virtual std::string getStateName() = 0;
     virtual void keyPadPower(){std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadOk()   {std::cout << __func__ << " pressed" << std::endl;};
@@ -90,20 +113,22 @@ public:
     virtual void keyPadMenu() {std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadEpg()  {std::cout << __func__ << " pressed" << std::endl;};
 
-
     template<class State>
     void changeTo(){
-        ptr->exit();
-        ptr = std::make_unique<State>(my_dataPTR);
-        ptr->entry();
+        this->stateMachinePTR->currentState->exit();
+        //this->stateMachinePTR->currentState = std::make_unique<State>(my_dataPTR, lcdPTR, stateMachinePTR);
+        auto smptr = std::make_unique<State>(my_dataPTR,lcdPTR, stateMachinePTR);
+        this->stateMachinePTR->setStateMachine(std::move(smptr));
+        this->stateMachinePTR->currentState->entry();
     }
-
 };
 
 class KEY_HANDLER{
+protected:
+    MENU_STATE_MACHINE* stateMachinePtr;
 public:
-    KEY_HANDLER(thread_data *my_data);
+    KEY_HANDLER(MENU_STATE_MACHINE* msm);
+    ~KEY_HANDLER() = default;
     void recKeyEvent(KEY_PAD eventId);
 };
-
 #endif // MENU_H

@@ -35,7 +35,6 @@ protected:
         test_my_data.server_settings->_fb_viber.viberReceiver = {"test1","test2};"};
         test_my_data.server_settings->_fb_viber.viberSender = "testViberSender";
 
-        test_my_data.mainLCD = new LCD_c(static_cast<uint8_t>(2),static_cast<uint8_t>(2),static_cast<uint8_t>(2));
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_my_data.main_REC = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
@@ -44,7 +43,6 @@ protected:
     }
     void TearDown()
     {
-        delete test_my_data.mainLCD;
         iDomTOOLS_ClassTest::TearDown();
     }
 public:

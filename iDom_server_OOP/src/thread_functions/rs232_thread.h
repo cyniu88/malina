@@ -18,8 +18,6 @@ void Send_Recieve_rs232_thread (thread_data *my_data, const std::string& threadN
     log_file_mutex.mutex_unlock();
     std::string buffor;
 
-    std::unique_ptr<KEY_HANDLER> mainMenuHandler = std::make_unique<KEY_HANDLER>(my_data);
-
     while(useful_F::go_while)
     {
         if(my_data->main_Rs232->available() > 0){
@@ -31,7 +29,7 @@ void Send_Recieve_rs232_thread (thread_data *my_data, const std::string& threadN
                 if(data.at(0) == "KEY_PAD"){
                     int id = std::stoi(data.at(1));
                     KEY_PAD keyEvent = static_cast<KEY_PAD>(id);
-                    mainMenuHandler->recKeyEvent(keyEvent);
+                   // my_data->main_key_menu_handler->recKeyEvent(keyEvent);
                 }
                 buffor.clear();
             }

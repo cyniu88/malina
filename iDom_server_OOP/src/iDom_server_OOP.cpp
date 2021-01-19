@@ -197,8 +197,8 @@ iDomStateEnum iDom_main()
     node_data.ptr_MPD_info = std::make_unique<MPD_info>();
     /////////////////////////////// iDom Status //////////////////////
     node_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
-    /////////////////////////////// LCD //////////////////////////////
-    LCD_c mainLCD(0x27,16,2);
+    /////////////////////////////// MENU LCD //////////////////////////////
+    node_data.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&node_data);
     /////////////////////////////// iDom Tools ///////////////////////
     node_data.main_iDomTools = std::make_unique <iDomTOOLS>(&node_data);
     ///////////////////////////////// BUDERUS //////////////////////////////

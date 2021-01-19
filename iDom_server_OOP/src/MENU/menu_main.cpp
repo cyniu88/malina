@@ -3,9 +3,41 @@
 #include "menu_light.h"
 #include "menu_root.h"
 
-MENU_MAIN::MENU_MAIN(thread_data* my_data): MENU_STATE_BASE (my_data)
+MENU_MAIN::MENU_MAIN(thread_data* my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm): MENU_STATE_BASE (my_data, lcdPTR, msm)
 {
     std::cout << "MENU_MAIN::MENU_MAIN()" << std::endl;
+}
+
+MENU_MAIN::MENU_MAIN(const MENU_MAIN &base): MENU_STATE_BASE(base)
+{
+    std::cout << "MENU_MAIN::MENU_MAIN() kopiujacy" << std::endl;
+}
+
+MENU_MAIN::MENU_MAIN(MENU_MAIN &&base): MENU_STATE_BASE(base)
+{
+    std::cout << "MENU_MAIN::MENU_MAIN() przenoszacy" << std::endl;
+}
+
+MENU_MAIN &MENU_MAIN::operator=(const MENU_MAIN &base)
+{
+    std::cout << "MENU_MAIN::operator = kopiujacy" << std::endl;
+     if(&base != this){
+         my_dataPTR = base.my_dataPTR;
+         lcdPTR = base.lcdPTR;
+         stateMachinePTR = base.stateMachinePTR;
+     }
+     return * this;
+}
+
+MENU_MAIN &MENU_MAIN::operator=(MENU_MAIN &&base)
+{
+    std::cout << "MENU_MAIN::operator = przenoszacy" << std::endl;
+     if(&base != this){
+         my_dataPTR = base.my_dataPTR;
+         lcdPTR = base.lcdPTR;
+         stateMachinePTR = base.stateMachinePTR;
+     }
+     return * this;
 }
 
 MENU_MAIN::~MENU_MAIN()
@@ -16,7 +48,7 @@ MENU_MAIN::~MENU_MAIN()
 void MENU_MAIN::entry()
 {
     std::cout << "MENU_MAIN::entry()" << std::endl;
-    my_dataPTR->mainLCD->printString("TEST1","MAIN");
+    lcdPTR->printString("TEST1","MAIN");
 }
 
 void MENU_MAIN::exit()

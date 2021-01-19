@@ -27,7 +27,6 @@
 
 // MOJE BIBLIOTEKI
 #include "logger/logger.hpp"
-#include "LCD_c/lcd_c.h"
 #include "command/command.h"
 #include "../libs/event_counters/event_counters_handler.h"
 #include "iDomTools/idomtools.h"
@@ -38,6 +37,7 @@
 #include "buderus/buderus.h"
 #include "home_lighting/house_lighting_handler.h"
 #include "SerialPi/serialpi.h"
+//#include "MENU/menu_base.h"
 
 #define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
@@ -211,6 +211,7 @@ class iDomTOOLS;
 class RADIO_EQ_CONTAINER;
 class RFLinkHandler;
 class BUDERUS;
+class KEY_HANDLER;
 //TODO temporary
 
 struct LUSINA{
@@ -226,7 +227,7 @@ struct thread_data{
     int s_client_sock;
     struct sockaddr_in from;
     struct CONFIG_JSON *server_settings = NULL;
-    LCD_c *mainLCD = NULL;
+    //std::unique_ptr<KEY_HANDLER> main_key_menu_handler = std::nullptr_t();
     std::unique_ptr<iDomTOOLS> main_iDomTools = std::nullptr_t();
     std::unique_ptr<SerialPi> main_Rs232 = std::nullptr_t();
     std::shared_ptr<RFLinkHandler> main_RFLink = std::nullptr_t();
