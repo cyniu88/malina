@@ -54,35 +54,11 @@ enum class KEY_PAD{
     EPG = 1024,
 };
 
-//class MENU_STATE_BASE_IMPL{
-//public:
-//    MENU_STATE_BASE_IMPL & operator= (MENU_STATE_BASE_IMPL &&base){
-//    return * this;
-//    }
-//    MENU_STATE_BASE_IMPL & operator= (MENU_STATE_BASE_IMPL &base){
-//    return * this;
-//    }
-//    virtual ~MENU_STATE_BASE_IMPL() = default;
-//    virtual void entry() = 0;
-//    virtual void exit() = 0;
-//    virtual std::string getStateName() = 0;
-//    virtual void keyPadPower() = 0;
-//    virtual void keyPadOk() = 0;
-//    virtual void keyPadRes() = 0;
-//    virtual void keyPadUp() = 0;
-//    virtual void keyPadDown() = 0;
-//    virtual void keyPadLeft() = 0;
-//    virtual void keyPadRight() = 0;
-//    virtual void keyPadMenu() = 0;
-//    virtual void keyPadEpg() = 0;
-//};
-
 class MENU_STATE_BASE;
 class MENU_STATE_MACHINE{
 public:
-
     std::unique_ptr<MENU_STATE_BASE> currentState;
-    void setStateMachine(std::unique_ptr<MENU_STATE_BASE> smPtr){
+    void setStateMachine(std::unique_ptr<MENU_STATE_BASE>&& smPtr){
         currentState = std::move(smPtr);
     }
 };
@@ -99,7 +75,7 @@ public:
     MENU_STATE_BASE(const MENU_STATE_BASE&& base);
     MENU_STATE_BASE &operator = (const MENU_STATE_BASE &base);
     MENU_STATE_BASE &operator = ( MENU_STATE_BASE &&base);
-    virtual ~MENU_STATE_BASE() = default;
+    virtual ~MENU_STATE_BASE();
     virtual void entry() = 0;
     virtual void exit() = 0;
     virtual std::string getStateName() = 0;
@@ -116,7 +92,6 @@ public:
     template<class State>
     void changeTo(){
         this->stateMachinePTR->currentState->exit();
-        //this->stateMachinePTR->currentState = std::make_unique<State>(my_dataPTR, lcdPTR, stateMachinePTR);
         auto smptr = std::make_unique<State>(my_dataPTR,lcdPTR, stateMachinePTR);
         this->stateMachinePTR->setStateMachine(std::move(smptr));
         this->stateMachinePTR->currentState->entry();

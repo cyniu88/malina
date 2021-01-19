@@ -11,7 +11,7 @@ MENU_ROOT::MENU_ROOT(const MENU_ROOT &base): MENU_STATE_BASE(base)
     std::cout << "MENU_ROOT::MENU_ROOT() kopiujacy" << std::endl;
 }
 
-MENU_ROOT::MENU_ROOT(MENU_ROOT &&base):MENU_STATE_BASE(base)
+MENU_ROOT::MENU_ROOT(MENU_ROOT &&base):MENU_STATE_BASE(std::move(base))
 {
     std::cout << "MENU_ROOT::MENU_ROOT() przenoszacy" << std::endl;
 }
@@ -25,6 +25,11 @@ MENU_ROOT &MENU_ROOT::operator=(const MENU_ROOT &base)
          stateMachinePTR = base.stateMachinePTR;
      }
      return * this;
+}
+
+MENU_ROOT::~MENU_ROOT()
+{
+    std::cout << "MENU_ROOT::~MENU_ROOT()" << std::endl;
 }
 
 MENU_ROOT &MENU_ROOT::operator=(MENU_ROOT &&base)

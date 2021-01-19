@@ -179,7 +179,7 @@ int main(int argc, char **argv)
     ::testing::InitGoogleTest( &argc, argv );
     //::testing::GTEST_FLAG(filter) = "functions_fixture.sleepThread";
     //::testing::GTEST_FLAG(filter) = "event_counter_fixture.getLast1minNumberEvent";
-    //::testing::GTEST_FLAG(filter) = "command433MHz_Class_fixture.*)";
+    //::testing::GTEST_FLAG(filter) = "menu_state_machine_fixture.main)";
     auto ret = RUN_ALL_TESTS();
     pthread_mutex_destroy(&Logger::mutex_log);
 

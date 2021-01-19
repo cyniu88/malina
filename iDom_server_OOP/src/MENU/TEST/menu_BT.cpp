@@ -4,6 +4,7 @@
 #include "../../iDom_server_OOP.h"
 #include "../menu_base.h"
 #include "../menu_root.h"
+#include "../menu_main.h"
 
 class menu_state_machine_fixture: public testing::Test
 {
@@ -35,6 +36,9 @@ TEST_F(menu_state_machine_fixture, main)
     std::cout << "moja klasa: " << stateMechine.currentState->getStateName() << std::endl;
     main_key_menu_handler->recKeyEvent(KEY_PAD::OK);
     main_key_menu_handler->recKeyEvent(KEY_PAD::RES);
-    std::cout << "moja klasa: " << stateMechine.currentState->getStateName() << std::endl;
-
+/*
+    auto m = std::make_unique<MENU_ROOT>(&test_my_data, &lcd, &stateMechine);
+    auto k = std::move(m);
+    std::cout << k->getStateName() << std::endl;
+    */
 }

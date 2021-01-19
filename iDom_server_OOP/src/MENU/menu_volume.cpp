@@ -11,7 +11,7 @@ MENU_VOLUME::MENU_VOLUME(const MENU_VOLUME &base):MENU_STATE_BASE(base)
     std::cout << "MENU_VOLUME::MENU_VOLUME() kopiujacy" << std::endl;
 }
 
-MENU_VOLUME::MENU_VOLUME(MENU_VOLUME &&base):MENU_STATE_BASE(base)
+MENU_VOLUME::MENU_VOLUME(MENU_VOLUME &&base):MENU_STATE_BASE(std::move(base))
 {
     std::cout << "MENU_VOLUME::MENU_VOLUME() przenoszacy" << std::endl;
 }

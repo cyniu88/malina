@@ -35,6 +35,11 @@ MENU_STATE_BASE &MENU_STATE_BASE::operator =(const MENU_STATE_BASE &base)
     return * this;
 }
 
+MENU_STATE_BASE::~MENU_STATE_BASE()
+{
+    std::cout << "MENU_STATE_BASE::~MENU_STATE_BASE()" << std::endl;
+}
+
 MENU_STATE_BASE &MENU_STATE_BASE::operator =(MENU_STATE_BASE &&base)
 {
     std::cout << "MENU_STATE_BASE::operator = przenoszacy" << std::endl;

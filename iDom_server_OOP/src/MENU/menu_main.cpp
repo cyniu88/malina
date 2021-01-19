@@ -13,7 +13,7 @@ MENU_MAIN::MENU_MAIN(const MENU_MAIN &base): MENU_STATE_BASE(base)
     std::cout << "MENU_MAIN::MENU_MAIN() kopiujacy" << std::endl;
 }
 
-MENU_MAIN::MENU_MAIN(MENU_MAIN &&base): MENU_STATE_BASE(base)
+MENU_MAIN::MENU_MAIN(MENU_MAIN &&base): MENU_STATE_BASE(std::move(base))
 {
     std::cout << "MENU_MAIN::MENU_MAIN() przenoszacy" << std::endl;
 }

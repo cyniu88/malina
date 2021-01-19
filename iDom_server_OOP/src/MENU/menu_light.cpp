@@ -15,7 +15,7 @@ MENU_LIGHT::MENU_LIGHT(const MENU_LIGHT &base): MENU_STATE_BASE(base)
     std::cout << "MENU_LIGHT::MENU_LIGHT() kopiujacy" << std::endl;
 }
 
-MENU_LIGHT::MENU_LIGHT(MENU_LIGHT &&base):MENU_STATE_BASE(base)
+MENU_LIGHT::MENU_LIGHT(MENU_LIGHT &&base):MENU_STATE_BASE(std::move(base))
 {
     std::cout << "MENU_LIGHT::MENU_LIGHT() przenoszacy" << std::endl;
 }
