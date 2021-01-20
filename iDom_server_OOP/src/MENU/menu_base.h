@@ -58,6 +58,9 @@ class MENU_STATE_BASE;
 class MENU_STATE_MACHINE{
 public:
     std::unique_ptr<MENU_STATE_BASE> currentState;
+    ~MENU_STATE_MACHINE(){
+       std::cout << "MENU_STATE_MACHINE::~MENU_STATE_MACHINE()" << std::endl;
+    }
     template<class State>
     void setStateMachine(thread_data* my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm){
        currentState = std::make_unique<State>(my_data, lcdPTR, msm);
