@@ -58,8 +58,9 @@ class MENU_STATE_BASE;
 class MENU_STATE_MACHINE{
 public:
     std::unique_ptr<MENU_STATE_BASE> currentState;
-    void setStateMachine(std::unique_ptr<MENU_STATE_BASE>&& smPtr){
-        currentState = std::move(smPtr);
+    template<class State>
+    void setStateMachine(thread_data* my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm){
+       currentState = std::make_unique<State>(my_data, lcdPTR, msm);
     }
 };
 
@@ -92,8 +93,7 @@ public:
     template<class State>
     void changeTo(){
         this->stateMachinePTR->currentState->exit();
-        auto smptr = std::make_unique<State>(my_dataPTR,lcdPTR, stateMachinePTR);
-        this->stateMachinePTR->setStateMachine(std::move(smptr));
+        this->stateMachinePTR->setStateMachine<State>(my_dataPTR, lcdPTR, stateMachinePTR);
         this->stateMachinePTR->currentState->entry();
     }
 };
