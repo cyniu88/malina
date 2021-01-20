@@ -256,7 +256,6 @@ iDomStateEnum iDom_main()
     useful_F::setStaticData(&node_data);
     /////////////////////////////////////////////////////////
 
-    node_data.mainLCD = &mainLCD;
     node_data.sleeper = 0;
 
     // start watku MQTT
