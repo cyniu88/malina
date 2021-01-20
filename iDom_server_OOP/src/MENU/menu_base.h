@@ -87,6 +87,7 @@ public:
     virtual void keyPadRight(){std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadMenu() {std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadEpg()  {std::cout << __func__ << " pressed" << std::endl;};
+    virtual void print(const std::string &row1, const std::string &row2){lcdPTR->printString(row1, row2);};
 
     template<class State>
     void changeStateTo(){

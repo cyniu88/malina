@@ -48,7 +48,7 @@ MENU_MAIN::~MENU_MAIN()
 void MENU_MAIN::entry()
 {
     std::cout << "MENU_MAIN::entry()" << std::endl;
-    lcdPTR->printString("TEST1","MAIN");
+    print(*mainMenuIterator,"");
 }
 
 void MENU_MAIN::exit()
@@ -63,11 +63,22 @@ std::string MENU_MAIN::getStateName()
 
 void MENU_MAIN::keyPadOk()
 {
-     changeStateTo<MENU_LIGHT>();
 }
 
 void MENU_MAIN::keyPadRes()
 {
-   changeStateTo<MENU_ROOT>();
+    changeStateTo<MENU_ROOT>();
+}
+
+void MENU_MAIN::keyPadUp()
+{
+    mainMenuIterator++;
+    print(*mainMenuIterator,"");
+}
+
+void MENU_MAIN::keyPadDown()
+{
+    mainMenuIterator--;
+    print(*mainMenuIterator,"");
 }
 
