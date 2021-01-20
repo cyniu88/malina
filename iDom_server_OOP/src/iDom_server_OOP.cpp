@@ -15,6 +15,7 @@
 #include "command/commandClass/command_ardu.h"
 #include "thread_functions/iDom_thread.h"
 #include "command/commandhandlergateway.h"
+#include "MENU/menu_root.h"
 
 std::string _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer;
@@ -198,7 +199,11 @@ iDomStateEnum iDom_main()
     /////////////////////////////// iDom Status //////////////////////
     node_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     /////////////////////////////// MENU LCD //////////////////////////////
-    node_data.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&node_data);
+    LCD_c lcd(0x27,16,2);
+    MENU_STATE_MACHINE stateMechine;
+    auto ptr = std::make_unique<MENU_ROOT>(&node_data, &lcd, &stateMechine);
+    stateMechine.setStateMachine(std::move(ptr));
+    node_data.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
     /////////////////////////////// iDom Tools ///////////////////////
     node_data.main_iDomTools = std::make_unique <iDomTOOLS>(&node_data);
     ///////////////////////////////// BUDERUS //////////////////////////////

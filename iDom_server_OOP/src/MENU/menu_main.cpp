@@ -63,11 +63,11 @@ std::string MENU_MAIN::getStateName()
 
 void MENU_MAIN::keyPadOk()
 {
-     changeTo<MENU_LIGHT>();
+     changeStateTo<MENU_LIGHT>();
 }
 
 void MENU_MAIN::keyPadRes()
 {
-   changeTo<MENU_ROOT>();
+   changeStateTo<MENU_ROOT>();
 }
 

@@ -79,3 +79,9 @@ void KEY_HANDLER::recKeyEvent(KEY_PAD eventId)
         break;
     }
 }
+
+void MENU_STATE_MACHINE::setStateMachine(std::unique_ptr<MENU_STATE_BASE> ptr)
+{
+    currentState = std::move(ptr);
+    currentState->entry();
+}

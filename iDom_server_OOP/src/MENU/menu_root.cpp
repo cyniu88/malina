@@ -60,5 +60,5 @@ std::string MENU_ROOT::getStateName()
 
 void MENU_ROOT::keyPadMenu()
 {
-    changeTo<MENU_MAIN>();
+    changeStateTo<MENU_MAIN>();
 }

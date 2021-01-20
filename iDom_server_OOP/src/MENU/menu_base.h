@@ -58,13 +58,8 @@ class MENU_STATE_BASE;
 class MENU_STATE_MACHINE{
 public:
     std::unique_ptr<MENU_STATE_BASE> currentState;
-    ~MENU_STATE_MACHINE(){
-       std::cout << "MENU_STATE_MACHINE::~MENU_STATE_MACHINE()" << std::endl;
-    }
-    template<class State>
-    void setStateMachine(thread_data* my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm){
-       currentState = std::make_unique<State>(my_data, lcdPTR, msm);
-    }
+    ~MENU_STATE_MACHINE() = default;
+    void setStateMachine(std::unique_ptr<MENU_STATE_BASE> ptr);
 };
 
 class MENU_STATE_BASE
@@ -78,7 +73,7 @@ public:
     MENU_STATE_BASE(const MENU_STATE_BASE& base);
     MENU_STATE_BASE(const MENU_STATE_BASE&& base);
     MENU_STATE_BASE &operator = (const MENU_STATE_BASE &base);
-    MENU_STATE_BASE &operator = ( MENU_STATE_BASE &&base);
+    MENU_STATE_BASE &operator = (MENU_STATE_BASE &&base);
     virtual ~MENU_STATE_BASE();
     virtual void entry() = 0;
     virtual void exit() = 0;
@@ -94,10 +89,11 @@ public:
     virtual void keyPadEpg()  {std::cout << __func__ << " pressed" << std::endl;};
 
     template<class State>
-    void changeTo(){
+    void changeStateTo(){
         this->stateMachinePTR->currentState->exit();
-        this->stateMachinePTR->setStateMachine<State>(my_dataPTR, lcdPTR, stateMachinePTR);
-        this->stateMachinePTR->currentState->entry();
+        auto ptr = std::make_unique<State>(my_dataPTR, lcdPTR, stateMachinePTR);
+        this->stateMachinePTR->setStateMachine(std::move(ptr));
+        //this->stateMachinePTR->currentState->entry();
     }
 };
 

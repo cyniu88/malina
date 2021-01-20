@@ -29,7 +29,7 @@ void Send_Recieve_rs232_thread (thread_data *my_data, const std::string& threadN
                 if(data.at(0) == "KEY_PAD"){
                     int id = std::stoi(data.at(1));
                     KEY_PAD keyEvent = static_cast<KEY_PAD>(id);
-                   // my_data->main_key_menu_handler->recKeyEvent(keyEvent);
+                    my_data->main_key_menu_handler->recKeyEvent(keyEvent);
                 }
                 buffor.clear();
             }

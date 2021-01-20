@@ -64,6 +64,6 @@ std::string MENU_LIGHT::getStateName()
 
 void MENU_LIGHT::keyPadRes()
 {
-    changeTo<MENU_ROOT>();
+    changeStateTo<MENU_ROOT>();
 }
 
