@@ -42,7 +42,7 @@ void LCD_c::printString(const std::string &row1, const std::string &row2, bool c
     main_lcd.setCursor(0, 0);
     main_lcd.printstr(row1.c_str());
     main_lcd.setCursor(0, 1);
-    main_lcd.printstr(row1.c_str());
+    main_lcd.printstr(row2.c_str());
 }
 
 void LCD_c::noBacklight()

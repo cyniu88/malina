@@ -30,6 +30,6 @@ void LCD_c::clear()
 
 void LCD_c::printString(const std::string &row1, const std::string &row2, bool clear)
 {
-   std::cout << "Wyświetlam: " << row1 << " " << row2 << std::endl;
+   std::cout << "Wyświetlam na LCD: " << std::endl << row1 << std::endl << row2 << std::endl;
 }
 
