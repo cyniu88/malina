@@ -49,7 +49,7 @@ enum class KEY_PAD{
     UP = 16,
     MENU = 32,
     RIGHT = 64,
-    DOWN = 265,
+    DOWN = 256,
     LEFT = 512,
     EPG = 1024,
 };
@@ -87,14 +87,16 @@ public:
     virtual void keyPadRight(){std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadMenu() {std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadEpg()  {std::cout << __func__ << " pressed" << std::endl;};
-    virtual void print(const std::string &row1, const std::string &row2){lcdPTR->printString(row1, row2);};
+    virtual void print(const std::string &row1, const std::string &row2){
+        lcdPTR->clear();
+        lcdPTR->printString(row1, row2);
+    };
 
     template<class State>
     void changeStateTo(){
         this->stateMachinePTR->currentState->exit();
         auto ptr = std::make_unique<State>(my_dataPTR, lcdPTR, stateMachinePTR);
         this->stateMachinePTR->setStateMachine(std::move(ptr));
-        //this->stateMachinePTR->currentState->entry();
     }
 };
 

@@ -43,6 +43,8 @@ TEST_F(menu_state_machine_fixture, main)
     main_key_menu_handler->recKeyEvent(KEY_PAD::UP);
     main_key_menu_handler->recKeyEvent(KEY_PAD::UP);
     main_key_menu_handler->recKeyEvent(KEY_PAD::UP);
+    main_key_menu_handler->recKeyEvent(KEY_PAD::UP);
+    main_key_menu_handler->recKeyEvent(KEY_PAD::UP);
     main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
     main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
     main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);

@@ -25,6 +25,7 @@ MENU_MAIN &MENU_MAIN::operator=(const MENU_MAIN &base)
          my_dataPTR = base.my_dataPTR;
          lcdPTR = base.lcdPTR;
          stateMachinePTR = base.stateMachinePTR;
+         menuDatabase = base.menuDatabase;
      }
      return * this;
 }
@@ -36,6 +37,7 @@ MENU_MAIN &MENU_MAIN::operator=(MENU_MAIN &&base)
          my_dataPTR = base.my_dataPTR;
          lcdPTR = base.lcdPTR;
          stateMachinePTR = base.stateMachinePTR;
+         menuDatabase = std::move(base.menuDatabase);
      }
      return * this;
 }
@@ -48,7 +50,12 @@ MENU_MAIN::~MENU_MAIN()
 void MENU_MAIN::entry()
 {
     std::cout << "MENU_MAIN::entry()" << std::endl;
-    print(*mainMenuIterator,"");
+    menuDatabase.pushBack({"   MUSIC",[=]() { changeStateTo<MENU_ROOT>();}});
+    menuDatabase.pushBack({"   LIGHT",[=]() { changeStateTo<MENU_LIGHT>();}});
+    menuDatabase.pushBack({"   KODI",[=]() { changeStateTo<MENU_ROOT>();}});
+    menuDatabase.pushBack({"   BUDERUS",[=]() { changeStateTo<MENU_ROOT>();}});
+    menuDatabase.pushBack({"   EXIT",[=]() { changeStateTo<MENU_ROOT>();}});
+    print(menuDatabase.getCurrent().name, "/\\             /\\");
 }
 
 void MENU_MAIN::exit()
@@ -63,6 +70,7 @@ std::string MENU_MAIN::getStateName()
 
 void MENU_MAIN::keyPadOk()
 {
+    menuDatabase.getCurrent().function();
 }
 
 void MENU_MAIN::keyPadRes()
@@ -72,13 +80,13 @@ void MENU_MAIN::keyPadRes()
 
 void MENU_MAIN::keyPadUp()
 {
-    mainMenuIterator++;
-    print(*mainMenuIterator,"");
+    menuDatabase.up();
+    print(menuDatabase.getCurrent().name, "/\\             /\\");
 }
 
 void MENU_MAIN::keyPadDown()
 {
-    mainMenuIterator--;
-    print(*mainMenuIterator,"");
+    menuDatabase.down();
+    print(menuDatabase.getCurrent().name, "/\\             /\\");
 }
 

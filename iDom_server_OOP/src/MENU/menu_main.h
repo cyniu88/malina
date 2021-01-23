@@ -4,11 +4,11 @@
 #include <vector>
 #include <string>
 #include "menu_base.h"
+#include "libs/container_menu.h"
 
 class MENU_MAIN : public MENU_STATE_BASE
 {
-    std::vector<std::string> mainMenu = {"LIGHT","MUSIC", "KODI", "BUDERUS" ,"EXIT"};
-    std::vector<std::string>::iterator mainMenuIterator = mainMenu.begin();
+    cyniu::ContainerMenu<std::string,std::function<void()>> menuDatabase;
 public:
     MENU_MAIN(thread_data *my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm);
     MENU_MAIN(const MENU_MAIN &base);

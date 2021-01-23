@@ -20,7 +20,12 @@ LCD_c::~LCD_c()
 
 void LCD_c::noBacklight()
 {
-      std::cout << "LCD_c::noBacklight()"  <<std::endl;
+    std::cout << "LCD_c::noBacklight()"  <<std::endl;
+}
+
+void LCD_c::clear()
+{
+    std::cout << "LCD_c::clear()"  <<std::endl;
 }
 
 void LCD_c::printString(const std::string &row1, const std::string &row2, bool clear)

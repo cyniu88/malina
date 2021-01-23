@@ -110,11 +110,11 @@ message(${GIT_COMMIT_HASH})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -DBT_TEST -DNOSSL -O3 -fprofile-instr-generate -fcoverage-mapping")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
-file(GLOB SOURCE_FILES2 "../../src/command/*.cpp"
-    "../../src/command/commandClass/TEST/*.cpp"
-    "../../src/command/commandClass/*.cpp"
-    "../../src/command/test/*.cpp"
-    "../../src/MENU/*.cpp"
-    "../../src/MENU/TEST/*.cpp")
+file(GLOB SOURCE_FILES2 "../../src/command/*.*"
+    "../../src/command/commandClass/TEST/*.*"
+    "../../src/command/commandClass/*.*"
+    "../../src/command/test/*.*"
+    "../../src/MENU/*.*"
+    "../../src/MENU/*/*")
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${SOURCE_FILES2})
 TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  pthread gtest curl rt pthread )
