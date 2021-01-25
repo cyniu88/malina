@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <functional>
+#include <map>
 
 namespace cyniu{
 
@@ -17,13 +18,13 @@ struct MenuStruct{
 template <class T_NAME, class T_FUNC>
 class ContainerMenu
 { 
-    std::vector<MenuStruct< T_NAME, T_FUNC>> dataBase;
+    std::vector<MenuStruct< T_NAME, T_FUNC>> database;
     int counter = 0;
 public:
     ContainerMenu() = default;
     ~ContainerMenu() = default;
-    auto size() {return dataBase.size();}
-    void pushBack(MenuStruct< T_NAME, T_FUNC> data){dataBase.push_back(data);}
+    auto size() {return database.size();}
+    void pushBack(MenuStruct< T_NAME, T_FUNC> data){database.push_back(data);}
     void up(){
         if(++counter == size())
             counter = 0;
@@ -33,8 +34,42 @@ public:
             counter = size()-1;
     }
     auto getCurrent(){
-        return dataBase.at(counter);
+        return database.at(counter);
     }
+};
+
+template <class T_KEY, class T_VALUE>
+class ContainerMenuMap
+{
+    std::map<T_KEY, T_VALUE> databaseMap;
+    typedef typename std::map<T_KEY, T_VALUE>::iterator iteratorDatabaseMap;
+    iteratorDatabaseMap it;
+public:
+    ContainerMenuMap() = default;
+    ~ContainerMenuMap() = default;
+    void insert(std::pair<T_KEY, T_VALUE> data){
+        databaseMap.insert(data);
+    }
+    void begin(){
+        it = databaseMap.begin();
+    }
+    void up(){
+        if( ++it == databaseMap.end())
+            it = databaseMap.begin();
+    }
+    void down(){
+        if(it == databaseMap.begin())
+        {
+            it = databaseMap.end();
+            --it;
+        }
+        else
+            --it;
+    }
+    auto getCurrent(){
+        return *it;
+    }
+
 };
 
 } // end namespace cyniu

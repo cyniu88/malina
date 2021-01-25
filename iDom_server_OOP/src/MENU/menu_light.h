@@ -1,9 +1,12 @@
 #ifndef MENU_LIGHT_H
 #define MENU_LIGHT_H
 #include "menu_base.h"
+#include "libs/container_menu.h"
+
 
 class MENU_LIGHT : public MENU_STATE_BASE
 {
+    cyniu::ContainerMenu<std::string,std::vector<int>> menuDatabase;
 public:
     MENU_LIGHT(thread_data *my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm);
     MENU_LIGHT(const MENU_LIGHT & base);

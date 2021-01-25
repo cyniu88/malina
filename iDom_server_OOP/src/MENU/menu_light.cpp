@@ -50,6 +50,8 @@ MENU_LIGHT::~MENU_LIGHT()
 void MENU_LIGHT::entry()
 {
     std::cout << "MENU_LIGHT::entry()" << std::endl;
+   // auto jj = my_dataPTR->main_house_lighting_handler->getAllInfoJSON();
+
 }
 
 void MENU_LIGHT::exit()

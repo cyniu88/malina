@@ -8,6 +8,7 @@
 #include "json.hpp"
 //#include "../iDom_server_OOP.h"
 #include "light_bulb.h"
+
 struct thread_data;
 class house_lighting_handler: public iDom_API
 {
