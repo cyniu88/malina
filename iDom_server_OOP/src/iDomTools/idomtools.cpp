@@ -1019,7 +1019,7 @@ std::string iDomTOOLS::ledClear(unsigned int from, unsigned int to)
 void iDomTOOLS::checkAlarm()
 {
     unsigned int fromVol = my_data->alarmTime.fromVolume;
-    unsigned int toVol   = my_data->alarmTime.toVolume;
+    unsigned int toVol  = my_data->alarmTime.toVolume;
     unsigned int radioId = my_data->alarmTime.radioID;
 
     Clock now = Clock::getTime();
@@ -1067,7 +1067,7 @@ void iDomTOOLS::saveState_iDom(const bool& started)
     json_iDomLOCK["iDomLock"] = stateToString(my_data->idom_all_state.houseState);
     //////////////////// alarm
     jsonAlarm["alarm"] = my_data->main_iDomStatus->getObjectStateString("alarm");
-    jsonAlarm["time"]  = my_data->alarmTime.time.getString();
+    jsonAlarm["time"] = my_data->alarmTime.time.getString();
     jsonAlarm["fromVolume"] = my_data->alarmTime.fromVolume;
     jsonAlarm["toVolume"] = my_data->alarmTime.toVolume;
     jsonAlarm["radioID"] = my_data->alarmTime.radioID;
@@ -1136,7 +1136,7 @@ void iDomTOOLS::readState_iDom(nlohmann::json jj)
             turnOffSpeakers();
 
         auto alarmState = jj.at("ALARM").at("alarm").get<std::string>();
-        auto alarmTime  = jj.at("ALARM").at("time").get<std::string>();
+        auto alarmTime = jj.at("ALARM").at("time").get<std::string>();
         my_data->alarmTime.fromVolume = jj.at("ALARM").at("fromVolume").get<unsigned int>();
         my_data->alarmTime.toVolume = jj.at("ALARM").at("toVolume").get<unsigned int>();
         my_data->alarmTime.radioID = jj.at("ALARM").at("radioID").get<unsigned int>();

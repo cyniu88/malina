@@ -5,6 +5,7 @@
 #include "../menu_base.h"
 #include "../menu_root.h"
 #include "../menu_main.h"
+#include "../menu_light.h"
 
 class menu_state_machine_fixture: public testing::Test
 {
@@ -31,28 +32,28 @@ TEST_F(menu_state_machine_fixture, containerMenuMap)
     testMenuMap.insert(std::pair<std::string, int>("c trzy",3));
     testMenuMap.begin();
 
-    {auto para  = testMenuMap.getCurrent();
-        EXPECT_THAT(para.second, 1);}
+    {auto para = testMenuMap.getCurrent();
+        EXPECT_THAT(para->second, 1);}
     testMenuMap.up();
 
-    {auto para  = testMenuMap.getCurrent();
-        EXPECT_THAT(para.second, 2);}
+    {auto para = testMenuMap.getCurrent();
+        EXPECT_THAT(para->second, 2);}
     testMenuMap.up();
 
-    {auto para  = testMenuMap.getCurrent();
-        EXPECT_THAT(para.second, 3);}
+    {auto para = testMenuMap.getCurrent();
+        EXPECT_THAT(para->second, 3);}
 
     testMenuMap.down();
-    {auto para  = testMenuMap.getCurrent();
-        EXPECT_THAT(para.second, 2);}
+    {auto para = testMenuMap.getCurrent();
+        EXPECT_THAT(para->second, 2);}
 
     testMenuMap.down();
-    {auto para  = testMenuMap.getCurrent();
-        EXPECT_THAT(para.second, 1);}
+    {auto para = testMenuMap.getCurrent();
+        EXPECT_THAT(para->second, 1);}
 
     testMenuMap.down();
-    {auto para  = testMenuMap.getCurrent();
-        EXPECT_THAT(para.second, 3);}
+    {auto para = testMenuMap.getCurrent();
+        EXPECT_THAT(para->second, 3);}
 }
 
 TEST_F(menu_state_machine_fixture, main)
@@ -85,4 +86,21 @@ TEST_F(menu_state_machine_fixture, main)
     main_key_menu_handler->recKeyEvent(KEY_PAD::RES);
     res = stateMechine.currentState->getStateName();
     EXPECT_THAT(res, ::testing::HasSubstr("MENU_ROOT"));
+}
+
+TEST_F(menu_state_machine_fixture, MENU_LIGHT){
+    thread_data test_my_data;
+    LCD_c lcd(0x27,16,2);
+    MENU_STATE_MACHINE stateMechine;
+    //////// bulb config
+    std::string cfg("../config/bulb_config.json");
+    test_my_data.main_house_lighting_handler = std::make_shared<house_lighting_handler>(&test_my_data);
+    test_my_data.main_house_lighting_handler->loadConfig(cfg);
+
+    auto ptr = std::make_unique<MENU_LIGHT>(&test_my_data, &lcd, &stateMechine);
+    ptr->entry();
+    ptr->keyPadLeft();
+    ptr->keyPadLeft();
+    ptr->keyPadLeft();
+    ptr->keyPadRight();
 }

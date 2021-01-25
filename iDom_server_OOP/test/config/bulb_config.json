@@ -1,6 +1,6 @@
 {
   "104": {
-    "bulbName": "lazienka wejscie",
+    "bulbName": "wejscie",
     "room": "lazienka",
     "switchID": [
       40
@@ -15,7 +15,7 @@
 
   },
   "126": {
-    "bulbName": "lazienka wanna",
+    "bulbName": "wanna",
     "room": "lazienka",
     "switchID": [
       41

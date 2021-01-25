@@ -126,11 +126,11 @@ TEST_F(bit_fixture, socket_heandle_command){
     inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
     sleep(1);
-    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    int connectStatus = connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
-    auto key =  useful_F::RSHash();
+    auto key = useful_F::RSHash();
     std::string toCheck;
 
     send_receive(s, key,key);
@@ -171,11 +171,11 @@ TEST_F(bit_fixture, socket_close_server_command){
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
 
     sleep(1);
-    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    int connectStatus = connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
-    auto key =  useful_F::RSHash();
+    auto key = useful_F::RSHash();
     std::string toCheck;
 
     send_receive(s, key,key);
@@ -210,11 +210,11 @@ TEST_F(bit_fixture, socket_wrong_key_after_while){
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
 
     sleep(1);
-    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    int connectStatus = connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
-    auto key =  useful_F::RSHash();
+    auto key = useful_F::RSHash();
     std::string toCheck;
 
     send_receive(s, key,key);
@@ -251,18 +251,18 @@ TEST_F(bit_fixture, socket_no_space_left_on_server){
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
 
     sleep(1);
-    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    int connectStatus = connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
-    auto key =  useful_F::RSHash();
+    auto key = useful_F::RSHash();
     std::string toCheck;
 
     EXPECT_ANY_THROW(send_receive(s, key,key));
     ////////////////////////////////////////////////// one free slot
     test_my_data.main_THREAD_arr->at(3).thread_socket = 0;
     const int s2 = socket( serwer.sin_family, SOCK_STREAM, 0 );
-    connectStatus =  connect(s2,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    connectStatus = connect(s2,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
@@ -303,11 +303,11 @@ TEST_F(bit_fixture, socket_send_key_fast_disconnect){
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
 
     sleep(1);
-    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    int connectStatus = connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
-    std::string key =  useful_F::RSHash();
+    std::string key = useful_F::RSHash();
     std::string msgKey(key);
     crypto(msgKey,key,true);
     int r = send( s, msgKey.c_str(), msgKey.size(), 0 );
@@ -334,11 +334,11 @@ TEST_F(bit_fixture, socket_connection_wrong_key_fast_disconnect){
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
 
     sleep(1);
-    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    int connectStatus = connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
-    std::string fakeKey =  "fake";
+    std::string fakeKey = "fake";
     int r = send( s, fakeKey.c_str(), fakeKey.size(), 0 );
     EXPECT_EQ(r, 4);
     close(s);
@@ -363,11 +363,11 @@ TEST_F(bit_fixture, socket_connection_wrong_key){
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
 
     sleep(1);
-    int connectStatus =  connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    int connectStatus = connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
-    auto key =  useful_F::RSHash();
+    auto key = useful_F::RSHash();
     std::string fakeKey = key + "fake";
     std::string toCheck = send_receive(s, fakeKey,key);
     std::cout << "odebrano: " << toCheck << std::endl;

@@ -18,6 +18,7 @@ MENU_LIGHT::MENU_LIGHT(const MENU_LIGHT &base): MENU_STATE_BASE(base)
 MENU_LIGHT::MENU_LIGHT(MENU_LIGHT &&base):MENU_STATE_BASE(std::move(base))
 {
     std::cout << "MENU_LIGHT::MENU_LIGHT() przenoszacy" << std::endl;
+    lightDatabase = std::move(base.lightDatabase);
 }
 
 MENU_LIGHT &MENU_LIGHT::operator=(const MENU_LIGHT &base)
@@ -38,6 +39,7 @@ MENU_LIGHT &MENU_LIGHT::operator=(MENU_LIGHT &&base)
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
+        lightDatabase = std::move(base.lightDatabase);
     }
     return * this;
 }
@@ -50,8 +52,18 @@ MENU_LIGHT::~MENU_LIGHT()
 void MENU_LIGHT::entry()
 {
     std::cout << "MENU_LIGHT::entry()" << std::endl;
-   // auto jj = my_dataPTR->main_house_lighting_handler->getAllInfoJSON();
+    auto jj = my_dataPTR->main_house_lighting_handler->getAllInfoJSON();
 
+    for(const auto& data : jj){
+        auto name = data.at("room").get<std::string>();
+
+        BULB bulb(data.at("bubl name").get<std::string>(),data.at("bulb ID").get<int>());
+        lightDatabase.databaseMap[name].pushBack({bulb,0});
+
+    }
+    lightDatabase.begin();
+    auto p = lightDatabase.getCurrent();
+    print(p->first , p->second.getCurrent().name.name);
 }
 
 void MENU_LIGHT::exit()
@@ -67,5 +79,33 @@ std::string MENU_LIGHT::getStateName()
 void MENU_LIGHT::keyPadRes()
 {
     changeStateTo<MENU_ROOT>();
+}
+
+void MENU_LIGHT::keyPadUp()
+{
+    lightDatabase.up();
+    auto p = lightDatabase.getCurrent();
+    print(p->first, p->second.getCurrent().name.name);
+}
+
+void MENU_LIGHT::keyPadDown()
+{
+    lightDatabase.down();
+    auto p = lightDatabase.getCurrent();
+    print(p->first, p->second.getCurrent().name.name);
+}
+
+void MENU_LIGHT::keyPadLeft()
+{
+    auto p = lightDatabase.getCurrent();
+    p->second.down();
+    print(p->first, p->second.getCurrent().name.name);
+}
+
+void MENU_LIGHT::keyPadRight()
+{
+    auto p = lightDatabase.getCurrent();
+    p->second.up();
+    print(p->first, p->second.getCurrent().name.name);
 }
 

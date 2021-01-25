@@ -16,7 +16,7 @@ protected:
     void SetUp() final
     {
         iDomTOOLS_ClassTest::SetUp();
-        test_command_ip =  std::make_unique <command_ip> ("ip");
+        test_command_ip = std::make_unique <command_ip> ("ip");
     }
 
     void TearDown() final

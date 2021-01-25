@@ -38,20 +38,20 @@ TEST_F(RFLinkHandler_Class_fixture, sendCommandAndWaitForReceive)
 
 TEST_F(RFLinkHandler_Class_fixture, port_does_not_exist)
 {
-    bool result =  test_RFLink->init();
+    bool result = test_RFLink->init();
     EXPECT_FALSE(result);
 }
 
 TEST_F(RFLinkHandler_Class_fixture, port_exist)
 {
     test_server_set._rflink.RFLinkPort = "/dev/tty0";
-    bool result =  test_RFLink->init();
+    bool result = test_RFLink->init();
     EXPECT_TRUE(result);
 }
 
 TEST_F(RFLinkHandler_Class_fixture, getValue)
 {
-    std::string m  = "20;90;Alecto V4;ID=557a;TEMP=0057;HUM=25;";
+    std::string m = "20;90;Alecto V4;ID=557a;TEMP=0057;HUM=25;";
     EXPECT_STREQ(test_RFLink->getArgumentValueFromRFLinkMSG(m,"ID").c_str(),"557a");
     EXPECT_STREQ(test_RFLink->getArgumentValueFromRFLinkMSG(m,"TEMP").c_str(),"0057");
     EXPECT_THROW(test_RFLink->getArgumentValueFromRFLinkMSG(m,"test"),std::string);

@@ -3,10 +3,16 @@
 #include "menu_base.h"
 #include "libs/container_menu.h"
 
+struct BULB{
+    BULB(const std::string& name, int id):name(name), id(id){}
+    ~BULB() = default;
+    std::string name = "NULL";
+    int id = 0;
+};
 
 class MENU_LIGHT : public MENU_STATE_BASE
 {
-    cyniu::ContainerMenu<std::string,std::vector<int>> menuDatabase;
+    cyniu::ContainerMenuMap<std::string,cyniu::ContainerMenu<BULB,int>> lightDatabase;
 public:
     MENU_LIGHT(thread_data *my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm);
     MENU_LIGHT(const MENU_LIGHT & base);
@@ -18,6 +24,10 @@ public:
     void exit();
     std::string getStateName();
     void keyPadRes();
+    void keyPadUp();
+    void keyPadDown();
+    void keyPadLeft();
+    void keyPadRight();
 };
 
 #endif // MENU_LIGHT_H

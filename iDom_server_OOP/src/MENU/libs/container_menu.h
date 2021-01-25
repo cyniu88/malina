@@ -41,10 +41,10 @@ public:
 template <class T_KEY, class T_VALUE>
 class ContainerMenuMap
 {
-    std::map<T_KEY, T_VALUE> databaseMap;
     typedef typename std::map<T_KEY, T_VALUE>::iterator iteratorDatabaseMap;
     iteratorDatabaseMap it;
 public:
+    std::map<T_KEY, T_VALUE> databaseMap;
     ContainerMenuMap() = default;
     ~ContainerMenuMap() = default;
     void insert(std::pair<T_KEY, T_VALUE> data){
@@ -66,8 +66,8 @@ public:
         else
             --it;
     }
-    auto getCurrent(){
-        return *it;
+    iteratorDatabaseMap& getCurrent(){
+        return it;
     }
 
 };

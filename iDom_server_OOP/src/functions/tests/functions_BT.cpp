@@ -69,8 +69,8 @@ TEST(functions_, split)
 TEST(functions_, RSHash)
 {
     std::string msg = "test msg";
-    std::string s1  = useful_F::RSHash(msg, 33, 44);
-    std::string s2  = useful_F::RSHash(msg, 33 ,44);
+    std::string s1 = useful_F::RSHash(msg, 33, 44);
+    std::string s2 = useful_F::RSHash(msg, 33 ,44);
     EXPECT_STREQ(s1.c_str(), s2.c_str());
 
     s1 = useful_F::RSHash(msg, 35, 44);

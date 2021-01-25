@@ -17,8 +17,8 @@ std::string iDOM_THREAD::start_thread(const std::string& name,
         std::size_t it = static_cast<std::size_t>(freeSlotID);
         my_data->main_THREAD_arr->at(it).thread = std::thread(functionToThread ,my_data, name);
 
-        my_data->main_THREAD_arr->at(it).thread_name   = name;
-        my_data->main_THREAD_arr->at(it).thread_ID     = my_data->main_THREAD_arr->at(it).thread.get_id();
+        my_data->main_THREAD_arr->at(it).thread_name  = name;
+        my_data->main_THREAD_arr->at(it).thread_ID    = my_data->main_THREAD_arr->at(it).thread.get_id();
         my_data->main_THREAD_arr->at(it).thread_socket = thread_socket;
         my_data->main_THREAD_arr->at(it).thread.detach();
 

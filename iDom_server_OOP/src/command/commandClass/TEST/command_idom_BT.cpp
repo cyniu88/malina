@@ -414,7 +414,7 @@ TEST_F(commandiDom_Class_fixture, removeAccessKEY)
 TEST_F(commandiDom_Class_fixture, getOpenLink)
 {
     test_my_data.server_settings->_gateway.url = "http://test.pl?";
-    test_my_data.server_settings->_gateway.keySize  = 128;
+    test_my_data.server_settings->_gateway.keySize = 128;
     test_v.clear();
     test_v.push_back("iDom");
     test_v.push_back("link");

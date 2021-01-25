@@ -10,7 +10,7 @@ std::string house_lighting_handler::m_mqttPublishTopic = "swiatlo/output/";
 
 house_lighting_handler::house_lighting_handler(thread_data *my_data){
     m_className.append(typeid (this).name());
-    this->my_data =  my_data;
+    this->my_data = my_data;
     iDom_API::addToMap(m_className,this);
 }
 

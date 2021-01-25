@@ -88,7 +88,7 @@ void THERMOMETER_CONTAINER::setState(const std::string &name, TEMPERATURE_STATE 
 
 void THERMOMETER_CONTAINER::updateAll(std::vector<std::string> *vectorThermo)
 {
-    std::string in  = vectorThermo->at(0);
+    std::string in = vectorThermo->at(0);
     std::string out = vectorThermo->at(1);
     setTemp("inside", std::stod(in));
     setTemp("outside",std::stod(out));

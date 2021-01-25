@@ -112,7 +112,7 @@ TEST_F(iDomTOOLS_ClassTest, weatherAlert)
                                      R"(<dl style="margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center">  Trąby powietrzne, brak ostrzeżeń</dl></div>)";
 
     std::vector<WEATHER_ALER> test_WA;
-    test_WA =  test_my_data.main_iDomTools->getAlert(test_data_from_www);
+    test_WA = test_my_data.main_iDomTools->getAlert(test_data_from_www);
     EXPECT_EQ(1,test_WA.size()) << "ZŁY ROZMIAR VEKTORA WA";
     std::cout << std::endl << " ****************** " << std::endl <<
     iDom_API::getDump() << std::endl << " ****************** " << std::endl;
@@ -795,7 +795,7 @@ TEST_F(iDomTOOLS_ClassTest, access_KEYGEN)
 TEST_F(iDomTOOLS_ClassTest, openGate_getLink)
 {
     test_my_data.server_settings->_gateway.url = "http://tst.pl?";
-    test_my_data.server_settings->_gateway.keySize  = 128;
+    test_my_data.server_settings->_gateway.keySize = 128;
     auto ret = test_my_data.main_iDomTools->openGateLink({"t1","t2"});
     EXPECT_THAT(ret, testing::HasSubstr("http://"));
 
