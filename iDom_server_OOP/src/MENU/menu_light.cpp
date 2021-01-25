@@ -15,10 +15,9 @@ MENU_LIGHT::MENU_LIGHT(const MENU_LIGHT &base): MENU_STATE_BASE(base)
     std::cout << "MENU_LIGHT::MENU_LIGHT() kopiujacy" << std::endl;
 }
 
-MENU_LIGHT::MENU_LIGHT(MENU_LIGHT &&base):MENU_STATE_BASE(std::move(base))
+MENU_LIGHT::MENU_LIGHT(MENU_LIGHT &&base):MENU_STATE_BASE(std::move(base)),  lightDatabase (std::move(base.lightDatabase))
 {
     std::cout << "MENU_LIGHT::MENU_LIGHT() przenoszacy" << std::endl;
-    lightDatabase = std::move(base.lightDatabase);
 }
 
 MENU_LIGHT &MENU_LIGHT::operator=(const MENU_LIGHT &base)
@@ -59,8 +58,9 @@ void MENU_LIGHT::entry()
 
         BULB bulb(data.at("bubl name").get<std::string>(),data.at("bulb ID").get<int>());
         lightDatabase.databaseMap[name].pushBack({bulb,0});
-
     }
+    lightDatabase.databaseMap["all"].pushBack({BULB("all",0),0});
+
     lightDatabase.begin();
     auto p = lightDatabase.getCurrent();
     print(p->first , p->second.getCurrent().name.name);
@@ -78,7 +78,7 @@ std::string MENU_LIGHT::getStateName()
 
 void MENU_LIGHT::keyPadRes()
 {
-    changeStateTo<MENU_ROOT>();
+    changeStateTo<MENU_MAIN>();
 }
 
 void MENU_LIGHT::keyPadUp()
@@ -107,5 +107,19 @@ void MENU_LIGHT::keyPadRight()
     auto p = lightDatabase.getCurrent();
     p->second.up();
     print(p->first, p->second.getCurrent().name.name);
+}
+
+void MENU_LIGHT::keyPadOk()
+{
+    auto p = lightDatabase.getCurrent();
+    int id = p->second.getCurrent().name.id;
+    my_dataPTR->main_house_lighting_handler->turnOnBulb(id);
+}
+
+void MENU_LIGHT::keyPadPower()
+{
+    auto p = lightDatabase.getCurrent();
+    int id = p->second.getCurrent().name.id;
+    my_dataPTR->main_house_lighting_handler->turnOffBulb(id);
 }
 

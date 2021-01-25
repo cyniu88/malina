@@ -28,6 +28,8 @@ public:
     void keyPadDown();
     void keyPadLeft();
     void keyPadRight();
+    void keyPadOk();
+    void keyPadPower();
 };
 
 #endif // MENU_LIGHT_H

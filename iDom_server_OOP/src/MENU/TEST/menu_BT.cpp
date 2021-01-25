@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 #include <memory>
 #include "../../iDom_server_OOP.h"
+#include "../../functions/functions.h"
 #include "../menu_base.h"
 #include "../menu_root.h"
 #include "../menu_main.h"
@@ -90,6 +91,8 @@ TEST_F(menu_state_machine_fixture, main)
 
 TEST_F(menu_state_machine_fixture, MENU_LIGHT){
     thread_data test_my_data;
+    test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("test");
+    useful_F::myStaticData = &test_my_data;
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
     //////// bulb config
@@ -99,8 +102,10 @@ TEST_F(menu_state_machine_fixture, MENU_LIGHT){
 
     auto ptr = std::make_unique<MENU_LIGHT>(&test_my_data, &lcd, &stateMechine);
     ptr->entry();
+    ptr->keyPadDown();
     ptr->keyPadLeft();
     ptr->keyPadLeft();
     ptr->keyPadLeft();
     ptr->keyPadRight();
+    ptr->keyPadOk();
 }
