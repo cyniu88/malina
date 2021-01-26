@@ -1039,6 +1039,7 @@ void iDomTOOLS::checkAlarm()
         }
         else{
             my_data->alarmTime.state = STATE::DEACTIVE;
+            my_data->main_Rs232->print("LED_CLOCK:0;");
             my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/alarm",
                                           stateToString(STATE::DEACTIVE));
             if(iDomTOOLS::isItDay() == false){

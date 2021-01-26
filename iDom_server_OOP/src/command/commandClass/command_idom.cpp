@@ -181,6 +181,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
         if (v[2] == "OFF"){
             my_data->alarmTime.state = STATE::DEACTIVE;
+            my_data->main_Rs232->print("LED_CLOCK:0;");
             my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
             my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
             my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/alarm",
@@ -214,6 +215,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         else if (v[2] == "ON" && v.size() > 3){
             my_data->alarmTime.time = Clock(v[3]);
             my_data->alarmTime.state = STATE::ACTIVE;
+            my_data->main_Rs232->print("LED_CLOCK:1;");
             my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
             my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
             my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/alarm",

@@ -77,6 +77,7 @@ void useful_F::tokenizer (std::vector <std::string> &command,
 ////// watek sleeper
 void useful_F::sleeper_mpd (thread_data *my_data, const std::string& threadName)
 {
+    my_data->main_Rs232->print("LED_CLOCK:1;");
     unsigned int t = 60/my_data->sleeper;
     unsigned int k = 0;
 
@@ -93,6 +94,8 @@ void useful_F::sleeper_mpd (thread_data *my_data, const std::string& threadName)
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "zaczynam procedure konca watku " << threadName << std::endl;
     log_file_mutex.mutex_unlock();
+
+    my_data->main_Rs232->print("LED_CLOCK:0;");
 
     iDOM_THREAD::stop_thread(threadName,my_data);
 
@@ -478,6 +481,7 @@ void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
         exit(-1);
     }
     struct sockaddr_in from;
+    my_data->main_Rs232->print("LED_POWER:1;");
     while (1)
     {
         int v_sock_ind = 0;

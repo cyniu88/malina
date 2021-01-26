@@ -311,9 +311,8 @@ iDomStateEnum iDom_main()
     ///////////////////////////////////////////////////// STARTED //////////////////////////////////////////////////
     node_data.serverStarted = true;
     ///////////////////////////////////////////////////// start server ////////////////////////////////////////////////////
-    node_data.main_Rs232->print("LED_POWER:1;");
 
-    useful_F ::startServer(&node_data, &mainTasker);
+    useful_F::startServer(&node_data, &mainTasker);
 
     if (node_data.iDomProgramState == iDomStateEnum::CLOSE)
     {
