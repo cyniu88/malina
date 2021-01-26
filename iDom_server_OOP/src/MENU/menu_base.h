@@ -52,6 +52,7 @@ enum class KEY_PAD{
     DOWN = 256,
     LEFT = 512,
     EPG = 1024,
+    REBOOT = 5,
 };
 
 class MENU_STATE_BASE;
@@ -68,6 +69,7 @@ protected:
     thread_data* my_dataPTR;
     LCD_c* lcdPTR;
     MENU_STATE_MACHINE* stateMachinePTR;
+    std::string arrow = R"(/\          \/)";
 public:
     MENU_STATE_BASE(thread_data* my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm);
     MENU_STATE_BASE(const MENU_STATE_BASE& base);
@@ -87,10 +89,13 @@ public:
     virtual void keyPadRight(){std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadMenu() {std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadEpg()  {std::cout << __func__ << " pressed" << std::endl;};
+    virtual void reboot()     {std::cout << __func__ << " pressed" << std::endl;};
     virtual void print(const std::string &row1, const std::string &row2){
         lcdPTR->clear();
         lcdPTR->printString(row1, row2);
     };
+    virtual void timeout(std::function<void()> function = std::nullptr_t()) {};
+    virtual void quickPrint(const std::string &row1, const std::string &row2 ){};
 
     template<class State>
     void changeStateTo(){
@@ -103,9 +108,13 @@ public:
 class KEY_HANDLER{
 protected:
     MENU_STATE_MACHINE* stateMachinePtr;
+    std::mutex lock;
 public:
     KEY_HANDLER(MENU_STATE_MACHINE* msm);
     ~KEY_HANDLER() = default;
     void recKeyEvent(KEY_PAD eventId);
+    void recIrdaEvent(PILOT_KEY eventId);
+    void timeout(std::function<void()> function);
+    void quickPrint(const std::string &row1, const std::string &row2 );
 };
 #endif // MENU_H

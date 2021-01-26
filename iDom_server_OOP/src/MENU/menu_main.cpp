@@ -52,10 +52,11 @@ void MENU_MAIN::entry()
     std::cout << "MENU_MAIN::entry()" << std::endl;
     menuDatabase.pushBack({"   MUSIC",  [=]() { changeStateTo<MENU_ROOT>();}});
     menuDatabase.pushBack({"   LIGHT",  [=]() { changeStateTo<MENU_LIGHT>();}});
-    menuDatabase.pushBack({"   KODI",   [=]() { changeStateTo<MENU_ROOT>();}});
+    menuDatabase.pushBack({"   KODI",   [=]() { my_dataPTR->main_iDomTools->startKodi_Thread();
+                                                changeStateTo<MENU_ROOT>();}});
     menuDatabase.pushBack({"   BUDERUS",[=]() { changeStateTo<MENU_ROOT>();}});
     menuDatabase.pushBack({"   EXIT",   [=]() { changeStateTo<MENU_ROOT>();}});
-    print(menuDatabase.getCurrent().name, R"(/\           \/)");
+    print(menuDatabase.getCurrent().name, arrow);
 }
 
 void MENU_MAIN::exit()
@@ -81,12 +82,12 @@ void MENU_MAIN::keyPadRes()
 void MENU_MAIN::keyPadUp()
 {
     menuDatabase.up();
-    print(menuDatabase.getCurrent().name, R"(/\           \/)");
+    print(menuDatabase.getCurrent().name, arrow);
 }
 
 void MENU_MAIN::keyPadDown()
 {
     menuDatabase.down();
-    print(menuDatabase.getCurrent().name, R"(/\           \/)");
+    print(menuDatabase.getCurrent().name, arrow);
 }
 

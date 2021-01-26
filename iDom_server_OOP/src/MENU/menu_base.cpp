@@ -57,7 +57,8 @@ KEY_HANDLER::KEY_HANDLER( MENU_STATE_MACHINE *msm)
 }
 
 void KEY_HANDLER::recKeyEvent(KEY_PAD eventId)
-{
+{    
+    std::lock_guard<std::mutex> guard(lock);
     switch (eventId) {
     case KEY_PAD::OK : stateMachinePtr->currentState->keyPadOk();
         break;
@@ -77,7 +78,32 @@ void KEY_HANDLER::recKeyEvent(KEY_PAD eventId)
         break;
     case KEY_PAD::LEFT: stateMachinePtr->currentState->keyPadLeft();
         break;
+    case KEY_PAD::REBOOT: stateMachinePtr->currentState->reboot();
+        break;
     }
+}
+
+void KEY_HANDLER::recIrdaEvent(PILOT_KEY eventId)
+{
+    std::lock_guard<std::mutex> guard(lock);
+    switch (eventId) {
+    case PILOT_KEY::KEY_MENU: stateMachinePtr->currentState->keyPadMenu();
+        break;
+//TODO  add more event
+    }
+
+}
+
+void KEY_HANDLER::timeout(std::function<void ()> function)
+{
+    std::lock_guard<std::mutex> guard(lock);
+    stateMachinePtr->currentState->timeout(function);
+}
+
+void KEY_HANDLER::quickPrint(const std::string &row1, const std::string &row2)
+{
+    std::lock_guard<std::mutex> guard(lock);
+    stateMachinePtr->currentState->quickPrint(row1,row2);
 }
 
 void MENU_STATE_MACHINE::setStateMachine(std::unique_ptr<MENU_STATE_BASE> ptr)

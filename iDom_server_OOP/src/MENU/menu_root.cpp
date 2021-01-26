@@ -62,3 +62,14 @@ void MENU_ROOT::keyPadMenu()
 {
     changeStateTo<MENU_MAIN>();
 }
+
+void MENU_ROOT::reboot()
+{
+    my_dataPTR->main_iDomTools->reloadHard_iDomServer();
+}
+
+void MENU_ROOT::quickPrint(const std::string &row1, const std::string &row2)
+{
+    lcdPTR->clear();
+    lcdPTR->printString(row1, row2);
+}
