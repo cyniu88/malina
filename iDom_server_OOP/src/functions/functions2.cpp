@@ -283,6 +283,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     log_file_cout << INFO << threadName <<": polaczenie z adresu " << tm <<std::endl;
     log_file_mutex.mutex_unlock();
     my_data->myEventHandler.run("connections")->addEvent(tm);
+    my_data->main_Rs232->print("LED_AT:1;");
 
     int recvSize = client->c_recv(0);
     if(recvSize == -1)
@@ -323,6 +324,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         if(client->c_send("\nFAIL\n") == -1)
         {
             delete client;
+            my_data->main_Rs232->print("LED_AT:0;");
             iDOM_THREAD::stop_thread(threadName, my_data);
             return;
         }
@@ -334,6 +336,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         if(recvSize == -1)
         {
             delete client;
+            my_data->main_Rs232->print("LED_AT:0;");
             iDOM_THREAD::stop_thread(threadName, my_data);
             return;
         }
@@ -385,6 +388,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     }
     client->onStopConnection();
     delete client;
+    my_data->main_Rs232->print("LED_AT:0;");
 #ifdef BT_TEST
     std::cout << "zamykamy server" << std::endl;
     useful_F::workServer = false; // wylacz nasluchwianie servera

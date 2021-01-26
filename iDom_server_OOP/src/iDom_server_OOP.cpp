@@ -311,21 +311,16 @@ iDomStateEnum iDom_main()
     ///////////////////////////////////////////////////// STARTED //////////////////////////////////////////////////
     node_data.serverStarted = true;
     ///////////////////////////////////////////////////// start server ////////////////////////////////////////////////////
-    node_data.main_Rs232->print( "LED_POWER:1;");
+    node_data.main_Rs232->print("LED_POWER:1;");
+
     useful_F ::startServer(&node_data, &mainTasker);
 
-    //node_data.mainLCD->set_print_song_state(0);
-    //node_data.mainLCD->set_lcd_STATE(2);
-    //node_data.mainLCD->clear();
-    //node_data.mainLCD->noBacklight();
-    //TODO dont stop music if reload server
     if (node_data.iDomProgramState == iDomStateEnum::CLOSE)
     {
         node_data.main_iDomTools->MPD_stop();
         iDomTOOLS::turnOffSpeakers();
     }
     node_data.mqttHandler->disconnect();
-
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
