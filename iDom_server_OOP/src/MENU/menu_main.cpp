@@ -5,22 +5,22 @@
 
 MENU_MAIN::MENU_MAIN(thread_data* my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm): MENU_STATE_BASE (my_data, lcdPTR, msm)
 {
-    std::cout << "MENU_MAIN::MENU_MAIN()" << std::endl;
+  //  std::cout << "MENU_MAIN::MENU_MAIN()" << std::endl;
 }
 
 MENU_MAIN::MENU_MAIN(const MENU_MAIN &base): MENU_STATE_BASE(base)
 {
-    std::cout << "MENU_MAIN::MENU_MAIN() kopiujacy" << std::endl;
+   // std::cout << "MENU_MAIN::MENU_MAIN() kopiujacy" << std::endl;
 }
 
 MENU_MAIN::MENU_MAIN(MENU_MAIN &&base): MENU_STATE_BASE(std::move(base))
 {
-    std::cout << "MENU_MAIN::MENU_MAIN() przenoszacy" << std::endl;
+  //  std::cout << "MENU_MAIN::MENU_MAIN() przenoszacy" << std::endl;
 }
 
 MENU_MAIN &MENU_MAIN::operator=(const MENU_MAIN &base)
 {
-    std::cout << "MENU_MAIN::operator = kopiujacy" << std::endl;
+   // std::cout << "MENU_MAIN::operator = kopiujacy" << std::endl;
      if(&base != this){
          my_dataPTR = base.my_dataPTR;
          lcdPTR = base.lcdPTR;
@@ -44,12 +44,12 @@ MENU_MAIN &MENU_MAIN::operator=(MENU_MAIN &&base)
 
 MENU_MAIN::~MENU_MAIN()
 {
-    std::cout << "MENU_MAIN::~MENU_MAIN()" << std::endl;
+   // std::cout << "MENU_MAIN::~MENU_MAIN()" << std::endl;
 }
 
 void MENU_MAIN::entry()
 {
-    std::cout << "MENU_MAIN::entry()" << std::endl;
+  //  std::cout << "MENU_MAIN::entry()" << std::endl;
     menuDatabase.pushBack({"   MUSIC",  [=]() { changeStateTo<MENU_ROOT>();}});
     menuDatabase.pushBack({"   LIGHT",  [=]() { changeStateTo<MENU_LIGHT>();}});
     menuDatabase.pushBack({"   KODI",   [=]() { my_dataPTR->main_iDomTools->startKodi_Thread();
@@ -61,7 +61,7 @@ void MENU_MAIN::entry()
 
 void MENU_MAIN::exit()
 {
-    std::cout << "MENU_MAIN::exit()" << std::endl;
+  //  std::cout << "MENU_MAIN::exit()" << std::endl;
 }
 
 std::string MENU_MAIN::getStateName()

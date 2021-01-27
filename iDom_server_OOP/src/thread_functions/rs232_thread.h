@@ -24,12 +24,14 @@ void Send_Recieve_rs232_thread (thread_data *my_data, const std::string& threadN
             char t = my_data->main_Rs232->read();
             if(t == '\n'){
                 my_data->main_Rs232->flush();
-                std::cout << "odebrano z RS232: " << buffor << std::endl;
                 auto data = useful_F::split(buffor,':');
                 if(data.at(0) == "KEY_PAD"){
                     int id = std::stoi(data.at(1));
                     KEY_PAD keyEvent = static_cast<KEY_PAD>(id);
                     my_data->main_key_menu_handler->recKeyEvent(keyEvent);
+                }
+                else if(data.at(0) == "TIMEOUT"){
+                    my_data->main_key_menu_handler->timeout();
                 }
                 buffor.clear();
             }

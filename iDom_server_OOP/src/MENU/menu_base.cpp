@@ -8,17 +8,17 @@ MENU_STATE_BASE::MENU_STATE_BASE(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE
     this->my_dataPTR = my_data;
     this->lcdPTR = lcdPTR;
     this->stateMachinePTR = msm;
-    std::cout << "MENU_STATE_BASE::MENU_STATE_BASE()" << std::endl;
+    //std::cout << "MENU_STATE_BASE::MENU_STATE_BASE()" << std::endl;
 }
 
 MENU_STATE_BASE::MENU_STATE_BASE(const MENU_STATE_BASE &base): my_dataPTR(base.my_dataPTR), lcdPTR(base.lcdPTR), stateMachinePTR(base.stateMachinePTR)
 {
-    std::cout << "MENU_STATE_BASE::MENU_STATE_BASE() kopiujacy" << std::endl;
+   // std::cout << "MENU_STATE_BASE::MENU_STATE_BASE() kopiujacy" << std::endl;
 }
 
 MENU_STATE_BASE::MENU_STATE_BASE(const MENU_STATE_BASE &&base)
 {
-    std::cout << "MENU_STATE_BASE::MENU_STATE_BASE() przenoszacy" << std::endl;
+    //std::cout << "MENU_STATE_BASE::MENU_STATE_BASE() przenoszacy" << std::endl;
     my_dataPTR = std::move(base.my_dataPTR);
     lcdPTR = std::move(base.lcdPTR);
     stateMachinePTR = std::move(base.stateMachinePTR);
@@ -26,7 +26,7 @@ MENU_STATE_BASE::MENU_STATE_BASE(const MENU_STATE_BASE &&base)
 
 MENU_STATE_BASE &MENU_STATE_BASE::operator =(const MENU_STATE_BASE &base)
 {
-    std::cout << "MENU_STATE_BASE::operator = kopiujacy" << std::endl;
+    //std::cout << "MENU_STATE_BASE::operator = kopiujacy" << std::endl;
     if (&base != this) {
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
@@ -37,12 +37,12 @@ MENU_STATE_BASE &MENU_STATE_BASE::operator =(const MENU_STATE_BASE &base)
 
 MENU_STATE_BASE::~MENU_STATE_BASE()
 {
-    std::cout << "MENU_STATE_BASE::~MENU_STATE_BASE()" << std::endl;
+   // std::cout << "MENU_STATE_BASE::~MENU_STATE_BASE()" << std::endl;
 }
 
 MENU_STATE_BASE &MENU_STATE_BASE::operator =(MENU_STATE_BASE &&base)
 {
-    std::cout << "MENU_STATE_BASE::operator = przenoszacy" << std::endl;
+    //std::cout << "MENU_STATE_BASE::operator = przenoszacy" << std::endl;
     if (&base != this) {
         my_dataPTR = std::move(base.my_dataPTR);
         lcdPTR = std::move(base.lcdPTR);
@@ -94,10 +94,10 @@ void KEY_HANDLER::recIrdaEvent(PILOT_KEY eventId)
 
 }
 
-void KEY_HANDLER::timeout(std::function<void ()> function)
+void KEY_HANDLER::timeout()
 {
     std::lock_guard<std::mutex> guard(lock);
-    stateMachinePtr->currentState->timeout(function);
+    stateMachinePtr->currentState->timeout();
 }
 
 void KEY_HANDLER::quickPrint(const std::string &row1, const std::string &row2)

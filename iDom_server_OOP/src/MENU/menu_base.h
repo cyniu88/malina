@@ -114,7 +114,7 @@ public:
     ~KEY_HANDLER() = default;
     void recKeyEvent(KEY_PAD eventId);
     void recIrdaEvent(PILOT_KEY eventId);
-    void timeout(std::function<void()> function);
+    void timeout();
     void quickPrint(const std::string &row1, const std::string &row2 );
 };
 #endif // MENU_H
