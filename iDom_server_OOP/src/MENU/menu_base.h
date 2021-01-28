@@ -90,7 +90,7 @@ public:
     virtual void keyPadMenu() {std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadEpg()  {std::cout << __func__ << " pressed" << std::endl;};
     virtual void reboot()     {std::cout << __func__ << " pressed" << std::endl;};
-    virtual void print(const std::string &row1, const std::string &row2){
+    virtual void print(const std::string &row1, const std::string &row2 = ""){
         lcdPTR->clear();
         lcdPTR->printString(row1, row2);
     };

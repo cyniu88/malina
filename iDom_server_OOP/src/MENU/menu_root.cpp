@@ -1,5 +1,6 @@
 #include "menu_root.h"
 #include "menu_main.h"
+#include "menu_music.h"
 
 MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm): MENU_STATE_BASE (my_data, lcdPTR, msm)
 {
@@ -61,6 +62,11 @@ std::string MENU_ROOT::getStateName()
 void MENU_ROOT::keyPadMenu()
 {
     changeStateTo<MENU_MAIN>();
+}
+
+void MENU_ROOT::keyPadPower()
+{
+    changeStateTo<MENU_MUSIC>();
 }
 
 void MENU_ROOT::reboot()

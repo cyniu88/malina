@@ -13,7 +13,7 @@ public:
     ~MENU_VOLUME();
     void entry();
     void exit();
-    void printStateName();
+    std::string getStateName();
 };
 
 #endif // MENU_VOLUME_H

@@ -40,20 +40,20 @@ MENU_VOLUME &MENU_VOLUME::operator=(MENU_VOLUME &&base)
 
 MENU_VOLUME::~MENU_VOLUME()
 {
-    std::cout << "MENU_VOLUME::~MENU_VOLUME()" << std::endl;
+
 }
 
 void MENU_VOLUME::entry()
 {
-  //  std::cout << "MENU_VOLUME::entry()" << std::endl;
+
 }
 
 void MENU_VOLUME::exit()
 {
-  //  std::cout << "MENU_VOLUME::exit()" << std::endl;
+
 }
 
-void MENU_VOLUME::printStateName()
+std::string MENU_VOLUME::getStateName()
 {
-  //  std::cout << "klasa state: " << typeid (this).name() << std::endl;
+        return typeid (this).name();
 }

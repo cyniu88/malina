@@ -2,6 +2,7 @@
 #include "menu_main.h"
 #include "menu_light.h"
 #include "menu_root.h"
+#include "menu_music.h"
 
 MENU_MAIN::MENU_MAIN(thread_data* my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm): MENU_STATE_BASE (my_data, lcdPTR, msm)
 {
@@ -50,7 +51,7 @@ MENU_MAIN::~MENU_MAIN()
 void MENU_MAIN::entry()
 {
   //  std::cout << "MENU_MAIN::entry()" << std::endl;
-    menuDatabase.pushBack({"   MUSIC",  [=]() { changeStateTo<MENU_ROOT>();}});
+    menuDatabase.pushBack({"   MUSIC",  [=]() { changeStateTo<MENU_MUSIC>();}});
     menuDatabase.pushBack({"   LIGHT",  [=]() { changeStateTo<MENU_LIGHT>();}});
     menuDatabase.pushBack({"   KODI",   [=]() { my_dataPTR->main_iDomTools->startKodi_Thread();
                                                 changeStateTo<MENU_ROOT>();}});

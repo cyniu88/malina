@@ -16,6 +16,7 @@ public:
     void exit();
     std::string getStateName();
     void keyPadMenu();
+    void keyPadPower();
     void reboot();
     void quickPrint(const std::string &row1, const std::string & row2);
 };
