@@ -89,9 +89,9 @@ void loop() {
     apiNbox.ledBrightness(ON, value.toInt());
     command = "z";
   }
-  if (command == "PING")
+  if (command == "TIMEOUT")
   {
-    Serial.println("PONG");
+    Serial.println("TIMEOUT");
     command = "z";
   }
   if (command != "z")

@@ -143,7 +143,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
             my_data->mqttHandler->publishRetained(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/status","PAUSE");
-            my_data->main_key_menu_handler->quickPrint("PAUZA");
+            my_data->main_key_menu_handler->quickPrint("MPD", "PAUZA");
             my_data->myEventHandler.run("mpd")->addEvent("MPD pause");
             my_data->main_iDomStatus->setObjectState("music",STATE::PAUSE);
             my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
