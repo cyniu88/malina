@@ -39,13 +39,12 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
         printf("Random:"" %s\n", mpd_player_get_random(mi)? "On":"Off");
     }
     if(what&MPD_CST_VOLUME){
-        printf("Volume:"" %03i%%\n",
-               mpd_status_get_volume(mi));
+        printf("Volume:"" %03i%%\n", mpd_status_get_volume(mi));
 
-        //my_data->mainLCD->printVolume(mpd_status_get_volume(mi));
         try
         {
             my_data->ptr_MPD_info->volume = mpd_status_get_volume(mi);
+            my_data->main_key_menu_handler->quickPrint("Volume:", std::to_string(my_data->ptr_MPD_info->volume));
             my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/volume",
                                           std::to_string(my_data->ptr_MPD_info->volume));
         }
@@ -101,11 +100,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
 
                 my_data->ptr_MPD_info->radio = _msg;
 
-                //my_data->mainLCD->printRadioName(true,0,0,_msg);
-                //my_data->mainLCD->set_lcd_STATE(5);
-                std::string temp_str = my_data->main_iDomTools->getTemperatureString(); // send_to_arduino(my_data,"temperature:2;");
-
-                //my_data->mainLCD->printString(false,0,1,"temp:"+temp_str+" c");
+                my_data->main_key_menu_handler->quickPrint("Radio:", _msg);
 
                 updatePlayList(mi,my_data);
             }
@@ -125,8 +120,8 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             {
                 _msg += " -     brak nazwy      ";
             }
-            // my_data->ptr_MPD_info->title = _msg;
-           // my_data->mainLCD->printSongName(_msg);
+             my_data->ptr_MPD_info->title = _msg;
+             my_data->main_key_menu_handler->quickPrint(_msg, "");
         }
     }
     if(what&MPD_CST_STATE)
@@ -140,7 +135,6 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             check_title_song_to = true;
             //digitalWrite(iDomConst::GPIO_SPIK, LOW);
             my_data->main_iDomTools->turnOnSpeakers();
-            //my_data->mainLCD->song_printstr();
             updatePlayList(mi,my_data);
             my_data->myEventHandler.run("mpd")->addEvent("MPD playing");
             my_data->main_iDomStatus->setObjectState("music",STATE::PLAY);
@@ -149,7 +143,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
             my_data->mqttHandler->publishRetained(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/status","PAUSE");
-            //my_data->mainLCD->printString(true ,0,1,"    PAUSE");
+            my_data->main_key_menu_handler->quickPrint("PAUZA");
             my_data->myEventHandler.run("mpd")->addEvent("MPD pause");
             my_data->main_iDomStatus->setObjectState("music",STATE::PAUSE);
             my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
@@ -166,7 +160,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             my_data->ptr_MPD_info->title = "* * * *";
             my_data->main_iDomTools->turnOffSpeakers();
             //digitalWrite(iDomConst::GPIO_SPIK,HIGH);
-           // my_data->mainLCD->noBacklight();
+            my_data->main_key_menu_handler->timeout();
             sleep(1);
             my_data->myEventHandler.run("mpd")->addEvent("MPD stopped");
             my_data->main_iDomStatus->setObjectState("music",STATE::STOP);

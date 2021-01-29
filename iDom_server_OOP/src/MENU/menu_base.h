@@ -70,9 +70,9 @@ protected:
     LCD_c* lcdPTR;
     MENU_STATE_MACHINE* stateMachinePTR;
     std::string arrow = R"(/\          \/)";
-    bool lcdLED = false;
+    STATE lcdLED = STATE::OFF;
 public:
-    MENU_STATE_BASE(thread_data* my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm, bool lcdLED = false);
+    MENU_STATE_BASE(thread_data* my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm, STATE lcdLED = STATE::OFF);
     MENU_STATE_BASE(const MENU_STATE_BASE& base);
     MENU_STATE_BASE(const MENU_STATE_BASE&& base);
     MENU_STATE_BASE &operator = (const MENU_STATE_BASE &base);
@@ -99,7 +99,7 @@ public:
     virtual void quickPrint(const std::string &row1, const std::string &row2 ){};
 
     template<class State>
-    void changeStateTo(bool lcdLED = false){
+    void changeStateTo(STATE lcdLED = STATE::OFF){
         this->stateMachinePTR->currentState->exit();
         auto ptr = std::make_unique<State>(my_dataPTR, lcdPTR, stateMachinePTR, lcdLED);
         this->stateMachinePTR->setStateMachine(std::move(ptr));

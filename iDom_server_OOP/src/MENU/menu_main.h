@@ -10,7 +10,7 @@ class MENU_MAIN : public MENU_STATE_BASE
 {
     cyniu::ContainerMenu<std::string,std::function<void()>> menuDatabase;
 public:
-    MENU_MAIN(thread_data *my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm, bool lcdLED = false);
+    MENU_MAIN(thread_data *my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm, STATE lcdLED = STATE::OFF);
     MENU_MAIN(const MENU_MAIN &base);
     MENU_MAIN(MENU_MAIN &&base);
     MENU_MAIN &operator= (const MENU_MAIN & base);

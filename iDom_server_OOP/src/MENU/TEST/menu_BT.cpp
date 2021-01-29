@@ -60,6 +60,8 @@ TEST_F(menu_state_machine_fixture, containerMenuMap)
 TEST_F(menu_state_machine_fixture, main)
 {
     thread_data test_my_data;
+    test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
+    test_my_data.main_iDomStatus->addObject("music", STATE::STOP);
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
     auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, &lcd, &stateMechine);

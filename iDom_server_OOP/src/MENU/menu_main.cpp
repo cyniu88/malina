@@ -4,65 +4,66 @@
 #include "menu_root.h"
 #include "menu_music.h"
 
-MENU_MAIN::MENU_MAIN(thread_data* my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, bool lcdLED): MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
+MENU_MAIN::MENU_MAIN(thread_data* my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED): MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
 {
-  //  std::cout << "MENU_MAIN::MENU_MAIN()" << std::endl;
+    //  std::cout << "MENU_MAIN::MENU_MAIN()" << std::endl;
 }
 
 MENU_MAIN::MENU_MAIN(const MENU_MAIN &base): MENU_STATE_BASE(base)
 {
-   // std::cout << "MENU_MAIN::MENU_MAIN() kopiujacy" << std::endl;
+    // std::cout << "MENU_MAIN::MENU_MAIN() kopiujacy" << std::endl;
 }
 
 MENU_MAIN::MENU_MAIN(MENU_MAIN &&base): MENU_STATE_BASE(std::move(base))
 {
-  //  std::cout << "MENU_MAIN::MENU_MAIN() przenoszacy" << std::endl;
+    //  std::cout << "MENU_MAIN::MENU_MAIN() przenoszacy" << std::endl;
 }
 
 MENU_MAIN &MENU_MAIN::operator=(const MENU_MAIN &base)
 {
-   // std::cout << "MENU_MAIN::operator = kopiujacy" << std::endl;
-     if(&base != this){
-         my_dataPTR = base.my_dataPTR;
-         lcdPTR = base.lcdPTR;
-         stateMachinePTR = base.stateMachinePTR;
-         menuDatabase = base.menuDatabase;
-     }
-     return * this;
+    // std::cout << "MENU_MAIN::operator = kopiujacy" << std::endl;
+    if(&base != this){
+        my_dataPTR = base.my_dataPTR;
+        lcdPTR = base.lcdPTR;
+        stateMachinePTR = base.stateMachinePTR;
+        menuDatabase = base.menuDatabase;
+    }
+    return * this;
 }
 
 MENU_MAIN &MENU_MAIN::operator=(MENU_MAIN &&base)
 {
     std::cout << "MENU_MAIN::operator = przenoszacy" << std::endl;
-     if(&base != this){
-         my_dataPTR = base.my_dataPTR;
-         lcdPTR = base.lcdPTR;
-         stateMachinePTR = base.stateMachinePTR;
-         menuDatabase = std::move(base.menuDatabase);
-     }
-     return * this;
+    if(&base != this){
+        my_dataPTR = base.my_dataPTR;
+        lcdPTR = base.lcdPTR;
+        stateMachinePTR = base.stateMachinePTR;
+        menuDatabase = std::move(base.menuDatabase);
+    }
+    return * this;
 }
 
 MENU_MAIN::~MENU_MAIN()
 {
-   // std::cout << "MENU_MAIN::~MENU_MAIN()" << std::endl;
+    // std::cout << "MENU_MAIN::~MENU_MAIN()" << std::endl;
 }
 
 void MENU_MAIN::entry()
 {
-  //  std::cout << "MENU_MAIN::entry()" << std::endl;
-    menuDatabase.pushBack({"   MUSIC",  [=]() { changeStateTo<MENU_MUSIC>();}});
+    //  std::cout << "MENU_MAIN::entry()" << std::endl;
+    menuDatabase.pushBack({"   MUSIC",  [=]() { my_dataPTR->main_iDomTools->MPD_play(my_dataPTR);
+                                                changeStateTo<MENU_ROOT>();}});
     menuDatabase.pushBack({"   LIGHT",  [=]() { changeStateTo<MENU_LIGHT>();}});
     menuDatabase.pushBack({"   KODI",   [=]() { my_dataPTR->main_iDomTools->startKodi_Thread();
-                                                changeStateTo<MENU_ROOT>(true);}});
-    menuDatabase.pushBack({"   BUDERUS",[=]() { changeStateTo<MENU_ROOT>(true);}});
+                                                changeStateTo<MENU_ROOT>();}});
+    menuDatabase.pushBack({"   BUDERUS",[=]() { changeStateTo<MENU_ROOT>();}});
     menuDatabase.pushBack({"   EXIT",   [=]() { changeStateTo<MENU_ROOT>();}});
     print(menuDatabase.getCurrent().name, arrow);
 }
 
 void MENU_MAIN::exit()
 {
-  //  std::cout << "MENU_MAIN::exit()" << std::endl;
+    //  std::cout << "MENU_MAIN::exit()" << std::endl;
 }
 
 std::string MENU_MAIN::getStateName()

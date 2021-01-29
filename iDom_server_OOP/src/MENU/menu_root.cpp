@@ -2,7 +2,7 @@
 #include "menu_main.h"
 #include "menu_music.h"
 
-MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, bool lcdLED): MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
+MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED): MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
 {
     //  std::cout << "MENU_ROOT::MENU_ROOT()" << std::endl;
 }
@@ -46,7 +46,7 @@ MENU_ROOT &MENU_ROOT::operator=(MENU_ROOT &&base)
 
 void MENU_ROOT::entry()
 {
-    if(lcdLED == false)
+    if(my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::PLAY)
         lcdPTR->noBacklight();
 }
 
@@ -69,7 +69,6 @@ void MENU_ROOT::keyPadPower()
 {
     if(my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::STOP){
         my_dataPTR->main_iDomTools->MPD_play(my_dataPTR);
-        print("Gram muzyczke");
     }
     else{
         my_dataPTR->main_iDomTools->MPD_stop();
@@ -101,6 +100,12 @@ void MENU_ROOT::keyPadRight()
 void MENU_ROOT::reboot()
 {
     my_dataPTR->main_iDomTools->reloadHard_iDomServer();
+}
+
+void MENU_ROOT::timeout(std::function<void ()> function)
+{
+    lcdPTR->clear();
+    lcdPTR->noBacklight();
 }
 
 void MENU_ROOT::quickPrint(const std::string &row1, const std::string &row2)

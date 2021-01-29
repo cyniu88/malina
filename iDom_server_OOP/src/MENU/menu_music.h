@@ -6,7 +6,7 @@
 class MENU_MUSIC : public MENU_STATE_BASE
 {
 public:
-    MENU_MUSIC(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, bool lcdLED = false);
+    MENU_MUSIC(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
     MENU_MUSIC(const MENU_MUSIC &base);
     MENU_MUSIC(MENU_MUSIC &&base);
     MENU_MUSIC &operator=(const MENU_MUSIC &base);
