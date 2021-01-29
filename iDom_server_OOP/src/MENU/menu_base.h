@@ -53,6 +53,7 @@ enum class KEY_PAD{
     LEFT = 512,
     EPG = 1024,
     REBOOT = 5,
+    OFF_LCD = 777,
 };
 
 class MENU_STATE_BASE;
@@ -91,6 +92,7 @@ public:
     virtual void keyPadMenu() {std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadEpg()  {std::cout << __func__ << " pressed" << std::endl;};
     virtual void reboot()     {std::cout << __func__ << " pressed" << std::endl;};
+    virtual void offLcd()     {std::cout << __func__ << " pressed" << std::endl;};
     virtual void print(const std::string &row1, const std::string &row2 = ""){
         lcdPTR->clear();
         lcdPTR->printString(row1, row2);

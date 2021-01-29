@@ -46,7 +46,7 @@ MENU_ROOT &MENU_ROOT::operator=(MENU_ROOT &&base)
 
 void MENU_ROOT::entry()
 {
-    if(my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::PLAY)
+    if(my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::STOP)
         lcdPTR->noBacklight();
 }
 
@@ -103,6 +103,12 @@ void MENU_ROOT::reboot()
 }
 
 void MENU_ROOT::timeout(std::function<void ()> function)
+{
+    lcdPTR->clear();
+    lcdPTR->noBacklight();
+}
+
+void MENU_ROOT::offLcd()
 {
     lcdPTR->clear();
     lcdPTR->noBacklight();

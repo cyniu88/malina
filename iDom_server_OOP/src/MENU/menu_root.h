@@ -23,6 +23,7 @@ public:
     void keyPadRight();
     void reboot();
     void timeout(std::function<void()> function = std::nullptr_t());
+    void offLcd();
     void quickPrint(const std::string &row1, const std::string & row2);
 };
 

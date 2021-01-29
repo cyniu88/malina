@@ -160,7 +160,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             my_data->ptr_MPD_info->title = "* * * *";
             my_data->main_iDomTools->turnOffSpeakers();
             //digitalWrite(iDomConst::GPIO_SPIK,HIGH);
-            my_data->main_key_menu_handler->timeout();
+            my_data->main_key_menu_handler->recKeyEvent(KEY_PAD::OFF_LCD);
             sleep(1);
             my_data->myEventHandler.run("mpd")->addEvent("MPD stopped");
             my_data->main_iDomStatus->setObjectState("music",STATE::STOP);

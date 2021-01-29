@@ -80,6 +80,8 @@ void KEY_HANDLER::recKeyEvent(KEY_PAD eventId)
         break;
     case KEY_PAD::REBOOT: stateMachinePtr->currentState->reboot();
         break;
+    case KEY_PAD::OFF_LCD: stateMachinePtr->currentState->offLcd();
+        break;
     }
 }
 
