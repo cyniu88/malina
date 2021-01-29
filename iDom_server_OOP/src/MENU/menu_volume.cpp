@@ -1,7 +1,7 @@
 #include <iostream>
 #include "menu_volume.h"
 
-MENU_VOLUME::MENU_VOLUME(thread_data *my_data,LCD_c* lcdPTR, MENU_STATE_MACHINE* msm): MENU_STATE_BASE (my_data, lcdPTR, msm)
+MENU_VOLUME::MENU_VOLUME(thread_data *my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm, bool lcdLED): MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
 {
    // std::cout << "MENU_VOLUME::MENU_VOLUME()" << std::endl;
 }

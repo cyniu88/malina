@@ -2,7 +2,7 @@
 #include "menu_main.h"
 #include "menu_music.h"
 
-MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm): MENU_STATE_BASE (my_data, lcdPTR, msm)
+MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, bool lcdLED): MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
 {
     //  std::cout << "MENU_ROOT::MENU_ROOT()" << std::endl;
 }
@@ -46,7 +46,8 @@ MENU_ROOT &MENU_ROOT::operator=(MENU_ROOT &&base)
 
 void MENU_ROOT::entry()
 {
-    lcdPTR->noBacklight();
+    if(lcdLED == false)
+        lcdPTR->noBacklight();
 }
 
 void MENU_ROOT::exit()

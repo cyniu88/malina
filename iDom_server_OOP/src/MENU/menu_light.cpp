@@ -5,7 +5,7 @@
 #include "menu_volume.h"
 #include "menu_root.h"
 
-MENU_LIGHT::MENU_LIGHT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm):MENU_STATE_BASE (my_data, lcdPTR, msm)
+MENU_LIGHT::MENU_LIGHT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, bool lcdLED):MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
 {
    // std::cout << "MENU_LIGHT::MENU_LIGHT()" << std::endl;
 }

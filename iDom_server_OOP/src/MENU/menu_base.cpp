@@ -3,7 +3,7 @@
 #include "menu_root.h"
 
 
-MENU_STATE_BASE::MENU_STATE_BASE(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm)
+MENU_STATE_BASE::MENU_STATE_BASE(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, bool lcdLED):lcdLED(lcdLED)
 {
     this->my_dataPTR = my_data;
     this->lcdPTR = lcdPTR;
