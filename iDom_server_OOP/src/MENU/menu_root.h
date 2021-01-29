@@ -17,6 +17,10 @@ public:
     std::string getStateName();
     void keyPadMenu();
     void keyPadPower();
+    void keyPadUp();
+    void keyPadDown();
+    void keyPadLeft();
+    void keyPadRight();
     void reboot();
     void quickPrint(const std::string &row1, const std::string & row2);
 };
