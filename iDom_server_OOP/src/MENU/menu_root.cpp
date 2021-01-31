@@ -48,6 +48,10 @@ void MENU_ROOT::entry()
 {
     if(my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::STOP)
         lcdPTR->noBacklight();
+    else
+    {
+        quickPrint(my_dataPTR->ptr_MPD_info->artist, my_dataPTR->ptr_MPD_info->radio);
+    }
 }
 
 void MENU_ROOT::exit()
