@@ -104,12 +104,12 @@
         command = "z";
         //delay(2000);
       }
-      if (timeoutTime != 0 && (timeoutMillis+timeoutTime) < millis()) 
-        {
-            Serial.print("KEY_PAD:");
-            Serial.println("778");
-            timeoutTime = 0;
-        }
+      if (timeoutTime != 0 && (millis() - timeoutMillis) > timeoutTime) 
+      {
+        Serial.print("KEY_PAD:");
+        Serial.println("778");
+        timeoutTime = 0;
+      }
     
     } //loop
 
