@@ -54,6 +54,7 @@ enum class KEY_PAD{
     EPG = 1024,
     REBOOT = 5,
     OFF_LCD = 777,
+    TIMEOUT = 778,
 };
 
 class MENU_STATE_BASE;

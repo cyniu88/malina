@@ -84,11 +84,13 @@ void MENU_ROOT::keyPadPower()
 void MENU_ROOT::keyPadUp()
 {
     my_dataPTR->main_iDomTools->MPD_volumeUp();
+    my_dataPTR->main_Rs232->print("TIMEOUT:2000;");
 }
 
 void MENU_ROOT::keyPadDown()
 {
     my_dataPTR->main_iDomTools->MPD_volumeDown();
+    my_dataPTR->main_Rs232->print("TIMEOUT:2000;");
 }
 
 void MENU_ROOT::keyPadLeft()
@@ -108,8 +110,7 @@ void MENU_ROOT::reboot()
 
 void MENU_ROOT::timeout(std::function<void ()> function)
 {
-    lcdPTR->clear();
-    lcdPTR->noBacklight();
+    entry();
 }
 
 void MENU_ROOT::offLcd()
