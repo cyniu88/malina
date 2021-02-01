@@ -71,36 +71,27 @@ void MENU_ROOT::keyPadMenu()
 
 void MENU_ROOT::keyPadPower()
 {
-    if(my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::STOP){
-        my_dataPTR->main_iDomTools->MPD_play(my_dataPTR);
-    }
-    else{
-        my_dataPTR->main_iDomTools->MPD_stop();
-        lcdPTR->clear();
-        lcdPTR->noBacklight();
-    }
+   mpdStartStop();
 }
 
 void MENU_ROOT::keyPadUp()
 {
-    my_dataPTR->main_iDomTools->MPD_volumeUp();
-    my_dataPTR->main_Rs232->print("TIMEOUT:2000;");
+    volumeUp();
 }
 
 void MENU_ROOT::keyPadDown()
 {
-    my_dataPTR->main_iDomTools->MPD_volumeDown();
-    my_dataPTR->main_Rs232->print("TIMEOUT:2000;");
+    volumeDown();
 }
 
 void MENU_ROOT::keyPadLeft()
 {
-    my_dataPTR->main_iDomTools->MPD_prev();
+    mpdPrev();
 }
 
 void MENU_ROOT::keyPadRight()
 {
-    my_dataPTR->main_iDomTools->MPD_next();
+    mpdNext();
 }
 
 void MENU_ROOT::reboot()
@@ -123,4 +114,38 @@ void MENU_ROOT::quickPrint(const std::string &row1, const std::string &row2)
 {
     lcdPTR->clear();
     lcdPTR->printString(row1, row2);
+}
+
+void MENU_ROOT::volumeUp()
+{
+    my_dataPTR->main_iDomTools->MPD_volumeUp();
+    my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
+}
+
+void MENU_ROOT::volumeDown()
+{
+    my_dataPTR->main_iDomTools->MPD_volumeDown();
+    my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
+}
+
+void MENU_ROOT::mpdStartStop()
+{
+    if(my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::STOP){
+        my_dataPTR->main_iDomTools->MPD_play(my_dataPTR);
+    }
+    else{
+        my_dataPTR->main_iDomTools->MPD_stop();
+        lcdPTR->clear();
+        lcdPTR->noBacklight();
+    }
+}
+
+void MENU_ROOT::mpdNext()
+{
+    my_dataPTR->main_iDomTools->MPD_next();
+}
+
+void MENU_ROOT::mpdPrev()
+{
+    my_dataPTR->main_iDomTools->MPD_prev();
 }

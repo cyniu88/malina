@@ -25,6 +25,12 @@ public:
     void timeout(std::function<void()> function = std::nullptr_t());
     void offLcd();
     void quickPrint(const std::string &row1, const std::string & row2);
+private:
+    void volumeUp();
+    void volumeDown();
+    void mpdStartStop();
+    void mpdNext();
+    void mpdPrev();
 };
 
 #endif // MENU_ROOT_H
