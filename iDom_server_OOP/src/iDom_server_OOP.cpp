@@ -193,7 +193,21 @@ iDomStateEnum iDom_main()
         log_file_mutex.mutex_unlock();
         exit(1);
     }
+    ////////////////////////////////////////start watku do komunikacji rs232
 
+    if(server_settings._runThread.RS232 == true)
+    {
+        iDOM_THREAD::start_thread("RS232 thread",
+                                  Send_Recieve_rs232_thread,
+                                  &node_data,
+                                  1);
+    }
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG <<"nie wystartowalem wątku RS232" <<std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     /////////////////////////////// MPD info /////////////////////////
     node_data.ptr_MPD_info = std::make_unique<MPD_info>();
     /////////////////////////////// iDom Status //////////////////////
@@ -219,21 +233,7 @@ iDomStateEnum iDom_main()
     node_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER");
     node_data.mqttHandler->turnOffDebugeMode();
 
-    ////////////////////////////////////////start watku do komunikacji rs232
 
-    if(server_settings._runThread.RS232 == true)
-    {
-        iDOM_THREAD::start_thread("RS232 thread",
-                                  Send_Recieve_rs232_thread,
-                                  &node_data,
-                                  1);
-    }
-    else
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG <<"nie wystartowalem wątku RS232" <<std::endl;
-        log_file_mutex.mutex_unlock();
-    }
     ///////////////////////////////// tworzenie pliku mkfifo dla sterowania omx playerem
     /*
     int temp = mkfifo("/mnt/ramdisk/cmd",0666);
