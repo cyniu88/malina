@@ -114,18 +114,17 @@ void MENU_ROOT::quickPrint(const std::string &row1, const std::string &row2)
 {
     lcdPTR->clear();
     lcdPTR->printString(row1, row2);
+    my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
 }
 
 void MENU_ROOT::volumeUp()
 {
     my_dataPTR->main_iDomTools->MPD_volumeUp();
-    my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
 }
 
 void MENU_ROOT::volumeDown()
 {
     my_dataPTR->main_iDomTools->MPD_volumeDown();
-    my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
 }
 
 void MENU_ROOT::mpdStartStop()
