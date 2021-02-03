@@ -141,7 +141,7 @@ void useful_F::kodi (thread_data *my_data, const std::string& threadName)
     else
         my_data->main_iDomTools->turnOffSpeakers();
     //koniec
-
+    my_data->main_key_menu_handler->timeout();
     my_data->main_iDomStatus->setObjectState("KODI",STATE::DEACTIVE);
     iDOM_THREAD::stop_thread("kodi smartTV",my_data);
 }

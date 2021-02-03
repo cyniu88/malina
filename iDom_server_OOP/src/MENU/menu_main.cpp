@@ -3,6 +3,7 @@
 #include "menu_light.h"
 #include "menu_root.h"
 #include "menu_music.h"
+#include "menu_kodi.h"
 
 MENU_MAIN::MENU_MAIN(thread_data* my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED): MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
 {
@@ -54,8 +55,7 @@ void MENU_MAIN::entry()
     menuDatabase.pushBack({"   MUSIC",  [=]() { my_dataPTR->main_iDomTools->MPD_play(my_dataPTR);
                                                 changeStateTo<MENU_ROOT>();}});
     menuDatabase.pushBack({"   LIGHT",  [=]() { changeStateTo<MENU_LIGHT>();}});
-    menuDatabase.pushBack({"   KODI",   [=]() { my_dataPTR->main_iDomTools->startKodi_Thread();
-                                                changeStateTo<MENU_ROOT>();}});
+    menuDatabase.pushBack({"   KODI",   [=]() { changeStateTo<MENU_KODI>();}});
     menuDatabase.pushBack({"   BUDERUS",[=]() { changeStateTo<MENU_ROOT>();}});
     menuDatabase.pushBack({"   EXIT",   [=]() { changeStateTo<MENU_ROOT>();}});
     print(menuDatabase.getCurrent().name, arrow);
