@@ -6,6 +6,7 @@
 #include "../../../433MHz/RFLink/rflinkhandler.h"
 #include "../../../iDomTools/test/iDomTools_fixture.h"
 #include "../../../thread_functions/iDom_thread.h"
+#include "../../../MENU/menu_root.h"
 
 class commandiDom_Class_fixture : public iDomTOOLS_ClassTest
 {
@@ -310,6 +311,10 @@ TEST_F(commandiDom_Class_fixture, camera)
 
 TEST_F(commandiDom_Class_fixture, kodi)
 {
+    MENU_STATE_MACHINE stateMechine;
+    auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, nullptr, &stateMechine);
+    stateMechine.setStateMachine(std::move(ptr));
+    test_my_data.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
     test_my_data.main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);
     test_v.clear();
     test_v.push_back("iDom");
