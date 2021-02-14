@@ -808,8 +808,8 @@ std::string iDomTOOLS::getTextToSpeach()
 std::vector<std::string> iDomTOOLS::getTemperature()
 {
     std::vector<std::string> vect;
-    vect.push_back(std::to_string(my_data->ptr_buderus->getInsideTemp()));
-    vect.push_back(std::to_string(my_data->ptr_buderus->getOutdoorTemp()));
+    vect.push_back(to_string_with_precision(my_data->ptr_buderus->getInsideTemp()));
+    vect.push_back(to_string_with_precision(my_data->ptr_buderus->getOutdoorTemp()));
     std::string msg("Inside: ");
     msg.append(vect[0]);
     msg.append(" Outside: ");
@@ -821,7 +821,8 @@ std::vector<std::string> iDomTOOLS::getTemperature()
 std::string iDomTOOLS::getTemperatureString()
 {
     std::stringstream str;
-    str << my_data->ptr_buderus->getInsideTemp() << ":"
+    str << std::setprecision(4)
+        << my_data->ptr_buderus->getInsideTemp() << ":"
         << my_data->ptr_buderus->getOutdoorTemp() << ":"
         << my_data->ptr_buderus->getBoilerTemp() << ":"
         << my_data->lusina.temperatureDS20;
