@@ -18,6 +18,7 @@ public:
     void keyPadOk();
     void keyPadUp();
     void keyPadDown();
+    void keyPadRes();
     std::string getStateName();
 };
 

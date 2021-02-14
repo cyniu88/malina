@@ -1,6 +1,7 @@
 #include <iostream>
 #include "menu_buderus.h"
 #include "menu_root.h"
+#include "menu_main.h"
 
 MENU_BUDERUS::MENU_BUDERUS(thread_data *my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm, STATE lcdLED): MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
 {
@@ -41,8 +42,8 @@ MENU_BUDERUS::~MENU_BUDERUS()
 void MENU_BUDERUS::entry()
 {
     menuDatabase.pushBack({"RUN CIRCLE PUMP", [=](){my_dataPTR->ptr_buderus->runCirclePompForWhile(); return "done";}});
-    menuDatabase.pushBack({"TEMP INSIDE", [=](){return std::to_string(my_dataPTR->ptr_buderus->getInsideTemp());}});
-    menuDatabase.pushBack({"TEMP OUTDOOR", [=](){return std::to_string(my_dataPTR->ptr_buderus->getOutdoorTemp());}});
+    menuDatabase.pushBack({"TEMP INSIDE", [=](){return to_string_with_precision(my_dataPTR->ptr_buderus->getInsideTemp());}});
+    menuDatabase.pushBack({"TEMP OUTDOOR", [=](){return to_string_with_precision(my_dataPTR->ptr_buderus->getOutdoorTemp());}});
     menuDatabase.pushBack({"   EXIT",   [=]() { changeStateTo<MENU_ROOT>(); return "done";}});
     print(menuDatabase.getCurrent().name, arrow);
 }
@@ -68,6 +69,11 @@ void MENU_BUDERUS::keyPadDown()
 {
     menuDatabase.down();
     print(menuDatabase.getCurrent().name, arrow);
+}
+
+void MENU_BUDERUS::keyPadRes()
+{
+    changeStateTo<MENU_MAIN>();
 }
 
 std::string MENU_BUDERUS::getStateName()
