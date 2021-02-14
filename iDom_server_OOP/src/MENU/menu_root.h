@@ -21,6 +21,7 @@ public:
     void keyPadDown();
     void keyPadLeft();
     void keyPadRight();
+    void keyPadEpg();
     void reboot();
     void timeout(std::function<void()> function = std::nullptr_t());
     void offLcd();

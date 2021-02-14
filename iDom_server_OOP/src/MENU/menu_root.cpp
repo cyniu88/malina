@@ -94,6 +94,14 @@ void MENU_ROOT::keyPadRight()
     mpdNext();
 }
 
+void MENU_ROOT::keyPadEpg()
+{
+    std::stringstream ss;
+    ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getInsideTemp()
+       << "      " << my_dataPTR->ptr_buderus->getOutdoorTemp();
+    quickPrint("Temp: inside    outdoor", ss.str());
+}
+
 void MENU_ROOT::reboot()
 {
     my_dataPTR->main_iDomTools->reloadHard_iDomServer();
