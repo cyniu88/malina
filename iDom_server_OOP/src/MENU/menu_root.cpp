@@ -4,22 +4,18 @@
 
 MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED): MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
 {
-    //  std::cout << "MENU_ROOT::MENU_ROOT()" << std::endl;
 }
 
 MENU_ROOT::MENU_ROOT(const MENU_ROOT &base): MENU_STATE_BASE(base)
 {
-    //  std::cout << "MENU_ROOT::MENU_ROOT() kopiujacy" << std::endl;
 }
 
 MENU_ROOT::MENU_ROOT(MENU_ROOT &&base):MENU_STATE_BASE(std::move(base))
 {
-    //  std::cout << "MENU_ROOT::MENU_ROOT() przenoszacy" << std::endl;
 }
 
 MENU_ROOT &MENU_ROOT::operator=(const MENU_ROOT &base)
 {
-    //  std::cout << "MENU_ROOT::operator = kopiujacy" << std::endl;
     if(&base != this){
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
@@ -30,12 +26,10 @@ MENU_ROOT &MENU_ROOT::operator=(const MENU_ROOT &base)
 
 MENU_ROOT::~MENU_ROOT()
 {
-    //  std::cout << "MENU_ROOT::~MENU_ROOT()" << std::endl;
 }
 
 MENU_ROOT &MENU_ROOT::operator=(MENU_ROOT &&base)
 {
-    // std::cout << "MENU_ROOT::operator = przenoszacy" << std::endl;
     if(&base != this){
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
@@ -99,7 +93,8 @@ void MENU_ROOT::keyPadEpg()
     std::stringstream ss;
     ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getInsideTemp()
        << "      " << my_dataPTR->ptr_buderus->getOutdoorTemp();
-    quickPrint("Temp: inside    outdoor", ss.str());
+    quickPrint("Temp: in    out", ss.str());
+    my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
 }
 
 void MENU_ROOT::reboot()
@@ -122,17 +117,18 @@ void MENU_ROOT::quickPrint(const std::string &row1, const std::string &row2)
 {
     lcdPTR->clear();
     lcdPTR->printString(row1, row2);
-    my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
 }
 
 void MENU_ROOT::volumeUp()
 {
     my_dataPTR->main_iDomTools->MPD_volumeUp();
+    my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
 }
 
 void MENU_ROOT::volumeDown()
 {
     my_dataPTR->main_iDomTools->MPD_volumeDown();
+    my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
 }
 
 void MENU_ROOT::mpdStartStop()
