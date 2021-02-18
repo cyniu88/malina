@@ -46,6 +46,7 @@ void MENU_ROOT::entry()
     {
         quickPrint(my_dataPTR->ptr_MPD_info->artist, my_dataPTR->ptr_MPD_info->radio);
     }
+    tempCounter = 0;
 }
 
 void MENU_ROOT::exit()
@@ -65,7 +66,7 @@ void MENU_ROOT::keyPadMenu()
 
 void MENU_ROOT::keyPadPower()
 {
-   mpdStartStop();
+    mpdStartStop();
 }
 
 void MENU_ROOT::keyPadUp()
@@ -91,9 +92,17 @@ void MENU_ROOT::keyPadRight()
 void MENU_ROOT::keyPadEpg()
 {
     std::stringstream ss;
-    ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getInsideTemp()
-       << "      " << my_dataPTR->ptr_buderus->getOutdoorTemp();
-    quickPrint("Temp: in    out", ss.str());
+    if(tempCounter == 0){
+        ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getInsideTemp()
+           << "      " << my_dataPTR->ptr_buderus->getOutdoorTemp();
+        quickPrint("Temp: in    out", ss.str());
+        tempCounter++;
+    }
+    else{
+        ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getBoilerTemp()
+           << "      " << my_dataPTR->ptr_buderus->getCurFlowTemp();
+        quickPrint("boiler   curFlow", ss.str());
+    }
     my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
 }
 

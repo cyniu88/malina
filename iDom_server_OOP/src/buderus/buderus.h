@@ -18,6 +18,7 @@ class BUDERUS: public iDom_API
     double m_outdoorTemp = 0.0;
     double m_insideTemp = 0.0;
     double m_boilerTemp = 0.0;
+    double m_curFlowTemp  = 0.0;
     bool m_circlePompCanRun = false;
     STATE m_circlePump = STATE::UNDEFINE;
 
@@ -41,6 +42,7 @@ public:
     double getOutdoorTemp();
     double getInsideTemp();
     double getBoilerTemp();
+    double getCurFlowTemp();
 
     void circlePompToRun();
     void runCirclePompForWhile();

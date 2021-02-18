@@ -32,6 +32,7 @@ private:
     void mpdStartStop();
     void mpdNext();
     void mpdPrev();
+    int tempCounter;
 };
 
 #endif // MENU_ROOT_H

@@ -218,7 +218,7 @@ TEST_F(command_buderus_Class_fixture, circlePump_handling) {
     test_v.clear();
     test_v.push_back("buderus");
     test_v.push_back("boiler_data");
-    test_v.push_back(R"({ "wWCirc":"on", "burnGas":"on", "outdoorTemp":9.99, "wwStorageTemp2":62.2 })");
+    test_v.push_back(R"({ "wWCirc":"on", "burnGas":"on", "curFlowTemp":44.4, "outdoorTemp":9.99, "wwStorageTemp2":62.2 })");
     (void)test_command_buderus->execute(test_v,&test_my_data);
     EXPECT_THAT(test_my_data.ptr_buderus->getCirclePumpState(),
                 STATE::ON);
@@ -226,7 +226,7 @@ TEST_F(command_buderus_Class_fixture, circlePump_handling) {
     test_v.clear();
     test_v.push_back("buderus");
     test_v.push_back("boiler_data");
-    test_v.push_back(R"({ "wWCirc":"off", "burnGas":"on", "outdoorTemp":9.99, "wwStorageTemp2":62.2 })");
+    test_v.push_back(R"({ "wWCirc":"off", "burnGas":"on", "curFlowTemp":44.4, "outdoorTemp":9.99, "wwStorageTemp2":62.2 })");
     (void)test_command_buderus->execute(test_v,&test_my_data);
     EXPECT_THAT(test_my_data.ptr_buderus->getCirclePumpState(),
                 STATE::OFF);
@@ -234,7 +234,7 @@ TEST_F(command_buderus_Class_fixture, circlePump_handling) {
     test_v.clear();
     test_v.push_back("buderus");
     test_v.push_back("boiler_data");
-    test_v.push_back(R"({ "wWCirc":"off", "burnGas":"on", "outdoorTemp":9.99, "wwStorageTemp2":62.2 })");
+    test_v.push_back(R"({ "wWCirc":"off", "burnGas":"on", "curFlowTemp":44.4, "outdoorTemp":9.99, "wwStorageTemp2":62.2 })");
     (void)test_command_buderus->execute(test_v,&test_my_data);
     EXPECT_THAT(test_my_data.ptr_buderus->getCirclePumpState(),
                 STATE::OFF);

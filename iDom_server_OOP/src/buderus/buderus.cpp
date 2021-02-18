@@ -24,6 +24,7 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
     try{
         m_outdoorTemp = jj.at("outdoorTemp").get<double>();
         m_boilerTemp = jj.at("wwStorageTemp2").get<double>();
+        m_curFlowTemp = jj.at("curFlowTemp").get<double>();
         auto burnGas = jj.at("burnGas").get<std::string>();
         if (burnGas == "on" && m_heating_active == false) {
             m_heating_active = true;
@@ -133,6 +134,11 @@ double BUDERUS::getBoilerTemp()
     return m_boilerTemp;
 }
 
+double BUDERUS::getCurFlowTemp()
+{
+    return m_curFlowTemp;
+}
+
 void BUDERUS::circlePompToRun()
 {
     if (m_boilerTemp > 55 && m_heating_active == true && m_circlePompCanRun == true){
@@ -188,6 +194,7 @@ std::string BUDERUS::dump() const
     ret << R"("m_heating_time":)" << m_heating_time << ',' << std::endl;
     ret << R"("m_boilerTemp": )" << m_boilerTemp << "," << std::endl;
     ret << R"("m_insideTemp": )" << m_insideTemp << "," << std::endl;
+    ret << R"("m_curFlowTemp": )" << m_curFlowTemp << "," << std::endl;
     ret << R"("m_outdoorTemp": )" << m_outdoorTemp << "," << std::endl;
     ret << R"("m_circlePompCanRun": )" << m_circlePompCanRun << "," << std::endl;
     ret << R"("m_circlePump": ")" <<  stateToString(m_circlePump) << R"(")" << std::endl << "}" << std::endl;
