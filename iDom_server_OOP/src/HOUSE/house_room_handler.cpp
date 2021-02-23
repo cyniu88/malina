@@ -1,87 +1,97 @@
 #include <fstream>
 
-#include "house_lighting_handler.h"
+#include "house_room_handler.h"
 #include "json.hpp"
 #include "../functions/functions.h"
 #include "../RADIO_433_eq/radio_433_eq.h"
 #include "../433MHz/RFLink/rflinkhandler.h"
 
-std::string house_lighting_handler::m_mqttPublishTopic = "swiatlo/output/";
+std::string house_room_handler::m_mqttPublishTopic = "swiatlo/output/";
 
-house_lighting_handler::house_lighting_handler(thread_data *my_data){
+house_room_handler::house_room_handler(thread_data *my_data){
     m_className.append(typeid (this).name());
     this->my_data = my_data;
     iDom_API::addToMap(m_className,this);
 }
 
-house_lighting_handler::~house_lighting_handler()
+house_room_handler::~house_room_handler()
 {
     iDom_API::removeFromMap(m_className);
 }
 
-void house_lighting_handler::loadConfig(std::string &configPath)
+void house_room_handler::loadConfig(std::string &configPath)
 {
     std::ifstream i(configPath);
     nlohmann::json j;
     i >> j;
     for (const auto& element : j) {
-        std::string roomName = element.at("room").get<std::string>();
-        std::string bulbName = element.at("bulbName").get<std::string>();
-        int bulbID = element.at("bulbID").get<int>();
+        std::string roomName = element.at("name").get<std::string>();
+        int satelSensorID = element.at("satelSensorID").get<int>();
+        std::map<int, std::shared_ptr<light_bulb>> lightingBulbMap;
 
-        m_lightingBulbMap.emplace(bulbID, std::make_shared<light_bulb>(roomName, bulbName, bulbID));
-        m_lightingBulbMap[bulbID]->m_onLock = stringToState(element.at("lock").get<std::string>());
-        m_lightingBulbMap[bulbID]->m_onUnlock = stringToState(element.at("unlock").get<std::string>());
-        m_lightingBulbMap[bulbID]->m_onSunrise = stringToState(element.at("sunrise").get<std::string>());
-        m_lightingBulbMap[bulbID]->m_onSunset = stringToState(element.at("sunset").get<std::string>());
-
-        for (const auto& jj :  element.at("switchID"))
+        for (const auto& jj :  element.at("bulb"))
         {
-            m_lightingBulbMap.at(bulbID)->addBulbPin(jj.get<int>());
-        }
+            std::string bulbName = jj.at("bulbName").get<std::string>();
+            int bulbID = jj.at("bulbID").get<int>();
+            lightingBulbMap.emplace(bulbID, std::make_shared<light_bulb>(roomName, bulbName, bulbID));
+            lightingBulbMap[bulbID]->m_onLock = stringToState(jj.at("lock").get<std::string>());
+            lightingBulbMap[bulbID]->m_onUnlock = stringToState(jj.at("unlock").get<std::string>());
+            lightingBulbMap[bulbID]->m_onSunrise = stringToState(jj.at("sunrise").get<std::string>());
+            lightingBulbMap[bulbID]->m_onSunset = stringToState(jj.at("sunset").get<std::string>());
+            lightingBulbMap[bulbID]->m_satelAlarm = stringToState(jj.at("satelAlarm").get<std::string>());
+            lightingBulbMap[bulbID]->m_satelAlarmHowLong = jj.at("howLong").get<int>();
 
-        m_roomMap[roomName].push_back(m_lightingBulbMap[bulbID]);
+            for (const auto& kk :  jj.at("switchID"))
+            {
+                lightingBulbMap.at(bulbID)->addBulbPin(kk.get<int>());
+            }
+            m_lightingBulbMap[bulbID] = lightingBulbMap[bulbID];
+        }
+        m_roomMap.emplace(roomName,std::make_shared<ROOM>(satelSensorID, roomName, lightingBulbMap));
+        m_satelIdMap[satelSensorID] = m_roomMap[roomName];
     }
 }
 
 
-void house_lighting_handler::turnOnAllInRoom(const std::string &roomName)
+void house_room_handler::turnOnAllInRoom(const std::string &roomName)
 {
-    for( auto& a :m_roomMap[roomName])
+    std::cout << "cyniu: " << m_roomMap[roomName]->m_lightingBulbMap.size() << std::endl;
+
+    for( auto& a :m_roomMap[roomName]->m_lightingBulbMap)
     {
-        a->on([](const std::string& name){
+        a.second->on([](const std::string& name){
             useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
         }
         );
     }
 }
 
-void house_lighting_handler::turnOffAllInRoom(const std::string &roomName)
+void house_room_handler::turnOffAllInRoom(const std::string &roomName)
 {
-    for( auto& a :m_roomMap[roomName])
+    for( auto& a :m_roomMap[roomName]->m_lightingBulbMap)
     {
-        a->off([](const std::string& name){
+        a.second->off([](const std::string& name){
             useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
         }
         );
     }
 }
 
-void house_lighting_handler::turnOnAllBulb()
+void house_room_handler::turnOnAllBulb()
 {
     for(auto& b : m_roomMap){
-        turnOnAllInRoom(b.second.at(0)->getRoomName());
+        turnOnAllInRoom(b.second->m_name);
     }
 }
 
-void house_lighting_handler::turnOffAllBulb()
+void house_room_handler::turnOffAllBulb()
 {
     for(auto& b : m_roomMap){
-        turnOffAllInRoom(b.second.at(0)->getRoomName());
+        turnOffAllInRoom(b.second->m_name);
     }
 }
 
-void house_lighting_handler::turnOnBulb(const int bulbID)
+void house_room_handler::turnOnBulb(const int bulbID)
 {
     m_lightingBulbMap.at(bulbID)->on([](const std::string& name){
         useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
@@ -89,7 +99,7 @@ void house_lighting_handler::turnOnBulb(const int bulbID)
     );
 }
 
-void house_lighting_handler::turnOffBulb(const int bulbID)
+void house_room_handler::turnOffBulb(const int bulbID)
 {
     m_lightingBulbMap.at(bulbID)->off([](const std::string& name){
         useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
@@ -97,19 +107,19 @@ void house_lighting_handler::turnOffBulb(const int bulbID)
     );
 }
 
-void house_lighting_handler::lockAllRoom()
+void house_room_handler::lockAllRoom()
 {
     //  my_data->mqttHandler->publish("lkoko","kokok");
 }
 
-void house_lighting_handler::unlockAllRoom()
+void house_room_handler::unlockAllRoom()
 {
     //    for(auto& a : m_roomMap){
     //        a.second->unlock();
     //    }
 }
 
-nlohmann::json house_lighting_handler::getAllInfoJSON()
+nlohmann::json house_room_handler::getAllInfoJSON()
 {
     nlohmann::json jj;
 #ifdef BT_TEST
@@ -129,12 +139,14 @@ nlohmann::json house_lighting_handler::getAllInfoJSON()
         roomJJ["unlock"] = stateToString(a.second->m_onUnlock);
         roomJJ["sunset"] = stateToString(a.second->m_onSunset);
         roomJJ["sunrise"] = stateToString(a.second->m_onSunrise);
+        roomJJ["satelAlarm"] = stateToString(a.second->m_satelAlarm);
+        roomJJ["howLong"] = a.second->m_satelAlarmHowLong;
         jj.push_back(roomJJ);
     }
     return jj;
 }
 
-nlohmann::json house_lighting_handler::getInfoJSON_allON()
+nlohmann::json house_room_handler::getInfoJSON_allON()
 {
     nlohmann::json jj;
 
@@ -163,7 +175,7 @@ nlohmann::json house_lighting_handler::getInfoJSON_allON()
     return jj;
 }
 
-void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
+void house_room_handler::executeCommandFromMQTT(std::string &msg)
 {
     try {
         auto vv = useful_F::split(msg,';');
@@ -221,7 +233,7 @@ void house_lighting_handler::executeCommandFromMQTT(std::string &msg)
     }
 }
 
-void house_lighting_handler::onLock()
+void house_room_handler::onLock()
 {
     for(const auto &  jj : m_lightingBulbMap){
         if(jj.second->m_onLock == STATE::ON)
@@ -231,7 +243,7 @@ void house_lighting_handler::onLock()
     }
 }
 
-void house_lighting_handler::onUnlock()
+void house_room_handler::onUnlock()
 {
     for(const auto &  jj : m_lightingBulbMap){
         if(jj.second->m_onUnlock == STATE::ON)
@@ -241,7 +253,7 @@ void house_lighting_handler::onUnlock()
     }
 }
 
-void house_lighting_handler::onSunset()
+void house_room_handler::onSunset()
 {
     for(const auto &  jj : m_lightingBulbMap){
         if(jj.second->m_onSunset == STATE::ON)
@@ -251,7 +263,7 @@ void house_lighting_handler::onSunset()
     }
 }
 
-void house_lighting_handler::onSunrise()
+void house_room_handler::onSunrise()
 {
     for(const auto &  jj : m_lightingBulbMap){
         if(jj.second->m_onSunrise == STATE::ON)
@@ -261,7 +273,12 @@ void house_lighting_handler::onSunrise()
     }
 }
 
-std::string house_lighting_handler::dump() const
+void house_room_handler::satelSensorActive(int sensorID)
+{
+    m_satelIdMap.at(sensorID)->satelSensorActive();
+}
+
+std::string house_room_handler::dump() const
 {
     std::stringstream str;
 

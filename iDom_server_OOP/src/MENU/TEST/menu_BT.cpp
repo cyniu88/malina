@@ -99,8 +99,8 @@ TEST_F(menu_state_machine_fixture, MENU_LIGHT){
     MENU_STATE_MACHINE stateMechine;
     //////// bulb config
     std::string cfg("../config/bulb_config.json");
-    test_my_data.main_house_lighting_handler = std::make_shared<house_lighting_handler>(&test_my_data);
-    test_my_data.main_house_lighting_handler->loadConfig(cfg);
+    test_my_data.main_house_room_handler = std::make_shared<house_room_handler>(&test_my_data);
+    test_my_data.main_house_room_handler->loadConfig(cfg);
 
     auto ptr = std::make_unique<MENU_LIGHT>(&test_my_data, &lcd, &stateMechine);
     ptr->entry();

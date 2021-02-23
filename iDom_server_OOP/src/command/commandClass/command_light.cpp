@@ -10,38 +10,38 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
     if(v.size()<2)
         return str_buf;
     if (v.at(1) == "info" && v.size() < 3){
-        str_buf = my_data->main_house_lighting_handler->getAllInfoJSON().dump(4);
+        str_buf = my_data->main_house_room_handler->getAllInfoJSON().dump(4);
     }
     else if (v.at(1) == "info" && v.at(2) == "on"){
-        str_buf = my_data->main_house_lighting_handler->getInfoJSON_allON().dump(4);
+        str_buf = my_data->main_house_room_handler->getInfoJSON_allON().dump(4);
     }
     else if(v.at(1) == "bulb"){
         int bulbID = std::stoi(v.at(3));
         if(v.at(2) == "on"){
-            my_data->main_house_lighting_handler->turnOnBulb(bulbID);
+            my_data->main_house_room_handler->turnOnBulb(bulbID);
         }
         else if(v.at(2) == "off"){
-            my_data->main_house_lighting_handler->turnOffBulb(bulbID);
+            my_data->main_house_room_handler->turnOffBulb(bulbID);
         }
 
         return "done";
     }
     else if(v.at(1) == "room"){
         if(v.at(3) == "on"){
-            my_data->main_house_lighting_handler->turnOnAllInRoom(v.at(2));
+            my_data->main_house_room_handler->turnOnAllInRoom(v.at(2));
         }
         else if(v.at(3) == "off"){
-            my_data->main_house_lighting_handler->turnOffAllInRoom(v.at(2));
+            my_data->main_house_room_handler->turnOffAllInRoom(v.at(2));
         }
 
         return "done";
     }
     else if(v.at(1) == "all"){
         if(v.at(2) == "on"){
-            my_data->main_house_lighting_handler->turnOnAllBulb();
+            my_data->main_house_room_handler->turnOnAllBulb();
         }
         else if(v.at(2) == "off"){
-            my_data->main_house_lighting_handler->turnOffAllBulb();
+            my_data->main_house_room_handler->turnOffAllBulb();
         }
 
         return "done";
@@ -50,7 +50,7 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
         str_buf.erase();
         str_buf.append(v.at(1));
         std::replace( str_buf.begin(), str_buf.end(), '\n', ';');
-        my_data->main_house_lighting_handler->executeCommandFromMQTT(str_buf);
+        my_data->main_house_room_handler->executeCommandFromMQTT(str_buf);
     }
     return str_buf;
 }

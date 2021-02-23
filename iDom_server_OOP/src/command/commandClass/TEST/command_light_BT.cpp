@@ -14,8 +14,8 @@ protected:
         iDomTOOLS_ClassTest::SetUp();
         std::string cfg("../config/bulb_config.json");
         test_command_light = std::make_unique <command_light> ("light");
-        test_my_data.main_house_lighting_handler = std::make_shared<house_lighting_handler>(&test_my_data);
-        test_my_data.main_house_lighting_handler->loadConfig(cfg);
+        test_my_data.main_house_room_handler = std::make_shared<house_room_handler>(&test_my_data);
+        test_my_data.main_house_room_handler->loadConfig(cfg);
     }
 
     void TearDown() final
@@ -31,14 +31,14 @@ TEST_F(command_light_Class_fixture, mqtt_bulb_state_update)
     test_v.push_back("state;111;30;1\n");
     auto ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
-    EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[111]->getStatus(), STATE::ON);
+    EXPECT_EQ( test_my_data.main_house_room_handler->m_lightingBulbMap[111]->getStatus(), STATE::ON);
 
     test_v.clear();
     test_v.push_back("light");
     test_v.push_back("state;111;30;0\n");
     ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
-    EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[111]->getStatus(), STATE::OFF);
+    EXPECT_EQ( test_my_data.main_house_room_handler->m_lightingBulbMap[111]->getStatus(), STATE::OFF);
 }
 
 TEST_F(command_light_Class_fixture, mqtt_bulb_state_update_bulb_not_exist)
@@ -48,14 +48,14 @@ TEST_F(command_light_Class_fixture, mqtt_bulb_state_update_bulb_not_exist)
     test_v.push_back("state;330;30;1\n");
     auto ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
-    EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[330]->getStatus(), STATE::ON);
+    EXPECT_EQ( test_my_data.main_house_room_handler->m_lightingBulbMap[330]->getStatus(), STATE::ON);
 
     test_v.clear();
     test_v.push_back("light");
     test_v.push_back("state;330;30;0\n");
     ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
-    EXPECT_EQ( test_my_data.main_house_lighting_handler->m_lightingBulbMap[330]->getStatus(), STATE::OFF);
+    EXPECT_EQ( test_my_data.main_house_room_handler->m_lightingBulbMap[330]->getStatus(), STATE::OFF);
     test_v.clear();
     test_v.push_back("light");
     test_v.push_back("info");
@@ -97,7 +97,7 @@ TEST_F(command_light_Class_fixture, light_info_on)
 
 TEST_F(command_light_Class_fixture, on_off_bulb_command)
 {
-    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::UNDEFINE);
     test_v.clear();
     test_v.push_back("light");
@@ -106,7 +106,7 @@ TEST_F(command_light_Class_fixture, on_off_bulb_command)
     test_v.push_back("126");
 
     (void)test_command_light->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::ON);
 
     test_v.clear();
@@ -116,15 +116,15 @@ TEST_F(command_light_Class_fixture, on_off_bulb_command)
     test_v.push_back("126");
 
     (void)test_command_light->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::OFF);
 }
 
 TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
 {
-    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::UNDEFINE);
-    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(104)->getStatus(),
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(127)->getStatus(),
               STATE::UNDEFINE);
     test_v.clear();
     test_v.push_back("light");
@@ -133,9 +133,9 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
     test_v.push_back("on");
 
     (void)test_command_light->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::ON);
-    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(104)->getStatus(),
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(127)->getStatus(),
               STATE::ON);
 
     test_v.clear();
@@ -145,15 +145,15 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
     test_v.push_back("off");
 
     (void)test_command_light->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(126)->getStatus(),
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::OFF);
-    EXPECT_EQ(test_my_data.main_house_lighting_handler->m_lightingBulbMap.at(104)->getStatus(),
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(127)->getStatus(),
               STATE::OFF);
 }
 
 TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_home_command)
 {
-    auto ret = test_my_data.main_house_lighting_handler->getAllInfoJSON().dump(4);
+    auto ret = test_my_data.main_house_room_handler->getAllInfoJSON().dump(4);
     EXPECT_THAT(ret, testing::HasSubstr("UNDEFINE"));
 
     test_v.clear();
@@ -162,7 +162,7 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_home_command)
     test_v.push_back("on");
 
     (void)test_command_light->execute(test_v,&test_my_data);
-    ret = test_my_data.main_house_lighting_handler->getAllInfoJSON().dump(4);
+    ret = test_my_data.main_house_room_handler->getAllInfoJSON().dump(4);
     std::cout << ret << std::endl;
     EXPECT_THAT(ret, testing::Not(testing::HasSubstr(R"("STATUS": "OFF")")));
     test_v.clear();
@@ -171,7 +171,7 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_home_command)
     test_v.push_back("off");
 
     (void)test_command_light->execute(test_v,&test_my_data);
-    ret = test_my_data.main_house_lighting_handler->getAllInfoJSON().dump(4);
+    ret = test_my_data.main_house_room_handler->getAllInfoJSON().dump(4);
     EXPECT_THAT(ret, testing::Not(testing::HasSubstr(R"("STATUS": "ON")")));
 }
 

@@ -1,62 +1,90 @@
 {
-  "104": {
-    "bulbName": "wejscie",
-    "room": "lazienka",
-    "switchID": [
-      40
-    ],
-    "bulbID": 104,
-    "ON": [],
-    "OFF": [],
-    "lock":"ON",
-    "unlock":"OFF",
-    "sunrise":"null",
-    "sunset":"null"
-
-  },
-  "126": {
-    "bulbName": "wanna",
-    "room": "lazienka",
-    "switchID": [
-      41
-    ],
-    "bulbID": 126,
-    "ON": [],
-    "OFF": [],
-    "lock":"null",
-    "unlock":"null",
-    "sunrise":"OFF",
-    "sunset":"ON"
-
-  },
-  "110": {
-    "bulbName": "1 zarowka",
-    "room": "pokoj dzieci",
-    "switchID": [
-      47, 55, 34
-    ],
-    "bulbID": 110,
-    "ON": [],
-    "OFF": [],
-    "lock":"null",
-    "unlock":"null",
-    "sunrise":"null",
-    "sunset":"null"
-
-  },
-  "111": {
-    "bulbName": "2 zarowki",
-    "room": "pokoj dzieci",
-    "switchID": [
-     46
-    ],
-    "bulbID": 111,
-    "ON": [],
-    "OFF": [],
-    "lock":"null",
-    "unlock":"null",
-    "sunrise":"null",
-    "sunset":"null"
-
-  }
+   "lazienka":{
+      "name":"lazienka",
+      "satelSensorID":33,
+      "bulb":{
+         "wanna":{
+            "bulbName":"wanna",
+            "bulbID":126,
+            "switchID":[
+               41
+            ],
+            "ON":[
+               
+            ],
+            "OFF":[
+               
+            ],
+            "lock":"null",
+            "unlock":"null",
+            "sunrise":"OFF",
+            "sunset":"ON",
+            "satelAlarm":"null",
+            "howLong":10
+         },
+         "wejscie":{
+            "bulbName":"wejscie",
+            "bulbID":127,
+            "switchID":[
+               42
+            ],
+            "ON":[
+               
+            ],
+            "OFF":[
+               
+            ],
+            "lock":"null",
+            "unlock":"null",
+            "sunrise":"OFF",
+            "sunset":"ON",
+            "satelAlarm":"ACTIVE",
+            "howLong":10
+         }
+      }
+   },
+"pokoj dzieci":{
+      "name":"pokoj dzieci",
+      "satelSensorID":34,
+      "bulb":{
+         "jedna":{
+            "bulbName":"jedna",
+            "bulbID":226,
+            "switchID":[
+               31
+            ],
+            "ON":[
+               
+            ],
+            "OFF":[
+               
+            ],
+            "lock":"null",
+            "unlock":"null",
+            "sunrise":"OFF",
+            "sunset":"ON",
+            "satelAlarm":"null",
+            "howLong":10
+         },
+         "wejscie":{
+            "bulbName":"wejscie",
+            "bulbID":227,
+            "switchID":[
+               32
+            ],
+            "ON":[
+               
+            ],
+            "OFF":[
+               
+            ],
+            "lock":"null",
+            "unlock":"null",
+            "sunrise":"OFF",
+            "sunset":"ON",
+            "satelAlarm":"null",
+            "howLong":10
+         }
+      }
+   }
 }

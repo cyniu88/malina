@@ -53,6 +53,8 @@ public:
     STATE m_onUnlock = STATE::UNDEFINE;
     STATE m_onSunset = STATE::UNDEFINE;
     STATE m_onSunrise = STATE::UNDEFINE;
+    STATE m_satelAlarm = STATE::UNDEFINE;
+    int m_satelAlarmHowLong = -1;
 };
 
 #endif // LIGHT_BULB_H

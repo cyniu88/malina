@@ -8,20 +8,23 @@
 #include "json.hpp"
 //#include "../iDom_server_OOP.h"
 #include "light_bulb.h"
+#include "room.h"
 
 struct thread_data;
-class house_lighting_handler: public iDom_API
+class house_room_handler: public iDom_API
 {
     thread_data* my_data;
-    static std::string  m_mqttPublishTopic;
     unsigned int m_lastNotifyUnixTime = 0;
 
 public:
-    std::map<int, std::shared_ptr<light_bulb>> m_lightingBulbMap;
-    std::map<std::string, std::vector<std::shared_ptr<light_bulb>> > m_roomMap;
+    static std::string  m_mqttPublishTopic;
 
-    explicit house_lighting_handler(thread_data *my_data);
-    ~house_lighting_handler();
+    std::map<int, std::shared_ptr<light_bulb>> m_lightingBulbMap;
+    std::map<std::string, std::shared_ptr<ROOM>> m_roomMap;
+    std::map<int, std::shared_ptr<ROOM>> m_satelIdMap;
+
+    explicit house_room_handler(thread_data *my_data);
+    ~house_room_handler();
 
     void loadConfig(std::string& configPath);
 
@@ -46,6 +49,8 @@ public:
     void onUnlock();
     void onSunset();
     void onSunrise();
+
+    void satelSensorActive(int sensorID);
 
     std::string dump() const override;
 };

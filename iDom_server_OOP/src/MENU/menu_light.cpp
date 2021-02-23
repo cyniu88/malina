@@ -51,7 +51,7 @@ MENU_LIGHT::~MENU_LIGHT()
 void MENU_LIGHT::entry()
 {
    // std::cout << "MENU_LIGHT::entry()" << std::endl;
-    auto jj = my_dataPTR->main_house_lighting_handler->getAllInfoJSON();
+    auto jj = my_dataPTR->main_house_room_handler->getAllInfoJSON();
 
     for(const auto& data : jj){
         auto name = data.at("room").get<std::string>();
@@ -118,14 +118,14 @@ void MENU_LIGHT::keyPadOk()
     auto p = lightDatabase.getCurrent();
     int id = p->second.getCurrent().name.id;
     if(p->first == "all"){
-        my_dataPTR->main_house_lighting_handler->turnOnAllBulb();
+        my_dataPTR->main_house_room_handler->turnOnAllBulb();
         return;
     }
     else if(id == 0){
-        my_dataPTR->main_house_lighting_handler->turnOnAllInRoom(p->first);
+        my_dataPTR->main_house_room_handler->turnOnAllInRoom(p->first);
         return;
     }
-    my_dataPTR->main_house_lighting_handler->turnOnBulb(id);
+    my_dataPTR->main_house_room_handler->turnOnBulb(id);
 }
 
 void MENU_LIGHT::keyPadPower()
@@ -133,13 +133,13 @@ void MENU_LIGHT::keyPadPower()
     auto p = lightDatabase.getCurrent();
     int id = p->second.getCurrent().name.id;
     if(p->first == "all"){
-        my_dataPTR->main_house_lighting_handler->turnOffAllBulb();
+        my_dataPTR->main_house_room_handler->turnOffAllBulb();
         return;
     }
     else if(id == 0){
-        my_dataPTR->main_house_lighting_handler->turnOffAllInRoom(p->first);
+        my_dataPTR->main_house_room_handler->turnOffAllInRoom(p->first);
         return;
     }
-    my_dataPTR->main_house_lighting_handler->turnOffBulb(id);
+    my_dataPTR->main_house_room_handler->turnOffBulb(id);
 }
 

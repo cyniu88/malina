@@ -35,7 +35,7 @@
 #include "../mqtt_mosquitto/MQTT_mosquitto/mqtt.h"
 #include "../libs/alarm/alarm.h"
 #include "buderus/buderus.h"
-#include "home_lighting/house_lighting_handler.h"
+#include "HOUSE/house_room_handler.h"
 #include "SerialPi/serialpi.h"
 #include "MENU/menu_base.h"
 
@@ -231,7 +231,7 @@ struct thread_data{
     std::unique_ptr<iDomTOOLS> main_iDomTools = std::nullptr_t();
     std::unique_ptr<SerialPi> main_Rs232 = std::nullptr_t();
     std::shared_ptr<RFLinkHandler> main_RFLink = std::nullptr_t();
-    std::shared_ptr<house_lighting_handler> main_house_lighting_handler = std::nullptr_t();
+    std::shared_ptr<house_room_handler> main_house_room_handler = std::nullptr_t();
     std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *main_THREAD_arr = NULL;
     time_t start;
     time_t now_time;

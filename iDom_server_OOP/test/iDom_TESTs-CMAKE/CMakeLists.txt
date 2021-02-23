@@ -80,13 +80,14 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/command/commandhandlermqtt.cpp"
     "../../src/command/commandhandlergateway.cpp"
     "../../src/iDomKEY_ACCESS/idomkey_access.cpp"
-    "../../src/home_lighting/light_bulb.cpp"
-    "../../src/home_lighting/house_lighting_handler.cpp"
-    "../../src/home_lighting/TEST/BT.cpp"
+    "../../src/HOUSE/light_bulb.cpp"
+    "../../src/HOUSE/house_room_handler.cpp"
+    "../../src/HOUSE/TEST/BT.cpp"
     "../../src/buderus/buderus.cpp"
     "../../src/TASKER/tasker.cpp"
     "../../src/BIT_TEST/bit_main.cpp"
-    "../../src/home_lighting/TEST/house_lighting_handler_stub.h"
+    "../../src/HOUSE/TEST/house_room_handler_stub.h"
+    "../../src/HOUSE/room.cpp"
     )
 # Get the current working branch
 execute_process(

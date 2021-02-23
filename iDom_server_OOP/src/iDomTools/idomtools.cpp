@@ -380,7 +380,7 @@ void iDomTOOLS::runOnSunset()
     if (my_data->idom_all_state.houseState == STATE::UNLOCK)
     {
         ////house light
-        my_data->main_house_lighting_handler->onSunset();
+        my_data->main_house_room_handler->onSunset();
     }
 
     else{
@@ -408,7 +408,7 @@ void iDomTOOLS::runOnSunrise()
     if (my_data->idom_all_state.houseState == STATE::UNLOCK)
     {
         ////house light
-        my_data->main_house_lighting_handler->onSunrise();
+        my_data->main_house_room_handler->onSunrise();
     }
     else{
         my_data->myEventHandler.run("iDom")->addEvent("light can not start due to home state: "
@@ -428,7 +428,7 @@ void iDomTOOLS::lockHome()
         m_switch->onLockHome();
     }
     ///// light bubl
-    my_data->main_house_lighting_handler->onLock();
+    my_data->main_house_room_handler->onLock();
     my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/lock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
@@ -447,7 +447,7 @@ void iDomTOOLS::unlockHome()
     my_data->main_iDomStatus->setObjectState("house", STATE::UNLOCK);
 
     ///// light bubl
-    my_data->main_house_lighting_handler->onUnlock();
+    my_data->main_house_room_handler->onUnlock();
     my_data->main_iDomTools->sendViberPicture("dom odblokownay!",
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/unlock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
