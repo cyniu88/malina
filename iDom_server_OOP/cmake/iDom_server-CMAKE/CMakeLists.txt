@@ -93,8 +93,9 @@ set(SOURCE_FILES
     "../../src/command/commandClass/command_gateway.cpp"
     "../../src/command/commandClass/command_buderus.cpp" 
     "../../src/buderus/buderus.cpp"
-    "../../src/home_lighting/house_lighting_handler.cpp"
-    "../../src/home_lighting/light_bulb.cpp"
+    "../../src/HOUSE/house_room_handler.cpp"
+    "../../src/HOUSE/light_bulb.cpp"
+    "../../src/HOUSE/room.cpp"
     )
 # Get the current working branch
 execute_process(
