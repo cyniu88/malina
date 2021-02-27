@@ -31,26 +31,30 @@ std::string LCD_c::dump() const
 
 void LCD_c::printString(const std::string &row1, const std::string &row2, bool clear )
 {
-    m_printed.append(row1);
-    m_printed.append(" ");
-    m_printed.append(row2);
     if ( clear == true)
     {
         main_lcd.clear();
+        m_printed.clear();
     }
     main_lcd.backlight();
     main_lcd.setCursor(0, 0);
     main_lcd.printstr(row1.c_str());
     main_lcd.setCursor(0, 1);
     main_lcd.printstr(row2.c_str());
+
+    m_printed.append(row1);
+    m_printed.append(" ");
+    m_printed.append(row2);
 }
 
 void LCD_c::noBacklight()
 {
     main_lcd.clear();
     main_lcd.noBacklight();
+    m_printed.clear();
 }
 void LCD_c::clear()
 {
     main_lcd.clear();
+    m_printed.clear();
 }

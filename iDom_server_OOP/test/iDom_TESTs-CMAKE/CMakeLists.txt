@@ -88,6 +88,8 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/BIT_TEST/bit_main.cpp"
     "../../src/HOUSE/TEST/house_room_handler_stub.h"
     "../../src/HOUSE/room.cpp"
+    "../../src/SATEL_INTEGRA/satel_integra.cpp"
+    "../../src/SATEL_INTEGRA/BT/test.cpp"
     )
 # Get the current working branch
 execute_process(

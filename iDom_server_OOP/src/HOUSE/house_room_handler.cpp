@@ -55,8 +55,6 @@ void house_room_handler::loadConfig(std::string &configPath)
 
 void house_room_handler::turnOnAllInRoom(const std::string &roomName)
 {
-    std::cout << "cyniu: " << m_roomMap[roomName]->m_lightingBulbMap.size() << std::endl;
-
     for( auto& a :m_roomMap[roomName]->m_lightingBulbMap)
     {
         a.second->on([](const std::string& name){
