@@ -19,11 +19,14 @@ public:
     void connectIntegra(const std::string& host, const int port);
     void disconnectIntegra();
     std::string getIntegraInfo();
+    std::string checkIntegraOut();
+    bool isAlarmArmed();
     std::string dump() const override;
 private:
     unsigned short calculateCRC(const std::string& msg);
     int sendIntegra(const std::string& msg);
     int recvIntegra();
+    const char* satelType(unsigned char t);
 };
 
 #endif // SATEL_INTEGRA_H
