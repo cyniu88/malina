@@ -27,6 +27,11 @@ TEST_F(satel_integra_fixture, main)
    testIntegra.connectIntegra("192.168.13.156", 7094);
    std::cout << testIntegra.getIntegraInfo();
    testIntegra.checkIntegraOut();
-   testIntegra.isAlarmArmed();
+   EXPECT_FALSE(testIntegra.isAlarmArmed());
    testIntegra.disconnectIntegra();
+}
+
+TEST_F(satel_integra_fixture, checkIntegraOut)
+{
+
 }

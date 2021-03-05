@@ -5,6 +5,7 @@
 #include<arpa/inet.h> //inet_addr
 
 #include "../idom_api.h"
+#include "satel_enum.h"
 
 class SATEL_INTEGRA : public iDom_API
 {
@@ -13,9 +14,11 @@ class SATEL_INTEGRA : public iDom_API
     int m_rozmiar;
     struct sockaddr_in m_server;
     unsigned char m_message[2000];
+    std::string m_pin;
 public:
     SATEL_INTEGRA();
     ~ SATEL_INTEGRA();
+    void setIntegraPin(const std::string& pin);
     void connectIntegra(const std::string& host, const int port);
     void disconnectIntegra();
     std::string getIntegraInfo();

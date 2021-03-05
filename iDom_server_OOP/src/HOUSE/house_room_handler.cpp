@@ -211,7 +211,7 @@ void house_room_handler::executeCommandFromMQTT(std::string &msg)
                     time > 60) {
                 m_lastNotifyUnixTime += time;
                 std::stringstream str_buf;
-                str_buf << "zmana statusu lampy " << bulbID
+                str_buf << "zmana statusu lampy " << m_lightingBulbMap.at(bulbID)->getBulbName()
                         << " w pomieszczeniu: " << m_lightingBulbMap.at(bulbID)->getRoomName()
                         << " na " << stateToString(state)
                         << " przyciskiem: " << vv.at(2)
