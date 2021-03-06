@@ -90,6 +90,7 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/HOUSE/room.cpp"
     "../../src/SATEL_INTEGRA/satel_integra.cpp"
     "../../src/SATEL_INTEGRA/BT/test.cpp"
+    "../../src/SATEL_INTEGRA/satel_integra_handler.cpp"
     )
 # Get the current working branch
 execute_process(

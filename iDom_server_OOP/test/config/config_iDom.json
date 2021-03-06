@@ -74,6 +74,11 @@
 		"publish topic": "iDom-server",
 		"subscribe topic": "iDom-client/#"
 	},
+	"satel_integra32":{
+	    "port": 7094,
+		"host": "192.168.13.156",
+		"pin": "123"
+	},
 	"THREAD": {
 		"RFLink": {
 			"run": true
@@ -92,6 +97,9 @@
 		},
 		"MQTT": {
 			"run": false
+		},
+		"SATEL":{
+			"run": true
 		},
 		"DUMMY": {
 			"run": true

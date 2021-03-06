@@ -11,7 +11,8 @@ void wypiszOdpowiedzSerwera( unsigned char *komunikat, unsigned int dlugosc)
         if (i==3 || i==dlugosc-4)
             printf("----------\n");
         printf("%#02i : %#04x\n", i, komunikat[i]);
-        std::cout << i << ": " << std::bitset<16>(komunikat[i]) << std::endl;
+        auto  bs = std::bitset<16>(komunikat[i]);
+        std::cout << i << ": " << bs << " biuro " << bs[12] << std::endl;
     }
 }
 
@@ -23,10 +24,11 @@ SATEL_INTEGRA::SATEL_INTEGRA()
 
 SATEL_INTEGRA::~SATEL_INTEGRA()
 {
+    disconnectIntegra();
     iDom_API::removeFromMap(m_className);
 }
 
-void SATEL_INTEGRA::setIntegraPin(const std::string &pin)
+void SATEL_INTEGRA::setIntegraPin(const std::string & pin)
 {
     m_pin = pin;
 }
@@ -44,11 +46,13 @@ void SATEL_INTEGRA::connectIntegra(const std::string &host, const int port)
     if (connect(m_sock , (struct sockaddr *)&m_server , sizeof(m_server)) < 0)
         puts("Nie udało się nawiązać połączenia");
     printf("Połączony\n");
+    m_connectState = STATE::CONNECTED;
 }
 
 void SATEL_INTEGRA::disconnectIntegra()
 {
     shutdown(m_sock, SHUT_RDWR );
+    m_connectState = STATE::DISCONNECTED;
 }
 
 std::string SATEL_INTEGRA::getIntegraInfo()
@@ -79,8 +83,15 @@ std::string SATEL_INTEGRA::checkIntegraOut()
     sendIntegra(msg);
 
     int recSize = recvIntegra();
-    wypiszOdpowiedzSerwera(m_message, recSize);
-    return "done";
+    if(m_message[2] != INTEGRA_ENUM::OUTPUTS_STATE){
+        std::cout << "zła ramka" << std::endl;
+    }
+    std::string data;
+    data.push_back(m_message[3]);
+    data.push_back(m_message[4]);
+    data.push_back(m_message[5]);
+    data.push_back(m_message[6]);
+    return data;
 }
 
 bool SATEL_INTEGRA::isAlarmArmed()
@@ -110,6 +121,11 @@ std::string SATEL_INTEGRA::dump() const
     std::stringstream ss;
     ss << "m_message " << m_message << std::endl;
     return ss.str();
+}
+
+STATE SATEL_INTEGRA::connectionState()
+{
+    return m_connectState;
 }
 
 unsigned short SATEL_INTEGRA::calculateCRC(const std::string& msg)

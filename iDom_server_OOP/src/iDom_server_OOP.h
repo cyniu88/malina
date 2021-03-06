@@ -144,6 +144,7 @@ struct RunThread_CFG{
     bool RS232 = false;
     bool DUMMY = false;
     bool MQTT  = false;
+    bool SATEL = false;
 };
 
 struct CAMERA_CFG{
@@ -193,6 +194,12 @@ struct MQTT_BROKER_CFG{
     int qos  = 2;
 };
 
+struct SATEL_INTEGRA_CFG{
+    std::string host = "null";
+    int port = 7094;
+    std::string pin = "null";
+};
+
 struct CONFIG_JSON{
     RunThread_CFG _runThread;
     CAMERA_CFG _camera;
@@ -202,6 +209,7 @@ struct CONFIG_JSON{
     RFLink_CFG _rflink;
     MQTT_BROKER_CFG _mqtt_broker;
     GATEWAY _gateway;
+    SATEL_INTEGRA_CFG _satel_integra;
 };
 
 

@@ -550,7 +550,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._server.SERVER_IP = jj["Server_settings"].at("SERVER_IP").get<std::string>();
     cj._server.saveFilePath = jj["Server_settings"].at("saveFilePath").get<std::string>();
     cj._server.radio433MHzConfigFile = jj["433MHz_settings"].at("433MHz_config").get<std::string>();
-    cj._server.ftpServer.URL = jj["FTP_settings"].at("FTP_URL").get<std::string>();
+    cj._server.ftpServer.URL  = jj["FTP_settings"].at("FTP_URL").get<std::string>();
     cj._server.ftpServer.user = jj["FTP_settings"].at("FTP_LOGIN").get<std::string>();
     cj._server.ftpServer.pass = jj["FTP_settings"].at("FTP_PASS").get<std::string>();
     cj._server.TS_KEY = jj["THINGSPEAK_settings"].at("TS_KEY").get<std::string>();
@@ -558,7 +558,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._server.MPD_IP = jj["MPD_settings"].at("MPD_IP").get<std::string>();
     cj._server.keyDatabasePath = jj["Server_settings"].at("key_DB_PATH").get<std::string>();
     /////////////////////// viber
-    cj._fb_viber.viberToken = jj["viber_settings"].at("VIBER_TOKEN").get<std::string>();
+    cj._fb_viber.viberToken  = jj["viber_settings"].at("VIBER_TOKEN").get<std::string>();
     cj._fb_viber.viberAvatar = jj["viber_settings"].at("VIBER_AVATAR").get<std::string>();
     cj._fb_viber.viberSender = jj["viber_settings"].at("VIBER_SENDER").get<std::string>();
     for(auto& k : jj["viber_settings"].at("VIBER_RECEIVER"))
@@ -568,31 +568,36 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     ////////////////////// facebook
     cj._fb_viber.facebookAccessToken = jj["facebook_settings"].at("FB_ACCESS_TOKEN").get<std::string>();
     /////////////////////// thread settings
-    cj._runThread.MPD   = jj["THREAD"].at("MPD").at("run").get<bool>();
+    cj._runThread.MPD    = jj["THREAD"].at("MPD").at("run").get<bool>();
     cj._runThread.RFLink = jj["THREAD"].at("RFLink").at("run").get<bool>();
-    cj._runThread.CRON  = jj["THREAD"].at("CRON").at("run").get<bool>();
-    cj._runThread.RS232 = jj["THREAD"].at("RS232").at("run").get<bool>();
-    cj._runThread.DUMMY = jj["THREAD"].at("DUMMY").at("run").get<bool>();
-    cj._runThread.MQTT  = jj["THREAD"].at("MQTT").at("run").get<bool>();
+    cj._runThread.CRON   = jj["THREAD"].at("CRON").at("run").get<bool>();
+    cj._runThread.RS232  = jj["THREAD"].at("RS232").at("run").get<bool>();
+    cj._runThread.DUMMY  = jj["THREAD"].at("DUMMY").at("run").get<bool>();
+    cj._runThread.MQTT   = jj["THREAD"].at("MQTT").at("run").get<bool>();
+    cj._runThread.SATEL  = jj["THREAD"].at("SATEL").at("run").get<bool>();
     /////////////////////// camera
     cj._camera.cameraLedOFF = jj["camera_settings"].at("CAMERA_LED_OFF").get<std::string>();
-    cj._camera.cameraLedON = jj["camera_settings"].at("CAMERA_LED_ON").get<std::string>();
-    cj._camera.cameraURL   = jj["camera_settings"].at("CAMERA_SNAPSHOT").get<std::string>();
+    cj._camera.cameraLedON  = jj["camera_settings"].at("CAMERA_LED_ON").get<std::string>();
+    cj._camera.cameraURL    = jj["camera_settings"].at("CAMERA_SNAPSHOT").get<std::string>();
     /////////////////////// mqtt broker
-    cj._mqtt_broker.qos = jj["mqtt_broker_settings"].at("qos").get<int>();
+    cj._mqtt_broker.qos  = jj["mqtt_broker_settings"].at("qos").get<int>();
     cj._mqtt_broker.port = jj["mqtt_broker_settings"].at("port").get<int>();
     cj._mqtt_broker.host = jj["mqtt_broker_settings"].at("host").get<std::string>();
-    cj._mqtt_broker.topicPublish  = jj["mqtt_broker_settings"].at("publish topic").get<std::string>();
+    cj._mqtt_broker.topicPublish   = jj["mqtt_broker_settings"].at("publish topic").get<std::string>();
     cj._mqtt_broker.topicSubscribe = jj["mqtt_broker_settings"].at("subscribe topic").get<std::string>();
     /////////////////////// rs232
-    cj._rs232.BaudRate = jj["RS232_settings"].at("BaudRate").get<int>();
+    cj._rs232.BaudRate  = jj["RS232_settings"].at("BaudRate").get<int>();
     cj._rs232.portRS232 = jj["RS232_settings"].at("portRS232").get<std::string>();
     /////////////////////// RFLink
     cj._rflink.RFLinkPort = jj["RFLink_settings"].at("RFLinkPort").get<std::string>();
     cj._rflink.RFLinkBaudRate = jj["RFLink_settings"].at("RFLinkBaudRate").get<int>();
     /////////////////////// gateway
-    cj._gateway.url    = jj["gateway"].at("url").get<std::string>();
+    cj._gateway.url     = jj["gateway"].at("url").get<std::string>();
     cj._gateway.keySize = jj["gateway"].at("key_size").get<unsigned int>();
+    /////////////////////// SATEL INTEGRA32
+    cj._satel_integra.host = jj["satel_integra32"].at("host").get<std::string>();
+    cj._satel_integra.port = jj["satel_integra32"].at("port").get<int>();
+    cj._satel_integra.pin  = jj["satel_integra32"].at("pin").get<std::string>();
 
     return cj;
 }

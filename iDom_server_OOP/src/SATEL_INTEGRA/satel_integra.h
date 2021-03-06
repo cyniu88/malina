@@ -6,6 +6,7 @@
 
 #include "../idom_api.h"
 #include "satel_enum.h"
+#include "../libs/useful/useful.h"
 
 class SATEL_INTEGRA : public iDom_API
 {
@@ -15,6 +16,7 @@ class SATEL_INTEGRA : public iDom_API
     struct sockaddr_in m_server;
     unsigned char m_message[2000];
     std::string m_pin;
+    STATE m_connectState = STATE::DISCONNECTED;
 public:
     SATEL_INTEGRA();
     ~ SATEL_INTEGRA();
@@ -25,6 +27,7 @@ public:
     std::string checkIntegraOut();
     bool isAlarmArmed();
     std::string dump() const override;
+    STATE connectionState();
 private:
     unsigned short calculateCRC(const std::string& msg);
     int sendIntegra(const std::string& msg);

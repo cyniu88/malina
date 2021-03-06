@@ -16,6 +16,7 @@
 #include "thread_functions/iDom_thread.h"
 #include "command/commandhandlergateway.h"
 #include "MENU/menu_root.h"
+#include "SATEL_INTEGRA/satel_integra_handler.h"
 
 std::string _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer;
@@ -83,12 +84,19 @@ void f_master_mqtt (thread_data *my_data, const std::string& threadName){
 
 
 ///////////////////// watek CRON //////////////////////////////
-void f_master_CRON (thread_data *my_data, const std::string& threadName){
+void f_master_CRON(thread_data *my_data, const std::string& threadName){
     CRON my_CRON(my_data);
     my_CRON.run();
     iDOM_THREAD::stop_thread(threadName, my_data);
 } // koniec CRON
 
+///////////////////// watek Satel Integra32 //////////////////////////
+void f_satelIntegra32(thread_data *my_data, const std::string& threadName){
+    SATEL_INTEGRA_HANDLER my_integra32(my_data);
+    my_integra32.run();
+
+    iDOM_THREAD::stop_thread(threadName, my_data);
+} // koniec Satel Integra32
 
 iDomStateEnum iDom_main()
 {
@@ -289,6 +297,17 @@ iDomStateEnum iDom_main()
     {
         log_file_mutex.mutex_lock();
         log_file_cout << DEBUG <<"nie wystartowalem wątku CRON" <<std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+    // start watku SATEL INTEGRA32
+    if(server_settings._runThread.SATEL == true)
+    {
+        iDOM_THREAD::start_thread("Cron thread",f_satelIntegra32(), &node_data);
+    }
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG <<"nie wystartowalem wątku satel integra32" <<std::endl;
         log_file_mutex.mutex_unlock();
     }
     if(server_settings._runThread.DUMMY == true){
