@@ -273,6 +273,9 @@ void house_room_handler::onSunrise()
 
 void house_room_handler::satelSensorActive(int sensorID)
 {
+    if(m_satelIdMap.find(sensorID) == m_satelIdMap.end() ) {
+      return;
+    }
     m_satelIdMap.at(sensorID)->satelSensorActive();
 }
 
