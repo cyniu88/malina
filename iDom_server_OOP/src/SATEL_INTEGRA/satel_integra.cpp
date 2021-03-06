@@ -2,20 +2,6 @@
 
 #include <bitset>
 
-void wypiszOdpowiedzSerwera( unsigned char *komunikat, unsigned int dlugosc)
-{
-    int i;
-    printf("Rozmiar odpowiedzi: %i\nOdpowiedz serwera:\n", dlugosc);
-    for (i=0; i<dlugosc; i++)
-    {
-        if (i==3 || i==dlugosc-4)
-            printf("----------\n");
-        printf("%#02i : %#04x\n", i, komunikat[i]);
-        auto  bs = std::bitset<16>(komunikat[i]);
-        std::cout << i << ": " << bs << " biuro " << bs[12] << std::endl;
-    }
-}
-
 SATEL_INTEGRA::SATEL_INTEGRA()
 {
     m_className.append(typeid (this).name());
@@ -45,7 +31,7 @@ void SATEL_INTEGRA::connectIntegra(const std::string &host, const int port)
 
     if (connect(m_sock , (struct sockaddr *)&m_server , sizeof(m_server)) < 0)
         puts("Nie udało się nawiązać połączenia");
-    printf("Połączony\n");
+    //printf("Połączony\n");
     m_connectState = STATE::CONNECTED;
 }
 
@@ -163,7 +149,6 @@ int SATEL_INTEGRA::sendIntegra(const std::string &msg)
 int SATEL_INTEGRA::recvIntegra()
 {
     int size = recv(m_sock, m_message, 2000, 0);
-    std::cout << " cyniu size: " << size << std::endl;
     if (size < 0) //rozmiar odp
         puts("Nie udało się pobrać odpowiedzi z serwera");
     if (m_message[0] != INTEGRA_ENUM::HEADER

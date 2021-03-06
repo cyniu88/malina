@@ -302,7 +302,7 @@ iDomStateEnum iDom_main()
     // start watku SATEL INTEGRA32
     if(server_settings._runThread.SATEL == true)
     {
-        iDOM_THREAD::start_thread("Cron thread",f_satelIntegra32, &node_data);
+        iDOM_THREAD::start_thread("Satel INTEGRA32 thread", f_satelIntegra32, &node_data);
     }
     else
     {

@@ -25,7 +25,6 @@ void SATEL_INTEGRA_HANDLER::checkSatel()
     int counter = 1;
     for(const auto& d : dataOut){
         auto bs = std::bitset<8>(d);
-        std::cout << bs << std::endl;
         for(int i = 0; i < 8; ++i){
             if(bs[i] == true){
 #ifndef BT_TEST
