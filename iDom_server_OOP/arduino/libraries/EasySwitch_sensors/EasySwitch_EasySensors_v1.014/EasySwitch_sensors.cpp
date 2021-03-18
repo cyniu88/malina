@@ -1,5 +1,5 @@
 /*
-2020.11.29 15:44:23
+2020.05.22 22:15:07
 */
 #include "EasySwitch_sensors.h"
 EasySwitch_sensors::EasySwitch_sensors()
@@ -30,12 +30,12 @@ void EasySwitch_sensors::sendPresentation(String version , String name){
  	Serial.print("0;255;3;0;12;");
  	Serial.println(version);
 }
-void EasySwitch_sensors::sendState(int id, bool state, bool ack){
-	Serial.print("0;");
+void EasySwitch_sensors::sendState(int id, bool state, bool ack, int buttonPin){
+	Serial.print("state;");
 	Serial.print(id);
-	Serial.print(";1;");
-  Serial.print(ack);
-  Serial.print(";2;");
+	Serial.print(";");
+	Serial.print(buttonPin);
+	Serial.print(";");
 	Serial.print(state);
   Serial.print('\n');
 }
@@ -47,9 +47,9 @@ void EasySwitch_sensors::sendAllState(){
     relay = pgm_read_word_near(relay_t + i);
     state =  readState(relay);
     id = pgm_read_word_near(sensorId_t + i);
-    Serial.print("0;");
+    Serial.print("state;");
     Serial.print(id);
-    Serial.print(";1;0;2;");
+    Serial.print(";");
     Serial.println(state);
     delay(10);
   }
@@ -59,9 +59,9 @@ void EasySwitch_sensors::sendPresentationId(){
 	for(byte i=0; i < _numberOfRelayButtons; i++){
 		strcpy_P(_charBuf, (char *)pgm_read_word(&(relayDescription[i])));  
 		id1 = pgm_read_word_near(sensorId_t + i);
-		Serial.print("0;");
+		Serial.print("name;");
 		Serial.print(id1);
-		Serial.print(";0;0;3;");
+		Serial.print(";");
 		Serial.println(_charBuf);
 	}
 }
@@ -305,7 +305,7 @@ void EasySwitch_sensors::Click(int i, int button, byte click){
   			}
   			saveState(relay, relayState);
   			id = pgm_read_word_near(sensorId_t + j);
-  			sendState(id, relayState,0);
+  			sendState(id, relayState,0,button);
 		} 
 	}
 }
@@ -428,6 +428,14 @@ void EasySwitch_sensors::parseAll(){
 		  	}				
 		}
 	}
+	else if (_command == 88){
+
+sendAllState();
+}
+else if (_command == 89){
+
+sendPresentationId();
+}
 	_node_id = 0;
 	_child_sensor_id = 0;
 	_command = 0;

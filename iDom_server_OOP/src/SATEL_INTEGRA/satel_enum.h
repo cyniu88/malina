@@ -3,7 +3,7 @@
 
 
 enum INTEGRA_ENUM: unsigned char {
-    HEADER = 0xFE,
+    HEADER_MSG = 0xFE,
     END = 0x0D,
     OUTPUTS_STATE = 0x17,
     VERSION = 0x7E,

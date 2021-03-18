@@ -132,8 +132,8 @@ int SATEL_INTEGRA::sendIntegra(const std::string &msg)
 {
     std::string message;
     //header
-    message.push_back(INTEGRA_ENUM::HEADER);
-    message.push_back(INTEGRA_ENUM::HEADER);
+    message.push_back(INTEGRA_ENUM::HEADER_MSG);
+    message.push_back(INTEGRA_ENUM::HEADER_MSG);
 
     // command
     auto crc = calculateCRC(msg);
@@ -141,7 +141,7 @@ int SATEL_INTEGRA::sendIntegra(const std::string &msg)
     message.push_back((crc >> 8) & 0xff); //crc1
     message.push_back(crc & 0xff);   //crc2
     // end message
-    message.push_back(INTEGRA_ENUM::HEADER);
+    message.push_back(INTEGRA_ENUM::HEADER_MSG);
     message.push_back(INTEGRA_ENUM::END);
     return send(m_sock, message.c_str(), message.length(), 0 );
 }
@@ -151,10 +151,10 @@ int SATEL_INTEGRA::recvIntegra()
     int size = recv(m_sock, m_message, 2000, 0);
     if (size < 0) //rozmiar odp
         puts("Nie udało się pobrać odpowiedzi z serwera");
-    if (m_message[0] != INTEGRA_ENUM::HEADER
-            || m_message[1] != INTEGRA_ENUM::HEADER
+    if (m_message[0] != INTEGRA_ENUM::HEADER_MSG
+            || m_message[1] != INTEGRA_ENUM::HEADER_MSG
             || m_message[size-1] != INTEGRA_ENUM::END
-            || m_message[size-2] != INTEGRA_ENUM::HEADER)
+            || m_message[size-2] != INTEGRA_ENUM::HEADER_MSG)
         puts("Urządzenie zajęte (busy) lub niewłaściwy format odpowiedzi");
     return size;
 }
