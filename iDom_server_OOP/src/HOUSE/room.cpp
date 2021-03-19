@@ -13,6 +13,7 @@ ROOM::ROOM(int satelSensorID, std::string name, std::map<int, std::shared_ptr<li
 void ROOM::satelSensorActive()
 {
     for(const auto& bulb :m_lightingBulbMap){
+        bulb.second->satelSensorAlarm();
         if(bulb.second->m_satelAlarm == STATE::ACTIVE &&
                 useful_F::myStaticData->main_iDomTools->isItDay() == false &&
                 bulb.second->getStatus() != STATE::ON ){

@@ -27,6 +27,7 @@ light_bulb::light_bulb(const light_bulb &a):
     m_bulbName(a.m_bulbName),
     m_ID(a.m_ID),
     m_onTime(a.m_onTime),
+    m_satelAlarmUnixTime(a.m_satelAlarmUnixTime),
     m_onLock(a.m_onLock),
     m_onUnlock(a.m_onUnlock),
     m_onSunset(a.m_onSunset),
@@ -60,6 +61,7 @@ light_bulb &light_bulb::operator=(const light_bulb &a)
     m_onSunset = a.m_onSunset;
     m_onSunrise = a.m_onSunrise;
     m_onTime = a.m_onTime;
+    m_satelAlarmUnixTime = a.m_satelAlarmUnixTime;
     return *this;
 }
 
@@ -77,6 +79,7 @@ light_bulb& light_bulb::operator =(light_bulb&& a)
     m_onSunset = std::move(a.m_onSunset);
     m_onSunrise = std::move(a.m_onSunrise);
     m_onTime = std::move(a.m_onTime);
+    m_satelAlarmUnixTime = std::move(a.m_satelAlarmUnixTime);
     return *this;
 }
 
@@ -173,6 +176,11 @@ Clock light_bulb::howLongBulbOn()
     return ret;
 }
 
+void light_bulb::satelSensorAlarm()
+{
+    m_satelAlarmUnixTime = Clock::getUnixTime();
+}
+
 std::string light_bulb::dump() const
 {
     std::stringstream str;
@@ -191,5 +199,6 @@ std::string light_bulb::dump() const
     str << "bulb m_onUnlock: " << stateToString(m_onUnlock) << std::endl;
     str << "bulb m_onSunrise: " << stateToString(m_onSunrise) << std::endl;
     str << "bulb m_onSunset: " << stateToString(m_onSunset) << std::endl;
+    str << "bulb m_satelAlarmUnixTime: " << m_satelAlarmUnixTime << std::endl;
     return str.str();
 }
