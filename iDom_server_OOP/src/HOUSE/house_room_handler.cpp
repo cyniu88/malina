@@ -139,6 +139,7 @@ nlohmann::json house_room_handler::getAllInfoJSON()
         roomJJ["sunrise"] = stateToString(a.second->m_onSunrise);
         roomJJ["satelAlarm"] = stateToString(a.second->m_satelAlarm);
         roomJJ["howLong"] = a.second->m_satelAlarmHowLong;
+        roomJJ["satelSensorAlarmUnixTime"] = a.second->getSatelSensorAlarmUnixTime();
         jj.push_back(roomJJ);
     }
     return jj;

@@ -181,6 +181,11 @@ void light_bulb::satelSensorAlarm()
     m_satelAlarmUnixTime = Clock::getUnixTime();
 }
 
+unsigned int light_bulb::getSatelSensorAlarmUnixTime()
+{
+    return m_satelAlarmUnixTime;
+}
+
 std::string light_bulb::dump() const
 {
     std::stringstream str;

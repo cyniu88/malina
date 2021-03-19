@@ -18,7 +18,7 @@ class light_bulb: public iDom_API
     std::vector<int> m_pins;
     Clock m_onTime;
     Clock m_offTime;
-    unsigned int m_satelAlarmUnixTime;
+    unsigned int m_satelAlarmUnixTime = 0;
 
 public:
     light_bulb(const std::string& roomName, const std::string& bulbName, int id);
@@ -49,6 +49,7 @@ public:
     Clock howLongBulbOn();
 
     void satelSensorAlarm();
+    unsigned int getSatelSensorAlarmUnixTime();
 
     std::string dump() const override;
 
