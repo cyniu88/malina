@@ -168,6 +168,7 @@ nlohmann::json house_room_handler::getInfoJSON_allON()
             roomJJ["unlock"] = stateToString(a.second->m_onUnlock);
             roomJJ["sunset"] = stateToString(a.second->m_onSunset);
             roomJJ["sunrise"] = stateToString(a.second->m_onSunrise);
+            roomJJ["satelSensorAlarmUnixTime"] = a.second->getSatelSensorAlarmUnixTime();
             jj.push_back(roomJJ);
         }
     }

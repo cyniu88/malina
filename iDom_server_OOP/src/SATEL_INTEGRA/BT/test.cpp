@@ -198,6 +198,7 @@ protected:
 TEST_F(satel_integra_fixture, main)
 {
     startSatelServer();
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     SATEL_INTEGRA testIntegra;
     testIntegra.connectIntegra("127.0.0.1", 7094);
     std::cout << testIntegra.getIntegraInfo();
@@ -210,14 +211,13 @@ TEST_F(satel_integra_fixture, main)
 TEST_F(satel_integra_fixture, checkIntegraOut)
 {
     startSatelServer();
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     struct CONFIG_JSON test_config;
     test_config._satel_integra.host = "127.0.0.1";
     test_config._satel_integra.port = 7094;
     test_config._satel_integra.pin = "1234";
     thread_data test_threadData;
     test_threadData.server_settings = &test_config;
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
     SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
     testIntegra.checkSatel();
