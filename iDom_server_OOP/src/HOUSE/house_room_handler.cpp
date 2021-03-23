@@ -286,7 +286,7 @@ void house_room_handler::turnOffUnexpectedBulb()
     auto time = Clock::getUnixTime();
 
     for(const auto &  jj : m_lightingBulbMap){
-        if(jj.second->m_satelAlarmHowLong != -1 && jj.second->getStatus() == STATE::ACTIVE){
+        if(jj.second->m_satelAlarmHowLong != -1 && jj.second->getStatus() == STATE::ON){
             auto actualTime = time - jj.second->getSatelSensorAlarmUnixTime();
             unsigned int expectTime = static_cast<unsigned int >(jj.second->m_satelAlarmHowLong * 60);
             if( actualTime > expectTime)
