@@ -80,6 +80,7 @@ void CRON::runEveryone_5min()
     }
 
     my_data->main_iDomTools->healthCheck();
+    my_data->main_house_room_handler->turnOffUnexpectedBulb();
 }
 
 void CRON::runEveryone_15min()
