@@ -286,12 +286,12 @@ void house_room_handler::turnOffUnexpectedBulb()
     auto time = Clock::getUnixTime();
 
     for(const auto &  jj : m_lightingBulbMap){
-        if(jj.second->m_satelAlarmHowLong != -1){
+        if(jj.second->m_satelAlarmHowLong != -1 && jj.second->getStatus() == STATE::ACTIVE){
             auto actualTime = time - jj.second->getSatelSensorAlarmUnixTime();
             unsigned int expectTime = static_cast<unsigned int >(jj.second->m_satelAlarmHowLong * 60);
             if( actualTime > expectTime)
             {
-                jj.second->on([](const std::string& name){
+                jj.second->off([](const std::string& name){
                     useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
                 });
             }
