@@ -52,6 +52,8 @@ public:
 
     void satelSensorActive(int sensorID);
 
+    void turnOffUnexpectedBulb();
+
     std::string dump() const override;
 };
 

@@ -276,9 +276,27 @@ void house_room_handler::onSunrise()
 void house_room_handler::satelSensorActive(int sensorID)
 {
     if(m_satelIdMap.find(sensorID) == m_satelIdMap.end() ) {
-      return;
+        return;
     }
     m_satelIdMap.at(sensorID)->satelSensorActive();
+}
+
+void house_room_handler::turnOffUnexpectedBulb()
+{
+    auto time = Clock::getUnixTime();
+
+    for(const auto &  jj : m_lightingBulbMap){
+        if(jj.second->m_satelAlarmHowLong != -1){
+            auto actualTime = time - jj.second->getSatelSensorAlarmUnixTime();
+            unsigned int expectTime = static_cast<unsigned int >(jj.second->m_satelAlarmHowLong * 60);
+            if( actualTime > expectTime)
+            {
+                jj.second->on([](const std::string& name){
+                    useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
+                });
+            }
+        }
+    }
 }
 
 std::string house_room_handler::dump() const
