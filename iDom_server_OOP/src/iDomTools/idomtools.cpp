@@ -506,6 +506,12 @@ void iDomTOOLS::button433MHzPressedAction(const std::string& name)
         RADIO_BUTTON* buttonDoorBell = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer(name) );
         button433mhzDoorBellPressed(buttonDoorBell);
     }
+    else if (useful_F_libs::hasSubstring(name,"pompka") == true)
+    {
+        RADIO_BUTTON* buttonCyrclePump = static_cast<RADIO_BUTTON*>(my_data->main_REC->getEqPointer(name) );
+        buttonCyrclePump->setState(STATE::WORKING);
+        my_data->ptr_buderus->runCirclePompForWhile();
+    }
 }
 
 void iDomTOOLS::button433mhzLockerPressed(RADIO_BUTTON *radioButton)

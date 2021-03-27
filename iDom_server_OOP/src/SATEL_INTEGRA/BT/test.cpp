@@ -137,6 +137,30 @@ void satelServer(){
                         else
                             std::cout << " nie wyslano" << std::endl;
                     }
+                    else if(c_buffer[2] == (char)INTEGRA_ENUM::ARM){
+                        std::cout << "uzbrojenie alarmu "  << (int)c_buffer[3] << " " << (int)c_buffer[4] << std::endl;
+                        std::string len;
+                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len.push_back(INTEGRA_ENUM::ARM);
+                        len.push_back(0x3);
+                        len.push_back(0x4);
+                        len.push_back(0x5);
+                        len.push_back(0x6);
+                        len.push_back('3');
+                        len.push_back('3');
+
+                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len.push_back(INTEGRA_ENUM::END);
+
+                        int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
+                        if( siz >= 0 )
+                        {
+                            std::cout << "wyslano "<< std::endl;
+                        }
+                        else
+                            std::cout << " nie wyslano" << std::endl;
+                    }
                     else if(c_buffer[2] == INTEGRA_ENUM::ARMED_PARTITIONS){
                         std::cout << "stan alarmu integry" << std::endl;
                         std::string len;
@@ -190,23 +214,11 @@ protected:
     void TearDown()
     {
         workStubSatel = false;
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
         std::cout << "satel_integra_fixture TearDown()" << std::endl;
     }
 
 };
-
-TEST_F(satel_integra_fixture, main)
-{
-    startSatelServer();
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    SATEL_INTEGRA testIntegra;
-    testIntegra.connectIntegra("127.0.0.1", 7094);
-    std::cout << testIntegra.getIntegraInfo();
-    testIntegra.checkIntegraOut();
-    EXPECT_FALSE(testIntegra.isAlarmArmed());
-    testIntegra.disconnectIntegra();
-
-}
 
 TEST_F(satel_integra_fixture, checkIntegraOut)
 {
@@ -222,4 +234,22 @@ TEST_F(satel_integra_fixture, checkIntegraOut)
     SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
     testIntegra.checkSatel();
     testIntegra.m_integra32.getIntegraInfo();
+    EXPECT_FALSE(testIntegra.m_integra32.isAlarmArmed());
+}
+
+
+TEST_F(satel_integra_fixture, main)
+{
+    startSatelServer();
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    struct CONFIG_JSON test_config;
+    test_config._satel_integra.host = "127.0.0.1";
+    test_config._satel_integra.port = 7094;
+    test_config._satel_integra.pin = "1234";
+    thread_data test_threadData;
+    test_threadData.server_settings = &test_config;
+
+    SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
+    testIntegra.checkSatel();
+    testIntegra.m_integra32.armAlarm();
 }

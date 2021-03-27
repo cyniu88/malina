@@ -1,6 +1,7 @@
 #include "satel_integra.h"
 
 #include <bitset>
+#include <sstream>
 
 SATEL_INTEGRA::SATEL_INTEGRA()
 {
@@ -100,6 +101,35 @@ bool SATEL_INTEGRA::isAlarmArmed()
     }
 
     return false;
+}
+
+void SATEL_INTEGRA::armAlarm()
+{
+    std::stringstream buffer1(m_pin.substr(0,2));
+    uint64_t value1;
+    buffer1 >> std::hex >> value1;
+
+    std::stringstream buffer2(m_pin.substr(2,2));
+    uint64_t value2;
+    buffer2 >> std::hex >> value2;
+
+    std::string msg;
+    msg.push_back(INTEGRA_ENUM::ARM);
+    msg.push_back(value1);
+    msg.push_back(value2);
+    sendIntegra(msg);
+
+    int recSize = recvIntegra();
+}
+
+void SATEL_INTEGRA::disarmAlarm()
+{
+    std::string msg;
+    msg.push_back(INTEGRA_ENUM::DISARM);
+
+    sendIntegra(msg);
+
+    int recSize = recvIntegra();
 }
 
 std::string SATEL_INTEGRA::dump() const

@@ -26,6 +26,8 @@ public:
     std::string getIntegraInfo();
     std::string checkIntegraOut();
     bool isAlarmArmed();
+    void armAlarm();
+    void disarmAlarm();
     std::string dump() const override;
     STATE connectionState();
 private:
