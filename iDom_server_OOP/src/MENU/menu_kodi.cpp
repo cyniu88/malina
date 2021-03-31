@@ -124,7 +124,7 @@ MENU_KODI::~MENU_KODI()
 
 void MENU_KODI::entry()
 {
-   // my_dataPTR->main_iDomTools->startKodi_Thread();
+    my_dataPTR->main_iDomTools->startKodi_Thread();
 }
 
 void MENU_KODI::exit()
@@ -158,6 +158,11 @@ void MENU_KODI::keyPadRight()
 }
 
 void MENU_KODI::keyPadRes()
+{
+    std::cout << "odebrano: " << sendCommandToKodi("Input.Back","") << std::endl;
+}
+
+void MENU_KODI::keyPadEpg()
 {
     std::cout << "odebrano: " << sendCommandToKodi("Input.Home","") << std::endl;
 }
