@@ -135,3 +135,35 @@ TEST_F(menu_state_machine_fixture, MENU_BUDERUS)
     main_key_menu_handler->recKeyEvent(KEY_PAD::UP);
     main_key_menu_handler->recKeyEvent(KEY_PAD::OK);
 }
+
+TEST_F(menu_state_machine_fixture, MENU_KODI)
+{
+    thread_data test_my_data;
+    test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
+    test_my_data.main_iDomStatus->addObject("music", STATE::STOP);
+    LCD_c lcd(0x27,16,2);
+    MENU_STATE_MACHINE stateMechine;
+    auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, &lcd, &stateMechine);
+    stateMechine.setStateMachine(std::move(ptr));
+    auto main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
+
+    auto res = stateMechine.currentState->getStateName();
+    EXPECT_THAT(res, ::testing::HasSubstr("MENU_ROOT"));
+
+    main_key_menu_handler->recKeyEvent(KEY_PAD::MENU);
+    res = stateMechine.currentState->getStateName();
+    EXPECT_THAT(res, ::testing::HasSubstr("MENU_MAIN"));
+    main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
+    main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
+    main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
+ //   main_key_menu_handler->recKeyEvent(KEY_PAD::OK);
+
+    // kodi menu
+
+    main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
+    main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
+    main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
+    main_key_menu_handler->recKeyEvent(KEY_PAD::OK);
+
+    main_key_menu_handler->recKeyEvent(KEY_PAD::POWER);
+}
