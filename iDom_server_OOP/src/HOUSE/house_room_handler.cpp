@@ -139,7 +139,7 @@ nlohmann::json house_room_handler::getAllInfoJSON()
         roomJJ["sunrise"] = stateToString(a.second->m_onSunrise);
         roomJJ["satelAlarm"] = stateToString(a.second->m_satelAlarm);
         roomJJ["howLong"] = a.second->m_satelAlarmHowLong;
-        roomJJ["satelSensorAlarmUnixTime"] = a.second->getSatelSensorAlarmUnixTime();
+        roomJJ["satelSensorAlarmUnixTime"] = Clock::unixTimeToString(a.second->getSatelSensorAlarmUnixTime());
         jj.push_back(roomJJ);
     }
     return jj;
@@ -168,7 +168,7 @@ nlohmann::json house_room_handler::getInfoJSON_allON()
             roomJJ["unlock"] = stateToString(a.second->m_onUnlock);
             roomJJ["sunset"] = stateToString(a.second->m_onSunset);
             roomJJ["sunrise"] = stateToString(a.second->m_onSunrise);
-            roomJJ["satelSensorAlarmUnixTime"] = a.second->getSatelSensorAlarmUnixTime();
+            roomJJ["satelSensorAlarmUnixTime"] = Clock::unixTimeToString(a.second->getSatelSensorAlarmUnixTime());
             jj.push_back(roomJJ);
         }
     }

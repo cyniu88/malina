@@ -143,7 +143,7 @@ void MENU_KODI::keyPadRes()
 
 void MENU_KODI::keyPadEpg()
 {
-    std::cout << "odebrano: " << sendCommandToKodi("Input.Home","") << std::endl;
+    sendCommandToKodi("Player.Stop", "");
 }
 
 void MENU_KODI::keyPadPower()
@@ -153,7 +153,7 @@ void MENU_KODI::keyPadPower()
 
 void MENU_KODI::keyPadMenu()
 {
-    sendCommandToKodi("Player.Stop", "");
+    std::cout << "odebrano: " << sendCommandToKodi("Input.Home","") << std::endl;
 }
 
 std::string MENU_KODI::getStateName()

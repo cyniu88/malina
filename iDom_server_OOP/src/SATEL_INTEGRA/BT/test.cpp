@@ -190,6 +190,7 @@ void satelServer(){
 
 
     } // while
+    std::cout <<  "zmakykamy stub serwera integra" << std::endl;
     close(v_socket);
 }
 
@@ -237,7 +238,6 @@ TEST_F(satel_integra_fixture, checkIntegraOut)
     EXPECT_FALSE(testIntegra.m_integra32.isAlarmArmed());
 }
 
-
 TEST_F(satel_integra_fixture, main)
 {
     startSatelServer();
@@ -250,6 +250,12 @@ TEST_F(satel_integra_fixture, main)
     test_threadData.server_settings = &test_config;
 
     SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
+    testIntegra.checkSatel();
+    testIntegra.m_integra32.armAlarm();
+
+    workStubSatel = false;
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     testIntegra.checkSatel();
     testIntegra.m_integra32.armAlarm();
 }
