@@ -25,6 +25,7 @@ public:
     void keyPadRes();
     void keyPadEpg();
     void keyPadPower();
+    void keyPadMenu();
     std::string getStateName();
     void timeout(std::function<void()> function = std::nullptr_t());
 };
