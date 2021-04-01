@@ -22,6 +22,9 @@ void SATEL_INTEGRA::setIntegraPin(const std::string & pin)
 
 void SATEL_INTEGRA::connectIntegra(const std::string &host, const int port)
 {
+    m_host = host;
+    m_port = port;
+
     m_sock = socket(AF_INET , SOCK_STREAM , 0);
     if (m_sock == -1)
         puts("Nie można stworzyć połączenia socket");
@@ -136,6 +139,8 @@ std::string SATEL_INTEGRA::dump() const
 {
     std::stringstream ss;
     ss << "m_message " << m_message << std::endl;
+    ss << "m_host " << m_host << std::endl;
+    ss << "m_port" << m_port << std::endl;
     return ss.str();
 }
 
@@ -173,14 +178,24 @@ int SATEL_INTEGRA::sendIntegra(const std::string &msg)
     // end message
     message.push_back(INTEGRA_ENUM::HEADER_MSG);
     message.push_back(INTEGRA_ENUM::END);
-    return send(m_sock, message.c_str(), message.length(), 0 );
+
+    int state = send(m_sock, message.c_str(), message.length(), 0 );
+    std::cout << "sended state " << state << std::endl;
+    return state;
 }
 
 int SATEL_INTEGRA::recvIntegra()
 {
+    struct timeval tv;
+    tv.tv_sec = 10;
+    tv.tv_usec = 0;
+    setsockopt(m_sock, SOL_SOCKET, SO_RCVTIMEO,(char*)&tv , sizeof(struct timeval));
+
     int size = recv(m_sock, m_message, 2000, 0);
-    if (size < 0) //rozmiar odp
+    if (size < 0) {
         puts("Nie udało się pobrać odpowiedzi z serwera");
+        connectIntegra(m_host,  m_port);
+    }
     if (m_message[0] != INTEGRA_ENUM::HEADER_MSG
             || m_message[1] != INTEGRA_ENUM::HEADER_MSG
             || m_message[size-1] != INTEGRA_ENUM::END

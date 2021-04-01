@@ -17,6 +17,8 @@ class SATEL_INTEGRA : public iDom_API
     unsigned char m_message[2000];
     std::string m_pin;
     STATE m_connectState = STATE::DISCONNECTED;
+    std::string m_host;
+    int m_port;
 public:
     SATEL_INTEGRA();
     ~ SATEL_INTEGRA();

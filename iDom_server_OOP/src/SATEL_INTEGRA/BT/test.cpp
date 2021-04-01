@@ -190,7 +190,7 @@ void satelServer(){
 
 
     } // while
-    std::cout <<  "zmakykamy stub serwera integra" << std::endl;
+    std::cout <<  "zamykamy stub serwera integra" << std::endl;
     close(v_socket);
 }
 
@@ -258,4 +258,9 @@ TEST_F(satel_integra_fixture, main)
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     testIntegra.checkSatel();
     testIntegra.m_integra32.armAlarm();
+
+    startSatelServer();
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    testIntegra.checkSatel();
+
 }
