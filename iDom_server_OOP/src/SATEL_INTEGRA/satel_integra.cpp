@@ -180,7 +180,6 @@ int SATEL_INTEGRA::sendIntegra(const std::string &msg)
     message.push_back(INTEGRA_ENUM::END);
 
     int state = send(m_sock, message.c_str(), message.length(), 0 );
-    std::cout << "sended state " << state << std::endl;
     return state;
 }
 
