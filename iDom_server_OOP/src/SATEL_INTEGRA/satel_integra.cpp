@@ -3,7 +3,7 @@
 #include <bitset>
 #include <sstream>
 
-SATEL_INTEGRA::SATEL_INTEGRA()
+SATEL_INTEGRA::SATEL_INTEGRA(const std::string & host , int port): m_host(host), m_port(port)
 {
     m_className.append(typeid (this).name());
     iDom_API::addToMap(m_className,this);
@@ -194,6 +194,7 @@ int SATEL_INTEGRA::recvIntegra()
     if (size < 0) {
         puts("Nie udało się pobrać odpowiedzi z serwera");
         connectIntegra(m_host,  m_port);
+        return 0;
     }
     if (m_message[0] != INTEGRA_ENUM::HEADER_MSG
             || m_message[1] != INTEGRA_ENUM::HEADER_MSG

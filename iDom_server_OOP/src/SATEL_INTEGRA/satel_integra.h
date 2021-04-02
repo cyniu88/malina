@@ -20,7 +20,7 @@ class SATEL_INTEGRA : public iDom_API
     std::string m_host;
     int m_port;
 public:
-    SATEL_INTEGRA();
+    SATEL_INTEGRA(const std::string &host, int port);
     ~ SATEL_INTEGRA();
     void setIntegraPin(const std::string& pin);
     void connectIntegra(const std::string& host, const int port);
