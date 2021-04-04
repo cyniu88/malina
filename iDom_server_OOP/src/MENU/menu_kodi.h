@@ -15,19 +15,19 @@ public:
     MENU_KODI &operator=(const MENU_KODI &base);
     MENU_KODI &operator=(MENU_KODI &&base);
     ~MENU_KODI();
-    void entry();
-    void exit();
-    void keyPadOk();
-    void keyPadUp();
-    void keyPadDown();
-    void keyPadLeft();
-    void keyPadRight();
-    void keyPadRes();
-    void keyPadEpg();
-    void keyPadPower();
-    void keyPadMenu();
-    std::string getStateName();
-    void timeout(std::function<void()> function = std::nullptr_t());
+    void entry() override;
+    void exit() override;
+    void keyPadOk() override;
+    void keyPadUp() override;
+    void keyPadDown() override;
+    void keyPadLeft() override;
+    void keyPadRight() override;
+    void keyPadRes() override;
+    void keyPadEpg() override;
+    void keyPadPower() override;
+    void keyPadMenu() override;
+    std::string getStateName() override;
+    void timeout(std::function<void()> function = std::nullptr_t()) override;
 };
 
 #endif // MENU_KODI_H

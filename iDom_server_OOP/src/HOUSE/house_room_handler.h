@@ -43,7 +43,7 @@ public:
     nlohmann::json getAllInfoJSON();
     nlohmann::json getInfoJSON_allON();
 
-    void executeCommandFromMQTT(std::string& msg);
+    void executeCommandFromMQTT(const std::string &msg);
 
     void onLock();
     void onUnlock();

@@ -12,14 +12,14 @@ public:
     MENU_MUSIC &operator=(const MENU_MUSIC &base);
     MENU_MUSIC &operator=(MENU_MUSIC &&base);
     ~MENU_MUSIC();
-    void entry();
-    void exit();
-    void keyPadPower();
-    void keyPadUp();
-    void keyPadDown();
-    void keyPadLeft();
-    void keyPadRight();
-    std::string getStateName();
+    void entry() override;
+    void exit() override;
+    void keyPadPower() override;
+    void keyPadUp() override;
+    void keyPadDown() override;
+    void keyPadLeft() override;
+    void keyPadRight() override;
+    std::string getStateName() override;
 };
 
 #endif // MENU_MUSIC_H

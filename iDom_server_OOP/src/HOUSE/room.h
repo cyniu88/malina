@@ -13,7 +13,7 @@ public:
     std::map<int, std::shared_ptr<light_bulb>> m_lightingBulbMap;
     STATE m_state = STATE::UNDEFINE;
 
-    ROOM(int satelSensorID, std::string name, std::map<int, std::shared_ptr<light_bulb>> lightingBulbMap );
+    ROOM(int satelSensorID, const std::string &name, const std::map<int, std::shared_ptr<light_bulb>> & lightingBulbMap );
 
     void satelSensorActive();
 };

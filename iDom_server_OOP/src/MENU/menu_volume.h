@@ -11,9 +11,9 @@ public:
     MENU_VOLUME &operator=(const MENU_VOLUME &base);
     MENU_VOLUME &operator=(MENU_VOLUME &&base);
     ~MENU_VOLUME();
-    void entry();
-    void exit();
-    std::string getStateName();
+    void entry() override;
+    void exit() override;
+    std::string getStateName() override;
 };
 
 #endif // MENU_VOLUME_H

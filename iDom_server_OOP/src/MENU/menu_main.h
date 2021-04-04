@@ -16,13 +16,13 @@ public:
     MENU_MAIN &operator= (const MENU_MAIN & base);
     MENU_MAIN &operator= (MENU_MAIN &&base);
     ~MENU_MAIN();
-    void entry();
-    void exit();
-    std::string getStateName();
-    void keyPadOk();
-    void keyPadRes();
-    void keyPadUp();
-    void keyPadDown();
+    void entry() override;
+    void exit() override;
+    std::string getStateName() override;
+    void keyPadOk() override;
+    void keyPadRes() override;
+    void keyPadUp() override;
+    void keyPadDown() override;
 };
 
 #endif // MENU_MAIN_H

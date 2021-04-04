@@ -13,13 +13,13 @@ public:
     MENU_BUDERUS &operator=(const MENU_BUDERUS &base);
     MENU_BUDERUS &operator=(MENU_BUDERUS &&base);
     ~MENU_BUDERUS();
-    void entry();
-    void exit();
-    void keyPadOk();
-    void keyPadUp();
-    void keyPadDown();
-    void keyPadRes();
-    std::string getStateName();
+    void entry() override;
+    void exit() override;
+    void keyPadOk() override;
+    void keyPadUp() override;
+    void keyPadDown() override;
+    void keyPadRes() override;
+    std::string getStateName() override;
 };
 
 #endif // MENU_BUDERUS_H

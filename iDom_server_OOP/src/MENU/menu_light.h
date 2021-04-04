@@ -20,16 +20,16 @@ public:
     MENU_LIGHT &operator= (const MENU_LIGHT& base);
     MENU_LIGHT &operator= (MENU_LIGHT &&base);
     ~MENU_LIGHT();
-    void entry();
-    void exit();
-    std::string getStateName();
-    void keyPadRes();
-    void keyPadUp();
-    void keyPadDown();
-    void keyPadLeft();
-    void keyPadRight();
-    void keyPadOk();
-    void keyPadPower();
+    void entry() override;
+    void exit() override;
+    std::string getStateName() override;
+    void keyPadRes() override;
+    void keyPadUp() override;
+    void keyPadDown() override;
+    void keyPadLeft() override;
+    void keyPadRight() override;
+    void keyPadOk() override;
+    void keyPadPower() override;
 };
 
 #endif // MENU_LIGHT_H

@@ -175,7 +175,7 @@ nlohmann::json house_room_handler::getInfoJSON_allON()
     return jj;
 }
 
-void house_room_handler::executeCommandFromMQTT(std::string &msg)
+void house_room_handler::executeCommandFromMQTT(const std::string &msg)
 {
     try {
         auto vv = useful_F::split(msg,';');
