@@ -30,7 +30,7 @@ std::string MENU_KODI::sendCommandToKodi(const std::string &command, const std::
 
     std::string address = kodiHost;
 
-    CURLcode ret;
+   // CURLcode ret;
     CURL *hnd;
     struct curl_slist *slist1;
     std::string jsonstr = data;
@@ -50,7 +50,7 @@ std::string MENU_KODI::sendCommandToKodi(const std::string &command, const std::
     curl_easy_setopt(hnd, CURLOPT_PORT, 8080);
     //curl_easy_setopt(hnd, CURLOPT_WRITEDATA, &readBuffer);
 
-    ret = curl_easy_perform(hnd);
+    curl_easy_perform(hnd);
 
     curl_easy_cleanup(hnd);
     hnd = NULL;

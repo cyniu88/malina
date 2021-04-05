@@ -91,7 +91,7 @@ bool SATEL_INTEGRA::isAlarmArmed()
 
     sendIntegra(msg);
 
-    int recSize = recvIntegra();
+    (void) recvIntegra();
 
     if(m_message[2] != INTEGRA_ENUM::ARMED_PARTITIONS){
         std::cout << "zła odpowedz servera" << std::endl;
@@ -122,7 +122,7 @@ void SATEL_INTEGRA::armAlarm()
     msg.push_back(value2);
     sendIntegra(msg);
 
-    int recSize = recvIntegra();
+    (void) recvIntegra();
 }
 
 void SATEL_INTEGRA::disarmAlarm()
@@ -132,7 +132,7 @@ void SATEL_INTEGRA::disarmAlarm()
 
     sendIntegra(msg);
 
-    int recSize = recvIntegra();
+    (void) recvIntegra();
 }
 
 std::string SATEL_INTEGRA::dump() const
