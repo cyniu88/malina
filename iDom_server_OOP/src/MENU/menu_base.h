@@ -114,7 +114,7 @@ protected:
     MENU_STATE_MACHINE* stateMachinePtr;
     std::mutex lock;
 public:
-    KEY_HANDLER(MENU_STATE_MACHINE* msm);
+    explicit KEY_HANDLER(MENU_STATE_MACHINE* msm);
     ~KEY_HANDLER() = default;
     void recKeyEvent(KEY_PAD eventId);
     void recIrdaEvent(PILOT_KEY eventId);

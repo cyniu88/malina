@@ -72,7 +72,7 @@ std::string SATEL_INTEGRA::checkIntegraOut()
 
     sendIntegra(msg);
 
-    int recSize = recvIntegra();
+    (void) recvIntegra();
     if(m_message[2] != INTEGRA_ENUM::OUTPUTS_STATE){
         std::cout << "zła ramka" << std::endl;
     }

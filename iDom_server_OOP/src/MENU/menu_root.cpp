@@ -2,15 +2,19 @@
 #include "menu_main.h"
 #include "menu_music.h"
 
-MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED): MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
+MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED):
+    MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED),
+    tempCounter(0)
 {
 }
 
-MENU_ROOT::MENU_ROOT(const MENU_ROOT &base): MENU_STATE_BASE(base)
+MENU_ROOT::MENU_ROOT(const MENU_ROOT &base): MENU_STATE_BASE(base),
+    tempCounter(base.tempCounter)
 {
 }
 
-MENU_ROOT::MENU_ROOT(MENU_ROOT &&base):MENU_STATE_BASE(std::move(base))
+MENU_ROOT::MENU_ROOT(MENU_ROOT &&base):MENU_STATE_BASE(std::move(base)),
+    tempCounter(base.tempCounter)
 {
 }
 
@@ -20,6 +24,7 @@ MENU_ROOT &MENU_ROOT::operator=(const MENU_ROOT &base)
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
+        tempCounter = base.tempCounter;
     }
     return * this;
 }
@@ -34,6 +39,7 @@ MENU_ROOT &MENU_ROOT::operator=(MENU_ROOT &&base)
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
+        tempCounter = base.tempCounter;
     }
     return * this;
 }
