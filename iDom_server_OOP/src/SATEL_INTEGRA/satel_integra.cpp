@@ -179,7 +179,7 @@ int SATEL_INTEGRA::sendIntegra(const std::string &msg)
     message.push_back(INTEGRA_ENUM::HEADER_MSG);
     message.push_back(INTEGRA_ENUM::END);
 
-    int state = send(m_sock, message.c_str(), message.length(), 0 );
+    int state = send(m_sock, message.c_str(), message.length(), MSG_NOSIGNAL);
     return state;
 }
 
