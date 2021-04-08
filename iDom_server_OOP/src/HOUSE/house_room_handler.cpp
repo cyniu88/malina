@@ -183,6 +183,11 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
         // DingDong  dzownek
         if(bulbID == 888){
             my_data->main_iDomTools->doorbellDingDong();
+            my_data->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
+                                                       "https://c8.alamy.com/comp/2C2EMMC/hand-push-the-bell-button-at-the-front-door-finger-presses-the-doorbell-switch-person-rings-in-the-apartment-flat-vector-illustration-2C2EMMC.jpg",
+                                                       my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                       my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
+
         }
         if(vv.at(0) == "state"){
             if(m_lightingBulbMap.find(bulbID) == m_lightingBulbMap.end()){

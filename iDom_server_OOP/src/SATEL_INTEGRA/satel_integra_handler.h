@@ -9,7 +9,7 @@ class SATEL_INTEGRA_HANDLER
     thread_data *my_data;
 public:
     SATEL_INTEGRA m_integra32;
-    SATEL_INTEGRA_HANDLER(thread_data* myData);
+    explicit SATEL_INTEGRA_HANDLER(thread_data* myData);
     ~SATEL_INTEGRA_HANDLER();
 
     void checkSatel();
