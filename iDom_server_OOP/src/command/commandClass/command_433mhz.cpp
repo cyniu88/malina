@@ -31,9 +31,9 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
         else if (v[1] == "add" && v.size() > 3) //zmień tu
         {
             RADIO_EQ_CONFIG cfg;
-           /* if(v[2] == "SWITCH" && v.size() == 12)
+           if(v[2] == "SWITCH" && v.size() == 12)
                 cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9],v[10],v[11]); // zmień tu
-            else*/ if(v[2] == "BUTTON" && v.size() >= 6)
+            else if(v[2] == "BUTTON" && v.size() >= 6)
                 cfg.set(v[2],v[3],v[4],v[5],v[6]); // zmień tu
             else if(v[2] == "WEATHER" && v.size() >= 4)
                 cfg.set(v[2],v[3],v[4]); // zmień tu
@@ -88,7 +88,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             str_buf = my_data->main_REC->showConfig(my_data->server_settings->_server.radio433MHzConfigFile);
         }
         else if (v[1] == "send"){
-            str_buf = "sended!;";
+            str_buf = "sended! counter " + std::to_string(++counter);
             my_data->main_RFLink->sendCommand(v[2]);
 
         }

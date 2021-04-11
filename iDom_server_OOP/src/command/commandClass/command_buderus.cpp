@@ -14,13 +14,13 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
     if(v.at(1) == "heating_active")
     {
         my_data->ptr_buderus->setHeating(v.at(2) == "1");
-        return "done";
+        return "done; counter " + std::to_string(++counter);
     }
 
     else if(v.at(1) == "tapwater_active")
     {
         my_data->ptr_buderus->setTapWater(v.at(2) == "1");
-        return "done";
+        return "done; counter " + std::to_string(++counter);
     }
 
     else if(v.at(1) == "boiler_data")
@@ -33,7 +33,7 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
             my_data->iDomAlarm.raiseAlarm(879,"buderus boile_data - wrong JSON format!");
         }
 
-        return "done";
+        return "done; counter " + std::to_string(++counter);
     }
 
     else if(v.at(1) == "thermostat_data")
@@ -45,7 +45,7 @@ std::string command_buderus::execute(std::vector<std::string> &v, thread_data *m
             my_data->iDomAlarm.raiseAlarm(878,"buderus thermostat_data - wrong JSON format!");
         }
 
-        return "done";
+        return "done; counter " + std::to_string(++counter);
     }
 
     else if(v.at(1) == "print")
