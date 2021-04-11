@@ -28,24 +28,8 @@
         String value;
         unsigned long timeoutMillis = 0;
         int timeoutTime = 0;
-        
-        #define doorBellPin 12
-        
-        bool doorBellState = false;
-        #define DBC 690;
-        int doorBellCounter = DBC;
-        
-        void checkDoorBell(){
-         if(doorBellState == true && doorBellCounter == 0 ){
-          doorBellState = false;
-          digitalWrite(doorBellPin, HIGH);
-          doorBellCounter = DBC;
-         } 
-         else if(doorBellState == true) {
-          doorBellCounter--;
-         }
-        }
-        
+
+                
         void setup() {
           Serial.begin(9600);
           apiNbox.setup(clk, stb, dg);
@@ -57,13 +41,9 @@
           apiNbox.setClockLed(false);
           apiNbox.setAtLed(false);
           apiNbox.ledBrightness(ON, 100);
-          pinMode(doorBellPin, OUTPUT);
-          digitalWrite(doorBellPin, HIGH);
         }
         // the loop routine runs over and over again forever:
-        void loop() {
-          checkDoorBell();
-          
+        void loop() {          
           apiNbox.notifyWhenButtonChange();
           
           if (IrReceiver.decode()) {
@@ -76,13 +56,6 @@
           {
             command = Serial.readStringUntil(':');
             value = Serial.readStringUntil(';');
-          }
-          if (command == "DOORBELL")
-          {
-            digitalWrite(doorBellPin, LOW);
-            doorBellState = true;
-            command = "z";
-            //value = 0;
           }
           if (command == "CLOCK")
           {
