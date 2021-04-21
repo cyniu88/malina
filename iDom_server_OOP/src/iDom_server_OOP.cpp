@@ -100,7 +100,7 @@ void f_satelIntegra32(thread_data *my_data, const std::string& threadName){
 
 iDomStateEnum iDom_main()
 {
-    iDomStateEnum iDomStateProgram = iDomStateEnum::CLOSE;
+    iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
     useful_F::go_while = true;
     std::ofstream pidFile;
     pidFile.open("/mnt/ramdisk/pid-iDom.txt");

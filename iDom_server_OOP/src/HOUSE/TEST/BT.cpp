@@ -46,14 +46,14 @@ TEST_F(house_fixture, all_on_all_off_in_room)
     std::string ret = testLightingHandler->getAllInfoJSON().dump(4);
     EXPECT_THAT(ret, testing::HasSubstr(R"(STATUS": "UNDEFINE")"));
 
-    testLightingHandler->turnOnAllInRoom("lazienka");
+    testLightingHandler->turnOnAllInRoom("pokoj dzieci");
 
-    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[126]->getStatus() , STATE::ON);
-    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[127]->getStatus() , STATE::ON);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[226]->getStatus() , STATE::ON);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[227]->getStatus() , STATE::ON);
     ret = testLightingHandler->getAllInfoJSON().dump(4);
     EXPECT_THAT(ret, testing::HasSubstr(R"(STATUS": "ON")"));
 
-    testLightingHandler->turnOffAllInRoom("lazienka");
+    testLightingHandler->turnOffAllInRoom("pokoj dzieci");
 
     ret = testLightingHandler->getAllInfoJSON().dump(4);
     EXPECT_THAT(ret, testing::HasSubstr(R"(STATUS": "OFF")"));

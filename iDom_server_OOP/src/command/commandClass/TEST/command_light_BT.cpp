@@ -122,9 +122,9 @@ TEST_F(command_light_Class_fixture, on_off_bulb_command)
 
 TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
 {
-    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(226)->getStatus(),
               STATE::UNDEFINE);
-    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(127)->getStatus(),
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(227)->getStatus(),
               STATE::UNDEFINE);
     test_v.clear();
     test_v.push_back("light");

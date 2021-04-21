@@ -13,7 +13,7 @@ protected:
     int v_socket;
     CONFIG_JSON testCS;
     CAMERA_CFG testCamera;
-    const char * ipAddress = "127.0.0.1";
+    const char *ipAddress = "127.0.0.1";
 
     void SetUp()
     {
@@ -47,7 +47,6 @@ protected:
     }
 public:
     void start_iDomServer();
-    void iDomServerStub();
     void crypto(std::string & toEncrypt, std::string &key, bool encrypted);
 
     std::unique_ptr<TASKER> bit_Tasker;
@@ -118,10 +117,10 @@ std::string bit_fixture::send_receive(int socket, std::string msg, std::string k
 TEST_F(bit_fixture, socket_heandle_command){
     start_iDomServer();
     struct sockaddr_in serwer =
-        {
-            .sin_family = AF_INET,
-            .sin_port = htons( 8833 )
-        };
+    {
+        .sin_family = AF_INET,
+                .sin_port = htons( 8833 )
+    };
 
     inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
     const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
@@ -140,7 +139,7 @@ TEST_F(bit_fixture, socket_heandle_command){
     std::cout << "odebrano4: " << toCheck << std::endl;
     std::cout << "odebrano5: " << send_receive(s, "help",key) << std::endl;
 
-    toCheck = send_receive(s, "exit",key);
+    toCheck = send_receive(s, "exit", key);
 
     std::cout << "odebrano8: " << toCheck << std::endl;
     EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "END"));
@@ -161,10 +160,10 @@ TEST_F(bit_fixture, socket_close_server_command){
     start_iDomServer();
 
     struct sockaddr_in serwer =
-        {
-            .sin_family = AF_INET,
-            .sin_port = htons( 8833 )
-        };
+    {
+        .sin_family = AF_INET,
+                .sin_port = htons( 8833 )
+    };
 
     inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
 
@@ -200,10 +199,10 @@ TEST_F(bit_fixture, socket_wrong_key_after_while){
     start_iDomServer();
 
     struct sockaddr_in serwer =
-        {
-            .sin_family = AF_INET,
-            .sin_port = htons( 8833 )
-        };
+    {
+        .sin_family = AF_INET,
+                .sin_port = htons( 8833 )
+    };
 
     inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
 
@@ -241,10 +240,10 @@ TEST_F(bit_fixture, socket_no_space_left_on_server){
     start_iDomServer();
 
     struct sockaddr_in serwer =
-        {
-            .sin_family = AF_INET,
-            .sin_port = htons( 8833 )
-        };
+    {
+        .sin_family = AF_INET,
+                .sin_port = htons( 8833 )
+    };
 
     inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
 
@@ -293,10 +292,10 @@ TEST_F(bit_fixture, socket_send_key_fast_disconnect){
     start_iDomServer();
 
     struct sockaddr_in serwer =
-        {
-            .sin_family = AF_INET,
-            .sin_port = htons( 8833 )
-        };
+    {
+        .sin_family = AF_INET,
+                .sin_port = htons( 8833 )
+    };
 
     inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
 
@@ -324,10 +323,10 @@ TEST_F(bit_fixture, socket_connection_wrong_key_fast_disconnect){
     start_iDomServer();
 
     struct sockaddr_in serwer =
-        {
-            .sin_family = AF_INET,
-            .sin_port = htons( 8833 )
-        };
+    {
+        .sin_family = AF_INET,
+                .sin_port = htons( 8833 )
+    };
 
     inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
 
@@ -353,10 +352,10 @@ TEST_F(bit_fixture, socket_connection_wrong_key){
     start_iDomServer();
 
     struct sockaddr_in serwer =
-        {
-            .sin_family = AF_INET,
-            .sin_port = htons( 8833 )
-        };
+    {
+        .sin_family = AF_INET,
+                .sin_port = htons( 8833 )
+    };
 
     inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
 

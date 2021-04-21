@@ -24,7 +24,7 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
             my_data->main_house_room_handler->turnOffBulb(bulbID);
         }
 
-        return "done";
+        return "done " + std::to_string(++counter);
     }
     else if(v.at(1) == "room"){
         if(v.at(3) == "on"){
@@ -33,8 +33,10 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
         else if(v.at(3) == "off"){
             my_data->main_house_room_handler->turnOffAllInRoom(v.at(2));
         }
+        //TODO dodac rozpoznawanie nazwy pokoju  z wiecej niz jednym wyrazme
 
-        return "done";
+
+        return "done " + std::to_string(++counter);
     }
     else if(v.at(1) == "all"){
         if(v.at(2) == "on"){
@@ -44,7 +46,7 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
             my_data->main_house_room_handler->turnOffAllBulb();
         }
 
-        return "done";
+        return "done " + std::to_string(++counter);
     }
     else{
         str_buf.erase();
