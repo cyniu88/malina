@@ -40,6 +40,7 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
                 useful_F::myStaticData->main_iDomTools->sendViberMsg("uruchamiam pompe obiegową CWU",
                                                                      useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
                                                                      useful_F::myStaticData->server_settings->_fb_viber.viberSender + "BUDERUS");
+                useful_F::myStaticData->main_Rs232->print("LED_ALARM:1");
                 m_circlePump = STATE::ON;
             }
         }
@@ -48,6 +49,7 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
                 useful_F::myStaticData->main_iDomTools->sendViberMsg("zakończono precę pompy obiegowej CWU",
                                                                      useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
                                                                      useful_F::myStaticData->server_settings->_fb_viber.viberSender + "BUDERUS");
+                useful_F::myStaticData->main_Rs232->print("LED_ALARM:1");
                 m_circlePump = STATE::OFF;
             }
         }
