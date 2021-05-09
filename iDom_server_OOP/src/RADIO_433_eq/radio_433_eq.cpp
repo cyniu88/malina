@@ -350,6 +350,7 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
                 cfg.offCode = buttonJson_tmp.at("OFF").get<std::string>();
                 cfg.onCode = buttonJson_tmp.at("ON").get<std::string>();
                 cfg.type   = buttonJson_tmp.at("type").get<std::string>();
+                cfg.commandRun = buttonJson_tmp.at("commandRun").get<std::string>();
                 addRadioEq(cfg,RADIO_EQ_TYPE::BUTTON);
             }
         }

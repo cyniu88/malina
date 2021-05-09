@@ -80,6 +80,7 @@ struct RADIO_EQ_CONFIG{
     std::string sunset  = "NULL";
     std::string lock   = "NULL";
     std::string unlock = "NULL";
+    std::string commandRun = "NULL";
     void set(const std::string& type,
              const std::string& name,
              const std::string& ID,
@@ -89,7 +90,8 @@ struct RADIO_EQ_CONFIG{
              const std::string& sunrise = "null",
              const std::string& sunset = "null",
              const std::string& lock = "null",
-             const std::string& unlock = "null"){
+             const std::string& unlock = "null",
+             const std::string& commandRun = "null"){
         this->name = name;
         this->ID   = ID;
         this->type = type;
@@ -100,6 +102,7 @@ struct RADIO_EQ_CONFIG{
         this->sunset  = sunset;
         this->lock   = lock;
         this->unlock = unlock;
+        this->commandRun = commandRun;
     }
 
     nlohmann::json getJson(){
@@ -158,6 +161,7 @@ public:
     void setState(STATE s);
     std::string getName() override;
     std::string getID() override;
+    std::string commandRun = "null";
 private:
     RADIO_BUTTON();
 };

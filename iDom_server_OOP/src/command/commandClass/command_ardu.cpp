@@ -77,5 +77,4 @@ void command_ardu::pingAndOkRecv(thread_data *my_data, const std::string& s)
         my_data->main_RFLink->m_okTime = Clock::getUnixTime();
     else if (s.find("PONG;") != std::string::npos)
         my_data->main_RFLink->m_pingTime = Clock::getUnixTime();
-
 }
