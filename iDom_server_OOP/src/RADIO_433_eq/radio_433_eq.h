@@ -103,6 +103,7 @@ struct RADIO_EQ_CONFIG{
         this->lock   = lock;
         this->unlock = unlock;
         this->commandRun = commandRun;
+        // add to getJson below
     }
 
     nlohmann::json getJson(){
@@ -117,6 +118,7 @@ struct RADIO_EQ_CONFIG{
         jj["sunset"]  = sunset;
         jj["lock"]   = lock;
         jj["unlock"] = unlock;
+        jj["commandRun"] = commandRun;
         return jj;
     }
 };
