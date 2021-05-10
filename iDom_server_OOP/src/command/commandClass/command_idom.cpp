@@ -174,6 +174,17 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1] == "health") {
         return my_data->iDomAlarm.showAlarm();
     }
+    else if (v[1] == "doorbell") {
+        my_data->main_iDomTools->sendViberPicture("DZWONEK do bramy!",
+                         "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
+                         my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                         my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "Dzwonek do bramy"<< std::endl;
+        log_file_mutex.mutex_unlock();
+        //TODO add doorbell actions if needed
+        return "done " + std::to_string(counter);
+    }
     else if (v[1] == "alarm"){
 
         if (v.size() < 3){
@@ -279,5 +290,6 @@ std::string command_iDom::help() const
     help << "iDom key add ?tmp? <name> <size> - add new access key" << std::endl;
     help << "iDom key remove <key name> - remove access key" << std::endl;
     help << "iDom link < - generate temporaty link for action" << std::endl;
+    help << "iDom doorbell - on doorbell" << std::endl;
     return help.str();
 }

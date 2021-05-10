@@ -7,8 +7,8 @@ command_ardu::command_ardu(const std::string &name):command(name)
 }
 
 command_ardu::command_ardu(const std::string& name,
-                           thread_data *my_data):command(name)
-    ,m_button433MHzVector(my_data->main_REC->getButtonPointerVector()),
+                           thread_data *my_data):command(name),
+    m_button433MHzVector(my_data->main_REC->getButtonPointerVector()),
     m_mainRadioButton( std::nullptr_t()),
     m_weatherStVe(my_data->main_REC->getWeather_StationPtrVector())
 {
@@ -49,7 +49,9 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
                 {
                     if (k->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
                     {
-                        my_data->main_iDomTools->button433MHzPressedAction(k->getName());
+                     // TODO   my_data->main_iDomTools->button433MHzPressedAction(k->getName());
+                        puts("DUPA!!!");
+                        my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/command", k->commandRun );
                     }
                 }
             }
