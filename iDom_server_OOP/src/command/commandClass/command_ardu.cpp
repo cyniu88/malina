@@ -49,7 +49,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
                 {
                     if (k->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
                     {
-                        my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/command", k->getCommandRun() );
+                        my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicSubscribe + "/command", k->getCommandRun() );
                     }
                 }
             }
