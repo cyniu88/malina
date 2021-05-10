@@ -8,6 +8,7 @@
 #include "commandClass/command_wifi.h"
 #include "commandClass/command_buderus.h"
 #include "commandClass/command_light.h"
+#include "commandClass/command_idom.h"
 
 CommandHandlerMQTT::CommandHandlerMQTT()
 {
@@ -34,6 +35,9 @@ CommandHandlerMQTT::CommandHandlerMQTT()
 
     std::unique_ptr <command> light (new command_light("light"));
     commandMap.insert(std::make_pair(light->getCommandName(), std::move(light)));
+
+    std::unique_ptr <command> idom (new command_iDom("iDom"));
+    commandMap.insert(std::make_pair(idom->getCommandName(), std::move(idom)));
 }
 
 std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_data *my_data)
