@@ -53,3 +53,8 @@ std::string RADIO_BUTTON::getID()
 {
     return RADIO_EQ::m_config.ID;
 }
+
+std::string RADIO_BUTTON::getCommandRun()
+{
+    return RADIO_EQ::m_config.commandRun;
+}

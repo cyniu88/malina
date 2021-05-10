@@ -49,9 +49,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_data *my_d
                 {
                     if (k->getID() == my_data->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
                     {
-                     // TODO   my_data->main_iDomTools->button433MHzPressedAction(k->getName());
-                        puts("DUPA!!!");
-                        my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/command", k->commandRun );
+                        my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/command", k->getCommandRun() );
                     }
                 }
             }

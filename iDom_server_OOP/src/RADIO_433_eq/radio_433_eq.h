@@ -163,7 +163,7 @@ public:
     void setState(STATE s);
     std::string getName() override;
     std::string getID() override;
-    std::string commandRun = "null";
+    std::string getCommandRun();
 private:
     RADIO_BUTTON();
 };
