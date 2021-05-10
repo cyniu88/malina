@@ -398,22 +398,9 @@ TEST_F(iDomTOOLS_ClassTest, getPinState)
     EXPECT_EQ(test_my_data.main_iDomTools->getPinState(0), PIN_STATE::UNKNOWN_STATE);
 }
 
-TEST_F(iDomTOOLS_ClassTest, turnOnOffPrinter)
+TEST_F(iDomTOOLS_ClassTest, onOff230vOutdoor)
 {
-    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-    test_my_data.main_iDomStatus->setObjectState("printer",STATE::ON);
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
-    setReturnPinState(1);
-    puts("off printer");
-    test_my_data.main_iDomTools->turnOnOffPrinter();
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::OFF);
-    setReturnPinState(0);
-    puts("on printer");
-    test_my_data.main_iDomTools->turnOnOffPrinter();
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
-    setReturnPinState(4);
-    test_my_data.main_iDomTools->turnOnOffPrinter();
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
+ //   test_my_data.main_iDomTools->turnOnOff230vOutdoor();
 }
 
 TEST_F(iDomTOOLS_ClassTest, turn_On_Off_433MHzSwitch)

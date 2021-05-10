@@ -100,6 +100,10 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             my_data->main_iDomTools->turnOffPrinter();
             return "230V OFF";
         }
+        else if(v.size() > 2 && v[2] == "OUTDOOR"){
+            my_data->main_iDomTools->turnOnOff230vOutdoor();
+            return "change outdoor";
+        }
         else {
             return "wrong paramiter";
         }
@@ -291,5 +295,6 @@ std::string command_iDom::help() const
     help << "iDom key remove <key name> - remove access key" << std::endl;
     help << "iDom link < - generate temporaty link for action" << std::endl;
     help << "iDom doorbell - on doorbell" << std::endl;
+    help << "iDom OUTDOOR - change state on 230v outdoor" << std::endl;
     return help.str();
 }

@@ -60,7 +60,7 @@ public:
     void turnOnPrinter();
     void turnOffPrinter();
     static PIN_STATE getPinState(int pin_number);
-    void turnOnOffPrinter();
+    void turnOnOff230vOutdoor();
     void turnOnOff433MHzSwitch(const std::string &name);
     void turnOn433MHzSwitch(std::string name);
     void turnOff433MHzSwitch(std::string name);

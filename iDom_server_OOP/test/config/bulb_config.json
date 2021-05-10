@@ -43,6 +43,50 @@
          }
       }
    },
+      "tarasa":{
+      "name":"taras",
+      "satelSensorID":37,
+      "bulb":{
+         "taras":{
+            "bulbName":"taras",
+            "bulbID":326,
+            "switchID":[
+               41
+            ],
+            "ON":[
+               
+            ],
+            "OFF":[
+               
+            ],
+            "lock":"null",
+            "unlock":"null",
+            "sunrise":"OFF",
+            "sunset":"ON",
+            "satelAlarm":"null",
+            "howLong":10
+         },
+         "wejscie":{
+            "bulbName":"wejscie",
+            "bulbID":327,
+            "switchID":[
+               42
+            ],
+            "ON":[
+               
+            ],
+            "OFF":[
+               
+            ],
+            "lock":"null",
+            "unlock":"null",
+            "sunrise":"OFF",
+            "sunset":"ON",
+            "satelAlarm":"ACTIVE",
+            "howLong":10
+         }
+      }
+   },
 "pokoj dzieci":{
       "name":"pokoj dzieci",
       "satelSensorID":34,

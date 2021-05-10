@@ -267,25 +267,13 @@ PIN_STATE iDomTOOLS::getPinState(int pin_number)
     }
 }
 
-void iDomTOOLS::turnOnOffPrinter()
+void iDomTOOLS::turnOnOff230vOutdoor()
 {
-    PIN_STATE pinState = getPinState(iDomConst::GPIO_PRINTER);
-    switch (pinState){
-    case PIN_STATE::HIGH_STATE:
-        turnOffPrinter();
-        // my_data->mainLCD->set_lcd_STATE(10);
-        // my_data->mainLCD->printString(true,0,0,"230V OFF");
-        break;
-    case PIN_STATE::LOW_STATE:
-        turnOnPrinter();
-        // my_data->mainLCD->set_lcd_STATE(10);
-        // my_data->mainLCD->printString(true,0,0,"230V ON");
-        break;
-    default:
-        log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << " blad odczytu stanu pinu zasilania drukarki "<< std::endl;
-        log_file_mutex.mutex_unlock();
-    }
+  auto state = my_data->main_house_room_handler->m_lightingBulbMap.at(999)->getStatus();
+  if (state == STATE::ON)
+      my_data->main_house_room_handler->turnOffAllInRoom("taras");
+  else
+      my_data->main_house_room_handler->turnOnAllInRoom("taras");
 }
 
 void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)

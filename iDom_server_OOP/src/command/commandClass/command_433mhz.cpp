@@ -34,7 +34,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
            if(v[2] == "SWITCH" && v.size() == 12)
                 cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9],v[10],v[11]); // zmień tu
             else if(v[2] == "BUTTON" && v.size() >= 6)
-                cfg.set(v[2],v[3],v[4],v[5],v[6],v[7]); // zmień tu
+                cfg.set(v[2],v[3],v[4],v[5],v[6]); // zmień tu
             else if(v[2] == "WEATHER" && v.size() >= 4)
                 cfg.set(v[2],v[3],v[4]); // zmień tu
             else
