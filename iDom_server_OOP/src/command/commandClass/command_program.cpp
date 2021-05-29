@@ -45,7 +45,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         std::stringstream r;
         r << "my_data->alarmTime.fromVolume \t" << my_data->alarmTime.fromVolume << std::endl;
         r << "my_data->alarmTime.radioID \t" << my_data->alarmTime.radioID << std::endl;
-        r << "my_data->alarmTime.state \t" << stateToString( my_data->alarmTime.state) << std::endl;
+        r << "my_data->alarmTime.state \t" << my_data->alarmTime.state << std::endl;
         r << "my_data->alarmTime.time \t" << my_data->alarmTime.time.getString() << std::endl;
         r << "my_data->alarmTime.toVolume \t" << my_data->alarmTime.toVolume << std::endl;
         r << std::endl;
@@ -120,7 +120,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
           << my_data->main_iDomStatus->getAllObjectsStateString()<< std::endl;
         r << std::endl;
         r << "my_data->idom_all_state.houseState \t"
-          <<stateToString(my_data->idom_all_state.houseState)<< std::endl;
+          << my_data->idom_all_state.houseState << std::endl;
         r << std::endl;
         r << "my_data->now_time \t" << my_data->now_time<< std::endl;
         r << "my_data->start - time \t" << my_data->start<< std::endl;

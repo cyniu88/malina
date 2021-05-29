@@ -269,6 +269,7 @@ std::string command_iDom::help() const
     help << "iDom - for control smart home" << std::endl;
     help << "iDom speakers ON/OFF - to on or off speakers" << std::endl;
     help << "iDom 230v ON/OFF     - to on or off printers" << std::endl;
+    help << "iDom 230V OUTDOOR - turn on off outdoor 230v socket" << std::endl;
     help << "iDom sunset/sunrise/day lenght - to show those parameters" << std::endl;
     help << "iDom sun        - get sunrise, sunset and day lenght" << std::endl;
     help << "iDom sysinfo    - get system info" << std::endl;
@@ -295,6 +296,5 @@ std::string command_iDom::help() const
     help << "iDom key remove <key name> - remove access key" << std::endl;
     help << "iDom link < - generate temporaty link for action" << std::endl;
     help << "iDom doorbell - on doorbell" << std::endl;
-    help << "iDom OUTDOOR - change state on 230v outdoor" << std::endl;
     return help.str();
 }

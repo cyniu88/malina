@@ -279,18 +279,13 @@ std::vector<RADIO_WEATHER_STATION *> RADIO_EQ_CONTAINER::getWeather_StationPtrVe
 
 std::string RADIO_EQ_CONTAINER::listAllName()
 {
-    std::string allName;
+    std::stringstream allName;
 
     for(auto it = m_radioEqMap.begin(); it != m_radioEqMap.end(); ++it) {
-        allName.append(it->first);
-        allName.append("\t ID: ");
-        allName.append( it->second->getID() );
-        allName.append("\t state: ");
-        allName.append(stateToString(it->second->getState() ));
-        allName.append("\n");
+        allName << it->first  << "\t ID: " << it->second->getID() << "\t state: " << it->second->getState() << std::endl;
     }
 
-    return allName;
+    return allName.str();
 }
 
 bool RADIO_EQ_CONTAINER::nameExist(const std::string& name)

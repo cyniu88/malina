@@ -191,7 +191,7 @@ std::string light_bulb::dump() const
     std::stringstream str;
     str << "bulb name: " << m_bulbName << std::endl;
     str << "bulb ID: " << m_ID << std::endl;
-    str << "bulb status: " << stateToString(m_status) << std::endl;
+    str << "bulb status: " << m_status << std::endl;
     str << "bulb in room: " << m_roomName << std::endl;
     str << "switch pin: ";
     for(const auto& a : m_pins){
@@ -200,10 +200,10 @@ std::string light_bulb::dump() const
     str << std::endl;
     str << "bulb m_onTime: " << m_onTime.getString() << std::endl;
     str << "bulb m_offTime: " << m_offTime.getString() << std::endl;
-    str << "bulb m_onLock: " << stateToString(m_onLock) << std::endl;
-    str << "bulb m_onUnlock: " << stateToString(m_onUnlock) << std::endl;
-    str << "bulb m_onSunrise: " << stateToString(m_onSunrise) << std::endl;
-    str << "bulb m_onSunset: " << stateToString(m_onSunset) << std::endl;
+    str << "bulb m_onLock: " << m_onLock << std::endl;
+    str << "bulb m_onUnlock: " << m_onUnlock << std::endl;
+    str << "bulb m_onSunrise: " << m_onSunrise << std::endl;
+    str << "bulb m_onSunset: " << m_onSunset << std::endl;
     str << "bulb m_satelAlarmUnixTime: " << m_satelAlarmUnixTime << std::endl;
     return str.str();
 }

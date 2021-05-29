@@ -220,7 +220,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
                 std::stringstream str_buf;
                 str_buf << "zmiana statusu lampy " << m_lightingBulbMap.at(bulbID)->getBulbName()
                         << " w pomieszczeniu: " << m_lightingBulbMap.at(bulbID)->getRoomName()
-                        << " na " << stateToString(state)
+                        << " na " << state
                         << " przyciskiem: " << vv.at(2)
                         << " czas trwania: " <<  m_lightingBulbMap.at(bulbID)->howLongBulbOn().getString();
                 my_data->main_iDomTools->sendViberMsg(str_buf.str(),my_data->server_settings->_fb_viber.viberReceiver.at(0),

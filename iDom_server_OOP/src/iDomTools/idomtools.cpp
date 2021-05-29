@@ -216,7 +216,7 @@ void iDomTOOLS::turnOnSpeakers()
     }
     else
     {
-        useful_F::myStaticData->myEventHandler.run("speakers")->addEvent("speakers can not start due to home state: "+
+        useful_F::myStaticData->myEventHandler.run("speakers")->addEvent("speakers can not start due to home state: " +
                                                                          stateToString(useful_F::myStaticData->idom_all_state.houseState));
     }
     useful_F::myStaticData->main_iDomTools->saveState_iDom(useful_F::myStaticData->serverStarted);
@@ -269,11 +269,11 @@ PIN_STATE iDomTOOLS::getPinState(int pin_number)
 
 void iDomTOOLS::turnOnOff230vOutdoor()
 {
-  auto state = my_data->main_house_room_handler->m_lightingBulbMap.at(999)->getStatus();
-  if (state == STATE::ON)
-      my_data->main_house_room_handler->turnOffAllInRoom("taras");
-  else
-      my_data->main_house_room_handler->turnOnAllInRoom("taras");
+    auto state = my_data->main_house_room_handler->m_lightingBulbMap.at(999)->getStatus();
+    if (state == STATE::ON)
+        my_data->main_house_room_handler->turnOffAllInRoom("taras");
+    else
+        my_data->main_house_room_handler->turnOnAllInRoom("taras");
 }
 
 void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)
@@ -423,7 +423,7 @@ void iDomTOOLS::lockHome()
                                               my_data->server_settings->_fb_viber.viberSender);
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "status domu - " + stateToString(my_data->idom_all_state.houseState) << std::endl;
+    log_file_cout << INFO << "status domu - "  <<(my_data->idom_all_state.houseState) << std::endl;
     log_file_mutex.mutex_unlock();
 
     saveState_iDom(my_data->serverStarted);
@@ -442,7 +442,7 @@ void iDomTOOLS::unlockHome()
                                               my_data->server_settings->_fb_viber.viberSender);
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "status domu - " + stateToString(my_data->idom_all_state.houseState) << std::endl;
+    log_file_cout << INFO << "status domu - " << my_data->idom_all_state.houseState << std::endl;
     log_file_mutex.mutex_unlock();
 
     saveState_iDom(my_data->serverStarted);
@@ -1065,11 +1065,11 @@ void iDomTOOLS::doorbellDingDong()
         //                                           my_data->server_settings->_fb_viber.viberReceiver.at(0),
         //                                           my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "Dzwonek do drzwi"<< std::endl;
+        log_file_cout << INFO << "Dzwonek do drzwi" << std::endl;
         log_file_mutex.mutex_unlock();
     }  catch (...) {
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << "brak dzwonka do drzwi!!! w paśmie 433MHz"<< std::endl;
+        log_file_cout << ERROR << "brak dzwonka do drzwi!!! w paśmie 433MHz" << std::endl;
         log_file_mutex.mutex_unlock();
     }
 

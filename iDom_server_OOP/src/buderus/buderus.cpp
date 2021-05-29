@@ -199,7 +199,7 @@ std::string BUDERUS::dump() const
     ret << R"("m_curFlowTemp": )" << m_curFlowTemp << "," << std::endl;
     ret << R"("m_outdoorTemp": )" << m_outdoorTemp << "," << std::endl;
     ret << R"("m_circlePompCanRun": )" << m_circlePompCanRun << "," << std::endl;
-    ret << R"("m_circlePump": ")" <<  stateToString(m_circlePump) << R"(")" << std::endl << "}" << std::endl;
+    ret << R"("m_circlePump": ")" <<  m_circlePump << R"(")" << std::endl << "}" << std::endl;
 
     return ret.str();
 }
