@@ -19,7 +19,7 @@ SATEL_INTEGRA_HANDLER::~SATEL_INTEGRA_HANDLER()
 
 void SATEL_INTEGRA_HANDLER::checkSatel()
 {
-    if(m_integra32.connectionState() != STATE::CONNECTED)
+    if(m_integra32.connectionState() not_eq STATE::CONNECTED)
         return;
 
     std::string dataOut = m_integra32.checkIntegraOut();

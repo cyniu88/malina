@@ -22,7 +22,7 @@ RFLinkHandler::~RFLinkHandler()
 
 bool RFLinkHandler::init()
 {
-    if( access( my_data->server_settings->_rflink.RFLinkPort.c_str(), F_OK ) != -1 )
+    if( access( my_data->server_settings->_rflink.RFLinkPort.c_str(), F_OK ) not_eq -1 )
     {
         m_serial_RFLink.begin(my_data->server_settings->_rflink.RFLinkBaudRate);
         log_file_mutex.mutex_lock();
@@ -89,7 +89,7 @@ std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(const std::string& msg,
     if (pos == -1 ){
         throw R"(argument ")" + var + R"(" not found)";
     }
-    if (msg.at(0) != '2' || msg.at(1) != '0'){
+    if (msg.at(0) not_eq '2' or msg.at(1) not_eq '0'){
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL <<"throw RFLinkHandler::getArgumentValueFromRFLinkMSG()-2"<<std::endl;
         log_file_mutex.mutex_unlock();

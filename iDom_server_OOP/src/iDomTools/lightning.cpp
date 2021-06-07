@@ -23,7 +23,7 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     std::cout <<"\n\n data all " << i.dump(4) <<" size:"<< i.size() << std::endl;
 #endif
 
-    if (jj.find("response") != jj.end())
+    if (jj.find("response") not_eq jj.end())
     {
         i = jj.at("response").get<nlohmann::json>();
     }
@@ -36,7 +36,7 @@ CARDINAL_DIRECTIONS::ALARM_INFO LIGHTNING::lightningAlert(nlohmann::json jj)
     auto error = jj.at("error");
 
     std::size_t _size = i.size();
-    if (error.size() != 0)
+    if (error.size() not_eq 0)
     {
         auto ret = error.at("code").get<std::string>();
         if(ret == "warn_no_data")
@@ -95,13 +95,13 @@ bool LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
 #endif
     if(info->riseAlarm == false && m_alarmState == false){
 #ifdef BT_TEST
-        std::cout << "(info->riseAlarm == false || alarmState == false)" << std::endl;
+        std::cout << "(info->riseAlarm == false or alarmState == false)" << std::endl;
 #endif
         return false;
     }
     if(info->riseAlarm == false && m_alarmState == true){
 #ifdef BT_TEST
-        std::cout << "(info->riseAlarm == false || alarmState == true)" << std::endl;
+        std::cout << "(info->riseAlarm == false or alarmState == true)" << std::endl;
 #endif
         m_alarmState = false;
         return false;
@@ -110,7 +110,7 @@ bool LIGHTNING::checkLightningAlert(CARDINAL_DIRECTIONS::ALARM_INFO *info)
     if(info->riseAlarm == true && m_alarmState == false){
 
 #ifdef BT_TEST
-        std::cout << "(info->riseAlarm == true || alarmState == false)" << std::endl;
+        std::cout << "(info->riseAlarm == true or alarmState == false)" << std::endl;
 #endif
         m_alarmState = true;
         m_lightningTime = Clock::getTime();

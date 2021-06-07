@@ -73,8 +73,8 @@ std::string command_ardu::help() const
 
 void command_ardu::pingAndOkRecv(thread_data *my_data, const std::string& s)
 {
-    if (s.find("OK;") != std::string::npos)
+    if (s.find("OK;") not_eq std::string::npos)
         my_data->main_RFLink->m_okTime = Clock::getUnixTime();
-    else if (s.find("PONG;") != std::string::npos)
+    else if (s.find("PONG;") not_eq std::string::npos)
         my_data->main_RFLink->m_pingTime = Clock::getUnixTime();
 }

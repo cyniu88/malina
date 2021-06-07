@@ -51,7 +51,7 @@ TEST_F(Thermometer_container_fixture, getLast2)
     testThermo.updateStats("inside");
     testThermo.updateStats("outside");
     std::string returnedStr = testThermo.getStatsByName("inside");
-    std::cout << "zwrocono " << returnedStr <<"||"<< std::endl;
+    std::cout << "zwrocono " << returnedStr <<"or"<< std::endl;
     auto v = testThermo.getLast2("inside");
     EXPECT_EQ(v.first, 20.2);
     EXPECT_EQ(v.second, 44.4);

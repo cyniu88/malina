@@ -17,7 +17,7 @@ MENU_BUDERUS::MENU_BUDERUS(MENU_BUDERUS &&base):MENU_STATE_BASE(std::move(base))
 
 MENU_BUDERUS &MENU_BUDERUS::operator=(const MENU_BUDERUS &base)
 {
-    if(&base != this){
+    if(&base not_eq this){
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
@@ -27,7 +27,7 @@ MENU_BUDERUS &MENU_BUDERUS::operator=(const MENU_BUDERUS &base)
 
 MENU_BUDERUS &MENU_BUDERUS::operator=(MENU_BUDERUS &&base)
 {
-    if(&base != this){
+    if(&base not_eq this){
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;

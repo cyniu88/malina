@@ -2,7 +2,7 @@
 #define SATEL_ENUM_H
 
 
-enum INTEGRA_ENUM: unsigned char {
+enum  INTEGRA_ENUM: unsigned char {
     HEADER_MSG = 0xFE,
     END = 0x0D,
     OUTPUTS_STATE = 0x17,

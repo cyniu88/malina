@@ -25,7 +25,7 @@ void iDomSTATUS::setObjectState(const std::string& name, STATE st)
 {
     std::lock_guard < std::mutex > lock ( m_lockGuard);
     auto i = m_stateMAP.find(name);
-    if (i != m_stateMAP.end()){
+    if (i not_eq m_stateMAP.end()){
         i->second = st;
     }
     else
@@ -39,7 +39,7 @@ STATE iDomSTATUS::getObjectState(const std::string& name)
 {
     std::lock_guard < std::mutex > lock ( m_lockGuard);
     auto i = m_stateMAP.find(name);
-    if (i != m_stateMAP.end())
+    if (i not_eq m_stateMAP.end())
     {
         return i->second;
     }
@@ -51,7 +51,7 @@ std::string iDomSTATUS::getObjectStateString(const std::string& name)
     std::stringstream dataStr;
     std::lock_guard < std::mutex > lock ( m_lockGuard);
     auto i = m_stateMAP.find(name);
-    if (i != m_stateMAP.end())
+    if (i not_eq m_stateMAP.end())
     {
         dataStr << i->second;
         return dataStr.str();

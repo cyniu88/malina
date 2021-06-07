@@ -100,7 +100,7 @@ std::string bit_fixture::send_receive(int socket, std::string msg, std::string k
 
     size = recv( socket, buffer, sizeof( buffer ), 0 );
 
-    while(size != sizeRec){
+    while(size not_eq sizeRec){
         std::cout << " w while: " << size << " recSize: " << sizeRec << std::endl;
         size += recv( socket, buffer, sizeof( buffer ), 0 );
     }

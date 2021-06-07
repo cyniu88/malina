@@ -36,7 +36,7 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
         }
 
         if (jj.at("wWCirc").get<std::string>() == "on") {
-            if (m_circlePump != STATE::ON) {
+            if (m_circlePump not_eq STATE::ON) {
                 useful_F::myStaticData->main_iDomTools->sendViberMsg("uruchamiam pompe obiegową CWU",
                                                                      useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
                                                                      useful_F::myStaticData->server_settings->_fb_viber.viberSender + "BUDERUS");

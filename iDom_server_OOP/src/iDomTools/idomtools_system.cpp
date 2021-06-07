@@ -12,7 +12,7 @@
 std::string iDomTOOLS::getSystemInfo()
 {
     double load[3];
-    if (getloadavg(load, 3) != -1)
+    if (getloadavg(load, 3) not_eq -1)
     {
 #ifdef BT_TEST
         printf("load average : %f , %f , %f\n", load[0],load[1],load[2]);

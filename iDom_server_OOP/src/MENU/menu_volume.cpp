@@ -19,7 +19,7 @@ MENU_VOLUME::MENU_VOLUME(MENU_VOLUME &&base):MENU_STATE_BASE(std::move(base))
 MENU_VOLUME &MENU_VOLUME::operator=(const MENU_VOLUME &base)
 {
   //  std::cout << "MENU_VOLUME::operator = kopiujacy" << std::endl;
-     if(&base != this){
+     if(&base not_eq this){
          my_dataPTR = base.my_dataPTR;
          lcdPTR = base.lcdPTR;
          stateMachinePTR = base.stateMachinePTR;
@@ -30,7 +30,7 @@ MENU_VOLUME &MENU_VOLUME::operator=(const MENU_VOLUME &base)
 MENU_VOLUME &MENU_VOLUME::operator=(MENU_VOLUME &&base)
 {
   //  std::cout << "MENU_VOLUME::operator = przenoszacy" << std::endl;
-     if(&base != this){
+     if(&base not_eq this){
          my_dataPTR = base.my_dataPTR;
          lcdPTR = base.lcdPTR;
          stateMachinePTR = base.stateMachinePTR;

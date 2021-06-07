@@ -130,6 +130,7 @@ struct FTP_SERVER{
 };
 struct iDOM_STATE{
     STATE houseState = STATE::UNDEFINE;
+    unsigned int counter = 0;
 };
 
 struct GATEWAY{

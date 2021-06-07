@@ -214,7 +214,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
 
             // TODO temporary added viber notifiction
             auto time = Clock::getUnixTime() - m_lastNotifyUnixTime;
-            if (my_data->idom_all_state.houseState == STATE::LOCK ||
+            if (my_data->idom_all_state.houseState == STATE::LOCK or
                     time > 60) {
                 m_lastNotifyUnixTime += time;
                 std::stringstream str_buf;
@@ -291,7 +291,7 @@ void house_room_handler::turnOffUnexpectedBulb()
     auto time = Clock::getUnixTime();
 
     for(const auto &  jj : m_lightingBulbMap){
-        if(jj.second->m_satelAlarmHowLong != -1 && jj.second->getStatus() == STATE::ON){
+        if(jj.second->m_satelAlarmHowLong not_eq -1 && jj.second->getStatus() == STATE::ON){
             auto actualTime = time - jj.second->getSatelSensorAlarmUnixTime();
             unsigned int expectTime = static_cast<unsigned int >(jj.second->m_satelAlarmHowLong * 60);
             if( actualTime > expectTime)

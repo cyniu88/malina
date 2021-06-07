@@ -11,7 +11,7 @@ std::string iDOM_THREAD::start_thread(const std::string& name,
 {
     int freeSlotID = iDOM_THREAD::findFreeThreadSlot(my_data->main_THREAD_arr);
 
-    if ( freeSlotID != -1)
+    if ( freeSlotID not_eq -1)
     {
         std::cout << "@@wolny slot: " << freeSlotID << std::endl;
         std::size_t it = static_cast<std::size_t>(freeSlotID);
@@ -76,11 +76,11 @@ void iDOM_THREAD::waitUntilAllThreadEnd(thread_data *my_data)
         for(auto i = my_data->main_THREAD_arr->begin(); i < my_data->main_THREAD_arr->end(); ++i)
         {
             threadCounter += i->thread_socket;
-            if (i->thread_socket != 0)
+            if (i->thread_socket not_eq 0)
                 std::cout << "thread name: "<< i->thread_name << std::endl;
         }
         std::cout << "watki pracuja " << threadCounter << std::endl;
-    } while(threadCounter != 0);
+    } while(threadCounter not_eq 0);
 }
 
 int iDOM_THREAD::findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array)

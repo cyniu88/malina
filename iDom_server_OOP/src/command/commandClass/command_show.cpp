@@ -32,7 +32,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
                 return "No ID";
             }
             else {
-                if (v [2] !="all"){
+                if (v [2] not_eq"all"){
                     std::stringstream ss;
                     ss << my_data->main_THREAD_arr->at(std::stoi(v[2])).thread_ID;
                     str_buf = my_data->main_THREAD_arr->at(std::stoi(v[2])).thread_name;
@@ -56,7 +56,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
                         str_buf.append(ss.str());
                         unsigned int idSocket = my_data->main_THREAD_arr->at(i).thread_socket;
 
-                        if (idSocket != 0 && idSocket != 1){
+                        if (idSocket not_eq 0 && idSocket not_eq 1){
                             str_buf.append(" socket: ");
                             str_buf.append(std::to_string(my_data->main_THREAD_arr->at(i).thread_socket));
                         }

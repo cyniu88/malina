@@ -63,7 +63,7 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometer
     const auto lastState = m_allThermometer.getLastState(thermometerName);
     if (newTemp >= reference + histereza &&
             oldTemp < reference + histereza &&
-            lastState != TEMPERATURE_STATE::Over)
+            lastState not_eq TEMPERATURE_STATE::Over)
     {
         my_data->myEventHandler.run("test")->addEvent("over: new " + to_string_with_precision(newTemp) + " old: "
                                                       + to_string_with_precision(oldTemp) + " ref: "
@@ -73,7 +73,7 @@ TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometer
     }
     else if (newTemp <= reference - histereza &&
              oldTemp > reference - histereza &&
-             lastState != TEMPERATURE_STATE::Under)
+             lastState not_eq TEMPERATURE_STATE::Under)
     {
         my_data->myEventHandler.run("test")->addEvent("under: new " + to_string_with_precision(newTemp) + " old: "
                                                       + to_string_with_precision(oldTemp) + " ref: "
@@ -432,6 +432,7 @@ void iDomTOOLS::lockHome()
 void iDomTOOLS::unlockHome()
 {
     my_data->idom_all_state.houseState = STATE::UNLOCK;
+    my_data->idom_all_state.counter = 0;
     my_data->main_iDomStatus->setObjectState("house", STATE::UNLOCK);
 
     ///// light bubl
@@ -481,7 +482,7 @@ void iDomTOOLS::buttonUnlockHome()
 bool iDomTOOLS::isItDay()
 {
     Clock now = Clock::getTime();
-    if(now < iDomTOOLS::getSunriseClock() || now > iDomTOOLS::getSunsetClock()){
+    if(now < iDomTOOLS::getSunriseClock() or now > iDomTOOLS::getSunsetClock()){
         return false;
     }
     return true;
@@ -717,7 +718,7 @@ std::string iDomTOOLS::getSmog()
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
         res = curl_easy_perform(curl);
         /* Check for errors */
-        if(res != CURLE_OK)
+        if(res not_eq CURLE_OK)
             fprintf(stderr, "curl_easy_perform() failed: %s\n",
                     curl_easy_strerror(res));
 
@@ -777,7 +778,7 @@ void iDomTOOLS::cameraLedON(const std::string& link)
     sunRise = sun.getSunRise();
     sunSet = sun.getSunSet();
     sunSet += Clock(23,30); // +23:30 == -00:30
-    if (t <= sunRise || t >= sunSet){
+    if (t <= sunRise or t >= sunSet){
         std::string s = useful_F_libs::httpPost(link,10);
         if (s == "ok.\n"){
             my_data->main_iDomStatus->setObjectState("cameraLED", STATE::ON);
@@ -826,7 +827,7 @@ STATE iDomTOOLS::sendViberMsgBool(const std::string &msg,
 {
     nlohmann::json jj = sendViberMsg(msg,receiver,senderName,accessToken,url);
     STATE ret = STATE::SEND_NOK;
-    if(jj.find("status_message") != jj.end())
+    if(jj.find("status_message") not_eq jj.end())
     {
         if(jj.at("status_message").get<std::string>() == "ok")
         {
@@ -867,7 +868,7 @@ STATE iDomTOOLS::sendViberPictureBool(const std::string& msg,
 std::string iDomTOOLS::postOnFacebook(const std::string& msg, const std::string& image)
 {
     std::lock_guard<std::mutex> lock(m_msgMutex);
-    if (image != "NULL"){
+    if (image not_eq "NULL"){
         return m_facebook.postPhotoOnWall(image,msg);
     }
 
@@ -984,7 +985,7 @@ void iDomTOOLS::readState_iDom(nlohmann::json jj)
 #endif
         nlohmann::json json433MHz = jj.at("433Mhz");
 
-        for (nlohmann::json::iterator it = json433MHz.begin(); it != json433MHz.end(); ++it)
+        for (nlohmann::json::iterator it = json433MHz.begin(); it not_eq json433MHz.end(); ++it)
         {
             if( it.value() == "ON"){
                 my_data->main_iDomTools->turnOn433MHzSwitch(it.key());

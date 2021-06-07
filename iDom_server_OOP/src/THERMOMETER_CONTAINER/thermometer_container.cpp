@@ -4,7 +4,7 @@
 THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string& name)
 {
     auto m = thermoMap.find(name);
-    if (m != thermoMap.end())
+    if (m not_eq thermoMap.end())
         return &(m->second);
     else
     {

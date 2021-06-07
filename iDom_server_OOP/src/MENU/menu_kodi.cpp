@@ -77,7 +77,7 @@ MENU_KODI::MENU_KODI(MENU_KODI &&base):MENU_STATE_BASE(std::move(base))
 MENU_KODI &MENU_KODI::operator=(const MENU_KODI &base)
 {
     //  std::cout << "MENU_KODI::operator = kopiujacy" << std::endl;
-    if(&base != this){
+    if(&base not_eq this){
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
@@ -88,7 +88,7 @@ MENU_KODI &MENU_KODI::operator=(const MENU_KODI &base)
 MENU_KODI &MENU_KODI::operator=(MENU_KODI &&base)
 {
     //  std::cout << "MENU_KODI::operator = przenoszacy" << std::endl;
-    if(&base != this){
+    if(&base not_eq this){
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;

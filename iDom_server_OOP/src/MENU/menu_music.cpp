@@ -19,7 +19,7 @@ MENU_MUSIC::MENU_MUSIC(MENU_MUSIC &&base):MENU_STATE_BASE(std::move(base))
 MENU_MUSIC &MENU_MUSIC::operator=(const MENU_MUSIC &base)
 {
     //  std::cout << "MENU_MUSIC::operator = kopiujacy" << std::endl;
-    if(&base != this){
+    if(&base not_eq this){
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
@@ -30,7 +30,7 @@ MENU_MUSIC &MENU_MUSIC::operator=(const MENU_MUSIC &base)
 MENU_MUSIC &MENU_MUSIC::operator=(MENU_MUSIC &&base)
 {
     //  std::cout << "MENU_MUSIC::operator = przenoszacy" << std::endl;
-    if(&base != this){
+    if(&base not_eq this){
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;

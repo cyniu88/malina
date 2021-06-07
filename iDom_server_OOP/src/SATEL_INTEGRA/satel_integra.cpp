@@ -73,7 +73,7 @@ std::string SATEL_INTEGRA::checkIntegraOut()
     sendIntegra(msg);
 
     (void) recvIntegra();
-    if(m_message[2] != INTEGRA_ENUM::OUTPUTS_STATE){
+    if(m_message[2] not_eq INTEGRA_ENUM::OUTPUTS_STATE){
         std::cout << "zła ramka" << std::endl;
     }
     std::string data;
@@ -93,7 +93,7 @@ bool SATEL_INTEGRA::isAlarmArmed()
 
     (void) recvIntegra();
 
-    if(m_message[2] != INTEGRA_ENUM::ARMED_PARTITIONS){
+    if(m_message[2] not_eq INTEGRA_ENUM::ARMED_PARTITIONS){
         std::cout << "zła odpowedz servera" << std::endl;
         return false;
     }
@@ -196,10 +196,10 @@ int SATEL_INTEGRA::recvIntegra()
         connectIntegra(m_host,  m_port);
         return 0;
     }
-    if (m_message[0] != INTEGRA_ENUM::HEADER_MSG
-            || m_message[1] != INTEGRA_ENUM::HEADER_MSG
-            || m_message[size-1] != INTEGRA_ENUM::END
-            || m_message[size-2] != INTEGRA_ENUM::HEADER_MSG)
+    if (m_message[0] not_eq INTEGRA_ENUM::HEADER_MSG
+            or m_message[1] not_eq INTEGRA_ENUM::HEADER_MSG
+            or m_message[size-1] not_eq INTEGRA_ENUM::END
+            or m_message[size-2] not_eq INTEGRA_ENUM::HEADER_MSG)
         puts("Urządzenie zajęte (busy) lub niewłaściwy format odpowiedzi");
     return size;
 }

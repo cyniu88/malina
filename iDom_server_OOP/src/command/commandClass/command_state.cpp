@@ -14,7 +14,7 @@ std::string command_state::execute(std::vector<std::string> &v, thread_data *my_
         {
             return my_data->main_iDomStatus->getAllObjectsStateString();
         }
-        if (v[1] != "all")
+        if (v[1] not_eq "all")
         {
             return my_data->main_iDomStatus->getObjectStateString(v[1]);
         }

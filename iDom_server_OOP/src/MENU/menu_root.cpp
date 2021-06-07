@@ -20,7 +20,7 @@ MENU_ROOT::MENU_ROOT(MENU_ROOT &&base):MENU_STATE_BASE(std::move(base)),
 
 MENU_ROOT &MENU_ROOT::operator=(const MENU_ROOT &base)
 {
-    if(&base != this){
+    if(&base not_eq this){
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
@@ -35,7 +35,7 @@ MENU_ROOT::~MENU_ROOT()
 
 MENU_ROOT &MENU_ROOT::operator=(MENU_ROOT &&base)
 {
-    if(&base != this){
+    if(&base not_eq this){
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;

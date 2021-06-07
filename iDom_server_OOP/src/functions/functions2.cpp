@@ -13,7 +13,7 @@ std::vector<std::string> useful_F::split(const std::string& s, char separator ){
     std::vector<std::string> output;
     std::string::size_type prev_pos = 0, pos = 0;
 
-    while((pos = s.find(separator, pos)) != std::string::npos)
+    while((pos = s.find(separator, pos)) not_eq std::string::npos)
     {
         std::string substring( s.substr(prev_pos, pos-prev_pos) );
         output.push_back(substring);
@@ -120,15 +120,15 @@ void useful_F::kodi (thread_data *my_data, const std::string& threadName)
     // status glosnikow
     STATE speakersState = my_data->main_iDomStatus->getObjectState("speakers");
 
-    if (musicState != STATE::STOP)
+    if (musicState not_eq STATE::STOP)
         my_data->main_iDomTools->MPD_pause();
-    if (speakersState != STATE::ON)
+    if (speakersState not_eq STATE::ON)
         my_data->main_iDomTools->turnOnSpeakers();
     //system
 
     int ret = useful_F::runLinuxCommand("runuser -u pi kodi");
 
-    if(ret != 0)
+    if(ret not_eq 0)
     {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "kodi zamkniete z błędem " << ret << std::endl;
@@ -227,7 +227,7 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
             {
                 if (reverse)
                 {
-                    if(std::string::npos != str_temp.find(find))
+                    if(std::string::npos not_eq str_temp.find(find))
                     {
                         str_buf.append(str_temp);
                         str_buf.append("\n");
@@ -266,7 +266,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     bool key_ok = false;
     std::string tm = inet_ntoa(my_data->from.sin_addr);
 
-    if("192.168.13.101" == tm || "192.168.13.181" == tm)  //TODO  change ip adres
+    if("192.168.13.101" == tm or "192.168.13.181" == tm)  //TODO  change ip adres
     {
         if(++connectionCounter > 9)
         {
@@ -416,7 +416,7 @@ std::string useful_F::conv_dns (std::string& temp){
     printf( "IP addresses: ");
     addr_list =( struct in_addr ** ) he->h_addr_list;
 
-    for( i = 0; addr_list[ i ] != NULL; i++ )
+    for( i = 0; addr_list[ i ] not_eq NULL; i++ )
     {
         printf( "%s ", inet_ntoa( * addr_list[ i ] ) );
         s_ip += inet_ntoa( * addr_list[ i ] );
@@ -504,7 +504,7 @@ void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
 
         int freeSlotID = iDOM_THREAD::findFreeThreadSlot(my_data->main_THREAD_arr);
 
-        if(freeSlotID != -1)
+        if(freeSlotID not_eq -1)
         {
             my_data->s_client_sock = v_sock_ind;
             my_data->from = from;

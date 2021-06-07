@@ -39,7 +39,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
                 cfg.set(v[2],v[3],v[4]); // zmień tu
             else
             {
-                if (v.size() != 12)
+                if (v.size() not_eq 12)
                     return "mising paramiter!";
                 cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9],v[10],v[11]); // zmień tu
                 //return v[2] + " " + v[3] + " " + v[4] + "add more paramiter or wrong type";
@@ -66,7 +66,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
             my_data->main_REC->saveConfig(my_data->server_settings->_server.radio433MHzConfigFile);
         }
         else if (v[1] == "show" && v[2] == "switch"){
-            str_buf = "";
+            str_buf.clear();
             for (auto m_switch : my_data->main_REC->getSwitchPointerVector())
             {
                 str_buf.append(stateToString(m_switch->getState()) );
@@ -75,7 +75,7 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
         else if (v[1] == "show" && v[2] == "aether"){
             str_buf.clear();
             for(auto itr = my_data->main_RFLink->m_rflinkMAP.begin();
-                itr != my_data->main_RFLink->m_rflinkMAP.end();
+                itr not_eq my_data->main_RFLink->m_rflinkMAP.end();
                 itr++)
             {
                 str_buf.append(itr->second.read());

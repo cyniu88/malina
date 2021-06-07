@@ -22,7 +22,7 @@ std::string command_help::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else
     {
-        for( auto iter = commandMapPtr->begin();iter != commandMapPtr->end(); ++iter ) {
+        for( auto iter = commandMapPtr->begin();iter not_eq commandMapPtr->end(); ++iter ) {
 
             result.append(iter->second->help());
             result.append("------------------------------------\n");

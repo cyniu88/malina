@@ -44,7 +44,7 @@ light_bulb::light_bulb(const light_bulb &&a)
 #ifdef BT_TEST
     std::cout << "light_bulb::light_bulb(&&)" << std::endl;
 #endif
-    assert(this != &a);
+    assert(this not_eq &a);
     *this = std::move(a);
 }
 
@@ -70,7 +70,7 @@ light_bulb& light_bulb::operator =(light_bulb&& a)
 #ifdef BT_TEST
     std::cout << "operator=(&&)" << std::endl;
 #endif
-    assert(this != &a);
+    assert(this not_eq &a);
     m_status = std::move(a.m_status);
     m_bulbName = std::move(a.m_bulbName);
     m_ID = std::move(a.m_ID);
@@ -85,7 +85,7 @@ light_bulb& light_bulb::operator =(light_bulb&& a)
 
 void light_bulb::on(std::function<void(std::string s)>onOn)
 {
-    if(m_lock != STATE::UNLOCK)
+    if(m_lock not_eq STATE::UNLOCK)
         return;
     std::lock_guard<std::mutex> lock (m_operationMutex);
     std::stringstream ss;
@@ -96,7 +96,7 @@ void light_bulb::on(std::function<void(std::string s)>onOn)
 
 void light_bulb::off(std::function<void(std::string s)> onOff)
 {
-    if(m_lock != STATE::UNLOCK)
+    if(m_lock not_eq STATE::UNLOCK)
         return;
     std::lock_guard<std::mutex> lock (m_operationMutex);
     std::stringstream ss;

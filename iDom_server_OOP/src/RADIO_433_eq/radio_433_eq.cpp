@@ -22,7 +22,7 @@ RADIO_SWITCH::~RADIO_SWITCH()
 
 void RADIO_SWITCH::on()
 {
-    if(RADIO_EQ::m_config.onCode != "null")
+    if(RADIO_EQ::m_config.onCode not_eq "null")
     {
         main433MHz.sendCode(RADIO_EQ::m_config.onCode);
         m_state = STATE::ON;
@@ -37,7 +37,7 @@ void RADIO_SWITCH::on()
 
 void RADIO_SWITCH::off()
 {
-    if(RADIO_EQ::m_config.offCode != "null")
+    if(RADIO_EQ::m_config.offCode not_eq "null")
     {
         main433MHz.sendCode(RADIO_EQ::m_config.offCode);
         m_state = STATE::OFF;
@@ -52,7 +52,7 @@ void RADIO_SWITCH::off()
 
 void RADIO_SWITCH::onFor15sec()
 {
-    if(RADIO_EQ::m_config.on15sec != "null")
+    if(RADIO_EQ::m_config.on15sec not_eq "null")
     {
         main433MHz.sendCode(RADIO_EQ::m_config.on15sec);
         m_state = STATE::TEMPORARY;
@@ -180,7 +180,7 @@ RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_data *my_data)
 
 RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()
 {
-    for(auto it = m_radioEqMap.begin(); it != m_radioEqMap.end(); ++it) {
+    for(auto it = m_radioEqMap.begin(); it not_eq m_radioEqMap.end(); ++it) {
         delete it->second;
     }
 }
@@ -232,7 +232,7 @@ void RADIO_EQ_CONTAINER::deleteRadioEq(const std::string& name)
 RADIO_EQ* RADIO_EQ_CONTAINER::getEqPointer(std::string name)
 {
     auto m = m_radioEqMap.find(name);
-    if (m != m_radioEqMap.end()){
+    if (m not_eq m_radioEqMap.end()){
         return (m->second);
     }
     else
@@ -281,7 +281,7 @@ std::string RADIO_EQ_CONTAINER::listAllName()
 {
     std::stringstream allName;
 
-    for(auto it = m_radioEqMap.begin(); it != m_radioEqMap.end(); ++it) {
+    for(auto it = m_radioEqMap.begin(); it not_eq m_radioEqMap.end(); ++it) {
         allName << it->first  << "\t ID: " << it->second->getID() << "\t state: " << it->second->getState() << std::endl;
     }
 
@@ -291,7 +291,7 @@ std::string RADIO_EQ_CONTAINER::listAllName()
 bool RADIO_EQ_CONTAINER::nameExist(const std::string& name)
 {
     bool exist = false;
-    if(m_radioEqMap.find(name) != m_radioEqMap.end())
+    if(m_radioEqMap.find(name) not_eq m_radioEqMap.end())
     {
         exist = true;
     }
@@ -311,7 +311,7 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
         try
         {
             nlohmann::json switchJson = j.at("SWITCH");
-            for (nlohmann::json::iterator it = switchJson.begin(); it != switchJson.end(); ++it)
+            for (nlohmann::json::iterator it = switchJson.begin(); it not_eq switchJson.end(); ++it)
             {
                 nlohmann::json switchJson_tmp = it.value();
                 cfg.name = switchJson_tmp.at("name").get<std::string>();
@@ -337,7 +337,7 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
         try
         {
             nlohmann::json buttonJson = j.at("BUTTON");
-            for (nlohmann::json::iterator it = buttonJson.begin(); it != buttonJson.end(); ++it)
+            for (nlohmann::json::iterator it = buttonJson.begin(); it not_eq buttonJson.end(); ++it)
             {
                 nlohmann::json buttonJson_tmp = it.value();
                 cfg.name = buttonJson_tmp.at("name").get<std::string>();
@@ -362,7 +362,7 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
         try
         {
             nlohmann::json weatherJson= j.at("WEATHER");
-            for (nlohmann::json::iterator it = weatherJson.begin(); it != weatherJson.end(); ++it)
+            for (nlohmann::json::iterator it = weatherJson.begin(); it not_eq weatherJson.end(); ++it)
             {
                 nlohmann::json weatherJson_tmp = it.value();
                 cfg.name = weatherJson_tmp.at("name").get<std::string>();
