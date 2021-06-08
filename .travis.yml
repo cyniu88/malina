@@ -2,7 +2,6 @@ language: cpp
 os: linux
 dist: bionic
 compiler:
-- gcc
 - clang
 
 arch:
@@ -10,9 +9,6 @@ arch:
 
 jobs:
   include:
-  - os: linux
-    dist: bionic
-    compiler: gcc
   - os: linux
     dist: bionic
     compiler: clang
