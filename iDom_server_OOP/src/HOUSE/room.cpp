@@ -13,6 +13,10 @@ ROOM::ROOM(int satelSensorID, const std::string &name, const std::map<int, std::
 void ROOM::satelSensorActive()
 {
     if(useful_F::myStaticData->idom_all_state.houseState == STATE::LOCK){
+        log_file_mutex.mutex_lock();
+        log_file_cout << WARNING << "ALARM !  w pokoju " << m_name << std::endl;
+        log_file_mutex.mutex_unlock();
+
         if (useful_F::myStaticData->idom_all_state.counter++ < 10){
             useful_F::myStaticData->main_iDomTools->sendViberMsg("alarm w pokoju " + m_name,
                                                                  useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
