@@ -193,10 +193,10 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
             if(m_lightingBulbMap.find(bulbID) == m_lightingBulbMap.end()){
                 m_lightingBulbMap.emplace(bulbID, std::make_shared<light_bulb>("roomName", "bulbName", bulbID));
             }
-
+			
             STATE state;
 
-            if(vv.at(3) == "1")
+            if(std::stoi(vv.at(3)) == 1)
                 state = STATE::ON;
             else
                 state = STATE::OFF;
