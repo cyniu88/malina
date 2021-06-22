@@ -181,12 +181,12 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
         auto vv = useful_F::split(msg,';');
         int bulbID = std::stoi(vv.at(1));
         // DingDong  dzownek
-        if(bulbID == 888){
+        if(bulbID == 88){
             my_data->main_iDomTools->doorbellDingDong();
             my_data->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
-                                                       "https://c8.alamy.com/comp/2C2EMMC/hand-push-the-bell-button-at-the-front-door-finger-presses-the-doorbell-switch-person-rings-in-the-apartment-flat-vector-illustration-2C2EMMC.jpg",
-                                                       my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                                       my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
+                                                      "https://c8.alamy.com/comp/2C2EMMC/hand-push-the-bell-button-at-the-front-door-finger-presses-the-doorbell-switch-person-rings-in-the-apartment-flat-vector-illustration-2C2EMMC.jpg",
+                                                      my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                      my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
 
         }
         if(vv.at(0) == "state"){
@@ -195,18 +195,12 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
             }
 
             STATE state;
-            if(vv.at(2) == "-1"){
-                if(vv.at(3) == "0")
-                    state = STATE::ON;
-                else
-                    state = STATE::OFF;
-            }
-            else{
-                if(vv.at(3) == "1")
-                    state = STATE::ON;
-                else
-                    state = STATE::OFF;
-            }
+
+            if(vv.at(3) == "1")
+                state = STATE::ON;
+            else
+                state = STATE::OFF;
+
 
             m_lightingBulbMap.at(bulbID)->setStatus(state);
             // it is working only for room with one bulb

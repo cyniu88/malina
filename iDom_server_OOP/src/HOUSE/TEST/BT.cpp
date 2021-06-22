@@ -85,7 +85,7 @@ TEST_F(house_fixture, bulb_status_from_mqtt) {
 
     EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(226)->getStatus(), STATE::UNDEFINE);
 
-    std::string mqttMSG("state;226;-1;0;");
+    std::string mqttMSG("state;226;-1;1;");
     testLightingHandler->executeCommandFromMQTT(mqttMSG);
     EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(226)->getStatus(), STATE::ON);
 
@@ -97,7 +97,7 @@ TEST_F(house_fixture, bulb_status_from_mqtt) {
     testLightingHandler->executeCommandFromMQTT(mqttMSG);
     EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(226)->getStatus(), STATE::ON);
 
-    mqttMSG = "state;226;-1;1;";
+    mqttMSG = "state;226;-1;0;";
     testLightingHandler->executeCommandFromMQTT(mqttMSG);
     EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(226)->getStatus(), STATE::OFF);
 }
@@ -111,9 +111,9 @@ TEST_F(house_fixture, dingDong)
     std::string cfg("../config/bulb_config.json");
     auto testLightingHandler = std::make_unique<house_room_handler>(&test_my_data);
     testLightingHandler->loadConfig(cfg);
-    std::string mqttMSG("state;888;-1;0;");
+    std::string mqttMSG("state;88;-1;1;");
     testLightingHandler->executeCommandFromMQTT(mqttMSG);
-    EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(888)->getStatus(), STATE::ON);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap.at(88)->getStatus(), STATE::ON);
 }
 
 TEST_F(house_fixture, satelSensor)
