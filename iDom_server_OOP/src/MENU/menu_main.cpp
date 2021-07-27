@@ -60,6 +60,7 @@ void MENU_MAIN::entry()
     menuDatabase.pushBack({"   BUDERUS",[=]() { changeStateTo<MENU_BUDERUS>();}});
     menuDatabase.pushBack({"   EXIT",   [=]() { changeStateTo<MENU_ROOT>();}});
     print(menuDatabase.getCurrent().name, arrow);
+    my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
 }
 
 void MENU_MAIN::exit()
@@ -92,5 +93,10 @@ void MENU_MAIN::keyPadDown()
 {
     menuDatabase.down();
     print(menuDatabase.getCurrent().name, arrow);
+}
+
+void MENU_MAIN::timeout(std::function<void ()> function)
+{
+    changeStateTo<MENU_ROOT>();
 }
 

@@ -23,6 +23,7 @@ public:
     void keyPadRes() override;
     void keyPadUp() override;
     void keyPadDown() override;
+    void timeout(std::function<void()> function = std::nullptr_t()) override;
 };
 
 #endif // MENU_MAIN_H
