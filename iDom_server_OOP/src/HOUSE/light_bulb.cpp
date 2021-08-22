@@ -91,7 +91,7 @@ void light_bulb::on(std::function<void(std::string s)>onOn)
     std::stringstream ss;
     ss << "0;" << m_ID << ";1;0;2;1";
     onOn(ss.str());
-    m_status = STATE::ON;
+    m_status = STATE::ACTIVE;
 }
 
 void light_bulb::off(std::function<void(std::string s)> onOff)
@@ -102,7 +102,7 @@ void light_bulb::off(std::function<void(std::string s)> onOff)
     std::stringstream ss;
     ss << "0;" << m_ID << ";1;0;2;0";
     onOff(ss.str());
-    m_status = STATE::OFF;
+    m_status = STATE::DEACTIVE;
 }
 
 STATE light_bulb::getStatus()

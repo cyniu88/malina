@@ -61,7 +61,7 @@ const RelayConfigDef gRelayConfig[] = {
     {126, E(1, 0xa), RELAY_TRIGGER_LOW, "kuchnia_kinkiet"},
     {127, E(1, 0xb), RELAY_TRIGGER_LOW, ""},
     {128, E(1, 0xc), RELAY_TRIGGER_LOW, "pokoj_N"},
-    {129, E(1, 0xd), RELAY_TRIGGER_LOW, ""},
+    {129, E(1, 0xd), RELAY_TRIGGER_LOW, "lazienka_mala"},
     {130, E(1, 0xe), RELAY_TRIGGER_LOW, "wiatrolap"},
     {131, E(1, 0xf), RELAY_TRIGGER_LOW, ""},
     {88, 16, RELAY_TRIGGER_LOW, "dzwonek"},
@@ -100,8 +100,8 @@ const ButtonConfigDef gButtonConfig[] = {
     {43, MONO_STABLE, 111, -1, -1, "sypialnia"},
     {40, MONO_STABLE, 113, -1, -1, "wejscie"},
     {52, MONO_STABLE, 117, -1, -1, "korytarz od salonu"},
-    {53, MONO_STABLE, 117, -1, -1, "korytarz od salonu"},
     {44, MONO_STABLE, 117, -1, -1, "korytarz od sypialni"},
+    {53, MONO_STABLE, 129, -1, -1, "lazenka mala"},
     {21, MONO_STABLE, 123, -1, -1, "kanciapa"},
     {49, MONO_STABLE, 125, -1, -1, "pokoj E"},
     {48, MONO_STABLE, 125, -1, -1, "pokoj E"},
@@ -111,5 +111,4 @@ const ButtonConfigDef gButtonConfig[] = {
     {19, MONO_STABLE, 130, -1, -1, "wiatrolap z wiatrolapu"},
     {34, MONO_STABLE, 130, -1, -1, "wiatrolap z salonu temporarny"},
     {17, DING_DONG, 88, -1, -1, "dzwonek"}
-
 };

@@ -48,15 +48,15 @@ TEST_F(house_fixture, all_on_all_off_in_room)
 
     testLightingHandler->turnOnAllInRoom("pokoj dzieci");
 
-    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[226]->getStatus() , STATE::ON);
-    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[227]->getStatus() , STATE::ON);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[226]->getStatus() , STATE::ACTIVE);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[227]->getStatus() , STATE::ACTIVE);
     ret = testLightingHandler->getAllInfoJSON().dump(4);
-    EXPECT_THAT(ret, testing::HasSubstr(R"(STATUS": "ON")"));
+    EXPECT_THAT(ret, testing::HasSubstr(R"(STATUS": "ACTIVE")"));
 
     testLightingHandler->turnOffAllInRoom("pokoj dzieci");
 
     ret = testLightingHandler->getAllInfoJSON().dump(4);
-    EXPECT_THAT(ret, testing::HasSubstr(R"(STATUS": "OFF")"));
+    EXPECT_THAT(ret, testing::HasSubstr(R"(STATUS": "DEACTIVE")"));
 }
 
 
@@ -70,11 +70,11 @@ TEST_F(house_fixture, bulb_on_bulb_off)
 
     testLightingHandler->turnOnBulb(226);
 
-    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[226]->getStatus() , STATE::ON);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[226]->getStatus() , STATE::ACTIVE);
 
     testLightingHandler->turnOffBulb(226);
 
-    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[226]->getStatus() , STATE::OFF);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[226]->getStatus() , STATE::DEACTIVE);
 }
 
 TEST_F(house_fixture, bulb_status_from_mqtt) {
@@ -127,10 +127,10 @@ TEST_F(house_fixture, satelSensor)
     EXPECT_EQ(testLightingHandler->m_lightingBulbMap[bulbID]->getStatus() , STATE::UNDEFINE);
 
     testLightingHandler->turnOffBulb(bulbID);
-    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[bulbID]->getStatus() , STATE::OFF);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[bulbID]->getStatus() , STATE::DEACTIVE);
 
     testLightingHandler->satelSensorActive(satelSensorID);
-    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[bulbID]->getStatus() , STATE::ON);
+    EXPECT_EQ(testLightingHandler->m_lightingBulbMap[bulbID]->getStatus() , STATE::ACTIVE);
 }
 
 TEST_F(house_fixture, dump)

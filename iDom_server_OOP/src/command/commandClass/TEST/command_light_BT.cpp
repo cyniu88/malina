@@ -79,11 +79,9 @@ TEST_F(command_light_Class_fixture, light_info_on)
 {
     test_v.clear();
     test_v.push_back("light");
-    test_v.push_back("bulb");
-    test_v.push_back("on");
-    test_v.push_back("126");
-
+    test_v.push_back("state;126;30;1\n");
     (void)test_command_light->execute(test_v,&test_my_data);
+
     test_v.clear();
     test_v.push_back("light");
     test_v.push_back("info");
@@ -106,6 +104,10 @@ TEST_F(command_light_Class_fixture, on_off_bulb_command)
     test_v.push_back("126");
 
     (void)test_command_light->execute(test_v,&test_my_data);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("state;126;30;1\n");
+    (void)test_command_light->execute(test_v,&test_my_data);
     EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::ON);
 
@@ -115,6 +117,10 @@ TEST_F(command_light_Class_fixture, on_off_bulb_command)
     test_v.push_back("off");
     test_v.push_back("126");
 
+    (void)test_command_light->execute(test_v,&test_my_data);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("state;126;30;0\n");
     (void)test_command_light->execute(test_v,&test_my_data);
     EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::OFF);
@@ -134,9 +140,9 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
 
     (void)test_command_light->execute(test_v,&test_my_data);
     EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
-              STATE::ON);
+              STATE::ACTIVE);
     EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(127)->getStatus(),
-              STATE::ON);
+              STATE::ACTIVE);
 
     test_v.clear();
     test_v.push_back("light");
@@ -146,9 +152,9 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
 
     (void)test_command_light->execute(test_v,&test_my_data);
     EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
-              STATE::OFF);
+              STATE::DEACTIVE);
     EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(127)->getStatus(),
-              STATE::OFF);
+              STATE::DEACTIVE);
 }
 
 TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_home_command)
