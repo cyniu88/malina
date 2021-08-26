@@ -48,6 +48,7 @@
                 "SKETCH_VERSION=2.0",
                 "CONFIG_VERSION=20",
                 "DEBUG_STATS=1000",
+                "IGNORE_BUTTONS_START_MS=2000",
                 "EXPANDER_MCP23017",
                 "F_CPU=16000000L",
                 "ARDUINO_ARCH_AVR",

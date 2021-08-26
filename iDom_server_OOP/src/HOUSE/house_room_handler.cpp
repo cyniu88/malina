@@ -45,7 +45,14 @@ void house_room_handler::loadConfig(std::string &configPath)
             {
                 lightingBulbMap.at(bulbID)->addBulbPin(kk.get<int>());
             }
-            m_lightingBulbMap[bulbID] = lightingBulbMap[bulbID];
+            if(m_lightingBulbMap.find(bulbID) == m_lightingBulbMap.end()){
+                m_lightingBulbMap[bulbID] = lightingBulbMap[bulbID];
+            }
+            else{
+                log_file_mutex.mutex_lock();
+                log_file_cout << ERROR << "sprawdz konfig zarowek! "<< bulbID << " już istnieje" << std::endl;
+                log_file_mutex.mutex_unlock();
+            }
         }
         m_roomMap.emplace(roomName,std::make_shared<ROOM>(satelSensorID, roomName, lightingBulbMap));
         m_satelIdMap[satelSensorID] = m_roomMap[roomName];
@@ -92,7 +99,7 @@ void house_room_handler::turnOffAllBulb()
 void house_room_handler::turnOnBulb(const int bulbID)
 {
     m_lightingBulbMap.at(bulbID)->on([](const std::string& name){
-        useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
+        useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic, name);
     }
     );
 }
@@ -100,7 +107,7 @@ void house_room_handler::turnOnBulb(const int bulbID)
 void house_room_handler::turnOffBulb(const int bulbID)
 {
     m_lightingBulbMap.at(bulbID)->off([](const std::string& name){
-        useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
+        useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic, name);
     }
     );
 }
@@ -154,7 +161,7 @@ nlohmann::json house_room_handler::getInfoJSON_allON()
 #endif
 
     for(auto&a : m_lightingBulbMap){
-        if(a.second->getStatus() == STATE::ON)
+        if(a.second->getStatus() == STATE::ON or a.second->getStatus() == STATE::ACTIVE)
         {
             nlohmann::json roomJJ;
             roomJJ["STATE"] = stateToString(a.second->getLockState());
@@ -193,7 +200,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
             if(m_lightingBulbMap.find(bulbID) == m_lightingBulbMap.end()){
                 m_lightingBulbMap.emplace(bulbID, std::make_shared<light_bulb>("roomName", "bulbName", bulbID));
             }
-			
+
             STATE state;
 
             if(std::stoi(vv.at(3)) == 1)

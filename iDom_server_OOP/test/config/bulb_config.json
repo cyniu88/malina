@@ -22,6 +22,25 @@
             "satelAlarm":"null",
             "howLong":10
          },
+         "wanna2":{
+            "bulbName":"wanna2",
+            "bulbID":126,
+            "switchID":[
+               43
+            ],
+            "ON":[
+               
+            ],
+            "OFF":[
+               
+            ],
+            "lock":"null",
+            "unlock":"null",
+            "sunrise":"OFF",
+            "sunset":"ON",
+            "satelAlarm":"null",
+            "howLong":10
+         },
          "wejscie":{
             "bulbName":"wejscie",
             "bulbID":127,
