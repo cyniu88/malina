@@ -23,7 +23,7 @@ const uint8_t RELAY_STARTUP_MASK = RELAY_STARTUP_ON | RELAY_STARTUP_OFF;
 typedef struct {
   int sensorId;
   int relayPin;
-  uint8_t relayOptions;
+  uint16_t relayOptions;  //cyniu uint8_t
   const char * relayDescription;
 } RelayConfigDef;
 

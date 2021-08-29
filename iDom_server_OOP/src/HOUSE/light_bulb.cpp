@@ -116,6 +116,7 @@ void light_bulb::setStatus(STATE s)
     std::lock_guard<std::mutex> lock (m_operationMutex);
     if(s == STATE::ON){
         m_onTime = Clock::getTime();
+        satelSensorAlarm(); //simulating motion sensor activation so as not to turn off the light immediately in the absence of motion
     }
     else if(s == STATE::OFF){
         m_offTime = Clock::getTime();

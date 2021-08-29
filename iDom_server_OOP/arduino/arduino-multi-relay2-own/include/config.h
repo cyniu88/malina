@@ -38,8 +38,8 @@ const RelayConfigDef gRelayConfig[] = {
     {103, E(0, 3), RELAY_TRIGGER_LOW, ""},
     {104, E(0, 4), RELAY_TRIGGER_LOW, ""},
     {105, E(0, 5), RELAY_TRIGGER_LOW, "spizarka"},
-    {106, E(0, 6), RELAY_TRIGGER_LOW, ""},
-    {107, E(0, 7), RELAY_TRIGGER_LOW, "wejscie"},
+    {106, E(0, 6), RELAY_TRIGGER_LOW, "wejscie"},
+    {107, E(0, 7), RELAY_TRIGGER_LOW, "podbitk wejscie"},
     {108, E(0, 8), RELAY_TRIGGER_LOW, ""},
     {109, E(0, 9), RELAY_TRIGGER_LOW, "pokoj_W_jedna"},
     {110, E(0, 0xa), RELAY_TRIGGER_LOW, "pokoj_W_dwie"},
@@ -64,7 +64,7 @@ const RelayConfigDef gRelayConfig[] = {
     {129, E(1, 0xd), RELAY_TRIGGER_LOW, "lazienka_mala"},
     {130, E(1, 0xe), RELAY_TRIGGER_LOW, "wiatrolap"},
     {131, E(1, 0xf), RELAY_TRIGGER_LOW, ""},
-    {88, 16, RELAY_TRIGGER_LOW, "dzwonek"},
+    {88, 16, RELAY_TRIGGER_LOW|RELAY_IMPULSE_INTERVAL, "dzwonek"},
     {99, 38, RELAY_TRIGGER_LOW, "taras"}
 
 };
@@ -93,7 +93,7 @@ const ButtonConfigDef gButtonConfig[] = {
     {33, MONO_STABLE, 126, -1, -1, "z kuchni"},
     {32, MONO_STABLE, 126, -1, -1, "z korytarza temporarny"},
     {45, MONO_STABLE, 105, -1, -1, "z spizarka"},
-    {20, MONO_STABLE, 107, -1, -1, "wejscie"},
+    {20, MONO_STABLE, 106, -1, -1, "wejscie"},
     {47, MONO_STABLE, 109, -1, -1, "pokoj W jedna"},
     {46, MONO_STABLE, 110, -1, -1, "pokoj W dwie"},
     {42, MONO_STABLE, 111, -1, -1, "sypialnia"},
@@ -109,6 +109,6 @@ const ButtonConfigDef gButtonConfig[] = {
     {51, MONO_STABLE, 128, -1, -1, "pokoj N"},
     {35, MONO_STABLE, 130, -1, -1, "wiatrolap z salonu"},
     {19, MONO_STABLE, 130, -1, -1, "wiatrolap z wiatrolapu"},
-    {34, MONO_STABLE, 130, -1, -1, "wiatrolap z salonu temporarny"},
-    {17, DING_DONG, 88, -1, -1, "dzwonek"}
+    {34, MONO_STABLE, 130, -1, -1, "lazienka mala"},
+    {17, MONO_STABLE, 88, -1, -1, "dzwonek"}
 };
