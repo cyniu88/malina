@@ -9,7 +9,7 @@
 const uint8_t MONO_STABLE_TRIGGER = LOW;
 
 // time interval for RELAY_IMPULSE type relay, ignored when button type is DING_DONG or REED_SWITCH
-const unsigned long RELAY_IMPULSE_INTERVAL = 250;
+const unsigned long RELAY_IMPULSE_INTERVAL = 1500UL;
 
 // debounce interval in milliseconds
 const unsigned long BUTTON_DEBOUNCE_INTERVAL = 50;

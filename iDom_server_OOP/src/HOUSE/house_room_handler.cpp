@@ -282,6 +282,9 @@ void house_room_handler::onSunrise()
 void house_room_handler::satelSensorActive(int sensorID)
 {
     if(m_satelIdMap.find(sensorID) == m_satelIdMap.end() ) {
+        log_file_mutex.mutex_lock();
+        log_file_cout << WARNING << "unsuported  satel sensor " << sensorID << std::endl;
+        log_file_mutex.mutex_unlock();
         return;
     }
     m_satelIdMap.at(sensorID)->satelSensorActive();

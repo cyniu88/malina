@@ -135,6 +135,60 @@ void SATEL_INTEGRA::disarmAlarm()
     (void) recvIntegra();
 }
 
+void SATEL_INTEGRA::outputOn(unsigned int id)
+{
+    std::stringstream buffer1(m_pin.substr(0,2));
+    uint64_t value1;
+    buffer1 >> std::hex >> value1;
+
+    std::stringstream buffer2(m_pin.substr(2,2));
+    uint64_t value2;
+    buffer2 >> std::hex >> value2;
+
+    uint64_t value3;
+    std::stringstream buffer3;
+    buffer3 << id;
+    buffer3 >> std::hex >> value3;
+
+    std::string msg;
+    msg.push_back(INTEGRA_ENUM::OUTPUT_ON);
+    //msg.push_back(value1);
+   // msg.push_back(value2);
+    msg.push_back(value3);
+    msg.push_back(value3);
+    msg.push_back(value3);
+    msg.push_back(value3);
+    std::cout << "dane: " << msg << std::endl;
+    for(const auto& d : msg){
+        auto bs = std::bitset<8>(d);
+#ifdef BT_TEST
+        std::cout << "BITY2 " << bs.to_string() << std::endl;
+#endif
+    }
+    sendIntegra(msg);
+
+    (void) recvIntegra();
+}
+
+void SATEL_INTEGRA::outputOff(unsigned int id)
+{
+    std::stringstream buffer1(m_pin.substr(0,2));
+    uint64_t value1;
+    buffer1 >> std::hex >> value1;
+
+    std::stringstream buffer2(m_pin.substr(2,2));
+    uint64_t value2;
+    buffer2 >> std::hex >> value2;
+
+    std::string msg;
+    msg.push_back(INTEGRA_ENUM::OUTPUT_OFF);
+    msg.push_back(value1);
+    msg.push_back(value2);
+    sendIntegra(msg);
+
+    (void) recvIntegra();
+}
+
 std::string SATEL_INTEGRA::dump() const
 {
     std::stringstream ss;

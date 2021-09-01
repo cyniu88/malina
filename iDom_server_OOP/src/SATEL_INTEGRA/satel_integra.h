@@ -30,6 +30,8 @@ public:
     bool isAlarmArmed();
     void armAlarm();
     void disarmAlarm();
+    void outputOn(unsigned int id);
+    void outputOff(unsigned int id);
     std::string dump() const override;
     STATE connectionState();
 private:

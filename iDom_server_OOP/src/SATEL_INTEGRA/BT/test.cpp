@@ -264,3 +264,20 @@ TEST_F(satel_integra_fixture, main)
     testIntegra.checkSatel();
 
 }
+
+TEST_F(satel_integra_fixture, main2)
+{
+    struct CONFIG_JSON test_config;
+    test_config._satel_integra.host = "192.168.13.156";
+    test_config._satel_integra.port = 7094;
+    test_config._satel_integra.pin = "6275";
+    thread_data test_threadData;
+    test_threadData.server_settings = &test_config;
+
+    SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
+    testIntegra.checkSatel();
+
+   //std::cout << testIntegra.m_integra32.getIntegraInfo() << std::endl;
+   testIntegra.m_integra32.outputOn(8);
+
+}

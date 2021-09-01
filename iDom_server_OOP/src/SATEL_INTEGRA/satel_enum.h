@@ -10,6 +10,8 @@ enum  INTEGRA_ENUM: unsigned char {
     ARMED_PARTITIONS = 0x0A,
     ARM = 0x80,
     DISARM = 0x84,
+    OUTPUT_ON = 0x88,
+    OUTPUT_OFF = 0x89,
     OK= 0x00,
     NOT_ARMED = 0x12,
     NOT_ARMED_USE_FORCE = 0x11
