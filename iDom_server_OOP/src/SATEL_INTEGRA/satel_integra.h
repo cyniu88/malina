@@ -3,6 +3,7 @@
 
 #include<sys/socket.h>    //socket
 #include<arpa/inet.h> //inet_addr
+#include<list>
 
 #include "../idom_api.h"
 #include "satel_enum.h"
@@ -35,10 +36,13 @@ public:
     std::string dump() const override;
     STATE connectionState();
 private:
-    unsigned short calculateCRC(const std::string& msg);
-    int sendIntegra(const std::string& msg);
+    void calculateCRC(const unsigned char *pCmd, unsigned int length, unsigned short &result);
+    int sendIntegra(const unsigned char *cmd, const unsigned int cmdLength);
     int recvIntegra();
     const char* satelType(unsigned char t);
+    void expandForSpecialValue(std::list<unsigned char> &result);
+    std::pair<unsigned char*, unsigned int> getFullFrame(const unsigned char* pCmd, const unsigned int cmdLength);
+
 };
 
 #endif // SATEL_INTEGRA_H

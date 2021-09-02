@@ -47,11 +47,11 @@ void SATEL_INTEGRA::disconnectIntegra()
 
 std::string SATEL_INTEGRA::getIntegraInfo()
 {
-    std::string msg;
+    unsigned char cmd[1] = {INTEGRA_ENUM::VERSION};
 
-    msg.push_back(INTEGRA_ENUM::VERSION); // get integra info
+    //msg.push_back(INTEGRA_ENUM::VERSION); // get integra info
 
-    sendIntegra(msg);
+    sendIntegra(cmd, 1);
 
     (void) recvIntegra();
 
@@ -67,10 +67,12 @@ std::string SATEL_INTEGRA::getIntegraInfo()
 
 std::string SATEL_INTEGRA::checkIntegraOut()
 {
-    std::string msg;
-    msg.push_back(INTEGRA_ENUM::OUTPUTS_STATE); // get integra info
+    unsigned char cmd[1] = { INTEGRA_ENUM::OUTPUTS_STATE };
+    // std::list<unsigned char> cmd;
 
-    sendIntegra(msg);
+    // msg.push_back(); // get integra info
+
+    sendIntegra(cmd, 1);
 
     (void) recvIntegra();
     if(m_message[2] not_eq INTEGRA_ENUM::OUTPUTS_STATE){
@@ -86,10 +88,9 @@ std::string SATEL_INTEGRA::checkIntegraOut()
 
 bool SATEL_INTEGRA::isAlarmArmed()
 {
-    std::string msg;
-    msg.push_back(INTEGRA_ENUM::ARMED_PARTITIONS);
+    unsigned char cmd[1] = {INTEGRA_ENUM::ARMED_PARTITIONS};
 
-    sendIntegra(msg);
+    sendIntegra(cmd, 1);
 
     (void) recvIntegra();
 
@@ -116,11 +117,11 @@ void SATEL_INTEGRA::armAlarm()
     uint64_t value2;
     buffer2 >> std::hex >> value2;
 
-    std::string msg;
-    msg.push_back(INTEGRA_ENUM::ARM);
-    msg.push_back(value1);
-    msg.push_back(value2);
-    sendIntegra(msg);
+    unsigned char cmd[3];
+    cmd[0] = (INTEGRA_ENUM::ARM);
+    cmd[1] = (value1);
+    cmd[2] = (value2);
+    sendIntegra(cmd,3);
 
     (void) recvIntegra();
 }
@@ -130,7 +131,7 @@ void SATEL_INTEGRA::disarmAlarm()
     std::string msg;
     msg.push_back(INTEGRA_ENUM::DISARM);
 
-    sendIntegra(msg);
+    // sendIntegra(msg);
 
     (void) recvIntegra();
 }
@@ -145,33 +146,26 @@ void SATEL_INTEGRA::outputOn(unsigned int id)
     uint64_t value2;
     buffer2 >> std::hex >> value2;
 
-    uint64_t value3;
-    std::stringstream buffer3;
-    buffer3 << id;
-    buffer3 >> std::hex >> value3;
-
-    std::string msg;
-    msg.push_back(INTEGRA_ENUM::OUTPUT_ON);
-    //msg.push_back(value1);
-   // msg.push_back(value2);
-    msg.push_back(value3);
-    msg.push_back(value3);
-    msg.push_back(value3);
-    msg.push_back(value3);
-    std::cout << "dane: " << msg << std::endl;
-    for(const auto& d : msg){
-        auto bs = std::bitset<8>(d);
-#ifdef BT_TEST
-        std::cout << "BITY2 " << bs.to_string() << std::endl;
-#endif
+    unsigned char cmd[41] = { 0xFF };
+    for (unsigned int i = 0 ; i < 6; ++i){
+        cmd[i] = 0xFF;
     }
-    sendIntegra(msg);
+    cmd[0] = INTEGRA_ENUM::OUTPUT_ON;
+    cmd[1] = value1;
+    cmd[2] = value2;
 
+    unsigned char byteNumber = (id - 1) / 8;
+    unsigned char bitNumber = (id - 1) % 8;
+
+    cmd[byteNumber + 9] = 0x01 << bitNumber;
+
+    sendIntegra(cmd,41);
     (void) recvIntegra();
 }
 
 void SATEL_INTEGRA::outputOff(unsigned int id)
 {
+
     std::stringstream buffer1(m_pin.substr(0,2));
     uint64_t value1;
     buffer1 >> std::hex >> value1;
@@ -180,12 +174,20 @@ void SATEL_INTEGRA::outputOff(unsigned int id)
     uint64_t value2;
     buffer2 >> std::hex >> value2;
 
-    std::string msg;
-    msg.push_back(INTEGRA_ENUM::OUTPUT_OFF);
-    msg.push_back(value1);
-    msg.push_back(value2);
-    sendIntegra(msg);
+    unsigned char cmd[41] = { 0xFF };
+    for (unsigned int i = 0 ; i < 6; ++i){
+        cmd[i] = 0xFF;
+    }
+    cmd[0] = INTEGRA_ENUM::OUTPUT_OFF;
+    cmd[1] = value1;
+    cmd[2] = value2;
 
+    unsigned char byteNumber = (id - 1) / 8;
+    unsigned char bitNumber = (id - 1) % 8;
+
+    cmd[byteNumber + 9] = 0x01 << bitNumber;
+
+    sendIntegra(cmd,41);
     (void) recvIntegra();
 }
 
@@ -203,38 +205,35 @@ STATE SATEL_INTEGRA::connectionState()
     return m_connectState;
 }
 
-unsigned short SATEL_INTEGRA::calculateCRC(const std::string& msg)
+void SATEL_INTEGRA::calculateCRC(const unsigned char* pCmd, unsigned int length, unsigned short &result)
 {
     unsigned short crc = 0x147A;
 
-    for (int i = 0; i < msg.size(); ++i)
+    for (unsigned int i = 0; i < length; ++i)
     {
         crc = (crc << 1) | (crc >> 15);
         crc = crc ^ 0xFFFF;
-        crc = crc + (crc >> 8) + msg.at(i);
+        crc = crc + (crc >> 8) + pCmd[i];
     }
 
-    return crc;
+    result = crc;
 }
 
-int SATEL_INTEGRA::sendIntegra(const std::string &msg)
-{
-    std::string message;
-    //header
-    message.push_back(INTEGRA_ENUM::HEADER_MSG);
-    message.push_back(INTEGRA_ENUM::HEADER_MSG);
 
-    // command
-    auto crc = calculateCRC(msg);
-    message.append(msg);
-    message.push_back((crc >> 8) & 0xff); //crc1
-    message.push_back(crc & 0xff);   //crc2
-    // end message
-    message.push_back(INTEGRA_ENUM::HEADER_MSG);
-    message.push_back(INTEGRA_ENUM::END);
+int SATEL_INTEGRA::sendIntegra(const unsigned char* cmd, const unsigned int cmdLength){
 
-    int state = send(m_sock, message.c_str(), message.length(), MSG_NOSIGNAL);
-    return state;
+    std::pair<unsigned char*, unsigned int> cmdPayload;
+    cmdPayload = getFullFrame(cmd, cmdLength);
+#ifdef BT_TEST
+    std::cout << "cyniu lenght: " << (sizeof(cmd)) << " cmdLength " << cmdLength << std::endl;
+
+    for (unsigned int i = 0 ; i < cmdPayload.second; ++i){
+        char d = (const char)cmdPayload.first[i];
+        auto bs = std::bitset<8>(d);
+        std::cout << "BITY2 " << bs.to_string() << std::endl;
+    }
+#endif
+    return send(m_sock, (const char*)cmdPayload.first, cmdPayload.second, MSG_NOSIGNAL);
 }
 
 int SATEL_INTEGRA::recvIntegra()
@@ -244,9 +243,10 @@ int SATEL_INTEGRA::recvIntegra()
     tv.tv_usec = 0;
     setsockopt(m_sock, SOL_SOCKET, SO_RCVTIMEO,(char*)&tv , sizeof(struct timeval));
 
-    int size = recv(m_sock, m_message, 2000, 0);
+    int size = recv(m_sock, m_message, 5000, 0);
     if (size < 0) {
         puts("Nie udało się pobrać odpowiedzi z serwera");
+
         connectIntegra(m_host,  m_port);
         return 0;
     }
@@ -255,6 +255,9 @@ int SATEL_INTEGRA::recvIntegra()
             or m_message[size-1] not_eq INTEGRA_ENUM::END
             or m_message[size-2] not_eq INTEGRA_ENUM::HEADER_MSG)
         puts("Urządzenie zajęte (busy) lub niewłaściwy format odpowiedzi");
+#ifdef BT_TEST
+    //assert(false);
+#endif
     return size;
 }
 
@@ -273,4 +276,55 @@ const char* SATEL_INTEGRA::satelType(unsigned char t)
     case 72: return "256 PLUS";
     default: return "Nieznany typ";
     }
+}
+
+void SATEL_INTEGRA::expandForSpecialValue(std::list<unsigned char> &result)
+{
+    std::list<unsigned char>::iterator it = result.begin();
+
+    const unsigned char specialValue = 0xFE;
+
+    for (; it != result.end(); it++)
+    {
+        if (*it == specialValue)
+        {
+            result.insert(++it, 0xF0);
+            it--;
+        }
+    }
+}
+
+std::pair<unsigned char*, unsigned int> SATEL_INTEGRA::getFullFrame(const unsigned char* pCmd, const unsigned int cmdLength)
+{
+    std::list<unsigned char> result;
+
+    for (unsigned int i = 0; i< cmdLength; ++i)
+    {
+        result.push_back(pCmd[i]);
+    }
+
+    // add CRC
+    unsigned short crc;
+    calculateCRC(pCmd, cmdLength, crc);
+    result.push_back(crc >> 8);
+    result.push_back(crc & 0xFF);
+    // check special value
+    expandForSpecialValue(result);
+    // add prefix
+    result.push_front(INTEGRA_ENUM::HEADER_MSG);
+    result.push_front(INTEGRA_ENUM::HEADER_MSG);
+    // add sufix
+    result.push_back(INTEGRA_ENUM::HEADER_MSG);
+    result.push_back(INTEGRA_ENUM::END);
+
+    unsigned int resultSize = result.size();
+    unsigned char* pResult = new unsigned char[resultSize];
+    memset(pResult, 0, resultSize);
+    std::list<unsigned char>::iterator it = result.begin();
+    for (unsigned int index = 0; it != result.end(); ++it, ++index)
+    {
+        pResult[index] = *it;
+    }
+
+    return std::pair<unsigned char*, unsigned int>(pResult, resultSize);
 }

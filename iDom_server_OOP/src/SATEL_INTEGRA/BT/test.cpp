@@ -79,6 +79,8 @@ void satelServer(){
             while(workStubSatel){
                 auto  m_recv_size = recv(v_sock_ind, c_buffer, MAX_buf, 0);
                 if (m_recv_size > 0){
+
+                    std::cout << " STUB SATEL RECV: " << m_recv_size  << std::endl;
                     if(c_buffer[2] == INTEGRA_ENUM::VERSION){
                         std::cout << "wersja integry" << std::endl;
                         std::string len;
@@ -161,6 +163,48 @@ void satelServer(){
                         else
                             std::cout << " nie wyslano" << std::endl;
                     }
+                    else if(c_buffer[2] == (char)INTEGRA_ENUM::OUTPUT_ON){
+                        std::cout << "zmiana stanu alarmu integry" << std::endl;
+                        std::string len;
+                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len.push_back(INTEGRA_ENUM::OUTPUT_ON);
+                        len.push_back(0x0);
+                        len.push_back('3');
+                        len.push_back('3');
+
+                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len.push_back(INTEGRA_ENUM::END);
+
+                        int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
+                        if( siz >= 0 )
+                        {
+                            std::cout << "wyslano "<< std::endl;
+                        }
+                        else
+                            std::cout << " nie wyslano" << std::endl;
+                    }
+                    else if(c_buffer[2] == (char)INTEGRA_ENUM::OUTPUT_OFF){
+                        std::cout << "zmiana stanu alarmu integry" << std::endl;
+                        std::string len;
+                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len.push_back(INTEGRA_ENUM::OUTPUT_OFF);
+                        len.push_back(0x0);
+                        len.push_back('3');
+                        len.push_back('3');
+
+                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len.push_back(INTEGRA_ENUM::END);
+
+                        int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
+                        if( siz >= 0 )
+                        {
+                            std::cout << "wyslano "<< std::endl;
+                        }
+                        else
+                            std::cout << " nie wyslano" << std::endl;
+                    }
                     else if(c_buffer[2] == INTEGRA_ENUM::ARMED_PARTITIONS){
                         std::cout << "stan alarmu integry" << std::endl;
                         std::string len;
@@ -182,8 +226,14 @@ void satelServer(){
                         else
                             std::cout << " nie wyslano" << std::endl;
                     }
+                    else{
+                        assert(false);
+                        std::cout << "SATEL STUB SERVER nieznany przypadek :(" << std::endl;
+                    }
                 }
-
+                else{
+                    std::cout << "odebrano tylko : " <<m_recv_size << std::endl;
+                }
             }
         }
 
@@ -265,19 +315,25 @@ TEST_F(satel_integra_fixture, main)
 
 }
 
-TEST_F(satel_integra_fixture, main2)
+TEST_F(satel_integra_fixture, turnOnOffOutput)
 {
     struct CONFIG_JSON test_config;
-    test_config._satel_integra.host = "192.168.13.156";
+    test_config._satel_integra.host = "127.0.0.1";
     test_config._satel_integra.port = 7094;
-    test_config._satel_integra.pin = "6275";
+    test_config._satel_integra.pin = "1234";
     thread_data test_threadData;
     test_threadData.server_settings = &test_config;
 
     SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
+
+    startSatelServer();
+    //   std::cout << testIntegra.m_integra32.getIntegraInfo() << std::endl;
     testIntegra.checkSatel();
 
-   //std::cout << testIntegra.m_integra32.getIntegraInfo() << std::endl;
-   testIntegra.m_integra32.outputOn(8);
-
+    testIntegra.m_integra32.outputOn(3);
+    //std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    testIntegra.checkSatel();
+    testIntegra.m_integra32.outputOff(3);
+    //std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    testIntegra.checkSatel();
 }
