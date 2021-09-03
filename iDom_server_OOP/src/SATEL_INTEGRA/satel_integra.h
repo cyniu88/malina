@@ -41,7 +41,7 @@ private:
     int recvIntegra();
     const char* satelType(unsigned char t);
     void expandForSpecialValue(std::list<unsigned char> &result);
-    std::pair<unsigned char*, unsigned int> getFullFrame(const unsigned char* pCmd, const unsigned int cmdLength);
+    std::string getFullFrame(const unsigned char* pCmd, const unsigned int cmdLength);
 
 };
 

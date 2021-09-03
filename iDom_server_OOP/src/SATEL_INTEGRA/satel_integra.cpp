@@ -68,10 +68,6 @@ std::string SATEL_INTEGRA::getIntegraInfo()
 std::string SATEL_INTEGRA::checkIntegraOut()
 {
     unsigned char cmd[1] = { INTEGRA_ENUM::OUTPUTS_STATE };
-    // std::list<unsigned char> cmd;
-
-    // msg.push_back(); // get integra info
-
     sendIntegra(cmd, 1);
 
     (void) recvIntegra();
@@ -222,18 +218,18 @@ void SATEL_INTEGRA::calculateCRC(const unsigned char* pCmd, unsigned int length,
 
 int SATEL_INTEGRA::sendIntegra(const unsigned char* cmd, const unsigned int cmdLength){
 
-    std::pair<unsigned char*, unsigned int> cmdPayload;
-    cmdPayload = getFullFrame(cmd, cmdLength);
+    //std::pair<unsigned char*, unsigned int> cmdPayload;
+    auto cmdPayload = getFullFrame(cmd, cmdLength);
 #ifdef BT_TEST
     std::cout << "cyniu lenght: " << (sizeof(cmd)) << " cmdLength " << cmdLength << std::endl;
 
-    for (unsigned int i = 0 ; i < cmdPayload.second; ++i){
-        char d = (const char)cmdPayload.first[i];
+    for (unsigned int i = 0 ; i < cmdPayload.size(); ++i){
+        char d = (const char)cmdPayload.at(i);
         auto bs = std::bitset<8>(d);
         std::cout << "BITY2 " << bs.to_string() << std::endl;
     }
 #endif
-    return send(m_sock, (const char*)cmdPayload.first, cmdPayload.second, MSG_NOSIGNAL);
+    return send(m_sock, cmdPayload.c_str(), cmdPayload.size(), MSG_NOSIGNAL);
 }
 
 int SATEL_INTEGRA::recvIntegra()
@@ -294,8 +290,9 @@ void SATEL_INTEGRA::expandForSpecialValue(std::list<unsigned char> &result)
     }
 }
 
-std::pair<unsigned char*, unsigned int> SATEL_INTEGRA::getFullFrame(const unsigned char* pCmd, const unsigned int cmdLength)
+std::string SATEL_INTEGRA::getFullFrame(const unsigned char* pCmd, const unsigned int cmdLength)
 {
+    std::string message;
     std::list<unsigned char> result;
 
     for (unsigned int i = 0; i< cmdLength; ++i)
@@ -323,8 +320,8 @@ std::pair<unsigned char*, unsigned int> SATEL_INTEGRA::getFullFrame(const unsign
     std::list<unsigned char>::iterator it = result.begin();
     for (unsigned int index = 0; it != result.end(); ++it, ++index)
     {
-        pResult[index] = *it;
+        message.push_back( *it);
     }
 
-    return std::pair<unsigned char*, unsigned int>(pResult, resultSize);
+    return message;
 }
