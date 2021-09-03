@@ -190,7 +190,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         //TODO add doorbell actions if needed
         my_data->main_house_room_handler->turnOnAllInRoom("dzwonek");
         if(my_data->satelIntegraHandler != std::nullptr_t()){
-            my_data->satelIntegraHandler->m_integra32.outputOn(10); //turn on satel output to blink outdoor siren in case of gate doorbell
+            my_data->satelIntegraHandler->m_integra32.outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren in case of gate doorbell
         }
         else{
             log_file_mutex.mutex_lock();

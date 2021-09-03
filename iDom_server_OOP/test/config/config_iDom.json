@@ -77,7 +77,8 @@
 	"satel_integra32":{
 	    "port": 7094,
 		"host": "192.168.13.156",
-		"pin": "123"
+		"pin": "123",
+	    "outdoor_siren_lights_id": 10
 	},
 	"THREAD": {
 		"RFLink": {

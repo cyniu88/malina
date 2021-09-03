@@ -199,6 +199,7 @@ struct SATEL_INTEGRA_CFG{
     std::string host = "null";
     int port = 7094;
     std::string pin = "null";
+    unsigned int outdoor_siren_lights_id = 0;
 };
 
 struct CONFIG_JSON{

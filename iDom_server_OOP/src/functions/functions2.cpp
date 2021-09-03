@@ -598,6 +598,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._satel_integra.host = jj["satel_integra32"].at("host").get<std::string>();
     cj._satel_integra.port = jj["satel_integra32"].at("port").get<int>();
     cj._satel_integra.pin  = jj["satel_integra32"].at("pin").get<std::string>();
+    cj._satel_integra.outdoor_siren_lights_id = jj["satel_integra32"].at("outdoor_siren_lights_id").get<unsigned int>();
 
     return cj;
 }
