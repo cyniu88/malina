@@ -1,5 +1,6 @@
 #include "command_idom.h"
 #include "../../functions/functions.h"
+#include "../../SATEL_INTEGRA/satel_integra_handler.h"
 
 command_iDom::command_iDom(const std::string &name):command(name)
 {
@@ -61,12 +62,12 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             if (v[2] == "stats"){
                 std::string ret;
                 try{
-                 ret = my_data->main_iDomTools->getThermoStats(v[3]);
+                    ret = my_data->main_iDomTools->getThermoStats(v[3]);
                 }
                 catch (std::string& obj){
                     ret = obj + " " + v[3];
                 }
-               return ret;
+                return ret;
             }
         }
     }
@@ -143,7 +144,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             msg.append(v[i]);
         }
         STATE stMSG = my_data->main_iDomTools->sendViberMsgBool(msg, my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                                     my_data->server_settings->_fb_viber.viberSender);
+                                                                my_data->server_settings->_fb_viber.viberSender);
         if(stMSG == STATE::SEND_OK){
             return "wiadomosc wyslana poprawnie";
         }
@@ -180,13 +181,22 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else if (v[1] == "doorbell") {
         my_data->main_iDomTools->sendViberPicture("DZWONEK do bramy!",
-                         "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
-                         my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                         my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
+                                                  "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
+                                                  my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                  my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "Dzwonek do bramy"<< std::endl;
         log_file_mutex.mutex_unlock();
         //TODO add doorbell actions if needed
+        my_data->main_house_room_handler->turnOnAllInRoom("dzwonek");
+        if(my_data->satelIntegraHandler != std::nullptr_t()){
+            my_data->satelIntegraHandler->m_integra32.outputOn(10); //turn on satel output to blink outdoor siren in case of gate doorbell
+        }
+        else{
+            log_file_mutex.mutex_lock();
+            log_file_cout << WARNING << "Satel gateway not started!"<< std::endl;
+            log_file_mutex.mutex_unlock();
+        }
         return "done " + std::to_string(counter);
     }
     else if (v[1] == "alarm"){

@@ -4,6 +4,7 @@
 #include<sys/socket.h>    //socket
 #include<arpa/inet.h> //inet_addr
 #include<list>
+#include<mutex>
 
 #include "../idom_api.h"
 #include "satel_enum.h"
@@ -20,6 +21,7 @@ class SATEL_INTEGRA : public iDom_API
     STATE m_connectState = STATE::DISCONNECTED;
     std::string m_host;
     int m_port;
+    std::mutex sendMutex;
 public:
     SATEL_INTEGRA(const std::string &host, int port);
     ~ SATEL_INTEGRA();

@@ -10,6 +10,7 @@ SATEL_INTEGRA_HANDLER::SATEL_INTEGRA_HANDLER(thread_data *myData): m_integra32(m
     m_integra32.connectIntegra(my_data->server_settings->_satel_integra.host,
                                my_data->server_settings->_satel_integra.port);
     m_integra32.setIntegraPin(my_data->server_settings->_satel_integra.pin);
+    myData->satelIntegraHandler = this;
 }
 
 SATEL_INTEGRA_HANDLER::~SATEL_INTEGRA_HANDLER()

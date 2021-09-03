@@ -221,6 +221,7 @@ class RADIO_EQ_CONTAINER;
 class RFLinkHandler;
 class BUDERUS;
 class KEY_HANDLER;
+class SATEL_INTEGRA_HANDLER;
 //TODO temporary
 
 struct LUSINA{
@@ -258,6 +259,7 @@ struct thread_data{
     alarm_C iDomAlarm;
     bool serverStarted = false;
     LUSINA lusina;
+    SATEL_INTEGRA_HANDLER* satelIntegraHandler = std::nullptr_t();
    // std::unique_ptr<MENU_STATE_BASE> main_menu = std::make_unique<MENU_MAIN>();
 };
 

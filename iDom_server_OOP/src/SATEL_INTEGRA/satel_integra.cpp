@@ -217,7 +217,7 @@ void SATEL_INTEGRA::calculateCRC(const unsigned char* pCmd, unsigned int length,
 
 
 int SATEL_INTEGRA::sendIntegra(const unsigned char* cmd, const unsigned int cmdLength){
-
+    std::lock_guard<std::mutex> m_lock(sendMutex);
     //std::pair<unsigned char*, unsigned int> cmdPayload;
     auto cmdPayload = getFullFrame(cmd, cmdLength);
 #ifdef BT_TEST
