@@ -211,7 +211,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
 
             m_lightingBulbMap.at(bulbID)->setStatus(state);
             // set state
-            std::string name = m_lightingBulbMap.at(bulbID)->getBulbName();
+            std::string name = m_lightingBulbMap.at(bulbID)->getRoomName();
             name.append("_");
             name.append(m_lightingBulbMap.at(bulbID)->getBulbName());
             my_data->main_iDomStatus->setObjectState(name,state);
