@@ -210,8 +210,11 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
 
 
             m_lightingBulbMap.at(bulbID)->setStatus(state);
-            // it is working only for room with one bulb
-            my_data->main_iDomStatus->setObjectState(m_lightingBulbMap.at(bulbID)->getRoomName(),state);
+            // set state
+            std::string name = m_lightingBulbMap.at(bulbID)->getBulbName();
+            name.append(":");
+            name.append(m_lightingBulbMap.at(bulbID)->getBulbName());
+            my_data->main_iDomStatus->setObjectState(name,state);
 
             // TODO temporary added viber notifiction
             auto time = Clock::getUnixTime() - m_lastNotifyUnixTime;

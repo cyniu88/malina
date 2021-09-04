@@ -274,7 +274,7 @@ int SATEL_INTEGRA::recvIntegra()
     tv.tv_usec = 0;
     setsockopt(m_sock, SOL_SOCKET, SO_RCVTIMEO,(char*)&tv , sizeof(struct timeval));
 
-    int size = recv(m_sock, m_message, 5000, 0);
+    int size = recv(m_sock, m_message, 2000, 0);
     if (size < 0) {
         puts("Nie udało się pobrać odpowiedzi z serwera");
 
