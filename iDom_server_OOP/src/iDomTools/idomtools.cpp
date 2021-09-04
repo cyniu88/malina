@@ -269,11 +269,12 @@ PIN_STATE iDomTOOLS::getPinState(int pin_number)
 
 void iDomTOOLS::turnOnOff230vOutdoor()
 {
-    auto state = my_data->main_house_room_handler->m_lightingBulbMap.at(999)->getStatus();
+    unsigned int ID = 999;
+    auto state = my_data->main_house_room_handler->m_lightingBulbMap.at(ID)->getStatus();
     if (state == STATE::ON)
-        my_data->main_house_room_handler->turnOffAllInRoom("taras");
+        my_data->main_house_room_handler->turnOffBulb(ID);
     else
-        my_data->main_house_room_handler->turnOnAllInRoom("taras");
+        my_data->main_house_room_handler->turnOnBulb(ID);
 }
 
 void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)

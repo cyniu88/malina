@@ -113,21 +113,56 @@ void SATEL_INTEGRA::armAlarm()
     uint64_t value2;
     buffer2 >> std::hex >> value2;
 
-    unsigned char cmd[3];
+    unsigned char cmd[13];
     cmd[0] = (INTEGRA_ENUM::ARM);
     cmd[1] = (value1);
     cmd[2] = (value2);
-    sendIntegra(cmd,3);
+    cmd[3] = 0xff;
+    cmd[4] = 0xff;
+    cmd[5] = 0xff;
+    cmd[6] = 0xff;
+    cmd[7] = 0xff;
+    cmd[8] = 0xff;
+
+    cmd[9] = 0x01;
+
+    cmd[10] = 0x00;
+    cmd[11] = 0x00;
+    cmd[12] = 0x00;
+
+    sendIntegra(cmd,13);
 
     (void) recvIntegra();
 }
 
 void SATEL_INTEGRA::disarmAlarm()
 {
-    std::string msg;
-    msg.push_back(INTEGRA_ENUM::DISARM);
+    std::stringstream buffer1(m_pin.substr(0,2));
+    uint64_t value1;
+    buffer1 >> std::hex >> value1;
 
-    // sendIntegra(msg);
+    std::stringstream buffer2(m_pin.substr(2,2));
+    uint64_t value2;
+    buffer2 >> std::hex >> value2;
+
+    unsigned char cmd[13];
+    cmd[0] = (INTEGRA_ENUM::DISARM);
+    cmd[1] = (value1);
+    cmd[2] = (value2);
+    cmd[3] = 0xff;
+    cmd[4] = 0xff;
+    cmd[5] = 0xff;
+    cmd[6] = 0xff;
+    cmd[7] = 0xff;
+    cmd[8] = 0xff;
+
+    cmd[9] = 0x01;
+
+    cmd[10] = 0x00;
+    cmd[11] = 0x00;
+    cmd[12] = 0x00;
+
+    sendIntegra(cmd,13);
 
     (void) recvIntegra();
 }
