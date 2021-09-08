@@ -9,6 +9,7 @@
 #include "../CRON/cron.hpp"
 #include "../RADIO_433_eq/radio_433_eq.h"
 #include "../thread_functions/iDom_thread.h"
+#include "../SATEL_INTEGRA/satel_integra_handler.h"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData):
     m_key(myData->server_settings->_server.TS_KEY),
@@ -410,15 +411,35 @@ void iDomTOOLS::runOnSunrise()
 
 void iDomTOOLS::lockHome()
 {
+    if(my_data->idom_all_state.houseState == STATE::LOCK){
+        std::cout << "DUPA" << std::endl;
+        return;
+    }
+    std::string message = "dom zablokownay!";
     my_data->idom_all_state.houseState = STATE::LOCK;
     my_data->main_iDomStatus->setObjectState("house", STATE::LOCK);
-    ////switch 433mhz
+    #ifndef BT_TEST
+    // arm alarm
+    if(my_data->idom_all_state.alarmSatelState != STATE::ARMED)
+        my_data->satelIntegraHandler->m_integra32.armAlarm(my_data->server_settings->_satel_integra.partitionID);
+
+#endif
+    // turn off ventilation
+
+
+    // chek alarm is armed
+
+    if(my_data->satelIntegraHandler->getSatelPTR()->isAlarmArmed() == false){
+        message.append(" BEZ ALARMU :(");
+    }
+    ////switch 433mhz#include "idomtools.h"
+
     for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
         m_switch->onLockHome();
     }
     ///// light bubl
     my_data->main_house_room_handler->onLock();
-    my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
+    my_data->main_iDomTools->sendViberPicture(message,
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/lock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender);
@@ -432,13 +453,28 @@ void iDomTOOLS::lockHome()
 
 void iDomTOOLS::unlockHome()
 {
+    if(my_data->idom_all_state.houseState == STATE::UNLOCK)
+        return;
+    std::string message = "dom odblokownay!";
     my_data->idom_all_state.houseState = STATE::UNLOCK;
     my_data->idom_all_state.counter = 0;
     my_data->main_iDomStatus->setObjectState("house", STATE::UNLOCK);
+    //#ifndef BT_TEST
+    // disarm alarm
+    if(my_data->idom_all_state.alarmSatelState != STATE::DISARMED)
+        my_data->satelIntegraHandler->getSatelPTR()->disarmAlarm(my_data->server_settings->_satel_integra.partitionID);
 
+    // turn on ventilation on speed 1
+
+
+    // chek alarm is armed
+    if(my_data->satelIntegraHandler->getSatelPTR()->isAlarmArmed() == true){
+        message.append(" ALARM AKTYWNY!!");
+    }
+    //#endif
     ///// light bubl
     my_data->main_house_room_handler->onUnlock();
-    my_data->main_iDomTools->sendViberPicture("dom odblokownay!",
+    my_data->main_iDomTools->sendViberPicture(message,
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/unlock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender);

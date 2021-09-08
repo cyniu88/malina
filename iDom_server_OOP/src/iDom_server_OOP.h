@@ -131,6 +131,7 @@ struct FTP_SERVER{
 struct iDOM_STATE{
     STATE houseState = STATE::UNDEFINE;
     unsigned int counter = 0;
+    STATE alarmSatelState = STATE::UNDEFINE;
 };
 
 struct GATEWAY{
@@ -200,6 +201,7 @@ struct SATEL_INTEGRA_CFG{
     int port = 7094;
     std::string pin = "null";
     unsigned int outdoor_siren_lights_id = 0;
+    unsigned int partitionID = 1;
 };
 
 struct CONFIG_JSON{

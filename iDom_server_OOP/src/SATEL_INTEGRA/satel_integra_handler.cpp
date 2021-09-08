@@ -41,11 +41,36 @@ void SATEL_INTEGRA_HANDLER::checkSatel()
     }
 }
 
+void SATEL_INTEGRA_HANDLER::checkAlarm(STATE& st)
+{
+    bool fromSatel = m_integra32.isAlarmArmed();
+    if(st != STATE::ARMED and fromSatel == true){
+        st = STATE::ARMED;
+        my_data->main_iDomTools->lockHome();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "Lock house due to arm satel alarm" << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+    else if( st != STATE::DISARMED and fromSatel == false){
+        st = STATE::DISARMED;
+        my_data->main_iDomTools->unlockHome();
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "Unlock house due to disarm satel alarm" << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+}
+
 void SATEL_INTEGRA_HANDLER::run()
 {
     while(useful_F::go_while){
         checkSatel();
+        checkAlarm(my_data->idom_all_state.alarmSatelState);
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
 
+}
+
+SATEL_INTEGRA *SATEL_INTEGRA_HANDLER::getSatelPTR()
+{
+    return &m_integra32;
 }

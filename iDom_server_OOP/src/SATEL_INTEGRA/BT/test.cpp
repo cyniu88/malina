@@ -142,20 +142,22 @@ void satelServer(){
                     else if(c_buffer[2] == (char)INTEGRA_ENUM::ARM){
                         std::cout << "uzbrojenie alarmu "  << (int)c_buffer[3] << " " << (int)c_buffer[4] << std::endl;
                         std::string len;
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::ARM);
-                        len.push_back(0x3);
-                        len.push_back(0x4);
-                        len.push_back(0x5);
-                        len.push_back(0x6);
-                        len.push_back('3');
-                        len.push_back('3');
 
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::END);
 
-                        int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
+                        int siz = send(v_sock_ind, c_buffer, m_recv_size, 0);
+                        if( siz >= 0 )
+                        {
+                            std::cout << "wyslano "<< std::endl;
+                        }
+                        else
+                            std::cout << " nie wyslano" << std::endl;
+                    }
+                    else if(c_buffer[2] == (char)INTEGRA_ENUM::DISARM){
+                        std::cout << "rozbrojenie alarmu "  << (int)c_buffer[3] << " " << (int)c_buffer[4] << std::endl;
+                        std::string len;
+
+
+                        int siz = send(v_sock_ind, c_buffer, m_recv_size, 0);
                         if( siz >= 0 )
                         {
                             std::cout << "wyslano "<< std::endl;
@@ -227,8 +229,8 @@ void satelServer(){
                             std::cout << " nie wyslano" << std::endl;
                     }
                     else{
+                        std::cout << "SATEL STUB SERVER nieznany przypadek :( " << std::hex << (int)c_buffer[2] << std::endl;
                         assert(false);
-                        std::cout << "SATEL STUB SERVER nieznany przypadek :(" << std::endl;
                     }
                 }
                 else{
@@ -284,8 +286,8 @@ TEST_F(satel_integra_fixture, checkIntegraOut)
 
     SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
     testIntegra.checkSatel();
-    testIntegra.m_integra32.getIntegraInfo();
-    EXPECT_FALSE(testIntegra.m_integra32.isAlarmArmed());
+    testIntegra.getSatelPTR()->getIntegraInfo();
+    EXPECT_FALSE(testIntegra.getSatelPTR()->isAlarmArmed());
 }
 
 TEST_F(satel_integra_fixture, main)
@@ -301,13 +303,13 @@ TEST_F(satel_integra_fixture, main)
 
     SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
     testIntegra.checkSatel();
-    testIntegra.m_integra32.armAlarm();
+    testIntegra.getSatelPTR()->armAlarm(1);
 
     workStubSatel = false;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     testIntegra.checkSatel();
-    testIntegra.m_integra32.armAlarm();
+    testIntegra.getSatelPTR()->armAlarm(1);
 
     startSatelServer();
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -326,13 +328,83 @@ TEST_F(satel_integra_fixture, turnOnOffOutput)
 
     SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
 
-    //   std::cout << testIntegra.m_integra32.getIntegraInfo() << std::endl;
+    //   std::cout << testIntegra.getSatelPTR()->getIntegraInfo() << std::endl;
     //testIntegra.checkSatel();
 
-    testIntegra.m_integra32.outputOn(3);
+    testIntegra.getSatelPTR()->outputOn(3);
     //std::this_thread::sleep_for(std::chrono::milliseconds(500));
     testIntegra.checkSatel();
-    testIntegra.m_integra32.outputOff(3);
+    testIntegra.getSatelPTR()->outputOff(3);
     //std::this_thread::sleep_for(std::chrono::milliseconds(500));
     testIntegra.checkSatel();
+}
+
+TEST_F(satel_integra_fixture, isArmed)
+{
+    startSatelServer();
+    struct CONFIG_JSON test_config;
+    test_config._satel_integra.host = "127.0.0.1";
+    test_config._satel_integra.port = 7094;
+    test_config._satel_integra.pin = "1234";
+    thread_data test_threadData;
+    test_threadData.server_settings = &test_config;
+
+    SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
+
+    EXPECT_FALSE(testIntegra.getSatelPTR()->isAlarmArmed() );
+}
+
+TEST_F(satel_integra_fixture, armAndDisarm)
+{
+    unsigned int partitionID = 1;
+    startSatelServer();
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    struct CONFIG_JSON test_config;
+    test_config._satel_integra.host = "127.0.0.1";
+    test_config._satel_integra.port = 7094;
+    test_config._satel_integra.pin = "1234";
+    thread_data test_threadData;
+    test_threadData.server_settings = &test_config;
+
+    SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
+    testIntegra.getSatelPTR()->armAlarm(partitionID);
+
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[0], INTEGRA_ENUM::HEADER_MSG);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[1], INTEGRA_ENUM::HEADER_MSG);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[2], INTEGRA_ENUM::ARM);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[3], 0x12);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[4], 0x34);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[5], 0xff);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[6], 0xff);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[7], 0xff);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[8], 0xff);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[9], 0xff);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[10], 0xff);
+    // partition
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[11], 0x01);
+
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[12], 0x00);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[13], 0x00);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[14], 0x00);
+
+    testIntegra.getSatelPTR()->disarmAlarm(partitionID);
+
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[0], INTEGRA_ENUM::HEADER_MSG);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[1], INTEGRA_ENUM::HEADER_MSG);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[2], INTEGRA_ENUM::DISARM);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[3], 0x12);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[4], 0x34);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[5], 0xff);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[6], 0xff);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[7], 0xff);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[8], 0xff);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[9], 0xff);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[10], 0xff);
+    // partition
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[11], 0x01);
+
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[12], 0x00);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[13], 0x00);
+    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[14], 0x00);
+
 }

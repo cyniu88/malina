@@ -16,13 +16,17 @@ class SATEL_INTEGRA : public iDom_API
     int m_i;
     int m_rozmiar;
     struct sockaddr_in m_server;
-    unsigned char m_message[2000];
     std::string m_pin;
     STATE m_connectState = STATE::DISCONNECTED;
     std::string m_host;
     int m_port;
     std::mutex sendMutex;
+#ifdef BT_TEST
 public:
+#endif
+    unsigned char m_message[2000];
+public:
+    SATEL_INTEGRA();
     SATEL_INTEGRA(const std::string &host, int port);
     ~ SATEL_INTEGRA();
     void setIntegraPin(const std::string& pin);
@@ -30,9 +34,9 @@ public:
     void disconnectIntegra();
     std::string getIntegraInfo();
     std::string checkIntegraOut();
-    bool isAlarmArmed();
-    void armAlarm();
-    void disarmAlarm();
+    virtual bool isAlarmArmed();
+    virtual void armAlarm(unsigned int partitionID);
+    virtual void disarmAlarm(unsigned int partitionID);
     void outputOn(unsigned int id);
     void outputOff(unsigned int id);
     std::string dump() const override;

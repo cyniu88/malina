@@ -6,6 +6,7 @@
 #include "../../RADIO_433_eq/radio_433_eq.h"
 #include "testJSON.h"
 #include "../../HOUSE/TEST/house_room_handler_stub.h"
+#include "../../SATEL_INTEGRA/BT/satel_integra_stub.h"
 
 class iDomTOOLS_ClassTest : public testing::Test
 {
@@ -18,7 +19,7 @@ public:
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     iDOM_STATE main_iDomStatus;
     ALERT test_alarmTime;
-
+    SATEL_INTEGRA_HANDLER_STUB test_satel;
     /////// method
     iDomTOOLS_ClassTest()
     {
@@ -35,6 +36,7 @@ public:
         test_server_set._server.saveFilePath = "/mnt/ramdisk/iDomStateTest2.save";
         test_server_set._server.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
         test_server_set._server.keyDatabasePath = "/mnt/ramdisk/key.database";
+
 
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
 
@@ -55,6 +57,9 @@ public:
         test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
         test_my_data.ptr_MPD_info->volume = 3;
         test_my_data.main_house_room_handler = std::make_shared<house_room_handler_stub>(&test_my_data);
+        test_my_data.server_settings->_satel_integra.partitionID = 1;
+        test_my_data.server_settings->_satel_integra.pin = "1122";
+        test_my_data.satelIntegraHandler = &test_satel;
         useful_F::myStaticData = &test_my_data;
     }
 
