@@ -1,24 +1,25 @@
 #ifndef SATEL_INTEGRA_STUB_H
 #define SATEL_INTEGRA_STUB_H
 
+#include <list>
 
-#include "../satel_integra_handler.h"
+#include "../satel_integra_interface.h"
 #include "../libs/useful/useful.h"
 
-class SATEL_INTEGRA_STUB : public SATEL_INTEGRA
+class SATEL_INTEGRA_STUB : public SATEL_INTEGRA_INTERFACE
 {
    bool  armed = false;
 public:
-   SATEL_INTEGRA_STUB(){};
-   ~ SATEL_INTEGRA_STUB(){};
+    SATEL_INTEGRA_STUB();
+   ~ SATEL_INTEGRA_STUB();
     void setIntegraPin(const std::string& pin);
     void connectIntegra(const std::string& host, const int port);
     void disconnectIntegra();
     std::string getIntegraInfo();
     std::string checkIntegraOut();
-    bool isAlarmArmed() override;
-    void armAlarm(unsigned int partitionID) override;
-    void disarmAlarm(unsigned int partitionID) override;
+    bool isAlarmArmed();
+    void armAlarm(unsigned int partitionID);
+    void disarmAlarm(unsigned int partitionID);
     void outputOn(unsigned int id);
     void outputOff(unsigned int id);
     STATE connectionState();
@@ -31,18 +32,18 @@ private:
     std::string getFullFrame(const unsigned char* pCmd, const unsigned int cmdLength);
 
 };
-class SATEL_INTEGRA_HANDLER_STUB : public SATEL_INTEGRA_HANDLER
+class SATEL_INTEGRA_HANDLER_STUB : public SATEL_INTEGRA_HANDLER_INTERFACE
 {
     SATEL_INTEGRA_STUB m_integra32_stub;
 public:
     SATEL_INTEGRA_HANDLER_STUB();
     ~SATEL_INTEGRA_HANDLER_STUB() ;
 
-    void checkSatel();
-    void checkAlarm(STATE &st);
-    void run();
+    void checkSatel() override;
+    void checkAlarm(STATE &st) override;
+    void run() override;
 
-    SATEL_INTEGRA *getSatelPTR() override;
+    SATEL_INTEGRA_INTERFACE *getSatelPTR() override;
 };
 
 #endif // SATEL_INTEGRA_STUB_H

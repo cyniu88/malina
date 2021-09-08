@@ -1,0 +1,37 @@
+#ifndef SATEL_INTEGRA_INTERFACE_H
+#define SATEL_INTEGRA_INTERFACE_H
+
+#include "../libs/useful/useful.h"
+
+class SATEL_INTEGRA_INTERFACE
+{
+#ifdef BT_TEST
+public:
+#endif
+    unsigned char m_message[2000];
+public:
+    SATEL_INTEGRA_INTERFACE(){};
+    virtual ~SATEL_INTEGRA_INTERFACE(){};
+
+    virtual bool isAlarmArmed() = 0;
+    virtual void armAlarm(unsigned int partitionID) = 0;
+    virtual void disarmAlarm(unsigned int partitionID) = 0;
+    virtual void outputOn(unsigned int id) = 0;
+    virtual void outputOff(unsigned int id) = 0;
+    virtual std::string getIntegraInfo() = 0;
+};
+
+class SATEL_INTEGRA_HANDLER_INTERFACE
+{
+public:
+   SATEL_INTEGRA_HANDLER_INTERFACE(){};
+   virtual ~SATEL_INTEGRA_HANDLER_INTERFACE() {};
+
+    virtual void checkSatel() = 0;
+    virtual void checkAlarm(STATE &st) = 0;
+    virtual void run() = 0;
+
+    virtual SATEL_INTEGRA_INTERFACE* getSatelPTR() = 0;
+};
+
+#endif // SATEL_INTEGRA_INTERFACE_H

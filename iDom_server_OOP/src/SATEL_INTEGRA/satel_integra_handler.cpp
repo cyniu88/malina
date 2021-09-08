@@ -10,7 +10,7 @@ SATEL_INTEGRA_HANDLER::SATEL_INTEGRA_HANDLER(thread_data *myData): m_integra32(m
     m_integra32.connectIntegra(my_data->server_settings->_satel_integra.host,
                                my_data->server_settings->_satel_integra.port);
     m_integra32.setIntegraPin(my_data->server_settings->_satel_integra.pin);
-    myData->satelIntegraHandler = this;
+    myData->satelIntegraHandler = static_cast<SATEL_INTEGRA_HANDLER_INTERFACE*>(this);
 }
 
 SATEL_INTEGRA_HANDLER::~SATEL_INTEGRA_HANDLER()
@@ -70,7 +70,10 @@ void SATEL_INTEGRA_HANDLER::run()
 
 }
 
-SATEL_INTEGRA *SATEL_INTEGRA_HANDLER::getSatelPTR()
+SATEL_INTEGRA_INTERFACE *SATEL_INTEGRA_HANDLER::getSatelPTR()
 {
+#ifdef BT_TEST
+    std::cout << "SATEL_INTEGRA_HANDLER::getSatelPTR()" << std::endl;
+#endif
     return &m_integra32;
 }

@@ -9,8 +9,9 @@
 #include "../idom_api.h"
 #include "satel_enum.h"
 #include "../libs/useful/useful.h"
+#include "satel_integra_interface.h"
 
-class SATEL_INTEGRA : public iDom_API
+class SATEL_INTEGRA :  public SATEL_INTEGRA_INTERFACE, public iDom_API
 {
     int m_sock;
     int m_i;
@@ -21,10 +22,10 @@ class SATEL_INTEGRA : public iDom_API
     std::string m_host;
     int m_port;
     std::mutex sendMutex;
-#ifdef BT_TEST
-public:
-#endif
-    unsigned char m_message[2000];
+//#ifdef BT_TEST
+//public:
+//#endif
+//    unsigned char m_message[2000];
 public:
     SATEL_INTEGRA();
     SATEL_INTEGRA(const std::string &host, int port);
@@ -32,13 +33,13 @@ public:
     void setIntegraPin(const std::string& pin);
     void connectIntegra(const std::string& host, const int port);
     void disconnectIntegra();
-    std::string getIntegraInfo();
+    std::string getIntegraInfo() override;
     std::string checkIntegraOut();
-    virtual bool isAlarmArmed();
-    virtual void armAlarm(unsigned int partitionID);
-    virtual void disarmAlarm(unsigned int partitionID);
-    void outputOn(unsigned int id);
-    void outputOff(unsigned int id);
+    bool isAlarmArmed() override;
+    void armAlarm(unsigned int partitionID) override;
+    void disarmAlarm(unsigned int partitionID) override;
+    void outputOn(unsigned int id) override;
+    void outputOff(unsigned int id) override;
     std::string dump() const override;
     STATE connectionState();
 private:

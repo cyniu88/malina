@@ -38,6 +38,7 @@
 #include "HOUSE/house_room_handler.h"
 #include "SerialPi/serialpi.h"
 #include "MENU/menu_base.h"
+#include "SATEL_INTEGRA/satel_integra_interface.h"
 
 #define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
@@ -224,7 +225,7 @@ class RADIO_EQ_CONTAINER;
 class RFLinkHandler;
 class BUDERUS;
 class KEY_HANDLER;
-class SATEL_INTEGRA_HANDLER;
+class SATEL_INTEGRA_HANDLER_INTERFACE;
 //TODO temporary
 
 struct LUSINA{
@@ -262,7 +263,7 @@ struct thread_data{
     alarm_C iDomAlarm;
     bool serverStarted = false;
     LUSINA lusina;
-    SATEL_INTEGRA_HANDLER* satelIntegraHandler = std::nullptr_t();
+    SATEL_INTEGRA_HANDLER_INTERFACE* satelIntegraHandler = std::nullptr_t();
    // std::unique_ptr<MENU_STATE_BASE> main_menu = std::make_unique<MENU_MAIN>();
 };
 
