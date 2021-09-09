@@ -418,12 +418,11 @@ void iDomTOOLS::lockHome()
     std::string message = "dom zablokownay!";
     my_data->idom_all_state.houseState = STATE::LOCK;
     my_data->main_iDomStatus->setObjectState("house", STATE::LOCK);
-    #ifndef BT_TEST
+
     // arm alarm
     if(my_data->idom_all_state.alarmSatelState != STATE::ARMED)
-        my_data->satelIntegraHandler->m_integra32.armAlarm(my_data->server_settings->_satel_integra.partitionID);
+        my_data->satelIntegraHandler->getSatelPTR()->armAlarm(my_data->server_settings->_satel_integra.partitionID);
 
-#endif
     // turn off ventilation
 
 
