@@ -286,7 +286,7 @@ TEST_F(satel_integra_fixture, checkIntegraOut)
 
     SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
     testIntegra.checkSatel();
-    testIntegra.getSatelPTR()->getIntegraInfo();
+    dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->getIntegraInfo();
     EXPECT_FALSE(testIntegra.getSatelPTR()->isAlarmArmed());
 }
 
@@ -369,42 +369,42 @@ TEST_F(satel_integra_fixture, armAndDisarm)
     SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
     testIntegra.getSatelPTR()->armAlarm(partitionID);
 
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[0], INTEGRA_ENUM::HEADER_MSG);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[1], INTEGRA_ENUM::HEADER_MSG);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[2], INTEGRA_ENUM::ARM);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[3], 0x12);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[4], 0x34);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[5], 0xff);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[6], 0xff);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[7], 0xff);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[8], 0xff);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[9], 0xff);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[10], 0xff);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[0], INTEGRA_ENUM::HEADER_MSG);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[1], INTEGRA_ENUM::HEADER_MSG);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[2], INTEGRA_ENUM::ARM);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[3], 0x12);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[4], 0x34);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[5], 0xff);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[6], 0xff);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[7], 0xff);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[8], 0xff);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[9], 0xff);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[10], 0xff);
     // partition
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[11], 0x01);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[11], 0x01);
 
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[12], 0x00);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[13], 0x00);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[14], 0x00);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[12], 0x00);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[13], 0x00);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[14], 0x00);
 
     testIntegra.getSatelPTR()->disarmAlarm(partitionID);
 
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[0], INTEGRA_ENUM::HEADER_MSG);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[1], INTEGRA_ENUM::HEADER_MSG);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[2], INTEGRA_ENUM::DISARM);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[3], 0x12);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[4], 0x34);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[5], 0xff);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[6], 0xff);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[7], 0xff);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[8], 0xff);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[9], 0xff);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[10], 0xff);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[0], INTEGRA_ENUM::HEADER_MSG);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[1], INTEGRA_ENUM::HEADER_MSG);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[2], INTEGRA_ENUM::DISARM);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[3], 0x12);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[4], 0x34);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[5], 0xff);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[6], 0xff);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[7], 0xff);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[8], 0xff);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[9], 0xff);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[10], 0xff);
     // partition
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[11], 0x01);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[11], 0x01);
 
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[12], 0x00);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[13], 0x00);
-    EXPECT_EQ(testIntegra.getSatelPTR()->m_message[14], 0x00);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[12], 0x00);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[13], 0x00);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[14], 0x00);
 
 }

@@ -75,5 +75,5 @@ SATEL_INTEGRA_INTERFACE *SATEL_INTEGRA_HANDLER::getSatelPTR()
 #ifdef BT_TEST
     std::cout << "SATEL_INTEGRA_HANDLER::getSatelPTR()" << std::endl;
 #endif
-    return &m_integra32;
+    return static_cast<SATEL_INTEGRA*>(&m_integra32);
 }

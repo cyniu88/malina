@@ -22,10 +22,10 @@ class SATEL_INTEGRA :  public SATEL_INTEGRA_INTERFACE, public iDom_API
     std::string m_host;
     int m_port;
     std::mutex sendMutex;
-//#ifdef BT_TEST
-//public:
-//#endif
-//    unsigned char m_message[2000];
+#ifdef BT_TEST
+public:
+#endif
+    unsigned char m_message[2000];
 public:
     SATEL_INTEGRA();
     SATEL_INTEGRA(const std::string &host, int port);

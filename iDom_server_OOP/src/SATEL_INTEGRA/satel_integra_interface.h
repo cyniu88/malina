@@ -2,13 +2,10 @@
 #define SATEL_INTEGRA_INTERFACE_H
 
 #include "../libs/useful/useful.h"
-
+class SATEL_INTEGRA;
 class SATEL_INTEGRA_INTERFACE
 {
-#ifdef BT_TEST
-public:
-#endif
-    unsigned char m_message[2000];
+
 public:
     SATEL_INTEGRA_INTERFACE(){};
     virtual ~SATEL_INTEGRA_INTERFACE(){};

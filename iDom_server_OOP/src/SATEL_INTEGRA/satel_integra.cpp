@@ -312,11 +312,9 @@ const char* SATEL_INTEGRA::satelType(unsigned char t)
 
 void SATEL_INTEGRA::expandForSpecialValue(std::list<unsigned char> &result)
 {
-    std::list<unsigned char>::iterator it = result.begin();
-
     const unsigned char specialValue = 0xFE;
 
-    for (; it != result.end(); it++)
+    for (auto it = result.begin(); it != result.end(); ++it)
     {
         if (*it == specialValue)
         {

@@ -194,7 +194,6 @@ TEST_F(iDomTOOLS_ClassTest, homeLockPlayStopMusic)
     EXPECT_EQ(test_q._size(),0);
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::UNDEFINE);
     test_my_data.main_iDomTools->lockHome();
-    return;
     EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("house"),STATE::LOCK);
     test_my_data.main_iDomTools->MPD_play(&test_my_data);
     EXPECT_EQ(test_q._size(),0);
