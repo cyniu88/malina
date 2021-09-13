@@ -446,6 +446,7 @@ void iDomTOOLS::lockHome()
     log_file_mutex.mutex_unlock();
 
     saveState_iDom(my_data->serverStarted);
+    my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
 }
 
 void iDomTOOLS::unlockHome()
@@ -476,6 +477,7 @@ void iDomTOOLS::unlockHome()
     log_file_mutex.mutex_unlock();
 
     saveState_iDom(my_data->serverStarted);
+    my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
 }
 
 void iDomTOOLS::switchActionOnLockHome()

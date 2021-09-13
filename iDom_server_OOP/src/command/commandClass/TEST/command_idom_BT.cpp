@@ -53,7 +53,7 @@ TEST_F(commandiDom_Class_fixture, help)
     std::string helpStr = test_command_iDom->help();
     EXPECT_THAT(helpStr,testing::HasSubstr("iDom"));
     std::cout << "test " << helpStr.size() << std::endl;
-    EXPECT_EQ(helpStr.size(),1298);
+    EXPECT_EQ(helpStr.size(), 1341);
 }
 
 TEST_F(commandiDom_Class_fixture, less_param)
