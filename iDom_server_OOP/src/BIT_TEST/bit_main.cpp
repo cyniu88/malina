@@ -464,3 +464,12 @@ TEST_F(bit_fixture, mqtt_command){
     EXPECT_EQ(1, testMPD_Q._size());
     EXPECT_EQ(testMPD_Q._get(), MPD_COMMAND::VOLUP);
 }
+
+TEST_F(bit_fixture, start_iDom_unlock_lock)
+{
+    EXPECT_FALSE(test_my_data.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
+    test_my_data.main_iDomTools->unlockHome();
+    EXPECT_FALSE(test_my_data.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
+    test_my_data.main_iDomTools->lockHome();
+    EXPECT_TRUE(test_my_data.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
+}

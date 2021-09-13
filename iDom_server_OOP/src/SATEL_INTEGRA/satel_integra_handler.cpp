@@ -28,7 +28,7 @@ void SATEL_INTEGRA_HANDLER::checkSatel()
     for(const auto& d : dataOut){
         auto bs = std::bitset<8>(d);
 #ifdef BT_TEST
-      //  std::cout << "BITY " << bs.to_string() << std::endl;
+        //  std::cout << "BITY " << bs.to_string() << std::endl;
 #endif
         for(int i = 0; i < 8; ++i){
             if(bs[i] == true){
@@ -48,15 +48,23 @@ void SATEL_INTEGRA_HANDLER::checkAlarm(STATE& st)
         st = STATE::ARMED;
         my_data->main_iDomTools->lockHome();
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "Lock house due to arm satel alarm" << std::endl;
+        log_file_cout << INFO << "Alarm uzbrojony" << std::endl;
         log_file_mutex.mutex_unlock();
+        my_data->main_iDomTools->sendViberPicture("alarm uzbrojony",
+                                                  "https://frontpoint.files.wordpress.com/2010/08/redbutton_web_blog.png",
+                                                  my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                  my_data->server_settings->_fb_viber.viberSender);
     }
     else if( st != STATE::DISARMED and fromSatel == false){
         st = STATE::DISARMED;
         my_data->main_iDomTools->unlockHome();
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "Unlock house due to disarm satel alarm" << std::endl;
+        log_file_cout << INFO << "Alarm deaktywowany" << std::endl;
         log_file_mutex.mutex_unlock();
+        my_data->main_iDomTools->sendViberPicture("alarm deaktywowany",
+                                                  "https://www.clipartmax.com/png/middle/172-1721538_home-security-alarm-icons-lock-house-monitoring-system.png",
+                                                  my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                  my_data->server_settings->_fb_viber.viberSender);
     }
 }
 

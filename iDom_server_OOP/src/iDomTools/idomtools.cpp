@@ -412,10 +412,9 @@ void iDomTOOLS::runOnSunrise()
 void iDomTOOLS::lockHome()
 {
     if(my_data->idom_all_state.houseState == STATE::LOCK){
-        std::cout << "DUPA" << std::endl;
         return;
     }
-    std::string message = "dom zablokownay!";
+
     my_data->idom_all_state.houseState = STATE::LOCK;
     my_data->main_iDomStatus->setObjectState("house", STATE::LOCK);
 
@@ -428,9 +427,6 @@ void iDomTOOLS::lockHome()
 
     // chek alarm is armed
 
-    if(my_data->satelIntegraHandler->getSatelPTR()->isAlarmArmed() == false){
-        message.append(" BEZ ALARMU :(");
-    }
     ////switch 433mhz#include "idomtools.h"
 
     for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
@@ -438,13 +434,15 @@ void iDomTOOLS::lockHome()
     }
     ///// light bubl
     my_data->main_house_room_handler->onLock();
-    my_data->main_iDomTools->sendViberPicture(message,
+    my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/lock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender);
+    /// turn on music
+    //MPD_stop();
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "status domu - "  <<(my_data->idom_all_state.houseState) << std::endl;
+    log_file_cout << INFO << "zablokowanie domu - "  <<(my_data->idom_all_state.houseState) << std::endl;
     log_file_mutex.mutex_unlock();
 
     saveState_iDom(my_data->serverStarted);
@@ -454,7 +452,7 @@ void iDomTOOLS::unlockHome()
 {
     if(my_data->idom_all_state.houseState == STATE::UNLOCK)
         return;
-    std::string message = "dom odblokownay!";
+
     my_data->idom_all_state.houseState = STATE::UNLOCK;
     my_data->idom_all_state.counter = 0;
     my_data->main_iDomStatus->setObjectState("house", STATE::UNLOCK);
@@ -465,21 +463,16 @@ void iDomTOOLS::unlockHome()
 
     // turn on ventilation on speed 1
 
-
-    // chek alarm is armed
-    if(my_data->satelIntegraHandler->getSatelPTR()->isAlarmArmed() == true){
-        message.append(" ALARM AKTYWNY!!");
-    }
     //#endif
     ///// light bubl
     my_data->main_house_room_handler->onUnlock();
-    my_data->main_iDomTools->sendViberPicture(message,
+    my_data->main_iDomTools->sendViberPicture("dom odblokownay!",
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/unlock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender);
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "status domu - " << my_data->idom_all_state.houseState << std::endl;
+    log_file_cout << INFO << "odblokowanie domu - " << my_data->idom_all_state.houseState << std::endl;
     log_file_mutex.mutex_unlock();
 
     saveState_iDom(my_data->serverStarted);
