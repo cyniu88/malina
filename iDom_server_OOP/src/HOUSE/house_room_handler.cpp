@@ -138,6 +138,7 @@ nlohmann::json house_room_handler::getAllInfoJSON()
         roomJJ["room"] = a.second->getRoomName();
         roomJJ["bulb ID"] = a.second->getID();
         roomJJ["bubl name"] = a.second->getBulbName();
+        roomJJ["bulb counter"] = a.second->getBulbCounter();
         roomJJ["switch"] = a.second->getBulbPin();
         roomJJ["last working time"] = a.second->howLongBulbOn().getString();
         roomJJ["lock"] = stateToString(a.second->m_onLock);
@@ -177,6 +178,7 @@ nlohmann::json house_room_handler::getInfoJSON_allON()
             roomJJ["room"] = a.second->getRoomName();
             roomJJ["bulb ID"] = a.second->getID();
             roomJJ["bubl name"] = a.second->getBulbName();
+            roomJJ["bulb counter"] = a.second->getBulbCounter();
             roomJJ["switch"] = a.second->getBulbPin();
             roomJJ["last working time"] = a.second->howLongBulbOn().getString();
             roomJJ["lock"] = stateToString(a.second->m_onLock);

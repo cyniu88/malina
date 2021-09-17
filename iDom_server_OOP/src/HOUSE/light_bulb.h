@@ -46,6 +46,7 @@ public:
 
     void addBulbPin(int i);
     std::string getBulbPin();
+    unsigned int getBulbCounter();
 
     Clock howLongBulbOn();
 

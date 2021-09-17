@@ -28,11 +28,11 @@ light_bulb::light_bulb(const light_bulb &a):
     m_ID(a.m_ID),
     m_onTime(a.m_onTime),
     m_satelAlarmUnixTime(a.m_satelAlarmUnixTime),
+    m_bulbCounter(a.m_bulbCounter),
     m_onLock(a.m_onLock),
     m_onUnlock(a.m_onUnlock),
     m_onSunset(a.m_onSunset),
-    m_onSunrise(a.m_onSunrise),
-    m_bulbCounter(a.m_bulbCounter)
+    m_onSunrise(a.m_onSunrise)
 {
 #ifdef BT_TEST
     std::cout << "light_bulb::light_bulb(&)" << std::endl;
@@ -95,6 +95,7 @@ void light_bulb::on(std::function<void(std::string s)>onOn)
     ss << "0;" << m_ID << ";1;0;2;1";
     onOn(ss.str());
     m_status = STATE::ACTIVE;
+    ++m_bulbCounter;
 }
 
 void light_bulb::off(std::function<void(std::string s)> onOff)
@@ -170,6 +171,11 @@ std::string light_bulb::getBulbPin()
         str << a <<",";
     }
     return str.str();
+}
+
+unsigned int light_bulb::getBulbCounter()
+{
+    return m_bulbCounter;
 }
 
 Clock light_bulb::howLongBulbOn()
