@@ -342,6 +342,7 @@ TEST_F(satel_integra_fixture, turnOnOffOutput)
 TEST_F(satel_integra_fixture, isArmed)
 {
     startSatelServer();
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
     struct CONFIG_JSON test_config;
     test_config._satel_integra.host = "127.0.0.1";
     test_config._satel_integra.port = 7094;

@@ -19,6 +19,7 @@ class light_bulb: public iDom_API
     Clock m_onTime;
     Clock m_offTime;
     unsigned int m_satelAlarmUnixTime = 0;
+    unsigned int m_bulbCounter = 0;
 
 public:
     light_bulb(const std::string& roomName, const std::string& bulbName, int id);

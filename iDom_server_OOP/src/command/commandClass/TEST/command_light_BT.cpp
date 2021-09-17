@@ -28,17 +28,23 @@ TEST_F(command_light_Class_fixture, mqtt_bulb_state_update)
 {
     test_v.clear();
     test_v.push_back("light");
-    test_v.push_back("state;111;30;1\n");
+    test_v.push_back("state;226;30;1\n");
     auto ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
-    EXPECT_EQ( test_my_data.main_house_room_handler->m_lightingBulbMap[111]->getStatus(), STATE::ON);
+    EXPECT_EQ( test_my_data.main_house_room_handler->m_lightingBulbMap[226]->getStatus(), STATE::ON);
 
     test_v.clear();
     test_v.push_back("light");
-    test_v.push_back("state;111;30;0\n");
+    test_v.push_back("state;226;30;0\n");
     ret = test_command_light->execute(test_v,&test_my_data);
     std::cout << "ret: " << ret << std::endl;
-    EXPECT_EQ( test_my_data.main_house_room_handler->m_lightingBulbMap[111]->getStatus(), STATE::OFF);
+    EXPECT_EQ( test_my_data.main_house_room_handler->m_lightingBulbMap[226]->getStatus(), STATE::OFF);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("info");
+
+    ret = test_command_light->execute(test_v,&test_my_data);
+    std::cout << "ret: " << ret << std::endl;
 }
 
 TEST_F(command_light_Class_fixture, mqtt_bulb_state_update_bulb_not_exist)
@@ -124,6 +130,12 @@ TEST_F(command_light_Class_fixture, on_off_bulb_command)
     (void)test_command_light->execute(test_v,&test_my_data);
     EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::OFF);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("info");
+
+    auto ret = test_command_light->execute(test_v,&test_my_data);
+    std::cout << "ret: " << ret << std::endl;
 }
 
 TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
@@ -155,6 +167,12 @@ TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
               STATE::DEACTIVE);
     EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(127)->getStatus(),
               STATE::DEACTIVE);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("info");
+
+    auto ret = test_command_light->execute(test_v,&test_my_data);
+    std::cout << "ret: " << ret << std::endl;
 }
 
 TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_home_command)

@@ -147,6 +147,14 @@ nlohmann::json house_room_handler::getAllInfoJSON()
         roomJJ["satelAlarm"] = stateToString(a.second->m_satelAlarm);
         roomJJ["howLong"] = a.second->m_satelAlarmHowLong;
         roomJJ["satelSensorAlarmUnixTime"] = Clock::unixTimeToString(a.second->getSatelSensorAlarmUnixTime());
+        try {
+            roomJJ["satelCounter"] = m_roomMap.at(a.second->getRoomName())->satelSensorCounter;
+        }  catch (...) {
+            roomJJ["satelCounter"] = -1;
+            log_file_mutex.mutex_lock();
+            log_file_cout << ERROR << "sprawdz konfig pokojow! "<< a.second->getRoomName() << " nie istnieje" << std::endl;
+            log_file_mutex.mutex_unlock();
+        }
         jj.push_back(roomJJ);
     }
     return jj;
@@ -176,6 +184,14 @@ nlohmann::json house_room_handler::getInfoJSON_allON()
             roomJJ["sunset"] = stateToString(a.second->m_onSunset);
             roomJJ["sunrise"] = stateToString(a.second->m_onSunrise);
             roomJJ["satelSensorAlarmUnixTime"] = Clock::unixTimeToString(a.second->getSatelSensorAlarmUnixTime());
+            try {
+                roomJJ["satelCounter"] = m_roomMap.at(a.second->getRoomName())->satelSensorCounter;
+            }  catch (...) {
+                roomJJ["satelCounter"] = -1;
+                log_file_mutex.mutex_lock();
+                log_file_cout << ERROR << "sprawdz konfig pokojow! "<< a.second->getRoomName() << " nie istnieje" << std::endl;
+                log_file_mutex.mutex_unlock();
+            }
             jj.push_back(roomJJ);
         }
     }

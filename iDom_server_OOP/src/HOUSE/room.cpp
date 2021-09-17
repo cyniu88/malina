@@ -7,11 +7,15 @@ ROOM::ROOM(int satelSensorID, const std::string &name, const std::map<int, std::
     m_name(name),
     m_lightingBulbMap(lightingBulbMap)
 {
-
+#ifdef BT_TEST
+    std::cout << "ROOM::ROOM() " << name << std::endl;
+#endif
 }
 
 void ROOM::satelSensorActive()
 {
+    ++satelSensorCounter;
+
     if(useful_F::myStaticData->idom_all_state.houseState == STATE::LOCK){
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << "ALARM !  w pokoju " << m_name << std::endl;

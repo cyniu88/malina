@@ -62,12 +62,12 @@
          }
       }
    },
-      "tarasa":{
+    "tarasa":{
       "name":"taras",
       "satelSensorID":37,
       "bulb":{
-         "taras":{
-            "bulbName":"taras",
+         "jedna":{
+            "bulbName":"jedna",
             "bulbID":326,
             "switchID":[
                41

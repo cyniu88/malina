@@ -9,6 +9,7 @@ class ROOM
 {
 public:
     int m_satelSensorID;
+    unsigned int satelSensorCounter = 0;
     std::string m_name;
     std::map<int, std::shared_ptr<light_bulb>> m_lightingBulbMap;
     STATE m_state = STATE::UNDEFINE;

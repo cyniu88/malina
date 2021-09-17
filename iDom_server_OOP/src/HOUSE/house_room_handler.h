@@ -11,6 +11,7 @@
 #include "room.h"
 
 struct thread_data;
+
 class house_room_handler: public iDom_API
 {
     thread_data* my_data;

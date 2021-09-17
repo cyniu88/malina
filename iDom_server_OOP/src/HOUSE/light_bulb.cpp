@@ -31,7 +31,8 @@ light_bulb::light_bulb(const light_bulb &a):
     m_onLock(a.m_onLock),
     m_onUnlock(a.m_onUnlock),
     m_onSunset(a.m_onSunset),
-    m_onSunrise(a.m_onSunrise)
+    m_onSunrise(a.m_onSunrise),
+    m_bulbCounter(a.m_bulbCounter)
 {
 #ifdef BT_TEST
     std::cout << "light_bulb::light_bulb(&)" << std::endl;
@@ -62,6 +63,7 @@ light_bulb &light_bulb::operator=(const light_bulb &a)
     m_onSunrise = a.m_onSunrise;
     m_onTime = a.m_onTime;
     m_satelAlarmUnixTime = a.m_satelAlarmUnixTime;
+    m_bulbCounter = a.m_bulbCounter;
     return *this;
 }
 
@@ -80,6 +82,7 @@ light_bulb& light_bulb::operator =(light_bulb&& a)
     m_onSunrise = std::move(a.m_onSunrise);
     m_onTime = std::move(a.m_onTime);
     m_satelAlarmUnixTime = std::move(a.m_satelAlarmUnixTime);
+    m_bulbCounter = std::move(a.m_bulbCounter);
     return *this;
 }
 
@@ -206,5 +209,6 @@ std::string light_bulb::dump() const
     str << "bulb m_onSunrise: " << m_onSunrise << std::endl;
     str << "bulb m_onSunset: " << m_onSunset << std::endl;
     str << "bulb m_satelAlarmUnixTime: " << m_satelAlarmUnixTime << std::endl;
+    str << "m_bulbCounter: " << m_bulbCounter << std::endl;
     return str.str();
 }
