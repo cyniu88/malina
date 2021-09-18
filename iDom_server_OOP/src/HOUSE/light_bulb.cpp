@@ -95,7 +95,6 @@ void light_bulb::on(std::function<void(std::string s)>onOn)
     ss << "0;" << m_ID << ";1;0;2;1";
     onOn(ss.str());
     m_status = STATE::ACTIVE;
-    ++m_bulbCounter;
 }
 
 void light_bulb::off(std::function<void(std::string s)> onOff)
@@ -121,6 +120,7 @@ void light_bulb::setStatus(STATE s)
     if(s == STATE::ON){
         m_onTime = Clock::getTime();
         satelSensorAlarm(); //simulating motion sensor activation so as not to turn off the light immediately in the absence of motion
+        ++m_bulbCounter;
     }
     else if(s == STATE::OFF){
         m_offTime = Clock::getTime();
