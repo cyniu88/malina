@@ -52,11 +52,11 @@ void MENU_LIGHT::entry()
 {
    // std::cout << "MENU_LIGHT::entry()" << std::endl;
     auto jj = my_dataPTR->main_house_room_handler->getAllInfoJSON();
-
+std::cout << jj.dump(4) << std::endl;
     for(const auto& data : jj){
         auto name = data.at("room").get<std::string>();
 
-        BULB bulb(data.at("bubl name").get<std::string>(),data.at("bulb ID").get<int>());
+        BULB bulb(data.at("bulb name").get<std::string>(),data.at("bulb ID").get<int>());
         lightDatabase.databaseMap[name].pushBack({bulb,0});
     }
     lightDatabase.databaseMap["all"].pushBack({BULB("all",0),0});

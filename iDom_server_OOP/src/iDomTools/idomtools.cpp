@@ -432,7 +432,7 @@ void iDomTOOLS::lockHome()
     for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
         m_switch->onLockHome();
     }
-    ///// light bubl
+    ///// light bulb
     my_data->main_house_room_handler->onLock();
     my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/lock.jpg",
@@ -465,7 +465,7 @@ void iDomTOOLS::unlockHome()
     // turn on ventilation on speed 1
 
     //#endif
-    ///// light bubl
+    ///// light bulb
     my_data->main_house_room_handler->onUnlock();
     my_data->main_iDomTools->sendViberPicture("dom odblokownay!",
                                               "http://cyniu88.no-ip.pl/images/iDom/iDom/unlock.jpg",
