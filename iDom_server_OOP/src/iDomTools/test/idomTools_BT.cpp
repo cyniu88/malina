@@ -293,7 +293,7 @@ TEST_F(iDomTOOLS_ClassTest, getLightningStruct)
 }
 TEST_F(iDomTOOLS_ClassTest, checkLightning)
 {
-    test_my_data.server_settings->_server.lightningApiURL = "http://cyniu88.no-ip.pl/test/json/lightning.json";
+    test_my_data.server_settings->_server.lightningApiURL = "http://45.90.3.84/test/json/lightning.json";
     test_my_data.main_iDomTools->checkLightning();
     auto test_alert_info = test_my_data.main_iDomTools->getLightningStruct();
     EXPECT_EQ(test_alert_info.timestamp,210);

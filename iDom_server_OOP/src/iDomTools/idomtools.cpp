@@ -435,7 +435,7 @@ void iDomTOOLS::lockHome()
     ///// light bulb
     my_data->main_house_room_handler->onLock();
     my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
-                                              "http://cyniu88.no-ip.pl/images/iDom/iDom/lock.jpg",
+                                              "http://45.90.3.84/images/iDom/iDom/lock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender);
     /// turn on music
@@ -468,7 +468,7 @@ void iDomTOOLS::unlockHome()
     ///// light bulb
     my_data->main_house_room_handler->onUnlock();
     my_data->main_iDomTools->sendViberPicture("dom odblokownay!",
-                                              "http://cyniu88.no-ip.pl/images/iDom/iDom/unlock.jpg",
+                                              "http://45.90.3.84/images/iDom/iDom/unlock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender);
 
@@ -552,7 +552,7 @@ void iDomTOOLS::checkLightning()
         if(sendLightingCounter > 2)   // jesli wyslano juz 2 powiadomieniaw 10 minut  to nie wysylam wiecej
             return;
 
-        m_viber.setAvatar("http://cyniu88.no-ip.pl/avatar/lightning.jpg");
+        m_viber.setAvatar("http://45.90.3.84/avatar/lightning.jpg");
         STATE stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "
                                               + EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
                                           + "\\n\\n " + lightningData.data.str(),

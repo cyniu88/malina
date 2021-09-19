@@ -42,7 +42,7 @@ TEST_F(lightning_Class_fixture, lightningAlertON)
 TEST_F(lightning_Class_fixture, checkLightningAlert)
 {
 
-    nlohmann::json test_Json2 = useful_F_libs::getJson("http://cyniu88.no-ip.pl/test/json/on_lightning.json");
+    nlohmann::json test_Json2 = useful_F_libs::getJson("http://45.90.3.84/test/json/on_lightning.json");
     test_struct = test_lightning.lightningAlert(test_Json.jj_noLightning);
 
     bool test_result = test_lightning.checkLightningAlert(&test_struct);
@@ -82,7 +82,7 @@ TEST_F(lightning_Class_fixture, checkLightningAlert_stormNotEnoughCloser)
 
 TEST_F(lightning_Class_fixture, checkLightningAlert_stormCloser)
 {
-    nlohmann::json test_Json2 = useful_F_libs::getJson("http://cyniu88.no-ip.pl/test/json/on_lightning.json");
+    nlohmann::json test_Json2 = useful_F_libs::getJson("http://45.90.3.84/test/json/on_lightning.json");
 
     test_struct = test_lightning.lightningAlert(test_Json.jj_noLightning);
     bool test_result = test_lightning.checkLightningAlert(&test_struct);
@@ -121,7 +121,7 @@ TEST_F(lightning_Class_fixture, oneLightning)
 
 TEST_F(lightning_Class_fixture, errorCode)
 {
-    nlohmann::json test_Json2 = useful_F_libs::getJson("http://cyniu88.no-ip.pl/test/json/lightningUnauthorizedClient.json");
+    nlohmann::json test_Json2 = useful_F_libs::getJson("http://45.90.3.84/test/json/lightningUnauthorizedClient.json");
 
     test_struct = test_lightning.lightningAlert(test_Json2);
     bool test_result = test_lightning.checkLightningAlert(&test_struct);

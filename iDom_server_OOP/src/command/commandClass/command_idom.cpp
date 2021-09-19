@@ -110,7 +110,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
     }
     else if (v[1] == "wifi"){
-        std::string readBuffer = useful_F_libs::httpPost("http://cyniu88.no-ip.pl/cgi-bin/kto_wifi.sh",10);
+        std::string readBuffer = useful_F_libs::httpPost("http://45.90.3.84/cgi-bin/kto_wifi.sh",10);
         return readBuffer;
     }
     else if (v[1] == "lightning"){
