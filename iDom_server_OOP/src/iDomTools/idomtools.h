@@ -76,7 +76,7 @@ public:
     void buttonUnlockHome();
     //////////////////////////// useful /////////////////////////
     bool isItDay();
-    std::string getAllDataSunrisesunset();
+    std::string getAllDataSunriseSunset();
     //////////////////////////// lightning ////////////////////////
     int sendLightingCounter = 0;
     LIGHTNING m_lightning;

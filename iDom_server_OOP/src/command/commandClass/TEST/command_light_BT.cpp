@@ -208,3 +208,13 @@ TEST_F(command_light_Class_fixture, wrong_param)
 
     EXPECT_NO_THROW( test_command_light->execute(test_v,&test_my_data));
 }
+
+TEST_F(command_light_Class_fixture, room_stats)
+{
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("room");
+    test_v.push_back("stats");
+
+    std::cout << test_command_light->execute(test_v,&test_my_data) << std::endl;
+}

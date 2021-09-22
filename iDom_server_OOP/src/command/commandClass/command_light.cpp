@@ -27,6 +27,14 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
         return "done " + std::to_string(++counter);
     }
     else if(v.at(1) == "room"){
+
+        if(v.size() == 3 && v.at(2) == "stats"){
+            std::stringstream msg;
+            for(auto &j : my_data->main_house_room_handler->m_roomMap){
+                msg << j.second->getStatsJSON().dump(4) << std::endl;
+            }
+            return msg.str();
+        }
         if(v.at(3) == "on"){
             my_data->main_house_room_handler->turnOnAllInRoom(v.at(2));
         }
@@ -64,6 +72,7 @@ std::string command_light::help() const
     ret << "light info on - get bulb info only on" << std::endl;
     ret << "light bulb on/off <bulbID> - turn on/off bulb" << std::endl;
     ret << "light room <room name> on/off - turn on/off all bulbs in room" << std::endl;
+    ret << "light room stats - get all room stats json" << std::endl;
     ret << "light all on/off - turn on/off all bulbs in house" << std::endl;
     return ret.str();
 }

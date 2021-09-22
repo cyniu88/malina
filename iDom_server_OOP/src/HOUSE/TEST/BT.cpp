@@ -140,3 +140,13 @@ TEST_F(house_fixture, dump)
     testLightingHandler->loadConfig(cfg);
     std::cout << iDom_API::getDump() << std::endl;
 }
+
+TEST_F(house_fixture, getStats)
+{
+    std::string cfg("../config/bulb_config.json");
+    auto testLightingHandler = std::make_unique<house_room_handler>(&test_my_data);
+    testLightingHandler->loadConfig(cfg);
+    for(auto&a : testLightingHandler->m_roomMap){
+        std::cout << a.second->getStatsJSON().dump(4) << std::endl;
+    }
+}

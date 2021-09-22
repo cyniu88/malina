@@ -47,6 +47,7 @@ public:
     void addBulbPin(int i);
     std::string getBulbPin();
     unsigned int getBulbCounter();
+    nlohmann::json getStatsJSON();
 
     Clock howLongBulbOn();
 

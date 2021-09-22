@@ -17,6 +17,7 @@ public:
     ROOM(int satelSensorID, const std::string &name, const std::map<int, std::shared_ptr<light_bulb>> & lightingBulbMap );
 
     void satelSensorActive();
+    nlohmann::json getStatsJSON();
 };
 
 #endif // ROOM_H

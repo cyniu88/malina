@@ -665,9 +665,9 @@ TEST_F(iDomTOOLS_ClassTest, ledClear)
     EXPECT_STREQ(retStr.c_str(),"done");
 }
 
-TEST_F(iDomTOOLS_ClassTest, getAllDataSunrisesunset)
+TEST_F(iDomTOOLS_ClassTest, getAllDataSunriseSunset)
 {
-    EXPECT_THAT(test_my_data.main_iDomTools->getAllDataSunrisesunset(),
+    EXPECT_THAT(test_my_data.main_iDomTools->getAllDataSunriseSunset(),
                 testing::HasSubstr("Days until Y2K"));
 }
 

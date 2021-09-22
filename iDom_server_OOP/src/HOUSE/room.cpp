@@ -40,3 +40,17 @@ void ROOM::satelSensorActive()
         }//if
     }//for
 }
+
+nlohmann::json ROOM::getStatsJSON()
+{
+    nlohmann::json jj, kk;
+    jj["room name"] = m_name;
+    jj["satel activatet counter"] = satelSensorCounter;
+
+    for (auto& bulb : m_lightingBulbMap){
+        kk.push_back( bulb.second->getStatsJSON());
+
+    }
+    jj["z bulb"] = kk;
+    return jj;
+}

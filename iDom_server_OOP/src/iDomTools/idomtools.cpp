@@ -519,7 +519,7 @@ bool iDomTOOLS::isItDay()
     return true;
 }
 
-std::string iDomTOOLS::getAllDataSunrisesunset()
+std::string iDomTOOLS::getAllDataSunriseSunset()
 {
     return m_sun.getAllData();
 }

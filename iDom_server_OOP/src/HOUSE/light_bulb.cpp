@@ -178,6 +178,17 @@ unsigned int light_bulb::getBulbCounter()
     return m_bulbCounter;
 }
 
+nlohmann::json light_bulb::getStatsJSON()
+{
+    nlohmann::json jj;
+
+    jj["bulb name"] = m_bulbName;
+    jj["counter"] = m_bulbCounter;
+    jj["state"] = stateToString(m_status);
+
+    return jj;
+}
+
 Clock light_bulb::howLongBulbOn()
 {
     Clock ret(0,0);
