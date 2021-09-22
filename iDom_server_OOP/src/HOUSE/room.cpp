@@ -49,8 +49,9 @@ nlohmann::json ROOM::getStatsJSON()
 
     for (auto& bulb : m_lightingBulbMap){
         kk.push_back( bulb.second->getStatsJSON());
-
+        //jj[bulb.first] = bulb.second->getBulbName();
     }
     jj["z bulb"] = kk;
+    //jj.push_back(kk);
     return jj;
 }
