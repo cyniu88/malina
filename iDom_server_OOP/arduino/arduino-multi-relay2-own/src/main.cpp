@@ -64,6 +64,8 @@ void (*resetFunc)(void) = 0; //declare reset function at address 0
 
 void iDomSend(int releyID, int buttonID, int state)
 {
+  if (releyID != VIRTUAL_________RELAY) // do not send for virtual reley
+    return;
   Serial3.print("state;");
   Serial3.print(releyID);
   Serial3.print(";");
@@ -233,40 +235,40 @@ void before()
 // executed AFTER mysensors has been initialised
 void setup()
 {
-   wdt_enable(WDTO_1S); //aktywujemy watchdog z argumentem czasu - w tej sytuacji 1 sekunda
-                                    //wstawiamy w dowolnym miejscu w setup...od tego momentu watchdog już działa;)
+  wdt_enable(WDTO_1S); //aktywujemy watchdog z argumentem czasu - w tej sytuacji 1 sekunda
+                       //wstawiamy w dowolnym miejscu w setup...od tego momentu watchdog już działa;)
 
   // Send initial state to MySensor Controller
   myMessage.setType(V_STATUS);
   for (int relayNum = 0; relayNum < gNumberOfRelays; relayNum++)
   {
-   // myMessage.setSensor(gRelay[relayNum].getSensorId());
-   // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
-   // send(myMessage.set(gRelay[relayNum].getState())); // send current state
-          iDomSend(gRelay[relayNum].getSensorId(),-1, gRelay[relayNum].getState());
+    // myMessage.setSensor(gRelay[relayNum].getSensorId());
+    // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
+    // send(myMessage.set(gRelay[relayNum].getState())); // send current state
+    iDomSend(gRelay[relayNum].getSensorId(), -1, gRelay[relayNum].getState());
   }
 };
 
 void loop()
 {
   wdt_reset();
-  if(Serial3.available() > 0){
-   //0;125;1;0;2;0
-      (void) Serial3.readStringUntil(';');
-      int bulbID = Serial3.readStringUntil(';').toInt();
-      (void)Serial3.readStringUntil(';');
-      (void)Serial3.readStringUntil(';');
-      (void)Serial3.readStringUntil(';');
-      int state = Serial3.readStringUntil('\n').toInt();
-      int relayNum = getRelayNum(bulbID);
-      if (relayNum == -1)
-        return;
-      gRelay[relayNum].changeState(state);
-     // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
-     // myMessage.setSensor(message.getSensor());
-     // send(myMessage.set(message.getBool())); // support for OPTIMISTIC=FALSE (Home Asistant) //cyniu
-     iDomSend(gRelay[relayNum].getSensorId(),-1, gRelay[relayNum].getState());
-
+  if (Serial3.available() > 0)
+  {
+    //0;125;1;0;2;0
+    (void)Serial3.readStringUntil(';');
+    int bulbID = Serial3.readStringUntil(';').toInt();
+    (void)Serial3.readStringUntil(';');
+    (void)Serial3.readStringUntil(';');
+    (void)Serial3.readStringUntil(';');
+    int state = Serial3.readStringUntil('\n').toInt();
+    int relayNum = getRelayNum(bulbID);
+    if (relayNum == -1)
+      return;
+    gRelay[relayNum].changeState(state);
+    // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
+    // myMessage.setSensor(message.getSensor());
+    // send(myMessage.set(message.getBool())); // support for OPTIMISTIC=FALSE (Home Asistant) //cyniu
+    iDomSend(gRelay[relayNum].getSensorId(), -1, gRelay[relayNum].getState());
   }
 #ifdef DEBUG_STATS
   unsigned long loopStartMillis = millis();
@@ -292,11 +294,10 @@ void loop()
 #endif
         if (gRelay[relayNum].changeState(relayState))
         {
-         // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
-         // myMessage.setSensor(gRelay[relayNum].getSensorId());
+          // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
+          // myMessage.setSensor(gRelay[relayNum].getSensorId());
           // send(myMessage.set(relayState));
-          iDomSend(gRelay[relayNum].getSensorId(),gButton[buttonNum]._pinCyniu, relayState);
-  
+          iDomSend(gRelay[relayNum].getSensorId(), gButton[buttonNum]._pinCyniu, relayState);
         }
 #ifdef IGNORE_BUTTONS_START_MS
       }
@@ -311,7 +312,7 @@ void loop()
       if (gRelay[relayNum].impulseProcess())
       {
         myMessage.setSensor(gRelay[relayNum].getSensorId());
-       // send(myMessage.set(0));
+        // send(myMessage.set(0));
       }
     }
   }
@@ -336,14 +337,14 @@ void loop()
 // Executed after "before()" and before "setup()"
 void presentation()
 {
- // sendSketchInfo(MULTI_RELAY_DESCRIPTION, MULTI_RELAY_VERSION);
+  // sendSketchInfo(MULTI_RELAY_DESCRIPTION, MULTI_RELAY_VERSION);
 
   // Register every relay as separate sensor
   for (int relayNum = 0; relayNum < gNumberOfRelays; relayNum++)
   {
-  //  present(gRelay[relayNum].getSensorId(),
-   //         gRelay[relayNum].isSensor() ? S_DOOR : S_BINARY,
-   //         gRelay[relayNum].getDescription());
+    //  present(gRelay[relayNum].getSensorId(),
+    //         gRelay[relayNum].isSensor() ? S_DOOR : S_BINARY,
+    //         gRelay[relayNum].getDescription());
   }
 };
 
@@ -363,10 +364,10 @@ void receive(const MyMessage &message)
       if (relayNum == -1)
         return;
       gRelay[relayNum].changeState(message.getBool());
-     // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
-     // myMessage.setSensor(message.getSensor());
-     // send(myMessage.set(message.getBool())); // support for OPTIMISTIC=FALSE (Home Asistant) //cyniu
-     iDomSend(gRelay[relayNum].getSensorId(),-1, gRelay[relayNum].getState());
+      // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
+      // myMessage.setSensor(message.getSensor());
+      // send(myMessage.set(message.getBool())); // support for OPTIMISTIC=FALSE (Home Asistant) //cyniu
+      iDomSend(gRelay[relayNum].getSensorId(), -1, gRelay[relayNum].getState());
 #ifdef DEBUG_STATS
     }
     else if (message.getType() == V_VAR1)
