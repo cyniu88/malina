@@ -18,6 +18,7 @@ class house_room_handler: public iDom_API
     unsigned int m_lastNotifyUnixTime = 0;
 
 public:
+    nlohmann::json m_buttonConfig;
     static std::string  m_mqttPublishTopic;
 
     std::map<int, std::shared_ptr<light_bulb>> m_lightingBulbMap;
@@ -28,6 +29,7 @@ public:
     ~house_room_handler();
 
     void loadConfig(std::string& configPath);
+    void loadButtonConfig(std::string& configPath);
 
     void turnOnAllInRoom(const std::string& roomName);
     void turnOffAllInRoom(const std::string& roomName);

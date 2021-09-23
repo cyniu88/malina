@@ -2,7 +2,7 @@
 #include "../functions/functions.h"
 
 TASKER::TASKER(thread_data *my_data):  topic("iDom-client/command"),
-                                       my_data(my_data)
+    my_data(my_data)
 {
     my_data->lusina.statHumi.resize(270);
 }
@@ -41,9 +41,17 @@ int TASKER::runTasker()
         else if(kk.first == topic)
         {
             auto v = useful_F::split(kk.second, ' ');
-            auto ret = commandMQTT.run(v, my_data);
-            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/command",
-                                          ret);
+            if(v.at(1) == "button"){
+                // my_data->main_house_room_handler->
+                useful_F::myStaticData->main_iDomTools->sendViberMsg("przycisk" + v.at(2) + " " + v.at(3),
+                                                                     useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
+                                                                     "button");
+            }
+            else{
+                auto ret = commandMQTT.run(v, my_data);
+                my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/command",
+                                              ret);
+            }
         }
         //TODO temporary added
         else if (kk.first == topic + "/lusina/h")

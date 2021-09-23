@@ -17,7 +17,9 @@ RFLinkHandler::RFLinkHandler(thread_data *my_data):
 
 RFLinkHandler::~RFLinkHandler()
 {
+#ifdef BT_TEST
     std::cout << "RFLinkHandler::~RFLinkHandler()"<<std::endl;
+#endif
 }
 
 bool RFLinkHandler::init()

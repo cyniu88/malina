@@ -59,6 +59,12 @@ void house_room_handler::loadConfig(std::string &configPath)
     }
 }
 
+void house_room_handler::loadButtonConfig(std::string &configPath)
+{
+    std::ifstream i(configPath);
+    i >> m_buttonConfig;
+}
+
 
 void house_room_handler::turnOnAllInRoom(const std::string &roomName)
 {
@@ -249,6 +255,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
                                                       my_data->server_settings->_fb_viber.viberSender + "-light");
             }
         }
+
     } catch (...) {
         std::stringstream ret;
         ret << "bład odbioru mqtt light: " << msg;
@@ -338,5 +345,6 @@ std::string house_room_handler::dump() const
 
     str << "m_mqttPublishTopic: " << m_mqttPublishTopic << std::endl;
     str << "m_lastNotifyUnixTime: " << m_lastNotifyUnixTime << std::endl;
+    str << "m_buttonConfig: " << m_buttonConfig.dump(4) << std::endl;
     return str.str();
 }
