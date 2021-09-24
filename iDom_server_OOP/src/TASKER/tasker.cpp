@@ -40,14 +40,17 @@ int TASKER::runTasker()
         }
         else if(kk.first == topic)
         {
+            std::cout << "Cyniu : " << kk.second << std::endl;
             auto v = useful_F::split(kk.second, ' ');
-            if(v.at(1) == "button"){
-                // my_data->main_house_room_handler->
-                useful_F::myStaticData->main_iDomTools->sendViberMsg("przycisk" + v.at(2) + " " + v.at(3),
-                                                                     useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
-                                                                     "button");
-            }
-            else{
+            //  if(v.at(1) == "button"){
+            //TODO dodaj wsparcie przyciskow
+            // my_data->main_house_room_handler->
+            //    useful_F::myStaticData->main_iDomTools->sendViberMsg("przycisk" + v.at(2) + " " + v.at(3),
+            //                                                       useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
+            //                                                     "button");
+            //}
+            // else
+            {
                 auto ret = commandMQTT.run(v, my_data);
                 my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/command",
                                               ret);
