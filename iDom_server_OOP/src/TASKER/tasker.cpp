@@ -47,9 +47,9 @@ int TASKER::runTasker()
             if(v.at(1) == "button"){
                 //TODO dodaj wsparcie przyciskow
                 // my_data->main_house_room_handler->
-                //    useful_F::myStaticData->main_iDomTools->sendViberMsg("przycisk" + v.at(2) + " " + v.at(3),
-                //                                                       useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
-                //                                                     "button");
+                useful_F::myStaticData->main_iDomTools->sendViberMsg("przycisk" + v.at(2) + " " + v.at(3),
+                                                                     useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
+                                                                     "button");
             }
             else
             {
