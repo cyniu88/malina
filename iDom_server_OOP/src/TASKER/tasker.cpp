@@ -45,6 +45,8 @@ int TASKER::runTasker()
             std::cout << "Cyniu 1: " << v.at(1) << std::endl;
             std::cout << "Cyniu 2: " << v.at(2) << std::endl;
             if(v.at(1) == "button"){
+
+                std::cout << "Cyniu 1:" << v.at(1)<< ":" << std::endl;
                 //TODO dodaj wsparcie przyciskow
                 // my_data->main_house_room_handler->
                 useful_F::myStaticData->main_iDomTools->sendViberMsg("przycisk" + v.at(2) + " " + v.at(3),
