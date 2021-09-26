@@ -26,7 +26,7 @@ protected:
     }
 };
 
-TEST_F(house_fixture, load_config)
+TEST_F(house_fixture, load_config_bulb)
 {
     std::string cfg("../config/bulb_config.json");
     auto testRoomHandler = std::make_unique<house_room_handler>(&test_my_data);
@@ -149,4 +149,13 @@ TEST_F(house_fixture, getStats)
     for(auto&a : testLightingHandler->m_roomMap){
         std::cout << a.second->getStatsJSON().dump(4) << std::endl;
     }
+}
+
+
+TEST_F(house_fixture, load_config_button)
+{
+    std::string cfg("../config/button_config.json");
+    auto testRoomHandler = std::make_unique<house_room_handler>(&test_my_data);
+    testRoomHandler->loadButtonConfig(cfg);
+
 }

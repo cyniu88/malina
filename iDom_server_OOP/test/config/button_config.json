@@ -1,0 +1,23 @@
+{
+  "2": {
+    "buttonID": 2,
+    "long": [
+      "command 1",
+      "command 2",
+      "command 3"
+    ],
+    "double": [
+      "command double 1",
+      "command double 2",
+      "command double 3"
+    ]
+  },
+  "3": {
+    "buttonID": 3,
+    "long": [
+      "command 11",
+      "command 22",
+      "command 33"
+    ]
+  }
+}

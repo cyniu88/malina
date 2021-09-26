@@ -232,8 +232,9 @@ iDomStateEnum iDom_main()
     node_data.ptr_buderus = std::make_unique<BUDERUS>();
     //////////////////////////////// LIGHY  ///////////////////////////////////
     node_data.main_house_room_handler = std::make_shared<house_room_handler>(&node_data);
-    std::string cf("/etc/config/iDom_SERVER/bulb_config.json");
-    node_data.main_house_room_handler->loadConfig(cf);
+    //std::string cf();
+    node_data.main_house_room_handler->loadConfig("/etc/config/iDom_SERVER/bulb_config.json");
+    node_data.main_house_room_handler->loadButtonConfig("/etc/config/iDom_SERVER/button_config.json");
     //////////////////////////////// SETTINGS //////////////////////////////
     node_data.main_iDomStatus->addObject("house",node_data.idom_all_state.houseState);
 

@@ -9,7 +9,9 @@
 //#include "../iDom_server_OOP.h"
 #include "light_bulb.h"
 #include "room.h"
+//#include "../command/commandhandlermqtt.h"
 
+class CommandHandlerMQTT;
 struct thread_data;
 
 class house_room_handler: public iDom_API
@@ -18,7 +20,7 @@ class house_room_handler: public iDom_API
     unsigned int m_lastNotifyUnixTime = 0;
 
 public:
-    nlohmann::json m_buttonConfig;
+    std::map<int, std::map<std::string, std::vector<std::string>>> m_buttonConfig;
     static std::string  m_mqttPublishTopic;
 
     std::map<int, std::shared_ptr<light_bulb>> m_lightingBulbMap;
@@ -28,8 +30,8 @@ public:
     explicit house_room_handler(thread_data *my_data);
     ~house_room_handler();
 
-    void loadConfig(std::string& configPath);
-    void loadButtonConfig(std::string& configPath);
+    void loadConfig(const std::string& configPath);
+    void loadButtonConfig(const std::string &configPath);
 
     void turnOnAllInRoom(const std::string& roomName);
     void turnOffAllInRoom(const std::string& roomName);
@@ -47,6 +49,7 @@ public:
     nlohmann::json getInfoJSON_allON();
 
     void executeCommandFromMQTT(const std::string &msg);
+    void executeButtonComand(const unsigned int buttonID, const std::string & action, CommandHandlerMQTT* commandMQTTptr);
 
     void onLock();
     void onUnlock();

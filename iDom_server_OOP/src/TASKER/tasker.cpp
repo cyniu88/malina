@@ -43,13 +43,7 @@ int TASKER::runTasker()
             auto v = useful_F::split(kk.second, ' ');
 
             if(v.at(1) == "button"){
-
-                std::cout << "Cyniu 1:" << v.at(1)<< ":" << v.at(2) << ":" << v.at(3) << ";" << std::endl;
-                //TODO dodaj wsparcie przyciskow
-                // my_data->main_house_room_handler->
-                useful_F::myStaticData->main_iDomTools->sendViberMsg("przycisk" + v.at(2) + " " + v.at(3),
-                                                                     useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
-                                                                     "button");
+                my_data->main_house_room_handler->executeButtonComand( std::stoul(v.at(3)), v.at(2), &commandMQTT );
             }
             else
             {

@@ -19,7 +19,7 @@ house_room_handler::~house_room_handler()
     iDom_API::removeFromMap(m_className);
 }
 
-void house_room_handler::loadConfig(std::string &configPath)
+void house_room_handler::loadConfig(const std::string &configPath)
 {
     std::ifstream i(configPath);
     nlohmann::json j;
@@ -59,12 +59,26 @@ void house_room_handler::loadConfig(std::string &configPath)
     }
 }
 
-void house_room_handler::loadButtonConfig(std::string &configPath)
+void house_room_handler::loadButtonConfig(const std::string &configPath)
 {
+    nlohmann::json jj;
     std::ifstream i(configPath);
-    i >> m_buttonConfig;
-}
+    i >> jj;
 
+    for(const auto& element : jj){
+        auto buttonID = element.at("buttonID").get<int>();
+        if(element.contains("long")){
+            for(const auto& kk: element.at("long")){
+                m_buttonConfig[buttonID]["long"].push_back(kk.get<std::string>());
+            }
+        }
+        if(element.contains("double")){
+            for(const auto& kk: element.at("double")){
+                m_buttonConfig[buttonID]["double"].push_back(kk.get<std::string>());
+            }
+        }
+    }
+}
 
 void house_room_handler::turnOnAllInRoom(const std::string &roomName)
 {
@@ -267,6 +281,18 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
     }
 }
 
+void house_room_handler::executeButtonComand(const unsigned int buttonID, const std::string &action, CommandHandlerMQTT *commandMQTTptr)
+{
+    if(m_buttonConfig.find(buttonID) == m_buttonConfig.end())
+        return; // button not used
+    if(m_buttonConfig.at(buttonID).find(action) == m_buttonConfig.at(buttonID).end())
+        return; // action not used
+    for(const auto& element : m_buttonConfig.at(buttonID).find(action)->second){
+        auto v = useful_F::split(element, ' ');
+        commandMQTTptr->run(v, my_data);
+    }
+}
+
 void house_room_handler::onLock()
 {
     for(const auto &  jj : m_lightingBulbMap){
@@ -345,6 +371,6 @@ std::string house_room_handler::dump() const
 
     str << "m_mqttPublishTopic: " << m_mqttPublishTopic << std::endl;
     str << "m_lastNotifyUnixTime: " << m_lastNotifyUnixTime << std::endl;
-    str << "m_buttonConfig: " << m_buttonConfig.dump(4) << std::endl;
+    str << "m_buttonConfig: " << m_buttonConfig.size() << std::endl;
     return str.str();
 }
