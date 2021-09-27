@@ -11,6 +11,8 @@ SATEL_INTEGRA_HANDLER::SATEL_INTEGRA_HANDLER(thread_data *myData): m_integra32(m
                                my_data->server_settings->_satel_integra.port);
     m_integra32.setIntegraPin(my_data->server_settings->_satel_integra.pin);
     myData->satelIntegraHandler = static_cast<SATEL_INTEGRA_HANDLER_INTERFACE*>(this);
+
+    checkAlarm(my_data->idom_all_state.alarmSatelState);
 }
 
 SATEL_INTEGRA_HANDLER::~SATEL_INTEGRA_HANDLER()
@@ -41,10 +43,10 @@ void SATEL_INTEGRA_HANDLER::checkSatel()
     }
 }
 
-void SATEL_INTEGRA_HANDLER::checkAlarm(STATE& st)
+void SATEL_INTEGRA_HANDLER::checkAlarm(STATE &st)
 {
     bool fromSatel = m_integra32.isAlarmArmed();
-    if(st != STATE::ARMED and fromSatel == true){
+    if(st == STATE::DISARMED and fromSatel == true){
         st = STATE::ARMED;
         my_data->main_iDomTools->lockHome();
         log_file_mutex.mutex_lock();
@@ -55,7 +57,7 @@ void SATEL_INTEGRA_HANDLER::checkAlarm(STATE& st)
                                                   my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                                   my_data->server_settings->_fb_viber.viberSender);
     }
-    else if( st != STATE::DISARMED and fromSatel == false){
+    else if( st == STATE::ARMED and fromSatel == false){
         st = STATE::DISARMED;
         my_data->main_iDomTools->unlockHome();
         log_file_mutex.mutex_lock();
@@ -75,7 +77,6 @@ void SATEL_INTEGRA_HANDLER::run()
         checkSatel();
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
-
 }
 
 SATEL_INTEGRA_INTERFACE *SATEL_INTEGRA_HANDLER::getSatelPTR()

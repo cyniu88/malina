@@ -278,6 +278,17 @@ iDomStateEnum iDom_main()
         log_file_cout << DEBUG <<"nie wystartowalem wątku MQTT" <<std::endl;
         log_file_mutex.mutex_unlock();
     }
+    // start watku SATEL INTEGRA32
+    if(server_settings._runThread.SATEL == true)
+    {
+        iDOM_THREAD::start_thread("Satel INTEGRA32 thread", f_satelIntegra32, &node_data);
+    }
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG <<"nie wystartowalem wątku satel integra32" <<std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     // start watku mpd_cli
     if(server_settings._runThread.MPD == true)
     {
@@ -298,17 +309,6 @@ iDomStateEnum iDom_main()
     {
         log_file_mutex.mutex_lock();
         log_file_cout << DEBUG <<"nie wystartowalem wątku CRON" <<std::endl;
-        log_file_mutex.mutex_unlock();
-    }
-    // start watku SATEL INTEGRA32
-    if(server_settings._runThread.SATEL == true)
-    {
-        iDOM_THREAD::start_thread("Satel INTEGRA32 thread", f_satelIntegra32, &node_data);
-    }
-    else
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG <<"nie wystartowalem wątku satel integra32" <<std::endl;
         log_file_mutex.mutex_unlock();
     }
     if(server_settings._runThread.DUMMY == true){

@@ -17,7 +17,7 @@ public:
     thread_data test_my_data;
     CONFIG_JSON test_server_set;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
-    iDOM_STATE main_iDomStatus;
+    //iDOM_STATE main_iDomStatus;
     ALERT test_alarmTime;
     SATEL_INTEGRA_HANDLER_STUB test_satel;
     /////// method
@@ -46,7 +46,6 @@ public:
         test_my_data.server_settings = &test_server_set;
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_my_data.alarmTime = test_alarmTime;
-        test_my_data.idom_all_state = main_iDomStatus;
         test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
 
         test_my_data.main_iDomStatus->addObject("house");
