@@ -24,6 +24,7 @@
 #include <wiringPi.h>
 #include <chrono>
 #include <array>
+#include <atomic>
 
 // MOJE BIBLIOTEKI
 #include "logger/logger.hpp"
@@ -132,7 +133,7 @@ struct FTP_SERVER{
 struct iDOM_STATE{
     STATE houseState = STATE::UNDEFINE;
     unsigned int counter = 0;
-    STATE alarmSatelState = STATE::UNDEFINE;
+    std::atomic<STATE> alarmSatelState{STATE::UNDEFINE};
 };
 
 struct GATEWAY{

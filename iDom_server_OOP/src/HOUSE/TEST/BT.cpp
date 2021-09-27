@@ -151,11 +151,11 @@ TEST_F(house_fixture, getStats)
     }
 }
 
-
 TEST_F(house_fixture, load_config_button)
 {
     std::string cfg("../config/button_config.json");
     auto testRoomHandler = std::make_unique<house_room_handler>(&test_my_data);
     testRoomHandler->loadButtonConfig(cfg);
-
+    CommandHandlerMQTT testCmdHandler;
+    testRoomHandler->executeButtonComand(2, "long", &testCmdHandler);
 }

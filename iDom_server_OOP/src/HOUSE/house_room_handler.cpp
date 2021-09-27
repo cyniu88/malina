@@ -289,7 +289,7 @@ void house_room_handler::executeButtonComand(const unsigned int buttonID, const 
         return; // action not used
     for(const auto& element : m_buttonConfig.at(buttonID).find(action)->second){
         auto v = useful_F::split(element, ' ');
-        commandMQTTptr->run(v, my_data);
+         commandMQTTptr->run(v, my_data);
     }
 }
 

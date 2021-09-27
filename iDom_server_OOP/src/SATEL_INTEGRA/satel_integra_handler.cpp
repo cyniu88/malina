@@ -71,8 +71,8 @@ void SATEL_INTEGRA_HANDLER::checkAlarm(STATE& st)
 void SATEL_INTEGRA_HANDLER::run()
 {
     while(useful_F::go_while){
-        checkSatel();
         checkAlarm(my_data->idom_all_state.alarmSatelState);
+        checkSatel();
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
 
