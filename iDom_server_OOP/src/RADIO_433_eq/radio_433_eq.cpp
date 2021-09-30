@@ -50,6 +50,22 @@ void RADIO_SWITCH::off()
     }
 }
 
+void RADIO_SWITCH::on_Off()
+{
+    if(m_state not_eq STATE::OFF){
+        main433MHz.sendCode(RADIO_EQ::m_config.offCode);
+        m_state = STATE::OFF;
+        RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name,STATE::OFF);
+        return;
+    }
+    if(m_state not_eq STATE::ON){
+        main433MHz.sendCode(RADIO_EQ::m_config.onCode);
+        m_state = STATE::ON;
+        RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name,STATE::ON);
+        return;
+    }
+}
+
 void RADIO_SWITCH::onFor15sec()
 {
     if(RADIO_EQ::m_config.on15sec not_eq "null")

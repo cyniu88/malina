@@ -108,6 +108,9 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
                     m_switch->onFor15sec();
                     str_buf = " done ";
                 }
+                else if(v[3] == "change"){
+                    m_switch->on_Off();
+                }
                 else{
                     str_buf = "unknown paramiter: ";
                     str_buf.append(v[3]);
@@ -128,7 +131,7 @@ std::string command_433MHz::help() const
     std::stringstream help;
     help << ("433MHz delete <name> - dalete radio equipment") <<std::endl;
     help << ("433MHz add <type> <name> <ID> <onCode> <offCode> <on15sec> <sunrise> <sunset> <lock> <unlock> <comandRun> - add radio equipment") <<std::endl;
-    help << ("433MHz switch <name> ON/OFF/15s - change switch state") <<std::endl;
+    help << ("433MHz switch <name> ON/OFF/15s/change - change switch state") <<std::endl;
     help << ("433MHz show all - list all equipment by name") <<std::endl;
     help << ("433MHz show aether - show aether devices by ID") <<std::endl;
     help << ("433MHz show config - show 433MHz devices config") <<std::endl;

@@ -180,6 +180,7 @@ public:
     ~RADIO_SWITCH();
     void on();
     void off();
+    void on_Off();
     void onFor15sec();
     void onSunrise();
     void onSunset();
