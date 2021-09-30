@@ -41,7 +41,7 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
         else if(v.at(3) == "off"){
             my_data->main_house_room_handler->turnOffAllInRoom(v.at(2));
         }
-        //TODO dodac rozpoznawanie nazwy pokoju  z wiecej niz jednym wyrazme
+        //TODO dodac rozpoznawanie nazwy pokoju  z wiecej niz jednym wyrazem
 
 
         return "done " + std::to_string(++counter);

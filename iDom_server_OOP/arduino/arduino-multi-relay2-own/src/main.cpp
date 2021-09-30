@@ -64,7 +64,7 @@ void (*resetFunc)(void) = 0; //declare reset function at address 0
 
 void iDomSend(int releyID, int buttonID, int state)
 {
-  if (releyID != VIRTUAL_________RELAY) // do not send for virtual reley
+  if (releyID == VIRTUAL_________RELAY) // do not send for virtual reley
     return;
   Serial3.print("state;");
   Serial3.print(releyID);
@@ -72,6 +72,16 @@ void iDomSend(int releyID, int buttonID, int state)
   Serial3.print(buttonID);
   Serial3.print(";");
   Serial3.println(state);
+}
+
+void iDomSendAllBulbStatus(){
+    for (int relayNum = 0; relayNum < gNumberOfRelays; relayNum++)
+  {
+    // myMessage.setSensor(gRelay[relayNum].getSensorId());
+    // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
+    // send(myMessage.set(gRelay[relayNum].getState())); // send current state
+    iDomSend(gRelay[relayNum].getSensorId(), -1, gRelay[relayNum].getState());
+  }
 }
 
 // MySensors - This will execute before MySensors starts up
@@ -240,13 +250,7 @@ void setup()
 
   // Send initial state to MySensor Controller
   myMessage.setType(V_STATUS);
-  for (int relayNum = 0; relayNum < gNumberOfRelays; relayNum++)
-  {
-    // myMessage.setSensor(gRelay[relayNum].getSensorId());
-    // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
-    // send(myMessage.set(gRelay[relayNum].getState())); // send current state
-    iDomSend(gRelay[relayNum].getSensorId(), -1, gRelay[relayNum].getState());
-  }
+  iDomSendAllBulbStatus();
 };
 
 void loop()
@@ -255,7 +259,13 @@ void loop()
   if (Serial3.available() > 0)
   {
     //0;125;1;0;2;0
-    (void)Serial3.readStringUntil(';');
+    auto command = Serial3.readStringUntil(';');
+
+    if(command == "all"){
+      Serial3.readStringUntil('\n');
+      iDomSendAllBulbStatus();
+    }
+
     int bulbID = Serial3.readStringUntil(';').toInt();
     (void)Serial3.readStringUntil(';');
     (void)Serial3.readStringUntil(';');

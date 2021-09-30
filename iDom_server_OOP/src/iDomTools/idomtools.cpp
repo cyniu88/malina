@@ -1091,11 +1091,6 @@ void iDomTOOLS::doorbellDingDong()
     try {
         RADIO_SWITCH *m_switch = dynamic_cast<RADIO_SWITCH*>(my_data->main_REC->getEqPointer("DingDong"));
         m_switch->onFor15sec();
-        //  my_data->main_Rs232->print("DOORBELL:33;"); //TODO tumczasowy dzownek
-        // my_data->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
-        //                                           "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
-        //                                           my_data->server_settings->_fb_viber.viberReceiver.at(0),
-        //                                           my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "Dzwonek do drzwi" << std::endl;
         log_file_mutex.mutex_unlock();
