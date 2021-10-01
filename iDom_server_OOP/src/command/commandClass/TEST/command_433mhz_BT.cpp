@@ -368,6 +368,22 @@ TEST_F(command433MHz_Class_fixture, switchRF433)
     test_v.push_back("OFF");
     test_command_433MHz->execute(test_v,&test_my_data);
     EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
+    ////////////////////////////// change (ON)
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("switch");
+    test_v.push_back("B");
+    test_v.push_back("change");
+    test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
+    ////////////////////////////// change (OFF)
+    test_v.clear();
+    test_v.push_back("433MHz");
+    test_v.push_back("switch");
+    test_v.push_back("B");
+    test_v.push_back("change");
+    test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
     ////////////////////////////// 15s
     test_v.clear();
     test_v.push_back("433MHz");
