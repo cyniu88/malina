@@ -57,7 +57,7 @@ TEST_F(blockQueue_Class_fixture, main)
 TEST_F(blockQueue_Class_fixture, inThread)
 {
     std::thread get(blockQueue_Class_fixture::getFromQ_thread);
-    std::thread put(blockQueue_Class_fixture::putToQ_thread,MPD_COMMAND::STOP);
+    std::thread put(blockQueue_Class_fixture::putToQ_thread, MPD_COMMAND::STOP);
     get.join();
     put.join();
 }
