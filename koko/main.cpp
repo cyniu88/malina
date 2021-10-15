@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string_view>
-#include <source_location>
+/*#include <source_location>
  
 void log(const std::string_view message,
          const std::source_location location = 
@@ -18,9 +18,10 @@ template <typename T> void fun(T x)
 {
     log(x);
 }
- 
+ */
 int main(int, char*[])
 {
-    log("Hello world!");
-    fun("Hello C++20!");
+   // log("Hello world!");
+  //  fun("Hello C++20!");
+  puts("koko");
 }
