@@ -104,7 +104,7 @@ const RelayConfigDef gRelayConfig[] = {
 //             double-click action relay ID - ignored for DING_DONG, REED_SWITCH
 //             button description - debug only, can be empty ("")
 const ButtonConfigDef gButtonConfig[] = {
-    {29, MONO_STABLE, 101, VIRTUAL_________RELAY, VIRTUAL_________RELAY, "z korytarz"},
+    {29, MONO_STABLE, 101, VIRTUAL_________RELAY, TARAS_OSWIETLENIE_103, "z korytarz"},
     {28, MONO_STABLE, 101, VIRTUAL_________RELAY, VIRTUAL_________RELAY, "z korytarz temporarny"},
     {36, MONO_STABLE, 101, VIRTUAL_________RELAY, VIRTUAL_________RELAY, "z taras"},
     {37, MONO_STABLE, TARAS_OSWIETLENIE_103, VIRTUAL_________RELAY, PODBITKA_TARAS____104, "z salonu"},

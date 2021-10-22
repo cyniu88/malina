@@ -68,6 +68,12 @@ void SATEL_INTEGRA_HANDLER::checkAlarm(STATE &st)
                                                   my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                                   my_data->server_settings->_fb_viber.viberSender);
     }
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR<< "blad w sprawdzaniu stanu alarmu " << st << " fromSatel " << fromSatel << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 }
 
 void SATEL_INTEGRA_HANDLER::run()

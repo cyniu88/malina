@@ -90,6 +90,7 @@ void MENU_LIGHT::keyPadUp()
     lightDatabase.up();
     auto p = lightDatabase.getCurrent();
     print(p->first, p->second.getCurrent().name.name);
+    my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
 }
 
 void MENU_LIGHT::keyPadDown()
@@ -97,6 +98,7 @@ void MENU_LIGHT::keyPadDown()
     lightDatabase.down();
     auto p = lightDatabase.getCurrent();
     print(p->first, p->second.getCurrent().name.name);
+    my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
 }
 
 void MENU_LIGHT::keyPadLeft()
@@ -104,6 +106,7 @@ void MENU_LIGHT::keyPadLeft()
     auto p = lightDatabase.getCurrent();
     p->second.down();
     print(p->first, p->second.getCurrent().name.name);
+    my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
 }
 
 void MENU_LIGHT::keyPadRight()
@@ -111,6 +114,7 @@ void MENU_LIGHT::keyPadRight()
     auto p = lightDatabase.getCurrent();
     p->second.up();
     print(p->first, p->second.getCurrent().name.name);
+    my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
 }
 
 void MENU_LIGHT::keyPadOk()
@@ -141,5 +145,10 @@ void MENU_LIGHT::keyPadPower()
         return;
     }
     my_dataPTR->main_house_room_handler->turnOffBulb(id);
+}
+
+void MENU_LIGHT::timeout(std::function<void ()> function)
+{
+    changeStateTo<MENU_ROOT>();
 }
 
