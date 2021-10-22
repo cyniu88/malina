@@ -68,10 +68,15 @@ void SATEL_INTEGRA_HANDLER::checkAlarm(STATE &st)
                                                   my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                                   my_data->server_settings->_fb_viber.viberSender);
     }
-    else
+    else if(st == STATE::UNDEFINE)
     {
+        if(fromSatel == true)
+            st = STATE::ARMED;
+        else
+            st = STATE::DISARMED;
+
         log_file_mutex.mutex_lock();
-        log_file_cout << ERROR<< "blad w sprawdzaniu stanu alarmu " << st << " fromSatel " << fromSatel << std::endl;
+        log_file_cout << INFO << "ustawiam stan alarmu na " << st << std::endl;
         log_file_mutex.mutex_unlock();
     }
 }
