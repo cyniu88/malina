@@ -9,7 +9,7 @@
 //#include "../iDom_server_OOP.h"
 #include "light_bulb.h"
 #include "room.h"
-//#include "../command/commandhandlermqtt.h"
+#include "../libs/circular_buffer/circular_buffer.h"
 
 class CommandHandlerMQTT;
 struct thread_data;
@@ -18,6 +18,8 @@ class house_room_handler: public iDom_API
 {
     thread_data* my_data;
     unsigned int m_lastNotifyUnixTime = 0;
+
+    Circular_buffer m_circBuffSatelSensorId;
 
 public:
     std::map<int, std::map<std::string, std::vector<std::string>>> m_buttonConfig;

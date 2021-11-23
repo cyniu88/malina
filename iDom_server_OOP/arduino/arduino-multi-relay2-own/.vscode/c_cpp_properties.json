@@ -43,7 +43,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=50201",
+                "PLATFORMIO=50202",
                 "ARDUINO_AVR_MEGA2560",
                 "SKETCH_VERSION=2.0",
                 "CONFIG_VERSION=20",

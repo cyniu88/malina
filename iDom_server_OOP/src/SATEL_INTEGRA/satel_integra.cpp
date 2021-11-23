@@ -94,7 +94,7 @@ bool SATEL_INTEGRA::isAlarmArmed()
 
    auto io = sendIntegra(cmd, 1);
 #ifdef BT_TEST
-   for (unsigned int i = 0 ; i < io; ++i){
+   for (int i = 0 ; i < io; ++i){
        char d = m_message[i];
        auto bs = std::bitset<8>(d);
        std::cout << "BITY3 " << bs.to_string() << std::endl;

@@ -136,5 +136,5 @@ const ButtonConfigDef gButtonConfig[] = {
     {51, MONO_STABLE, 128, VIRTUAL_________RELAY, VIRTUAL_________RELAY, "pokoj N"},
     {35, MONO_STABLE, WIATROLAP_________130, VIRTUAL_________RELAY, WEJSCIE___________106, "wiatrolap z salonu"},
     {19, MONO_STABLE, WIATROLAP_________130, VIRTUAL_________RELAY, VIRTUAL_________RELAY, "wiatrolap z wiatrolapu"},
-    {34, MONO_STABLE, LAZIENKA_MALA_____129, VIRTUAL_________RELAY, VIRTUAL_________RELAY, "lazienka mala"},
+    {34, MONO_STABLE, WIATROLAP_________130, VIRTUAL_________RELAY, VIRTUAL_________RELAY, "lazienka mala"},
     {17, MONO_STABLE, DZWONEK____________88, VIRTUAL_________RELAY, WEJSCIE___________106, "dzwonek"}};
