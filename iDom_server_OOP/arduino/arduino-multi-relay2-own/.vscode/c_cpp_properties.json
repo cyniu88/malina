@@ -11,6 +11,9 @@
                 "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/include",
                 "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/src",
                 "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/.pio/libdeps/mega2560/Adafruit MCP23017 Arduino Library",
+                "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/.pio/libdeps/mega2560/UIPEthernet",
+                "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/.pio/libdeps/mega2560/UIPEthernet/utility",
+                "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/.pio/libdeps/mega2560/PubSubClient/src",
                 "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/.pio/libdeps/mega2560/MySensors",
                 "C:/Users/cyniu/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "C:/Users/cyniu/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
@@ -29,6 +32,9 @@
                     "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/include",
                     "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/src",
                     "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/.pio/libdeps/mega2560/Adafruit MCP23017 Arduino Library",
+                    "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/.pio/libdeps/mega2560/UIPEthernet",
+                    "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/.pio/libdeps/mega2560/UIPEthernet/utility",
+                    "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/.pio/libdeps/mega2560/PubSubClient/src",
                     "D:/PROGRAMOWANIE/malina/iDom_server_OOP/arduino/arduino-multi-relay2-own/.pio/libdeps/mega2560/MySensors",
                     "C:/Users/cyniu/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                     "C:/Users/cyniu/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
@@ -43,7 +49,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=50202",
+                "PLATFORMIO=50203",
                 "ARDUINO_AVR_MEGA2560",
                 "SKETCH_VERSION=2.0",
                 "CONFIG_VERSION=20",

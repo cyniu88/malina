@@ -373,7 +373,7 @@ std::string house_room_handler::dump() const
     str << "m_mqttPublishTopic: " << m_mqttPublishTopic << std::endl;
     str << "m_lastNotifyUnixTime: " << m_lastNotifyUnixTime << std::endl;
     str << "m_buttonConfig: " << m_buttonConfig.size() << std::endl;
-    str << "m_circBuffSatelSensorId: " << m_circBuffSatelSensorId.dump() << std::endl;
+    str << "m_circBuffSatelSensorId: " << std::endl << m_circBuffSatelSensorId.dump<int>() << std::endl;
 
 
     return str.str();

@@ -3,6 +3,8 @@
 #include <EEPROM.h>
 #include <Relay.h>
 #include <Button.h>
+#include <UIPEthernet.h>
+#include <PubSubClient.h>
 #define MY_GATEWAY_SERIAL
 #include <MySensors.h>
 #include <avr/wdt.h>
@@ -53,6 +55,52 @@ MyMessage myMessage; // MySensors - Sending Data
 MyMessage debugMessage(255, V_TEXT);
 #endif
 
+EthernetClient ethClient;
+PubSubClient mqttClient;
+String mqttBuffor;
+
+void callbackMqtt(char *topic, byte *payload, unsigned int length)
+{
+  Serial.print("Message arrived [");
+  Serial.print(topic);
+  Serial.print("] ");
+  for (int i = 0; i < length; i++)
+  {
+    Serial.print((char)payload[i]);
+    mqttBuffor += (char)payload[i];
+  }
+  Serial.println();
+}
+
+void reconnect()
+{
+  // Loop until we're reconnected
+  while (!mqttClient.connected())
+  {
+    Serial.print("Attempting MQTT connection...");
+    // Create a random client ID
+    String clientId = "lightClient";
+    clientId += String(random(0xffff), HEX);
+    // Attempt to connect
+    if (mqttClient.connect(clientId.c_str()))
+    {
+      Serial.println("connected");
+      // Once connected, publish an announcement...
+      //mqttClient.publish("outTopic", "hello world");
+      // ... and resubscribe
+      mqttClient.subscribe(subTopic.c_str());
+    }
+    else
+    {
+      Serial.print("failed, rc=");
+      Serial.print(mqttClient.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(1000);
+    }
+  }
+}
+
 #include <common.h>
 
 Relay gRelay[gNumberOfRelays];
@@ -66,16 +114,25 @@ void iDomSend(int releyID, int buttonID, int state)
 {
   if (releyID == VIRTUAL_________RELAY) // do not send for virtual reley
     return;
-  Serial3.print("state;");
+  /* Serial3.print("state;");
   Serial3.print(releyID);
   Serial3.print(";");
   Serial3.print(buttonID);
   Serial3.print(";");
-  Serial3.println(state);
+  Serial3.println(state);*/
+  String msg = "light ";
+  msg += "state;";
+  msg += String(releyID);
+  msg += ";";
+  msg += String(buttonID);
+  msg += ";";
+  msg += String(state);
+  mqttClient.publish(publicTopic.c_str(), msg.c_str());
 }
 
-void iDomSendAllBulbStatus(){
-    for (int relayNum = 0; relayNum < gNumberOfRelays; relayNum++)
+void iDomSendAllBulbStatus()
+{
+  for (int relayNum = 0; relayNum < gNumberOfRelays; relayNum++)
   {
     // myMessage.setSensor(gRelay[relayNum].getSensorId());
     // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
@@ -88,7 +145,7 @@ void iDomSendAllBulbStatus(){
 void before()
 {
   Serial.begin(115200);
-  Serial3.begin(9600);
+  //Serial3.begin(9600);
 
 #ifdef DEBUG_STARTUP
   Serial.println(String("# ") + (debugCounter++) + " Debug startup - common config: MONO_STABLE_TRIGGER=" + MONO_STABLE_TRIGGER + ", RELAY_IMPULSE_INTERVAL=" + RELAY_IMPULSE_INTERVAL + ", BUTTON_DEBOUNCE_INTERVAL=" + BUTTON_DEBOUNCE_INTERVAL + ", BUTTON_DOUBLE_CLICK_INTERVAL=" + BUTTON_DOUBLE_CLICK_INTERVAL + ", BUTTON_LONG_PRESS_INTERVAL=" + BUTTON_LONG_PRESS_INTERVAL + ", MULTI_RELAY_VERSION=" + MULTI_RELAY_VERSION);
@@ -245,6 +302,46 @@ void before()
 // executed AFTER mysensors has been initialised
 void setup()
 {
+  // setup ethernet communication using DHCP
+  Serial.println("ETHERNET1");
+  if (Ethernet.begin(mac) == 0)
+  {
+    Serial.println(F("Unable to configure Ethernet using DHCP"));
+    for (;;)
+      ;
+  }
+
+  Serial.println("ETHERNET2");
+  // ip="192.168";
+  for (int i = 2; i < 4; i++)
+  {
+    ip = ip + ".";
+    ip = ip + String(Ethernet.localIP()[i]);
+  }
+
+  //---mac
+  for (int i = 0; i < 6; i++)
+  {
+    if ((mac[i]) <= 0x0F)
+    {
+      MAC = MAC + "0"; //zet er zonodig een '0' voor
+    }
+    MAC = MAC + String((mac[i]), HEX);
+    MAC = MAC + ":";
+  }
+  MAC[(MAC.length()) - 1] = '\0'; //verwijder laatst toegevoegde ":"
+
+  Serial.println(F("Ethernet configured via DHCP"));
+  Serial.print("IP address: ");
+  Serial.println(Ethernet.localIP());
+  Serial.println();
+
+  // setup mqtt client
+  mqttClient.setClient(ethClient);
+  mqttClient.setServer(mqttBrokerIP.c_str(), mqttPort);
+
+  mqttClient.setCallback(callbackMqtt);
+
   wdt_enable(WDTO_1S); //aktywujemy watchdog z argumentem czasu - w tej sytuacji 1 sekunda
                        //wstawiamy w dowolnym miejscu w setup...od tego momentu watchdog już działa;)
 
@@ -256,10 +353,10 @@ void setup()
 void loop()
 {
   wdt_reset();
-  if (Serial3.available() > 0)
+  if (mqttBuffor.length() > 1)
   {
     //0;125;1;0;2;0
-    auto command = Serial3.readStringUntil(';');
+    /* auto command = Serial3.readStringUntil(';');
 
     if(command == "all"){
       Serial3.readStringUntil('\n');
@@ -273,11 +370,22 @@ void loop()
     int state = Serial3.readStringUntil('\n').toInt();
     int relayNum = getRelayNum(bulbID);
     if (relayNum == -1)
+      return;*/
+
+    int bulbID;
+    int state;
+    int pos3, pos4, pos5;
+    //0;125;1;0;2;0
+    String cmd;
+    int n = sscanf(mqttBuffor.c_str(), "%s:%i:%i:%i:%i:%i", &cmd, &bulbID, &pos3, &pos4, &pos5, &state);
+    int relayNum = getRelayNum(bulbID);
+    if (relayNum == -1)
       return;
     gRelay[relayNum].changeState(state);
     // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
     // myMessage.setSensor(message.getSensor());
     // send(myMessage.set(message.getBool())); // support for OPTIMISTIC=FALSE (Home Asistant) //cyniu
+    mqttBuffor = "";
     iDomSend(gRelay[relayNum].getSensorId(), -1, gRelay[relayNum].getState());
   }
 #ifdef DEBUG_STATS
@@ -341,6 +449,11 @@ void loop()
     }
   }
 #endif
+  if (!mqttClient.connected())
+  {
+    reconnect();
+  }
+  mqttClient.loop();
 };
 
 // MySensors - Presentation - Your sensor must first present itself to the controller.
