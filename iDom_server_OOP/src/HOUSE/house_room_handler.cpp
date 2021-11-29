@@ -284,7 +284,12 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
 void house_room_handler::executeButtonComand(const unsigned int buttonID, const std::string &action, CommandHandlerMQTT *commandMQTTptr)
 {
     if(m_buttonConfig.find(buttonID) == m_buttonConfig.end())
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << WARNING << "unconfgured button "  << buttonID << std::endl;
+        log_file_mutex.mutex_unlock();
         return; // button not used
+    }
     if(m_buttonConfig.at(buttonID).find(action) == m_buttonConfig.at(buttonID).end())
         return; // action not used
     for(const auto& element : m_buttonConfig.at(buttonID).find(action)->second){
