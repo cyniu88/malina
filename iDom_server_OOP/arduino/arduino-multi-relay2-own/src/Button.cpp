@@ -1,6 +1,5 @@
 #include <Button.h>
 
-
 using namespace lkankowski;
 
 // static variables initialisation
@@ -58,7 +57,7 @@ void lkankowski::Button::setMonoStableTrigger(unsigned char monoStableTrigger)
   _monoStableTrigger = monoStableTrigger;
 };
 
-int lkankowski::Button::updateAndGetRelayNum()
+int lkankowski::Button::updateAndGetRelayNum(PubSubClient* mqttClient, const String& publicTopic)
 {
 
   bool isPinChanged = _physicalButton.update();
@@ -81,11 +80,11 @@ int lkankowski::Button::updateAndGetRelayNum()
   else if (buttonAction & BUTTON_DOUBLE_CLICK)
   {
     relayNum = _doubleclickRelayNum;
-    Serial.print("button double ");
-    Serial.println(_pinCyniu);
-    //String msg = "button double ";
-    //msg += String(_pinCyniu);
-    //_mqttClient->publish(_publicTopic.c_str(), msg.c_str());
+    //Serial.print("button double ");
+    //Serial.println(_pinCyniu);
+    String msg = "button double ";
+    msg += String(_pinCyniu);
+    mqttClient->publish(publicTopic.c_str(), msg.c_str());
 #ifdef DEBUG_ACTION
     Serial.println(String(_description) + " - DoubleClick for relay " + relayNum);
 #endif
@@ -93,11 +92,11 @@ int lkankowski::Button::updateAndGetRelayNum()
   else if (buttonAction & BUTTON_LONG_PRESS)
   {
     relayNum = _longclickRelayNum;
-    Serial.print("button long ");
-    Serial.println(_pinCyniu);
-   // String msg = "button long ";
-   // msg += String(_pinCyniu);
-   // _mqttClient->publish(_publicTopic.c_str(), msg.c_str());
+    //Serial.print("button long ");
+    //Serial.println(_pinCyniu);
+    String msg = "button long ";
+    msg += String(_pinCyniu);
+    mqttClient->publish(publicTopic.c_str(), msg.c_str());
 #ifdef DEBUG_ACTION
     Serial.println(String(_description) + " - LongPress for relay " + relayNum);
 #endif

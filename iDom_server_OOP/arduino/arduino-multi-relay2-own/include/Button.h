@@ -1,6 +1,8 @@
 #ifndef Button_h
 #define Button_h
 
+#include<PubSubClient.h>
+
 #if defined(UNIX_HOST_DUINO_VERSION)
   class Bounce {
   public:
@@ -21,6 +23,7 @@
 #else
   #define BounceExp Bounce
 #endif
+
 
 namespace lkankowski {
 
@@ -134,7 +137,7 @@ class Button {
     void setDebounceInterval(unsigned long interval) { _physicalButton.interval(interval); };
     static void setEventIntervals(unsigned long, unsigned long);
     static void setMonoStableTrigger(uint8_t);
-    int updateAndGetRelayNum();
+    int updateAndGetRelayNum(PubSubClient* mqttClient, const String& publicTopic);
     bool getRelayState(bool);
     int getEvent(bool, int);
     String toString();
@@ -159,6 +162,8 @@ class Button {
     static uint8_t _monoStableTrigger;
     static unsigned long _doubleclickInterval;
     static unsigned long _longclickInterval;
+    //PubSubClient* _mqttClient;
+   // String _publicTopic;
 };
 
 } //namespace

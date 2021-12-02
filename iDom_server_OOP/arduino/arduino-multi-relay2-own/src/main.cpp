@@ -9,6 +9,20 @@
 
 #include <PubSubClient.h>
 #include <UIPEthernet.h>
+
+
+static EthernetClient ethClient;
+static PubSubClient mqttClient;
+static String mqttBuffor;
+//ethernet
+static String ip = "192.168";
+static String MAC = "";
+static uint8_t mac[6] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
+// MQTT
+static constexpr int mqttPort = 1883;
+static const String mqttBrokerIP = "192.168.13.181";
+static const String publicTopic = "test/iDom-client/command";
+static const String subTopic = "test/swiatlo/output/#";
 using namespace lkankowski;
 
 #define xstr(a) str(a)
@@ -54,10 +68,6 @@ MyMessage myMessage; // MySensors - Sending Data
 #if defined(DEBUG_COMMUNICATION) || defined(DEBUG_STATS)
 MyMessage debugMessage(255, V_TEXT);
 #endif
-
-EthernetClient ethClient;
-PubSubClient mqttClient;
-String mqttBuffor;
 
 void callbackMqtt(char *topic, byte *payload, unsigned int length)
 {
@@ -412,7 +422,7 @@ void loop()
   for (int buttonNum = 0; buttonNum < gNumberOfButtons; buttonNum++)
   {
 
-    int relayNum = gButton[buttonNum].updateAndGetRelayNum();
+    int relayNum = gButton[buttonNum].updateAndGetRelayNum(&mqttClient, publicTopic);
     if (relayNum > -1)
     {
       // mono/bi-stable button toggles the relay, ding-dong/reed-switch switch to exact state
