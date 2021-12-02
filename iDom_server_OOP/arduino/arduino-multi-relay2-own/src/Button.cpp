@@ -1,5 +1,6 @@
 #include <Button.h>
 
+
 using namespace lkankowski;
 
 // static variables initialisation
@@ -14,7 +15,16 @@ Adafruit_MCP23017 *BounceExp::_expander = NULL;
 #endif
 
 lkankowski::Button::Button()
-    : _pin(0), _type(MONO_STABLE), _description(NULL), _stateForPressed(false), _clickRelayNum(-1), _longclickRelayNum(-1), _doubleclickRelayNum(-1), _eventState(BTN_STATE_INITIAL), _startStateMillis(0){};
+    : _pin(0),
+     _type(MONO_STABLE),
+      _description(NULL), 
+      _stateForPressed(false),
+       _clickRelayNum(-1),
+        _longclickRelayNum(-1), 
+        _doubleclickRelayNum(-1), 
+        _eventState(BTN_STATE_INITIAL),
+         _startStateMillis(0)
+         {};
 
 void lkankowski::Button::initialize(int type, const char *desc)
 {
@@ -71,8 +81,11 @@ int lkankowski::Button::updateAndGetRelayNum()
   else if (buttonAction & BUTTON_DOUBLE_CLICK)
   {
     relayNum = _doubleclickRelayNum;
-    Serial3.print("button double ");
-    Serial3.println(_pinCyniu);
+    Serial.print("button double ");
+    Serial.println(_pinCyniu);
+    //String msg = "button double ";
+    //msg += String(_pinCyniu);
+    //_mqttClient->publish(_publicTopic.c_str(), msg.c_str());
 #ifdef DEBUG_ACTION
     Serial.println(String(_description) + " - DoubleClick for relay " + relayNum);
 #endif
@@ -80,8 +93,11 @@ int lkankowski::Button::updateAndGetRelayNum()
   else if (buttonAction & BUTTON_LONG_PRESS)
   {
     relayNum = _longclickRelayNum;
-    Serial3.print("button long ");
-    Serial3.println(_pinCyniu);
+    Serial.print("button long ");
+    Serial.println(_pinCyniu);
+   // String msg = "button long ";
+   // msg += String(_pinCyniu);
+   // _mqttClient->publish(_publicTopic.c_str(), msg.c_str());
 #ifdef DEBUG_ACTION
     Serial.println(String(_description) + " - LongPress for relay " + relayNum);
 #endif

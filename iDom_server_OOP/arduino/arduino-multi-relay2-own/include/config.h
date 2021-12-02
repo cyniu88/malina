@@ -139,13 +139,12 @@ const ButtonConfigDef gButtonConfig[] = {
     {34, MONO_STABLE, WIATROLAP_________130, VIRTUAL_________RELAY, VIRTUAL_________RELAY, "lazienka mala"},
     {17, MONO_STABLE, DZWONEK____________88, VIRTUAL_________RELAY, WEJSCIE___________106, "dzwonek"}};
 
-
-// MQTT
-constexpr int mqttPort = 1883;
-const String mqttBrokerIP = "192.168.13.181";
-const String publicTopic = "iDom-client/command";
-const String subTopic = "swiatlo/output/#";
 //ethernet
 String ip = "192.168";
 String MAC = "";
 uint8_t mac[6] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
+// MQTT
+constexpr int mqttPort = 1883;
+const String mqttBrokerIP = "192.168.13.181";
+const String publicTopic = "test/iDom-client/command";
+const String subTopic = "test/swiatlo/output/#";

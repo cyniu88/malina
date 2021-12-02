@@ -3,12 +3,12 @@
 #include <EEPROM.h>
 #include <Relay.h>
 #include <Button.h>
-#include <UIPEthernet.h>
-#include <PubSubClient.h>
 #define MY_GATEWAY_SERIAL
 #include <MySensors.h>
 #include <avr/wdt.h>
 
+#include <PubSubClient.h>
+#include <UIPEthernet.h>
 using namespace lkankowski;
 
 #define xstr(a) str(a)
@@ -342,17 +342,29 @@ void setup()
 
   mqttClient.setCallback(callbackMqtt);
 
-  wdt_enable(WDTO_1S); //aktywujemy watchdog z argumentem czasu - w tej sytuacji 1 sekunda
+ // wdt_enable(WDTO_1S); //aktywujemy watchdog z argumentem czasu - w tej sytuacji 1 sekunda
                        //wstawiamy w dowolnym miejscu w setup...od tego momentu watchdog już działa;)
 
   // Send initial state to MySensor Controller
   myMessage.setType(V_STATUS);
+    if (!mqttClient.connected())
+  {
+    reconnect();
+  }
+  mqttClient.loop();
+  Serial.println("konczymy setup");
   iDomSendAllBulbStatus();
 };
 
 void loop()
 {
   wdt_reset();
+  if (!mqttClient.connected())
+  {
+    reconnect();
+  }
+  mqttClient.loop();
+
   if (mqttBuffor.length() > 1)
   {
     //0;125;1;0;2;0
@@ -449,11 +461,7 @@ void loop()
     }
   }
 #endif
-  if (!mqttClient.connected())
-  {
-    reconnect();
-  }
-  mqttClient.loop();
+
 };
 
 // MySensors - Presentation - Your sensor must first present itself to the controller.

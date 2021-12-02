@@ -124,7 +124,6 @@ class BounceExp : public Bounce {
 
 #endif
 
-
 class Button {
 
   public:
