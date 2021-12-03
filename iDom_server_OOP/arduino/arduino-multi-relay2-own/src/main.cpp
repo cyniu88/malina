@@ -398,11 +398,21 @@ void loop()
     int state;
     int pos3, pos4, pos5;
     //0;125;1;0;2;0
-    String cmd;
-    int n = sscanf(mqttBuffor.c_str(), "%s:%i:%i:%i:%i:%i", &cmd, &bulbID, &pos3, &pos4, &pos5, &state);
+    int cmd;
+    Serial.println(mqttBuffor);
+    int n = sscanf(mqttBuffor.c_str(), "%i;%i;%i;%i;%i;%i", &cmd, &bulbID, &pos3, &pos4, &pos5, &state);
+    if(cmd == 777){
+      Serial.println("komenda all");
+      iDomSendAllBulbStatus();
+      mqttBuffor = "";
+      return;
+    }
     int relayNum = getRelayNum(bulbID);
     if (relayNum == -1)
       return;
+
+      Serial.print("bulbID: ");
+      Serial.println(bulbID);
     gRelay[relayNum].changeState(state);
     // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
     // myMessage.setSensor(message.getSensor());
