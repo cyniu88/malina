@@ -82,7 +82,7 @@ int lkankowski::Button::updateAndGetRelayNum(PubSubClient* mqttClient, const Str
     relayNum = _doubleclickRelayNum;
     //Serial.print("button double ");
     //Serial.println(_pinCyniu);
-    String msg = "button double ";
+    String msg = "light button double ";
     msg += String(_pinCyniu);
     mqttClient->publish(publicTopic.c_str(), msg.c_str());
 #ifdef DEBUG_ACTION
@@ -94,7 +94,7 @@ int lkankowski::Button::updateAndGetRelayNum(PubSubClient* mqttClient, const Str
     relayNum = _longclickRelayNum;
     //Serial.print("button long ");
     //Serial.println(_pinCyniu);
-    String msg = "button long ";
+    String msg = "light button long ";
     msg += String(_pinCyniu);
     mqttClient->publish(publicTopic.c_str(), msg.c_str());
 #ifdef DEBUG_ACTION
