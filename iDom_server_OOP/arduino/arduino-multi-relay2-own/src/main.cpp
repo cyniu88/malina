@@ -21,8 +21,8 @@ static uint8_t mac[6] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
 // MQTT
 static constexpr int mqttPort = 1883;
 static const String mqttBrokerIP = "192.168.13.181";
-static const String publicTopic = "test/iDom-client/command";
-static const String subTopic = "test/swiatlo/output/#";
+static const String publicTopic = "iDom-client/command";
+static const String subTopic = "swiatlo/output/#";
 using namespace lkankowski;
 
 #define xstr(a) str(a)
@@ -99,6 +99,7 @@ void reconnect()
       //mqttClient.publish("outTopic", "hello world");
       // ... and resubscribe
       mqttClient.subscribe(subTopic.c_str());
+      mqttClient.publish(publicTopic.c_str(), "log INFO polaczono arduino z MQTT");
     }
     else
     {
