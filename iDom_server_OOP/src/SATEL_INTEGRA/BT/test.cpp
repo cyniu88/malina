@@ -409,3 +409,19 @@ TEST_F(satel_integra_fixture, armAndDisarm)
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[14], 0x00);
 
 }
+
+TEST_F(satel_integra_fixture, serverNotWorking)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    struct CONFIG_JSON test_config;
+    test_config._satel_integra.host = "127.0.0.1";
+    test_config._satel_integra.port = 7094;
+    test_config._satel_integra.pin = "1234";
+    thread_data test_threadData;
+    test_threadData.server_settings = &test_config;
+
+    SATEL_INTEGRA_HANDLER testIntegra(&test_threadData);
+    testIntegra.checkSatel();
+    dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->getIntegraInfo();
+    EXPECT_FALSE(testIntegra.getSatelPTR()->isAlarmArmed());
+}

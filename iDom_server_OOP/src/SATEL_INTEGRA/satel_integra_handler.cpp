@@ -45,6 +45,8 @@ void SATEL_INTEGRA_HANDLER::checkSatel()
 
 void SATEL_INTEGRA_HANDLER::checkAlarm(STATE &st)
 {
+    if(m_integra32.connectionState() not_eq STATE::CONNECTED)
+        return;
     bool fromSatel = m_integra32.isAlarmArmed();
     if(st == STATE::DISARMED and fromSatel == true){
         st = STATE::ARMED;
@@ -83,10 +85,21 @@ void SATEL_INTEGRA_HANDLER::checkAlarm(STATE &st)
 
 void SATEL_INTEGRA_HANDLER::run()
 {
+    int sleepTime = 1000;
     while(useful_F::go_while){
         checkAlarm(my_data->idom_all_state.alarmSatelState);
         checkSatel();
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        if(m_integra32.connectionState() not_eq STATE::CONNECTED)
+        {
+            m_integra32.connectIntegra(my_data->server_settings->_satel_integra.host,
+                                       my_data->server_settings->_satel_integra.port);
+            if(sleepTime < 60000)
+                sleepTime += 100;
+        }
+        else{
+            sleepTime = 1000;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
     }
 }
 

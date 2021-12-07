@@ -32,15 +32,22 @@ void SATEL_INTEGRA::connectIntegra(const std::string &host, const int port)
     m_port = port;
 
     m_sock = socket(AF_INET , SOCK_STREAM , 0);
-    if (m_sock == -1)
+    if (m_sock == -1){
+        m_connectState = STATE::DISCONNECTED;
         puts("Nie można stworzyć połączenia socket");
+        return;
+    }
     m_server.sin_addr.s_addr = inet_addr(host.c_str());
     m_server.sin_family = AF_INET;
 
     m_server.sin_port = htons(port);
 
     if (connect(m_sock , (struct sockaddr *)&m_server , sizeof(m_server)) < 0)
+    {
+        m_connectState = STATE::DISCONNECTED;
         puts("Nie udało się nawiązać połączenia");
+        return;
+    }
     //printf("Połączony\n");
     m_connectState = STATE::CONNECTED;
 }
@@ -59,7 +66,7 @@ std::string SATEL_INTEGRA::getIntegraInfo()
 
     sendIntegra(cmd, 1);
 
-   // (void) recvIntegra();
+    // (void) recvIntegra();
 
     std::stringstream rec;
     rec << "Typ centrali: INTEGRA " << satelType(m_message[3])<< std::endl;
@@ -76,7 +83,7 @@ std::string SATEL_INTEGRA::checkIntegraOut()
     unsigned char cmd[1] = { INTEGRA_ENUM::OUTPUTS_STATE };
     sendIntegra(cmd, 1);
 
-   // (void) recvIntegra();
+    // (void) recvIntegra();
     if(m_message[2] not_eq INTEGRA_ENUM::OUTPUTS_STATE){
         std::cout << "zła ramka" << std::endl;
     }
@@ -92,13 +99,13 @@ bool SATEL_INTEGRA::isAlarmArmed()
 {
     unsigned char cmd[1] = {INTEGRA_ENUM::ARMED_PARTITIONS};
 
-   auto io = sendIntegra(cmd, 1);
+    auto io = sendIntegra(cmd, 1);
 #ifdef BT_TEST
-   for (int i = 0 ; i < io; ++i){
-       char d = m_message[i];
-       auto bs = std::bitset<8>(d);
-       std::cout << "BITY3 " << bs.to_string() << std::endl;
-   }
+    for (int i = 0 ; i < io; ++i){
+        char d = m_message[i];
+        auto bs = std::bitset<8>(d);
+        std::cout << "BITY3 " << bs.to_string() << std::endl;
+    }
 #endif
 
     if(m_message[2] not_eq INTEGRA_ENUM::ARMED_PARTITIONS){
@@ -188,7 +195,7 @@ void SATEL_INTEGRA::outputOn(unsigned int id)
     cmd[byteNumber + 9] = 0x01 << bitNumber;
 
     sendIntegra(cmd,41);
-   // (void) recvIntegra();
+    // (void) recvIntegra();
 }
 
 void SATEL_INTEGRA::outputOff(unsigned int id)
@@ -261,11 +268,11 @@ int SATEL_INTEGRA::sendIntegra(const unsigned char* cmd, const unsigned int cmdL
         std::cout << "BITY2 " << bs.to_string() << std::endl;
     }
 #endif
-     int size = send(m_sock, cmdPayload.c_str(), cmdPayload.size(), MSG_NOSIGNAL);
-     if (size <1){
-         return size;
-     }
-     return recvIntegra();
+    int size = send(m_sock, cmdPayload.c_str(), cmdPayload.size(), MSG_NOSIGNAL);
+    if (size <1){
+        return size;
+    }
+    return recvIntegra();
 }
 
 int SATEL_INTEGRA::recvIntegra()
