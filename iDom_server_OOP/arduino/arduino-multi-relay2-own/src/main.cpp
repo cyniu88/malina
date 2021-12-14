@@ -10,7 +10,6 @@
 #include <PubSubClient.h>
 #include <UIPEthernet.h>
 
-
 static EthernetClient ethClient;
 static PubSubClient mqttClient;
 static String mqttBuffor;
@@ -71,15 +70,15 @@ MyMessage debugMessage(255, V_TEXT);
 
 void callbackMqtt(char *topic, byte *payload, unsigned int length)
 {
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
+ // Serial.print("Message arrived [");
+ // Serial.print(topic);
+ // Serial.print("] ");
   for (int i = 0; i < length; i++)
   {
-    Serial.print((char)payload[i]);
+    //Serial.print((char)payload[i]);
     mqttBuffor += (char)payload[i];
   }
-  Serial.println();
+  //Serial.println();
 }
 
 void reconnect()
@@ -353,18 +352,13 @@ void setup()
 
   mqttClient.setCallback(callbackMqtt);
 
- // wdt_enable(WDTO_1S); //aktywujemy watchdog z argumentem czasu - w tej sytuacji 1 sekunda
-                       //wstawiamy w dowolnym miejscu w setup...od tego momentu watchdog już działa;)
+  // wdt_enable(WDTO_1S); //aktywujemy watchdog z argumentem czasu - w tej sytuacji 1 sekunda
+  //wstawiamy w dowolnym miejscu w setup...od tego momentu watchdog już działa;)
 
   // Send initial state to MySensor Controller
   myMessage.setType(V_STATUS);
-    if (!mqttClient.connected())
-  {
-    reconnect();
-  }
-  mqttClient.loop();
+
   Serial.println("konczymy setup");
-  iDomSendAllBulbStatus();
 };
 
 void loop()
@@ -373,6 +367,7 @@ void loop()
   if (!mqttClient.connected())
   {
     reconnect();
+    iDomSendAllBulbStatus();
   }
   mqttClient.loop();
 
@@ -400,9 +395,10 @@ void loop()
     int pos3, pos4, pos5;
     //0;125;1;0;2;0
     int cmd;
-    Serial.println(mqttBuffor);
+    //Serial.println(mqttBuffor);
     int n = sscanf(mqttBuffor.c_str(), "%i;%i;%i;%i;%i;%i", &cmd, &bulbID, &pos3, &pos4, &pos5, &state);
-    if(cmd == 777){
+    if (cmd == 777)
+    {
       Serial.println("komenda all");
       iDomSendAllBulbStatus();
       mqttBuffor = "";
@@ -412,8 +408,8 @@ void loop()
     if (relayNum == -1)
       return;
 
-      Serial.print("bulbID: ");
-      Serial.println(bulbID);
+    //Serial.print("bulbID: ");
+    //Serial.println(bulbID);
     gRelay[relayNum].changeState(state);
     // myMessage.setType(gRelay[relayNum].isSensor() ? V_TRIPPED : V_STATUS);
     // myMessage.setSensor(message.getSensor());
@@ -482,7 +478,6 @@ void loop()
     }
   }
 #endif
-
 };
 
 // MySensors - Presentation - Your sensor must first present itself to the controller.
