@@ -33,6 +33,7 @@ public:
     void setIntegraPin(const std::string& pin);
     void connectIntegra(const std::string& host, const int port);
     void disconnectIntegra();
+    void reconnectIntegra() override;
     std::string getIntegraInfo() override;
     std::string checkIntegraOut();
     bool isAlarmArmed() override;

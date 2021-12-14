@@ -59,6 +59,11 @@ void SATEL_INTEGRA_STUB::outputOff(unsigned int id)
 
 }
 
+void SATEL_INTEGRA_STUB::reconnectIntegra()
+{
+
+}
+
 SATEL_INTEGRA_STUB::SATEL_INTEGRA_STUB(){
     std::cout << "SATEL_INTEGRA_STUB::SATEL_INTEGRA_STUB()" << std::endl;
 }

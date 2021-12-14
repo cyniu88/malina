@@ -23,6 +23,7 @@ public:
     void outputOn(unsigned int id);
     void outputOff(unsigned int id);
     STATE connectionState();
+    void reconnectIntegra();
 private:
     void calculateCRC(const unsigned char *pCmd, unsigned int length, unsigned short &result);
     int sendIntegra(const unsigned char *cmd, const unsigned int cmdLength);

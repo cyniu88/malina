@@ -340,14 +340,26 @@ void house_room_handler::onSunrise()
 
 void house_room_handler::satelSensorActive(int sensorID)
 {
+    static int satelSensorActiveCounter = 0;
     if(m_satelIdMap.find(sensorID) == m_satelIdMap.end() ) {
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << "unsupported  satel sensor " << sensorID << std::endl;
         log_file_mutex.mutex_unlock();
+        satelSensorActiveCounter++;
+        if(satelSensorActiveCounter > 20){
+            log_file_mutex.mutex_lock();
+            log_file_cout << WARNING << "restart satel connections " << sensorID << std::endl;
+            log_file_mutex.mutex_unlock();
+            my_data->main_iDomTools->sendViberMsg("restart polaczenia satel",
+                                                  my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                  my_data->server_settings->_fb_viber.viberSender + "SATEL");
+           my_data->satelIntegraHandler->getSatelPTR()->reconnectIntegra();
+       }
         return;
     }
     m_satelIdMap.at(sensorID)->satelSensorActive();
     m_circBuffSatelSensorId.put(sensorID);
+    satelSensorActiveCounter = 0;
 }
 
 void house_room_handler::turnOffUnexpectedBulb()

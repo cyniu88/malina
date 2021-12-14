@@ -87,8 +87,6 @@ void SATEL_INTEGRA_HANDLER::run()
 {
     int sleepTime = 1000;
     while(useful_F::go_while){
-        checkAlarm(my_data->idom_all_state.alarmSatelState);
-        checkSatel();
         if(m_integra32.connectionState() not_eq STATE::CONNECTED)
         {
             m_integra32.connectIntegra(my_data->server_settings->_satel_integra.host,
@@ -99,6 +97,8 @@ void SATEL_INTEGRA_HANDLER::run()
         else{
             sleepTime = 1000;
         }
+        checkAlarm(my_data->idom_all_state.alarmSatelState);
+        checkSatel();
         std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
     }
 }

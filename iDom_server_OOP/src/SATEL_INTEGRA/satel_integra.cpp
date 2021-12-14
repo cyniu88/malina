@@ -3,6 +3,8 @@
 #include <bitset>
 #include <sstream>
 
+#include "../functions/functions.h"
+
 SATEL_INTEGRA::SATEL_INTEGRA()
 {
     m_className.append(typeid (this).name());
@@ -56,6 +58,13 @@ void SATEL_INTEGRA::disconnectIntegra()
 {
     shutdown(m_sock, SHUT_RDWR );
     m_connectState = STATE::DISCONNECTED;
+}
+
+void SATEL_INTEGRA::reconnectIntegra()
+{
+    disconnectIntegra();
+    useful_F::sleep(1);
+    connectIntegra(m_host,m_port);
 }
 
 std::string SATEL_INTEGRA::getIntegraInfo()

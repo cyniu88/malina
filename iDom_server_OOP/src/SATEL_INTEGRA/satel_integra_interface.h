@@ -16,6 +16,7 @@ public:
     virtual void outputOn(unsigned int id) = 0;
     virtual void outputOff(unsigned int id) = 0;
     virtual std::string getIntegraInfo() = 0;
+    virtual void reconnectIntegra() = 0;
 };
 
 class SATEL_INTEGRA_HANDLER_INTERFACE
