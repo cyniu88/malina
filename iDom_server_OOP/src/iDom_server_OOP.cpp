@@ -230,7 +230,7 @@ iDomStateEnum iDom_main()
     node_data.main_iDomTools = std::make_unique <iDomTOOLS>(&node_data);
     ///////////////////////////////// BUDERUS //////////////////////////////
     node_data.ptr_buderus = std::make_unique<BUDERUS>();
-    //////////////////////////////// LIGHY  ///////////////////////////////////
+    //////////////////////////////// LIGHT  ///////////////////////////////////
     node_data.main_house_room_handler = std::make_shared<house_room_handler>(&node_data);
     //std::string cf();
     node_data.main_house_room_handler->loadConfig("/etc/config/iDom_SERVER/bulb_config.json");
@@ -330,6 +330,9 @@ iDomStateEnum iDom_main()
     TASKER mainTasker(&node_data);
     ///////////////////////////////////////////////////// STARTED //////////////////////////////////////////////////
     node_data.serverStarted = true;
+    //////// get light state
+    node_data.mqttHandler->publish(house_room_handler::m_mqttPublishTopic,"777;1;0;0");
+    ///////////////////////////////////////
     ///////////////////////////////////////////////////// start server ////////////////////////////////////////////////////
 
     useful_F::startServer(&node_data, &mainTasker);
