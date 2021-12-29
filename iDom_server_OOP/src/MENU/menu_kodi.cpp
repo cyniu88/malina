@@ -104,6 +104,8 @@ MENU_KODI::~MENU_KODI()
 void MENU_KODI::entry()
 {
     my_dataPTR->main_iDomTools->startKodi_Thread();
+
+    my_dataPTR->main_Rs232->print("TIMEOUT:0;");
 }
 
 void MENU_KODI::exit()
@@ -163,5 +165,5 @@ std::string MENU_KODI::getStateName()
 
 void MENU_KODI::timeout(std::function<void ()> function)
 {
-    changeStateTo<MENU_ROOT>();
+    //changeStateTo<MENU_ROOT>();
 }
