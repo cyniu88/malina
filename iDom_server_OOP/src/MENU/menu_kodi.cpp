@@ -165,5 +165,6 @@ std::string MENU_KODI::getStateName()
 
 void MENU_KODI::timeout(std::function<void ()> function)
 {
-    //changeStateTo<MENU_ROOT>();
+    //exit from kodi menu after  off  kodi
+    changeStateTo<MENU_ROOT>();
 }
