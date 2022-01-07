@@ -70,9 +70,9 @@ MyMessage debugMessage(255, V_TEXT);
 
 void callbackMqtt(char *topic, byte *payload, unsigned int length)
 {
- // Serial.print("Message arrived [");
- // Serial.print(topic);
- // Serial.print("] ");
+  // Serial.print("Message arrived [");
+  // Serial.print(topic);
+  // Serial.print("] ");
   for (int i = 0; i < length; i++)
   {
     //Serial.print((char)payload[i]);
@@ -122,8 +122,10 @@ void (*resetFunc)(void) = 0; //declare reset function at address 0
 
 void iDomSend(int releyID, int buttonID, int state)
 {
-  if (releyID == VIRTUAL_________RELAY) // do not send for virtual reley
+  if (digitalRead(NETWORK_STATE) == HIGH || releyID == VIRTUAL_________RELAY){ // do not send for virtual reley or if network fiture is off
+     //Serial.println("nie wysylam po ethernecie iDomSend()");
     return;
+  }
   /* Serial3.print("state;");
   Serial3.print(releyID);
   Serial3.print(";");
@@ -142,6 +144,10 @@ void iDomSend(int releyID, int buttonID, int state)
 
 void iDomSendAllBulbStatus()
 {
+  if(digitalRead(NETWORK_STATE) == HIGH){
+    Serial.println("nie wysylam po ethernecie iDomSendAllBulbStatus()");
+    return;
+    }
   for (int relayNum = 0; relayNum < gNumberOfRelays; relayNum++)
   {
     // myMessage.setSensor(gRelay[relayNum].getSensorId());
@@ -154,8 +160,6 @@ void iDomSendAllBulbStatus()
 // MySensors - This will execute before MySensors starts up
 void before()
 {
-  Serial.begin(115200);
-  //Serial3.begin(9600);
 
 #ifdef DEBUG_STARTUP
   Serial.println(String("# ") + (debugCounter++) + " Debug startup - common config: MONO_STABLE_TRIGGER=" + MONO_STABLE_TRIGGER + ", RELAY_IMPULSE_INTERVAL=" + RELAY_IMPULSE_INTERVAL + ", BUTTON_DEBOUNCE_INTERVAL=" + BUTTON_DEBOUNCE_INTERVAL + ", BUTTON_DOUBLE_CLICK_INTERVAL=" + BUTTON_DOUBLE_CLICK_INTERVAL + ", BUTTON_LONG_PRESS_INTERVAL=" + BUTTON_LONG_PRESS_INTERVAL + ", MULTI_RELAY_VERSION=" + MULTI_RELAY_VERSION);
@@ -312,65 +316,75 @@ void before()
 // executed AFTER mysensors has been initialised
 void setup()
 {
-  // setup ethernet communication using DHCP
-  Serial.println("ETHERNET1");
-  if (Ethernet.begin(mac) == 0)
-  {
-    Serial.println(F("Unable to configure Ethernet using DHCP"));
-    for (;;)
-      ;
-  }
 
-  Serial.println("ETHERNET2");
-  // ip="192.168";
-  for (int i = 2; i < 4; i++)
-  {
-    ip = ip + ".";
-    ip = ip + String(Ethernet.localIP()[i]);
-  }
+  Serial.begin(115200);
+  //Serial3.begin(9600);
+  pinMode(NETWORK_STATE, INPUT_PULLUP); //init config button
 
-  //---mac
-  for (int i = 0; i < 6; i++)
+  if (digitalRead(NETWORK_STATE) == LOW)
   {
-    if ((mac[i]) <= 0x0F)
+    // setup ethernet communication using DHCP
+    Serial.println("ETHERNET1");
+    if (Ethernet.begin(mac) == 0)
     {
-      MAC = MAC + "0"; //zet er zonodig een '0' voor
+      Serial.println(F("Unable to configure Ethernet using DHCP"));
+      for (;;)
+        ;
     }
-    MAC = MAC + String((mac[i]), HEX);
-    MAC = MAC + ":";
+
+    Serial.println("ETHERNET2");
+    // ip="192.168";
+    for (int i = 2; i < 4; i++)
+    {
+      ip = ip + ".";
+      ip = ip + String(Ethernet.localIP()[i]);
+    }
+
+    //---mac
+    for (int i = 0; i < 6; i++)
+    {
+      if ((mac[i]) <= 0x0F)
+      {
+        MAC = MAC + "0"; //zet er zonodig een '0' voor
+      }
+      MAC = MAC + String((mac[i]), HEX);
+      MAC = MAC + ":";
+    }
+    MAC[(MAC.length()) - 1] = '\0'; //verwijder laatst toegevoegde ":"
+
+    Serial.println(F("Ethernet configured via DHCP"));
+    Serial.print("IP address: ");
+    Serial.println(Ethernet.localIP());
+    Serial.println();
+
+    // setup mqtt client
+    mqttClient.setClient(ethClient);
+    mqttClient.setServer(mqttBrokerIP.c_str(), mqttPort);
+
+    mqttClient.setCallback(callbackMqtt);
+
+    wdt_enable(WDTO_8S); //aktywujemy watchdog z argumentem czasu - w tej sytuacji 1 sekunda
+    //wstawiamy w dowolnym miejscu w setup...od tego momentu watchdog już działa;)
+
+    // Send initial state to MySensor Controller
+    myMessage.setType(V_STATUS);
+
+    Serial.println("konczymy setup");
   }
-  MAC[(MAC.length()) - 1] = '\0'; //verwijder laatst toegevoegde ":"
-
-  Serial.println(F("Ethernet configured via DHCP"));
-  Serial.print("IP address: ");
-  Serial.println(Ethernet.localIP());
-  Serial.println();
-
-  // setup mqtt client
-  mqttClient.setClient(ethClient);
-  mqttClient.setServer(mqttBrokerIP.c_str(), mqttPort);
-
-  mqttClient.setCallback(callbackMqtt);
-
-  // wdt_enable(WDTO_1S); //aktywujemy watchdog z argumentem czasu - w tej sytuacji 1 sekunda
-  //wstawiamy w dowolnym miejscu w setup...od tego momentu watchdog już działa;)
-
-  // Send initial state to MySensor Controller
-  myMessage.setType(V_STATUS);
-
-  Serial.println("konczymy setup");
 };
 
 void loop()
 {
   wdt_reset();
-  if (!mqttClient.connected())
+  if (digitalRead(NETWORK_STATE) == LOW)
   {
-    reconnect();
-    iDomSendAllBulbStatus();
+    if (!mqttClient.connected())
+    {
+      reconnect();
+      iDomSendAllBulbStatus();
+    }
+    mqttClient.loop();
   }
-  mqttClient.loop();
-
   if (mqttBuffor.length() > 1)
   {
     //0;125;1;0;2;0

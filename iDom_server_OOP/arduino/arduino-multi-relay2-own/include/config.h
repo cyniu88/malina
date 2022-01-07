@@ -52,6 +52,8 @@ constexpr int LAZIENKA_WEJSCIE__113 = 113;
 
 constexpr int POKOJ_W_JEDNA_____109 = 109;
 constexpr int POKOJ_W_DWIE______110 = 110;
+
+constexpr int NETWORK_STATE = A0;
 // Relays config - ID and PIN MUST BE UNIQUE (can't be repeated)!
 // Row params: relay ID - [0-254] sensor ID reported on MySensor Gateway
 //             relay pin - pin used for relay, can be expander pin via "E(x, y)" macro
