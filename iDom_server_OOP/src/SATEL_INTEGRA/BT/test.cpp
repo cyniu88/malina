@@ -7,6 +7,9 @@
 
 #include "../satel_integra_handler.h"
 
+// armed partition fefe0a000000007dc4fe0d
+// output states fefe1700000000000000000000000000000000430efe0d
+
 static bool workStubSatel = true;
 void satelServer(){
     std::cout << "start" << std::endl;
@@ -86,25 +89,12 @@ void satelServer(){
                         std::string len;
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
-                        len.push_back('3');
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x41);
+                        len.push_back(0xae);
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::END);
                         int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
@@ -121,13 +111,24 @@ void satelServer(){
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::OUTPUTS_STATE);
-                        len.push_back(0x3);
-                        len.push_back(0x4);
-                        len.push_back(0x5);
-                        len.push_back(0x6);
-                        len.push_back('3');
-                        len.push_back('3');
-
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x43);
+                        len.push_back(0x0e);
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::END);
 
@@ -171,9 +172,12 @@ void satelServer(){
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::OUTPUT_ON);
-                        len.push_back(0x0);
-                        len.push_back('3');
-                        len.push_back('3');
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x85);
+                        len.push_back(0xc4);
 
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::END);
@@ -192,9 +196,12 @@ void satelServer(){
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::OUTPUT_OFF);
-                        len.push_back(0x0);
-                        len.push_back('3');
-                        len.push_back('3');
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x85);
+                        len.push_back(0xd4);
 
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::END);
@@ -213,9 +220,12 @@ void satelServer(){
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::ARMED_PARTITIONS);
-                        len.push_back(0x0);
-                        len.push_back('3');
-                        len.push_back('3');
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x00);
+                        len.push_back(0x7d);
+                        len.push_back(0xc4);
 
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::END);
@@ -305,10 +315,10 @@ TEST_F(satel_integra_fixture, main)
     testIntegra.checkSatel();
     testIntegra.getSatelPTR()->armAlarm(1);
 
-    workStubSatel = false;
+    workStubSatel = false; //close satel server stub
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    testIntegra.checkSatel();
+    //testIntegra.checkSatel();
     testIntegra.getSatelPTR()->armAlarm(1);
 
     startSatelServer();

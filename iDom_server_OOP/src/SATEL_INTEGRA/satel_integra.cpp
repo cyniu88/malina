@@ -73,7 +73,9 @@ std::string SATEL_INTEGRA::getIntegraInfo()
 
     //msg.push_back(INTEGRA_ENUM::VERSION); // get integra info
 
-    sendIntegra(cmd, 1);
+    if (sendIntegra(cmd, 1) == 0){
+        return "BAD INTEGRA DATA";
+    }
 
     // (void) recvIntegra();
 
@@ -90,7 +92,10 @@ std::string SATEL_INTEGRA::getIntegraInfo()
 std::string SATEL_INTEGRA::checkIntegraOut()
 {
     unsigned char cmd[1] = { INTEGRA_ENUM::OUTPUTS_STATE };
-    sendIntegra(cmd, 1);
+    if(sendIntegra(cmd, 1) == 0)
+    {
+        return "BAD INTEGRA DATA";
+    }
 
     // (void) recvIntegra();
     if(m_message[2] not_eq INTEGRA_ENUM::OUTPUTS_STATE){
@@ -152,7 +157,9 @@ void SATEL_INTEGRA::armAlarm(unsigned int partitionID)
 
     cmd[byteNumber + 9] = 0x01 << bitNumber;
 
-    sendIntegra(cmd,13);
+    if(sendIntegra(cmd,13) == 0){
+            throw "SATEL BAD RECV";
+    }
 }
 
 void SATEL_INTEGRA::disarmAlarm(unsigned int partitionID)
@@ -177,7 +184,9 @@ void SATEL_INTEGRA::disarmAlarm(unsigned int partitionID)
 
     cmd[byteNumber + 9] = 0x01 << bitNumber;
 
-    sendIntegra(cmd,13);
+    if(sendIntegra(cmd,13) == 0){
+            throw "SATEL BAD RECV";
+    }
 }
 
 void SATEL_INTEGRA::outputOn(unsigned int id)
@@ -203,8 +212,9 @@ void SATEL_INTEGRA::outputOn(unsigned int id)
 
     cmd[byteNumber + 9] = 0x01 << bitNumber;
 
-    sendIntegra(cmd,41);
-    // (void) recvIntegra();
+    if(sendIntegra(cmd,41) == 0){
+            throw "SATEL BAD RECV";
+    }
 }
 
 void SATEL_INTEGRA::outputOff(unsigned int id)
@@ -231,8 +241,9 @@ void SATEL_INTEGRA::outputOff(unsigned int id)
 
     cmd[byteNumber + 9] = 0x01 << bitNumber;
 
-    sendIntegra(cmd,41);
-    //(void) recvIntegra();
+    if(sendIntegra(cmd,41) == 0){
+            throw "SATEL BAD RECV";
+    }
 }
 
 std::string SATEL_INTEGRA::dump() const
@@ -292,20 +303,46 @@ int SATEL_INTEGRA::recvIntegra()
     setsockopt(m_sock, SOL_SOCKET, SO_RCVTIMEO,(char*)&tv , sizeof(struct timeval));
 
     int size = recv(m_sock, m_message, 2000, 0);
-    if (size < 0) {
+    if (size < 6) {
         puts("Nie udało się pobrać odpowiedzi z serwera");
-
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "Satel Integra: received frame is too short." << std::endl;
+        log_file_mutex.mutex_unlock();
         connectIntegra(m_host,  m_port);
         return 0;
     }
     if (m_message[0] not_eq INTEGRA_ENUM::HEADER_MSG
             or m_message[1] not_eq INTEGRA_ENUM::HEADER_MSG
             or m_message[size-1] not_eq INTEGRA_ENUM::END
-            or m_message[size-2] not_eq INTEGRA_ENUM::HEADER_MSG)
+            or m_message[size-2] not_eq INTEGRA_ENUM::HEADER_MSG){
         puts("Urządzenie zajęte (busy) lub niewłaściwy format odpowiedzi");
-#ifdef BT_TEST
-    //assert(false);
-#endif
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "Satel Integra: received bad frame (prefix or sufix)" << std::endl;
+        log_file_mutex.mutex_unlock();
+        return 0;
+    }
+    unsigned int answerLength = 0;
+    unsigned char answer[100];
+    for (int i = 0; i < size - 6; i++)
+        if (m_message[i + 2] != 0xF0 || m_message[i + 1] != 0xFE) // skip special value
+        {
+            answer[answerLength] = m_message[i + 2];
+            answerLength++;
+        }
+    unsigned short crc;
+    calculateCRC(answer, answerLength, crc);
+
+    if ((crc & 0xFF) != m_message[size - 3] || (crc >> 8) != m_message[size - 4])
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "Satel Integra: receive bad CRC :(" << std::endl << "crc & 0xFF          = " << (crc & 0xFF)<< std::endl
+                      << "m_message[size - 3] = " << (int)m_message[size - 3] <<std::endl
+                      << "(crc >> 8)          = " << (crc >> 8)<<std::endl
+                      << "m_message[size - 4] = " << (int)m_message[size - 4] <<std::endl;;
+        log_file_mutex.mutex_unlock();
+        return 0;
+    }
+
     return size;
 }
 

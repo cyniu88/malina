@@ -257,7 +257,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
             // TODO temporary added viber notifiction
             auto time = Clock::getUnixTime() - m_lastNotifyUnixTime;
             if (my_data->idom_all_state.houseState == STATE::LOCK or
-                    time > 60) {
+                    time > 600) {
                 m_lastNotifyUnixTime += time;
                 std::stringstream str_buf;
                 str_buf << "zmiana statusu lampy " << m_lightingBulbMap.at(bulbID)->getBulbName()
