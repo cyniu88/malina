@@ -10,7 +10,8 @@
 // armed partition fefe0a000000007dc4fe0d
 // output states fefe1700000000000000000000000000000000430efe0d
 
-static bool workStubSatel = true;
+
+std::atomic<bool> workStubSatel = true;
 void satelServer(){
     std::cout << "start" << std::endl;
     int  MAX_buf = 1024;
@@ -249,11 +250,10 @@ void satelServer(){
             }
         }
 
-
-
     } // while
     std::cout <<  "zamykamy stub serwera integra" << std::endl;
     close(v_socket);
+    workStubSatel = true;
 }
 
 
@@ -318,8 +318,12 @@ TEST_F(satel_integra_fixture, main)
     workStubSatel = false; //close satel server stub
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    while(workStubSatel == false){
+     puts("kkkk");
+    }
     //testIntegra.checkSatel();
-    testIntegra.getSatelPTR()->armAlarm(1);
+    std::cout << "DUPAAA " << workStubSatel << std::endl;
+    EXPECT_ANY_THROW( testIntegra.getSatelPTR()->armAlarm(1));
 
     startSatelServer();
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
