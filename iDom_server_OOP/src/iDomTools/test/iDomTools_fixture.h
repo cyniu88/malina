@@ -42,6 +42,13 @@ public:
 
         test_rec->loadConfig(test_server_set._server.radio433MHzConfigFile);
 
+        test_server_set._satel_integra.host = "127.0.0.1";
+        test_server_set._satel_integra.port = 7094;
+        test_server_set._satel_integra.pin = "1234";
+
+        test_my_data.idom_all_state.houseState = STATE::UNDEFINE;
+        test_my_data.idom_all_state.alarmSatelState = STATE::UNDEFINE;
+
         test_my_data.main_REC = test_rec;
         test_my_data.server_settings = &test_server_set;
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();

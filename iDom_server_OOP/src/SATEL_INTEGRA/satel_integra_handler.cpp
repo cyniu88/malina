@@ -48,7 +48,7 @@ void SATEL_INTEGRA_HANDLER::checkAlarm(STATE &st)
     if(m_integra32.connectionState() not_eq STATE::CONNECTED)
         return;
     bool fromSatel = m_integra32.isAlarmArmed();
-    if(st == STATE::DISARMED and fromSatel == true){
+    if((st == STATE::DISARMED or st == STATE::UNDEFINE) and fromSatel == true){
         st = STATE::ARMED;
         my_data->main_iDomTools->lockHome();
         log_file_mutex.mutex_lock();
@@ -59,7 +59,7 @@ void SATEL_INTEGRA_HANDLER::checkAlarm(STATE &st)
                                                   my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                                   my_data->server_settings->_fb_viber.viberSender);
     }
-    else if( st == STATE::ARMED and fromSatel == false){
+    else if((st == STATE::ARMED or st == STATE::UNDEFINE) and fromSatel == false){
         st = STATE::DISARMED;
         my_data->main_iDomTools->unlockHome();
         log_file_mutex.mutex_lock();
