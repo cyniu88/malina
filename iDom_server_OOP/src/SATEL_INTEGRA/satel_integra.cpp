@@ -50,7 +50,6 @@ void SATEL_INTEGRA::connectIntegra(const std::string &host, const int port)
         puts("Nie udało się nawiązać połączenia");
         return;
     }
-    //printf("Połączony\n");
     m_connectState = STATE::CONNECTED;
 }
 
