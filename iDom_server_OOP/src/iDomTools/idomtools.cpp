@@ -759,7 +759,14 @@ std::string iDomTOOLS::getSmog()
     curl_global_cleanup();
     try {
         auto jj = nlohmann::json::parse(readBuffer);
-        readBuffer = jj["values"][1]["value"].dump();
+        int i = 1;
+        while(true){
+            readBuffer = jj["values"][i]["value"].dump();
+            if(readBuffer != "null" or i == 10)
+                break;
+            ++i;
+        }
+
     }
     catch (...){
         log_file_mutex.mutex_lock();
