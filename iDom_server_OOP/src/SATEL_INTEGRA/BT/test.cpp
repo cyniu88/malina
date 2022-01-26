@@ -310,14 +310,9 @@ TEST_F(satel_integra_fixture, turnOnOffOutput)
     startSatelServer();
     SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
 
-    //   std::cout << testIntegra.getSatelPTR()->getIntegraInfo() << std::endl;
-    //testIntegra.checkSatel();
-
     testIntegra.getSatelPTR()->outputOn(3);
-    //std::this_thread::sleep_for(std::chrono::milliseconds(500));
     testIntegra.checkSatel();
     testIntegra.getSatelPTR()->outputOff(3);
-    //std::this_thread::sleep_for(std::chrono::milliseconds(500));
     testIntegra.checkSatel();
 }
 

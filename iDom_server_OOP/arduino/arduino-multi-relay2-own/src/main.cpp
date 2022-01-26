@@ -84,7 +84,7 @@ void callbackMqtt(char *topic, byte *payload, unsigned int length)
 void reconnect()
 {
   // Loop until we're reconnected
-  while (!mqttClient.connected())
+  if (!mqttClient.connected())
   {
     Serial.print("Attempting MQTT connection...");
     // Create a random client ID
@@ -106,7 +106,7 @@ void reconnect()
       Serial.print(mqttClient.state());
       Serial.println(" try again in 5 seconds");
       // Wait 5 seconds before retrying
-      delay(1000);
+      //delay(1000);
     }
   }
 }
@@ -122,6 +122,9 @@ void (*resetFunc)(void) = 0; //declare reset function at address 0
 
 void iDomSend(int releyID, int buttonID, int state)
 {
+  if(!mqttClient.connected()){
+return;
+  }
   if (digitalRead(NETWORK_STATE) == HIGH || releyID == VIRTUAL_________RELAY){ // do not send for virtual reley or if network fiture is off
      //Serial.println("nie wysylam po ethernecie iDomSend()");
     return;
@@ -383,7 +386,9 @@ void loop()
       reconnect();
       iDomSendAllBulbStatus();
     }
-    mqttClient.loop();
+    else{
+       mqttClient.loop();
+    }
   }
   if (mqttBuffor.length() > 1)
   {

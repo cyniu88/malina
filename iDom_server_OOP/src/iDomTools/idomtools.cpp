@@ -744,7 +744,7 @@ std::string iDomTOOLS::getSmog()
     curl = curl_easy_init();
 
     if(curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, "www.smog.krakow.pl");
+        curl_easy_setopt(curl, CURLOPT_URL, "https://api.gios.gov.pl/pjp-api/rest/data/getData/20320");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
         res = curl_easy_perform(curl);
@@ -757,9 +757,9 @@ std::string iDomTOOLS::getSmog()
         curl_easy_cleanup(curl);
     }
     curl_global_cleanup();
-    auto start = readBuffer.find(R"(<h2 class="polution">)");
     try {
-        readBuffer = readBuffer.substr(start, 40);
+        auto jj = nlohmann::json::parse(readBuffer);
+        readBuffer = jj["values"][1]["value"].dump();
     }
     catch (...){
         log_file_mutex.mutex_lock();
@@ -767,8 +767,6 @@ std::string iDomTOOLS::getSmog()
         log_file_mutex.mutex_unlock();
         return  "-1";
     }
-
-    readBuffer = useful_F_libs::find_tag(readBuffer);
 
     my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/smog", readBuffer);
     return readBuffer;
