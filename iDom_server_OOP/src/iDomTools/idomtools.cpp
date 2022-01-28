@@ -526,7 +526,7 @@ std::string iDomTOOLS::getAllDataSunriseSunset()
 
 void iDomTOOLS::checkLightning()
 {
-
+return ;
             log_file_mutex.mutex_lock();
             log_file_cout << ERROR << "nie wysłano informacje o burzy" << std::endl;
             log_file_mutex.mutex_unlock();
@@ -579,26 +579,19 @@ std::string iDomTOOLS::getWeatherEvent(const std::string& city, unsigned int rad
     return useful_F_libs::httpPost(url, 10);
 }
 
-std::vector<WEATHER_ALER> iDomTOOLS::getAlert(std::string data)
+WEATHER_DATABASE iDomTOOLS::getAlert()
 {
-    std::vector<WEATHER_ALER> wAlert;
-    WEATHER_ALER tempWA;
-    std::string d = useful_F_libs::removeHtmlTag(data);
-    std::vector<std::string> vect;
+    std::string bufferData = useful_F_libs::httpPost(my_data->server_settings->_server.lightningApiURL);
+    std::string d = useful_F_libs::removeHtmlTag(bufferData);
 
-    vect = useful_F::split(d,'\n');
+    auto vect = useful_F::split(d,'\n');
     vect.pop_back();
-    for (const auto& n : vect)
-    {
-        if (n.find("brak") == std::string::npos)
-        {
-            tempWA.alert = n;
-            tempWA.name = n;
-            tempWA.sended = false;
-            wAlert.push_back(tempWA);
-        }
-    }
-    return {wAlert};
+
+    WEATHER_DATABASE wAlert;
+
+    wAlert.lightning.alert = vect.at(0);
+
+    return wAlert;
 }
 
 void iDomTOOLS::textToSpeach(std::vector<std::string> *textVector)

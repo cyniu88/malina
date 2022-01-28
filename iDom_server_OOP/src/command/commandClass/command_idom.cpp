@@ -113,12 +113,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         std::string readBuffer = useful_F_libs::httpPost("http://45.90.3.84/cgi-bin/kto_wifi.sh",10);
         return readBuffer;
     }
-    else if (v[1] == "lightning"){
-        std::stringstream readBuffer;
-        //TODO dodac informacje a alarmach
-        readBuffer << "TODO ";
-        return readBuffer.str();
-    }
+
     else if (v[1] == "kill"){
 
         if (v[2]=="thread"){

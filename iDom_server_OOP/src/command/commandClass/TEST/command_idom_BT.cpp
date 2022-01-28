@@ -263,16 +263,6 @@ TEST_F(commandiDom_Class_fixture, wifi)
     EXPECT_THAT(retStr,testing::HasSubstr("ok"));
 }
 
-TEST_F(commandiDom_Class_fixture, lightning)
-{
-    test_v.clear();
-    test_v.push_back("iDom");
-    test_v.push_back("lightning");
-    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
-    std::cout << "retString: " << retStr << std::endl;
-    EXPECT_THAT(retStr,testing::HasSubstr("bool: "));
-}
-
 TEST_F(commandiDom_Class_fixture, camera)
 {
     test_my_data.server_settings->_camera.cameraLedOFF = "cameraOFF";

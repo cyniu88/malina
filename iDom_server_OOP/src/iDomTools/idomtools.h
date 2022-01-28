@@ -88,7 +88,7 @@ public:
     std::string getDayLenght(bool extend = false);
     std::string getWeatherEvent(const std::string &city, unsigned int radius );
 
-    std::vector<WEATHER_ALER> getAlert(std::string data);
+    WEATHER_DATABASE getAlert();
 
     void textToSpeach(std::vector <std::string> *textVector);
     std::string getTextToSpeach();

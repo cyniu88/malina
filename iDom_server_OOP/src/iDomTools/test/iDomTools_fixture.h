@@ -12,11 +12,9 @@ class iDomTOOLS_ClassTest : public testing::Test
 {
 public:
     TEST_JSON test_Json;
-    //LIGHTNING test_lightning;
     thread_data test_my_data;
     CONFIG_JSON test_server_set;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
-    //iDOM_STATE main_iDomStatus;
     ALERT test_alarmTime;
     SATEL_INTEGRA_HANDLER_STUB test_satel;
     /////// method
@@ -44,6 +42,8 @@ public:
         test_server_set._satel_integra.host = "127.0.0.1";
         test_server_set._satel_integra.port = 7094;
         test_server_set._satel_integra.pin = "1234";
+
+        test_server_set._server.lightningApiURL = "http://burze.dzis.net/ramka.php?miejscowosc=krakow&promien=20";
 
         test_my_data.idom_all_state.houseState = STATE::UNDEFINE;
         test_my_data.idom_all_state.alarmSatelState = STATE::UNDEFINE;
