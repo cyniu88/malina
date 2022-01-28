@@ -40,6 +40,7 @@
 #include "SerialPi/serialpi.h"
 #include "MENU/menu_base.h"
 #include "SATEL_INTEGRA/satel_integra_interface.h"
+#include "../libs/Statistic/statistic.h"
 
 #define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log

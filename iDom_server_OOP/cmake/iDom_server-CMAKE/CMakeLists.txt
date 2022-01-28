@@ -73,7 +73,6 @@ set(SOURCE_FILES
     "../../src/RADIO_433_eq/radio_button.cpp"
     "../../src/functions/functions2.cpp"
     "../../src/433MHz/RFLink/rflinkhandler.cpp"
-    "../../src/iDomTools/lightning.cpp"
     "../../src/iDomSaveState/idom_save_state.cpp"
     "../../src/iDomTools/idomtools_system.cpp"
     "../../src/SerialPi/serialpi.cpp"

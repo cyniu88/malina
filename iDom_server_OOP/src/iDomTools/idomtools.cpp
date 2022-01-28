@@ -524,80 +524,14 @@ std::string iDomTOOLS::getAllDataSunriseSunset()
     return m_sun.getAllData();
 }
 
-CARDINAL_DIRECTIONS::ALARM_INFO iDomTOOLS::getLightningStruct()
-{
-    std::lock_guard<std::mutex> lock(m_lightningMutex);
-    return m_lightningStruct;
-}
-
-void iDomTOOLS::setLightningStruct(const CARDINAL_DIRECTIONS::ALARM_INFO &s)
-{
-    std::lock_guard<std::mutex> lock(m_lightningMutex);
-    //std::cout <<"struktura setowana " << s.data.str() <<std::endl;
-    m_lightningStruct = s;
-}
-
 void iDomTOOLS::checkLightning()
 {
-    nlohmann::json jj = useful_F_libs::getJson(my_data->server_settings->_server.lightningApiURL);
 
-    CARDINAL_DIRECTIONS::ALARM_INFO lightningData = m_lightning.lightningAlert(jj);
-    setLightningStruct(lightningData);
-    bool result = m_lightning.checkLightningAlert(&lightningData);
-
-    if(result == true)
-    {
-        sendLightingCounterUP();
-        sendLightingCounterUP();
-        if(sendLightingCounter > 2)   // jesli wyslano juz 2 powiadomieniaw 10 minut  to nie wysylam wiecej
-            return;
-
-        m_viber.setAvatar("http://45.90.3.84/avatar/lightning.jpg");
-        STATE stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "
-                                              + EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
-                                          + "\\n\\n " + lightningData.data.str(),
-                                          my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                          my_data->server_settings->_fb_viber.viberSender);
-
-        if(stateMSG == STATE::SEND_NOK){
-            log_file_mutex.mutex_lock();
-            log_file_cout << ERROR << "nie wysłano informacje o burzy"<< std::endl;
-            log_file_mutex.mutex_unlock();
-        }
-        stateMSG = sendViberMsgBool("UWAGA BURZA KOŁO KRAKOWA! "
-                                        + EMOJI::emoji(E_emoji::THUNDER_CLOUD_AND_RAIN)
-                                    + "\\n\\n " + lightningData.data.str(),
-                                    my_data->server_settings->_fb_viber.viberReceiver.at(1),
-                                    my_data->server_settings->_fb_viber.viberSender);
-
-        m_viber.setAvatar(my_data->server_settings->_fb_viber.viberAvatar);
-        if(stateMSG == STATE::SEND_OK)
-        {
-            log_file_mutex.mutex_lock();
-            log_file_cout << INFO << "wysłano informacje o burzy" << std::endl;
-            log_file_mutex.mutex_unlock();
-        }
-        else
-        {
             log_file_mutex.mutex_lock();
             log_file_cout << ERROR << "nie wysłano informacje o burzy" << std::endl;
             log_file_mutex.mutex_unlock();
-        }
-    }
-    else
-        sendLightingCounterDOWN();
 }
 
-void iDomTOOLS::sendLightingCounterUP()
-{
-    sendLightingCounter++;
-}
-
-void iDomTOOLS::sendLightingCounterDOWN()
-{
-    if(sendLightingCounter > 0)
-        sendLightingCounter--;
-}
 
 std::string iDomTOOLS::getSunrise(bool extend )
 {

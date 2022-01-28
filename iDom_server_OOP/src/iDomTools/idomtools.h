@@ -8,7 +8,6 @@
 
 #include "idomtools_useful.h"
 #include "json.hpp"
-#include "lightning.h"
 
 #include "../iDom_server_OOP.h"
 #include "../THERMOMETER_CONTAINER/thermometer_container.h"
@@ -78,17 +77,8 @@ public:
     bool isItDay();
     std::string getAllDataSunriseSunset();
     //////////////////////////// lightning ////////////////////////
-    int sendLightingCounter = 0;
-    LIGHTNING m_lightning;
-    std::mutex m_lightningMutex;
-    CARDINAL_DIRECTIONS::ALARM_INFO getLightningStruct();
-    void setLightningStruct(const CARDINAL_DIRECTIONS::ALARM_INFO &s);
     void checkLightning();
-private:
-    void sendLightingCounterUP();
-    void sendLightingCounterDOWN();
-    CARDINAL_DIRECTIONS::ALARM_INFO m_lightningStruct;
-public:
+
 
     //////////////////////////// weather /////////////////////////
     std::string getSunrise(bool extend = false);

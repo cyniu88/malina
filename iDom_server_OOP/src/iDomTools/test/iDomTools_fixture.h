@@ -12,8 +12,7 @@ class iDomTOOLS_ClassTest : public testing::Test
 {
 public:
     TEST_JSON test_Json;
-    LIGHTNING test_lightning;
-    CARDINAL_DIRECTIONS::ALARM_INFO test_struct;
+    //LIGHTNING test_lightning;
     thread_data test_my_data;
     CONFIG_JSON test_server_set;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;

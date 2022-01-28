@@ -219,21 +219,6 @@ TEST_F(iDomTOOLS_ClassTest, testCPU_Load)
     std::cout <<"TEST LOAD" << std::endl;
     std::cout << test_my_data.main_iDomTools->getSystemInfo() << std::endl;
 }
-TEST_F(iDomTOOLS_ClassTest, stringToCardinalDirectionsEnum)
-{
-    EXPECT_EQ(CARDINAL_DIRECTIONS::stringToCardinalDirectionsEnum("NWWA"),
-              CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ERROR);
-    EXPECT_EQ(CARDINAL_DIRECTIONS::stringToCardinalDirectionsEnum("N"),
-              CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::N);
-}
-
-TEST_F(iDomTOOLS_ClassTest, cardinalDirectionsEnumToString)
-{
-    EXPECT_STREQ( CARDINAL_DIRECTIONS::cardinalDirectionsEnumToString(CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ERROR).c_str(),
-                  "UNKNOWN DIRECTION");
-    EXPECT_STREQ( CARDINAL_DIRECTIONS::cardinalDirectionsEnumToString(CARDINAL_DIRECTIONS::CARDINAL_DIRECTIONS_ENUM::ESE).c_str(),
-                  "ESE");
-}
 
 TEST_F(iDomTOOLS_ClassTest, saveState_readState)
 {
@@ -278,25 +263,10 @@ TEST_F(iDomTOOLS_ClassTest, saveState_readState)
     EXPECT_NO_THROW(test_my_data.main_iDomTools->readState_iDom(info.read()));
 }
 
-TEST_F(iDomTOOLS_ClassTest, getLightningStruct)
-{
-    LIGHTNING test_lightning;
-    test_struct = test_lightning.lightningAlert(test_Json.jj_lightning);
-
-    test_my_data.main_iDomTools->setLightningStruct(test_struct);
-
-    bool test_result = test_lightning.checkLightningAlert(&test_struct);
-    EXPECT_TRUE(test_result);
-
-    auto test_alert_info = test_my_data.main_iDomTools->getLightningStruct();
-    EXPECT_EQ(test_alert_info.timestamp,210);
-}
 TEST_F(iDomTOOLS_ClassTest, checkLightning)
 {
     test_my_data.server_settings->_server.lightningApiURL = "http://45.90.3.84/test/json/lightning.json";
     test_my_data.main_iDomTools->checkLightning();
-    auto test_alert_info = test_my_data.main_iDomTools->getLightningStruct();
-    EXPECT_EQ(test_alert_info.timestamp,210);
 }
 
 TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
