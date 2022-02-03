@@ -266,7 +266,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     bool key_ok = false;
     std::string tm = inet_ntoa(my_data->from.sin_addr);
 
-    if("192.168.13.101" == tm or "192.168.13.181" == tm)  //TODO  change ip adres
+    if(tm.find("192.168.13.18") != std::string::npos)
     {
         if(++connectionCounter > 9)
         {
