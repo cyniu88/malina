@@ -40,6 +40,7 @@ protected:
         test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
         test_my_data.server_settings->_server.PORT = 8833;
         test_my_data.server_settings->_server.SERVER_IP = "127.0.0.1";
+        test_my_data.server_settings->_runThread.SATEL = true;
     }
     void TearDown()
     {
@@ -472,4 +473,6 @@ TEST_F(bit_fixture, start_iDom_unlock_lock)
     EXPECT_FALSE(test_my_data.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
     test_my_data.main_iDomTools->lockHome();
     EXPECT_TRUE(test_my_data.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
+    test_my_data.main_iDomTools->unlockHome();
+    EXPECT_FALSE(test_my_data.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
 }

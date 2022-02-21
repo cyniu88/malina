@@ -155,7 +155,7 @@ void iDomTOOLS::updateTemperatureStats()
     {
         auto data = m_allThermometerUpdate.getLast2("outside");
         std::string msg = "alarm roznicy temeratur na polu! " + to_string_with_precision(data.first) + " na "
-                          + to_string_with_precision(data.second);
+                + to_string_with_precision(data.second);
 
         if (data.first > data.second)
         {
@@ -419,13 +419,12 @@ void iDomTOOLS::lockHome()
     my_data->main_iDomStatus->setObjectState("house", STATE::LOCK);
 
     // arm alarm
-    if(my_data->idom_all_state.alarmSatelState != STATE::ARMED)
+    if(my_data->idom_all_state.alarmSatelState != STATE::ARMED  and
+            my_data->server_settings->_runThread.SATEL == true)
         my_data->satelIntegraHandler->getSatelPTR()->armAlarm(my_data->server_settings->_satel_integra.partitionID);
 
     // turn off ventilation
 
-
-    // chek alarm is armed
 
     ////switch 433mhz#include "idomtools.h"
 
@@ -446,7 +445,9 @@ void iDomTOOLS::lockHome()
     log_file_mutex.mutex_unlock();
 
     saveState_iDom(my_data->serverStarted);
-    my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
+    if( my_data->server_settings->_runThread.SATEL == true){
+        my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
+    }
 }
 
 void iDomTOOLS::unlockHome()
@@ -459,7 +460,8 @@ void iDomTOOLS::unlockHome()
     my_data->main_iDomStatus->setObjectState("house", STATE::UNLOCK);
     //#ifndef BT_TEST
     // disarm alarm
-    if(my_data->idom_all_state.alarmSatelState != STATE::DISARMED)
+    if(my_data->idom_all_state.alarmSatelState != STATE::DISARMED and
+            my_data->server_settings->_runThread.SATEL == true)
         my_data->satelIntegraHandler->getSatelPTR()->disarmAlarm(my_data->server_settings->_satel_integra.partitionID);
 
     // turn on ventilation on speed 1
@@ -477,7 +479,9 @@ void iDomTOOLS::unlockHome()
     log_file_mutex.mutex_unlock();
 
     saveState_iDom(my_data->serverStarted);
-    my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
+    if(my_data->server_settings->_runThread.SATEL == true){
+        my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
+    }
 }
 
 void iDomTOOLS::switchActionOnLockHome()
@@ -526,10 +530,10 @@ std::string iDomTOOLS::getAllDataSunriseSunset()
 
 void iDomTOOLS::checkLightning()
 {
-return ;
-            log_file_mutex.mutex_lock();
-            log_file_cout << ERROR << "nie wysłano informacje o burzy" << std::endl;
-            log_file_mutex.mutex_unlock();
+    return ;
+    log_file_mutex.mutex_lock();
+    log_file_cout << ERROR << "nie wysłano informacje o burzy" << std::endl;
+    log_file_mutex.mutex_unlock();
 }
 
 
