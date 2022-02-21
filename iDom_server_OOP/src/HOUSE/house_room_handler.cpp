@@ -346,7 +346,7 @@ void house_room_handler::satelSensorActive(int sensorID)
     if(m_satelIdMap.find(sensorID) == m_satelIdMap.end() ) {
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << "unsupported  satel sensor " << sensorID << std::endl;
-        log_file_cout << WARNING << "restart satel connections " << sensorID << std::endl;
+        log_file_cout << WARNING << "restart satel connections " << std::endl;
         log_file_mutex.mutex_unlock();
         my_data->main_iDomTools->sendViberMsg("restart polaczenia satel",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),

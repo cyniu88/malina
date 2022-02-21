@@ -26,6 +26,12 @@ void SATEL_INTEGRA_HANDLER::checkSatel()
         return;
 
     std::string dataOut = m_integra32.checkIntegraOut();
+    if(dataOut == "BAD INTEGRA DATA"){
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "received bad integra data" << std::endl;
+        log_file_mutex.mutex_unlock();
+        return;
+    }
     int counter = 1;
     for(const auto& d : dataOut){
         auto bs = std::bitset<8>(d);
