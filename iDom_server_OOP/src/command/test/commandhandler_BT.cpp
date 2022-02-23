@@ -72,6 +72,17 @@ TEST_F(command_handler_mqtt_fixture, unknown_command)
     EXPECT_THAT(ret, testing::HasSubstr("unknown") );
 }
 
+TEST_F(command_handler_mqtt_fixture, voice_mqtt)
+{
+    time(&test_my_data.start);
+    test_v.clear();
+    test_v.push_back("włąCz");
+    test_v.push_back("radIo");
+    auto ret = test_chMQTT->run(test_v, &test_my_data);
+    std::cout << "DATA: " << ret << std::endl;
+    EXPECT_THAT(ret, testing::HasSubstr("done") );
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 class command_handler_gateway_fixture : public iDomTOOLS_ClassTest
 {
