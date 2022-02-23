@@ -9,6 +9,7 @@
 #include "commandClass/command_buderus.h"
 #include "commandClass/command_light.h"
 #include "commandClass/command_idom.h"
+#include "commandClass/command_voice.h"
 
 CommandHandlerMQTT::CommandHandlerMQTT()
 {
@@ -38,18 +39,22 @@ CommandHandlerMQTT::CommandHandlerMQTT()
 
     std::unique_ptr <command> idom (new command_iDom("iDom"));
     commandMap.insert(std::make_pair(idom->getCommandName(), std::move(idom)));
+
+    std::unique_ptr <command> voice(new command_voice("voice"));
+    commandMap.insert(std::make_pair(voice->getCommandName(), std::move(voice)));
 }
 
 std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_data *my_data)
 {
     if (commandMap.find(v[0]) == commandMap.end()){
-        std::fstream log;
+       /* std::fstream log;
         log.open( "/mnt/ramdisk/command.txt", std::ios::binary | std::ios::in | std::ios::out|std::ios::app );
         log << "MQTT: " << v[0] << std::endl;
         log.close();
-        return EMOJI::emoji(E_emoji::WARNING_SIGN) + " unknown command: "+ v[0];
+        return EMOJI::emoji(E_emoji::WARNING_SIGN) + " unknown command: "+ v[0];*/
+        return commandMap["voice"]->execute(v, my_data);
     }
     else{
-        return commandMap[v[0]]->execute(v,my_data);
+        return commandMap[v[0]]->execute(v, my_data);
     }
 }
