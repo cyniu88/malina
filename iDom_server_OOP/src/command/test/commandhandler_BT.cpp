@@ -43,6 +43,7 @@ public:
 protected:
     std::unique_ptr<CommandHandlerMQTT> test_chMQTT;
     std::vector<std::string> test_v;
+
     void SetUp() final
     {
         iDomTOOLS_ClassTest::SetUp();

@@ -17,6 +17,7 @@ public:
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     ALERT test_alarmTime;
     SATEL_INTEGRA_HANDLER_STUB test_satel;
+
     /////// method
     iDomTOOLS_ClassTest()
     {
