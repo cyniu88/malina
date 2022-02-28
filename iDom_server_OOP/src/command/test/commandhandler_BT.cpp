@@ -76,11 +76,17 @@ TEST_F(command_handler_mqtt_fixture, voice_mqtt)
 {
     time(&test_my_data.start);
     test_v.clear();
-    test_v.push_back("włąCz");
     test_v.push_back("radIo");
+    test_v.push_back("włąCz");
     auto ret = test_chMQTT->run(test_v, &test_my_data);
     std::cout << "DATA: " << ret << std::endl;
     EXPECT_THAT(ret, testing::HasSubstr("done") );
+
+    test_v.clear();
+    test_v.push_back("światła");
+    test_v.push_back("wszędzie");
+    test_v.push_back("wyłąCz");
+    test_chMQTT->run(test_v, &test_my_data);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

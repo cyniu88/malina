@@ -12,31 +12,31 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
         useful_F_libs::toLower(vv);
     }
 
-    if(v[0] == "włącz"){
-        if(v[1] == "radio"){
+    if(vectorContain(v,"włą")){
+        if(vectorContain(v,"rad")){
             my_data->main_iDomTools->MPD_play(my_data);
             return "done";
         }
-        else if(v[1] == "światło" and v.size() > 3){
-            if(v[3] == "biurze")
+        else if(vectorContain(v, "świat")){
+            if(vectorContain(v, "biur"))
                 my_data->main_house_room_handler->turnOnAllInRoom("pokoj_E");
-            else if( v[3] == "salonie")
+            else if(vectorContain(v,"salon"))
                 my_data->main_house_room_handler->turnOnAllInRoom("salon");
 
             return "done";
         }
     }
-    else if(v[0] == "wyłącz"){
-        if(v[1] == "radio"){
+    else if(vectorContain(v, "wyłą")){
+        if(vectorContain(v, "radi")){
             my_data->main_iDomTools->MPD_stop();
             return "done";
         }
-        else if(v[1] == "światło" and v.size() > 3){
-            if(v[3] == "biurze")
+        else if(vectorContain(v, "świat")){
+            if(vectorContain(v, "biur"))
                 my_data->main_house_room_handler->turnOffAllInRoom("pokoj_E");
-            else if(v[3] == "salonie")
+            else if(vectorContain(v,"salon"))
                 my_data->main_house_room_handler->turnOffAllInRoom("salon");
-            else if (v[3] == "wszędzie")
+            else if (vectorContain(v, "wszęd"))
                 my_data->main_house_room_handler->turnOffAllBulb();
             return "done";
         }
@@ -52,4 +52,13 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
 std::string command_voice::help() const
 {
     return "TODO";
+}
+
+bool command_voice::vectorContain(const std::vector<std::string> &vector, const std::string &str)
+{
+    for(auto &vv : vector){
+        if(useful_F_libs::hasSubstring(vv, str) == true)
+            return true;
+    }
+    return false;
 }
