@@ -27,20 +27,21 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
             return "done";
 
         }
-        else if(vectorContain(v, "wyłą") or vectorContain(v, "zgaś")){
-            if(vectorContain(v, "radi")){
-                my_data->main_iDomTools->MPD_stop();
-                return "done";
-            }
-            else if(vectorContain(v, "świat")){
-                for(auto &j : my_data->main_house_room_handler->m_roomMap){
-                    if(vectorContain(v, j.first.substr(0,4))){
-                        my_data->main_house_room_handler->turnOffAllInRoom(j.first);
-                    }
-                }
-                return "done";
-            }
+    }
+    else if(vectorContain(v, "wyłą") or vectorContain(v, "zgaś")){
+        if(vectorContain(v, "radi")){
+            my_data->main_iDomTools->MPD_stop();
+            return "done";
         }
+        else if(vectorContain(v, "świat")){
+            for(auto &j : my_data->main_house_room_handler->m_roomMap){
+                if(vectorContain(v, j.first.substr(0,4))){
+                    my_data->main_house_room_handler->turnOffAllInRoom(j.first);
+                }
+            }
+            return "done";
+        }
+
     }
     std::fstream log;
     log.open( "/mnt/ramdisk/command.txt", std::ios::binary | std::ios::in | std::ios::out|std::ios::app );
