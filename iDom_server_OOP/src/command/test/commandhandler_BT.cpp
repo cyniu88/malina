@@ -90,6 +90,15 @@ TEST_F(command_handler_mqtt_fixture, voice_mqtt)
     test_chMQTT->run(test_v, &test_my_data);
 }
 
+#include "../commandClass/command_voice.h"
+TEST_F(command_handler_mqtt_fixture, vectorContain)
+{
+    command_voice  vc("dom");
+    std::vector<std::string> vvv = {"wiatrolap", "pies"};
+
+    EXPECT_FALSE(vc.vectorContain(vvv, "świat"));
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 class command_handler_gateway_fixture : public iDomTOOLS_ClassTest
 {

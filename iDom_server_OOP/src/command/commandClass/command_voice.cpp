@@ -8,7 +8,6 @@ command_voice::command_voice(const std::string &name): command(name)
 
 std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_data)
 {
-
     for(auto &vv : v){
         useful_F_libs::toLower(vv);
     }
@@ -25,7 +24,10 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
                 }
             }
             return "done";
-
+        }
+        else if(vectorContain(v, "kodi")){
+            my_data->main_iDomTools->startKodi_Thread();
+            return "kodi run";
         }
     }
     else if(vectorContain(v, "wyłą") or vectorContain(v, "zgaś")){
@@ -34,6 +36,10 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
             return "done";
         }
         else if(vectorContain(v, "świat")){
+            if(vectorContain(v, "wsz")){
+                my_data->main_house_room_handler->turnOffAllBulb();
+                return "done";
+            }
             for(auto &j : my_data->main_house_room_handler->m_roomMap){
                 if(vectorContain(v, j.first.substr(0,4))){
                     my_data->main_house_room_handler->turnOffAllInRoom(j.first);
@@ -41,7 +47,6 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
             }
             return "done";
         }
-
     }
     std::fstream log;
     log.open( "/mnt/ramdisk/command.txt", std::ios::binary | std::ios::in | std::ios::out|std::ios::app );
