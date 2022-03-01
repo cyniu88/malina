@@ -95,8 +95,9 @@ TEST_F(command_handler_mqtt_fixture, vectorContain)
 {
     command_voice  vc("dom");
     std::vector<std::string> vvv = {"wiatrolap", "pies"};
-
-    EXPECT_FALSE(vc.vectorContain(vvv, "świat"));
+    std::string ss = "światło";
+    std::cout << "cyniu " << ss.substr(0,5) << std::endl;
+    EXPECT_FALSE(vc.vectorContain(vvv, ss.substr(0,5)));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

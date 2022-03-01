@@ -19,7 +19,7 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
         }
         else if(vectorContain(v, "świat")){
             for(auto &j : my_data->main_house_room_handler->m_roomMap){
-                if(vectorContain(v, j.first.substr(0,4))){
+                if(vectorContain(v, j.first.substr(0,5))){
                     my_data->main_house_room_handler->turnOnAllInRoom(j.first);
                 }
             }
@@ -41,7 +41,7 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
                 return "done";
             }
             for(auto &j : my_data->main_house_room_handler->m_roomMap){
-                if(vectorContain(v, j.first.substr(0,4))){
+                if(vectorContain(v, j.first.substr(0,5))){
                     my_data->main_house_room_handler->turnOffAllInRoom(j.first);
                 }
             }
