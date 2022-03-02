@@ -860,6 +860,12 @@ std::string iDomTOOLS::ledClear(unsigned int from, unsigned int to)
     return "Led cleared";
 }
 
+std::string iDomTOOLS::ledOn()
+{
+    turnOn433MHzSwitch("B");
+    return "done";
+}
+
 void iDomTOOLS::checkAlarm()
 {
     unsigned int fromVol = my_data->alarmTime.fromVolume;

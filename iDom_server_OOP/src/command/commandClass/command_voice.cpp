@@ -25,6 +25,9 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
             }
             return "done";
         }
+        else if(vectorContain(v, "led")){
+           (void) my_data->main_iDomTools->ledOn();
+        }
         else if(vectorContain(v, "kodi")){
             my_data->main_iDomTools->startKodi_Thread();
             return "kodi run";
@@ -36,7 +39,7 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
             return "done";
         }
         else if(vectorContain(v, "świat")){
-            if(vectorContain(v, "wsz")){
+            if(vectorContain(v, "wsz") or vectorContain(v, "dom")){
                 my_data->main_house_room_handler->turnOffAllBulb();
                 return "done";
             }
@@ -47,6 +50,13 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
             }
             return "done";
         }
+        else if(vectorContain(v, "led")){
+            (void) my_data->main_iDomTools->ledOFF();
+        }
+    }
+    else if(vectorContain(v, "pomru")){
+       // my_data->main_iDomTools
+        return "done";
     }
     std::fstream log;
     log.open( "/mnt/ramdisk/command.txt", std::ios::binary | std::ios::in | std::ios::out|std::ios::app );
