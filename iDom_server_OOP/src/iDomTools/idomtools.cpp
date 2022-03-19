@@ -13,7 +13,7 @@
 
 iDomTOOLS::iDomTOOLS(thread_data *myData):
     m_key(myData->server_settings->_server.TS_KEY),
-    m_keyHandler(new iDomKEY_ACCESS(myData->server_settings->_server.keyDatabasePath))
+    m_keyHandler(std::make_unique<iDomKEY_ACCESS>( iDomKEY_ACCESS(myData->server_settings->_server.keyDatabasePath)))
 {
     puts("iDomTOOLS::iDomTOOLS()");
     my_data = myData;

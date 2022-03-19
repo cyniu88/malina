@@ -34,7 +34,7 @@ RADIO_BUTTON::~RADIO_BUTTON()
 {
 }
 
-STATE RADIO_BUTTON::getState()
+STATE RADIO_BUTTON::getState() const
 {
     return m_state;
 }
@@ -44,17 +44,17 @@ void RADIO_BUTTON::setState(STATE s)
     m_state = s;
 }
 
-std::string RADIO_BUTTON::getName()
+std::string RADIO_BUTTON::getName() const
 {
     return RADIO_EQ::m_config.name;
 }
 
-std::string RADIO_BUTTON::getID()
+std::string RADIO_BUTTON::getID() const
 {
     return RADIO_EQ::m_config.ID;
 }
 
-std::string RADIO_BUTTON::getCommandRun()
+std::string RADIO_BUTTON::getCommandRun() const
 {
     return RADIO_EQ::m_config.commandRun;
 }

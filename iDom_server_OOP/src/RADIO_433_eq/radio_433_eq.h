@@ -127,10 +127,10 @@ class RADIO_EQ{
 public:
     RADIO_EQ();
     virtual ~RADIO_EQ();
-    virtual STATE getState() = 0;
-    virtual std::string getName() = 0;
-    virtual std::string getID() = 0;
-    virtual RADIO_EQ_TYPE getType();
+    virtual STATE getState() const = 0;
+    virtual std::string getName() const = 0;
+    virtual std::string getID() const = 0;
+    virtual RADIO_EQ_TYPE getType() const;
 protected:
     thread_data *m_my_data;
     RADIO_EQ_TYPE m_type;
@@ -144,9 +144,9 @@ class RADIO_WEATHER_STATION: public RADIO_EQ
 public:
     RADIO_WEATHER_STATION(thread_data * my_data, const RADIO_EQ_CONFIG& cfg, RADIO_EQ_TYPE type);
     ~RADIO_WEATHER_STATION();
-    STATE getState() override;
-    std::string getName() override;
-    std::string getID() override;
+    STATE getState() const override;
+    std::string getName() const override;
+    std::string getID() const override;
     // data
     WEATHER_STRUCT data;
 private:
@@ -159,11 +159,11 @@ class RADIO_BUTTON: public RADIO_EQ
 public:
     RADIO_BUTTON(thread_data * my_data, const RADIO_EQ_CONFIG& cfg, RADIO_EQ_TYPE type);
     ~RADIO_BUTTON();
-    STATE getState() override;
+    STATE getState() const override;
     void setState(STATE s);
-    std::string getName() override;
-    std::string getID() override;
-    std::string getCommandRun();
+    std::string getName() const override;
+    std::string getID() const override;
+    std::string getCommandRun() const;
 private:
     RADIO_BUTTON();
 };
@@ -186,9 +186,9 @@ public:
     void onSunset();
     void onLockHome();
     void onUnlockHome();
-    STATE getState() override;
-    std::string getName() override;
-    std::string getID() override;
+    STATE getState() const override;
+    std::string getName() const override;
+    std::string getID() const override;
     void setCode(RADIO_EQ_CONFIG cfg);
     STATE m_sunrise = STATE::UNDEFINE;
     STATE m_sunset  = STATE::UNDEFINE;

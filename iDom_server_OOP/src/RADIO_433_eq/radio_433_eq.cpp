@@ -150,17 +150,17 @@ void RADIO_SWITCH::onUnlockHome()
     }
 }
 
-STATE RADIO_SWITCH::getState()
+STATE RADIO_SWITCH::getState() const
 {
     return m_state;
 }
 
-std::string RADIO_SWITCH::getName()
+std::string RADIO_SWITCH::getName() const
 {
     return RADIO_EQ::m_config.name;
 }
 
-std::string RADIO_SWITCH::getID()
+std::string RADIO_SWITCH::getID() const
 {
     return RADIO_EQ::m_config.ID;
 }
@@ -458,7 +458,7 @@ RADIO_EQ::~RADIO_EQ()
 {
 }
 
-RADIO_EQ_TYPE RADIO_EQ::getType()
+RADIO_EQ_TYPE RADIO_EQ::getType() const
 {
     return m_type;
 }
@@ -474,17 +474,17 @@ RADIO_WEATHER_STATION::~RADIO_WEATHER_STATION()
 {
 }
 
-STATE RADIO_WEATHER_STATION::getState()
+STATE RADIO_WEATHER_STATION::getState() const
 {
     return m_state;
 }
 
-std::string RADIO_WEATHER_STATION::getName()
+std::string RADIO_WEATHER_STATION::getName() const
 {
     return RADIO_EQ::m_config.name;
 }
 
-std::string RADIO_WEATHER_STATION::getID()
+std::string RADIO_WEATHER_STATION::getID() const
 {
     return RADIO_EQ::m_config.ID;
 }
