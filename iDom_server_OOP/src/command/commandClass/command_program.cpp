@@ -43,6 +43,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     else if(v[1] == "debuge" && v[2] == "variable")
     {
         std::stringstream r;
+        r << std::boolalpha;
         r << "my_data->alarmTime.fromVolume \t" << my_data->alarmTime.fromVolume << std::endl;
         r << "my_data->alarmTime.radioID \t" << my_data->alarmTime.radioID << std::endl;
         r << "my_data->alarmTime.state \t" << my_data->alarmTime.state << std::endl;

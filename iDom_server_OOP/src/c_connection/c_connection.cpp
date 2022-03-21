@@ -136,6 +136,7 @@ std::string C_connection::dump() const
 {
     std::stringstream ret;
 
+    ret << std::boolalpha;
     ret << " c_from.sin_addr.s_addr: " <<  this->c_from.sin_addr.s_addr << std::endl;
     ret << " c_socket: " <<  this->c_socket << std::endl;
     ret << " m_recv_size: " <<  this->m_recv_size << std::endl;
