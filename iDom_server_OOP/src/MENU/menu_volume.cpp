@@ -53,7 +53,7 @@ void MENU_VOLUME::exit()
 
 }
 
-std::string MENU_VOLUME::getStateName()
+std::string MENU_VOLUME::getStateName() const
 {
         return typeid (this).name();
 }

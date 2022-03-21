@@ -158,7 +158,7 @@ void MENU_KODI::keyPadMenu()
     std::cout << "odebrano: " << sendCommandToKodi("Input.Home","") << std::endl;
 }
 
-std::string MENU_KODI::getStateName()
+std::string MENU_KODI::getStateName() const
 {
     return typeid (this).name();
 }

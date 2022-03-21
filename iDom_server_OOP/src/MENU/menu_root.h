@@ -14,7 +14,7 @@ public:
     ~MENU_ROOT();
     void entry() override;
     void exit() override;
-    std::string getStateName() override;
+    std::string getStateName() const override;
     void keyPadMenu() override;
     void keyPadPower() override;
     void keyPadUp() override;

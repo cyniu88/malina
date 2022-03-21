@@ -75,7 +75,7 @@ void MENU_LIGHT::exit()
    // std::cout << "MENU_LIGHT::exit()" << std::endl;
 }
 
-std::string MENU_LIGHT::getStateName()
+std::string MENU_LIGHT::getStateName() const
 {
     return typeid (this).name();
 }

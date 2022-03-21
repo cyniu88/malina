@@ -22,7 +22,7 @@ public:
     ~MENU_LIGHT();
     void entry() override;
     void exit() override;
-    std::string getStateName() override;
+    std::string getStateName() const override;
     void keyPadRes() override;
     void keyPadUp() override;
     void keyPadDown() override;

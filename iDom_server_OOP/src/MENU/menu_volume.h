@@ -13,7 +13,7 @@ public:
     ~MENU_VOLUME();
     void entry() override;
     void exit() override;
-    std::string getStateName() override;
+    std::string getStateName() const override;
 };
 
 #endif // MENU_VOLUME_H

@@ -82,7 +82,7 @@ public:
     virtual ~MENU_STATE_BASE();
     virtual void entry() = 0;
     virtual void exit() = 0;
-    virtual std::string getStateName() = 0;
+    virtual std::string getStateName() const = 0;
     virtual void keyPadPower(){std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadOk()   {std::cout << __func__ << " pressed" << std::endl;};
     virtual void keyPadRes()  {std::cout << __func__ << " pressed" << std::endl;};
@@ -94,7 +94,7 @@ public:
     virtual void keyPadEpg()  {std::cout << __func__ << " pressed" << std::endl;};
     virtual void reboot()     {std::cout << __func__ << " pressed" << std::endl;};
     virtual void offLcd()     {std::cout << __func__ << " pressed" << std::endl;};
-    virtual void print(const std::string &row1, const std::string &row2 = ""){
+    virtual void print(const std::string &row1, const std::string &row2 = "") const{
         lcdPTR->clear();
         lcdPTR->printString(row1, row2);
     };

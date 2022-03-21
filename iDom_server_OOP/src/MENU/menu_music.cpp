@@ -79,7 +79,7 @@ void MENU_MUSIC::keyPadRight()
     my_dataPTR->main_iDomTools->MPD_next();
 }
 
-std::string MENU_MUSIC::getStateName()
+std::string MENU_MUSIC::getStateName() const
 {
     return typeid (this).name();
 }

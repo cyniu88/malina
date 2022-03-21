@@ -19,7 +19,7 @@ public:
     void keyPadUp() override;
     void keyPadDown() override;
     void keyPadRes() override;
-    std::string getStateName() override;
+    std::string getStateName() const override;
 };
 
 #endif // MENU_BUDERUS_H

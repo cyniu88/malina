@@ -76,7 +76,7 @@ void MENU_BUDERUS::keyPadRes()
     changeStateTo<MENU_MAIN>();
 }
 
-std::string MENU_BUDERUS::getStateName()
+std::string MENU_BUDERUS::getStateName() const
 {
     return typeid (this).name();
 }

@@ -19,7 +19,7 @@ public:
     void keyPadDown() override;
     void keyPadLeft() override;
     void keyPadRight() override;
-    std::string getStateName() override;
+    std::string getStateName() const override;
 };
 
 #endif // MENU_MUSIC_H
