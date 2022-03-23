@@ -3,6 +3,7 @@
 #include <string>
 #include"../functions/functions.h"
 #include "satel_integra_handler.h"
+
 SATEL_INTEGRA_HANDLER::SATEL_INTEGRA_HANDLER(thread_data *myData): m_integra32(myData->server_settings->_satel_integra.host,
                                                                                myData->server_settings->_satel_integra.port)
 {

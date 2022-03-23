@@ -33,7 +33,7 @@ public:
     static std::queue <MPD_COMMAND> _MPD_CommandQ;
 
     void _add(MPD_COMMAND X);
-    MPD_COMMAND _get();
+    MPD_COMMAND _get() const;
     int _size();
     void _clearAll();
 };
@@ -55,12 +55,12 @@ public:
     void push_back(const T& item);
     void push_back(T&& item);
 
-    int size();
-    bool empty();
+    int size() const;
+    bool empty() const;
 
 private:
     std::deque<T> queue_;
-    std::mutex mutex_;
+    mutable std::mutex mutex_;
     std::condition_variable cond_;
 };
 
@@ -99,7 +99,6 @@ void SharedQueue<T>::push_back(const T& item)
     queue_.push_back(item);
     mlock.unlock();     // unlock before notificiation to minimize mutex con
     cond_.notify_one(); // notify one waiting thread
-
 }
 
 template <typename T>
@@ -109,11 +108,10 @@ void SharedQueue<T>::push_back(T&& item)
     queue_.push_back(std::move(item));
     mlock.unlock();     // unlock before notificiation to minimize mutex con
     cond_.notify_one(); // notify one waiting thread
-
 }
 
 template <typename T>
-int SharedQueue<T>::size()
+int SharedQueue<T>::size() const
 {
     std::unique_lock<std::mutex> mlock(mutex_);
     int size = queue_.size();
@@ -121,4 +119,10 @@ int SharedQueue<T>::size()
     return size;
 }
 
+template <typename T>
+bool SharedQueue<T>::empty() const
+{
+    std::unique_lock<std::mutex> mlock(mutex_);
+    return queue_.empty();
+}
 #endif // BLOCQUEUE_H

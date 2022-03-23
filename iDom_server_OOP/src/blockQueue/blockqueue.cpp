@@ -26,7 +26,7 @@ void blockQueue::_add(MPD_COMMAND X)
     }
 }
 
-MPD_COMMAND blockQueue::_get( )
+MPD_COMMAND blockQueue::_get( ) const
 {
     MPD_COMMAND temp = MPD_COMMAND::NULL_;
     std::lock_guard <std::mutex> lock (mutex_queue_char);

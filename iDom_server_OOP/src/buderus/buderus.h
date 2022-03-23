@@ -9,7 +9,7 @@
 
 class BUDERUS: public iDom_API
 {
-    std::mutex m_lockGuard;
+    mutable std::mutex m_lockGuard;
     nlohmann::json m_boiler_data;
     nlohmann::json m_thermostat_data;
     bool m_tapwater_active = false;
@@ -37,16 +37,16 @@ public:
     bool isHeatingActiv();
     bool isTapWaterActiv();
 
-    std::string getAllData();
+    std::string getAllData() const;
 
-    double getOutdoorTemp();
-    double getInsideTemp();
-    double getBoilerTemp();
-    double getCurFlowTemp();
+    double getOutdoorTemp() const;
+    double getInsideTemp() const;
+    double getBoilerTemp() const;
+    double getCurFlowTemp() const;
 
     void circlePompToRun();
-    void runCirclePompForWhile();
-    STATE getCirclePumpState();
+    void runCirclePompForWhile() const;
+    STATE getCirclePumpState() const;
 
     void boilerHeatOneTime();
     void setTempInsideBuilding(const std::string &t);

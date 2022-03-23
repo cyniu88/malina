@@ -112,7 +112,7 @@ bool BUDERUS::isTapWaterActiv()
     return m_tapwater_active;
 }
 
-std::string BUDERUS::getAllData()
+std::string BUDERUS::getAllData() const
 {
     std::lock_guard <std::mutex> lock(m_lockGuard);
     std::stringstream ret;
@@ -121,22 +121,22 @@ std::string BUDERUS::getAllData()
     return ret.str();
 }
 
-double BUDERUS::getOutdoorTemp()
+double BUDERUS::getOutdoorTemp() const
 {
     return m_outdoorTemp;
 }
 
-double BUDERUS::getInsideTemp()
+double BUDERUS::getInsideTemp() const
 {
     return  m_insideTemp;
 }
 
-double BUDERUS::getBoilerTemp()
+double BUDERUS::getBoilerTemp() const
 {
     return m_boilerTemp;
 }
 
-double BUDERUS::getCurFlowTemp()
+double BUDERUS::getCurFlowTemp() const
 {
     return m_curFlowTemp;
 }
@@ -153,13 +153,13 @@ void BUDERUS::circlePompToRun()
     }
 }
 
-void BUDERUS::runCirclePompForWhile()
+void BUDERUS::runCirclePompForWhile() const
 {
     useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler",
                                                  R"({"cmd":"wwcirculation","data":"on"})");
 }
 
-STATE BUDERUS::getCirclePumpState()
+STATE BUDERUS::getCirclePumpState() const
 {
     return m_circlePump;
 }
