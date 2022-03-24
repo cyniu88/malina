@@ -18,7 +18,7 @@ struct MenuStruct{
 template <class T_NAME, class T_FUNC>
 class ContainerMenu
 { 
-    std::vector<MenuStruct< T_NAME, T_FUNC>> database;
+    std::vector<MenuStruct<T_NAME, T_FUNC>> database;
     int counter = 0;
 public:
     ContainerMenu() = default;

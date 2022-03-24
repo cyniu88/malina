@@ -12,7 +12,7 @@ struct BULB{
 
 class MENU_LIGHT : public MENU_STATE_BASE
 {
-    cyniu::ContainerMenuMap<std::string,cyniu::ContainerMenu<BULB,int>> lightDatabase;
+    cyniu::ContainerMenuMap<std::string, cyniu::ContainerMenu<BULB,int>> m_lightDatabase;
 public:
     MENU_LIGHT(thread_data *my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm, STATE lcdLED = STATE::OFF);
     MENU_LIGHT(const MENU_LIGHT & base);
@@ -30,6 +30,7 @@ public:
     void keyPadRight() override;
     void keyPadOk() override;
     void keyPadPower() override;
+    void keyPadEpg() override;
     void timeout(std::function<void()> function = std::nullptr_t()) override;
 };
 
