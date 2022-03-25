@@ -47,7 +47,12 @@ MENU_INFO::~MENU_INFO()
 
 void MENU_INFO::entry()
 {
-  print("TO BE DONE");
+    m_infoDatabase.insert(std::pair<std::string, std::string>("sysinfo", my_dataPTR->main_iDomTools->getSystemInfo()));
+    m_infoDatabase.insert(std::pair<std::string, std::string>("test2", "2"));
+    m_infoDatabase.insert(std::pair<std::string, std::string>("test3", "3"));
+    m_infoDatabase.begin();
+    auto p = m_infoDatabase.getCurrent();
+    print("p->first" , "p->second");
 }
 
 void MENU_INFO::exit()
@@ -62,12 +67,18 @@ std::string MENU_INFO::getStateName() const
 
 void MENU_INFO::keyPadUp()
 {
-
+    m_infoDatabase.up();
+    auto p = m_infoDatabase.getCurrent();
+    print(p->first, p->second);
+    my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
 }
 
 void MENU_INFO::keyPadDown()
 {
-
+    m_infoDatabase.down();
+    auto p = m_infoDatabase.getCurrent();
+    print(p->first, p->second);
+    my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
 }
 
 void MENU_INFO::keyPadRes()

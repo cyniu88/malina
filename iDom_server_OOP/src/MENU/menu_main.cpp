@@ -58,7 +58,7 @@ void MENU_MAIN::entry()
                                                 changeStateTo<MENU_ROOT>();}});
     menuDatabase.pushBack({"   LIGHT",   [=]() { changeStateTo<MENU_LIGHT>();}});
     menuDatabase.pushBack({"   KODI",    [=]() { changeStateTo<MENU_KODI>();}});
-    menuDatabase.pushBack({" LIGHT INFO",[=]() { changeStateTo<MENU_INFO>();}});
+    menuDatabase.pushBack({"   INFO",    [=]() { changeStateTo<MENU_INFO>();}});
     menuDatabase.pushBack({"   BUDERUS", [=]() { changeStateTo<MENU_BUDERUS>();}});
     menuDatabase.pushBack({"   EXIT",    [=]() { changeStateTo<MENU_ROOT>();}});
     print(menuDatabase.getCurrent().name, arrow);

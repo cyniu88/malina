@@ -27,34 +27,52 @@ protected:
 
 TEST_F(menu_state_machine_fixture, containerMenuMap)
 {
-    cyniu::ContainerMenuMap<std::string, int> testMenuMap;
-    testMenuMap.insert(std::pair<std::string, int>("a jeden",1));
-    testMenuMap.insert(std::pair<std::string, int>("b dwa",2));
-    testMenuMap.insert(std::pair<std::string, int>("c trzy",3));
+    cyniu::ContainerMenuMap<std::string, std::string> testMenuMap;
+    testMenuMap.insert(std::pair<std::string, std::string>("a jeden","1"));
+    testMenuMap.insert(std::pair<std::string, std::string>("b dwa","2"));
+    testMenuMap.insert(std::pair<std::string, std::string>("c trzy","3"));
     testMenuMap.begin();
 
     {auto para = testMenuMap.getCurrent();
-        EXPECT_THAT(para->second, 1);}
+        EXPECT_THAT(para->second, "1");}
     testMenuMap.up();
 
     {auto para = testMenuMap.getCurrent();
-        EXPECT_THAT(para->second, 2);}
+        EXPECT_THAT(para->second, "2");}
     testMenuMap.up();
 
     {auto para = testMenuMap.getCurrent();
-        EXPECT_THAT(para->second, 3);}
+        EXPECT_THAT(para->second, "3");}
 
     testMenuMap.down();
     {auto para = testMenuMap.getCurrent();
-        EXPECT_THAT(para->second, 2);}
+        EXPECT_THAT(para->second, "2");}
 
     testMenuMap.down();
     {auto para = testMenuMap.getCurrent();
-        EXPECT_THAT(para->second, 1);}
+        EXPECT_THAT(para->second, "1");}
 
     testMenuMap.down();
     {auto para = testMenuMap.getCurrent();
-        EXPECT_THAT(para->second, 3);}
+        EXPECT_THAT(para->second, "3");}
+}
+
+TEST_F(menu_state_machine_fixture, containerMenuMapSignle)
+{
+    cyniu::ContainerMenuMap<std::string, std::string> testMenuMap;
+    testMenuMap.insert(std::pair<std::string, std::string>("a jeden","1"));
+    testMenuMap.begin();
+
+    {auto para = testMenuMap.getCurrent();
+        EXPECT_THAT(para->second, "1");}
+    testMenuMap.up();
+
+    {auto para = testMenuMap.getCurrent();
+        EXPECT_THAT(para->second, "1");}
+    testMenuMap.up();
+
+    {auto para = testMenuMap.getCurrent();
+        EXPECT_THAT(para->second, "1");}
 }
 
 TEST_F(menu_state_machine_fixture, main)

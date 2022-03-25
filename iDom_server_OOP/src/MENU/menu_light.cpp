@@ -22,7 +22,6 @@ MENU_LIGHT::MENU_LIGHT(MENU_LIGHT &&base):MENU_STATE_BASE(std::move(base)),  m_l
 
 MENU_LIGHT &MENU_LIGHT::operator=(const MENU_LIGHT &base)
 {
-    // std::cout << "MENU_LIGHT::operator = kopiujacy" << std::endl;
     if(&base not_eq this){
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
@@ -33,7 +32,6 @@ MENU_LIGHT &MENU_LIGHT::operator=(const MENU_LIGHT &base)
 
 MENU_LIGHT &MENU_LIGHT::operator=(MENU_LIGHT &&base)
 {
-    std::cout << "MENU_LIGHT:operator = przenoszacy" << std::endl;
     if(&base not_eq this){
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
@@ -145,11 +143,6 @@ void MENU_LIGHT::keyPadPower()
         return;
     }
     my_dataPTR->main_house_room_handler->turnOffBulb(id);
-}
-
-void MENU_LIGHT::keyPadEpg()
-{
-    print("TO BE DONE", "STATS TEST");
 }
 
 void MENU_LIGHT::timeout(std::function<void ()> function)
