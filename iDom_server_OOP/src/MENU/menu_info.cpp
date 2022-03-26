@@ -47,12 +47,13 @@ MENU_INFO::~MENU_INFO()
 
 void MENU_INFO::entry()
 {
-    m_infoDatabase.insert(std::pair<std::string, std::string>("sysinfo", my_dataPTR->main_iDomTools->getSystemInfo()));
-    m_infoDatabase.insert(std::pair<std::string, std::string>("test2", "2"));
-    m_infoDatabase.insert(std::pair<std::string, std::string>("test3", "3"));
+    m_infoDatabase.insert(std::pair<std::string, std::string>("smog", my_dataPTR->main_iDomTools->getSmog()));
+    m_infoDatabase.insert(std::pair<std::string, std::string>("dlugosc dnia", my_dataPTR->main_iDomTools->getDayLenght()));
+    m_infoDatabase.insert(std::pair<std::string, std::string>("wschod slonca", my_dataPTR->main_iDomTools->getSunrise()));
+    m_infoDatabase.insert(std::pair<std::string, std::string>("zachod slonca", my_dataPTR->main_iDomTools->getSunset()));
     m_infoDatabase.begin();
     auto p = m_infoDatabase.getCurrent();
-    print("p->first" , "p->second");
+    print(p->first , p->second);
 }
 
 void MENU_INFO::exit()
