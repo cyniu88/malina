@@ -769,7 +769,13 @@ nlohmann::json iDomTOOLS::sendViberMsg(const std::string &msg,
 {
     nlohmann::json jj;
     std::lock_guard<std::mutex> lock(m_msgMutex);
-    jj = nlohmann::json::parse( m_viber.sendViberMSG(msg,receiver,senderName,accessToken,url));
+    try {
+        jj = nlohmann::json::parse( m_viber.sendViberMSG(msg,receiver,senderName,accessToken,url));
+    }  catch (...) {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "wyjatek json w wysylaniu sendViberMsg !!!!!!" << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     return jj;
 }
 
@@ -782,7 +788,13 @@ nlohmann::json iDomTOOLS::sendViberPicture(const std::string &msg,
 {
     nlohmann::json jj;
     std::lock_guard<std::mutex> lock(m_msgMutex);
-    jj = nlohmann::json::parse(m_viber.sendViberPicture(msg, image, receiver, senderName, accessToken, url));
+    try {
+        jj = nlohmann::json::parse(m_viber.sendViberPicture(msg, image, receiver, senderName, accessToken, url));
+    }  catch (...) {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "wyjatek json w wysylaniu sendViberPicture() !!!!!!" << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     return jj;
 }
 
