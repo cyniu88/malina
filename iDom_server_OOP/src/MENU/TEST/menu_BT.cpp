@@ -133,7 +133,6 @@ TEST_F(menu_state_machine_fixture, MENU_LIGHT){
 TEST_F(menu_state_machine_fixture, MENU_BUDERUS)
 {
     thread_data test_my_data;
-    test_my_data.main_iDomTools = std::make_unique<iDomTOOLS>(&test_my_data);
     test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("test");
     test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     test_my_data.main_iDomStatus->addObject("music", STATE::STOP);

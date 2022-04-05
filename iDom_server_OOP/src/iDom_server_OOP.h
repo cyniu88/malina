@@ -30,17 +30,17 @@
 #include "logger/logger.hpp"
 #include "command/command.h"
 #include "../libs/event_counters/event_counters_handler.h"
+#include "../libs/alarm/alarm.h"
+#include "../libs/Statistic/statistic.h"
 #include "iDomTools/idomtools.h"
 #include "iDomStatus/idomstatus.h"
 #include "iDomSaveState/idom_save_state.h"
 #include "../mqtt_mosquitto/MQTT_mosquitto/mqtt.h"
-#include "../libs/alarm/alarm.h"
 #include "buderus/buderus.h"
 #include "HOUSE/house_room_handler.h"
 #include "SerialPi/serialpi.h"
 #include "MENU/menu_base.h"
 #include "SATEL_INTEGRA/satel_integra_interface.h"
-#include "../libs/Statistic/statistic.h"
 
 #define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log

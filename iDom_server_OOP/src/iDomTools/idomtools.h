@@ -6,31 +6,19 @@
 #include <chrono>
 #include <memory>
 
-#include "idomtools_useful.h"
-#include "json.hpp"
-
-#include "../iDom_server_OOP.h"
-#include "../THERMOMETER_CONTAINER/thermometer_container.h"
-#include "../iDomKEY_ACCESS/idomkey_access.h"
-
-#include "../../libs/sunrise-sunset/sunriseset.h"
-#include "../../libs/viberAPI/viber_api.h"
-#include "../../libs/facebookAPI/facebookAPI.h"
-#include "../../libs/Statistic/statistic.h"
-
-#include "../idom_api.h"
+#include "idomtools_interface.h"
 
 struct thread_data;
 class RADIO_BUTTON;
 
-class iDomTOOLS: public iDom_API
+class iDomTOOLS : public iDom_API
 {
 #ifdef BT_TEST
 public:
 #endif
     THERMOMETER_CONTAINER m_allThermometer;
     THERMOMETER_CONTAINER m_allThermometerUpdate;
-private:
+protected:
     thread_data *my_data;
     int m_timezone;
     SunRiseSet m_sun;
@@ -40,141 +28,140 @@ private:
     std::mutex m_msgMutex;
     std::vector<RADIO_BUTTON*> m_buttonPointerVector;
     Clock m_lastButton433MHzLockUnlockTime;
-
     int m_restartAlarmRFLink = 0;
-    iDomTOOLS();
 public:
+    std::shared_ptr<iDomTOOLS_INTERFACE> m_iDomToolsFunctions;
     std::unique_ptr<iDomKEY_ACCESS> m_keyHandler;
     std::vector<std::string> textToSpeachVector;
     explicit iDomTOOLS(thread_data *myData);
     ~iDomTOOLS();
 
-    TEMPERATURE_STATE hasTemperatureChange(const std::string &thermometerName, double reference, double histereza);
-    void sendSMSifTempChanged(const std::string& thermomethernName, int reference);
-    std::string getThermoStats(const std::string &name);
-    void updateTemperatureStats();
+    TEMPERATURE_STATE hasTemperatureChange(const std::string &thermometerName, double reference, double histereza) /*override*/;
+    void sendSMSifTempChanged(const std::string& thermomethernName, int reference) /*override*/;
+    std::string getThermoStats(const std::string &name) /*override*/;
+    void updateTemperatureStats() /*override*/;
 
-    static void turnOnSpeakers();
-    static void turnOffSpeakers();
-    void turnOnPrinter();
-    void turnOffPrinter();
-    static PIN_STATE getPinState(int pin_number);
-    void turnOnOff230vOutdoor();
-    void turnOnOff433MHzSwitch(const std::string &name);
-    void turnOn433MHzSwitch(std::string name);
-    void turnOff433MHzSwitch(std::string name);
-    void runOnSunset();
-    void runOnSunrise();
-    void lockHome();
-    void unlockHome();
+    void turnOnSpeakers() /*override*/;
+    void turnOffSpeakers() /*override*/;
+    void turnOnPrinter() /*override*/;
+    void turnOffPrinter() /*override*/;
+    PIN_STATE getPinState(int pin_number) /*override*/;
+    void turnOnOff230vOutdoor() /*override*/;
+    void turnOnOff433MHzSwitch(const std::string &name) /*override*/;
+    void turnOn433MHzSwitch(std::string name) /*override*/;
+    void turnOff433MHzSwitch(std::string name) /*override*/;
+    void runOnSunset() /*override*/;
+    void runOnSunrise() /*override*/;
+    void lockHome() /*override*/;
+    void unlockHome() /*override*/;
     //////////////////////////// 433MHz action ///////////////////
-    void switchActionOnLockHome();
-    void switchActionOnUnlockHome();
+    void switchActionOnLockHome() /*override*/;
+    void switchActionOnUnlockHome() /*override*/;
 
-    void buttonLockHome();
-    void buttonUnlockHome();
+    void buttonLockHome() /*override*/;
+    void buttonUnlockHome() /*override*/;
     //////////////////////////// useful /////////////////////////
-    bool isItDay();
-    std::string getAllDataSunriseSunset();
+    bool isItDay() /*override*/;
+    std::string getAllDataSunriseSunset() /*override*/;
     //////////////////////////// lightning ////////////////////////
-    void checkLightning();
+    void checkLightning() /*override*/;
 
 
     //////////////////////////// weather /////////////////////////
-    std::string getSunrise(bool extend = false);
-    std::string getSunset(bool extend = false);
-    Clock getSunsetClock();
-    Clock getSunriseClock();
-    std::string getDayLenght(bool extend = false);
-    std::string getWeatherEvent(const std::string &city, unsigned int radius );
+    std::string getSunrise(bool extend = false) /*override*/;
+    std::string getSunset(bool extend = false) /*override*/;
+    Clock getSunsetClock() /*override*/;
+    Clock getSunriseClock() /*override*/;
+    std::string getDayLenght(bool extend = false) /*override*/;
+    std::string getWeatherEvent(const std::string &city, unsigned int radius) /*override*/;
 
-    WEATHER_DATABASE getAlert();
+    WEATHER_DATABASE getAlert() /*override*/;
 
-    void textToSpeach(std::vector <std::string> *textVector);
-    std::string getTextToSpeach();
+    void textToSpeach(std::vector <std::string> *textVector) /*override*/;
+    std::string getTextToSpeach() /*override*/;
 
-    std::vector <std::string> getTemperature();
-    std::string getTemperatureString();
-    std::string getSmog();
-    void send_data_to_thingSpeak();
+    std::vector <std::string> getTemperature() /*override*/;
+    std::string getTemperatureString() /*override*/;
+    std::string getSmog() /*override*/;
+    void send_data_to_thingSpeak() /*override*/;
 
     //////////////////// camera part ///////////////////////
-    void cameraLedON(const std::string &link);
-    void cameraLedOFF(const std::string &link);
+    void cameraLedON(const std::string &link) /*override*/;
+    void cameraLedOFF(const std::string &link) /*override*/;
     //////////////////// viber msg /////////////////////////
     nlohmann::json sendViberMsg(const std::string& msg,
                                 const std::string& receiver,
                                 const std::string& senderName,
                                 const std::string &accessToken = "NULL",
-                                const std::string &url = "NULL");
+                                const std::string &url = "NULL") /*override*/;
     nlohmann::json sendViberPicture(const std::string& msg,
                                     const std::string& image,
                                     const std::string& receiver,
                                     const std::string& senderName,
                                     const std::string &accessToken = "NULL",
-                                    const std::string &url = "NULL");
+                                    const std::string &url = "NULL") /*override*/;
     STATE sendViberMsgBool(const std::string& msg,
                            const std::string& receiver,
                            const std::string& senderName,
                            const std::string &accessToken = "NULL",
-                           const std::string &url = "NULL");
+                           const std::string &url = "NULL") /*override*/;
     STATE sendViberPictureBool(const std::string& msg,
                                const std::string& image,
                                const std::string& receiver,
                                const std::string& senderName,
                                const std::string &accessToken = "NULL",
-                               const std::string &url = "NULL");
+                               const std::string &url = "NULL") /*override*/;
     //////////////////// facebook //////////////////////////
-    std::string postOnFacebook(const std::string& msg, const std::string& image ="NULL");
+    std::string postOnFacebook(const std::string& msg, const std::string& image ="NULL") /*override*/;
 
     //////////////////// LED part //////////////////////////
-    std::string ledOFF();
-    std::string ledClear();
-    std::string ledClear(unsigned int from, unsigned int to);
-    std::string ledOn();
+    std::string ledOFF() /*override*/;
+    std::string ledClear() /*override*/;
+    std::string ledClear(unsigned int from, unsigned int to) /*override*/;
+    std::string ledOn() /*override*/;
     //////////////////// ALERT //////////////////////////
-    void checkAlarm();
+    void checkAlarm() /*override*/;
     //////////////////// MPD part //////////////////////////
-    static void MPD_play(thread_data* my_data);
-    static void MPD_stop();
-    static void MPD_next();
-    static void MPD_prev();
-    static void MPD_pause();
-    static void MPD_volumeUp();
-    static void MPD_volumeDown();
-    static void MPD_volumeSet(thread_data* my_data, int vol);
-    static void MPD_play(thread_data* my_data,int id);
-    static int  MPD_getVolume(thread_data *my_data);
+    void MPD_play(thread_data* my_data) /*override*/;
+    void MPD_stop() /*override*/;
+    void MPD_next() /*override*/;
+    void MPD_prev() /*override*/;
+    void MPD_pause() /*override*/;
+    void MPD_volumeUp() /*override*/;
+    void MPD_volumeDown() /*override*/;
+    void MPD_volumeSet(thread_data* my_data, int vol) /*override*/;
+    void MPD_play(thread_data* my_data,int id) /*override*/;
+    int  MPD_getVolume(thread_data *my_data) /*override*/;
 
     /////////////////////// SAVE STATE iDOM ////////////////
-    void saveState_iDom(const bool &started);
-    void readState_iDom(nlohmann::json jj);
+    void saveState_iDom(const bool &started) /*override*/;
+    void readState_iDom(nlohmann::json jj) /*override*/;
 
     /////////////////////// system linux ///////////////////
-    std::string getSystemInfo();
+    std::string getSystemInfo() /*override*/;
     /////////////////////// KODI ////////////////////////
-    std::string startKodi_Thread();
+    std::string startKodi_Thread() /*override*/;
     /////////////////////// WiFi //////////////////////////
     STATE m_anyClientWiFi = STATE::UNKNOWN;
-    void wifiClientConnected();
-    void wifiClientDisconnected();
+    void wifiClientConnected() /*override*/;
+    void wifiClientDisconnected() /*override*/;
 
     /////////////////////// health check //////////////////
-    void healthCheck();
+    void healthCheck() /*override*/;
 
     ////////////////////// system /////////////////////////
-    void close_iDomServer [[ noreturn ]]();
-    void reloadSoft_iDomServer[[ noreturn ]] ();
-    void reloadHard_iDomServer[[ noreturn ]] ();
+    void close_iDomServer [[ noreturn ]]() /*override*/;
+    void reloadSoft_iDomServer[[ noreturn ]] () /*override*/;
+    void reloadHard_iDomServer[[ noreturn ]] () /*override*/;
 
     //////////////////////// iDom_API /////////////////////
-    std::string dump() const override;
+    std::string dump() const;
 
     //////////////////////// link generator ///////////////
-    std::string openGateLink(std::vector<std::string> v);
+    std::string openGateLink(std::vector<std::string> v) /*override*/;
 
     //////////////////  doorbell  ////////////////////////
-    void doorbellDingDong();
+    void doorbellDingDong() /*override*/;
 };
 
 #endif // IDOMTOOLS_H

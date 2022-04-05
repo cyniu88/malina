@@ -361,6 +361,7 @@ TEST_F(commandiDom_Class_fixture, health_alarm)
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr("no alarms!"));
 }
+#include<memory>
 
 TEST_F(commandiDom_Class_fixture, addAccessKEY)
 {

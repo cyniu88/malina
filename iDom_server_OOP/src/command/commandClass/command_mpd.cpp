@@ -17,14 +17,14 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
             int id = std::stoi(v[2]);
             if (id > 0)
             {
-                iDomTOOLS::MPD_play(my_data,id);
+                my_data->main_iDomTools->MPD_play(my_data,id);
                 useful_F::sleep(1);
                 str_buf = my_data->ptr_MPD_info->songList[id-1];
             }
         }
         else
         {
-            iDomTOOLS::MPD_play(my_data);
+            my_data->main_iDomTools->MPD_play(my_data);
             useful_F::sleep(1);
             str_buf = my_data->ptr_MPD_info->title;
         }
@@ -32,43 +32,43 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
     }
     else if (v[1] == "stop")
     {
-        iDomTOOLS::MPD_stop();
+        my_data->main_iDomTools->MPD_stop();
         str_buf = "stoped!";
         my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
     }
     else if (v[1] == "next")
     {
-        iDomTOOLS::MPD_next();
+        my_data->main_iDomTools->MPD_next();
         useful_F::sleep(1);
         str_buf = my_data->ptr_MPD_info->radio + " : "+ my_data->ptr_MPD_info->title;
     }
     else if (v[1] == "prev")
     {
-        iDomTOOLS::MPD_prev();
+        my_data->main_iDomTools->MPD_prev();
         useful_F::sleep(1);
         str_buf = my_data->ptr_MPD_info->radio+ " : "+ my_data->ptr_MPD_info->title;
     }
     else if (v[1] == "pause")
     {
-        iDomTOOLS::MPD_pause();
+        my_data->main_iDomTools->MPD_pause();
         str_buf = "paused!";
     }
     else if (v[1] == "volume")
     {
         if (v[2] == "up")
         {
-            iDomTOOLS::MPD_volumeUp();
+            my_data->main_iDomTools->MPD_volumeUp();
         }
         else if (v[2] == "down")
         {
-            iDomTOOLS::MPD_volumeDown();
+            my_data->main_iDomTools->MPD_volumeDown();
         }
         else
         {
             int vol = std::stoi(v[2]);
             if (vol >0 && vol <100)
             {
-                iDomTOOLS::MPD_volumeSet(my_data,vol);
+                my_data->main_iDomTools->MPD_volumeSet(my_data,vol);
             }
         }
         //sleep(1);
