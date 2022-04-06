@@ -269,6 +269,7 @@ public:
 protected:
     thread_data test_my_data;
     CONFIG_JSON test_server_settings;
+    std::shared_ptr<iDomToolsMock> main_iDomTools;
     void SetUp()
     {
         test_my_data.server_settings = &test_server_settings;
@@ -278,6 +279,8 @@ protected:
         test_my_data.server_settings->_fb_viber.viberSender = "test sender";
         test_my_data.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
 
+        main_iDomTools = std::make_shared<iDomToolsMock>();
+        test_my_data.main_iDomTools = main_iDomTools;
         std::cout << "satel_integra_fixture SetUp()" << std::endl;
     }
     void TearDown()
@@ -292,10 +295,9 @@ protected:
 TEST_F(satel_integra_fixture, checkIntegraOut)
 {
     startSatelServer();
-    auto main_iDomTools = std::make_shared<iDomToolsMock>();
+
     EXPECT_CALL(*main_iDomTools.get(), unlockHome());
     EXPECT_CALL(*main_iDomTools.get(), sendViberPicture(testing::_,testing::_,testing::_,testing::_,testing::_,testing::_));
-    test_my_data.main_iDomTools = main_iDomTools;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
@@ -320,11 +322,10 @@ TEST_F(satel_integra_fixture, turnOnOffOutput)
 {
     startSatelServer();
 
-    auto main_iDomTools = std::make_shared<iDomToolsMock>();
     EXPECT_CALL(*main_iDomTools.get(), unlockHome());
     EXPECT_CALL(*main_iDomTools.get(), sendViberPicture("alarm deaktywowany",testing::_,testing::_,testing::_,testing::_,testing::_));
-    test_my_data.main_iDomTools = main_iDomTools;
 
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
 
     testIntegra.getSatelPTR()->outputOn(3);
@@ -336,13 +337,10 @@ TEST_F(satel_integra_fixture, turnOnOffOutput)
 TEST_F(satel_integra_fixture, isArmed)
 {
     startSatelServer();
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
-    auto main_iDomTools = std::make_shared<iDomToolsMock>();
     EXPECT_CALL(*main_iDomTools.get(), unlockHome());
     EXPECT_CALL(*main_iDomTools.get(), sendViberPicture("alarm deaktywowany",testing::_,testing::_,testing::_,testing::_,testing::_));
-    test_my_data.main_iDomTools = main_iDomTools;
 
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
 
     EXPECT_FALSE(testIntegra.getSatelPTR()->isAlarmArmed());
@@ -354,10 +352,8 @@ TEST_F(satel_integra_fixture, armAndDisarm)
     startSatelServer();
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-    auto main_iDomTools = std::make_shared<iDomToolsMock>();
     EXPECT_CALL(*main_iDomTools.get(), unlockHome());
     EXPECT_CALL(*main_iDomTools.get(), sendViberPicture(testing::_,testing::_,testing::_,testing::_,testing::_,testing::_));
-    test_my_data.main_iDomTools = main_iDomTools;
 
     SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
     testIntegra.getSatelPTR()->armAlarm(partitionID);
