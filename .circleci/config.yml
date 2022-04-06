@@ -31,6 +31,10 @@ jobs:
                    sudo cmake CMakeLists.txt
                    sudo make
                    sudo cp *.a /usr/lib
+                   cd /usr/src/gmock
+                   sudo cmake CMakeLists.txt
+                   sudo make
+                   sudo cp *.a /usr/lib
       - run:
           name: submodule init && update
           command: |
