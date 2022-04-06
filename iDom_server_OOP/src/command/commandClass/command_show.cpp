@@ -68,7 +68,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
         }
         else if (v[1] == "iDom" && v[2] == "key")
         {
-            return my_data->main_iDomTools->m_keyHandler->listKEY();
+            return my_data->m_keyHandler->listKEY();
         }
         else {
             return "wrong parameter: " + v[1];

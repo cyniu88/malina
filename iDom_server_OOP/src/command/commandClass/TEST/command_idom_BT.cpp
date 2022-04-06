@@ -375,7 +375,7 @@ TEST_F(commandiDom_Class_fixture, addAccessKEY)
     std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr(s));
-    test_my_data.main_iDomTools->m_keyHandler->removeKEY(s);
+    test_my_data.m_keyHandler->removeKEY(s);
 }
 
 TEST_F(commandiDom_Class_fixture, addAccessKEY_temp)
@@ -391,13 +391,13 @@ TEST_F(commandiDom_Class_fixture, addAccessKEY_temp)
     std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr(s));
-    test_my_data.main_iDomTools->m_keyHandler->removeKEY(s);
+    test_my_data.m_keyHandler->removeKEY(s);
 }
 
 TEST_F(commandiDom_Class_fixture, removeAccessKEY)
 {
     std::string s = "ttt";
-    test_my_data.main_iDomTools->m_keyHandler->addKEY(s,23);
+    test_my_data.m_keyHandler->addKEY(s,23);
 
     test_v.clear();
     test_v.push_back("iDom");
@@ -407,7 +407,7 @@ TEST_F(commandiDom_Class_fixture, removeAccessKEY)
     std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
     std::cout << "retString: " << retStr << std::endl;
     EXPECT_THAT(retStr,testing::HasSubstr(s));
-    test_my_data.main_iDomTools->m_keyHandler->removeKEY(s);
+    test_my_data.m_keyHandler->removeKEY(s);
 }
 
 TEST_F(commandiDom_Class_fixture, getOpenLink)

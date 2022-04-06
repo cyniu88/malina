@@ -1,8 +1,10 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <memory>
+
 #include "../../iDom_server_OOP.h"
 #include "../../functions/functions.h"
+#include "../../iDomTools/test/iDomToolsMock.h"
 #include "../menu_base.h"
 #include "../menu_root.h"
 #include "../menu_main.h"
@@ -136,6 +138,7 @@ TEST_F(menu_state_machine_fixture, MENU_BUDERUS)
     test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("test");
     test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     test_my_data.main_iDomStatus->addObject("music", STATE::STOP);
+    test_my_data.main_iDomTools = std::make_unique<iDomToolsMock>();
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
     auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, &lcd, &stateMechine);
@@ -160,6 +163,7 @@ TEST_F(menu_state_machine_fixture, MENU_KODI)
     thread_data test_my_data;
     test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     test_my_data.main_iDomStatus->addObject("music", STATE::STOP);
+    test_my_data.main_iDomTools = std::make_unique<iDomToolsMock>();
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
     auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, &lcd, &stateMechine);

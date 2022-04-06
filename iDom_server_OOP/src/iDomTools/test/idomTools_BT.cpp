@@ -33,8 +33,8 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
     test_my_data.main_iDomTools->send_data_to_thingSpeak();
-    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::Under);
-    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::Under);
+    EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"),TEMPERATURE_STATE::NoChanges);
     std::cout << "##################################### 1" <<std::endl;
 
     //TEST_DATA::return_send_to_arduino = "25.4:0.0;";
@@ -45,8 +45,8 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 
     test_my_data.main_iDomTools->send_data_to_thingSpeak();
 
-    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
+    EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"),TEMPERATURE_STATE::Over);
 
     std::cout << "##################################### 2" <<std::endl;
 
@@ -57,8 +57,8 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
     test_my_data.main_iDomTools->send_data_to_thingSpeak();
-    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::Over);
-    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::Under);
+    EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::Over);
+    EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"),TEMPERATURE_STATE::Under);
 
     std::cout << "##################################### 3" <<std::endl;
     //TEST_DATA::return_send_to_arduino = "21.0:5.0;";
@@ -68,8 +68,8 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
     test_my_data.main_iDomTools->send_data_to_thingSpeak();
-    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"),TEMPERATURE_STATE::NoChanges);
 
     std::cout << "##################################### 4" <<std::endl;
     //TEST_DATA::return_send_to_arduino = "21.0:4.0;";
@@ -79,8 +79,8 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
     test_my_data.main_iDomTools->send_data_to_thingSpeak();
-    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"),TEMPERATURE_STATE::NoChanges);
     std::cout << "##################################### 5" <<std::endl;
 
     //TEST_DATA::return_send_to_arduino = "31.9:11.11;";
@@ -90,8 +90,8 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     test_my_data.ptr_buderus->updateThermostatDataFromMQTT(nlohmann::json(nlohmann::json::parse(strJJ_thermostat)));
 
     test_my_data.main_iDomTools->send_data_to_thingSpeak();
-    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("outside"),TEMPERATURE_STATE::NoChanges);
-    EXPECT_EQ(test_my_data.main_iDomTools->m_allThermometer.getLastState("inside"),TEMPERATURE_STATE::Over);
+    EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::NoChanges);
+    EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"),TEMPERATURE_STATE::Over);
     std::cout << "##################################### 6" <<std::endl;
 
     ////// getThermoStats
@@ -653,7 +653,7 @@ TEST_F(iDomTOOLS_ClassTest, health_check)
     EXPECT_THROW(test_my_data.main_iDomTools->healthCheck(), std::string);
     EXPECT_EQ(test_my_data.iDomProgramState, iDomStateEnum::HARD_RELOAD);
 }
-
+/*
 TEST_F(iDomTOOLS_ClassTest, access_KEYGEN)
 {
     test_my_data.main_iDomTools->m_keyHandler->addKEY("test",256);
@@ -694,3 +694,4 @@ TEST_F(iDomTOOLS_ClassTest, openGate_getLink)
 
     std::cout << "wygenerowalem link: " << ret << std::endl;
 }
+*/

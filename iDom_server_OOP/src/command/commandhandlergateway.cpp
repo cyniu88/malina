@@ -18,7 +18,7 @@ std::string commandHandlerGATEWAY::run(std::vector<std::string> &v, thread_data 
         return "not enough parameters";
     }
 
-    if(my_data->main_iDomTools->m_keyHandler->useKEY(v[0],v[1]) == false)
+    if(my_data->m_keyHandler->useKEY(v[0],v[1]) == false)
     {
         return EMOJI::emoji(E_emoji::WARNING_SIGN) + " wrong key! ";
     }

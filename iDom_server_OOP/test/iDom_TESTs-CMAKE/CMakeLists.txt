@@ -123,4 +123,4 @@ file(GLOB SOURCE_FILES2 "../../src/command/*.*"
     "../../src/MENU/*.*"
     "../../src/MENU/*/*")
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${SOURCE_FILES2})
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  pthread gtest curl rt pthread )
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  pthread gtest gmock curl rt pthread )

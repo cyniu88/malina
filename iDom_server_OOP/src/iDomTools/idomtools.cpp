@@ -12,12 +12,11 @@
 #include "../SATEL_INTEGRA/satel_integra_handler.h"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData):
-    m_key(myData->server_settings->_server.TS_KEY),
-    m_keyHandler(std::make_unique<iDomKEY_ACCESS>( iDomKEY_ACCESS(myData->server_settings->_server.keyDatabasePath)))
+    m_key(myData->server_settings->_server.TS_KEY)
 {
-    puts("iDomTOOLS::iDomTOOLS()");
     my_data = myData;
 
+    my_data->m_keyHandler = std::make_unique<iDomKEY_ACCESS>( iDomKEY_ACCESS(myData->server_settings->_server.keyDatabasePath));
     //////////////////////////////////// temeprature /////////////////
     m_allThermometer.add("inside");
     m_allThermometer.add("outside");
@@ -53,6 +52,11 @@ iDomTOOLS::iDomTOOLS(thread_data *myData):
 
 iDomTOOLS::~iDomTOOLS(){
     iDom_API::removeFromMap(m_className);
+}
+
+TEMPERATURE_STATE iDomTOOLS::getTHERMOMETER_CONTAINERlastState(const std::string& name)
+{
+    return m_allThermometer.getLastState(name);
 }
 
 TEMPERATURE_STATE iDomTOOLS::hasTemperatureChange(const std::string& thermometerName,
@@ -379,7 +383,7 @@ void iDomTOOLS::runOnSunset()
     }
 
     my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/sun","SUNSET");
-    m_keyHandler->removeExpiredKeys(8);
+    my_data->m_keyHandler->removeExpiredKeys(8);
 }
 
 void iDomTOOLS::runOnSunrise()

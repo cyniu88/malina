@@ -23,10 +23,12 @@ class iDomTOOLS_INTERFACE
 public:
     virtual ~iDomTOOLS_INTERFACE() = default;
 
+    virtual TEMPERATURE_STATE getTHERMOMETER_CONTAINERlastState(const std::string& name) = 0;
     virtual TEMPERATURE_STATE hasTemperatureChange(const std::string &thermometerName, double reference, double histereza) = 0;
     virtual void sendSMSifTempChanged(const std::string& thermomethernName, int reference) = 0;
     virtual std::string getThermoStats(const std::string &name) = 0;
     virtual void updateTemperatureStats() = 0;
+
 
     virtual void turnOnSpeakers() = 0;
     virtual void turnOffSpeakers() = 0;
