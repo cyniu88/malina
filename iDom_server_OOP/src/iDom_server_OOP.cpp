@@ -227,7 +227,7 @@ iDomStateEnum iDom_main()
     stateMechine.setStateMachine(std::move(ptr));
     node_data.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
     /////////////////////////////// iDom Tools ///////////////////////
-    node_data.main_iDomTools = std::make_unique <iDomTOOLS>(&node_data);
+    node_data.main_iDomTools = std::make_shared<iDomTOOLS>(&node_data);
     ///////////////////////////////// BUDERUS //////////////////////////////
     node_data.ptr_buderus = std::make_unique<BUDERUS>();
     //////////////////////////////// LIGHT  ///////////////////////////////////
@@ -340,7 +340,7 @@ iDomStateEnum iDom_main()
     if (node_data.iDomProgramState == iDomStateEnum::CLOSE)
     {
         node_data.main_iDomTools->MPD_stop();
-        iDomTOOLS::turnOffSpeakers();
+        node_data.main_iDomTools->turnOffSpeakers();
     }
     node_data.mqttHandler->disconnect();
 

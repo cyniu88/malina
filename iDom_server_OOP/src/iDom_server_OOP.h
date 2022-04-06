@@ -258,7 +258,7 @@ struct thread_data{
     LUSINA lusina;
     SATEL_INTEGRA_HANDLER_INTERFACE* satelIntegraHandler = std::nullptr_t();
     std::unique_ptr<KEY_HANDLER> main_key_menu_handler = std::nullptr_t();
-    std::unique_ptr<iDomTOOLS_INTERFACE> main_iDomTools = std::nullptr_t();
+    std::shared_ptr<iDomTOOLS_INTERFACE> main_iDomTools = std::nullptr_t();
     std::unique_ptr<SerialPi> main_Rs232 = std::nullptr_t();
     std::shared_ptr<RFLinkHandler> main_RFLink = std::nullptr_t();
     std::shared_ptr<house_room_handler> main_house_room_handler = std::nullptr_t();

@@ -6,7 +6,7 @@
 #include <errno.h>
 
 #include "../satel_integra_handler.h"
-#include "../../iDomTools/test/iDomTools_fixture.h"
+#include "../../iDomTools/test/iDomToolsMock.h"
 
 // armed partition fefe0a000000007dc4fe0d
 // output states fefe1700000000000000000000000000000000430efe0d
@@ -99,7 +99,7 @@ void satelServer(){
                         len.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len.push_back(INTEGRA_ENUM::END);
                         int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
-                        if( siz >= 0 )
+                        if( siz >= 0)
                         {
                             std::cout << "wyslano " << siz << std::endl;
                         }
@@ -134,7 +134,7 @@ void satelServer(){
                         len.push_back(INTEGRA_ENUM::END);
 
                         int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
-                        if( siz >= 0 )
+                        if( siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
                         }
@@ -147,7 +147,7 @@ void satelServer(){
 
 
                         int siz = send(v_sock_ind, c_buffer, m_recv_size, 0);
-                        if( siz >= 0 )
+                        if( siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
                         }
@@ -160,7 +160,7 @@ void satelServer(){
 
 
                         int siz = send(v_sock_ind, c_buffer, m_recv_size, 0);
-                        if( siz >= 0 )
+                        if( siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
                         }
@@ -184,7 +184,7 @@ void satelServer(){
                         len.push_back(INTEGRA_ENUM::END);
 
                         int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
-                        if( siz >= 0 )
+                        if( siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
                         }
@@ -208,7 +208,7 @@ void satelServer(){
                         len.push_back(INTEGRA_ENUM::END);
 
                         int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
-                        if( siz >= 0 )
+                        if( siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
                         }
@@ -232,7 +232,7 @@ void satelServer(){
                         len.push_back(INTEGRA_ENUM::END);
 
                         int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
-                        if( siz >= 0 )
+                        if( siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
                         }
@@ -255,7 +255,7 @@ void satelServer(){
 }
 
 
-class satel_integra_fixture: public iDomTOOLS_ClassTest
+class satel_integra_fixture:public ::testing::Test
 {
 public:
     satel_integra_fixture() = default;
@@ -267,17 +267,23 @@ public:
     }
 
 protected:
-
+    thread_data test_my_data;
+    CONFIG_JSON test_server_settings;
     void SetUp()
     {
+        test_my_data.server_settings = &test_server_settings;
+        test_my_data.server_settings->_satel_integra.host = "127.0.0.1";
+        test_my_data.server_settings->_satel_integra.port = 7094;
+        test_my_data.server_settings->_satel_integra.pin = "1134";
+        test_my_data.server_settings->_fb_viber.viberSender = "test sender";
+        test_my_data.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
+
         std::cout << "satel_integra_fixture SetUp()" << std::endl;
-        iDomTOOLS_ClassTest::SetUp();
     }
     void TearDown()
     {
         workStubSatel = false;
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        iDomTOOLS_ClassTest::TearDown();
         std::cout << "satel_integra_fixture TearDown()" << std::endl;
     }
 
@@ -286,6 +292,11 @@ protected:
 TEST_F(satel_integra_fixture, checkIntegraOut)
 {
     startSatelServer();
+    auto main_iDomTools = std::make_shared<iDomToolsMock>();
+    EXPECT_CALL(*main_iDomTools.get(), unlockHome());
+    EXPECT_CALL(*main_iDomTools.get(), sendViberPicture(testing::_,testing::_,testing::_,testing::_,testing::_,testing::_));
+    test_my_data.main_iDomTools = main_iDomTools;
+
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
     SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
@@ -308,6 +319,12 @@ TEST_F(satel_integra_fixture, server_not_working)
 TEST_F(satel_integra_fixture, turnOnOffOutput)
 {
     startSatelServer();
+
+    auto main_iDomTools = std::make_shared<iDomToolsMock>();
+    EXPECT_CALL(*main_iDomTools.get(), unlockHome());
+    EXPECT_CALL(*main_iDomTools.get(), sendViberPicture("alarm deaktywowany",testing::_,testing::_,testing::_,testing::_,testing::_));
+    test_my_data.main_iDomTools = main_iDomTools;
+
     SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
 
     testIntegra.getSatelPTR()->outputOn(3);
@@ -321,9 +338,14 @@ TEST_F(satel_integra_fixture, isArmed)
     startSatelServer();
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
+    auto main_iDomTools = std::make_shared<iDomToolsMock>();
+    EXPECT_CALL(*main_iDomTools.get(), unlockHome());
+    EXPECT_CALL(*main_iDomTools.get(), sendViberPicture("alarm deaktywowany",testing::_,testing::_,testing::_,testing::_,testing::_));
+    test_my_data.main_iDomTools = main_iDomTools;
+
     SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
 
-    EXPECT_FALSE(testIntegra.getSatelPTR()->isAlarmArmed() );
+    EXPECT_FALSE(testIntegra.getSatelPTR()->isAlarmArmed());
 }
 
 TEST_F(satel_integra_fixture, armAndDisarm)
@@ -332,6 +354,11 @@ TEST_F(satel_integra_fixture, armAndDisarm)
     startSatelServer();
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
+    auto main_iDomTools = std::make_shared<iDomToolsMock>();
+    EXPECT_CALL(*main_iDomTools.get(), unlockHome());
+    EXPECT_CALL(*main_iDomTools.get(), sendViberPicture(testing::_,testing::_,testing::_,testing::_,testing::_,testing::_));
+    test_my_data.main_iDomTools = main_iDomTools;
+
     SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
     testIntegra.getSatelPTR()->armAlarm(partitionID);
 
@@ -339,7 +366,7 @@ TEST_F(satel_integra_fixture, armAndDisarm)
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[1], INTEGRA_ENUM::HEADER_MSG);
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[2], INTEGRA_ENUM::ARM);
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[3], 0x11);
-    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[4], 0x22);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[4], 0x34);
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[5], 0xff);
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[6], 0xff);
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[7], 0xff);
@@ -359,7 +386,7 @@ TEST_F(satel_integra_fixture, armAndDisarm)
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[1], INTEGRA_ENUM::HEADER_MSG);
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[2], INTEGRA_ENUM::DISARM);
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[3], 0x11);
-    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[4], 0x22);
+    EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[4], 0x34);
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[5], 0xff);
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[6], 0xff);
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[7], 0xff);

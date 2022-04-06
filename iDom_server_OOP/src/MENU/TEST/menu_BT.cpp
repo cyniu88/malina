@@ -138,7 +138,7 @@ TEST_F(menu_state_machine_fixture, MENU_BUDERUS)
     test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("test");
     test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     test_my_data.main_iDomStatus->addObject("music", STATE::STOP);
-    test_my_data.main_iDomTools = std::make_unique<iDomToolsMock>();
+    test_my_data.main_iDomTools = std::make_shared<iDomToolsMock>();
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
     auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, &lcd, &stateMechine);
@@ -163,7 +163,7 @@ TEST_F(menu_state_machine_fixture, MENU_KODI)
     thread_data test_my_data;
     test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     test_my_data.main_iDomStatus->addObject("music", STATE::STOP);
-    test_my_data.main_iDomTools = std::make_unique<iDomToolsMock>();
+    test_my_data.main_iDomTools = std::make_shared<iDomToolsMock>();
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
     auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, &lcd, &stateMechine);
