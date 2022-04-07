@@ -1,10 +1,19 @@
 #include <gtest/gtest.h>
 #include "../functions.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
-#include "../../iDomTools/test/iDomTools_fixture.h"
+#include "../../iDomTools/mock/iDomToolsMock.h"
 
-class functions_fixture : public iDomTOOLS_ClassTest{
-
+class functions_fixture : public testing::Test
+{
+protected:
+functions_fixture() {
+    useful_F::myStaticData = &test_my_data;
+    main_iDomTools = std::make_shared<iDomToolsMock>();
+    test_my_data.main_iDomTools  = main_iDomTools;
+}
+    thread_data test_my_data;
+    CONFIG_JSON test_server_set;
+    std::shared_ptr<iDomToolsMock> main_iDomTools;
 };
 
 void useful_F::sleep(int sec)
@@ -92,6 +101,10 @@ TEST_F(functions_fixture, setStaticData)
 
 TEST_F(functions_fixture, sleepThread)
 {
+    EXPECT_CALL(*main_iDomTools.get(), ledClear(testing::_,testing::_)).Times(testing::AnyNumber());
+    EXPECT_CALL(*main_iDomTools.get(), ledOFF());
+    EXPECT_CALL(*main_iDomTools.get(), MPD_stop());
+    EXPECT_CALL(*main_iDomTools.get(), turnOff433MHzSwitch("listwa"));
     std::array <Thread_array_struc,10> test_THRARRSTR;
     test_my_data.main_THREAD_arr = &test_THRARRSTR;
 
@@ -107,12 +120,7 @@ TEST_F(functions_fixture, sleepThread)
 
     test_my_data.sleeper = 10;
 
-    blockQueue test_q;
-    test_q._clearAll();
-    EXPECT_EQ(test_q._size(),0);
     useful_F::sleeper_mpd(&test_my_data,"test sleep");
-    EXPECT_EQ(test_q._size(),1);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP) << "NIE ZATRZYMANO MUZYKI :(";
 }
 
 TEST_F(functions_fixture, json_config)

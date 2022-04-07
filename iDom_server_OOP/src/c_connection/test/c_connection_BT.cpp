@@ -1,22 +1,33 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "../../iDomTools/test/iDomTools_fixture.h"
 
 #include "../c_connection.h"
+#include "test_data.h"
+#include "../../iDomTools/mock/iDomToolsMock.h"
+#include "../../RADIO_433_eq/radio_433_eq.h"
 
-class c_connection_fixture : public iDomTOOLS_ClassTest
+class c_connection_fixture : public testing::Test
 {
 public:
     c_connection_fixture():test_connection(std::nullptr_t()) {
+        test_server_set._server.encrypted = true;
+        test_my_data.server_settings = &test_server_set;
+        test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
+        main_iDomTools = std::make_shared<iDomToolsMock>();
+        test_my_data.main_iDomTools = main_iDomTools;
+        test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
+        test_my_data.main_REC = test_rec;
     }
 
 protected:
-
+    thread_data test_my_data;
+    CONFIG_JSON test_server_set;
+    std::shared_ptr<iDomToolsMock> main_iDomTools;
     std::unique_ptr<C_connection> test_connection;
+    std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     void SetUp() final
     {
         std::cout << "c_connection_fixture SetUp()" << std::endl;
-        iDomTOOLS_ClassTest::SetUp();
         test_my_data.s_client_sock = 0;
         test_connection = std::make_unique<C_connection>(&test_my_data);
         test_connection->m_encriptionKey = "key";
@@ -25,7 +36,6 @@ protected:
     }
     void TearDown() final
     {
-        iDomTOOLS_ClassTest::TearDown();
         std::cout << "c_connection_fixture TearDown()" << std::endl;
     }
     void crypto_fixture(std::string &toEncrypt, std::string key)
@@ -57,7 +67,7 @@ TEST_F(c_connection_fixture, c_analyse)
     test_connection->m_mainCommandHandler = std::make_unique<commandHandlerRoot>(&test_my_data);
     int i = 0;
     std::string strMsg = "fake command";
-    for (char n : strMsg)
+    for(char n : strMsg)
         test_connection->c_buffer[i++] = n;
     test_connection->setEncrypted(false);
     test_connection->c_analyse(static_cast<int>(strMsg.size()));
@@ -92,22 +102,21 @@ TEST_F(c_connection_fixture, cryptoLog)
 
 TEST_F(c_connection_fixture, onStopConnection)
 {
+    EXPECT_CALL(*main_iDomTools.get(), cameraLedOFF(testing::_));
     TEST_DATA::return_httpPost = "ok.\n";
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::UNKNOWN);
     test_connection->onStopConnection();
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::OFF);
 }
 
 TEST_F(c_connection_fixture, exitFlow)
 {
     test_connection->m_mainCommandHandler = std::make_unique<commandHandlerRoot>(&test_my_data);
-
+    EXPECT_CALL(*main_iDomTools.get(), close_iDomServer());
     int i = 0;
     std::string strMsg = "program stop server";
-    for (char n : strMsg)
+    for(char n : strMsg)
         test_connection->c_buffer[i++] = n;
     test_connection->setEncrypted(false);
-    EXPECT_THROW(test_connection->c_analyse(strMsg.size()),std::string );
+    test_connection->c_analyse(strMsg.size());
 }
 
 TEST_F(c_connection_fixture, emptyCommand)

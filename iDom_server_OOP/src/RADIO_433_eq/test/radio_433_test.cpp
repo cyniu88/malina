@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "../radio_433_eq.h"
-#include "../../iDomTools/test/iDomTools_fixture.h"
 
 RC_433MHz::RC_433MHz(thread_data *test_my_data)
 {
@@ -12,9 +11,16 @@ void RC_433MHz::sendCode(const std::string& code)
     std::cout << "sendCode(): " << code << std::endl;
 }
 
-class Switch_Class_fixture : public iDomTOOLS_ClassTest
+class Switch_Class_fixture : public testing::Test
 {
-
+protected:
+    Switch_Class_fixture(){
+        test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
+        test_server_set._server.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
+    }
+    std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
+    thread_data test_my_data;
+    CONFIG_JSON test_server_set;
 };
 TEST_F(Switch_Class_fixture, getSwitchPointerVector)
 {

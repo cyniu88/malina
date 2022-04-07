@@ -4,7 +4,7 @@
 
 #include "../../iDom_server_OOP.h"
 #include "../../functions/functions.h"
-#include "../../iDomTools/test/iDomToolsMock.h"
+#include "../../iDomTools/mock/iDomToolsMock.h"
 #include "../menu_base.h"
 #include "../menu_root.h"
 #include "../menu_main.h"
@@ -12,19 +12,7 @@
 
 class menu_state_machine_fixture: public testing::Test
 {
-public:
 
-protected:
-
-    virtual void SetUp() final
-    {
-
-    }
-
-    virtual void TearDown() final
-    {
-
-    }
 };
 
 TEST_F(menu_state_machine_fixture, containerMenuMap)

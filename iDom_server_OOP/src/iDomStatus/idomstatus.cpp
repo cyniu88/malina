@@ -37,7 +37,7 @@ void iDomSTATUS::setObjectState(const std::string& name, STATE st)
 
 STATE iDomSTATUS::getObjectState(const std::string& name)
 {
-    std::lock_guard < std::mutex > lock ( m_lockGuard);
+    std::lock_guard <std::mutex> lock(m_lockGuard);
     auto i = m_stateMAP.find(name);
     if (i not_eq m_stateMAP.end())
     {

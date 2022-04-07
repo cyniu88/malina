@@ -2,11 +2,8 @@
 #include "../../iDom_server_OOP.h"
 #include "../rs232_thread.h"
 #include "test_data.h"
-#include "../../../iDom_server_OOP/src/iDomTools/test/iDomTools_fixture.h"
 
-
-
-class rs232_thread_fixture : public iDomTOOLS_ClassTest
+class rs232_thread_fixture
 {
 };
 

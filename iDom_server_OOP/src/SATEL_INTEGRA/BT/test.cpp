@@ -6,7 +6,7 @@
 #include <errno.h>
 
 #include "../satel_integra_handler.h"
-#include "../../iDomTools/test/iDomToolsMock.h"
+#include "../../iDomTools/mock/iDomToolsMock.h"
 
 // armed partition fefe0a000000007dc4fe0d
 // output states fefe1700000000000000000000000000000000430efe0d

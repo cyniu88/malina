@@ -3,7 +3,7 @@
 #include "../../iDomTools/test/iDomTools_fixture.h"
 #include "../thermometer_container.h"
 
-class Thermometer_container_fixture :  public ::testing::Test //public iDomTOOLS_ClassTest
+class Thermometer_container_fixture :  public ::testing::Test
 {
 public:
     THERMOMETER_CONTAINER testThermo;
