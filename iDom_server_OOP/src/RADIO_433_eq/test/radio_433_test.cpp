@@ -17,6 +17,10 @@ protected:
     Switch_Class_fixture(){
         test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
         test_server_set._server.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
+        test_my_data.server_settings = &test_server_set;
+        test_rec->loadConfig(test_server_set._server.radio433MHzConfigFile);
+        test_my_data.main_REC = test_rec;
+        test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     }
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     thread_data test_my_data;
@@ -109,11 +113,12 @@ TEST_F(Switch_Class_fixture, add_and_erase_switch)
 
 TEST_F(Switch_Class_fixture, loadConfig)
 {
-    RADIO_EQ_CONTAINER test_rec(&test_my_data);
-    test_rec.loadConfig("/mnt/ramdisk/433_eq_conf_fake.json");
-
-    EXPECT_FALSE(test_my_data.main_REC->nameExist("firstt"));
-    EXPECT_TRUE(test_my_data.main_REC->nameExist("locker-main"));
+    thread_data test_my_data2;
+    auto  test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data2);
+    test_rec->loadConfig("/mnt/ramdisk/433_eq_conf_fake.json");
+    test_my_data2.main_REC = test_rec;
+    EXPECT_FALSE(test_my_data2.main_REC->nameExist("firstt"));
+    EXPECT_TRUE(test_my_data2.main_REC->nameExist("listwa"));
 }
 
 TEST_F(Switch_Class_fixture, getUnexistPtr)
