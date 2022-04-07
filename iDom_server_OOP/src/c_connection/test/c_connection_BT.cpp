@@ -54,7 +54,7 @@ TEST_F(c_connection_fixture, crypto)
     for(int i = 0; i < toEncrypt.size(); ++i)
     {
         EXPECT_NE(test_msg[i],toEncrypt[i]) << " niestety równe: " << toEncrypt[i]
-                                            << " na indeksie: " << i;
+                                               << " na indeksie: " << i;
     }
     std::cout << "wiadomość: " << test_msg << " zakodowane: "<< toEncrypt << std::endl;
     crypto_fixture(toEncrypt, key);

@@ -1,28 +1,20 @@
-#include "../commandexit.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
 
-class command_exit_Class_fixture : public iDomTOOLS_ClassTest
+#include "../commandexit.h"
+
+class command_exit_Class_fixture : public testing::Test
 {
 public:
     command_exit_Class_fixture()
     {
-
-    }
-
-protected:
-    std::unique_ptr<commandEXIT> test_command_exit;
-
-    std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
         test_command_exit = std::make_unique <commandEXIT> ("exit");
     }
 
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+
+protected:
+    std::unique_ptr<commandEXIT> test_command_exit;
+    std::vector<std::string> test_v;
+    thread_data test_my_data;
 };
 
 TEST_F(command_exit_Class_fixture, main)

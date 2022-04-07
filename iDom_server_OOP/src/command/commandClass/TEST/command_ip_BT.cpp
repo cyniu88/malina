@@ -1,28 +1,21 @@
-#include "../command_ip.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
 
-class command_ip_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_ip.h"
+
+class command_ip_Class_fixture : public testing::Test
 {
 public:
     command_ip_Class_fixture()
     {
-
+        test_command_ip = std::make_unique <command_ip> ("ip");
+        test_my_data.server_settings = &server_settings;
     }
 
 protected:
     std::unique_ptr<command_ip> test_command_ip;
-
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_command_ip = std::make_unique <command_ip> ("ip");
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
+    CONFIG_JSON server_settings;
 };
 
 TEST_F(command_ip_Class_fixture, main)

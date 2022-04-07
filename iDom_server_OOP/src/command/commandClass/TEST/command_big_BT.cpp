@@ -1,28 +1,21 @@
-#include "../command_big.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
 
-class command_big_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_big.h"
+
+class command_big_Class_fixture : public testing::Test
 {
 public:
     command_big_Class_fixture()
     {
-
+        test_command_big = std::make_unique <command_big> ("big");
     }
 
 protected:
     std::unique_ptr<command_big> test_command_big;
 
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_command_big = std::make_unique <command_big> ("big");
-    }
+    thread_data test_my_data;
 
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
 };
 
 TEST_F(command_big_Class_fixture, main)
@@ -30,6 +23,6 @@ TEST_F(command_big_Class_fixture, main)
     int s = 55;
     test_v.push_back("big");
     test_v.push_back(std::to_string(s));
-    auto ret = test_command_big->execute(test_v,&test_my_data);
+    auto ret = test_command_big->execute(test_v, &test_my_data);
     EXPECT_EQ(ret.size(),s);
 }

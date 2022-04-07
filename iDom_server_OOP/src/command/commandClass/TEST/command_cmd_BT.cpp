@@ -1,30 +1,19 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "../command_cmd.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
 
-class command_cmd_Class_fixture : public iDomTOOLS_ClassTest
+class command_cmd_Class_fixture : public testing::Test
 {
 public:
     command_cmd_Class_fixture()
     {
-
+        test_command_cmd = std::make_unique <command_cmd> ("cmd");
     }
 
 protected:
     std::unique_ptr<command_cmd> test_command_cmd;
-
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_command_cmd = std::make_unique <command_cmd> ("cmd");
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
 };
 
 TEST_F(command_cmd_Class_fixture, wrongParamiter)

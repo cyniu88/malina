@@ -1,31 +1,41 @@
-#include "../command_light.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
-class command_light_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_light.h"
+#include "../../../functions/functions.h"
+#include "../../../iDomTools/mock/iDomToolsMock.h"
+
+class command_light_Class_fixture : public testing::Test
 {
 public:
-    command_light_Class_fixture(){}
+    command_light_Class_fixture()
+    {
+        std::string cfg("../config/bulb_config.json");
+        test_command_light = std::make_unique <command_light>("light");
+        test_my_data.main_house_room_handler = std::make_shared<house_room_handler>(&test_my_data);
+        test_my_data.main_house_room_handler->loadConfig(cfg);
+        useful_F::myStaticData = &test_my_data;
+        test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
+        main_iDomTools = std::make_shared<iDomToolsMock>();
+        test_my_data.main_iDomTools = main_iDomTools;
+        test_my_data.server_settings = &test_server_settings;
+        test_my_data.server_settings->_fb_viber.viberSender = "test sender";
+        test_my_data.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
+    }
 
 protected:
     std::unique_ptr<command_light> test_command_light;
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        std::string cfg("../config/bulb_config.json");
-        test_command_light = std::make_unique <command_light> ("light");
-        test_my_data.main_house_room_handler = std::make_shared<house_room_handler>(&test_my_data);
-        test_my_data.main_house_room_handler->loadConfig(cfg);
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
+    std::shared_ptr<iDomToolsMock> main_iDomTools;
+    CONFIG_JSON test_server_settings;
 };
 
 TEST_F(command_light_Class_fixture, mqtt_bulb_state_update)
 {
+    EXPECT_CALL(*main_iDomTools.get(),
+                sendViberMsg("zmiana statusu lampy jedna w pomieszczeniu: pokoj dzieci na ON przyciskiem: 30 czas trwania: 00:00",
+                             testing::_,testing::_,testing::_,testing::_));
     test_v.clear();
     test_v.push_back("light");
     test_v.push_back("state;226;30;1\n");
@@ -49,6 +59,9 @@ TEST_F(command_light_Class_fixture, mqtt_bulb_state_update)
 
 TEST_F(command_light_Class_fixture, mqtt_bulb_state_update_bulb_not_exist)
 {
+    EXPECT_CALL(*main_iDomTools.get(),
+                sendViberMsg("zmiana statusu lampy bulbName w pomieszczeniu: roomName na ON przyciskiem: 30 czas trwania: 00:00",
+                             testing::_,testing::_,testing::_,testing::_));
     test_v.clear();
     test_v.push_back("light");
     test_v.push_back("state;330;30;1\n");
@@ -83,6 +96,9 @@ TEST_F(command_light_Class_fixture, light_info)
 
 TEST_F(command_light_Class_fixture, light_info_on)
 {
+    EXPECT_CALL(*main_iDomTools.get(),
+                sendViberMsg("zmiana statusu lampy wanna w pomieszczeniu: lazienka na ON przyciskiem: 30 czas trwania: 00:00",
+                             testing::_,testing::_,testing::_,testing::_));
     test_v.clear();
     test_v.push_back("light");
     test_v.push_back("state;126;30;1\n");
@@ -101,6 +117,9 @@ TEST_F(command_light_Class_fixture, light_info_on)
 
 TEST_F(command_light_Class_fixture, on_off_bulb_command)
 {
+    EXPECT_CALL(*main_iDomTools.get(),
+                sendViberMsg("zmiana statusu lampy wanna w pomieszczeniu: lazienka na ON przyciskiem: 30 czas trwania: 00:00",
+                             testing::_,testing::_,testing::_,testing::_));
     EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
               STATE::UNDEFINE);
     test_v.clear();

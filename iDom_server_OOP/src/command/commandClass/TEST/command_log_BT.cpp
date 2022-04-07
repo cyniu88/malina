@@ -1,28 +1,20 @@
-#include "../command_log.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
-class command_log_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_log.h"
+
+class command_log_Class_fixture : public testing::Test
 {
 public:
     command_log_Class_fixture()
     {
-
+        test_command_log = std::make_unique <command_log> ("log");
     }
 
 protected:
     std::unique_ptr<command_log> test_command_log;
-
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_command_log = std::make_unique <command_log> ("log");
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
 };
 
 TEST_F(command_log_Class_fixture, main)

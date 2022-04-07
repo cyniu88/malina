@@ -1,26 +1,21 @@
-#include "../command_help.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
 
-class command_help_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_help.h"
+#include "../../commandhandlerroot.h"
+#include "../../../RADIO_433_eq/radio_433_eq.h"
+
+class command_help_Class_fixture : public testing::Test
 {
 public:
     command_help_Class_fixture()
     {
-
+        auto test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
+        test_my_data.main_REC = test_rec;
     }
 
 protected:
     std::vector<std::string> test_v;
-
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
 };
 
 TEST_F(command_help_Class_fixture, all)

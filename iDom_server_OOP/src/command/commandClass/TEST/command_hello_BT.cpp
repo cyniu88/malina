@@ -1,28 +1,19 @@
-#include "../command_hello.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
 
-class command_hello_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_hello.h"
+
+class command_hello_Class_fixture : public testing::Test
 {
 public:
     command_hello_Class_fixture()
     {
-
+        test_command_hello = std::make_unique <command_hello> ("hello");
     }
 
 protected:
     std::unique_ptr<command_hello> test_command_hello;
-
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_command_hello = std::make_unique <command_hello> ("hello");
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
 };
 
 TEST_F(command_hello_Class_fixture, main)

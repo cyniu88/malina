@@ -1,7 +1,11 @@
-#include "../command_buderus.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
-class command_buderus_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_buderus.h"
+#include "../../iDom_server_OOP/src/iDomTools/mock/iDomToolsMock.h"
+#include "../../iDom_server_OOP/src/functions/functions.h"
+
+class command_buderus_Class_fixture : public testing::Test
 {
 public:
     std::string test_boilerData = R"({"wWComfort":"Hot",  "burnGas":"on", "wWSelTemp":60,   "wWDesiredTemp":70,   "selFlowTemp":5,   "selBurnPow":0,   "curBurnPow":0,   "pumpMod":10, "wWCirc":"on", "wWCircPump":"off",   "curFlowTemp":30.9,   "switchTemp":0,)"
@@ -17,25 +21,32 @@ public:
 
 protected:
     std::unique_ptr<command_buderus> test_command_buderus;
-
+    thread_data test_my_data;
     std::vector<std::string> test_v;
+    std::shared_ptr<iDomToolsMock> main_iDomTools;
+    CONFIG_JSON test_server_set;
     void SetUp() final
     {
-        iDomTOOLS_ClassTest::SetUp();
-        test_command_buderus = std::make_unique <command_buderus> ("buderus");
+        test_command_buderus = std::make_unique<command_buderus> ("buderus");
         test_my_data.ptr_buderus = std::make_unique<BUDERUS>();
+        main_iDomTools = std::make_shared<iDomToolsMock>();
+        test_my_data.main_iDomTools = main_iDomTools;
+
+        test_my_data.server_settings = &test_server_set;
+        test_my_data.server_settings->_fb_viber.viberSender = "test sender";
+        test_my_data.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
+        useful_F::myStaticData = &test_my_data;
     }
 
     void TearDown() final
     {
-        iDomTOOLS_ClassTest::TearDown();
     }
 };
 
 TEST_F(command_buderus_Class_fixture, wrong_paramiter)
 {
     test_v.push_back("buderus");
-    auto ret = test_command_buderus->execute(test_v,&test_my_data);
+    auto ret = test_command_buderus->execute(test_v, &test_my_data);
     EXPECT_THAT( ret, testing::HasSubstr("wrong paramiter") );
 }
 
@@ -47,7 +58,7 @@ TEST_F(command_buderus_Class_fixture, heating_active)
     test_v.push_back("buderus");
     test_v.push_back("heating_active");
     test_v.push_back("1");
-    (void) test_command_buderus->execute(test_v,&test_my_data);
+    (void) test_command_buderus->execute(test_v, &test_my_data);
     EXPECT_TRUE(test_my_data.ptr_buderus->isHeatingActiv());
 
     test_v.clear();
@@ -78,6 +89,8 @@ TEST_F(command_buderus_Class_fixture, tapwater_active)
 
 TEST_F(command_buderus_Class_fixture, boiler_data)
 {
+    EXPECT_CALL(*main_iDomTools.get(), sendViberMsg(testing::_,testing::_,testing::_,testing::_,testing::_));
+
     EXPECT_FALSE(test_my_data.ptr_buderus->isHeatingActiv());
     test_v.clear();
     test_v.push_back("buderus");
@@ -126,6 +139,7 @@ TEST_F(command_buderus_Class_fixture, thermostat_data_wrong_json_format)
 
 TEST_F(command_buderus_Class_fixture, print)
 {
+    EXPECT_CALL(*main_iDomTools.get(), sendViberMsg(testing::_,testing::_,testing::_,testing::_,testing::_));
     test_v.clear();
     test_v.push_back("buderus");
     test_v.push_back("boiler_data");
@@ -205,6 +219,8 @@ TEST_F(command_buderus_Class_fixture, set_desired_temp_fake)
 }
 
 TEST_F(command_buderus_Class_fixture, circlePump_handling) {
+
+    EXPECT_CALL(*main_iDomTools.get(), sendViberMsg(testing::_,testing::_,testing::_,testing::_,testing::_)).Times(2);
     EXPECT_THAT(test_my_data.ptr_buderus->getCirclePumpState(),
                 STATE::UNDEFINE);
     test_v.clear();

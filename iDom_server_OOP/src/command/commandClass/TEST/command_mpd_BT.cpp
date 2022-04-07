@@ -1,28 +1,26 @@
-#include "../command_mpd.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
 
-class command_mpd_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_mpd.h"
+#include "../../../blockQueue/blockqueue.h"
+#include "../../../iDomTools/mock/iDomToolsMock.h"
+
+
+class command_mpd_Class_fixture : public testing::Test
 {
 public:
     command_mpd_Class_fixture()
     {
-
+        test_command_mpd = std::make_unique <command_mpd> ("mpd");
+        main_iDomTools = std::make_shared<iDomToolsMock>();
+        test_my_data.main_iDomTools = main_iDomTools;
+        test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
     }
 
 protected:
     std::unique_ptr<command_mpd> test_command_mpd;
-
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_command_mpd = std::make_unique <command_mpd> ("mpd");
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
+    std::shared_ptr<iDomToolsMock> main_iDomTools;
 };
 
 TEST_F(command_mpd_Class_fixture, unknownParameter)
@@ -76,28 +74,26 @@ TEST_F(command_mpd_Class_fixture, volume)
     test_v.push_back("volume");
     test_v.push_back("up");
 
-    blockQueue test_q;
-    test_q._clearAll();
+    EXPECT_CALL(*main_iDomTools.get(), MPD_volumeUp());
 
     test_command_mpd->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLUP);
 
     test_v.clear();
     test_v.push_back("mpd");
     test_v.push_back("volume");
     test_v.push_back("down");
 
+    EXPECT_CALL(*main_iDomTools.get(), MPD_volumeDown());
     test_command_mpd->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLDOWN);
 
     test_v.clear();
     test_v.push_back("mpd");
     test_v.push_back("volume");
     test_v.push_back("55");
 
+
+    EXPECT_CALL(*main_iDomTools.get(), MPD_volumeSet(testing::_, 55));
     test_command_mpd->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLSET);
-    EXPECT_EQ(test_my_data.ptr_MPD_info->volume, 55);
     /////// voule -gt 100%
     test_v.clear();
     test_v.push_back("mpd");
@@ -105,8 +101,6 @@ TEST_F(command_mpd_Class_fixture, volume)
     test_v.push_back("155");
 
     test_command_mpd->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::NULL_);
-    EXPECT_EQ(test_my_data.ptr_MPD_info->volume, 55);
  }
 
 TEST_F(command_mpd_Class_fixture, pause)
@@ -115,25 +109,20 @@ TEST_F(command_mpd_Class_fixture, pause)
     test_v.push_back("mpd");
     test_v.push_back("pause");
 
-    blockQueue test_q;
-    test_q._clearAll();
+    EXPECT_CALL(*main_iDomTools.get(), MPD_pause());
 
     auto ret = test_command_mpd->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::PAUSE);
     EXPECT_STREQ(ret.c_str(), "paused!");
 }
 
 TEST_F(command_mpd_Class_fixture, next)
 {
+    EXPECT_CALL(*main_iDomTools, MPD_next());
     test_v.clear();
     test_v.push_back("mpd");
     test_v.push_back("next");
 
-    blockQueue test_q;
-    test_q._clearAll();
-
     test_command_mpd->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::NEXT);
 }
 
 TEST_F(command_mpd_Class_fixture, prev)
@@ -142,11 +131,9 @@ TEST_F(command_mpd_Class_fixture, prev)
     test_v.push_back("mpd");
     test_v.push_back("prev");
 
-    blockQueue test_q;
-    test_q._clearAll();
+    EXPECT_CALL(*main_iDomTools.get(), MPD_prev());
 
     test_command_mpd->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::PREV);
 }
 
 TEST_F(command_mpd_Class_fixture, stop)
@@ -155,11 +142,10 @@ TEST_F(command_mpd_Class_fixture, stop)
     test_v.push_back("mpd");
     test_v.push_back("stop");
 
-    blockQueue test_q;
-    test_q._clearAll();
+    EXPECT_CALL(*main_iDomTools.get(), MPD_stop());
+    EXPECT_CALL(*main_iDomTools.get(), saveState_iDom(false));
 
     auto ret = test_command_mpd->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
     EXPECT_STREQ(ret.c_str(), "stoped!");
 }
 
@@ -173,20 +159,17 @@ TEST_F(command_mpd_Class_fixture, play_playID)
     test_v.push_back("mpd");
     test_v.push_back("start");
 
-    blockQueue test_q;
-    test_q._clearAll();
+
+    EXPECT_CALL(*main_iDomTools.get(), MPD_play(testing::_));
+    EXPECT_CALL(*main_iDomTools.get(), saveState_iDom(false)).Times(2);
 
     test_command_mpd->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
-
     test_v.clear();
     test_v.push_back("mpd");
     test_v.push_back("start");
     test_v.push_back("3");
 
-    test_q._clearAll();
 
+    EXPECT_CALL(*main_iDomTools.get(), MPD_play(testing::_, 3));
     test_command_mpd->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY_ID);
-    EXPECT_EQ(test_my_data.ptr_MPD_info->currentSongID, 3);
 }
