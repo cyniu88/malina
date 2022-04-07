@@ -2,17 +2,24 @@
 #include <gmock/gmock.h>
 
 #include "../house_room_handler.h"
-#include "../../iDomTools/test/iDomTools_fixture.h"
+#include "../../iDom_server_OOP.h"
+#include "../../functions/functions.h"
+#include "../../RADIO_433_eq/radio_433_eq.h"
+#include "../../iDomTools/mock/iDomToolsMock.h"
 
-class house_fixture : public iDomTOOLS_ClassTest
+class house_fixture : public testing::Test
 {
 public:
  std::unique_ptr<house_room_handler> testRoomHandler;
+ thread_data test_my_data;
+ std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
+ std::shared_ptr<iDomToolsMock> main_iDomTools;
+ CONFIG_JSON test_server_settings;
+
 protected:
 
     virtual void SetUp() final
     {
-        iDomTOOLS_ClassTest::SetUp();
         std::string cfg("../config/bulb_config.json");
         testRoomHandler = std::make_unique<house_room_handler>(&test_my_data);
         testRoomHandler->loadConfig(cfg);
@@ -20,12 +27,17 @@ protected:
         test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER test");
         test_my_data.mqttHandler->_subscribed = true;
         useful_F::setStaticData(&test_my_data);
+        main_iDomTools = std::make_shared<iDomToolsMock>();
+        test_my_data.main_iDomTools  = main_iDomTools;
+        test_my_data.main_REC = test_rec;
+        test_my_data.server_settings = &test_server_settings;
+        test_my_data.server_settings->_fb_viber.viberSender = "test sender";
+        test_my_data.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
+        test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     }
 
     virtual void TearDown() final
     {
-        std::cout << "czyszczenie po tescie light_house_fixture" <<std::endl;
-        iDomTOOLS_ClassTest::TearDown();
     }
 };
 
@@ -89,10 +101,8 @@ TEST_F(house_fixture, bulb_status_from_mqtt) {
 
 TEST_F(house_fixture, dingDong)
 {
-    RADIO_EQ_CONFIG tCfg;
-    tCfg.name = "DingDong";
-    tCfg.ID = "8899";
-    test_rec->addRadioEq(tCfg, "SWITCH");
+    EXPECT_CALL(*main_iDomTools.get(), sendViberPicture(testing::_,testing::_,testing::_,testing::_,testing::_,testing::_));
+
     std::string mqttMSG("state;88;-1;1;");
     testRoomHandler->executeCommandFromMQTT(mqttMSG);
     EXPECT_EQ(testRoomHandler->m_lightingBulbMap.at(88)->getStatus(), STATE::ON);
@@ -102,7 +112,7 @@ TEST_F(house_fixture, satelSensor)
 {
     int bulbID = 127;
     int satelSensorID = 33;
-
+    EXPECT_CALL(*main_iDomTools.get(), isItDay());
     EXPECT_EQ(testRoomHandler->m_lightingBulbMap[bulbID]->getStatus() , STATE::UNDEFINE);
 
     testRoomHandler->turnOffBulb(bulbID);
