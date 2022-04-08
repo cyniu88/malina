@@ -1,28 +1,24 @@
-#include "../command_put.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
 
-class command_put_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_put.h"
+#include "test_data.h"
+#include "../../iDom_server_OOP/src/iDomTools/mock/iDomToolsMock.h"
+
+class command_put_Class_fixture : public testing::Test
 {
 public:
     command_put_Class_fixture()
     {
-
+        test_command_put = std::make_unique <command_put> ("put");
+        main_iDomTools = std::make_shared<iDomToolsMock>();
+        test_my_data.main_iDomTools = main_iDomTools;
     }
 
 protected:
     std::unique_ptr<command_put> test_command_put;
-
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_command_put = std::make_unique <command_put> ("put");
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
+    std::shared_ptr<iDomToolsMock> main_iDomTools;
 };
 
 TEST_F(command_put_Class_fixture, main)
@@ -32,6 +28,7 @@ TEST_F(command_put_Class_fixture, main)
     test_my_data.lusina.statTemp.push_back(1.13);
     test_v.push_back("put");
     test_v.push_back("temperature");
+    EXPECT_CALL(*main_iDomTools.get(), send_data_to_thingSpeak());
     auto ret = test_command_put->execute(test_v,&test_my_data);
     EXPECT_STREQ(ret.c_str(), "DONE");
 }

@@ -1,28 +1,19 @@
-#include "../command_wifi.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
 
-class command_wifi_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_wifi.h"
+
+class command_wifi_Class_fixture : public testing::Test
 {
 public:
     command_wifi_Class_fixture()
     {
-
+        test_command_wifi = std::make_unique <command_wifi> ("wifi");
     }
 
 protected:
     std::unique_ptr<command_wifi> test_command_wifi;
-
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_command_wifi = std::make_unique <command_wifi> ("wifi");
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
 };
 
 TEST_F(command_wifi_Class_fixture, main)

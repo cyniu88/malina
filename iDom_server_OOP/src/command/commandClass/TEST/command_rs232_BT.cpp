@@ -1,28 +1,20 @@
-#include "../commandrs232.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
 
-class command_RS232_Class_fixture : public iDomTOOLS_ClassTest
+#include "../commandrs232.h"
+#include "test_data.h"
+
+class command_RS232_Class_fixture : public testing::Test
 {
 public:
     command_RS232_Class_fixture()
     {
-
+        test_command_put = std::make_unique <commandRS232> ("RS232");
     }
 
 protected:
     std::unique_ptr<commandRS232> test_command_put;
-
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_command_put = std::make_unique <commandRS232> ("RS232");
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
 };
 
 TEST_F(command_RS232_Class_fixture, wrongParameter)

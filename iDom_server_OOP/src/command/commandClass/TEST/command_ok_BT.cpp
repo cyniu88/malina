@@ -1,28 +1,19 @@
-#include "../command_ok.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include <gtest/gtest.h>
 
-class command_ok_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_ok.h"
+
+class command_ok_Class_fixture : public testing::Test
 {
 public:
     command_ok_Class_fixture()
     {
-
+        test_command_ok = std::make_unique <command_ok> ("ok");
     }
 
 protected:
     std::unique_ptr<command_ok> test_command_ok;
-
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_command_ok = std::make_unique <command_ok> ("ok");
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
 };
 
 TEST_F(command_ok_Class_fixture, main)

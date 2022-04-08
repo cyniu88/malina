@@ -1,29 +1,28 @@
-#include "../command_program.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include<gtest/gtest.h>
+#include<gmock/gmock.h>
 
-class command_program_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_program.h"
+#include "../../../RADIO_433_eq/radio_433_eq.h"
+#include "../../../iDomTools/mock/iDomToolsMock.h"
+
+class command_program_Class_fixture : public testing::Test
 {
 public:
     command_program_Class_fixture()
     {
-
+        test_my_data.iDomProgramState = iDomStateEnum::WORKING;
+        test_command_program = std::make_unique <command_program> ("program");
+        main_iDomTools = std::make_shared<iDomToolsMock>();
+        test_my_data.main_iDomTools = main_iDomTools;
+        test_my_data.server_settings = &test_server_set;
     }
 
 protected:
     std::unique_ptr<command_program> test_command_program;
-
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_my_data.iDomProgramState = iDomStateEnum::WORKING;
-        test_command_program = std::make_unique <command_program> ("program");
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
+    std::shared_ptr<iDomToolsMock> main_iDomTools;
+    CONFIG_JSON test_server_set;
 };
 
 TEST_F(command_program_Class_fixture, unknownParameter)
@@ -59,7 +58,8 @@ TEST_F(command_program_Class_fixture, stopProgram)
     test_v.clear();
     test_v.push_back("program");
     test_v.push_back("stop");
-    EXPECT_THROW(test_command_program->execute(test_v,&test_my_data), std::string);
+    EXPECT_CALL(*main_iDomTools.get(), close_iDomServer());
+    test_command_program->execute(test_v,&test_my_data);
 }
 
 TEST_F(command_program_Class_fixture, programReloadSoft)
@@ -68,8 +68,8 @@ TEST_F(command_program_Class_fixture, programReloadSoft)
     test_v.push_back("program");
     test_v.push_back("reload");
     test_v.push_back("soft");
-    EXPECT_THROW(test_command_program->execute(test_v,&test_my_data), std::string);
-    EXPECT_EQ(test_my_data.iDomProgramState, iDomStateEnum::RELOAD);
+    EXPECT_CALL(*main_iDomTools.get(), reloadSoft_iDomServer());
+    test_command_program->execute(test_v,&test_my_data);
 }
 
 TEST_F(command_program_Class_fixture, programReloadHard)
@@ -78,8 +78,8 @@ TEST_F(command_program_Class_fixture, programReloadHard)
     test_v.push_back("program");
     test_v.push_back("reload");
     test_v.push_back("hard");
-    EXPECT_THROW(test_command_program->execute(test_v,&test_my_data), std::string);
-    EXPECT_EQ(test_my_data.iDomProgramState, iDomStateEnum::HARD_RELOAD);
+    EXPECT_CALL(*main_iDomTools.get(), reloadHard_iDomServer());
+    test_command_program->execute(test_v,&test_my_data);
 }
 
 TEST_F(command_program_Class_fixture, clearRamProgram)
@@ -100,29 +100,6 @@ TEST_F(command_program_Class_fixture, raspberryProgram)
     test_v.push_back("command");
     auto ret = test_command_program->execute(test_v,&test_my_data);
     EXPECT_STREQ(ret.c_str(),"command done with exitcode: 0");
-}
-
-TEST_F(command_program_Class_fixture, debugeVariableProgram)
-{
-    test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu_TEST");
-    test_my_data.main_RFLink = std::make_shared<RFLinkHandler>(&test_my_data);
-    test_my_data.main_RFLink->m_okTime = 777;
-    test_my_data.main_RFLink->m_pingTime = 888;
-    test_my_data.server_settings->_server.PORT = 88;
-    test_my_data.server_settings->_server.v_delay = 1;
-    test_my_data.sleeper = 1;
-    test_my_data.now_time = 123;
-    test_my_data.start = 12;
-
-    test_my_data.server_settings->_rs232.BaudRate = 9600;
-    test_my_data.server_settings->_rflink.RFLinkBaudRate = 576000;
-    test_v.clear();
-    test_v.push_back("program");
-    test_v.push_back("debuge");
-    test_v.push_back("variable");
-    auto ret = test_command_program->execute(test_v,&test_my_data);
-    std::cout << ret << std::endl;
-    EXPECT_THAT(ret,testing::HasSubstr("END"));
 }
 
 TEST_F(command_program_Class_fixture, version)
