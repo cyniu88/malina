@@ -1,12 +1,12 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+
 #include "../command_ardu.h"
 #include "../../../functions/functions.h"
 #include "../../../RADIO_433_eq/radio_433_eq.h"
 #include "../../../433MHz/RFLink/rflinkhandler.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
 
-class commandArdu_Class_fixture : public iDomTOOLS_ClassTest
+class commandArdu_Class_fixture : public testing::Test
 {
 public:
     commandArdu_Class_fixture() {
@@ -19,21 +19,27 @@ protected:
     RFLinkHandler* test_RFLink;
     blockQueue test_q;
     command_ardu* test_ardu;
+    thread_data test_my_data;
+    std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
+    CONFIG_JSON test_server_settings;
+
     void SetUp() final
     {
-        iDomTOOLS_ClassTest::SetUp();
-
         test_q._clearAll();
-
-        test_ardu = new command_ardu("ardu", &test_my_data);
-        test_my_data.main_RFLink = std::make_shared<RFLinkHandler>(&test_my_data);;
+        test_server_settings._rflink.RFLinkPort = "testPort";
+        test_server_settings._server.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
+        test_my_data.server_settings = &test_server_settings;
         test_v.push_back("433MHz");
+        test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
+        test_rec->loadConfig(test_server_settings._server.radio433MHzConfigFile);
+        test_my_data.main_REC = test_rec;
+        test_my_data.main_RFLink = std::make_shared<RFLinkHandler>(&test_my_data);;
+        test_ardu = new command_ardu("ardu", &test_my_data);
         std::cout << "commandArdu_Class_fixture SetUp" << std::endl;
     }
 
     void TearDown() final
     {
-        iDomTOOLS_ClassTest::TearDown();
         delete test_ardu;
         std::cout << "commandArdu_Class_fixture TearDown" << std::endl;
     }

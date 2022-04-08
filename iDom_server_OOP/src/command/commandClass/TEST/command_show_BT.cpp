@@ -1,28 +1,22 @@
-#include "../command_show.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include<gtest/gtest.h>
+#include<gmock/gmock.h>
 
-class command_show_Class_fixture : public iDomTOOLS_ClassTest
+#include "../command_show.h"
+
+class command_show_Class_fixture : public testing::Test
 {
 public:
     command_show_Class_fixture()
     {
-
+        test_command_show = std::make_unique <command_show> ("show");
+        test_my_data.m_keyHandler = std::make_unique<iDomKEY_ACCESS>("");
     }
 
 protected:
     std::unique_ptr<command_show> test_command_show;
 
     std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_command_show = std::make_unique <command_show> ("show");
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
+    thread_data test_my_data;
 };
 
 TEST_F(command_show_Class_fixture, wrongParameter)
