@@ -1,10 +1,13 @@
+#include<gtest/gtest.h>
+#include<gmock/gmock.h>
+
 #include "../command_433mhz.h"
 #include "../../../functions/functions.h"
 #include "../../../RADIO_433_eq/radio_433_eq.h"
 #include "../../../433MHz/RFLink/rflinkhandler.h"
-#include "../../../iDomTools/test/iDomTools_fixture.h"
+#include "../../../iDomTools/mock/iDomToolsMock.h"
 
-class command433MHz_Class_fixture : public iDomTOOLS_ClassTest
+class command433MHz_Class_fixture : public testing::Test
 {
 public:
     command433MHz_Class_fixture()
@@ -14,25 +17,36 @@ public:
     }
 
 protected:
+    thread_data test_my_data;
+    std::shared_ptr<iDomToolsMock> main_iDomTools;
     std::vector<std::string> test_v= {"433MHz"};
+    std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     RFLinkHandler* test_RFLink;
     blockQueue test_q;
     command_433MHz* test_command_433MHz;
+    CONFIG_JSON test_server_settings;
 
     void SetUp() final
     {
-        iDomTOOLS_ClassTest::SetUp();
 
         test_q._clearAll();
-
+        test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
+        test_server_settings._server.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
+        test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
+        test_rec->loadConfig(test_server_settings._server.radio433MHzConfigFile);
+        test_my_data.main_REC = test_rec;
+        test_server_settings._rflink.RFLinkPort = "test port";
+        test_my_data.server_settings = &test_server_settings;
         test_command_433MHz = new command_433MHz("433MHz");
         test_my_data.main_RFLink = std::make_shared<RFLinkHandler>(&test_my_data);
+        test_my_data.serverStarted = false;
+        main_iDomTools = std::make_shared<iDomToolsMock>();
+        test_my_data.main_iDomTools = main_iDomTools;
         std::cout << "command433MHz_Class_fixture SetUp" << std::endl;
     }
 
     void TearDown() final
     {
-        iDomTOOLS_ClassTest::TearDown();
         delete test_command_433MHz;
         std::cout << "command433MHz_Class_fixture TearDown" << std::endl;
     }
@@ -444,7 +458,7 @@ TEST_F(command433MHz_Class_fixture, fakeSwitchON)
     test_v.push_back("switch");
     test_v.push_back("ALARM-fake");
     test_v.push_back("ON");
-
-    std::string retStr = test_command_433MHz->execute(test_v,&test_my_data);
+    EXPECT_CALL(*main_iDomTools.get(),saveState_iDom(false));
+    std::string retStr = test_command_433MHz->execute(test_v, &test_my_data);
     EXPECT_THAT(retStr, testing::HasSubstr(" not found ALARM-fake"));
 }

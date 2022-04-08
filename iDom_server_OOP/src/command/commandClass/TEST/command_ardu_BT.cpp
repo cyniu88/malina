@@ -18,7 +18,7 @@ protected:
     std::vector<std::string> test_v= {"ardu"};
     RFLinkHandler* test_RFLink;
     blockQueue test_q;
-    command_ardu* test_ardu;
+    command_ardu* test_ardu; //TODO make smart PTR
     thread_data test_my_data;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     CONFIG_JSON test_server_settings;

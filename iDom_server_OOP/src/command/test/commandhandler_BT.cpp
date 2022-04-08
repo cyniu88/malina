@@ -1,28 +1,49 @@
+#include<gtest/gtest.h>
+
 #include "../commandhandlerrs232.h"
 #include "../commandhandlermqtt.h"
 #include "../commandhandlergateway.h"
+#include "../../RADIO_433_eq/radio_433_eq.h"
+#include "../../iDomTools/mock/iDomToolsMock.h"
 #include "../../iDomTools/test/iDomTools_fixture.h"
+#include "../../HOUSE/house_room_handler.h"
+#include "../../functions/functions.h"
 
-class command_handler_rs232_fixture : public iDomTOOLS_ClassTest
+class command_handler_main : public testing::Test
+{
+public:
+    command_handler_main(){
+        test_server_settings._server.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
+        test_my_data.server_settings = &test_server_settings;
+        test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
+        test_rec->loadConfig(test_server_settings._server.radio433MHzConfigFile);
+        test_my_data.main_REC = test_rec;
+        main_iDomTools = std::make_shared<iDomToolsMock>();
+        test_my_data.main_iDomTools = main_iDomTools;
+        testRoomHandler = std::make_shared<house_room_handler>(&test_my_data);
+        std::string cfg("../config/bulb_config.json");
+        testRoomHandler->loadConfig(cfg);
+        test_my_data.main_house_room_handler = testRoomHandler;
+        useful_F::myStaticData = &test_my_data;
+    }
+    thread_data test_my_data;
+    std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
+    CONFIG_JSON test_server_settings;
+    std::vector<std::string> test_v;
+    std::shared_ptr<iDomToolsMock> main_iDomTools;
+    std::shared_ptr<house_room_handler> testRoomHandler;
+};
+
+class command_handler_rs232_fixture : public command_handler_main
 {
 public:
     command_handler_rs232_fixture()
     {
+        test_chRS232 = std::make_unique<commandHandlerRS232>(&test_my_data);
     }
 
 protected:
     std::unique_ptr<commandHandlerRS232> test_chRS232;
-    std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_chRS232 = std::make_unique<commandHandlerRS232>(&test_my_data);
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
 };
 
 TEST_F(command_handler_rs232_fixture, main)
@@ -33,27 +54,16 @@ TEST_F(command_handler_rs232_fixture, main)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-class command_handler_mqtt_fixture : public iDomTOOLS_ClassTest
+class command_handler_mqtt_fixture : public command_handler_main
 {
 public:
     command_handler_mqtt_fixture()
     {
+        test_chMQTT = std::make_unique<CommandHandlerMQTT>();
     }
 
 protected:
     std::unique_ptr<CommandHandlerMQTT> test_chMQTT;
-    std::vector<std::string> test_v;
-
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_chMQTT = std::make_unique<CommandHandlerMQTT>();
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
 };
 
 TEST_F(command_handler_mqtt_fixture, main)
@@ -91,26 +101,16 @@ TEST_F(command_handler_mqtt_fixture, voice_mqtt)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-class command_handler_gateway_fixture : public iDomTOOLS_ClassTest
+class command_handler_gateway_fixture : public command_handler_main
 {
 public:
     command_handler_gateway_fixture()
     {
+        test_chGATEWAY = std::make_unique<commandHandlerGATEWAY>(&test_my_data);
     }
 
 protected:
     std::unique_ptr<commandHandlerGATEWAY> test_chGATEWAY;
-    std::vector<std::string> test_v;
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-        test_chGATEWAY = std::make_unique<commandHandlerGATEWAY>(&test_my_data);
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
 };
 
 TEST_F(command_handler_gateway_fixture, not_enough_parameters)
