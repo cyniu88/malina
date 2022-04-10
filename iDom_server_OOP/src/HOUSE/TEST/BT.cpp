@@ -82,6 +82,11 @@ TEST_F(house_fixture, bulb_status_from_mqtt) {
 
     EXPECT_EQ(testRoomHandler->m_lightingBulbMap.at(226)->getStatus(), STATE::UNDEFINE);
 
+    EXPECT_CALL(*main_iDomTools.get(), sendViberMsg("zmiana statusu lampy jedna w pomieszczeniu: pokoj dzieci na ON przyciskiem: -1 czas trwania: 00:00",
+                                                    "R1",
+                                                    "test sender-light",
+                                                    "NULL",
+                                                    "NULL"));
     std::string mqttMSG("state;226;-1;1;");
     testRoomHandler->executeCommandFromMQTT(mqttMSG);
     EXPECT_EQ(testRoomHandler->m_lightingBulbMap.at(226)->getStatus(), STATE::ON);
@@ -102,7 +107,12 @@ TEST_F(house_fixture, bulb_status_from_mqtt) {
 TEST_F(house_fixture, dingDong)
 {
     EXPECT_CALL(*main_iDomTools.get(), sendViberPicture(testing::_,testing::_,testing::_,testing::_,testing::_,testing::_));
-
+    EXPECT_CALL(*main_iDomTools.get(), sendViberMsg("zmiana statusu lampy bulbName w pomieszczeniu: roomName na ON przyciskiem: -1 czas trwania: 00:00",
+                                                    "R1",
+                                                    "test sender-light",
+                                                    "NULL",
+                                                    "NULL"));
+    EXPECT_CALL(*main_iDomTools.get(), doorbellDingDong());
     std::string mqttMSG("state;88;-1;1;");
     testRoomHandler->executeCommandFromMQTT(mqttMSG);
     EXPECT_EQ(testRoomHandler->m_lightingBulbMap.at(88)->getStatus(), STATE::ON);

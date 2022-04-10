@@ -366,6 +366,8 @@ TEST_F(command433MHz_Class_fixture, switchRF433)
     std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
     auto v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
+
+    EXPECT_CALL(*main_iDomTools.get(),saveState_iDom(false)).Times(7);
     /////////////////////////////// ON
     test_v.clear();
     test_v.push_back("433MHz");

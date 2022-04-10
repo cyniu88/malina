@@ -179,7 +179,8 @@ int main(int argc, char **argv)
     ::testing::InitGoogleTest( &argc, argv );
     //::testing::GTEST_FLAG(filter) = "Switch_Class_fixture.loadConfig";
     //::testing::GTEST_FLAG(filter) = "event_counter_fixture.getLast1minNumberEvent";
-   // ::testing::GTEST_FLAG(filter) = "satel_integra_fixture.turnOnOffOutput";
+    //:testing::GTEST_FLAG(filter) = "satel_integra_fixture.turnOnOffOutput";
+    //:testing::GTEST_FLAG(throw_on_failure) = true;
     auto ret = RUN_ALL_TESTS();
     pthread_mutex_destroy(&Logger::mutex_log);
 

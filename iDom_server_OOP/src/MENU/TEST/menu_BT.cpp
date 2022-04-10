@@ -12,7 +12,14 @@
 
 class menu_state_machine_fixture: public testing::Test
 {
-
+protected:
+    menu_state_machine_fixture()
+    {
+        main_iDomTools = std::make_shared<iDomToolsMock>();
+        test_my_data.main_iDomTools = main_iDomTools;
+    }
+    thread_data test_my_data;
+    std::shared_ptr<iDomToolsMock>main_iDomTools;
 };
 
 TEST_F(menu_state_machine_fixture, containerMenuMap)
@@ -67,7 +74,6 @@ TEST_F(menu_state_machine_fixture, containerMenuMapSignle)
 
 TEST_F(menu_state_machine_fixture, main)
 {
-    thread_data test_my_data;
     test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     test_my_data.main_iDomStatus->addObject("music", STATE::STOP);
     LCD_c lcd(0x27,16,2);
@@ -100,7 +106,6 @@ TEST_F(menu_state_machine_fixture, main)
 }
 
 TEST_F(menu_state_machine_fixture, MENU_LIGHT){
-    thread_data test_my_data;
     test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("test");
     useful_F::myStaticData = &test_my_data;
     LCD_c lcd(0x27,16,2);
@@ -122,11 +127,9 @@ TEST_F(menu_state_machine_fixture, MENU_LIGHT){
 
 TEST_F(menu_state_machine_fixture, MENU_BUDERUS)
 {
-    thread_data test_my_data;
     test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("test");
     test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     test_my_data.main_iDomStatus->addObject("music", STATE::STOP);
-    test_my_data.main_iDomTools = std::make_shared<iDomToolsMock>();
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
     auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, &lcd, &stateMechine);
@@ -143,15 +146,17 @@ TEST_F(menu_state_machine_fixture, MENU_BUDERUS)
     main_key_menu_handler->recKeyEvent(KEY_PAD::UP);
     main_key_menu_handler->recKeyEvent(KEY_PAD::UP);
     main_key_menu_handler->recKeyEvent(KEY_PAD::UP);
+    EXPECT_CALL(*main_iDomTools.get(), getSmog());
+    EXPECT_CALL(*main_iDomTools.get(), getDayLenght(false));
+    EXPECT_CALL(*main_iDomTools.get(), getSunrise(false));
+    EXPECT_CALL(*main_iDomTools.get(), getSunset(false));
     main_key_menu_handler->recKeyEvent(KEY_PAD::OK);
 }
 
 TEST_F(menu_state_machine_fixture, MENU_KODI)
 {
-    thread_data test_my_data;
     test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     test_my_data.main_iDomStatus->addObject("music", STATE::STOP);
-    test_my_data.main_iDomTools = std::make_shared<iDomToolsMock>();
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
     auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, &lcd, &stateMechine);
@@ -174,6 +179,8 @@ TEST_F(menu_state_machine_fixture, MENU_KODI)
     main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
     main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
     main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
+
+    EXPECT_CALL(*main_iDomTools.get(), MPD_play(testing::_)).Times(2);
     main_key_menu_handler->recKeyEvent(KEY_PAD::OK);
 
     main_key_menu_handler->recKeyEvent(KEY_PAD::POWER);

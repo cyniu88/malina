@@ -89,6 +89,7 @@ TEST_F(command_handler_mqtt_fixture, voice_mqtt)
     test_v.clear();
     test_v.push_back("radIo");
     test_v.push_back("włąCz");
+    EXPECT_CALL(*main_iDomTools.get(), MPD_play(testing::_));
     auto ret = test_chMQTT->run(test_v, &test_my_data);
     std::cout << "DATA: " << ret << std::endl;
     EXPECT_THAT(ret, testing::HasSubstr("done") );
