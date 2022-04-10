@@ -9,14 +9,20 @@
 class c_connection_fixture : public testing::Test
 {
 public:
-    c_connection_fixture():test_connection(std::nullptr_t()) {
+    c_connection_fixture():main_iDomTools(std::make_shared<iDomToolsMock>()),
+                           test_connection(std::nullptr_t()),
+                           test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data))
+    {
         test_server_set._server.encrypted = true;
         test_my_data.server_settings = &test_server_set;
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
-        main_iDomTools = std::make_shared<iDomToolsMock>();
         test_my_data.main_iDomTools = main_iDomTools;
-        test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
         test_my_data.main_REC = test_rec;
+        test_my_data.s_client_sock = 0;
+        test_connection = std::make_unique<C_connection>(&test_my_data);
+        test_connection->m_encriptionKey = "key";
+        test_connection->m_encrypted = false;
+        test_connection->c_socket = 0;
     }
 
 protected:
@@ -25,19 +31,6 @@ protected:
     std::shared_ptr<iDomToolsMock> main_iDomTools;
     std::unique_ptr<C_connection> test_connection;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
-    void SetUp() final
-    {
-        std::cout << "c_connection_fixture SetUp()" << std::endl;
-        test_my_data.s_client_sock = 0;
-        test_connection = std::make_unique<C_connection>(&test_my_data);
-        test_connection->m_encriptionKey = "key";
-        test_connection->m_encrypted = false;
-        test_connection->c_socket = 0;
-    }
-    void TearDown() final
-    {
-        std::cout << "c_connection_fixture TearDown()" << std::endl;
-    }
     void crypto_fixture(std::string &toEncrypt, std::string key)
     {
         test_connection->crypto(toEncrypt, std::move(key), true);

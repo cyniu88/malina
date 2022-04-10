@@ -8,11 +8,10 @@
 class command_program_Class_fixture : public testing::Test
 {
 public:
-    command_program_Class_fixture()
+    command_program_Class_fixture(): test_command_program(std::make_unique <command_program> ("program")),
+        main_iDomTools(std::make_shared<iDomToolsMock>())
     {
         test_my_data.iDomProgramState = iDomStateEnum::WORKING;
-        test_command_program = std::make_unique <command_program> ("program");
-        main_iDomTools = std::make_shared<iDomToolsMock>();
         test_my_data.main_iDomTools = main_iDomTools;
         test_my_data.server_settings = &test_server_set;
     }

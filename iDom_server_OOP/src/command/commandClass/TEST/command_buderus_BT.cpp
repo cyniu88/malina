@@ -14,9 +14,15 @@ public:
                                   R"("ServiceCodeNumber":203})";
     std::string test_thermostatData = R"({"hc1": {"currtemp": 22.5,"mode": "manual", "seltemp": 22  } })";
     std::string test_boielrDataWrongJSON = "fake json";
-    command_buderus_Class_fixture()
+    command_buderus_Class_fixture() : test_command_buderus(std::make_unique<command_buderus>("buderus")),
+        main_iDomTools(std::make_shared<iDomToolsMock>())
     {
-
+        test_my_data.ptr_buderus = std::make_unique<BUDERUS>();
+        test_my_data.main_iDomTools = main_iDomTools;
+        test_my_data.server_settings = &test_server_set;
+        test_my_data.server_settings->_fb_viber.viberSender = "test sender";
+        test_my_data.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
+        useful_F::myStaticData = &test_my_data;
     }
 
 protected:
@@ -25,22 +31,6 @@ protected:
     std::vector<std::string> test_v;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
     CONFIG_JSON test_server_set;
-    void SetUp() final
-    {
-        test_command_buderus = std::make_unique<command_buderus> ("buderus");
-        test_my_data.ptr_buderus = std::make_unique<BUDERUS>();
-        main_iDomTools = std::make_shared<iDomToolsMock>();
-        test_my_data.main_iDomTools = main_iDomTools;
-
-        test_my_data.server_settings = &test_server_set;
-        test_my_data.server_settings->_fb_viber.viberSender = "test sender";
-        test_my_data.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
-        useful_F::myStaticData = &test_my_data;
-    }
-
-    void TearDown() final
-    {
-    }
 };
 
 TEST_F(command_buderus_Class_fixture, wrong_paramiter)

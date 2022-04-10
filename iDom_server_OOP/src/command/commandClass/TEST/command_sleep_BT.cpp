@@ -6,10 +6,10 @@
 class command_sleep_Class_fixture : public testing::Test
 {
 public:
-    command_sleep_Class_fixture()
+    command_sleep_Class_fixture():
+        test_command_sleep(std::make_unique <command_sleep> ("sleep")),
+        main_iDomTools(std::make_shared<iDomToolsMock>())
     {
-        test_command_sleep = std::make_unique <command_sleep> ("sleep");
-        main_iDomTools = std::make_shared<iDomToolsMock>();
         test_my_data.main_iDomTools = main_iDomTools;
     }
 

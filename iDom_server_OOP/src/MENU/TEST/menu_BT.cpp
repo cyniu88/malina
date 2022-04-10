@@ -13,9 +13,8 @@
 class menu_state_machine_fixture: public testing::Test
 {
 protected:
-    menu_state_machine_fixture()
+    menu_state_machine_fixture():main_iDomTools(std::make_shared<iDomToolsMock>())
     {
-        main_iDomTools = std::make_shared<iDomToolsMock>();
         test_my_data.main_iDomTools = main_iDomTools;
     }
     thread_data test_my_data;

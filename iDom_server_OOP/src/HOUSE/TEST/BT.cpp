@@ -10,24 +10,17 @@
 class house_fixture : public testing::Test
 {
 public:
- std::unique_ptr<house_room_handler> testRoomHandler;
- thread_data test_my_data;
- std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
- std::shared_ptr<iDomToolsMock> main_iDomTools;
- CONFIG_JSON test_server_settings;
+    house_fixture():testRoomHandler(std::make_unique<house_room_handler>(&test_my_data)),
+        test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data)),
+        main_iDomTools(std::make_shared<iDomToolsMock>())
 
-protected:
-
-    virtual void SetUp() final
     {
         std::string cfg("../config/bulb_config.json");
-        testRoomHandler = std::make_unique<house_room_handler>(&test_my_data);
         testRoomHandler->loadConfig(cfg);
 
         test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER test");
         test_my_data.mqttHandler->_subscribed = true;
         useful_F::setStaticData(&test_my_data);
-        main_iDomTools = std::make_shared<iDomToolsMock>();
         test_my_data.main_iDomTools  = main_iDomTools;
         test_my_data.main_REC = test_rec;
         test_my_data.server_settings = &test_server_settings;
@@ -35,10 +28,12 @@ protected:
         test_my_data.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
     }
+    std::unique_ptr<house_room_handler> testRoomHandler;
+    thread_data test_my_data;
+    std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
+    std::shared_ptr<iDomToolsMock> main_iDomTools;
+    CONFIG_JSON test_server_settings;
 
-    virtual void TearDown() final
-    {
-    }
 };
 
 TEST_F(house_fixture, load_config_bulb)

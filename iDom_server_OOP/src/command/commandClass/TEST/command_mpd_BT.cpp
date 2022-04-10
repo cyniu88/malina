@@ -8,10 +8,10 @@
 class command_mpd_Class_fixture : public testing::Test
 {
 public:
-    command_mpd_Class_fixture()
+    command_mpd_Class_fixture():
+        test_command_mpd(std::make_unique <command_mpd> ("mpd")),
+        main_iDomTools(std::make_shared<iDomToolsMock>())
     {
-        test_command_mpd = std::make_unique <command_mpd> ("mpd");
-        main_iDomTools = std::make_shared<iDomToolsMock>();
         test_my_data.main_iDomTools = main_iDomTools;
         test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
     }

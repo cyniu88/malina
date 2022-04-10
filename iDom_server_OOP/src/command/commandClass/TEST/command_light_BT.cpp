@@ -8,15 +8,15 @@
 class command_light_Class_fixture : public testing::Test
 {
 public:
-    command_light_Class_fixture()
+    command_light_Class_fixture():
+        test_command_light (std::make_unique <command_light>("light")),
+        main_iDomTools(std::make_shared<iDomToolsMock>())
     {
-        std::string cfg("../config/bulb_config.json");
-        test_command_light = std::make_unique <command_light>("light");
+        std::string cfg("../config/bulb_config.json");;
         test_my_data.main_house_room_handler = std::make_shared<house_room_handler>(&test_my_data);
         test_my_data.main_house_room_handler->loadConfig(cfg);
         useful_F::myStaticData = &test_my_data;
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
-        main_iDomTools = std::make_shared<iDomToolsMock>();
         test_my_data.main_iDomTools = main_iDomTools;
         test_my_data.server_settings = &test_server_settings;
         test_my_data.server_settings->_fb_viber.viberSender = "test sender";

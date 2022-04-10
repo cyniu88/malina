@@ -6,9 +6,10 @@
 class functions_fixture : public testing::Test
 {
 protected:
-functions_fixture() {
+functions_fixture():
+    main_iDomTools(std::make_shared<iDomToolsMock>())
+{
     useful_F::myStaticData = &test_my_data;
-    main_iDomTools = std::make_shared<iDomToolsMock>();
     test_my_data.main_iDomTools  = main_iDomTools;
 }
     thread_data test_my_data;

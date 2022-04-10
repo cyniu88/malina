@@ -12,17 +12,17 @@
 class command_handler_main : public testing::Test
 {
 public:
-    command_handler_main(){
+    command_handler_main():
+        test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data)),
+        main_iDomTools(std::make_shared<iDomToolsMock>()),
+        testRoomHandler(std::make_shared<house_room_handler>(&test_my_data))
+    {
         test_server_settings._server.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
         test_my_data.server_settings = &test_server_settings;
-        test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
         test_rec->loadConfig(test_server_settings._server.radio433MHzConfigFile);
         test_my_data.main_REC = test_rec;
-        main_iDomTools = std::make_shared<iDomToolsMock>();
         test_my_data.main_iDomTools = main_iDomTools;
-        testRoomHandler = std::make_shared<house_room_handler>(&test_my_data);
-        std::string cfg("../config/bulb_config.json");
-        testRoomHandler->loadConfig(cfg);
+        testRoomHandler->loadConfig("../config/bulb_config.json");
         test_my_data.main_house_room_handler = testRoomHandler;
         useful_F::myStaticData = &test_my_data;
     }

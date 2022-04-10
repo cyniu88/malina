@@ -258,7 +258,20 @@ void satelServer(){
 class satel_integra_fixture:public ::testing::Test
 {
 public:
-    satel_integra_fixture() = default;
+    satel_integra_fixture():main_iDomTools(std::make_shared<iDomToolsMock>())
+    {
+        test_my_data.server_settings = &test_server_settings;
+        test_my_data.server_settings->_satel_integra.host = "127.0.0.1";
+        test_my_data.server_settings->_satel_integra.port = 7094;
+        test_my_data.server_settings->_satel_integra.pin = "1134";
+        test_my_data.server_settings->_fb_viber.viberSender = "test sender";
+        test_my_data.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
+        test_my_data.main_iDomTools = main_iDomTools;
+    };
+    ~satel_integra_fixture(){
+        workStubSatel = false;
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
     void startSatelServer(){
         workStubSatel = true;
         auto t = std::thread(satelServer);
@@ -270,25 +283,6 @@ protected:
     thread_data test_my_data;
     CONFIG_JSON test_server_settings;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
-    void SetUp()
-    {
-        test_my_data.server_settings = &test_server_settings;
-        test_my_data.server_settings->_satel_integra.host = "127.0.0.1";
-        test_my_data.server_settings->_satel_integra.port = 7094;
-        test_my_data.server_settings->_satel_integra.pin = "1134";
-        test_my_data.server_settings->_fb_viber.viberSender = "test sender";
-        test_my_data.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
-
-        main_iDomTools = std::make_shared<iDomToolsMock>();
-        test_my_data.main_iDomTools = main_iDomTools;
-        std::cout << "satel_integra_fixture SetUp()" << std::endl;
-    }
-    void TearDown()
-    {
-        workStubSatel = false;
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        std::cout << "satel_integra_fixture TearDown()" << std::endl;
-    }
 
 };
 
