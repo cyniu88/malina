@@ -26,7 +26,6 @@ public:
 
 protected:
     std::vector<std::string> test_v= {"ardu"};
-    RFLinkHandler* test_RFLink;
     blockQueue test_q;
     std::unique_ptr<command_ardu> test_ardu;
     thread_data test_my_data;

@@ -7,9 +7,9 @@
 class command_gateway_Class_fixture : public testing::Test
 {
 public:
-    command_gateway_Class_fixture():main_iDomTools(std::make_shared<iDomToolsMock>())
+    command_gateway_Class_fixture():test_command_gateway(std::make_unique <command_gateway>("gateway")),
+        main_iDomTools(std::make_shared<iDomToolsMock>())
     {
-        test_command_gateway = std::make_unique <command_gateway> ("gateway");
         test_my_data.main_iDomTools = main_iDomTools;
     }
 

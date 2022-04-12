@@ -7,9 +7,8 @@
 class command_state_Class_fixture : public testing::Test
 {
 public:
-    command_state_Class_fixture()
+    command_state_Class_fixture():test_command_state(std::make_unique <command_state>("state"))
     {
-        test_command_state = std::make_unique <command_state> ("state");
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_my_data.ptr_buderus = std::make_unique<BUDERUS>();
         useful_F::myStaticData = &test_my_data;

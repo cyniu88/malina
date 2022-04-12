@@ -6,9 +6,8 @@
 class command_log_Class_fixture : public testing::Test
 {
 public:
-    command_log_Class_fixture()
+    command_log_Class_fixture():test_command_log(std::make_unique<command_log>("log"))
     {
-        test_command_log = std::make_unique <command_log> ("log");
     }
 
 protected:

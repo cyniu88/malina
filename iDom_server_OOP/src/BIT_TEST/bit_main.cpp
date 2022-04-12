@@ -21,7 +21,9 @@ protected:
     std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> thread_array;
     std::string send_receive(int socket, std::string msg, std::string key, bool crypt = true);
 
-    bit_fixture():bit_Tasker(std::make_unique<TASKER>(&test_my_data))
+    bit_fixture():v_socket(0),
+        bit_Tasker(std::make_unique<TASKER>(&test_my_data))
+
     {
         test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu-BIT");
         test_my_data.ptr_buderus = std::make_unique<BUDERUS>();

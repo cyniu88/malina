@@ -5,9 +5,8 @@
 class command_cmd_Class_fixture : public testing::Test
 {
 public:
-    command_cmd_Class_fixture()
+    command_cmd_Class_fixture():test_command_cmd(std::make_unique <command_cmd>("cmd"))
     {
-        test_command_cmd = std::make_unique <command_cmd> ("cmd");
     }
 
 protected:

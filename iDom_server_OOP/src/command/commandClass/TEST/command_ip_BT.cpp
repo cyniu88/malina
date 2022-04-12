@@ -5,9 +5,8 @@
 class command_ip_Class_fixture : public testing::Test
 {
 public:
-    command_ip_Class_fixture()
+    command_ip_Class_fixture():test_command_ip(std::make_unique <command_ip>("ip"))
     {
-        test_command_ip = std::make_unique <command_ip> ("ip");
         test_my_data.server_settings = &server_settings;
     }
 

@@ -6,9 +6,8 @@
 class command_RS232_Class_fixture : public testing::Test
 {
 public:
-    command_RS232_Class_fixture()
+    command_RS232_Class_fixture():test_command_put(std::make_unique <commandRS232> ("RS232"))
     {
-        test_command_put = std::make_unique <commandRS232> ("RS232");
     }
 
 protected:

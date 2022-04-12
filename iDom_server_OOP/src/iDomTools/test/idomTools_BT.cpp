@@ -101,7 +101,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 
 TEST_F(iDomTOOLS_ClassTest, weatherAlert)
 {
-    std::string test_data_from_www = R"( <div style="margin:0;padding:0;width:350px;font:0.8em Lucida,Arial,sans-seri f;background:#FFC">)"
+   /* std::string test_data_from_www = R"( <div style="margin:0;padding:0;width:350px;font:0.8em Lucida,Arial,sans-seri f;background:#FFC">)"
                                      R"(<p style="margin:1px;padding:1px;text-align:center;background:#FF9;borde \\ r:1px dotted"><b><a href="http://burze.dzis.net?page=wyszukiwarka&amp;miejscowos\\ c=krakow" target="_blank" style="color:#00E">krakow</a></b>)"
                                      R"(<i>(50°03'N 19°57'E)</i> </p>)"
                                      R"(<dl style="margin:1px 1px 0 1px;padding:0;cl ear:both;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:\\ center">Zarejestrowano 54 wyładowania atmosferyczne w promieniu 300km . Najbliższe 79.76km na zachód.)"
@@ -111,7 +111,7 @@ TEST_F(iDomTOOLS_ClassTest, weatherAlert)
                                      R"(<dl style="margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center">  Opady, brak ostrzeżeń</dl>)"
                                      R"(<dl style="margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center">  Burze, brak ostrzeżeń</dl>)"
                                      R"(<dl style="margin:1px 1px 0 1px;padding:0;clear:both ;background:#FFD;border:1px dotted;overflow:auto;color:green;text-align:center">  Trąby powietrzne, brak ostrzeżeń</dl></div>)";
-
+*/
     WEATHER_DATABASE test_WA;
     test_WA = test_my_data.main_iDomTools->getAlert();
     std::cout << std::endl << test_WA.lightning.alert<< std::endl;

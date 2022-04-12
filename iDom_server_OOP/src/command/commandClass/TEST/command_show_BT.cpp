@@ -6,9 +6,8 @@
 class command_show_Class_fixture : public testing::Test
 {
 public:
-    command_show_Class_fixture()
+    command_show_Class_fixture():test_command_show(std::make_unique <command_show>("show"))
     {
-        test_command_show = std::make_unique <command_show> ("show");
         test_my_data.m_keyHandler = std::make_unique<iDomKEY_ACCESS>("");
     }
 

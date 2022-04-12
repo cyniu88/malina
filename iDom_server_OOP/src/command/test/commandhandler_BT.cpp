@@ -37,9 +37,8 @@ public:
 class command_handler_rs232_fixture : public command_handler_main
 {
 public:
-    command_handler_rs232_fixture()
+    command_handler_rs232_fixture():test_chRS232(std::make_unique<commandHandlerRS232>(&test_my_data))
     {
-        test_chRS232 = std::make_unique<commandHandlerRS232>(&test_my_data);
     }
 
 protected:
@@ -57,9 +56,8 @@ TEST_F(command_handler_rs232_fixture, main)
 class command_handler_mqtt_fixture : public command_handler_main
 {
 public:
-    command_handler_mqtt_fixture()
+    command_handler_mqtt_fixture():test_chMQTT(std::make_unique<CommandHandlerMQTT>())
     {
-        test_chMQTT = std::make_unique<CommandHandlerMQTT>();
     }
 
 protected:
@@ -105,9 +103,8 @@ TEST_F(command_handler_mqtt_fixture, voice_mqtt)
 class command_handler_gateway_fixture : public command_handler_main
 {
 public:
-    command_handler_gateway_fixture()
+    command_handler_gateway_fixture():test_chGATEWAY(std::make_unique<commandHandlerGATEWAY>(&test_my_data))
     {
-        test_chGATEWAY = std::make_unique<commandHandlerGATEWAY>(&test_my_data);
     }
 
 protected:

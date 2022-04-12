@@ -7,9 +7,8 @@
 class command_event_Class_fixture : public testing::Test
 {
 public:
-    command_event_Class_fixture()
+    command_event_Class_fixture():test_command_event(std::make_unique <command_event> ("event"))
     {
-        test_command_event = std::make_unique <command_event> ("event");
     }
 
 protected:

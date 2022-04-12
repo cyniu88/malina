@@ -5,9 +5,8 @@
 class command_big_Class_fixture : public testing::Test
 {
 public:
-    command_big_Class_fixture()
+    command_big_Class_fixture():test_command_big(std::make_unique <command_big> ("big"))
     {
-        test_command_big = std::make_unique <command_big> ("big");
     }
 
 protected:
