@@ -19,15 +19,9 @@ public:
     SATEL_INTEGRA_HANDLER_STUB test_satel;
 
     /////// method
-    iDomTOOLS_ClassTest()
+    iDomTOOLS_ClassTest():test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data))
     {
         std::cout << "konstruktor testu " <<std::endl;
-    }
-
-    void SetUp()
-    {
-        std::cout << "SetUP testu iDomTOOLS_ClassTest" <<std::endl;
-        test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
         test_server_set._server.TS_KEY = "key test";
         test_server_set._fb_viber.viberSender = "test sender";
         test_server_set._fb_viber.viberReceiver = {"R1","R2"};
@@ -67,9 +61,5 @@ public:
         test_my_data.server_settings->_satel_integra.pin = "1122";
         test_my_data.satelIntegraHandler = &test_satel;
         useful_F::myStaticData = &test_my_data;
-    }
-
-    void TearDown()
-    {
     }
 };

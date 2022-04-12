@@ -9,8 +9,7 @@ public:
     THERMOMETER_CONTAINER testThermo;
     std::string termoName = "test_thermometer";
     std::vector<std::string> v = {"10.2","11.22"};
-
-    void SetUp() final
+    Thermometer_container_fixture()
     {
         testThermo.add("inside");
         testThermo.add("outside");
@@ -23,8 +22,6 @@ public:
         testThermo.updateStats("outside");
         std::cout << "rozmiar mapy termoetrow: " << testThermo.sizeOf() << std::endl;
         testThermo.showAll();
-        puts("SetUp() Thermometer_container_fixture");
-        puts("--------------------------------------");
     }
 };
 TEST_F(Thermometer_container_fixture, returnUnexistPTR)

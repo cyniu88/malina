@@ -12,35 +12,17 @@
 class commandiDom_Class_fixture : public iDomTOOLS_ClassTest
 {
 public:
-    commandiDom_Class_fixture()
+    commandiDom_Class_fixture(): test_v({"iDom"}),
+        test_command_iDom(std::make_unique<command_iDom>("iDom"))
     {
-        this->test_command_iDom = std::nullptr_t();
-        this->test_RFLink = std::nullptr_t();
+        test_q._clearAll();
+        test_my_data.main_RFLink = std::make_shared<RFLinkHandler>(&test_my_data);
     }
 
 protected:
-    std::vector<std::string> test_v= {"iDom"};
-    RFLinkHandler* test_RFLink;
+    std::vector<std::string> test_v;
     blockQueue test_q;
-    command_iDom* test_command_iDom;
-
-    void SetUp() final
-    {
-        iDomTOOLS_ClassTest::SetUp();
-
-        test_q._clearAll();
-
-        test_command_iDom = new command_iDom("iDom");
-        test_my_data.main_RFLink = std::make_shared<RFLinkHandler>(&test_my_data);
-        std::cout << "commandiDom_Class_fixture SetUp" << std::endl;
-    }
-
-    void TearDown() final
-    {
-        iDomTOOLS_ClassTest::TearDown();
-        delete test_command_iDom;
-        std::cout << "commandiDom_Class_fixture TearDown" << std::endl;
-    }
+    std::unique_ptr<command_iDom> test_command_iDom;
 };
 
 TEST_F(commandiDom_Class_fixture, getName)

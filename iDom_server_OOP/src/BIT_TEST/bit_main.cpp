@@ -14,11 +14,15 @@ protected:
     CONFIG_JSON testCS;
     CAMERA_CFG testCamera;
     const char *ipAddress = "127.0.0.1";
+    void start_iDomServer();
+    void crypto(std::string & toEncrypt, std::string &key, bool encrypted);
 
-    void SetUp()
+    std::unique_ptr<TASKER> bit_Tasker;
+    std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> thread_array;
+    std::string send_receive(int socket, std::string msg, std::string key, bool crypt = true);
+
+    bit_fixture():bit_Tasker(std::make_unique<TASKER>(&test_my_data))
     {
-        iDomTOOLS_ClassTest::SetUp();
-        bit_Tasker = std::make_unique<TASKER>(&test_my_data);
         test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu-BIT");
         test_my_data.ptr_buderus = std::make_unique<BUDERUS>();
         for (size_t i = 0; i < thread_array.size(); ++i)
@@ -42,20 +46,9 @@ protected:
         test_my_data.server_settings->_server.SERVER_IP = "127.0.0.1";
         test_my_data.server_settings->_runThread.SATEL = true;
     }
-    void TearDown()
-    {
-        iDomTOOLS_ClassTest::TearDown();
-    }
-public:
-    void start_iDomServer();
-    void crypto(std::string & toEncrypt, std::string &key, bool encrypted);
-
-    std::unique_ptr<TASKER> bit_Tasker;
-    std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> thread_array;
-    std::string send_receive(int socket, std::string msg, std::string key, bool crypt = true);
 };
 
-void bit_fixture::crypto (std::string & toEncrypt, std::string& key,bool encrypted)
+void bit_fixture::crypto(std::string & toEncrypt, std::string& key,bool encrypted)
 {
     if (!encrypted){
         return;

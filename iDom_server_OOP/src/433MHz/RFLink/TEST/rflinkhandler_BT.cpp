@@ -10,17 +10,15 @@ public:
     CONFIG_JSON test_server_set;
     std::unique_ptr<RFLinkHandler> test_RFLink;
 
-    void SetUp() final
+    RFLinkHandler_Class_fixture()
     {
         test_server_set._server.TS_KEY = "key test";
         test_server_set._rflink.RFLinkBaudRate = 57600;
         test_server_set._rflink.RFLinkPort = "/dev/fakePortRS232";
         test_my_data.server_settings = &test_server_set;
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
+
         test_RFLink = std::make_unique<RFLinkHandler>(&test_my_data);
-    }
-    void TearDown() final
-    {
     }
 };
 

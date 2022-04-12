@@ -6,21 +6,14 @@
 class blockQueue_Class_fixture : public ::testing::Test
 {
 public:
-    blockQueue_Class_fixture() { }
+    blockQueue_Class_fixture()
+    {
+        test_q._clearAll();
+    }
 
 protected:
     blockQueue test_q;
 
-    void SetUp() final
-    {
-        test_q._clearAll();
-        std::cout << "blockQueue_Class_fixture SetUp" << std::endl;
-    }
-
-    void TearDown() final
-    {
-        std::cout << "blockQueue_Class_fixture TearDown" << std::endl;
-    }
     static void getFromQ_thread()
     {
         blockQueue q;
