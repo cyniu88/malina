@@ -28,9 +28,10 @@ TEST_F(command_state_Class_fixture, stateAll)
     test_v.clear();
     test_v.push_back("state");
     test_v.push_back("all");
+    EXPECT_CALL(*buderusMock.get(), getHeatingStartTime()).WillOnce(testing::Return(2));
+    EXPECT_CALL(*buderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(true));
     auto ret = test_command_state->execute(test_v,&test_my_data);
-   // EXPECT_CALL(*buderusMock.get(), isHeatingActiv());
-    EXPECT_STREQ(ret.c_str(), "state: burnGas=DEACTIVE ");
+    EXPECT_STREQ(ret.c_str(), "state: burnGas=ACTIVE burnGasStartTime=2 ");
 }
 
 TEST_F(command_state_Class_fixture, stateGetOne)
