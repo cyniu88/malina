@@ -211,30 +211,30 @@ void iDomTOOLS::updateTemperatureStats()
 
 void iDomTOOLS::turnOnSpeakers()
 {
-    if (useful_F::myStaticData->idom_all_state.houseState == STATE::UNLOCK)
+    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
     {
         digitalWrite(iDomConst::GPIO_SPIK, HIGH);
         //FIXME temp fix
-        useful_F::myStaticData->main_iDomTools->turnOn433MHzSwitch("fan");
+        my_data->main_iDomTools->turnOn433MHzSwitch("fan");
         ///////////////////////
-        useful_F::myStaticData->main_iDomStatus->setObjectState("speakers",STATE::ON);
+        my_data->main_iDomStatus->setObjectState("speakers",STATE::ON);
     }
     else
     {
-        useful_F::myStaticData->myEventHandler.run("speakers")->addEvent("speakers can not start due to home state: " +
-                                                                         stateToString(useful_F::myStaticData->idom_all_state.houseState));
+        my_data->myEventHandler.run("speakers")->addEvent("speakers can not start due to home state: " +
+                                                                         stateToString(my_data->idom_all_state.houseState));
     }
-    useful_F::myStaticData->main_iDomTools->saveState_iDom(useful_F::myStaticData->serverStarted);
+    my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
 }
 
 void iDomTOOLS::turnOffSpeakers()
 {
     digitalWrite(iDomConst::GPIO_SPIK, LOW);
     //FIXME temp fix
-    useful_F::myStaticData->main_iDomTools->turnOff433MHzSwitch("fan");
+    my_data->main_iDomTools->turnOff433MHzSwitch("fan");
     /////////////////////////////
-    useful_F::myStaticData->main_iDomStatus->setObjectState("speakers", STATE::OFF);
-    useful_F::myStaticData->main_iDomTools->saveState_iDom(useful_F::myStaticData->serverStarted);
+    my_data->main_iDomStatus->setObjectState("speakers", STATE::OFF);
+    my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
 }
 
 void iDomTOOLS::turnOnPrinter()
