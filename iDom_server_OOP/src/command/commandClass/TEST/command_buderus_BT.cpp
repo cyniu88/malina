@@ -4,6 +4,7 @@
 #include "../command_buderus.h"
 #include "../../iDom_server_OOP/src/iDomTools/mock/iDomToolsMock.h"
 #include "../../iDom_server_OOP/src/functions/functions.h"
+#include "../../iDom_server_OOP/src/buderus/buderus.h"
 
 class command_buderus_Class_fixture : public testing::Test
 {
@@ -17,7 +18,7 @@ public:
     command_buderus_Class_fixture() : test_command_buderus(std::make_unique<command_buderus>("buderus")),
         main_iDomTools(std::make_shared<iDomToolsMock>())
     {
-        test_my_data.ptr_buderus = std::make_unique<BUDERUS>();
+        test_my_data.ptr_buderus = std::make_shared<BUDERUS>();
         test_my_data.main_iDomTools = main_iDomTools;
         test_my_data.server_settings = &test_server_set;
         test_my_data.server_settings->_fb_viber.viberSender = "test sender";

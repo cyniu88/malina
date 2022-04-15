@@ -403,14 +403,14 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
 
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data",test_boilerData);
     bit_Tasker->runTasker();
-    auto ret = test_my_data.ptr_buderus->dump();
+    auto ret = test_my_data.ptr_buderus->getDump();
     std::cout << ret << std::endl;
     EXPECT_THAT(ret, ::testing::HasSubstr("13594"));
 
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/thermostat_data",
                                                 R"({"some":"data"})");
     bit_Tasker->runTasker();
-    ret = test_my_data.ptr_buderus->dump();
+    ret = test_my_data.ptr_buderus->getDump();
     std::cout << ret << std::endl;
     EXPECT_THAT(ret, ::testing::HasSubstr(R"(some":)"));
 }
@@ -420,7 +420,7 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler_wrong_json_format){
     std::string test_boilerData = "not json";
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data",test_boilerData);
     bit_Tasker->runTasker();
-    auto ret = test_my_data.ptr_buderus->dump();
+    auto ret = test_my_data.ptr_buderus->getDump();
     std::cout << ret << std::endl;
     ret = test_my_data.iDomAlarm.showAlarm();
     EXPECT_THAT(ret, ::testing::HasSubstr("buderus boile_data - wrong JSON format!"));

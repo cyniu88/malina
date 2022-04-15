@@ -153,13 +153,13 @@ void BUDERUS::circlePompToRun()
     }
 }
 
-void BUDERUS::runCirclePompForWhile() const
+void BUDERUS::runCirclePompForWhile()
 {
     useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler",
                                                  R"({"cmd":"wwcirculation","data":"on"})");
 }
 
-STATE BUDERUS::getCirclePumpState() const
+STATE BUDERUS::getCirclePumpState()
 {
     return m_circlePump;
 }
@@ -179,9 +179,14 @@ void BUDERUS::setTempInsideBuilding(const std::string& t)
     useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/thermostat",tt.str());
 }
 
-unsigned int BUDERUS::getHeatingStartTime() {
+unsigned int BUDERUS::getHeatingStartTime() const {
     std::lock_guard<std::mutex> lock(m_lockGuard);
     return m_heating_time;
+}
+
+std::string BUDERUS::getDump()
+{
+    return dump();
 }
 
 std::string BUDERUS::dump() const

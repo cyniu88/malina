@@ -36,7 +36,7 @@
 #include "iDomStatus/idomstatus.h"
 #include "iDomSaveState/idom_save_state.h"
 #include "../mqtt_mosquitto/MQTT_mosquitto/mqtt.h"
-#include "buderus/buderus.h"
+#include "buderus/buderus_interface.h"
 #include "HOUSE/house_room_handler.h"
 #include "SerialPi/serialpi.h"
 #include "MENU/menu_base.h"
@@ -225,7 +225,7 @@ class command; // for struc thread_data req
 class iDomTOOLS_INTERFACE;
 class RADIO_EQ_CONTAINER;
 class RFLinkHandler;
-class BUDERUS;
+class BUDERUS_IF;
 class KEY_HANDLER;
 class SATEL_INTEGRA_HANDLER_INTERFACE;
 class iDomKEY_ACCESS;
@@ -263,7 +263,7 @@ struct thread_data{
     std::shared_ptr<RFLinkHandler> main_RFLink = std::nullptr_t();
     std::shared_ptr<house_room_handler> main_house_room_handler = std::nullptr_t();
     std::unique_ptr<MPD_info> ptr_MPD_info = std::nullptr_t();
-    std::unique_ptr<BUDERUS> ptr_buderus = std::nullptr_t();
+    std::shared_ptr<BUDERUS_IF> ptr_buderus = std::nullptr_t();
     std::unique_ptr<MQTT_mosquitto> mqttHandler = std::nullptr_t();
     std::shared_ptr<RADIO_EQ_CONTAINER> main_REC = std::nullptr_t();
     std::unique_ptr<iDomSTATUS> main_iDomStatus = std::nullptr_t();

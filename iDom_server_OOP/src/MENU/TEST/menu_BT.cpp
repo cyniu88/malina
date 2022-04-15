@@ -5,6 +5,7 @@
 #include "../../iDom_server_OOP.h"
 #include "../../functions/functions.h"
 #include "../../iDomTools/mock/iDomToolsMock.h"
+#include "../../buderus/mock/buderus_mock.h"
 #include "../menu_base.h"
 #include "../menu_root.h"
 #include "../menu_main.h"
@@ -13,12 +14,15 @@
 class menu_state_machine_fixture: public testing::Test
 {
 protected:
-    menu_state_machine_fixture():main_iDomTools(std::make_shared<iDomToolsMock>())
+    menu_state_machine_fixture(): main_iDomTools(std::make_shared<iDomToolsMock>())
     {
         test_my_data.main_iDomTools = main_iDomTools;
+        buderusMock = std::make_shared<BUDERUS_MOCK>();
+        test_my_data.ptr_buderus = buderusMock;
     }
     thread_data test_my_data;
     std::shared_ptr<iDomToolsMock>main_iDomTools;
+    std::shared_ptr<BUDERUS_MOCK> buderusMock;
 };
 
 TEST_F(menu_state_machine_fixture, containerMenuMap)
@@ -149,6 +153,7 @@ TEST_F(menu_state_machine_fixture, MENU_BUDERUS)
     EXPECT_CALL(*main_iDomTools.get(), getDayLenght(false));
     EXPECT_CALL(*main_iDomTools.get(), getSunrise(false));
     EXPECT_CALL(*main_iDomTools.get(), getSunset(false));
+    EXPECT_CALL(*buderusMock.get(), getCurFlowTemp());
     main_key_menu_handler->recKeyEvent(KEY_PAD::OK);
 }
 
