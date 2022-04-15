@@ -14,10 +14,10 @@
 class menu_state_machine_fixture: public testing::Test
 {
 protected:
-    menu_state_machine_fixture(): main_iDomTools(std::make_shared<iDomToolsMock>())
+    menu_state_machine_fixture(): main_iDomTools(std::make_shared<iDomToolsMock>()),
+                                    buderusMock(std::make_shared<BUDERUS_MOCK>())
     {
         test_my_data.main_iDomTools = main_iDomTools;
-        buderusMock = std::make_shared<BUDERUS_MOCK>();
         test_my_data.ptr_buderus = buderusMock;
     }
     thread_data test_my_data;
