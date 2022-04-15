@@ -7,7 +7,7 @@
 #include "testJSON.h"
 #include "../../HOUSE/TEST/house_room_handler_stub.h"
 #include "../../SATEL_INTEGRA/BT/satel_integra_stub.h"
-#include "../../buderus/buderus.h"
+#include "../../buderus/mock/buderus_mock.h"
 
 class iDomTOOLS_ClassTest : public testing::Test
 {
@@ -18,9 +18,11 @@ public:
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     ALERT test_alarmTime;
     SATEL_INTEGRA_HANDLER_STUB test_satel;
+    std::shared_ptr<BUDERUS_MOCK> testBuderusMock;
 
     /////// method
-    iDomTOOLS_ClassTest():test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data))
+    iDomTOOLS_ClassTest():test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data)),
+                            testBuderusMock(std::make_shared<BUDERUS_MOCK>())
     {
         std::cout << "konstruktor testu " <<std::endl;
         test_server_set._server.TS_KEY = "key test";
@@ -53,7 +55,7 @@ public:
         test_my_data.main_iDomStatus->addObject("house");
 
         /////////// create
-        test_my_data.ptr_buderus = std::make_unique<BUDERUS>();
+        test_my_data.ptr_buderus = testBuderusMock;
         test_my_data.main_iDomTools = std::make_shared<iDomTOOLS>(&test_my_data);
         test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
         test_my_data.ptr_MPD_info->volume = 3;
