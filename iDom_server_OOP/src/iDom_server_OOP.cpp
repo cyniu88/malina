@@ -17,6 +17,7 @@
 #include "command/commandhandlergateway.h"
 #include "MENU/menu_root.h"
 #include "SATEL_INTEGRA/satel_integra_handler.h"
+#include "buderus/buderus.h"
 
 std::string _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer;
@@ -229,7 +230,7 @@ iDomStateEnum iDom_main()
     /////////////////////////////// iDom Tools ///////////////////////
     node_data.main_iDomTools = std::make_shared<iDomTOOLS>(&node_data);
     ///////////////////////////////// BUDERUS //////////////////////////////
-    node_data.ptr_buderus = std::make_unique<BUDERUS>();
+    node_data.ptr_buderus = std::make_shared<BUDERUS>();
     //////////////////////////////// LIGHT  ///////////////////////////////////
     node_data.main_house_room_handler = std::make_shared<house_room_handler>(&node_data);
     //std::string cf();
