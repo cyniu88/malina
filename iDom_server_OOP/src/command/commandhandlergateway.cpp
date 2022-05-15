@@ -18,6 +18,10 @@ std::string commandHandlerGATEWAY::run(std::vector<std::string> &v, thread_data 
         return "not enough parameters";
     }
 
+    my_data->main_iDomTools->sendViberMsg("iDom gateway run command",
+                                                         my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                         my_data->server_settings->_fb_viber.viberSender + "GATEWAY");
+
     if(my_data->m_keyHandler->useKEY(v[0],v[1]) == false)
     {
         return EMOJI::emoji(E_emoji::WARNING_SIGN) + " wrong key! ";
