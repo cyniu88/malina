@@ -5,7 +5,7 @@
       "bulb":{
          "wanna":{
             "bulbName":"wanna",
-            "bulbID":128,
+            "bulbID":126,
             "switchID":[
                41
             ],
@@ -24,7 +24,7 @@
          },
          "wanna2":{
             "bulbName":"wanna2",
-            "bulbID":126,
+            "bulbID":128,
             "switchID":[
                43
             ],
