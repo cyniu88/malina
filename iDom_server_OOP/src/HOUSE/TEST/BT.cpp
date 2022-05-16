@@ -147,3 +147,19 @@ TEST_F(house_fixture, load_config_button)
     CommandHandlerMQTT testCmdHandler;
     testRoomHandler->executeButtonComand(2, "long", &testCmdHandler);
 }
+
+TEST_F(house_fixture, satelSensorActive)
+{
+    testRoomHandler->turnOffAllInRoom("lazienka");
+    EXPECT_EQ(testRoomHandler->m_lightingBulbMap.at(127)->getStatus(), STATE::DEACTIVE);
+
+    test_my_data.idom_all_state.houseState = STATE::LOCK;
+    EXPECT_CALL(*main_iDomTools.get(), isItDay()).WillOnce(testing::Return(false));
+    EXPECT_CALL(*main_iDomTools.get(), sendViberMsg("alarm w pokoju lazienka",
+                                                    "R1",
+                                                    "Satel Alarm",
+                                                    "NULL",
+                                                    "NULL"));
+    testRoomHandler->m_roomMap.at("lazienka")->satelSensorActive();
+    EXPECT_EQ(testRoomHandler->m_lightingBulbMap.at(127)->getStatus(), STATE::ACTIVE);
+}

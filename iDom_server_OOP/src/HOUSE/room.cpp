@@ -21,7 +21,7 @@ void ROOM::satelSensorActive()
         log_file_cout << WARNING << "ALARM !  w pokoju " << m_name << std::endl;
         log_file_mutex.mutex_unlock();
 
-        if (useful_F::myStaticData->idom_all_state.counter++ < 10){
+        if(useful_F::myStaticData->idom_all_state.counter++ < 10){
             useful_F::myStaticData->main_iDomTools->sendViberMsg("alarm w pokoju " + m_name,
                                                                  useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
                                                                  "Satel Alarm");
