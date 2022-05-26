@@ -15,10 +15,6 @@ THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string& name
     }
 }
 
-THERMOMETER_CONTAINER::THERMOMETER_CONTAINER()
-{
-}
-
 THERMOMETER::THERMOMETER(int iter):m_stats(iter)
 {
     m_className.append(typeid (this).name());

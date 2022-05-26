@@ -61,14 +61,14 @@ commandHandler::~commandHandler()
 
 std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_data)
 {
-    if (commandMap.find(v[0]) == commandMap.end()){
+    if (commandMap.find(v.front()) == commandMap.end()){
         std::fstream log;
         log.open( "/mnt/ramdisk/command.txt", std::ios::binary | std::ios::in | std::ios::out|std::ios::app );
-        log << v[0] << std::endl;
+        log << v.front() << std::endl;
         log.close();
-        return EMOJI::emoji(E_emoji::WARNING_SIGN) + " unknown command: "+ v[0];
+        return EMOJI::emoji(E_emoji::WARNING_SIGN) + " unknown command: "+ v.front();
     }
     else{
-        return commandMap[v[0]]->execute(v,my_data);
+        return commandMap[v.front()]->execute(v,my_data);
     }
 }

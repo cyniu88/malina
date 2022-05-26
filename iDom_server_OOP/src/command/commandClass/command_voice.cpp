@@ -60,9 +60,9 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
     }
     std::fstream log;
     log.open( "/mnt/ramdisk/command.txt", std::ios::binary | std::ios::in | std::ios::out|std::ios::app );
-    log << "MQTT: " << v[0] << std::endl;
+    log << "MQTT: " << v.front() << std::endl;
     log.close();
-    return EMOJI::emoji(E_emoji::WARNING_SIGN) + " unknown command: "+ v[0];
+    return EMOJI::emoji(E_emoji::WARNING_SIGN) + " unknown command: "+ v.front();
 }
 
 std::string command_voice::help() const

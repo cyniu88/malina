@@ -7,7 +7,7 @@ class commandHandlerGATEWAY:public commandHandler
 {
 public:
     explicit commandHandlerGATEWAY(thread_data* my_data);
-    virtual ~commandHandlerGATEWAY();
+    virtual ~commandHandlerGATEWAY() = default;
 
     std::string run(std::vector<std::string> &v, thread_data *my_data) override;
 };

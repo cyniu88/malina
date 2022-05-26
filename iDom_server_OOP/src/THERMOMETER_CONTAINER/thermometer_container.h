@@ -26,8 +26,8 @@ struct temperature {
 };
 class THERMOMETER : public iDom_API
 {
-private:
-    THERMOMETER();
+
+   // THERMOMETER() = default;
 public:
     explicit THERMOMETER(int iter);
     THERMOMETER(const THERMOMETER& a);
@@ -47,7 +47,7 @@ public:
     std::map<std::string,THERMOMETER> thermoMap;
     THERMOMETER* returnThermometerPtr(const std::string &name);
 public:
-    THERMOMETER_CONTAINER();
+    THERMOMETER_CONTAINER() = default;
     void add(const std::string& name);
     void setTemp(const std::string& name, double value);
     double getTemp(const std::string& name);
