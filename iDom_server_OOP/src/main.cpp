@@ -1,5 +1,6 @@
 #include "iDom_server_OOP.h"
 
+using namespace std::chrono_literals;
 
 int main(int argc, char *argv[])
 {
@@ -8,7 +9,7 @@ int main(int argc, char *argv[])
 
     if (argc == 1)
     {
-        int t = 5;
+        auto t = 5s;
         do
         {
             try
@@ -23,7 +24,7 @@ int main(int argc, char *argv[])
             if(iDomStateProgram == iDomStateEnum::RELOAD)
             {
                 std::cout<<std::endl << "przeładowywuje program" << std::endl;
-                std::this_thread::sleep_for(std::chrono::seconds(++t));
+                std::this_thread::sleep_for((++t));
             }
         }
         while (iDomStateProgram == iDomStateEnum::RELOAD);
@@ -48,7 +49,7 @@ int main(int argc, char *argv[])
         int ret = 9;
         while (ret != 0)
         {
-            std::this_thread::sleep_for(std::chrono::seconds(1));
+            std::this_thread::sleep_for(1s);
             std::cout << "nie ma parametru wiec odpalam program "<< std::endl;
             ret = system("./iDom_server-CMAKE");
             std::cout << "system() zwraca ret " << ret <<std::endl;

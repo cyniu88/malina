@@ -4,6 +4,8 @@
 #include "../TASKER/tasker.h"
 #include "../thread_functions/iDom_thread.h"
 
+using namespace std::chrono_literals;
+
 extern int debug_level;
 bool check_title_song_to = false;
 
@@ -294,7 +296,7 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
                 log_file_cout << WARNING << "utracono polacznie z MPD "<< std::endl;
                 log_file_cout << INFO << "restart MPD" << std::endl;
                 log_file_mutex.mutex_unlock();
-                std::this_thread::sleep_for( std::chrono::milliseconds(1000) );
+                std::this_thread::sleep_for(1s);
                 system ("service mpd restart");
                 mpd_connect(obj);
             }
@@ -302,7 +304,7 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
             mpd_status_update(obj);
 
 
-            std::this_thread::sleep_for( std::chrono::milliseconds(500) );
+            std::this_thread::sleep_for(0.5s);
         } while( useful_F::go_while);
 
         // mpd_player_stop(obj); //wylaczanie mpd na koniec

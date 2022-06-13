@@ -19,6 +19,8 @@
 #include "SATEL_INTEGRA/satel_integra_handler.h"
 #include "buderus/buderus.h"
 
+using namespace std::chrono_literals;
+
 std::string _logfile = "/mnt/ramdisk/iDom_log.log";
 std::string buffer;
 Logger log_file_mutex(_logfile);
@@ -36,13 +38,13 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string& threadName){
     v.push_back("433MHz");
     v.push_back("");
 
-    std::this_thread::sleep_for(std::chrono::seconds(5));
-    command_ardu workerRFLink("ardu",my_data);
+    std::this_thread::sleep_for(5s);
+    command_ardu workerRFLink("ardu", my_data);
 
     my_data->main_RFLink->sendCommand("10;PING;");
 
     while(useful_F::go_while){
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(50ms);
 
         msgFromRFLink = rc433.receiveCode();
 
