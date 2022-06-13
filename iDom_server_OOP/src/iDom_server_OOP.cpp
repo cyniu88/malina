@@ -347,7 +347,7 @@ iDomStateEnum iDom_main()
     }
     node_data.mqttHandler->disconnect();
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    std::this_thread::sleep_for(100ms);
 
     pthread_mutex_destroy(&Logger::mutex_log);
     iDomStateProgram = node_data.iDomProgramState;

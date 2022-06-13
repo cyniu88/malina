@@ -381,6 +381,12 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
             client->c_send("CLOSE");
             break;
         }
+        catch (...){
+            log_file_mutex.mutex_lock();
+            log_file_cout << CRITICAL << "złapano wyjatek: jeszcze nie wiem jaki"  << std::endl;
+            log_file_mutex.mutex_unlock();
+            break;
+        }
 
         // ############################### koniec analizy wysylanie wyniku do RS232 lub TCP ########################
         if(client->c_send(0) == -1)
@@ -398,6 +404,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
 #endif
     iDOM_THREAD::stop_thread(threadName, my_data);
 }
+
 // przerobka adresu na ip . //////////////////////////////////
 std::string useful_F::conv_dns (std::string& temp){
 
@@ -532,7 +539,7 @@ void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
     my_data->main_Rs232->print("LED_POWER:0;");
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "zamykanie gniazda wartosc " << shutdown(v_socket, SHUT_RDWR)<< std::endl;
-    log_file_cout << ERROR << "gniazdo ind "<<strerror(errno) << std::endl;
+    log_file_cout << ERROR << "gniazdo ind "<< strerror(errno) << std::endl;
     log_file_cout << INFO << "koniec programu "<< std::endl;
     log_file_mutex.mutex_unlock();
     // zamykam gniazdo
