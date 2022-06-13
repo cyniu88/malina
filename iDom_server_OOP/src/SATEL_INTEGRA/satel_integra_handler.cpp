@@ -4,6 +4,8 @@
 #include"../functions/functions.h"
 #include "satel_integra_handler.h"
 
+using namespace std::chrono_literals;
+
 SATEL_INTEGRA_HANDLER::SATEL_INTEGRA_HANDLER(thread_data *myData): m_integra32(myData->server_settings->_satel_integra.host,
                                                                                myData->server_settings->_satel_integra.port)
 {
@@ -92,21 +94,21 @@ void SATEL_INTEGRA_HANDLER::checkAlarm(STATE &st)
 
 void SATEL_INTEGRA_HANDLER::run()
 {
-    int sleepTime = 1000;
+    auto sleepTime = 1000ms;
     while(useful_F::go_while){
         if(m_integra32.connectionState() not_eq STATE::CONNECTED)
         {
             m_integra32.connectIntegra(my_data->server_settings->_satel_integra.host,
                                        my_data->server_settings->_satel_integra.port);
-            if(sleepTime < 60000)
-                sleepTime += 100;
+            if(sleepTime < 60s)
+                sleepTime += 100ms;
         }
         else{
-            sleepTime = 1000;
+            sleepTime = 1s;
         }
         checkAlarm(my_data->idom_all_state.alarmSatelState);
         checkSatel();
-        std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+        std::this_thread::sleep_for(sleepTime);
     }
 }
 

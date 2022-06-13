@@ -4,6 +4,8 @@
 #include <array>
 #include <functional>
 
+using namespace std::chrono_literals;
+
 std::string iDOM_THREAD::start_thread(const std::string& name,
                                       std::function<void(thread_data*,const std::string& threadName)> functionToThread, //void(fn)(thread_data),
                                       thread_data* my_data,
@@ -71,7 +73,7 @@ void iDOM_THREAD::waitUntilAllThreadEnd(thread_data *my_data)
             puts("niedoczekalem sie konca watkow");
             break;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+        std::this_thread::sleep_for(1.5s);
         threadCounter = 0;
         for(auto i = my_data->main_THREAD_arr->begin(); i < my_data->main_THREAD_arr->end(); ++i)
         {

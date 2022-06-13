@@ -8,6 +8,8 @@
 #include "../functions/functions.h"
 #include "../MENU/menu_base.h"
 
+using namespace std::chrono_literals;
+
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
 void Send_Recieve_rs232_thread (thread_data *my_data, const std::string& threadName){
     my_data->main_Rs232 = std::make_unique<SerialPi>(my_data->server_settings->_rs232.portRS232);
@@ -42,9 +44,9 @@ void Send_Recieve_rs232_thread (thread_data *my_data, const std::string& threadN
                 buffor.push_back(t);
             }
         }
-        std::this_thread::sleep_for( std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(50ms);
     }
-    std::this_thread::sleep_for( std::chrono::milliseconds(1500));
+    std::this_thread::sleep_for(1.5s);
     my_data->main_Rs232->flush();
     iDOM_THREAD::stop_thread(threadName, my_data);
 }

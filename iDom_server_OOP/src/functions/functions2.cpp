@@ -105,7 +105,7 @@ void useful_F::sleeper_mpd (thread_data *my_data, const std::string& threadName)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////// watek kodi
-void useful_F::kodi (thread_data *my_data, const std::string& threadName)
+void useful_F::kodi(thread_data *my_data, const std::string& threadName)
 {
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "start wątku " << threadName << std::endl;

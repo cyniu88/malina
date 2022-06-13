@@ -11,7 +11,10 @@
 // armed partition fefe0a000000007dc4fe0d
 // output states fefe1700000000000000000000000000000000430efe0d
 
+using namespace std::chrono_literals;
+
 std::atomic<bool> workStubSatel = true;
+
 void satelServer(){
     std::cout << "start" << std::endl;
     int  MAX_buf = 1024;
@@ -72,7 +75,7 @@ void satelServer(){
         //      break;
         //  }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(100ms);
 
         if((v_sock_ind = accept(v_socket,(struct sockaddr *) & from, & len)) < 0)
         {
@@ -270,7 +273,7 @@ public:
     };
     ~satel_integra_fixture(){
         workStubSatel = false;
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(0.5s);
     }
     void startSatelServer(){
         workStubSatel = true;
@@ -293,7 +296,7 @@ TEST_F(satel_integra_fixture, checkIntegraOut)
     EXPECT_CALL(*main_iDomTools.get(), unlockHome());
     EXPECT_CALL(*main_iDomTools.get(), sendViberPicture(testing::_,testing::_,testing::_,testing::_,testing::_,testing::_));
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(1s);
 
     SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
     testIntegra.checkSatel();
@@ -319,7 +322,7 @@ TEST_F(satel_integra_fixture, turnOnOffOutput)
     EXPECT_CALL(*main_iDomTools.get(), unlockHome());
     EXPECT_CALL(*main_iDomTools.get(), sendViberPicture("alarm deaktywowany",testing::_,testing::_,testing::_,testing::_,testing::_));
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(1s);
     SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
 
     testIntegra.getSatelPTR()->outputOn(3);
@@ -334,7 +337,7 @@ TEST_F(satel_integra_fixture, isArmed)
     EXPECT_CALL(*main_iDomTools.get(), unlockHome());
     EXPECT_CALL(*main_iDomTools.get(), sendViberPicture("alarm deaktywowany",testing::_,testing::_,testing::_,testing::_,testing::_));
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(1s);
     SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
 
     EXPECT_FALSE(testIntegra.getSatelPTR()->isAlarmArmed());
@@ -344,7 +347,7 @@ TEST_F(satel_integra_fixture, armAndDisarm)
 {
     unsigned int partitionID = 1;
     startSatelServer();
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    std::this_thread::sleep_for(1s);
 
     EXPECT_CALL(*main_iDomTools.get(), unlockHome());
     EXPECT_CALL(*main_iDomTools.get(), sendViberPicture(testing::_,testing::_,testing::_,testing::_,testing::_,testing::_));
