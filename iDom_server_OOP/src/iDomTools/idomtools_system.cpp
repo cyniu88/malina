@@ -57,7 +57,9 @@ void iDomTOOLS::healthCheck()
     ////////////// RFLink ///////////
     auto t = Clock::getUnixTime()- my_data->main_RFLink->m_pingTime;
 
-    if(t > 310 && my_data->mqttHandler->_subscribed == true)
+    if(t > 310
+            and my_data->mqttHandler->_subscribed == true
+            and my_data->server_settings->_runThread.RFLink == true)
     {
         m_restartAlarmRFLink++;
         if(m_restartAlarmRFLink == 2){

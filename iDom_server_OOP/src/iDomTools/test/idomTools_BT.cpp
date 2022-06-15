@@ -617,7 +617,7 @@ TEST_F(iDomTOOLS_ClassTest, health_check)
 {
     test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER test");
     test_my_data.mqttHandler->_subscribed = true;
-
+    test_my_data.server_settings->_runThread.RFLink = true;
 
     test_my_data.main_RFLink = std::make_shared<RFLinkHandler>(&test_my_data);
     test_my_data.main_RFLink->m_pingTime = Clock::getUnixTime() - 321;
