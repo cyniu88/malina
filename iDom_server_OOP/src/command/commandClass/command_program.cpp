@@ -96,6 +96,10 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
           << my_data->server_settings->_runThread.MPD << std::endl;
         r << "my_data->server_settings->_runThread.RS232 \t"
           << my_data->server_settings->_runThread.RS232 << std::endl;
+        r << "my_data->server_settings->_runThread.RFLink \t"
+          << my_data->server_settings->_runThread.RFLink << std::endl;
+        r << "my_data->server_settings->_runThread.MQTT \t"
+          << my_data->server_settings->_runThread.MQTT<< std::endl;
         r << "my_data->server_settings->_server.TS_KEY \t"
           << my_data->server_settings->_server.TS_KEY<< std::endl;
         r << "my_data->server_settings->_fb_viber.viberAvatar \t"
