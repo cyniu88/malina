@@ -96,19 +96,25 @@ void SATEL_INTEGRA_HANDLER::run()
 {
     auto sleepTime = 1000ms;
     while(useful_F::go_while){
-        if(m_integra32.connectionState() not_eq STATE::CONNECTED)
-        {
-            m_integra32.connectIntegra(my_data->server_settings->_satel_integra.host,
-                                       my_data->server_settings->_satel_integra.port);
-            if(sleepTime < 60s)
-                sleepTime += 100ms;
+        try {
+            if(m_integra32.connectionState() not_eq STATE::CONNECTED)
+            {
+                m_integra32.connectIntegra(my_data->server_settings->_satel_integra.host,
+                                           my_data->server_settings->_satel_integra.port);
+                if(sleepTime < 60s)
+                    sleepTime += 100ms;
+            }
+            else{
+                sleepTime = 1s;
+            }
+            checkAlarm(my_data->idom_all_state.alarmSatelState);
+            checkSatel();
+            std::this_thread::sleep_for(sleepTime);
+        }  catch (...) {
+            log_file_mutex.mutex_lock();
+            log_file_cout << ERROR << "wyjątek w  SATEL_INTEGRA_HANDLER::run()"  << std::endl;
+            log_file_mutex.mutex_unlock();
         }
-        else{
-            sleepTime = 1s;
-        }
-        checkAlarm(my_data->idom_all_state.alarmSatelState);
-        checkSatel();
-        std::this_thread::sleep_for(sleepTime);
     }
 }
 

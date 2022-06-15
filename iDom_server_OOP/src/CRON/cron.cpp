@@ -19,22 +19,29 @@ void CRON::run()
 
         if (min != act_date->tm_min && useful_F::go_while)
         {
-            runEveryone_1min(act_date);
-            if (act_date->tm_min % 5 == 0 )
-            {
-                runEveryone_5min();
-            }
-            if (act_date->tm_min % 15 == 0 )
-            {
-                runEveryone_15min();
-            }
-            if (act_date->tm_min % 30 == 0 )
-            {
-                runEveryone_30min();
-            }
-            if (act_date->tm_min == 0 )
-            {
-                runEveryone_1h();
+            try {
+
+                runEveryone_1min(act_date);
+                if (act_date->tm_min % 5 == 0 )
+                {
+                    runEveryone_5min();
+                }
+                if (act_date->tm_min % 15 == 0 )
+                {
+                    runEveryone_15min();
+                }
+                if (act_date->tm_min % 30 == 0 )
+                {
+                    runEveryone_30min();
+                }
+                if (act_date->tm_min == 0 )
+                {
+                    runEveryone_1h();
+                }
+            }  catch (...) {
+                log_file_mutex.mutex_lock();
+                log_file_cout << ERROR << "wyjatek w cron run() " << std::endl;
+                log_file_mutex.mutex_unlock();
             }
             min = act_date->tm_min;
         }
@@ -96,10 +103,10 @@ void CRON::runEveryone_30min()
 void CRON::runEveryone_1h()
 {
     my_data->myEventHandler.clearOld(8000, 1000, [](const std::string& name){
-            log_file_mutex.mutex_lock();
-            log_file_cout << INFO << "skasowano nadmiarowe eventy w: "<< name << std::endl;
-            log_file_mutex.mutex_unlock();
-        });
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "skasowano nadmiarowe eventy w: "<< name << std::endl;
+        log_file_mutex.mutex_unlock();
+    });
 }
 
 void CRON::runOnSunset()
