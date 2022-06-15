@@ -162,6 +162,7 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "thread RS232 \t" << server_settings._runThread.RS232 << std::endl;
     log_file_cout << INFO << "thread DUMMY \t" << server_settings._runThread.DUMMY << std::endl;
     log_file_cout << INFO << "thread MQTT \t" << server_settings._runThread.MQTT << std::endl;
+    log_file_cout << INFO << "thread RFLink \t" << server_settings._runThread.RFLink << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
     log_file_cout << DEBUG << "zbudowany dnia: " << __DATE__ << " o godzinie: " << __TIME__ << std::endl;
@@ -184,7 +185,8 @@ iDomStateEnum iDom_main()
     bool rflink_work = node_data.main_RFLink->init();
     // node_data.main_RFLink = std::move(rflinkHandler);
 
-    if (rflink_work == true){
+    if (rflink_work == true and server_settings._runThread.RFLink == true)
+    {
         //start watku czytania RFLinka
         iDOM_THREAD::start_thread("RFLink thread",
                                   RFLinkHandlerRUN,
