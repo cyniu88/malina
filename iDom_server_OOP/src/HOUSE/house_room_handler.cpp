@@ -225,8 +225,9 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
     try {
         auto vv = useful_F::split(msg,';');
         int bulbID = std::stoi(vv.at(1));
+        int bulbState = std::stoi(vv.at(3));
         // DingDong  dzownek
-        if(bulbID == 88){
+        if(bulbID == 88 and bulbState == 1 ){
             my_data->main_iDomTools->doorbellDingDong();
             my_data->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
                                                       "https://c8.alamy.com/comp/2C2EMMC/hand-push-the-bell-button-at-the-front-door-finger-presses-the-doorbell-switch-person-rings-in-the-apartment-flat-vector-illustration-2C2EMMC.jpg",
@@ -241,7 +242,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
 
             STATE state;
 
-            if(std::stoi(vv.at(3)) == 1)
+            if(bulbState == 1)
                 state = STATE::ON;
             else
                 state = STATE::OFF;
