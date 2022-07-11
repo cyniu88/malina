@@ -9,6 +9,28 @@
 
 class LCD_c : public iDom_API
 {
+    // przyklad ze strony "arduinowo.pl"
+    byte arrowDown[8] ={
+                          0b00100,
+                          0b00100,
+                          0b00100,
+                          0b00100,
+                          0b00100,
+                          0b11111,
+                          0b01110,
+                          0b00100
+                         };
+
+    byte arrowUp[8] ={
+                          0b00100,
+                          0b01110,
+                          0b11111,
+                          0b00100,
+                          0b00100,
+                          0b00100,
+                          0b00100,
+                          0b00100
+                         };
 public:
     LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows);
     ~LCD_c();

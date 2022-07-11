@@ -1,6 +1,7 @@
 #include <sstream>
 
 #include "menu_maintenance.h"
+#include "menu_main.h"
 #include "menu_root.h"
 #include "../functions/functions.h"
 
@@ -34,7 +35,7 @@ void MENU_MAINTENANCE::keyPadOk()
 
 void MENU_MAINTENANCE::keyPadRes()
 {
-    changeStateTo<MENU_ROOT>();
+    changeStateTo<MENU_MAIN>();
 }
 
 void MENU_MAINTENANCE::keyPadUp()
@@ -54,17 +55,16 @@ void MENU_MAINTENANCE::keyPadLeft()
     --counter;
     std::string("gg");
     std::stringstream ss;
-        ss << counter << " : " << (char)counter;
+    ss << counter << " : " << (char)counter;
     print("dane: ", ss.str());
 }
 
 void MENU_MAINTENANCE::keyPadRight()
 {
-
     ++counter;
     std::string("gg");
     std::stringstream ss;
-        ss << counter << " : " << (char)counter;
+    ss << counter << " : " << (char)counter;
     print("dane: ", ss.str());
 }
 
