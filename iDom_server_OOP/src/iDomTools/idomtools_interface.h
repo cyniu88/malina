@@ -141,6 +141,7 @@ public:
     virtual void close_iDomServer [[ noreturn ]]() = 0;
     virtual void reloadSoft_iDomServer[[ noreturn ]] () = 0;
     virtual void reloadHard_iDomServer[[ noreturn ]] () = 0;
+    virtual void raspberryReboot[[ noreturn ]] () = 0;
 
     //////////////////////// iDom_API /////////////////////
     //std::string dump() const override;

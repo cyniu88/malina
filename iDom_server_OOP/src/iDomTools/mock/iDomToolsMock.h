@@ -126,6 +126,7 @@ public:
     MOCK_METHOD0(close_iDomServer, void ());
     MOCK_METHOD0(reloadSoft_iDomServer, void ());
     MOCK_METHOD0(reloadHard_iDomServer, void ());
+    MOCK_METHOD0(raspberryReboot, void ());
 
     //////////////////////// iDom_API /////////////////////
     //std::string dump() const override;

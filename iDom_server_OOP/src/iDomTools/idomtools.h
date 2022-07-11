@@ -149,6 +149,7 @@ public:
     void close_iDomServer [[ noreturn ]]() override;
     void reloadSoft_iDomServer[[ noreturn ]] () override;
     void reloadHard_iDomServer[[ noreturn ]] () override;
+    void raspberryReboot[[ noreturn ]] () override;
 
     //////////////////////// iDom_API /////////////////////
     std::string dump() const override;

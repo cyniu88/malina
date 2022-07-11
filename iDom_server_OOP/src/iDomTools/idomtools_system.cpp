@@ -69,11 +69,11 @@ void iDomTOOLS::healthCheck()
             my_data->main_iDomTools->reloadHard_iDomServer();
         }
         //else if(m_restartAlarmRFLink == 2){
-            my_data->main_RFLink = std::make_shared<RFLinkHandler>(my_data);
-            useful_F::sleep(1);
-            my_data->main_RFLink->init();
+        my_data->main_RFLink = std::make_shared<RFLinkHandler>(my_data);
+        useful_F::sleep(1);
+        my_data->main_RFLink->init();
 
-            //my_data->main_RFLink->sendCommand("10;REBOOT;");
+        //my_data->main_RFLink->sendCommand("10;REBOOT;");
         //}
         std::string m("brak połaczenia RS232 z RFLink'iem");
         std::cout << "brak pingu RFLinka 433MHz t: " << t << std::endl;
@@ -130,7 +130,17 @@ void iDomTOOLS::reloadHard_iDomServer()
     throw s;
 }
 
-void  iDomTOOLS::close_iDomServer ()
+void iDomTOOLS::raspberryReboot()
+{
+    std::string s = "close server";
+    iDomTOOLS::MPD_stop();
+    my_data->iDomProgramState = iDomStateEnum::CLOSE;
+    my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
+    throw s;
+    useful_F::runLinuxCommand("shutdown -r now");
+}
+
+void iDomTOOLS::close_iDomServer ()
 {
     std::string s = "close server";
     iDomTOOLS::MPD_stop();
