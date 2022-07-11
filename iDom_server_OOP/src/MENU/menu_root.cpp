@@ -100,13 +100,13 @@ void MENU_ROOT::keyPadEpg()
     std::stringstream ss;
     if(tempCounter == 0){
         ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getInsideTemp()
-           << "      " << my_dataPTR->ptr_buderus->getOutdoorTemp();
+           << (char)223 <<"c   " << my_dataPTR->ptr_buderus->getOutdoorTemp() << ((char)223) << "c";
         quickPrint("Temp: in    out", ss.str());
         tempCounter++;
     }
     else{
         ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getBoilerTemp()
-           << "      " << my_dataPTR->ptr_buderus->getCurFlowTemp();
+           << (char)223 <<"c   " << my_dataPTR->ptr_buderus->getCurFlowTemp() << ((char)223) << "c";
         quickPrint("boiler   curFlow", ss.str());
     }
     my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
