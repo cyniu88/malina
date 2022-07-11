@@ -71,7 +71,7 @@ protected:
     thread_data* my_dataPTR;
     LCD_c* lcdPTR;
     MENU_STATE_MACHINE* stateMachinePTR;
-    std::string arrow = R"(/\          \/)";
+    std::string arrow = (char)0 + "              " + (char)1;
     STATE lcdLED = STATE::OFF;
 public:
     MENU_STATE_BASE(thread_data* my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm, STATE lcdLED = STATE::OFF);
