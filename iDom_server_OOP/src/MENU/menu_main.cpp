@@ -6,6 +6,7 @@
 #include "menu_kodi.h"
 #include "menu_buderus.h"
 #include "menu_info.h"
+#include "menu_maintenance.h"
 
 MENU_MAIN::MENU_MAIN(thread_data* my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED): MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
 {
@@ -60,6 +61,7 @@ void MENU_MAIN::entry()
     menuDatabase.pushBack({"   KODI",    [=]() { changeStateTo<MENU_KODI>();}});
     menuDatabase.pushBack({"   INFO",    [=]() { changeStateTo<MENU_INFO>();}});
     menuDatabase.pushBack({"   BUDERUS", [=]() { changeStateTo<MENU_BUDERUS>();}});
+    menuDatabase.pushBack({" MAINTENANCE", [=]() { changeStateTo<MENU_MAINTENANCE>();}});
     menuDatabase.pushBack({"   EXIT",    [=]() { changeStateTo<MENU_ROOT>();}});
     print(menuDatabase.getCurrent().name, arrow);
     my_dataPTR->main_Rs232->print("TIMEOUT:30000;");

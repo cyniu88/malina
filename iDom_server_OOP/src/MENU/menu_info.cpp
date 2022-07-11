@@ -48,7 +48,7 @@ MENU_INFO::~MENU_INFO()
 void MENU_INFO::entry()
 {
     m_infoDatabase.insert(std::pair<std::string, std::string>("smog", my_dataPTR->main_iDomTools->getSmog()));
-    m_infoDatabase.insert(std::pair<std::string, std::string>("temperatura na piecu", std::to_string(my_dataPTR->ptr_buderus->getCurFlowTemp())));
+    m_infoDatabase.insert(std::pair<std::string, std::string>("temperatura na piecu", std::to_string(my_dataPTR->ptr_buderus->getCurFlowTemp() + ((char)223))));
     m_infoDatabase.insert(std::pair<std::string, std::string>("dlugosc dnia", my_dataPTR->main_iDomTools->getDayLenght()));
     m_infoDatabase.insert(std::pair<std::string, std::string>("wschod slonca", my_dataPTR->main_iDomTools->getSunrise()));
     m_infoDatabase.insert(std::pair<std::string, std::string>("zachod slonca", my_dataPTR->main_iDomTools->getSunset()));

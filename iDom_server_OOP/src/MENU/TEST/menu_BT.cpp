@@ -183,6 +183,7 @@ TEST_F(menu_state_machine_fixture, MENU_KODI)
     main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
     main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
     main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
+    main_key_menu_handler->recKeyEvent(KEY_PAD::DOWN);
 
     EXPECT_CALL(*main_iDomTools.get(), MPD_play(testing::_)).Times(2);
     main_key_menu_handler->recKeyEvent(KEY_PAD::OK);
