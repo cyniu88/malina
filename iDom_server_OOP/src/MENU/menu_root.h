@@ -22,6 +22,7 @@ public:
     void keyPadLeft() override;
     void keyPadRight() override;
     void keyPadEpg() override;
+    void keyPadRes() override;
     void reboot() override;
     void timeout(std::function<void()> function = std::nullptr_t()) override;
     void offLcd() override;

@@ -37,6 +37,7 @@ public:
     void init();
     void noBacklight();
     void clear();
+    void scrollLeft();
     void printString(const std::string& row1, const std::string& row2, bool clear = false);
     std::string getData();
     std::string dump() const override;

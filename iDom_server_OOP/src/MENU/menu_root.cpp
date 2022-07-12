@@ -112,6 +112,11 @@ void MENU_ROOT::keyPadEpg()
     my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
 }
 
+void MENU_ROOT::keyPadRes()
+{
+    lcdPTR->scrollLeft();
+}
+
 void MENU_ROOT::reboot()
 {
     my_dataPTR->main_iDomTools->reloadHard_iDomServer();
