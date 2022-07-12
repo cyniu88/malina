@@ -17,6 +17,10 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_da
     {
         throw 888;
     }
+	else if (v[1] == "reboot")
+	{
+		my_data->main_iDomTools->raspberryReboot();
+	}
     return help();
 }
 std::string commandTEST::help() const

@@ -340,7 +340,7 @@ iDomStateEnum iDom_main()
 
     useful_F::startServer(&node_data, &mainTasker);
 
-    if (node_data.iDomProgramState == iDomStateEnum::CLOSE)
+    if (node_data.iDomProgramState == iDomStateEnum::CLOSE or node_data.iDomProgramState == iDomStateEnum::RASPBERRY_RELOAD)
     {
         node_data.main_iDomTools->MPD_stop();
         node_data.main_iDomTools->turnOffSpeakers();

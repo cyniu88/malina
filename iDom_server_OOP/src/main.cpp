@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
             }
             if(iDomStateProgram == iDomStateEnum::RELOAD)
             {
-                std::cout<<std::endl << "przeładowywuje program" << std::endl;
+                std::cout << std::endl << "przeładowywuje program" << std::endl;
                 std::this_thread::sleep_for((++t));
             }
         }
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
         {
             std::cout << "zamykam program" << std::endl;
             return 0;
-        }        if(iDomStateProgram == iDomStateEnum::CLOSE)
+        }
         else if(iDomStateProgram == iDomStateEnum::RASPBERRY_RELOAD){
             std::cout << "zamykam program i robie restart maliny" << std::endl;
             return 10;
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
         }
         else if (iDomStateProgram == iDomStateEnum::HARD_RELOAD)
         {
-            return 2;
+            return 3;
         }
     }
     else
@@ -54,11 +54,15 @@ int main(int argc, char *argv[])
         while (ret != 0)
         {
             std::this_thread::sleep_for(1s);
-            std::cout << "nie ma parametru wiec odpalam program "<< std::endl;
+            std::cout << "nie ma parametru wiec odpalam program " << ret << std::endl;
             ret = system("./iDom_server-CMAKE");
-            std::cout << "system() zwraca ret " << ret <<std::endl;
-            if (ret == 10)
-                system("shutdown -r now");
+            std::cout << "system() zwraca ret " << std::hex << ret << std::endl;
+			
+            if (ret == 2560)
+			{
+				std::cout << "reboot maliny " << system("shutdown -r now") << std::endl;
+			}
+			
         }
         std::cout << "ZAMYKAM NA AMEN" << std::endl;
     }
