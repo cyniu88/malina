@@ -4,7 +4,7 @@ LCD_c::LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows ) : main_lcd (
 {
     main_lcd.init();
     main_lcd.noCursor();
-    main_lcd.autoscroll();
+    //main_lcd.autoscroll();
     main_lcd.createChar(0, arrowDown);
     main_lcd.createChar(1, arrowUp);
     m_className.append(typeid(this).name());
