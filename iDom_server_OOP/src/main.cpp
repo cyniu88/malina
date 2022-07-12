@@ -33,6 +33,10 @@ int main(int argc, char *argv[])
         {
             std::cout << "zamykam program" << std::endl;
             return 0;
+        }        if(iDomStateProgram == iDomStateEnum::CLOSE)
+        else if(iDomStateProgram == iDomStateEnum::RASPBERRY_RELOAD){
+            std::cout << "zamykam program i robie restart maliny" << std::endl;
+            return 10;
         }
         else if (iDomStateProgram == iDomStateEnum::ERROR)
         {
@@ -53,6 +57,8 @@ int main(int argc, char *argv[])
             std::cout << "nie ma parametru wiec odpalam program "<< std::endl;
             ret = system("./iDom_server-CMAKE");
             std::cout << "system() zwraca ret " << ret <<std::endl;
+            if (ret == 10)
+                system("shutdown -r now");
         }
         std::cout << "ZAMYKAM NA AMEN" << std::endl;
     }

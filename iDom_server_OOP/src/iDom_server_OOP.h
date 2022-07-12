@@ -76,7 +76,8 @@ enum class iDomStateEnum{
     RELOAD,
     ERROR,
     WORKING,
-    HARD_RELOAD
+    HARD_RELOAD,
+    RASPBERRY_RELOAD
 };
 
 namespace iDomConst

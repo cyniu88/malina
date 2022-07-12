@@ -14,7 +14,8 @@ void MENU_MAINTENANCE::entry()
 {
     menuDatabase.pushBack({"  HARD RELOAD",    [=]() {print("iDom RELOAD",""); 
 													  my_dataPTR->main_iDomTools->reloadHard_iDomServer();}});
-    menuDatabase.pushBack({"RASPBERRY RELOAD", [=]() { my_dataPTR->main_iDomTools->raspberryReboot();}});
+    menuDatabase.pushBack({"RASPBERRY RELOAD", [=]() {print("Raspberry", "RELOAD");
+                                                      my_dataPTR->main_iDomTools->raspberryReboot();}});
     print(menuDatabase.getCurrent().name, arrow);
     my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
 }

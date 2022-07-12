@@ -132,12 +132,11 @@ void iDomTOOLS::reloadHard_iDomServer()
 
 void iDomTOOLS::raspberryReboot()
 {
-    std::string s = "close server";
+    std::string s = "raspberry reload";
     iDomTOOLS::MPD_stop();
-    my_data->iDomProgramState = iDomStateEnum::CLOSE;
+    my_data->iDomProgramState = iDomStateEnum::RASPBERRY_RELOAD;
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
     throw s;
-    useful_F::runLinuxCommand("shutdown -r now");
 }
 
 void iDomTOOLS::close_iDomServer ()
