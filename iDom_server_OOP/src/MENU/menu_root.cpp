@@ -106,7 +106,7 @@ void MENU_ROOT::keyPadEpg()
     }
     else{
         ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getBoilerTemp()
-           << (char)223 <<"c   " << my_dataPTR->ptr_buderus->getCurFlowTemp() << ((char)223) << "c";
+           << celsiusDegrees << "    " << my_dataPTR->ptr_buderus->getCurFlowTemp() << celsiusDegrees;
         quickPrint("boiler   curFlow", ss.str());
     }
     my_dataPTR->main_Rs232->print("TIMEOUT:3000;");

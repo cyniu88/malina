@@ -73,6 +73,7 @@ protected:
     MENU_STATE_MACHINE* stateMachinePTR;
     const std::string arrow = std::string(1,(char)8) + "              " + std::string(1,(char)9);
     STATE lcdLED = STATE::OFF;
+    const std::string celsiusDegrees = std::string(1,(char)223) + "c";
 public:
     MENU_STATE_BASE(thread_data* my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm, STATE lcdLED = STATE::OFF);
     MENU_STATE_BASE(const MENU_STATE_BASE& base);

@@ -67,3 +67,8 @@ void LCD_c::scrollLeft()
 {
     main_lcd.scrollDisplayLeft();
 }
+
+void LCD_c::scrollRight()
+{
+    main_lcd.scrollDisplayRight();
+}

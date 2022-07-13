@@ -33,6 +33,11 @@ void LCD_c::scrollLeft()
     std::cout << "LCD_c::scrollLeft()"  <<std::endl;
 }
 
+void LCD_c::scrollRight()
+{
+
+}
+
 void LCD_c::printString(const std::string &row1, const std::string &row2, bool clear)
 {
    std::cout << "Wyświetlam na LCD: " << std::endl << row1 << std::endl << row2 << std::endl;

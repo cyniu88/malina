@@ -42,8 +42,8 @@ MENU_BUDERUS::~MENU_BUDERUS()
 void MENU_BUDERUS::entry()
 {
     menuDatabase.pushBack({"RUN CIRCLE PUMP", [=](){my_dataPTR->ptr_buderus->runCirclePompForWhile();  changeStateTo<MENU_ROOT>(); return "done";}});
-    menuDatabase.pushBack({"TEMP INSIDE", [=](){return to_string_with_precision(my_dataPTR->ptr_buderus->getInsideTemp());}});
-    menuDatabase.pushBack({"TEMP OUTDOOR", [=](){return to_string_with_precision(my_dataPTR->ptr_buderus->getOutdoorTemp());}});
+    menuDatabase.pushBack({"TEMP INSIDE", [=](){return to_string_with_precision(my_dataPTR->ptr_buderus->getInsideTemp()) + celsiusDegrees;}});
+    menuDatabase.pushBack({"TEMP OUTDOOR", [=](){return to_string_with_precision(my_dataPTR->ptr_buderus->getOutdoorTemp()) + celsiusDegrees;}});
     menuDatabase.pushBack({"   EXIT",   [=]() { changeStateTo<MENU_ROOT>(); return "done";}});
     print(menuDatabase.getCurrent().name, arrow);
 }
