@@ -84,6 +84,10 @@ void KEY_HANDLER::recKeyEvent(KEY_PAD eventId)
         break;
     case KEY_PAD::TIMEOUT: stateMachinePtr->currentState->timeout();
         break;
+    default:
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG << "KEY_HANDLER::recKeyEvent received: " << static_cast<std::underlying_type_t<KEY_PAD>>(eventId) << std::endl;
+        log_file_mutex.mutex_unlock();
     }
 }
 
@@ -93,6 +97,10 @@ void KEY_HANDLER::recIrdaEvent(PILOT_KEY eventId)
     switch (eventId) {
     case PILOT_KEY::KEY_MENU: stateMachinePtr->currentState->keyPadMenu();
         break;
+    default:
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG << "KEY_HANDLER::recIrdaEvent received: " << static_cast<std::underlying_type_t<PILOT_KEY>>(eventId) << std::endl;
+        log_file_mutex.mutex_unlock();
 //TODO  add more event
     }
 

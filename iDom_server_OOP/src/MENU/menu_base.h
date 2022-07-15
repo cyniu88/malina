@@ -42,7 +42,7 @@ enum class PILOT_KEY{
     DUMMY
 };
 
-enum class KEY_PAD{
+enum class KEY_PAD : int{
     POWER = 1,
     OK = 2,
     RES = 4,
