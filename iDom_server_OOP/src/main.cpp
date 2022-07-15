@@ -1,12 +1,31 @@
+
+#include <signal.h>
 #include "iDom_server_OOP.h"
 
 using namespace std::chrono_literals;
 
+    void my_sig_handler(int s)
+    {
+        printf("Caught signal %d\n", s);
+       // goWork = false;
+    }
+
+    void catchSigInt()
+    {
+        struct sigaction sigIntHandler;
+
+        sigIntHandler.sa_handler = my_sig_handler;
+        sigemptyset(&sigIntHandler.sa_mask);
+        sigIntHandler.sa_flags = 0;
+
+        sigaction(SIGINT, &sigIntHandler, NULL);
+    }
+	
 int main(int argc, char *argv[])
 {
     iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
     std::cout << "startujemy program iDom" << std::endl;
-
+    catchSigInt();
     if (argc == 1)
     {
         auto t = 5s;
