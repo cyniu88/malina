@@ -15,7 +15,7 @@ SATEL_INTEGRA_HANDLER::SATEL_INTEGRA_HANDLER(thread_data *myData): m_integra32(m
     m_integra32.setIntegraPin(my_data->server_settings->_satel_integra.pin);
     myData->satelIntegraHandler = static_cast<SATEL_INTEGRA_HANDLER_INTERFACE*>(this);
 
-    checkAlarm(my_data->idom_all_state.alarmSatelState);
+    this->checkAlarm(my_data->idom_all_state.alarmSatelState);
 }
 
 SATEL_INTEGRA_HANDLER::~SATEL_INTEGRA_HANDLER()

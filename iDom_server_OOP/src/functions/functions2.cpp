@@ -291,13 +291,17 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     int recvSize = client->c_recv(0);
     if(recvSize == -1)
     {
-        key_ok = false;
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) << std::endl;
+        log_file_mutex.mutex_unlock();
+        delete client;
+        my_data->main_Rs232->print("LED_AT:0;");
+        iDOM_THREAD::stop_thread(threadName, my_data);
+        return;
     }
     std::string KEY_OWN = useful_F::RSHash();
     client->setEncriptionKey(KEY_OWN);
     std::string KEY_rec = client->c_read_buf(recvSize);
-
-    //std::cout <<"WYNIK:" << KEY_rec <<"a to wlasny" << KEY_OWN<<"!"<<std::endl;
 
     if(KEY_rec == KEY_OWN) // stop runing idom_server
     {
@@ -312,10 +316,10 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     {
         key_ok = false;
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) <<std::endl;
-        log_file_cout << CRITICAL << "KEY RECIVED: " << KEY_rec << " KEY SERVER: "<< KEY_OWN <<std::endl;
+        log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) << std::endl;
+        log_file_cout << CRITICAL << "KEY RECIVED: " << KEY_rec << " KEY SERVER: "<< KEY_OWN << std::endl;
         client->cryptoLog(KEY_rec);// setEncriptionKey(KEY_rec);
-        log_file_cout << CRITICAL << "KEY UNCRIPTED RECIVED\n\n " << KEY_rec <<"\n\n"<< std::endl;
+        log_file_cout << CRITICAL << "KEY UNCRIPTED RECIVED\n\n " << KEY_rec << "\n\n" << std::endl;
         log_file_mutex.mutex_unlock();
 
         std::string msg = "podano zły klucz autentykacji - sprawdz logi ";

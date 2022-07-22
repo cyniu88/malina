@@ -400,14 +400,9 @@ std::string SATEL_INTEGRA::getFullFrame(const unsigned char* pCmd, const unsigne
     result.push_back(INTEGRA_ENUM::HEADER_MSG);
     result.push_back(INTEGRA_ENUM::END);
 
-    unsigned int resultSize = result.size();
-    unsigned char* pResult = new unsigned char[resultSize];
-    memset(pResult, 0, resultSize);
-    std::list<unsigned char>::iterator it = result.begin();
-    for (unsigned int index = 0; it != result.end(); ++it, ++index)
+    for(const auto& it : result)
     {
-        message.push_back( *it);
+        message.push_back(it);
     }
-
     return message;
 }

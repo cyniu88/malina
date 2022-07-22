@@ -36,7 +36,7 @@ void Send_Recieve_rs232_thread (thread_data *my_data, const std::string& threadN
                     my_data->main_key_menu_handler->timeout();
                 }
                 else{
-                    my_data->mqttHandler->publish("rs232",buffor);
+                    my_data->mqttHandler->publish("rs232", buffor);
                 }
                 buffor.clear();
             }
