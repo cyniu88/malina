@@ -23,7 +23,7 @@ C_connection::~C_connection()
 {
     iDom_API::removeFromMap(m_className);
 
-    useful_F::sleep(3);
+    useful_F::sleep(3s);
 
     shutdown(c_socket, SHUT_RDWR );
 #ifdef BT_TEST

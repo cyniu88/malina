@@ -1,6 +1,5 @@
 #include "menu_root.h"
 #include "menu_main.h"
-#include "menu_music.h"
 
 MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED):
     MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED),
@@ -116,7 +115,7 @@ void MENU_ROOT::keyPadEpg()
 
 void MENU_ROOT::keyPadRes()
 {
-    lcdPTR->scrollLeft();
+    this->scrollText();
 }
 
 void MENU_ROOT::reboot()
@@ -139,6 +138,9 @@ void MENU_ROOT::quickPrint(const std::string &row1, const std::string &row2)
 {
     lcdPTR->clear();
     lcdPTR->printString(row1, row2);
+    this->row1 = row1;
+    this->row2 = row2;
+    numberOfCharCounter = row1.size() - numberOfChar;
 }
 
 void MENU_ROOT::volumeUp()
@@ -173,4 +175,20 @@ void MENU_ROOT::mpdNext()
 void MENU_ROOT::mpdPrev()
 {
     my_dataPTR->main_iDomTools->MPD_prev();
+}
+
+void MENU_ROOT::scrollText()
+{
+    if(row1.size() > numberOfChar)
+    {
+        if(numberOfCharCounter != 0)
+        {
+            lcdPTR->scrollLeft();
+            --numberOfCharCounter;
+        }
+        else
+        {
+            quickPrint(this->row1, this->row2);
+        }
+    }
 }

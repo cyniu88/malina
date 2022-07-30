@@ -1,5 +1,4 @@
 #include "command_mpd.h"
-#include "../../blockQueue/blockqueue.h"
 #include "../../functions/functions.h"
 
 command_mpd::command_mpd(const std::string &name) :command(name)
@@ -18,14 +17,14 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
             if (id > 0)
             {
                 my_data->main_iDomTools->MPD_play(my_data,id);
-                useful_F::sleep(1);
+                useful_F::sleep(1s);
                 str_buf = my_data->ptr_MPD_info->songList[id-1];
             }
         }
         else
         {
             my_data->main_iDomTools->MPD_play(my_data);
-            useful_F::sleep(1);
+            useful_F::sleep(1s);
             str_buf = my_data->ptr_MPD_info->title;
         }
         my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
@@ -39,13 +38,13 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
     else if (v[1] == "next")
     {
         my_data->main_iDomTools->MPD_next();
-        useful_F::sleep(1);
+        useful_F::sleep(1s);
         str_buf = my_data->ptr_MPD_info->radio + " : "+ my_data->ptr_MPD_info->title;
     }
     else if (v[1] == "prev")
     {
         my_data->main_iDomTools->MPD_prev();
-        useful_F::sleep(1);
+        useful_F::sleep(1s);
         str_buf = my_data->ptr_MPD_info->radio+ " : "+ my_data->ptr_MPD_info->title;
     }
     else if (v[1] == "pause")

@@ -3,13 +3,10 @@
 #include <string>
 #include <typeinfo>
 
-#include "idomtools.h"
 #include "../../libs/emoji/emoji.h"
 #include "../functions/functions.h"
-#include "../CRON/cron.hpp"
 #include "../RADIO_433_eq/radio_433_eq.h"
 #include "../thread_functions/iDom_thread.h"
-#include "../SATEL_INTEGRA/satel_integra_handler.h"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData):
     m_key(myData->server_settings->_server.TS_KEY)

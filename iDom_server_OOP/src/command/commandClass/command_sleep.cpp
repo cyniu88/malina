@@ -23,7 +23,7 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
 
             my_data->sleeper = sleep;
 
-            return iDOM_THREAD::start_thread("Sleep MPD",useful_F::sleeper_mpd,my_data);
+            return iDOM_THREAD::start_thread("Sleep MPD",useful_F::sleeper_mpd, my_data);
         }
         else {
             return "wrong parametr " + v[1];

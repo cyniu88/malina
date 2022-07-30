@@ -62,7 +62,7 @@ void SATEL_INTEGRA::disconnectIntegra()
 void SATEL_INTEGRA::reconnectIntegra()
 {
     disconnectIntegra();
-    useful_F::sleep(1);
+    useful_F::sleep(1s);
     connectIntegra(m_host,m_port);
 }
 

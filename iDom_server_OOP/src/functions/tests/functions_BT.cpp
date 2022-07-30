@@ -18,9 +18,9 @@ functions_fixture():
     std::shared_ptr<iDomToolsMock> main_iDomTools;
 };
 
-void useful_F::sleep(int sec)
+void useful_F::sleep(std::chrono::seconds sec)
 {
-    std::cout << "sleep() sec: " << sec <<std::endl;
+    std::cout << "sleep() sec: " << sec.count() << std::endl;
 }
 
 TEST(functions_, tokenizer)

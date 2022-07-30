@@ -11,6 +11,7 @@
 #include "../iDom_server_OOP.h"
 #include "../c_connection/c_connection.h"
 #include "../TASKER/tasker.h"
+using namespace std::chrono_literals;
 
 class useful_F {
 
@@ -38,7 +39,7 @@ public:
 
     static int runLinuxCommand(const std::string& cmd);
 
-    static void sleep(int sec);
+    static void sleep(std::chrono::seconds sec = 1s);
     static void Server_connectivity_thread(thread_data *my_data, const std::string &threadName);
     static void startServer(thread_data *my_data, TASKER *my_tasker);
 };

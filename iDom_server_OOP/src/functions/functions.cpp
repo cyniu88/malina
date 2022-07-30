@@ -1,6 +1,5 @@
 
 #include "functions.h"
-#include "../../libs/config_parser/parser.hpp"
 
 bool useful_F::go_while = true;
 bool useful_F::workServer = true;
@@ -58,9 +57,9 @@ void binary(int val)
 //    }
 //}
 
-void useful_F::sleep(int sec)
+void useful_F::sleep(std::chrono::seconds sec)
 {
-    std::this_thread::sleep_for( std::chrono::seconds(sec) );
+    std::this_thread::sleep_for(sec);
 }
 
 int useful_F::runLinuxCommand(const std::string &cmd)
