@@ -98,7 +98,7 @@ public:
     virtual void keyPadEpg()  {std::cout << __func__ << " pressed" << std::endl;};
     virtual void reboot()     {std::cout << __func__ << " pressed" << std::endl;};
     virtual void offLcd()     {std::cout << __func__ << " pressed" << std::endl;};
-    virtual void scrollText() {std::cout << __func__ << " called" << std::endl;};
+    virtual void scrollText() {};
     virtual void print(const std::string &row1, const std::string &row2 = "") const{
         lcdPTR->clear();
         lcdPTR->printString(row1, row2);

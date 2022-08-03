@@ -179,9 +179,10 @@ void MENU_ROOT::mpdPrev()
 
 void MENU_ROOT::scrollText()
 {
-    if((Clock::getUnixTime() - time) < 2)
+    if((Clock::getUnixTime() - time) < offset)
         return;
     time = Clock::getUnixTime();
+    offset = 1;
     if(_row1.size() > numberOfChar)
     {
         if(numberOfCharCounter != 0)
@@ -191,6 +192,7 @@ void MENU_ROOT::scrollText()
         }
         else
         {
+            offset = 4;
             quickPrint(this->_row1, this->_row2);
         }
     }

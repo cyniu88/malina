@@ -112,7 +112,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
                 if (_msg.size() < 7 )
                 {
                     _msg = song->name;
-                    _msg += " -     brak nazwy                ";
+                    _msg += " -brak nazwy";
                 }
             }
             else if (song->artist != NULL){
@@ -120,7 +120,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             }
             else
             {
-                _msg += " -     brak nazwy      ";
+                _msg += " -brak nazwy";
             }
              my_data->ptr_MPD_info->title = _msg;
              my_data->main_key_menu_handler->quickPrint(_msg, "");

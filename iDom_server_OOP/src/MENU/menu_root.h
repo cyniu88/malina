@@ -35,6 +35,7 @@ private:
     void mpdPrev();
     int tempCounter;
     const unsigned int numberOfChar = 16;
+    unsigned int offset = 4;
     int numberOfCharCounter = 0;
     void scrollText() override;
     unsigned int time = 0;
