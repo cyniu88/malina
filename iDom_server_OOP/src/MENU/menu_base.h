@@ -125,5 +125,6 @@ public:
     void recIrdaEvent(PILOT_KEY eventId);
     void timeout();
     void quickPrint(const std::string &row1, const std::string &row2 );
+    void scrollText();
 };
 #endif // MENU_H

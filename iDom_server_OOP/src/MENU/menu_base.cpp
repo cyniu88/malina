@@ -117,6 +117,12 @@ void KEY_HANDLER::quickPrint(const std::string &row1, const std::string &row2 = 
     stateMachinePtr->currentState->quickPrint(row1,row2);
 }
 
+void KEY_HANDLER::scrollText()
+{
+    std::lock_guard<std::mutex> guard(lock);
+    stateMachinePtr->currentState->scrollText();
+}
+
 void MENU_STATE_MACHINE::setStateMachine(std::unique_ptr<MENU_STATE_BASE> ptr)
 {
     currentState = std::move(ptr);
