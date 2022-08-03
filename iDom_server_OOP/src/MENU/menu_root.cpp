@@ -138,8 +138,8 @@ void MENU_ROOT::quickPrint(const std::string &row1, const std::string &row2)
 {
     lcdPTR->clear();
     lcdPTR->printString(row1, row2);
-    this->row1 = row1;
-    this->row2 = row2;
+    _row1 = row1;
+    _row2 = row2;
     numberOfCharCounter = row1.size() - numberOfChar;
 }
 
@@ -179,7 +179,10 @@ void MENU_ROOT::mpdPrev()
 
 void MENU_ROOT::scrollText()
 {
-    if(row1.size() > numberOfChar)
+    if((Clock::getUnixTime() - time) < 2)
+        return;
+    time = Clock::getUnixTime();
+    if(_row1.size() > numberOfChar)
     {
         if(numberOfCharCounter != 0)
         {
@@ -188,7 +191,7 @@ void MENU_ROOT::scrollText()
         }
         else
         {
-            quickPrint(this->row1, this->row2);
+            quickPrint(this->_row1, this->_row2);
         }
     }
 }

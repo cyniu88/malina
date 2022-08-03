@@ -36,9 +36,8 @@ private:
     int tempCounter;
     const unsigned int numberOfChar = 16;
     int numberOfCharCounter = 0;
-    void scrollText();
-    std::string row1;
-    std::string row2;
+    void scrollText() override;
+    unsigned int time = 0;
 };
 
 #endif // MENU_ROOT_H

@@ -74,6 +74,9 @@ protected:
     const std::string arrow = std::string(1,(char)8) + "              " + std::string(1,(char)9);
     STATE lcdLED = STATE::OFF;
     const std::string celsiusDegrees = std::string(1,(char)223) + "c";
+
+    std::string _row1;
+    std::string _row2;
 public:
     MENU_STATE_BASE(thread_data* my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm, STATE lcdLED = STATE::OFF);
     MENU_STATE_BASE(const MENU_STATE_BASE& base);
@@ -95,6 +98,7 @@ public:
     virtual void keyPadEpg()  {std::cout << __func__ << " pressed" << std::endl;};
     virtual void reboot()     {std::cout << __func__ << " pressed" << std::endl;};
     virtual void offLcd()     {std::cout << __func__ << " pressed" << std::endl;};
+    virtual void scrollText() {std::cout << __func__ << " called" << std::endl;};
     virtual void print(const std::string &row1, const std::string &row2 = "") const{
         lcdPTR->clear();
         lcdPTR->printString(row1, row2);

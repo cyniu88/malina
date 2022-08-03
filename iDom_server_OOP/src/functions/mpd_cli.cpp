@@ -305,6 +305,8 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
 
 
             std::this_thread::sleep_for(0.5s);
+
+            my_data->main_key_menu_handler->scrollText();
         } while( useful_F::go_while);
 
         // mpd_player_stop(obj); //wylaczanie mpd na koniec
