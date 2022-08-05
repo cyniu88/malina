@@ -393,6 +393,7 @@ std::string house_room_handler::dump() const
     str << "m_buttonConfig: " << m_buttonConfig.size() << std::endl;
     str << "m_circBuffSatelSensorId: " << std::endl << m_circBuffSatelSensorId.dump<int>() << std::endl;
 
-
+    for(auto& a : m_satelIdMap)
+        str << "m_satelIdMap " << a.first << " name " << a.second->m_name << std::endl;
     return str.str();
 }
