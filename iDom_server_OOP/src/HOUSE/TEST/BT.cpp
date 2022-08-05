@@ -127,6 +127,21 @@ TEST_F(house_fixture, satelSensor)
     EXPECT_EQ(testRoomHandler->m_lightingBulbMap[bulbID]->getStatus() , STATE::ACTIVE);
 }
 
+TEST_F(house_fixture, satelSensorDouble)
+{
+    int bulbID = 327;
+    int satelSensorID = 37;
+    EXPECT_CALL(*main_iDomTools.get(), isItDay()).Times(2);
+    EXPECT_EQ(testRoomHandler->m_lightingBulbMap[bulbID]->getStatus() , STATE::UNDEFINE);
+
+    testRoomHandler->turnOffBulb(bulbID);
+    EXPECT_EQ(testRoomHandler->m_lightingBulbMap[bulbID]->getStatus() , STATE::DEACTIVE);
+
+    testRoomHandler->satelSensorActive(satelSensorID);
+    EXPECT_EQ(testRoomHandler->m_lightingBulbMap[bulbID]->getStatus() , STATE::ACTIVE);
+    EXPECT_EQ(testRoomHandler->m_lightingBulbMap[326]->getStatus() , STATE::ACTIVE);
+}
+
 TEST_F(house_fixture, dump)
 {
     std::cout << iDom_API::getDump() << std::endl;

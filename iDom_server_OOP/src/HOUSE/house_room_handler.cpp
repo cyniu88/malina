@@ -3,8 +3,6 @@
 #include "house_room_handler.h"
 #include "json.hpp"
 #include "../functions/functions.h"
-#include "../RADIO_433_eq/radio_433_eq.h"
-#include "../433MHz/RFLink/rflinkhandler.h"
 
 std::string house_room_handler::m_mqttPublishTopic = "swiatlo/output/";
 
@@ -26,7 +24,7 @@ void house_room_handler::loadConfig(const std::string &configPath)
     i >> j;
     for (const auto& element : j) {
         std::string roomName = element.at("name").get<std::string>();
-        int satelSensorID = element.at("satelSensorID").get<int>();
+        std::vector<int> satelSensorID = element.at("satelSensorID").get<std::vector<int>>();
         std::map<int, std::shared_ptr<light_bulb>> lightingBulbMap;
 
         for (const auto& jj :  element.at("bulb"))
@@ -55,7 +53,9 @@ void house_room_handler::loadConfig(const std::string &configPath)
             }
         }
         m_roomMap.emplace(roomName,std::make_shared<ROOM>(satelSensorID, roomName, lightingBulbMap));
-        m_satelIdMap[satelSensorID] = m_roomMap[roomName];
+        for(auto number : satelSensorID){
+            m_satelIdMap[number] = m_roomMap[roomName];
+        }
     }
 }
 
@@ -359,6 +359,7 @@ void house_room_handler::satelSensorActive(int sensorID)
 
         return;
     }
+
     m_satelIdMap.at(sensorID)->satelSensorActive();
     m_circBuffSatelSensorId.put(sensorID);
 }

@@ -1,7 +1,7 @@
 {
    "lazienka":{
       "name":"lazienka",
-      "satelSensorID":33,
+      "satelSensorID":[33],
       "bulb":{
          "wanna":{
             "bulbName":"wanna",
@@ -64,7 +64,7 @@
    },
     "tarasa":{
       "name":"taras",
-      "satelSensorID":37,
+      "satelSensorID":[37, 38],
       "bulb":{
          "jedna":{
             "bulbName":"jedna",
@@ -82,7 +82,7 @@
             "unlock":"null",
             "sunrise":"OFF",
             "sunset":"ON",
-            "satelAlarm":"null",
+            "satelAlarm":"ACTIVE",
             "howLong":10
          },
          "wejscie":{
@@ -108,7 +108,7 @@
    },
 "pokoj dzieci":{
       "name":"pokoj dzieci",
-      "satelSensorID":34,
+      "satelSensorID":[34],
       "bulb":{
          "jedna":{
             "bulbName":"jedna",
