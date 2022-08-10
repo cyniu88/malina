@@ -31,7 +31,7 @@ public:
 
     void on(std::function<void(std::string s)> onOn);
     void off(std::function<void(std::string s)> onOff);
-    void change(std::function<void(std::string s)> change);
+    void change(std::function<void(std::string s)> changeF);
 
     STATE getStatus();
     void setStatus(STATE s);

@@ -157,6 +157,41 @@ TEST_F(command_light_Class_fixture, on_off_bulb_command)
     std::cout << "ret: " << ret << std::endl;
 }
 
+TEST_F(command_light_Class_fixture, change_bulb_command)
+{
+    EXPECT_CALL(*main_iDomTools.get(),
+                sendViberMsg("zmiana statusu lampy wanna w pomieszczeniu: lazienka na ON przyciskiem: 30 czas trwania: 00:00",
+                             testing::_,testing::_,testing::_,testing::_));
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
+              STATE::UNDEFINE);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("bulb");
+    test_v.push_back("change");
+    test_v.push_back("126");
+
+    (void)test_command_light->execute(test_v,&test_my_data);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("state;126;30;1\n");
+    (void)test_command_light->execute(test_v,&test_my_data);
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
+              STATE::ON);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("bulb");
+    test_v.push_back("change");
+    test_v.push_back("126");
+
+    (void)test_command_light->execute(test_v,&test_my_data);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("state;126;30;0\n");
+    (void)test_command_light->execute(test_v,&test_my_data);
+    EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
+              STATE::OFF);
+}
+
 TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
 {
     EXPECT_EQ(test_my_data.main_house_room_handler->m_lightingBulbMap.at(226)->getStatus(),
