@@ -132,6 +132,14 @@ void house_room_handler::turnOffBulb(const int bulbID)
     );
 }
 
+void house_room_handler::turnChangeBulb(const int bulbID)
+{
+    m_lightingBulbMap.at(bulbID)->change([](const std::string& name){
+        useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic, name);
+    }
+    );
+}
+
 void house_room_handler::lockAllRoom()
 {
     //  my_data->mqttHandler->publish("lkoko","kokok");

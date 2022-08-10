@@ -43,6 +43,7 @@ public:
 
     void turnOnBulb(const int bulbID);
     void turnOffBulb(const int bulbID);
+    void turnChangeBulb(const int bulbID);
 
     void lockAllRoom();
     void unlockAllRoom();

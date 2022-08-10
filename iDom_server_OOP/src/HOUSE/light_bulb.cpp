@@ -108,6 +108,23 @@ void light_bulb::off(std::function<void(std::string s)> onOff)
     m_status = STATE::DEACTIVE;
 }
 
+void light_bulb::change(std::function<void (std::string)> change)
+{
+    if(m_lock not_eq STATE::UNLOCK)
+        return;
+    std::lock_guard<std::mutex> lock (m_operationMutex);
+    std::stringstream ss;
+    if(m_status == STATE::ACTIVE)
+    {
+        ss << "0;" << m_ID << ";1;0;2;0";
+    }
+    else
+    {
+        ss << "0;" << m_ID << ";1;0;2;1";
+    }
+    change(ss.str());
+}
+
 STATE light_bulb::getStatus()
 {
     std::lock_guard<std::mutex> lock (m_operationMutex);

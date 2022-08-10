@@ -29,8 +29,9 @@ public:
     light_bulb& operator = (const light_bulb& a);
     light_bulb& operator = (light_bulb &&a);
 
-    void on(std::function<void(std::string s)>onOn);
-    void off(std::function<void(std::string s)>onOff);
+    void on(std::function<void(std::string s)> onOn);
+    void off(std::function<void(std::string s)> onOff);
+    void change(std::function<void(std::string s)> change);
 
     STATE getStatus();
     void setStatus(STATE s);
