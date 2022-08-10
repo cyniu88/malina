@@ -92,7 +92,7 @@ void light_bulb::on(std::function<void(std::string s)>onOn)
         return;
     std::lock_guard<std::mutex> lock (m_operationMutex);
     std::stringstream ss;
-    ss << "0;" << m_ID << ";1;0;2;1";
+    ss << "0;" << m_ID << ";1;0;2;" << ON;
     onOn(ss.str());
     m_status = STATE::ACTIVE;
 }
@@ -103,7 +103,7 @@ void light_bulb::off(std::function<void(std::string s)> onOff)
         return;
     std::lock_guard<std::mutex> lock (m_operationMutex);
     std::stringstream ss;
-    ss << "0;" << m_ID << ";1;0;2;0";
+    ss << "0;" << m_ID << ";1;0;2;" << OFF;
     onOff(ss.str());
     m_status = STATE::DEACTIVE;
 }
@@ -117,11 +117,11 @@ void light_bulb::change(std::function<void (std::string)> changeF)
 
     if(m_status == STATE::ON)
     {
-        ss << "0;" << m_ID << ";1;0;2;0";
+        ss << "0;" << m_ID << ";1;0;2;" << OFF;
     }
     else
     {
-        ss << "0;" << m_ID << ";1;0;2;1";
+        ss << "0;" << m_ID << ";1;0;2;" << ON;
     }
 
     changeF(ss.str());

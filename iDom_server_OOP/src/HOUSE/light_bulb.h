@@ -9,6 +9,8 @@
 
 class light_bulb: public iDom_API
 {
+    const int ON = 1;
+    const int OFF = 0;
     STATE m_status = STATE::UNDEFINE;
     std::string m_roomName;
     std::string m_bulbName;

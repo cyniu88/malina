@@ -102,6 +102,17 @@ void house_room_handler::turnOffAllInRoom(const std::string &roomName)
     }
 }
 
+void house_room_handler::changeAllInRoom(const std::string &roomName)
+{
+    for( auto& a :m_roomMap[roomName]->m_lightingBulbMap)
+    {
+        a.second->change([](const std::string& name){
+            useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
+        }
+        );
+    }
+}
+
 void house_room_handler::turnOnAllBulb()
 {
     for(auto& b : m_roomMap){

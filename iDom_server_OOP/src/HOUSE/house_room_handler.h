@@ -37,6 +37,7 @@ public:
 
     void turnOnAllInRoom(const std::string& roomName);
     void turnOffAllInRoom(const std::string& roomName);
+    void changeAllInRoom(const std::string& roomName);
 
     void turnOnAllBulb();
     void turnOffAllBulb();

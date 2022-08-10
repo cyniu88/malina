@@ -23,7 +23,7 @@ TEST_F(command_help_Class_fixture, all)
     auto chr = std::make_unique<commandHandlerRoot>(&test_my_data);
     test_v.push_back("help");
     auto size = chr->run(test_v,&test_my_data).size();
-    EXPECT_EQ(size, 5414);
+    EXPECT_EQ(size, 5432);
 }
 
 TEST_F(command_help_Class_fixture, one)
