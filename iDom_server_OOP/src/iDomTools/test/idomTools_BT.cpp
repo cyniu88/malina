@@ -140,6 +140,10 @@ TEST_F(iDomTOOLS_ClassTest, checkAlarm)
     test_alarmTime.state = STATE::ACTIVE;
     test_alarmTime.toVolume = 58;
     test_alarmTime.fromVolume = 48;
+
+    test_alarmTime.commands.push_back("komenda 1");
+    test_alarmTime.commands.push_back("komenda 2");
+
     test_my_data.main_iDomStatus->setObjectState("alarm", test_alarmTime.state);
     test_my_data.alarmTime = test_alarmTime;
     useful_F::myStaticData = &test_my_data;

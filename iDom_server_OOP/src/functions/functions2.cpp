@@ -75,7 +75,7 @@ void useful_F::tokenizer (std::vector <std::string> &command,
 }
 
 ////// watek sleeper
-void useful_F::sleeper_mpd (thread_data *my_data, const std::string& threadName)
+void useful_F::sleeper_mpd(thread_data *my_data, const std::string& threadName)
 {
     my_data->main_Rs232->print("LED_CLOCK:1;");
     unsigned int t = 60/my_data->sleeper;
@@ -410,7 +410,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
 }
 
 // przerobka adresu na ip . //////////////////////////////////
-std::string useful_F::conv_dns (std::string& temp){
+std::string useful_F::conv_dns(std::string& temp){
 
     int i;
     struct hostent * he;

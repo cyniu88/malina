@@ -97,6 +97,7 @@ struct ALERT
     unsigned int fromVolume = 48;
     unsigned int toVolume = 58;
     unsigned int radioID = 8;
+    std::vector<std::string> commands;
 };
 
 extern std::string _logfile;
@@ -219,8 +220,6 @@ struct CONFIG_JSON{
     GATEWAY _gateway;
     SATEL_INTEGRA_CFG _satel_integra;
 };
-
-
 
 class command; // for struc thread_data req
 class iDomTOOLS_INTERFACE;

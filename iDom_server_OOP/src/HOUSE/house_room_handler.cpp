@@ -293,7 +293,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
     } catch (...) {
         std::stringstream ret;
         ret << "bład odbioru mqtt light: " << msg;
-        my_data->iDomAlarm.raiseAlarm(122333,ret.str());
+        my_data->iDomAlarm.raiseAlarm(122333, ret.str());
 
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << ret.str() << std::endl;
@@ -394,7 +394,7 @@ void house_room_handler::turnOffUnexpectedBulb()
             if( actualTime > expectTime)
             {
                 jj.second->off([](const std::string& name){
-                    useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic,name);
+                    useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic, name);
                 });
             }
         }
