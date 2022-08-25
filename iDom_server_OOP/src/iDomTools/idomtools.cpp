@@ -893,10 +893,12 @@ void iDomTOOLS::checkAlarm()
         my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
         my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/alarm",
                                       stateToString(STATE::WORKING));
+									  
+		auto topic = my_data->server_settings->_mqtt_broker.topicSubscribe;
+        topic.pop_back();
         for(const auto & command : my_data->alarmTime.commands)
         {
-            std::cout << "run command: " << command << std::endl;
-            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicSubscribe +"command", command);
+            my_data->mqttHandler->publish(topic +"command", command );
         }
     }
 
