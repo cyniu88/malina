@@ -940,6 +940,7 @@ void iDomTOOLS::saveState_iDom(const bool& started)
     jsonAlarm["fromVolume"] = my_data->alarmTime.fromVolume;
     jsonAlarm["toVolume"] = my_data->alarmTime.toVolume;
     jsonAlarm["radioID"] = my_data->alarmTime.radioID;
+    jsonAlarm["commands"] = my_data->alarmTime.commands;
     //////////////////// mpd
     jsonMPD["music"] = my_data->main_iDomStatus->getObjectStateString("music");
     jsonMPD["speakers"] = my_data->main_iDomStatus->getObjectStateString("speakers");
@@ -1010,7 +1011,12 @@ void iDomTOOLS::readState_iDom(nlohmann::json jj)
         my_data->alarmTime.toVolume = jj.at("ALARM").at("toVolume").get<unsigned int>();
         my_data->alarmTime.radioID = jj.at("ALARM").at("radioID").get<unsigned int>();
         my_data->alarmTime.time = Clock(alarmTime);
+         for(const auto& k : jj.at("ALARM").at("commands"))
+         {
+             my_data->alarmTime.commands.push_back(k);
+         }
 
+        std::cout << "cyniu: " << alarmState << std::endl;
         if (alarmState == "ACTIVE"){
             my_data->alarmTime.state = STATE::ACTIVE;
             my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);

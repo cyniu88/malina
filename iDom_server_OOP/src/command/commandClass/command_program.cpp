@@ -49,6 +49,11 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << "my_data->alarmTime.state \t" << my_data->alarmTime.state << std::endl;
         r << "my_data->alarmTime.time \t" << my_data->alarmTime.time.getString() << std::endl;
         r << "my_data->alarmTime.toVolume \t" << my_data->alarmTime.toVolume << std::endl;
+        r << "command: " << std::endl;
+        for (const auto& k : my_data->alarmTime.commands)
+        {
+            r << k << std::endl;
+        }
         r << std::endl;
         r << "my_data->encriptionKey \t" << my_data->encriptionKey << std::endl;
         r << std::endl;

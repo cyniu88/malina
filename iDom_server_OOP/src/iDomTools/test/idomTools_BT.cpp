@@ -217,6 +217,7 @@ TEST_F(iDomTOOLS_ClassTest, testCPU_Load)
 
 TEST_F(iDomTOOLS_ClassTest, saveState_readState)
 {
+    test_my_data.server_settings->_server.saveFilePath = "/mnt/ramdisk/iDomStateTest3.save";
     test_my_data.main_iDomStatus->setObjectState("house",STATE::UNLOCK);
     //////////////////// mpd
     test_my_data.main_iDomStatus->setObjectState("music", STATE::PLAY);
@@ -229,6 +230,8 @@ TEST_F(iDomTOOLS_ClassTest, saveState_readState)
     test_alarmTime.fromVolume = 0;
     test_alarmTime.toVolume = 100;
     test_alarmTime.radioID = 44;
+    test_alarmTime.commands.push_back("command 1");
+    test_alarmTime.commands.push_back("command 2");
     test_my_data.alarmTime = test_alarmTime;
     test_my_data.main_iDomStatus->setObjectState("alarm", test_alarmTime.state);
     test_my_data.serverStarted = true;
@@ -250,10 +253,14 @@ TEST_F(iDomTOOLS_ClassTest, saveState_readState)
               testJson.at("ALARM").at("toVolume").get<int>() );
 
     ////////////////////////////////// read
+    test_my_data.alarmTime.state = STATE::UNDEFINE;
+    test_my_data.alarmTime.commands.clear();
     iDom_SAVE_STATE info(test_my_data.server_settings->_server.saveFilePath);
-    test_my_data.main_iDomTools->readState_iDom(info.read());
-    EXPECT_EQ(test_my_data.alarmTime.state,STATE::ACTIVE);
+    nlohmann::json inf = info.read();
+    test_my_data.main_iDomTools->readState_iDom(inf);
+    EXPECT_EQ(test_my_data.alarmTime.state, STATE::ACTIVE);
 
+    EXPECT_STREQ(test_my_data.alarmTime.commands.at(0).c_str() , "command 1");
     test_my_data.server_settings->_server.saveFilePath = "null";
     EXPECT_NO_THROW(test_my_data.main_iDomTools->readState_iDom(info.read()));
 }
