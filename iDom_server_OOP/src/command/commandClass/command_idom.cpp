@@ -226,6 +226,11 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             {
                 my_data->alarmTime.radioID = std::stoi(v[4]);
             }
+            else if (v[3] == "command")
+            {
+                my_data->alarmTime.commands.push_back("light room pokoj_n on");
+                my_data->alarmTime.commands.push_back("light room korytarz on");
+            }
             std::stringstream ret;
             ret << "The values has beedn set:" << std::endl;
             ret << "From Value: " << my_data->alarmTime.fromVolume << std::endl;
