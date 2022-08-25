@@ -82,6 +82,13 @@ void house_room_handler::loadButtonConfig(const std::string &configPath)
 
 void house_room_handler::turnOnAllInRoom(const std::string &roomName)
 {
+    if(m_roomMap.find(roomName) == m_roomMap.end())
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "sprawdz konfig zarowek! Pokój \""<< roomName << "\" nie istnieje" << std::endl;
+        log_file_mutex.mutex_unlock();
+        return;
+    }
     for( auto& a :m_roomMap[roomName]->m_lightingBulbMap)
     {
         a.second->on([](const std::string& name){
@@ -93,6 +100,13 @@ void house_room_handler::turnOnAllInRoom(const std::string &roomName)
 
 void house_room_handler::turnOffAllInRoom(const std::string &roomName)
 {
+    if(m_roomMap.find(roomName) == m_roomMap.end())
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "sprawdz konfig zarowek! Pokój \""<< roomName << "\" nie istnieje" << std::endl;
+        log_file_mutex.mutex_unlock();
+        return;
+    }
     for( auto& a :m_roomMap[roomName]->m_lightingBulbMap)
     {
         a.second->off([](const std::string& name){
@@ -104,6 +118,13 @@ void house_room_handler::turnOffAllInRoom(const std::string &roomName)
 
 void house_room_handler::changeAllInRoom(const std::string &roomName)
 {
+    if(m_roomMap.find(roomName) == m_roomMap.end())
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "sprawdz konfig zarowek! Pokój \""<< roomName << "\" nie istnieje" << std::endl;
+        log_file_mutex.mutex_unlock();
+        return;
+    }
     for( auto& a :m_roomMap[roomName]->m_lightingBulbMap)
     {
         a.second->change([](const std::string& name){

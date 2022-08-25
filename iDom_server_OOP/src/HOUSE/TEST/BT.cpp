@@ -61,6 +61,13 @@ TEST_F(house_fixture, all_on_all_off_in_room)
     EXPECT_THAT(ret, testing::HasSubstr(R"(STATUS": "DEACTIVE")"));
 }
 
+TEST_F(house_fixture, all_on_all_off_in_unexist_room)
+{
+    std::string ret = testRoomHandler->getAllInfoJSON().dump(4);
+    EXPECT_THAT(ret, testing::HasSubstr(R"(STATUS": "UNDEFINE")"));
+
+    testRoomHandler->turnOnAllInRoom("nie ma go");
+}
 
 TEST_F(house_fixture, bulb_on_bulb_off)
 {
