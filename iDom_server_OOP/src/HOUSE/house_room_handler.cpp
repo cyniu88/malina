@@ -270,10 +270,14 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
         if(bulbID == 88 and bulbState == 1 ){
             my_data->main_iDomTools->doorbellDingDong();
             my_data->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
-                                                      "https://c8.alamy.com/comp/2C2EMMC/hand-push-the-bell-button-at-the-front-door-finger-presses-the-doorbell-switch-person-rings-in-the-apartment-flat-vector-illustration-2C2EMMC.jpg",
+                                                      "http://cyniu88.no-ip.pl/dzwonek/wejscie.jpg",
                                                       my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                                       my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
 
+            my_data->main_iDomTools->sendViberPicture("wjazd",
+                                                      "http://cyniu88.no-ip.pl/dzwonek/wjazd.jpg",
+                                                      my_data->server_settings->_fb_viber.viberReceiver.at(0),
+                                                      my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
         }
         if(vv.at(0) == "state"){
             if(m_lightingBulbMap.find(bulbID) == m_lightingBulbMap.end()){
