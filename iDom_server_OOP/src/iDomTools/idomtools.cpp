@@ -713,6 +713,11 @@ std::string iDomTOOLS::getSmog()
 
 void iDomTOOLS::send_data_to_thingSpeak()
 {
+    //get temperature in gardener house
+    RADIO_WEATHER_STATION* st = static_cast<RADIO_WEATHER_STATION*>(my_data->main_REC->getEqPointer("first"));
+    auto temp = st->data.getTemperature();
+
+
     std::vector<std::string> _temperature = getTemperature();
     std::stringstream addres;
     addres << "api.thingspeak.com/update?key=";
@@ -724,7 +729,7 @@ void iDomTOOLS::send_data_to_thingSpeak()
     addres << "&field5=" << getSmog();
     addres << "&field6=" << to_string_with_precision(my_data->ptr_buderus->getBoilerTemp());
     addres << "&field7=" << my_data->ptr_buderus->isHeatingActiv();
-    addres << "&field8=" << 0;
+    addres << "&field8=" << temp;
     //////////////////////////////// pozyskanie temperatury
     m_allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside",0);
