@@ -1,6 +1,8 @@
 #include "menu_root.h"
 #include "menu_main.h"
 
+#include "../RADIO_433_eq/radio_433_eq.h"
+
 MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED):
     MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED),
     tempCounter(0)
@@ -105,10 +107,16 @@ void MENU_ROOT::keyPadEpg()
         quickPrint("Temp: in    out", ss.str());
         tempCounter++;
     }
-    else{
+    else if(tempCounter == 1){
         ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getBoilerTemp()
            << celsiusDegrees << "    " << my_dataPTR->ptr_buderus->getCurFlowTemp() << celsiusDegrees;
         quickPrint("boiler   curFlow", ss.str());
+    }
+    else {
+        RADIO_WEATHER_STATION* st = static_cast<RADIO_WEATHER_STATION*>(my_dataPTR->main_REC->getEqPointer("first"));
+        auto temp = st->data.getTemperature();
+        ss << std::setprecision(4) << temp << celsiusDegrees;
+        quickPrint("domek ogrodnika", ss.str());
     }
     my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
 }
