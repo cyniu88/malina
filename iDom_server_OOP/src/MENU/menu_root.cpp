@@ -105,7 +105,6 @@ void MENU_ROOT::keyPadEpg()
         ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getInsideTemp()
            << (char)223 <<"c   " << my_dataPTR->ptr_buderus->getOutdoorTemp() << ((char)223) << "c";
         quickPrint("Temp: in    out", ss.str());
-        tempCounter++;
     }
     else if(tempCounter == 1){
         ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getBoilerTemp()
@@ -118,6 +117,7 @@ void MENU_ROOT::keyPadEpg()
         ss << std::setprecision(4) << temp << celsiusDegrees;
         quickPrint("domek ogrodnika", ss.str());
     }
+    tempCounter++;
     my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
 }
 
