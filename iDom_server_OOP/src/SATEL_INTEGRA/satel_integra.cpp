@@ -250,7 +250,7 @@ std::string SATEL_INTEGRA::dump() const
     std::stringstream ss;
     ss << "m_message " << m_message << std::endl;
     ss << "m_host " << m_host << std::endl;
-    ss << "m_port" << m_port << std::endl;
+    ss << "m_port " << m_port << std::endl;
     return ss.str();
 }
 

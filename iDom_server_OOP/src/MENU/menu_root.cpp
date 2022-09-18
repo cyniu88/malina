@@ -116,6 +116,7 @@ void MENU_ROOT::keyPadEpg()
         auto temp = st->data.getTemperature();
         ss << std::setprecision(4) << temp << celsiusDegrees;
         quickPrint("domek ogrodnika", ss.str());
+        tempCounter = 0;
     }
     tempCounter++;
     my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
