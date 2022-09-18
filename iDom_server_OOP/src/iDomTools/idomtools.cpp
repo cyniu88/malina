@@ -670,25 +670,27 @@ std::string iDomTOOLS::getTemperatureString()
 
 std::string iDomTOOLS::getSmog()
 {
-    CURL *curl;
-    CURLcode res;
-    std::string readBuffer;
-    curl = curl_easy_init();
+//    CURL *curl;
+//    CURLcode res;
+//    std::string readBuffer;
+//    curl = curl_easy_init();
 
-    if(curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, "https://api.gios.gov.pl/pjp-api/rest/data/getData/20320");
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if(res not_eq CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                    curl_easy_strerror(res));
+//    if(curl) {
+//        curl_easy_setopt(curl, CURLOPT_URL, "https://api.gios.gov.pl/pjp-api/rest/data/getData/20320");
+//        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
+//        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+//        res = curl_easy_perform(curl);
+//        /* Check for errors */
+//        if(res not_eq CURLE_OK)
+//            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+//                    curl_easy_strerror(res));
 
-        /* always cleanup */
-        curl_easy_cleanup(curl);
-    }
-    curl_global_cleanup();
+//        /* always cleanup */
+//        curl_easy_cleanup(curl);
+//    }
+//    curl_global_cleanup();
+    std::string  addres = "https://api.gios.gov.pl/pjp-api/rest/data/getData/20320";
+    std::string readBuffer = useful_F_libs::httpPost(addres, 10);
     try {
         auto jj = nlohmann::json::parse(readBuffer);
         int i = 1;

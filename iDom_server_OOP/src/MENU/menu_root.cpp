@@ -107,16 +107,16 @@ void MENU_ROOT::keyPadEpg()
         quickPrint("Temp: in    out", ss.str());
     }
     else if(tempCounter == 1){
-        ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getBoilerTemp()
-           << celsiusDegrees << "    " << my_dataPTR->ptr_buderus->getCurFlowTemp() << celsiusDegrees;
-        quickPrint("boiler   curFlow", ss.str());
-    }
-    else {
         RADIO_WEATHER_STATION* st = static_cast<RADIO_WEATHER_STATION*>(my_dataPTR->main_REC->getEqPointer("first"));
         auto temp = st->data.getTemperature();
         ss << std::setprecision(4) << temp << celsiusDegrees;
         quickPrint("domek ogrodnika", ss.str());
-        tempCounter = 0;
+        tempCounter = -1;
+    }
+    else {
+        ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getBoilerTemp()
+           << celsiusDegrees << "    " << my_dataPTR->ptr_buderus->getCurFlowTemp() << celsiusDegrees;
+        quickPrint("boiler   curFlow", ss.str());
     }
     tempCounter++;
     my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
