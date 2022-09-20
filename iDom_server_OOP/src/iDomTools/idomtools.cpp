@@ -664,7 +664,7 @@ std::string iDomTOOLS::getTemperatureString()
         << my_data->ptr_buderus->getInsideTemp() << ":"
         << my_data->ptr_buderus->getOutdoorTemp() << ":"
         << my_data->ptr_buderus->getBoilerTemp() << ":"
-        << my_data->lusina.temperatureDS20;
+        << getFloorTemp();
     return str.str();
 }
 
@@ -724,6 +724,11 @@ void iDomTOOLS::send_data_to_thingSpeak()
         log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak: " << s << std::endl;
         log_file_mutex.mutex_unlock();
     }
+}
+
+std::string iDomTOOLS::getFloorTemp()
+{
+    return my_data->lusina.temperatureDS20;
 }
 
 void iDomTOOLS::cameraLedON(const std::string& link)

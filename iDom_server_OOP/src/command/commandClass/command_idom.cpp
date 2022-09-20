@@ -171,6 +171,9 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1] == "health") {
         return my_data->iDomAlarm.showAlarm();
     }
+    else if (v[1] == "isDay"){
+        return my_data->main_iDomTools->isItDay() ? "true" : "false";
+    }
     else if (v[1] == "blink"  and
              my_data->server_settings->_runThread.SATEL == true) {
         my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
@@ -309,5 +312,6 @@ std::string command_iDom::help() const
     help << "iDom link < - generate temporaty link for action" << std::endl;
     help << "iDom doorbell - on doorbell" << std::endl;
     help << "iDom blink - blink outdoor siren for 5 sek" << std::endl;
+    help << "iDom isDay - get information about day"  << std::endl;
     return help.str();
 }

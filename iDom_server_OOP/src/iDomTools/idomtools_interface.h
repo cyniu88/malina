@@ -73,6 +73,7 @@ public:
     virtual std::string getTemperatureString() = 0;
     virtual std::string getSmog() = 0;
     virtual void send_data_to_thingSpeak() = 0;
+    virtual std::string getFloorTemp() = 0;
 
     //////////////////// camera part ///////////////////////
     virtual void cameraLedON(const std::string &link) = 0;
