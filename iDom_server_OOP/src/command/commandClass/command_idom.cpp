@@ -172,7 +172,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         return my_data->iDomAlarm.showAlarm();
     }
     else if (v[1] == "isDay"){
-        return my_data->main_iDomTools->isItDay() ? "true" : "false";
+        return my_data->main_iDomTools->isItDay() ? "isDay:true" : "isDay:false";
     }
     else if (v[1] == "blink"  and
              my_data->server_settings->_runThread.SATEL == true) {
