@@ -233,6 +233,8 @@ class iDomKEY_ACCESS;
 
 struct LUSINA{
     nlohmann::json shedJson;
+    bool goToDeepSleep = true;
+    int howLongDeepSleep = 300;
     std::string temperatureDS20;
     std::string temperatureDTH;
     std::string humidityDTH;
