@@ -39,6 +39,7 @@ set(SOURCE_FILES
     "../../src/command/commandClass/command_program.cpp"
     "../../src/command/commandClass/command_put.cpp"
     "../../src/command/commandClass/command_show.cpp"
+    "../../src/command/commandClass/command_shed.cpp"
     "../../src/command/commandClass/command_sleep.cpp"
     "../../src/command/commandClass/command_light.cpp"
     "../../libs/event_counters/event/event_unknown.cpp"

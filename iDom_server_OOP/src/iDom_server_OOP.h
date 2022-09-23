@@ -232,6 +232,7 @@ class iDomKEY_ACCESS;
 //TODO temporary
 
 struct LUSINA{
+    nlohmann::json shedJson;
     std::string temperatureDS20;
     std::string temperatureDTH;
     std::string humidityDTH;

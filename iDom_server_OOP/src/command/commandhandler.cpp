@@ -13,6 +13,7 @@
 #include "commandClass/commandtest.h"
 #include "commandClass/command_log.h"
 #include "commandClass/commandexit.h"
+#include "commandClass/command_shed.h"
 
 commandHandler::commandHandler(thread_data * my_data)
 {
@@ -51,6 +52,9 @@ commandHandler::commandHandler(thread_data * my_data)
 
     std::unique_ptr <command> eexit(new commandEXIT("exit"));
     commandMap.insert( std::make_pair(eexit->getCommandName(),std::move( eexit )) );
+
+    std::unique_ptr <command> shed(new command_shed("shed"));
+    commandMap.insert(std::make_pair(shed->getCommandName(), std::move(shed)));
 
     this->my_data = my_data;
 }
