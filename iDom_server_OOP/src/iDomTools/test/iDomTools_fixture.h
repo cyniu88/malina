@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "test_data.h"
-#include "../idomtools.h"
 #include "../../src/functions/functions.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
 #include "testJSON.h"

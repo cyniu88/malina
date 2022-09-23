@@ -1,6 +1,4 @@
 #include "command_idom.h"
-#include "../../functions/functions.h"
-#include "../../SATEL_INTEGRA/satel_integra_handler.h"
 
 command_iDom::command_iDom(const std::string &name):command(name)
 {

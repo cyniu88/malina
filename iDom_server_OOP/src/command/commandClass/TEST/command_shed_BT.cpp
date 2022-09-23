@@ -2,6 +2,7 @@
 #include<gmock/gmock.h>
 
 #include "../command_shed.h"
+#include "../../iDom_server_OOP/src/iDomTools/mock/iDomToolsMock.h"
 
 class command_shed_Class_fixture : public testing::Test
 {
@@ -9,6 +10,8 @@ public:
     command_shed_Class_fixture():test_command_shed(std::make_unique <command_shed>("shed"))
     {
         test_my_data.m_keyHandler = std::make_unique<iDomKEY_ACCESS>("");
+        test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER test");
+        test_my_data.main_iDomTools = std::make_shared<iDomToolsMock>();
     }
 
 protected:

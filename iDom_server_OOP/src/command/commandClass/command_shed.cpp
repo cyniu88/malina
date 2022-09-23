@@ -14,6 +14,11 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_data *my_d
             str_buf.erase();
             my_data->lusina.shedJson = nlohmann::json::parse(v[2]);
             str_buf = "DONE";
+            nlohmann::json returnJson;
+            returnJson["isDay"] = my_data->main_iDomTools->isItDay();
+            returnJson["deepSleep"] = true;
+            returnJson["howLongDeepSleep"] = 300;
+            my_data->mqttHandler->publish("iDom-domek/data", returnJson.dump());
         }
         else if(v[1] == "show")
         {
