@@ -38,6 +38,14 @@ int TASKER::runTasker()
             v.push_back(kk.second);
             (void) commandMQTT.run(v, my_data);
         }
+        else if(kk.first == "shed/put")
+        {
+            std::vector<std::string> v = {"shed","put"};
+            v.push_back(kk.second);
+            auto ret = commandMQTT.run(v, my_data);
+            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/command",
+                                          ret);
+        }
         else if(kk.first == topic)
         {
             auto v = useful_F::split(kk.second, ' ');
