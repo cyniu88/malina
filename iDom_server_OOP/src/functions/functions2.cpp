@@ -565,6 +565,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._server.ftpServer.user = jj["FTP_settings"].at("FTP_LOGIN").get<std::string>();
     cj._server.ftpServer.pass = jj["FTP_settings"].at("FTP_PASS").get<std::string>();
     cj._server.TS_KEY = jj["THINGSPEAK_settings"].at("TS_KEY").get<std::string>();
+    cj._server.TS_KEY2 = jj["THINGSPEAK_settings"].at("TS_KEY2").get<std::string>();
     cj._server.lightningApiURL = jj["lightning_settings"].at("LIGHTNING_API_URL").get<std::string>();
     cj._server.MPD_IP = jj["MPD_settings"].at("MPD_IP").get<std::string>();
     cj._server.keyDatabasePath = jj["Server_settings"].at("key_DB_PATH").get<std::string>();

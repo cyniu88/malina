@@ -9,7 +9,8 @@
 #include "../thread_functions/iDom_thread.h"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData):
-    m_key(myData->server_settings->_server.TS_KEY)
+    m_key(myData->server_settings->_server.TS_KEY),
+    m_key2(myData->server_settings->_server.TS_KEY2)
 {
     my_data = myData;
 
@@ -219,7 +220,7 @@ void iDomTOOLS::turnOnSpeakers()
     else
     {
         my_data->myEventHandler.run("speakers")->addEvent("speakers can not start due to home state: " +
-                                                                         stateToString(my_data->idom_all_state.houseState));
+                                                          stateToString(my_data->idom_all_state.houseState));
     }
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
 }
@@ -719,9 +720,27 @@ void iDomTOOLS::send_data_to_thingSpeak()
     sendSMSifTempChanged("inside",24);
     std::string s = useful_F_libs::httpPost(addres.str(), 10);
 
-    if(s == "0"){
+    std::string s2 = "0";
+    try{
+        addres.str("");
+        addres << "api.thingspeak.com/update?key=";
+        addres << m_key2;
+        addres << "&field1=" << my_data->lusina.shedJson["bateria"].get<float>();
+        addres << "&field2=" << my_data->lusina.shedJson["ciśnienie"].get<int>();
+        addres << "&field3=" << my_data->lusina.shedJson["wilgotność"].get<int>();
+        addres << "&field4=" << my_data->lusina.shedJson["temperatura"].get<float>();
+        s2 = useful_F_libs::httpPost(addres.str(), 10);
+    }
+    catch(...){
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak: " << s << std::endl;
+        log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak brak jsona" << std::endl;
+        log_file_mutex.mutex_unlock();
+        s2 = "1";
+    }
+
+    if(s == "0" or s2 == "0"){
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak s: " << s   << " s2: " << s2<< std::endl;
         log_file_mutex.mutex_unlock();
     }
 }
@@ -886,8 +905,8 @@ void iDomTOOLS::checkAlarm()
         my_data->main_iDomStatus->setObjectState("alarm",STATE::DEACTIVE);
         my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/alarm",
                                       stateToString(STATE::WORKING));
-									  
-		auto topic = my_data->server_settings->_mqtt_broker.topicSubscribe;
+
+        auto topic = my_data->server_settings->_mqtt_broker.topicSubscribe;
         topic.pop_back();
         for(const auto & command : my_data->alarmTime.commands)
         {
@@ -1006,10 +1025,10 @@ void iDomTOOLS::readState_iDom(nlohmann::json jj)
         my_data->alarmTime.toVolume = jj.at("ALARM").at("toVolume").get<unsigned int>();
         my_data->alarmTime.radioID = jj.at("ALARM").at("radioID").get<unsigned int>();
         my_data->alarmTime.time = Clock(alarmTime);
-         for(const auto& k : jj.at("ALARM").at("commands"))
-         {
-             my_data->alarmTime.commands.push_back(k);
-         }
+        for(const auto& k : jj.at("ALARM").at("commands"))
+        {
+            my_data->alarmTime.commands.push_back(k);
+        }
 
         std::cout << "cyniu: " << alarmState << std::endl;
         if (alarmState == "ACTIVE"){

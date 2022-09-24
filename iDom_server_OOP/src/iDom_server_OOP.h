@@ -183,6 +183,7 @@ struct CONFIG_SERVER{
     std::string SERVER_IP;
     std::string MPD_IP;
     std::string TS_KEY= " gg ";
+    std::string TS_KEY2= " gg ";
     std::string radio433MHzConfigFile;
     int ID_server = 0;
     int v_delay;

@@ -58,7 +58,8 @@
                 "RFLinkBaudRate": 57600
         },
         "THINGSPEAK_settings": {
-                "TS_KEY": "4O"
+                "TS_KEY": "4O",
+				"TS_KEY2": "4O"
         },
         "MPD_settings": {
                 "MPD_IP": "127.0.0.1"

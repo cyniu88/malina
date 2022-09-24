@@ -20,6 +20,7 @@ protected:
     int m_timezone;
     SunRiseSet m_sun;
     std::string m_key;
+    std::string m_key2;
     viber_API m_viber;
     FACEBOOK_API m_facebook;
     std::mutex m_msgMutex;
