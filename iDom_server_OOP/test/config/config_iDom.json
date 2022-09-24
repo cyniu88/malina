@@ -1,109 +1,114 @@
 {
-        "Night-light": {
-                "main": {
-                        "from": 22,
-                        "to": 24,
-                        "color": "red"
-                }
-        },
-        "Server_settings": {
-                "ENCRYPTED": true,
-                "MENU_PATH": "/etc/config/iDom_SERVER/MENU",
-                "MOVIES_DB_PATH": "/home/pi/hdd/FTP",
-                "ID": 1002,
-                "PORT": 8833,
-                "SERVER_IP": "192.168.1.144",
-                "saveFilePath": "/mnt/ramdisk/iDomState.save",
-                "key_DB_PATH": "mnt/ramdisk/key.database"
-        },
-        "gateway": {
-                "url": "http://cyniu88.no-ip.pl",
-                "key_size": 128
-        },
-        "camera_settings": {
-                "CAMERA_LED_OFF": "http://wp",
-                "CAMERA_LED_ON": "http://wp",
-                "CAMERA_SNAPSHOT": "http://wp"
-        },
-        "433MHz_settings": {
-                "433MHz_config": "/etc/config/iDom_SERVER/433_eq_conf.json"
-        },
-        "omxplayer_settings": {
-                "omxplayerFile": "/mnt/ramdisk/cmd"
-        },
-        "FTP_settings": {
-                "FTP_URL": "192.168.1.1:21",
-                "FTP_LOGIN": "user",
-                "FTP_PASS": "password"
-        },
-        "facebook_settings": {
-                "FB_ACCESS_TOKEN": "eOOemF2x"
-        },
-        "viber_settings": {
-                "VIBER_TOKEN": "123133",
-                "VIBER_AVATAR": "www.avatar.pl/avatar.jpg",
-                "VIBER_RECEIVER": {
-                        "1": "9",
-                        "2": "5"
-                },
-                "VIBER_SENDER": "iDom-server"
-        },
-        "RS232_settings": {
-                "portRS232": "/dev/ttyUSB0",
-                "portRS232_clock": "/dev/ttyAMA0",
-                "BaudRate": 9600
-        },
-        "RFLink_settings": {
-                "RFLinkPort": "/dev/ttyACM0",
-                "RFLinkBaudRate": 57600
-        },
-        "THINGSPEAK_settings": {
-                "TS_KEY": "4O",
-				"TS_KEY2": "4O"
-        },
-        "MPD_settings": {
-                "MPD_IP": "127.0.0.1"
-        },
-        "lightning_settings": {
-                "LIGHTNING_API_URL": "5minutes"
-        },
-        "mqtt_broker_settings": {
-                "qos": 2,
-                "port": 1883,
-                "host": "192.168.4.1",
-                "publish topic": "iDom-server",
-                "subscribe topic": "iDom-client/#"
-        },
-        "satel_integra32": {
-                "port": 7094,
-                "host": "192.168.13.156",
-                "pin": "123",
-                "outdoor_siren_lights_id": 10
-        },
-        "THREAD": {
-                "RFLink": {
-                        "run": true
-                },
-                "IRDA": {
-                        "run": true
-                },
-                "MPD": {
-                        "run": true
-                },
-                "CRON": {
-                        "run": true
-                },
-                "RS232": {
-                        "run": true
-                },
-                "MQTT": {
-                        "run": false
-                },
-                "SATEL": {
-                        "run": true
-                },
-                "DUMMY": {
-                        "run": true
-                }
-        }
+	"Night-light": {
+		"main": {
+			"from": 22,
+			"to": 24,
+			"color": "red"
+		}
+	},
+	"Server_settings": {
+		"ENCRYPTED": true,
+		"MENU_PATH": "/etc/config/iDom_SERVER/MENU",
+		"MOVIES_DB_PATH": "/home/pi/hdd/FTP",
+		"ID": 1002,
+		"PORT": 8833,
+		"SERVER_IP": "192.168.1.144",
+		"saveFilePath": "/mnt/ramdisk/iDomState.save",
+		"key_DB_PATH": "mnt/ramdisk/key.database"
+	},
+	"gateway": {
+		"url": "http://cyniu88.no-ip.pl",
+		"key_size": 128
+	},
+	"camera_settings": {
+		"CAMERA_LED_OFF": "http://wp",
+		"CAMERA_LED_ON": "http://wp",
+		"CAMERA_SNAPSHOT": "http://wp"
+	},
+	"433MHz_settings": {
+		"433MHz_config": "/etc/config/iDom_SERVER/433_eq_conf.json"
+	},
+	"omxplayer_settings": {
+		"omxplayerFile": "/mnt/ramdisk/cmd"
+	},
+	"FTP_settings": {
+		"FTP_URL": "192.168.1.1:21",
+		"FTP_LOGIN": "user",
+		"FTP_PASS": "password"
+	},
+	"facebook_settings": {
+		"FB_ACCESS_TOKEN": "eOOemF2x"
+	},
+	"viber_settings": {
+		"VIBER_TOKEN": "123133",
+		"VIBER_AVATAR": "www.avatar.pl/avatar.jpg",
+		"VIBER_RECEIVER": {
+			"1": "9",
+			"2": "5"
+		},
+		"VIBER_SENDER": "iDom-server"
+	},
+	"RS232_settings": {
+		"portRS232": "/dev/ttyUSB0",
+		"portRS232_clock": "/dev/ttyAMA0",
+		"BaudRate": 9600
+	},
+	"shed": {
+		"deepSleep": false,
+		"howLongDeepSleep": 180,
+		"fanON": false
+	},
+	"RFLink_settings": {
+		"RFLinkPort": "/dev/ttyACM0",
+		"RFLinkBaudRate": 57600
+	},
+	"THINGSPEAK_settings": {
+		"TS_KEY": "4O",
+		"TS_KEY2": "4O"
+	},
+	"MPD_settings": {
+		"MPD_IP": "127.0.0.1"
+	},
+	"lightning_settings": {
+		"LIGHTNING_API_URL": "5minutes"
+	},
+	"mqtt_broker_settings": {
+		"qos": 2,
+		"port": 1883,
+		"host": "192.168.4.1",
+		"publish topic": "iDom-server",
+		"subscribe topic": "iDom-client/#"
+	},
+	"satel_integra32": {
+		"port": 7094,
+		"host": "192.168.13.156",
+		"pin": "123",
+		"outdoor_siren_lights_id": 10
+	},
+	"THREAD": {
+		"RFLink": {
+			"run": true
+		},
+		"IRDA": {
+			"run": true
+		},
+		"MPD": {
+			"run": true
+		},
+		"CRON": {
+			"run": true
+		},
+		"RS232": {
+			"run": true
+		},
+		"MQTT": {
+			"run": false
+		},
+		"SATEL": {
+			"run": true
+		},
+		"DUMMY": {
+			"run": true
+		}
+	}
 }

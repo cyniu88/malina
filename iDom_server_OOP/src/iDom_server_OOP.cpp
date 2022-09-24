@@ -119,6 +119,7 @@ iDomStateEnum iDom_main()
 
 
     thread_data node_data; // przekazywanie do watku
+    node_data.lusina.shedConfJson = server_settings._shedConf;
     node_data.server_settings = &server_settings;
     time(&node_data.start);
 

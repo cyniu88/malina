@@ -220,6 +220,7 @@ struct CONFIG_JSON{
     MQTT_BROKER_CFG _mqtt_broker;
     GATEWAY _gateway;
     SATEL_INTEGRA_CFG _satel_integra;
+    nlohmann::json _shedConf;
 };
 
 class command; // for struc thread_data req
@@ -234,8 +235,8 @@ class iDomKEY_ACCESS;
 
 struct LUSINA{
     nlohmann::json shedJson;
-    bool goToDeepSleep = true;
-    int howLongDeepSleep = 300;
+    nlohmann::json shedConfJson;
+
     std::string temperatureDS20;
     std::string temperatureDTH;
     std::string humidityDTH;

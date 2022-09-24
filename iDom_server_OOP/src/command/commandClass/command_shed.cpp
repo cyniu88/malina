@@ -17,8 +17,9 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_data *my_d
             str_buf << "DONE";
             nlohmann::json returnJson;
             returnJson["isDay"] = my_data->main_iDomTools->isItDay();
-            returnJson["deepSleep"] = my_data->lusina.goToDeepSleep;
-            returnJson["howLongDeepSleep"] = my_data->lusina.howLongDeepSleep;
+            returnJson["deepSleep"] = my_data->lusina.shedConfJson["deepSleep"].get<bool>();
+            returnJson["howLongDeepSleep"] = my_data->lusina.shedConfJson["howLongDeepSleep"].get<int>();
+            returnJson["fanON"] = my_data->lusina.shedConfJson["fanON"].get<bool>();
             my_data->mqttHandler->publish("iDom-domek/data", returnJson.dump());
         }
         else if(v[1] == "show")
@@ -29,9 +30,10 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_data *my_d
         else if(v[1] == "set" and v[2] == "deepSleep")
         {
             str_buf.str("");
-            my_data->lusina.goToDeepSleep = v[3] == "true" ? true : false;
-            my_data->lusina.howLongDeepSleep = std::stoi(v[4]);
-            str_buf << "ustawiono deep sleep "  << std::boolalpha << my_data->lusina.goToDeepSleep << " na " << my_data->lusina.howLongDeepSleep
+            my_data->lusina.shedConfJson["deepSleep"] = (v[3] == "true" ? true : false);
+            my_data->lusina.shedConfJson["howLongDeepSleep"] = std::stoi(v[4]);
+            str_buf << "ustawiono deep sleep "  << std::boolalpha << my_data->lusina.shedConfJson["deepSleep"].get<bool>() <<
+                       " na " << my_data->lusina.shedConfJson["howLongDeepSleep"].get<int>()
                     << " sekund." << std::endl;
         }
     }
