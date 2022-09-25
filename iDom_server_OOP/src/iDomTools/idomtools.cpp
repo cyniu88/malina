@@ -729,6 +729,7 @@ void iDomTOOLS::send_data_to_thingSpeak()
         addres << "&field2=" << my_data->lusina.shedPres.average();
         addres << "&field3=" << my_data->lusina.shedHum.average();
         addres << "&field4=" << my_data->lusina.shedTemp.average();
+        addres << "&field5=" << my_data->ptr_buderus->getCurFlowTemp();
         s2 = useful_F_libs::httpPost(addres.str(), 10);
     }
     catch(...){

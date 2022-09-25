@@ -114,7 +114,7 @@ void MENU_ROOT::keyPadEpg()
     }
     else if(tempCounter == 2){
         ss << std::setprecision(4) <<  my_dataPTR->lusina.shedHum.average()<<  "%   " << my_dataPTR->lusina.shedPres.average() << "hPa";
-        quickPrint("Wilgoć  Ciśnienie", ss.str());
+        quickPrint("Wilgoc  Cis", ss.str());
     }
     else if(tempCounter == 3){
         ss << std::setprecision(4) <<  my_dataPTR->lusina.shedBat.average()<<  "V";
