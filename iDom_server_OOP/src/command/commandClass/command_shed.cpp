@@ -14,6 +14,10 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_data *my_d
         {
             str_buf.str("");
             my_data->lusina.shedJson = nlohmann::json::parse(v[2]);
+            my_data->lusina.shedBat.push_back(my_data->lusina.shedJson["bateria"].get<float>());
+            my_data->lusina.shedHum.push_back(my_data->lusina.shedJson["wilgotność"].get<int>());
+            my_data->lusina.shedPres.push_back(my_data->lusina.shedJson["ciśnienie"].get<float>());
+            my_data->lusina.shedTemp.push_back(my_data->lusina.shedJson["temperatura"].get<float>());
             str_buf << "DONE";
             nlohmann::json returnJson;
             returnJson["isDay"] = my_data->main_iDomTools->isItDay();

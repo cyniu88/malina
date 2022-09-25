@@ -236,13 +236,16 @@ class iDomKEY_ACCESS;
 struct LUSINA{
     nlohmann::json shedJson;
     nlohmann::json shedConfJson;
-
+    STATISTIC <float>shedTemp;
+    STATISTIC <int>shedHum;
+    STATISTIC <float>shedBat;
+    STATISTIC <float>shedPres;
     std::string temperatureDS20;
     std::string temperatureDTH;
     std::string humidityDTH;
     STATISTIC <int>statHumi;
     STATISTIC <float>statTemp;
-    LUSINA(): statHumi(270),statTemp(270){}
+    LUSINA(): shedTemp(8), shedHum(8),shedBat(8), shedPres(8),statHumi(270),statTemp(270){}
 };
 
 struct thread_data{

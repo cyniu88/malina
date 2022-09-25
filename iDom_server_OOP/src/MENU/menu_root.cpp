@@ -109,8 +109,16 @@ void MENU_ROOT::keyPadEpg()
     else if(tempCounter == 1){
         RADIO_WEATHER_STATION* st = static_cast<RADIO_WEATHER_STATION*>(my_dataPTR->main_REC->getEqPointer("first"));
         auto temp = st->data.getTemperature();
-        ss << std::setprecision(4) << temp << celsiusDegrees;
+        ss << std::setprecision(4) << temp << celsiusDegrees << "    " << my_dataPTR->lusina.shedTemp.average() << celsiusDegrees;
         quickPrint("domek ogrodnika", ss.str());
+    }
+    else if(tempCounter == 2){
+        ss << std::setprecision(4) <<  my_dataPTR->lusina.shedHum.average()<<  "%   " << my_dataPTR->lusina.shedPres.average() << "hPa";
+        quickPrint("Wilgoć  Ciśnienie", ss.str());
+    }
+    else if(tempCounter == 3){
+        ss << std::setprecision(4) <<  my_dataPTR->lusina.shedBat.average()<<  "V";
+        quickPrint("Bateria", ss.str());
     }
     else {
         ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getBoilerTemp()

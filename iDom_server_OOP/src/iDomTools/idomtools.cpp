@@ -725,10 +725,10 @@ void iDomTOOLS::send_data_to_thingSpeak()
         addres.str("");
         addres << "api.thingspeak.com/update?key=";
         addres << m_key2;
-        addres << "&field1=" << my_data->lusina.shedJson["bateria"].get<float>();
-        addres << "&field2=" << my_data->lusina.shedJson["ciśnienie"].get<int>();
-        addres << "&field3=" << my_data->lusina.shedJson["wilgotność"].get<int>();
-        addres << "&field4=" << my_data->lusina.shedJson["temperatura"].get<float>();
+        addres << "&field1=" << my_data->lusina.shedBat.average();
+        addres << "&field2=" << my_data->lusina.shedPres.average();
+        addres << "&field3=" << my_data->lusina.shedHum.average();
+        addres << "&field4=" << my_data->lusina.shedTemp.average();
         s2 = useful_F_libs::httpPost(addres.str(), 10);
     }
     catch(...){
