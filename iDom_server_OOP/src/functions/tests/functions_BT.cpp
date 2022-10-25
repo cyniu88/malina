@@ -147,12 +147,3 @@ TEST_F(functions_fixture, json_config)
     EXPECT_TRUE(ret._runThread.RS232);
     EXPECT_FALSE(ret._runThread.MQTT);
 }
-
-
-TEST_F(functions_fixture, Server_connectivity_thread)
-{
-    test_my_data.encriptionKey = "key";
-    test_my_data.server_settings->_server.encrypted = true;
-    test_my_data.from.sin_addr = {22};
-   // useful_F::Server_connectivity_thread(&test_my_data, "fake");
-}

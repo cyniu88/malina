@@ -1,6 +1,5 @@
 #include <iostream>
 #include "c_connection.h"
-#include "../thread_functions/iDom_thread.h"
 #include "../functions/functions.h"
 
 C_connection::C_connection (thread_data *my_data):c_socket(my_data->s_client_sock),

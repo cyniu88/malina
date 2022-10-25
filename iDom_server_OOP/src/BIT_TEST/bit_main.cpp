@@ -73,7 +73,7 @@ void bit_fixture::start_iDomServer()
     std::cout << "EXIT bit_fixture::start_iDomServer()" << std::endl;
 }
 
-std::string bit_fixture::send_receive(int socket, std::string msg, std::string key,bool crypt)
+std::string bit_fixture::send_receive(int socket, std::string msg, std::string key, bool crypt)
 {
     char buffer[10000];
     std::string ret;
@@ -206,7 +206,7 @@ TEST_F(bit_fixture, socket_wrong_key_after_while){
 
     sleep(1);
     int connectStatus = connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
-    ASSERT_EQ(connectStatus,0);
+    ASSERT_EQ(connectStatus, 0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
     auto key = useful_F::RSHash();
@@ -376,7 +376,52 @@ TEST_F(bit_fixture, socket_connection_wrong_key){
     iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
 }
 
-TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
+/*
+TEST_F(bit_fixture, socket_connection_http){
+    start_iDomServer();
+
+    struct sockaddr_in serwer =
+    {
+        .sin_family = AF_INET,
+                .sin_port = htons( 8833 )
+    };
+
+    inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
+
+    const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
+
+    sleep(1);
+    int connectStatus = connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    ASSERT_EQ(connectStatus,0);
+    std::cout << "connect status: "<< connectStatus <<std::endl;
+
+    auto key = useful_F::RSHash();
+    std::string httpMsg = R"(
+ POST / HTTP/1.1
+Host: cyniu88.no-ip.pl:8833
+User-Agent: ESP8266HTTPClient
+Accept-Encoding: identity;q=1,chunked;q=0.1,*;q=0
+Connection: keep-alive
+Content-Type: iDom/logging
+Content-Length: 43
+
+{"msg":"start Rolet Rydzyka","millis":9899}
+
+)";
+    std::string toCheck = send_receive(s, httpMsg, key, false);
+    std::cout << "odebrano: " << toCheck << std::endl;
+    EXPECT_STREQ(toCheck.c_str(), "\nFAIL\n");
+
+    close(s);
+
+    useful_F::workServer = false;
+    shutdown(s, SHUT_RDWR );
+
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+}
+*/
+TEST_F(bit_fixture, buderus_mqtt_command_from_boiler)
+{
 
     EXPECT_FALSE(test_my_data.ptr_buderus->isHeatingActiv());
 
@@ -415,7 +460,8 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler){
     EXPECT_THAT(ret, ::testing::HasSubstr(R"(some":)"));
 }
 
-TEST_F(bit_fixture, buderus_mqtt_command_from_boiler_wrong_json_format){
+TEST_F(bit_fixture, buderus_mqtt_command_from_boiler_wrong_json_format)
+{
     /////////////////////////////////  boiler data //////////////////////////////////////////////////////
     std::string test_boilerData = "not json";
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data",test_boilerData);
@@ -426,7 +472,8 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler_wrong_json_format){
     EXPECT_THAT(ret, ::testing::HasSubstr("buderus boile_data - wrong JSON format!"));
 }
 
-TEST_F(bit_fixture, tasker_lusina){
+TEST_F(bit_fixture, tasker_lusina)
+{
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/t", "11");
     bit_Tasker->runTasker();
     EXPECT_STREQ(test_my_data.lusina.temperatureDS20.c_str() , "11");
@@ -448,17 +495,31 @@ TEST_F(bit_fixture, tasker_lusina){
     EXPECT_EQ(test_my_data.lusina.statHumi.min() , -1);
 }
 
-TEST_F(bit_fixture, tasker_no_action){
+TEST_F(bit_fixture, tasker_no_action)
+{
     EXPECT_EQ(256, bit_Tasker->runTasker());
 }
 
-TEST_F(bit_fixture, mqtt_command){
+TEST_F(bit_fixture, mqtt_command)
+{
     blockQueue testMPD_Q;
     testMPD_Q._clearAll();
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command","MPD volume up");
     bit_Tasker->runTasker();
     EXPECT_EQ(1, testMPD_Q._size());
     EXPECT_EQ(testMPD_Q._get(), MPD_COMMAND::VOLUP);
+}
+
+TEST_F(bit_fixture, mqtt_command_shed)
+{
+    test_my_data.lusina.shedConfJson = nlohmann::json::parse( R"({
+    "deepSleep":true,
+    "howLongDeepSleep":177,
+    "fanON":false})");
+    test_my_data.mqttHandler->putToReceiveQueue("shed/put","MPD volume up");
+    bit_Tasker->runTasker();
+    test_my_data.mqttHandler->putToReceiveQueue("shed/put", R"({"temperatura":20.85000038,"ciśnienie":971.899231,"wilgotność":53.17382813,"millis":15273,"bateria":3.896484375,"log":"Found BME280 sensor! Couldn't find PCF8574","fanON":false})");
+    bit_Tasker->runTasker();
 }
 
 TEST_F(bit_fixture, start_iDom_unlock_lock)

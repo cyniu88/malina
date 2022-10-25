@@ -303,6 +303,14 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     client->setEncriptionKey(KEY_OWN);
     std::string KEY_rec = client->c_read_buf(recvSize);
 
+    /// if received http from me
+    if(useful_F_libs::hasSubstring(KEY_rec, "HTTP"))
+    {
+        std::cout  << "mammy  http " << std::endl;
+       // client->c_send("\nFAIL\n") ;
+        return;
+    }
+
     if(KEY_rec == KEY_OWN) // stop runing idom_server
     {
         key_ok = true;

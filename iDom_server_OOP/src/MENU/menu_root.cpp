@@ -127,7 +127,7 @@ void MENU_ROOT::keyPadEpg()
         tempCounter = -1;
     }
     tempCounter++;
-    my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
+    my_dataPTR->main_Rs232->print("TIMEOUT:9000;");
 }
 
 void MENU_ROOT::keyPadRes()

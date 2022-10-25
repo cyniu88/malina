@@ -13,7 +13,14 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_data *my_d
         if (v[1] == "put")
         {
             str_buf.str("");
-            my_data->lusina.shedJson = nlohmann::json::parse(v[2]);
+            try {
+                my_data->lusina.shedJson = nlohmann::json::parse(v[2]);
+            } catch (...) {
+                log_file_mutex.mutex_lock();
+                log_file_cout << CRITICAL << " błąd odebranego json z shed " << v[2] << std::endl;
+                log_file_mutex.mutex_unlock();
+                return "error 222";
+            }
             my_data->lusina.shedBat.push_back(my_data->lusina.shedJson["bateria"].get<float>());
             my_data->lusina.shedHum.push_back(my_data->lusina.shedJson["wilgotność"].get<int>());
             my_data->lusina.shedPres.push_back(my_data->lusina.shedJson["ciśnienie"].get<float>());
