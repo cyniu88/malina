@@ -29,6 +29,7 @@ public:
 
     int c_send(int para);
     int c_send(const std::string& command);
+    int c_sendPure(const std::string& command);
     int c_recv(int para);
     std::string c_read_buf(int recvSize);
     void c_analyse(int recvSize);

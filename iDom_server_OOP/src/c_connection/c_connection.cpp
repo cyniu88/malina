@@ -57,7 +57,7 @@ int C_connection::c_send(int para)
 
     while (len_send > 0)
     {
-        auto len_temp = send( c_socket, m_str_buf.c_str() ,m_str_buf.length(), para );
+        auto len_temp = send(c_socket, m_str_buf.c_str(), m_str_buf.length(), para);
         if(len_temp <= 0 )
         {
             return -1;
@@ -72,6 +72,11 @@ int C_connection::c_send(const std::string &command )
 {
     m_str_buf = command;
     return c_send(0);
+}
+
+int C_connection::c_sendPure(const std::string &command)
+{
+  return  send( c_socket, command.c_str(), command.length(), 0 );
 }
 
 int C_connection::c_recv(int para)

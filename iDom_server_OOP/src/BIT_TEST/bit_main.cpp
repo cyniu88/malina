@@ -324,9 +324,9 @@ TEST_F(bit_fixture, socket_connection_wrong_key_fast_disconnect){
                 .sin_port = htons( 8833 )
     };
 
-    inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
+    inet_pton(serwer.sin_family, ipAddress, & serwer.sin_addr);
 
-    const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
+    const int s = socket(serwer.sin_family, SOCK_STREAM, 0);
 
     sleep(1);
     int connectStatus = connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
@@ -376,14 +376,13 @@ TEST_F(bit_fixture, socket_connection_wrong_key){
     iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
 }
 
-/*
 TEST_F(bit_fixture, socket_connection_http){
     start_iDomServer();
 
     struct sockaddr_in serwer =
     {
         .sin_family = AF_INET,
-                .sin_port = htons( 8833 )
+        .sin_port = htons( 8833 )
     };
 
     inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
@@ -395,7 +394,7 @@ TEST_F(bit_fixture, socket_connection_http){
     ASSERT_EQ(connectStatus,0);
     std::cout << "connect status: "<< connectStatus <<std::endl;
 
-    auto key = useful_F::RSHash();
+
     std::string httpMsg = R"(
  POST / HTTP/1.1
 Host: cyniu88.no-ip.pl:8833
@@ -408,9 +407,19 @@ Content-Length: 43
 {"msg":"start Rolet Rydzyka","millis":9899}
 
 )";
-    std::string toCheck = send_receive(s, httpMsg, key, false);
+    send(s, httpMsg.c_str(), httpMsg.size(), 0 );
+
+    char buffer[10000];
+    auto recC =  recv(s, buffer, sizeof( buffer ), 0);
+    std::cout << "!!! odebrano: size " << recC << "###" << std::endl;
+
+    std::string toCheck;
+    for (int i = 0; i < recC; ++i)
+    {
+        toCheck.push_back( buffer[i]);
+    }
     std::cout << "odebrano: " << toCheck << std::endl;
-    EXPECT_STREQ(toCheck.c_str(), "\nFAIL\n");
+    EXPECT_STREQ(toCheck.c_str(), "HTTP/1.1 200 OK");
 
     close(s);
 
@@ -419,7 +428,7 @@ Content-Length: 43
 
     iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
 }
-*/
+
 TEST_F(bit_fixture, buderus_mqtt_command_from_boiler)
 {
 

@@ -289,10 +289,11 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     my_data->main_Rs232->print("LED_AT:1;");
 
     int recvSize = client->c_recv(0);
+
     if(recvSize == -1)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) << std::endl;
+        log_file_cout << CRITICAL << "CLOSE, AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) << std::endl;
         log_file_mutex.mutex_unlock();
         delete client;
         my_data->main_Rs232->print("LED_AT:0;");
@@ -302,14 +303,6 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     std::string KEY_OWN = useful_F::RSHash();
     client->setEncriptionKey(KEY_OWN);
     std::string KEY_rec = client->c_read_buf(recvSize);
-
-    /// if received http from me
-    if(useful_F_libs::hasSubstring(KEY_rec, "HTTP"))
-    {
-        std::cout  << "mammy  http " << std::endl;
-       // client->c_send("\nFAIL\n") ;
-        return;
-    }
 
     if(KEY_rec == KEY_OWN) // stop runing idom_server
     {
@@ -329,13 +322,27 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         client->cryptoLog(KEY_rec);// setEncriptionKey(KEY_rec);
         log_file_cout << CRITICAL << "KEY UNCRIPTED RECIVED\n\n " << KEY_rec << "\n\n" << std::endl;
         log_file_mutex.mutex_unlock();
-
+        if(useful_F_libs::hasSubstring(KEY_rec, "HTTP"))
+        {
+            std::cout << "mamy to !!!!" << std::endl;
+        }
         std::string msg = "podano zły klucz autentykacji - sprawdz logi ";
         msg.append(inet_ntoa(my_data->from.sin_addr));
         my_data->main_iDomTools->sendViberMsg(msg,
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender + "_ALERT!");
 
+
+        if(useful_F_libs::hasSubstring(KEY_rec, "HTTP"))
+        {
+            if(client->c_sendPure("HTTP/1.1 200 OK") == -1)
+            {
+                delete client;
+                my_data->main_Rs232->print("LED_AT:0;");
+                iDOM_THREAD::stop_thread(threadName, my_data);
+                return;
+            }
+        }
         if(client->c_send("\nFAIL\n") == -1)
         {
             delete client;
