@@ -14,14 +14,13 @@ jobs:
     steps:
       - run: *install_common
       - run: |
-          apt-get update --fix-missing
-          apt-get install -qq clang-6.0 sudo
+          apt-get install -qq clang-7.0 sudo
       - checkout
       - run: |
           ls /usr/bin
-          clang-6.0 --version
-          sudo ln /usr/bin/clang++-6.0 /usr/bin/clang++
-          sudo ln /usr/bin/clang-6.0 /usr/bin/clang
+          clang-7.0 --version
+          sudo ln /usr/bin/clang++-7.0 /usr/bin/clang++
+          sudo ln /usr/bin/clang-7.0 /usr/bin/clang
       - run:
           name: Install CMAKE GIT and libs
           command: 'apt-get update && sudo apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libmosquitto-dev'
