@@ -14,6 +14,7 @@ jobs:
     steps:
       - run: *install_common
       - run: |
+          apt-get update --fix-missing
           apt-get install -qq clang-6.0 sudo
       - checkout
       - run: |
