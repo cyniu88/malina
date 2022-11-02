@@ -419,7 +419,7 @@ Content-Length: 43
         toCheck.push_back( buffer[i]);
     }
     std::cout << "odebrano: " << toCheck << std::endl;
-    EXPECT_STREQ(toCheck.c_str(), "HTTP/1.1 200 OK");
+    EXPECT_THAT(toCheck, ::testing::HasSubstr("HTTP/1.1 200 OK"));
 
     close(s);
 

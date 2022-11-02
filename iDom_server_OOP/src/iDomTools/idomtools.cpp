@@ -533,9 +533,9 @@ std::string iDomTOOLS::getAllDataSunriseSunset()
 void iDomTOOLS::checkLightning()
 {
     return ;
-    log_file_mutex.mutex_lock();
-    log_file_cout << ERROR << "nie wysłano informacje o burzy" << std::endl;
-    log_file_mutex.mutex_unlock();
+   // log_file_mutex.mutex_lock();
+   // log_file_cout << ERROR << "nie wysłano informacje o burzy" << std::endl;
+   // log_file_mutex.mutex_unlock();
 }
 
 

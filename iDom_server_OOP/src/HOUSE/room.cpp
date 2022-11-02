@@ -2,7 +2,7 @@
 #include "house_room_handler.h"
 #include "../functions/functions.h"
 
-ROOM::ROOM(std::vector<int> satelSensorID, const std::string &name, const std::map<int, std::shared_ptr<light_bulb> > &lightingBulbMap):
+ROOM::ROOM(const std::vector<int> &satelSensorID, const std::string &name, const std::map<int, std::shared_ptr<light_bulb> > &lightingBulbMap):
     m_satelSensorID(satelSensorID),
     m_name(name),
     m_lightingBulbMap(lightingBulbMap)

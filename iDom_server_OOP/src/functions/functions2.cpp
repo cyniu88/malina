@@ -335,7 +335,15 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
 
         if(useful_F_libs::hasSubstring(KEY_rec, "HTTP"))
         {
-            if(client->c_sendPure("HTTP/1.1 200 OK") == -1)
+            std::string msgHTTP = R"(HTTP/1.1 200 OK
+Date: Sat, 09 Oct 2010 14:28:02 GMT
+Server: Apache
+Last-Modified: Tue, 01 Dec 2009 20:18:22 GMT
+ETag: "51142bc1-7449-479b075b2891b"
+Accept-Ranges: bytes
+Content-Length: 29769
+Content-Type: text/html)";
+            if(client->c_sendPure(msgHTTP) == -1)
             {
                 delete client;
                 my_data->main_Rs232->print("LED_AT:0;");
