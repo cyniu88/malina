@@ -14,7 +14,7 @@ jobs:
     steps:
       - run: *install_common
       - run: |
-          apt-get install -qq clang llvm-profdata llvm-cov sudo
+          apt-get install -qq clang llvm sudo
       - checkout
       - run: |
           ls /usr/bin
