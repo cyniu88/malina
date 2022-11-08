@@ -425,30 +425,27 @@ void iDomTOOLS::lockHome()
             my_data->server_settings->_runThread.SATEL == true)
         my_data->satelIntegraHandler->getSatelPTR()->armAlarm(my_data->server_settings->_satel_integra.partitionID);
 
-
+    // run command
     if(my_data->server_settings->_command.contains("lock")){
         runCommandFromJson(my_data->server_settings->_command["lock"].get<std::vector<std::string>>());
     }
-    else
-        puts("NIE MA !!");
-    ////switch 433mhz
 
+    ////switch 433mhz
     for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
         m_switch->onLockHome();
     }
-    ///// light bulb
+
     my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
                                               "http://45.90.3.84/images/iDom/iDom/lock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender);
-    /// turn on music
-    //MPD_stop();
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "zablokowanie domu - "  <<(my_data->idom_all_state.houseState) << std::endl;
     log_file_mutex.mutex_unlock();
 
     saveState_iDom(my_data->serverStarted);
+
     if( my_data->server_settings->_runThread.SATEL == true){
         my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
     }
@@ -462,15 +459,18 @@ void iDomTOOLS::unlockHome()
     my_data->idom_all_state.houseState = STATE::UNLOCK;
     my_data->idom_all_state.counter = 0;
     my_data->main_iDomStatus->setObjectState("house", STATE::UNLOCK);
-    //#ifndef BT_TEST
+
     // disarm alarm
     if(my_data->idom_all_state.alarmSatelState != STATE::DISARMED and
             my_data->server_settings->_runThread.SATEL == true)
         my_data->satelIntegraHandler->getSatelPTR()->disarmAlarm(my_data->server_settings->_satel_integra.partitionID);
 
+    // run command
     if(my_data->server_settings->_command.contains("unlock")){
        runCommandFromJson(my_data->server_settings->_command["unlock"].get<std::vector<std::string>>());
     }
+
+    // send message on viber
     my_data->main_iDomTools->sendViberPicture("dom odblokownay!",
                                               "http://45.90.3.84/images/iDom/iDom/unlock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
@@ -481,6 +481,7 @@ void iDomTOOLS::unlockHome()
     log_file_mutex.mutex_unlock();
 
     saveState_iDom(my_data->serverStarted);
+
     if(my_data->server_settings->_runThread.SATEL == true){
         my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
     }
@@ -1031,7 +1032,6 @@ void iDomTOOLS::readState_iDom(nlohmann::json jj)
             my_data->alarmTime.commands.push_back(k);
         }
 
-        std::cout << "cyniu: " << alarmState << std::endl;
         if (alarmState == "ACTIVE"){
             my_data->alarmTime.state = STATE::ACTIVE;
             my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
