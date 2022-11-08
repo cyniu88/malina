@@ -2,7 +2,6 @@
 #include<gmock/gmock.h>
 
 #include "../command_program.h"
-#include "../../../RADIO_433_eq/radio_433_eq.h"
 #include "../../../iDomTools/mock/iDomToolsMock.h"
 
 class command_program_Class_fixture : public testing::Test
