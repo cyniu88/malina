@@ -19,52 +19,6 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
         if (v[1] == "show" && v[2] == "all"){
             str_buf = my_data->main_REC->listAllName();
         }
-        else if (v[1] == "delete" && v.size() == 3)
-        {
-            if (my_data->main_REC->nameExist(v[2]) == false)
-            {
-                return "equipment "+ v[2] + " not exist ";
-            }
-            my_data->main_REC->deleteRadioEq(v[2]);
-            str_buf = v[2] + " deleted";
-        }
-        else if (v[1] == "add" && v.size() > 3) //zmień tu
-        {
-            RADIO_EQ_CONFIG cfg;
-           if(v[2] == "SWITCH" && v.size() == 12)
-                cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8]); // zmień tu
-            else if(v[2] == "BUTTON" && v.size() >= 6)
-                cfg.set(v[2],v[3],v[4],v[5],v[6]); // zmień tu
-            else if(v[2] == "WEATHER" && v.size() >= 4)
-                cfg.set(v[2],v[3],v[4]); // zmień tu
-            else
-            {
-                if (v.size() not_eq 12)
-                    return "mising paramiter!";
-                cfg.set(v[2],v[3],v[4],v[5],v[6],v[7],v[8]); // zmień tu
-                //return v[2] + " " + v[3] + " " + v[4] + "add more paramiter or wrong type";
-}
-            /////////////////////////////////////////////////////////////
-            if (my_data->main_REC->nameExist(v[3]) == true)
-            {
-                return "equipment "+ v[3] + " exist ";
-            }
-            try
-            {
-                my_data->main_REC->addRadioEq(cfg,v[2]);
-            }
-            catch(const WRONG_FORMAT& )
-            {
-                return "wrong type " + v[2];
-            }
-            catch(const std::invalid_argument& )
-            {
-                return "wrong ID " + v[4];
-            }
-
-            str_buf = v[2] + " " + v[3] + " added";
-            my_data->main_REC->saveConfig(my_data->server_settings->_server.radio433MHzConfigFile);
-        }
         else if (v[1] == "show" && v[2] == "switch"){
             str_buf.clear();
             for (auto m_switch : my_data->main_REC->getSwitchPointerVector())

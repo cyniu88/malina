@@ -384,8 +384,6 @@ void iDomTOOLS::runOnSunrise()
         {
             runCommandFromJson(my_data->server_settings->_command["sunrise"]["unlock"].get<std::vector<std::string>>());
         }
-        else
-            puts("KICHA");
     }
     my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/sun", "SUNRISE");
 }
@@ -395,9 +393,6 @@ void iDomTOOLS::lockHome()
     if(my_data->idom_all_state.houseState == STATE::LOCK){
         return;
     }
-
-    my_data->idom_all_state.houseState = STATE::LOCK;
-    my_data->main_iDomStatus->setObjectState("house", STATE::LOCK);
 
     // arm alarm
     if(my_data->idom_all_state.alarmSatelState != STATE::ARMED  and
@@ -423,6 +418,9 @@ void iDomTOOLS::lockHome()
     if( my_data->server_settings->_runThread.SATEL == true){
         my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
     }
+
+    my_data->idom_all_state.houseState = STATE::LOCK;
+    my_data->main_iDomStatus->setObjectState("house", STATE::LOCK);
 }
 
 void iDomTOOLS::unlockHome()
