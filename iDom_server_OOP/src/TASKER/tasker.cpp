@@ -38,7 +38,7 @@ int TASKER::runTasker()
             v.push_back(kk.second);
             (void) commandMQTT.run(v, my_data);
         }
-        else if(kk.first == "shed/put")
+        else if(kk.first == "iDom-client/shed/put")
         {
             std::vector<std::string> v = {"shed","put"};
             v.push_back(kk.second);
@@ -85,6 +85,7 @@ int TASKER::runTasker()
                 my_data->lusina.statTemp.push_back(std::stof(v.front()));
             }
         }
+		
         return 10;
     }
     return 256;
