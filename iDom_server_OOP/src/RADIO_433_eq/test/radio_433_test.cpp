@@ -50,7 +50,6 @@ TEST_F(Switch_Class_fixture, switch_alarm_on)
     EXPECT_EQ(ptr->getState(),STATE::ON);
     ptr->off();
     EXPECT_EQ(ptr->getState(),STATE::OFF);
-    ptr->onSunset();
     EXPECT_EQ(ptr->getState(),STATE::OFF);
 }
 
@@ -126,39 +125,6 @@ TEST_F(Switch_Class_fixture, getUnexistPtr)
     EXPECT_THROW(test_my_data.main_REC->getEqPointer("kokos"),std::string);
 }
 
-TEST_F(Switch_Class_fixture, onLock_onUnlock_HOME)
-{
-    RADIO_EQ_CONFIG tCfg;
-    tCfg.name = "cyniu";
-    tCfg.ID = "8899";
-    tCfg.lock = "ON";
-
-    auto testRadioS = static_cast<RADIO_SWITCH*>(test_rec->getEqPointer("C"));
-    testRadioS->setCode(tCfg);
-    testRadioS->onLockHome();
-    std::string eventStr = test_my_data.myEventHandler.run("iDom")->getEvent();
-    EXPECT_THAT(eventStr, testing::HasSubstr("cyniu ON due to 433MHz button pressed"));
-
-    tCfg.lock = "OFF";
-    testRadioS->setCode(tCfg);
-    testRadioS->onLockHome();
-    eventStr = test_my_data.myEventHandler.run("iDom")->getEvent();
-    EXPECT_THAT(eventStr, testing::HasSubstr("cyniu OFF due to 433MHz button pressed"));
-
-    ////////////////////// unlock
-    tCfg.unlock = "ON";
-
-    testRadioS->setCode(tCfg);
-    testRadioS->onUnlockHome();
-     eventStr = test_my_data.myEventHandler.run("iDom")->getEvent();
-    EXPECT_THAT(eventStr, testing::HasSubstr("cyniu ON due to 433MHz button pressed"));
-
-    tCfg.unlock = "OFF";
-    testRadioS->setCode(tCfg);
-    testRadioS->onUnlockHome();
-    eventStr = test_my_data.myEventHandler.run("iDom")->getEvent();
-    EXPECT_THAT(eventStr, testing::HasSubstr("cyniu OFF due to 433MHz button pressed"));
-}
 
 TEST_F(Switch_Class_fixture, us_wrong_configurated_switch)
 {

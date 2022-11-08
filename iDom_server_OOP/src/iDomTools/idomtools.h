@@ -51,9 +51,6 @@ public:
     void runOnSunrise() override;
     void lockHome() override;
     void unlockHome() override;
-    //////////////////////////// 433MHz action ///////////////////
-    void switchActionOnLockHome() override;
-    void switchActionOnUnlockHome() override;
 
     void buttonLockHome() override;
     void buttonUnlockHome() override;

@@ -33,12 +33,12 @@ public:
         "lock":["jedna komenda", "druga komenda"],
         "unlock":["jedna komenda unlock", "druga komenda unlock"],
         "sunrise":{
-            "lock": ["sjedna komenda sunrise lock", "sdruga komenda sunrise lock"],
-            "unlock": ["sjedna komenda sunrise unlock", "sdruga komenda sunrise unlock"]
+            "lock": ["433MHz switch B OFF", "sdruga komenda sunrise lock"],
+            "unlock": ["sjedna komenda sunrise unlock", "433MHz switch B ON"]
         },
         "sunset":{
-            "unlock": ["sjedna komenda sunset unlock", "sdruga komenda sunset unlock"],
-            "lock": ["sjedna komenda sunset lock", "sdruga komenda sunset lock"]
+            "unlock": ["sjedna komenda sunset unlock", "433MHz switch B ON"],
+            "lock": ["433MHz switch B OFF", "sdruga komenda sunset lock"]
         }
     })");
 

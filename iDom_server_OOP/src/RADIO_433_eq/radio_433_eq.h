@@ -76,10 +76,6 @@ struct RADIO_EQ_CONFIG{
     std::string onCode  = "NULL";
     std::string offCode = "NULL";
     std::string on15sec = "NULL";
-    std::string sunrise = "NULL";
-    std::string sunset  = "NULL";
-    std::string lock   = "NULL";
-    std::string unlock = "NULL";
     std::string commandRun = "NULL";
     void set(const std::string& type,
              const std::string& name,
@@ -87,10 +83,6 @@ struct RADIO_EQ_CONFIG{
              const std::string& onCode = "null",
              const std::string& offCode = "null",
              const std::string& on15sec = "null",
-             const std::string& sunrise = "null",
-             const std::string& sunset = "null",
-             const std::string& lock = "null",
-             const std::string& unlock = "null",
              const std::string& commandRun = "null"){
         this->name = name;
         this->ID   = ID;
@@ -98,10 +90,6 @@ struct RADIO_EQ_CONFIG{
         this->onCode  = onCode;
         this->offCode = offCode;
         this->on15sec = on15sec;
-        this->sunrise = sunrise;
-        this->sunset  = sunset;
-        this->lock   = lock;
-        this->unlock = unlock;
         this->commandRun = commandRun;
         // add to getJson below
     }
@@ -114,10 +102,6 @@ struct RADIO_EQ_CONFIG{
         jj["ON"]    = onCode;
         jj["OFF"]   = offCode;
         jj["on15sec"] = on15sec;
-        jj["sunrise"] = sunrise;
-        jj["sunset"]  = sunset;
-        jj["lock"]   = lock;
-        jj["unlock"] = unlock;
         jj["commandRun"] = commandRun;
         return jj;
     }
@@ -182,10 +166,6 @@ public:
     void off();
     void on_Off();
     void onFor15sec();
-    void onSunrise();
-    void onSunset();
-    void onLockHome();
-    void onUnlockHome();
     STATE getState() const override;
     std::string getName() const override;
     std::string getID() const override;

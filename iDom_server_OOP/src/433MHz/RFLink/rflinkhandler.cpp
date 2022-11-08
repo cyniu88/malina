@@ -1,7 +1,6 @@
 #include <unistd.h>
 
 #include "rflinkhandler.h"
-#include "../../functions/functions.h"
 
 std::mutex RFLinkHandler::sm_RFLink_MUTEX;
 std::string RFLinkHandler::sm_RFLink_BUFOR;

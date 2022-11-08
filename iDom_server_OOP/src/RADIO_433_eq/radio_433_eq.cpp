@@ -7,9 +7,7 @@
 RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data,
                            const RADIO_EQ_CONFIG &cfg,
                            RADIO_EQ_TYPE type):
-                                                 main433MHz(my_data),
-                                                 m_sunrise(stringToState(cfg.sunrise)),
-                                                 m_sunset(stringToState(cfg.sunset))
+                                                 main433MHz(my_data)
 {
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
@@ -82,73 +80,6 @@ void RADIO_SWITCH::onFor15sec()
     }
 }
 
-void RADIO_SWITCH::onSunrise()
-{
-    if(m_sunrise == STATE::ON ){
-        on();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
-                                                        RADIO_EQ::m_config.name +
-                                                        " ON due to sunrise");
-    }
-    else if(m_sunrise == STATE::OFF){
-        off();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
-                                                        RADIO_EQ::m_config.name +
-                                                        " OFF due to sunrise");
-    }
-}
-
-void RADIO_SWITCH::onSunset()
-{
-    if(m_sunset == STATE::ON ){
-        on();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
-                                                        RADIO_EQ::m_config.name +
-                                                        " ON due to sunset");
-    }
-    else if(m_sunset == STATE::OFF){
-        off();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
-                                                        RADIO_EQ::m_config.name +
-                                                        " OFF due to sunset");
-    }
-}
-
-void RADIO_SWITCH::onLockHome()
-{
-    if (m_config.lock == "ON")
-    {
-        on();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
-                                                        RADIO_EQ::m_config.name +
-                                                        " ON due to 433MHz button pressed");
-    }
-    else if(m_config.lock == "OFF")
-    {
-        off();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
-                                                        RADIO_EQ::m_config.name +
-                                                        " OFF due to 433MHz button pressed");
-    }
-}
-
-void RADIO_SWITCH::onUnlockHome()
-{
-    if (m_config.unlock == "ON")
-    {
-        on();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch " +
-                                                        RADIO_EQ::m_config.name +
-                                                        " ON due to 433MHz button pressed");
-    }
-    else if (m_config.unlock == "OFF")
-    {
-        off();
-        m_my_data->myEventHandler.run("iDom")->addEvent("radio switch "
-                                                        + RADIO_EQ::m_config.name +
-                                                        " OFF due to 433MHz button pressed");
-    }
-}
 
 STATE RADIO_SWITCH::getState() const
 {
@@ -171,27 +102,12 @@ void RADIO_SWITCH::setCode(RADIO_EQ_CONFIG cfg)
     RADIO_EQ::m_config.offCode = cfg.offCode;
     RADIO_EQ::m_config.on15sec = cfg.on15sec;
     RADIO_EQ::m_config.type = cfg.type;
-    RADIO_EQ::m_config.lock = cfg.lock;
-    RADIO_EQ::m_config.unlock = cfg.unlock;
     RADIO_EQ::m_config.name = cfg.name;
-
-    if(cfg.sunset == "on"){
-        m_sunset = STATE::ON;
-    }
-    if(cfg.sunset == "off"){
-        m_sunset = STATE::OFF;
-    }
-    if(cfg.sunrise == "on"){
-        m_sunrise = STATE::ON;
-    }
-    if(cfg.sunrise == "off"){
-        m_sunrise = STATE::OFF;
-    }
 }
 
-RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_data *my_data)
+RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_data *m_my_data)
 {
-    this->my_data = my_data;
+    this->my_data = m_my_data;
 }
 
 RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()
@@ -335,10 +251,6 @@ void RADIO_EQ_CONTAINER::loadConfig(const std::string& filePath)
                 cfg.offCode = switchJson_tmp.at("OFF").get<std::string>();
                 cfg.onCode = switchJson_tmp.at("ON").get<std::string>();
                 cfg.on15sec = switchJson_tmp.at("on15sec").get<std::string>();
-                cfg.sunrise = switchJson_tmp.at("sunrise").get<std::string>();
-                cfg.sunset = switchJson_tmp.at("sunset").get<std::string>();
-                cfg.lock   = switchJson_tmp.at("lock").get<std::string>();
-                cfg.unlock = switchJson_tmp.at("unlock").get<std::string>();
                 cfg.type   = switchJson_tmp.at("type").get<std::string>();
                 addRadioEq(cfg,RADIO_EQ_TYPE::SWITCH);
                 dynamic_cast<RADIO_SWITCH*>(getEqPointer(cfg.name))->setCode(cfg);

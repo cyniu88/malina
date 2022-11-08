@@ -43,9 +43,6 @@ public:
     virtual void runOnSunrise() = 0;
     virtual void lockHome() = 0;
     virtual void unlockHome() = 0;
-    //////////////////////////// 433MHz action ///////////////////
-    virtual void switchActionOnLockHome() = 0;
-    virtual void switchActionOnUnlockHome() = 0;
 
     virtual void buttonLockHome() = 0;
     virtual void buttonUnlockHome() = 0;

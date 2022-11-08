@@ -394,55 +394,23 @@ TEST_F(iDomTOOLS_ClassTest, turnOnOff433MHzSwitch)
 
 TEST_F(iDomTOOLS_ClassTest, runOnSunset)
 {
-    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+    test_my_data.idom_all_state.houseState = STATE::UNLOCK;
     test_my_data.main_iDomTools->runOnSunset();
-    std::string retStr = useful_F::myStaticData->myEventHandler.run("iDom")->getEvent();
-    EXPECT_THAT(retStr, testing::HasSubstr("433MHz can not start due to home state: LOCK"));
-
-    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-    auto ptr = static_cast<RADIO_SWITCH*>(test_my_data.main_REC->getEqPointer("B"));
-    ptr->m_state = STATE::ON;
-    test_my_data.main_iDomTools->runOnSunset();
-
-    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
-
-    RADIO_EQ_CONFIG cfg;
-    cfg.sunset = "on";
-    cfg.sunrise = "off";
-
-    ptr->setCode(cfg);
-    ptr->m_state = STATE::OFF;
-    test_my_data.main_iDomTools->runOnSunset();
-
     EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
+
+    test_my_data.idom_all_state.houseState = STATE::LOCK;
+    test_my_data.main_iDomTools->runOnSunset();
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
 }
 
 TEST_F(iDomTOOLS_ClassTest, runOnSunrise)
 {
-    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+    test_my_data.idom_all_state.houseState = STATE::UNLOCK;
     test_my_data.main_iDomTools->runOnSunrise();
-    std::string retStr = useful_F::myStaticData->myEventHandler.run("iDom")->getEvent();
-    EXPECT_THAT(retStr, testing::HasSubstr("433MHz can not start due to home state: LOCK"));
+    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
 
-    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-    auto ptr = static_cast<RADIO_SWITCH*>(test_my_data.main_REC->getEqPointer("B"));
-    ptr->m_state = STATE::OFF;
+    test_my_data.idom_all_state.houseState = STATE::LOCK;
     test_my_data.main_iDomTools->runOnSunrise();
-
-
-    RADIO_EQ_CONFIG cfg;
-    cfg.sunset = "off";
-    cfg.sunrise = "on";
-
-    ptr->setCode(cfg);
-
-    cfg.sunset = "on";
-    cfg.sunrise = "off";
-
-    ptr->setCode(cfg);
-    ptr->m_state = STATE::ON;
-    test_my_data.main_iDomTools->runOnSunrise();
-
     EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
 }
 

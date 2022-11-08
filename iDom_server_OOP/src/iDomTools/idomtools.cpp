@@ -353,17 +353,6 @@ void iDomTOOLS::turnOff433MHzSwitch(std::string name)
 
 void iDomTOOLS::runOnSunset()
 {
-    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
-    {
-        ////switch 433mhz
-        for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
-            m_switch->onSunset();
-        }
-    }
-    else{
-        my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "
-                                                      + stateToString(my_data->idom_all_state.houseState));
-    }
 
     if(my_data->server_settings->_command.contains("sunset")){
         if(my_data->idom_all_state.houseState == STATE::LOCK
@@ -384,18 +373,6 @@ void iDomTOOLS::runOnSunset()
 
 void iDomTOOLS::runOnSunrise()
 {
-    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
-    {
-        ////switch 433mhz
-        for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
-            m_switch->onSunrise();
-        }
-    }
-    else{
-        my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "
-                                                      + stateToString(my_data->idom_all_state.houseState));
-    }
-
     if(my_data->server_settings->_command.contains("sunrise")){
         if(my_data->idom_all_state.houseState == STATE::LOCK
                 and my_data->server_settings->_command["sunrise"].contains("lock"))
@@ -407,6 +384,8 @@ void iDomTOOLS::runOnSunrise()
         {
             runCommandFromJson(my_data->server_settings->_command["sunrise"]["unlock"].get<std::vector<std::string>>());
         }
+        else
+            puts("KICHA");
     }
     my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/sun", "SUNRISE");
 }
@@ -428,11 +407,6 @@ void iDomTOOLS::lockHome()
     // run command
     if(my_data->server_settings->_command.contains("lock")){
         runCommandFromJson(my_data->server_settings->_command["lock"].get<std::vector<std::string>>());
-    }
-
-    ////switch 433mhz
-    for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
-        m_switch->onLockHome();
     }
 
     my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
@@ -484,22 +458,6 @@ void iDomTOOLS::unlockHome()
 
     if(my_data->server_settings->_runThread.SATEL == true){
         my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
-    }
-}
-
-void iDomTOOLS::switchActionOnLockHome()
-{
-    ////switch 433mhz
-    for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
-        m_switch->onLockHome();
-    }
-}
-
-void iDomTOOLS::switchActionOnUnlockHome()
-{
-    ////switch 433mhz
-    for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
-        m_switch->onUnlockHome();
     }
 }
 
@@ -1087,6 +1045,9 @@ void iDomTOOLS::runCommandFromJson(const std::vector<std::string> &jj)
     CommandHandlerMQTT commandMQTT;
     for(const auto& command : jj){
         auto v = useful_F::split(command, ' ');
+#ifdef BT_TEST
+        std::cout << "command to run: " << command << std::endl;
+#endif
         commandMQTT.run(v, my_data);
     }
 }
