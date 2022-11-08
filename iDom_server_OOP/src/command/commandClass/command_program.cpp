@@ -110,13 +110,15 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         r << "my_data->server_settings->_fb_viber.viberAvatar \t"
           << my_data->server_settings->_fb_viber.viberAvatar<< std::endl;
         r << "my_data->server_settings->_fb_viber.viberReceiver.at(0) \t"
-          << my_data->server_settings->_fb_viber.viberReceiver.at(0)<< std::endl;
+          << my_data->server_settings->_fb_viber.viberReceiver.at(0) << std::endl;
         r << "my_data->server_settings->_fb_viber.viberSender \t"
-          << my_data->server_settings->_fb_viber.viberSender<< std::endl;
+          << my_data->server_settings->_fb_viber.viberSender << std::endl;
         r << "my_data->server_settings->_fb_viber.viberToken \t"
-          << my_data->server_settings->_fb_viber.viberToken<< std::endl;
+          << my_data->server_settings->_fb_viber.viberToken << std::endl;
         r << "my_data->server_settings->_server.v_delay \t"
-          << my_data->server_settings->_server.v_delay<< std::endl;
+          << my_data->server_settings->_server.v_delay << std::endl;
+        r << "my_data->server_settings->_command\t"
+          << my_data->server_settings->_command << std::endl;
         r << std::endl;
         r << "my_data->server_settings->sleeper \t"
           << my_data->sleeper<< std::endl;
