@@ -636,6 +636,8 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._satel_integra.outdoor_siren_lights_id = jj["satel_integra32"].at("outdoor_siren_lights_id").get<unsigned int>();
     ///////////////////////// SHED //////////////////////////////////////////////////////////////////////////////
     cj._shedConf = jj["shed"];
+    ///////////////////////// COMMAND ////////////////////////////////////////////////////
+    cj._command = jj["command"];
 
     return cj;
 }

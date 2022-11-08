@@ -29,6 +29,18 @@ public:
         test_server_set._server.saveFilePath = "/mnt/ramdisk/iDomStateTest2.save";
         test_server_set._server.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
         test_server_set._server.keyDatabasePath = "/mnt/ramdisk/key.database";
+        test_server_set._command = nlohmann::json::parse(R"({
+        "lock":["jedna komenda", "druga komenda"],
+        "unlock":["jedna komenda unlock", "druga komenda unlock"],
+        "sunrise":{
+            "lock": ["sjedna komenda sunrise lock", "sdruga komenda sunrise lock"],
+            "unlock": ["sjedna komenda sunrise unlock", "sdruga komenda sunrise unlock"]
+        },
+        "sunset":{
+            "unlock": ["sjedna komenda sunset unlock", "sdruga komenda sunset unlock"],
+            "lock": ["sjedna komenda sunset lock", "sdruga komenda sunset lock"]
+        }
+    })");
 
 
         test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();

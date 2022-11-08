@@ -21,12 +21,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData):
     m_allThermometerUpdate.add("inside");
     m_allThermometerUpdate.add("outside");
     /////////////////////////////////////////////////////////////////
-#ifndef BT_TEST
-    pinMode(iDomConst::GPIO_SPIK, OUTPUT); // gpio pin do zasilania glosnikow
-    //digitalWrite(iDomConst::GPIO_SPIK,LOW);
-    pinMode(iDomConst::GPIO_PRINTER,OUTPUT); /// gpio pin do zsilania drukarki
-    digitalWrite(iDomConst::GPIO_PRINTER,LOW);
-#endif
+
     my_data->main_iDomStatus->addObject("cameraLED", STATE::UNKNOWN);
     my_data->main_iDomStatus->addObject("printer", STATE::OFF);
     my_data->main_iDomStatus->addObject("speakers", STATE::OFF);
@@ -369,15 +364,18 @@ void iDomTOOLS::runOnSunset()
         my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "
                                                       + stateToString(my_data->idom_all_state.houseState));
     }
-    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
-    {
-        ////house light
-        my_data->main_house_room_handler->onSunset();
-    }
 
-    else{
-        my_data->myEventHandler.run("iDom")->addEvent("house light can not start due to home state: "
-                                                      + stateToString(my_data->idom_all_state.houseState));
+    if(my_data->server_settings->_command.contains("sunset")){
+        if(my_data->idom_all_state.houseState == STATE::LOCK
+                and my_data->server_settings->_command["sunset"].contains("lock"))
+        {
+            runCommandFromJson(my_data->server_settings->_command["sunset"]["lock"].get<std::vector<std::string>>());
+        }
+        else if(my_data->idom_all_state.houseState == STATE::UNLOCK
+                and my_data->server_settings->_command["sunset"].contains("unlock"))
+        {
+            runCommandFromJson(my_data->server_settings->_command["sunset"]["unlock"].get<std::vector<std::string>>());
+        }
     }
 
     my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/sun","SUNSET");
@@ -397,17 +395,19 @@ void iDomTOOLS::runOnSunrise()
         my_data->myEventHandler.run("iDom")->addEvent("433MHz can not start due to home state: "
                                                       + stateToString(my_data->idom_all_state.houseState));
     }
-    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
-    {
-        ////house light
-        my_data->main_house_room_handler->onSunrise();
-    }
-    else{
-        my_data->myEventHandler.run("iDom")->addEvent("light can not start due to home state: "
-                                                      + stateToString(my_data->idom_all_state.houseState));
-    }
 
-    ledOFF();
+    if(my_data->server_settings->_command.contains("sunrise")){
+        if(my_data->idom_all_state.houseState == STATE::LOCK
+                and my_data->server_settings->_command["sunrise"].contains("lock"))
+        {
+            runCommandFromJson(my_data->server_settings->_command["sunrise"]["lock"].get<std::vector<std::string>>());
+        }
+        else if(my_data->idom_all_state.houseState == STATE::UNLOCK
+                and my_data->server_settings->_command["sunrise"].contains("unlock"))
+        {
+            runCommandFromJson(my_data->server_settings->_command["sunrise"]["unlock"].get<std::vector<std::string>>());
+        }
+    }
     my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/sun", "SUNRISE");
 }
 
@@ -425,16 +425,18 @@ void iDomTOOLS::lockHome()
             my_data->server_settings->_runThread.SATEL == true)
         my_data->satelIntegraHandler->getSatelPTR()->armAlarm(my_data->server_settings->_satel_integra.partitionID);
 
-    // turn off ventilation
 
-
-    ////switch 433mhz#include "idomtools.h"
+    if(my_data->server_settings->_command.contains("lock")){
+        runCommandFromJson(my_data->server_settings->_command["lock"].get<std::vector<std::string>>());
+    }
+    else
+        puts("NIE MA !!");
+    ////switch 433mhz
 
     for (auto m_switch : my_data->main_REC->getSwitchPointerVector()){
         m_switch->onLockHome();
     }
     ///// light bulb
-    my_data->main_house_room_handler->onLock();
     my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
                                               "http://45.90.3.84/images/iDom/iDom/lock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
@@ -466,11 +468,9 @@ void iDomTOOLS::unlockHome()
             my_data->server_settings->_runThread.SATEL == true)
         my_data->satelIntegraHandler->getSatelPTR()->disarmAlarm(my_data->server_settings->_satel_integra.partitionID);
 
-    // turn on ventilation on speed 1
-
-    //#endif
-    ///// light bulb
-    my_data->main_house_room_handler->onUnlock();
+    if(my_data->server_settings->_command.contains("unlock")){
+       runCommandFromJson(my_data->server_settings->_command["unlock"].get<std::vector<std::string>>());
+    }
     my_data->main_iDomTools->sendViberPicture("dom odblokownay!",
                                               "http://45.90.3.84/images/iDom/iDom/unlock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
@@ -870,7 +870,7 @@ std::string iDomTOOLS::postOnFacebook(const std::string& msg, const std::string&
 
 std::string iDomTOOLS::ledOFF()
 {
-    my_data->main_iDomStatus->setObjectState("Night_Light",STATE::OFF);
+    my_data->main_iDomStatus->setObjectState("Night_Light", STATE::OFF);
     // temporary
     turnOff433MHzSwitch("B");
     return "done";
@@ -1080,5 +1080,13 @@ void iDomTOOLS::doorbellDingDong()
         log_file_cout << ERROR << "brak dzwonka do drzwi!!! w paśmie 433MHz" << std::endl;
         log_file_mutex.mutex_unlock();
     }
+}
 
+void iDomTOOLS::runCommandFromJson(const std::vector<std::string> &jj)
+{
+    CommandHandlerMQTT commandMQTT;
+    for(const auto& command : jj){
+        auto v = useful_F::split(command, ' ');
+        commandMQTT.run(v, my_data);
+    }
 }

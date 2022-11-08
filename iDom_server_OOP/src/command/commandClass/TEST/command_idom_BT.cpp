@@ -1,13 +1,10 @@
 #include <gtest/gtest.h>
 
 #include "../command_idom.h"
-#include "../../../functions/functions.h"
-#include "../../../RADIO_433_eq/radio_433_eq.h"
 #include "../../../433MHz/RFLink/rflinkhandler.h"
 #include "../../../iDomTools/test/iDomTools_fixture.h"
 #include "../../../thread_functions/iDom_thread.h"
 #include "../../../MENU/menu_root.h"
-#include "../../../SATEL_INTEGRA/BT/satel_integra_stub.h"
 #include "test_data.h"
 
 class commandiDom_Class_fixture : public iDomTOOLS_ClassTest

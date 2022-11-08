@@ -85,6 +85,19 @@
 		"pin": "123",
 		"outdoor_siren_lights_id": 10
 	},
+	"command":{
+		"lock":["MPD stop",
+				"light room all off"],
+		"unlock":[],
+		"sunrise":{
+			"unlock": [],
+			"lock": []
+		},
+		"sunset":{
+			"unlock": [],
+			"lock": []
+		}
+	},
 	"THREAD": {
 		"RFLink": {
 			"run": true

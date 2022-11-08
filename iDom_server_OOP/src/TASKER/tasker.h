@@ -1,6 +1,5 @@
 #ifndef TASKER_H
 #define TASKER_H
-#include "../iDom_server_OOP.h"
 #include "../command/commandhandlermqtt.h"
 
 //TODO dodac do iDom API

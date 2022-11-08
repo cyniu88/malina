@@ -54,11 +54,6 @@ public:
     void executeCommandFromMQTT(const std::string &msg);
     void executeButtonComand(const unsigned int buttonID, const std::string & action, CommandHandlerMQTT* commandMQTTptr);
 
-    void onLock();
-    void onUnlock();
-    void onSunset();
-    void onSunrise();
-
     void satelSensorActive(int sensorID);
 
     void turnOffUnexpectedBulb();

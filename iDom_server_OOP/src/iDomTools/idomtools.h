@@ -161,6 +161,8 @@ public:
 
     //////////////////  doorbell  ////////////////////////
     void doorbellDingDong() override;
+private:
+    void runCommandFromJson(const std::vector<std::string> &jj);
 };
 
 #endif // IDOMTOOLS_H

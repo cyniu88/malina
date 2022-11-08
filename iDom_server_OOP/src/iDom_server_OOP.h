@@ -221,6 +221,7 @@ struct CONFIG_JSON{
     GATEWAY _gateway;
     SATEL_INTEGRA_CFG _satel_integra;
     nlohmann::json _shedConf;
+    nlohmann::json _command;
 };
 
 class command; // for struc thread_data req

@@ -59,10 +59,6 @@ public:
 
     std::string dump() const override;
 
-    STATE m_onLock = STATE::UNDEFINE;
-    STATE m_onUnlock = STATE::UNDEFINE;
-    STATE m_onSunset = STATE::UNDEFINE;
-    STATE m_onSunrise = STATE::UNDEFINE;
     STATE m_satelAlarm = STATE::UNDEFINE;
     int m_satelAlarmHowLong = -1;
 };

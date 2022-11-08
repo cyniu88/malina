@@ -32,10 +32,6 @@ void house_room_handler::loadConfig(const std::string &configPath)
             std::string bulbName = jj.at("bulbName").get<std::string>();
             int bulbID = jj.at("bulbID").get<int>();
             lightingBulbMap.emplace(bulbID, std::make_shared<light_bulb>(roomName, bulbName, bulbID));
-            lightingBulbMap[bulbID]->m_onLock = stringToState(jj.at("lock").get<std::string>());
-            lightingBulbMap[bulbID]->m_onUnlock = stringToState(jj.at("unlock").get<std::string>());
-            lightingBulbMap[bulbID]->m_onSunrise = stringToState(jj.at("sunrise").get<std::string>());
-            lightingBulbMap[bulbID]->m_onSunset = stringToState(jj.at("sunset").get<std::string>());
             lightingBulbMap[bulbID]->m_satelAlarm = stringToState(jj.at("satelAlarm").get<std::string>());
             lightingBulbMap[bulbID]->m_satelAlarmHowLong = jj.at("howLong").get<int>();
 
@@ -201,10 +197,6 @@ nlohmann::json house_room_handler::getAllInfoJSON()
         roomJJ["bulb counter"] = a.second->getBulbCounter();
         roomJJ["switch"] = a.second->getBulbPin();
         roomJJ["last working time"] = a.second->howLongBulbOn().getString();
-        roomJJ["lock"] = stateToString(a.second->m_onLock);
-        roomJJ["unlock"] = stateToString(a.second->m_onUnlock);
-        roomJJ["sunset"] = stateToString(a.second->m_onSunset);
-        roomJJ["sunrise"] = stateToString(a.second->m_onSunrise);
         roomJJ["satelAlarm"] = stateToString(a.second->m_satelAlarm);
         roomJJ["howLong"] = a.second->m_satelAlarmHowLong;
         roomJJ["satelSensorAlarmUnixTime"] = Clock::unixTimeToString(a.second->getSatelSensorAlarmUnixTime());
@@ -241,10 +233,6 @@ nlohmann::json house_room_handler::getInfoJSON_allON()
             roomJJ["bulb counter"] = a.second->getBulbCounter();
             roomJJ["switch"] = a.second->getBulbPin();
             roomJJ["last working time"] = a.second->howLongBulbOn().getString();
-            roomJJ["lock"] = stateToString(a.second->m_onLock);
-            roomJJ["unlock"] = stateToString(a.second->m_onUnlock);
-            roomJJ["sunset"] = stateToString(a.second->m_onSunset);
-            roomJJ["sunrise"] = stateToString(a.second->m_onSunrise);
             roomJJ["satelSensorAlarmUnixTime"] = Clock::unixTimeToString(a.second->getSatelSensorAlarmUnixTime());
             try {
                 roomJJ["satelCounter"] = m_roomMap.at(a.second->getRoomName())->satelSensorCounter;
@@ -343,46 +331,6 @@ void house_room_handler::executeButtonComand(const unsigned int buttonID,
     for(const auto& element : m_buttonConfig.at(buttonID).find(action)->second){
         auto v = useful_F::split(element, ' ');
         commandMQTTptr->run(v, my_data);
-    }
-}
-
-void house_room_handler::onLock()
-{
-    for(const auto &  jj : m_lightingBulbMap){
-        if(jj.second->m_onLock == STATE::ON)
-            turnOnBulb(jj.first);
-        else if(jj.second->m_onLock == STATE::OFF)
-            turnOffBulb(jj.first);
-    }
-}
-
-void house_room_handler::onUnlock()
-{
-    for(const auto &  jj : m_lightingBulbMap){
-        if(jj.second->m_onUnlock == STATE::ON)
-            turnOnBulb(jj.first);
-        else if(jj.second->m_onUnlock == STATE::OFF)
-            turnOffBulb(jj.first);
-    }
-}
-
-void house_room_handler::onSunset()
-{
-    for(const auto &  jj : m_lightingBulbMap){
-        if(jj.second->m_onSunset == STATE::ON)
-            turnOnBulb(jj.first);
-        else if(jj.second->m_onSunset == STATE::OFF)
-            turnOffBulb(jj.first);
-    }
-}
-
-void house_room_handler::onSunrise()
-{
-    for(const auto &  jj : m_lightingBulbMap){
-        if(jj.second->m_onSunrise == STATE::ON)
-            turnOnBulb(jj.first);
-        else if(jj.second->m_onSunrise == STATE::OFF)
-            turnOffBulb(jj.first);
     }
 }
 
