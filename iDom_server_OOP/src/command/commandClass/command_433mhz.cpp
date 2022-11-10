@@ -83,8 +83,6 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my
 std::string command_433MHz::help() const
 {
     std::stringstream help;
-    help << ("433MHz delete <name> - dalete radio equipment") <<std::endl;
-    help << ("433MHz add <type> <name> <ID> <onCode> <offCode> <on15sec> <comandRun> - add radio equipment") <<std::endl;
     help << ("433MHz switch <name> ON/OFF/15s/change - change switch state") <<std::endl;
     help << ("433MHz show all - list all equipment by name") <<std::endl;
     help << ("433MHz show aether - show aether devices by ID") <<std::endl;
