@@ -529,7 +529,7 @@ TEST_F(iDomTOOLS_ClassTest, getTemperatureString)
     EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(62.2));
     EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(35.2));
 
-    EXPECT_STREQ(test_my_data.main_iDomTools->getTemperatureString().c_str(), "{\"boiler\":62.2,\"currentFlow\":35.2,\"floor\":\"\",\"inside\":-0.3,\"outdoor\":1.1}");
+    EXPECT_STREQ(test_my_data.main_iDomTools->getTemperatureString().c_str(), "{\"boiler\":62.2,\"currentFlow\":35.2,\"floor\":21.8,\"inside\":-0.3,\"outdoor\":1.1}");
 }
 
 TEST_F(iDomTOOLS_ClassTest, cameraLED)
