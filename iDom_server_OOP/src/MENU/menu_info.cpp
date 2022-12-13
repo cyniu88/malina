@@ -2,8 +2,6 @@
 #include "menu_root.h"
 #include "menu_main.h"
 
-
-
 MENU_INFO::MENU_INFO(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) :MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
 {
 

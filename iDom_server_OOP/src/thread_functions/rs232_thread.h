@@ -1,8 +1,6 @@
 #ifndef RS232_THREAD_H
 #define RS232_THREAD_H
 
-#include "../c_connection/c_connection.h"
-#include "../TASKER/tasker.h"
 #include "../SerialPi/serialpi.h"
 #include "../thread_functions/iDom_thread.h"
 #include "../functions/functions.h"

@@ -2,7 +2,6 @@
 #define IDOM_THREAD_H
 
 #include "../iDom_server_OOP.h"
-#include "../logger/logger.hpp"
 
 #include <functional>
 

@@ -617,13 +617,21 @@ std::vector<std::string> iDomTOOLS::getTemperature()
 
 std::string iDomTOOLS::getTemperatureString()
 {
-    std::stringstream str;
-    str << std::setprecision(4)
-        << my_data->ptr_buderus->getInsideTemp() << ":"
-        << my_data->ptr_buderus->getOutdoorTemp() << ":"
-        << my_data->ptr_buderus->getBoilerTemp() << ":"
-        << getFloorTemp();
-    return str.str();
+//    std::stringstream str;
+//    str << std::setprecision(4)
+//        << my_data->ptr_buderus->getInsideTemp() << ":"
+//        << my_data->ptr_buderus->getOutdoorTemp() << ":"
+//        << my_data->ptr_buderus->getBoilerTemp() << ":"
+//        << getFloorTemp();
+//    return str.str();
+    nlohmann::json jj;
+    jj["inside"] = my_data->ptr_buderus->getInsideTemp();
+    jj["outdoor"] = my_data->ptr_buderus->getOutdoorTemp();
+    jj["boiler"] = my_data->ptr_buderus->getBoilerTemp();
+    jj["floor"] = getFloorTemp();
+    jj["currentFlow"] = my_data->ptr_buderus->getCurFlowTemp();
+
+    return jj.dump();
 }
 
 std::string iDomTOOLS::getSmog()
