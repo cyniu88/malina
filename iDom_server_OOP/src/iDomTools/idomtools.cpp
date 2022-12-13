@@ -628,7 +628,7 @@ std::string iDomTOOLS::getTemperatureString()
     jj["inside"] = my_data->ptr_buderus->getInsideTemp();
     jj["outdoor"] = my_data->ptr_buderus->getOutdoorTemp();
     jj["boiler"] = my_data->ptr_buderus->getBoilerTemp();
-    jj["floor"] = getFloorTemp();
+    jj["floor"] = std::stod(getFloorTemp());
     jj["currentFlow"] = my_data->ptr_buderus->getCurFlowTemp();
 
     return jj.dump();
