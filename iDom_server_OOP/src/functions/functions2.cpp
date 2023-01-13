@@ -315,6 +315,33 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     }
     else
     {
+		auto KEY_rec2 = KEY_rec;
+		client->cryptoLog(KEY_rec2);
+		
+		if(useful_F_libs::hasSubstring(KEY_rec2, "HTTP"))
+        {
+            std::string msgHTTP = R"(HTTP/1.1 200 OK
+									Date: Sat, 09 Oct 2010 14:28:02 GMT
+									Server: Apache
+									Last-Modified: Tue, 01 Dec 2009 20:18:22 GMT
+									ETag: "51142bc1-7449-479b075b2891b"
+									Accept-Ranges: bytes
+									Content-Length: 29769
+									Content-Type: text/html)";
+		
+            if(client->c_sendPure(msgHTTP) == -1)
+            {
+				std::cout << "nie wyslano "  << std::endl;
+            }
+			    log_file_mutex.mutex_lock();
+				log_file_cout << DEBUG << "odebrano HTTP " << KEY_rec2 << std::endl;
+				log_file_mutex.mutex_unlock();
+			    delete client;
+                my_data->main_Rs232->print("LED_AT:0;");
+                iDOM_THREAD::stop_thread(threadName, my_data);
+                return;
+        }
+		
         key_ok = false;
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) << std::endl;
@@ -322,10 +349,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         client->cryptoLog(KEY_rec);// setEncriptionKey(KEY_rec);
         log_file_cout << CRITICAL << "KEY UNCRIPTED RECIVED\n\n " << KEY_rec << "\n\n" << std::endl;
         log_file_mutex.mutex_unlock();
-        if(useful_F_libs::hasSubstring(KEY_rec, "HTTP"))
-        {
-            std::cout << "mamy to !!!!" << std::endl;
-        }
+        
         std::string msg = "podano zły klucz autentykacji - sprawdz logi ";
         msg.append(inet_ntoa(my_data->from.sin_addr));
         my_data->main_iDomTools->sendViberMsg(msg,
@@ -333,24 +357,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
                                               my_data->server_settings->_fb_viber.viberSender + "_ALERT!");
 
 
-        if(useful_F_libs::hasSubstring(KEY_rec, "HTTP"))
-        {
-            std::string msgHTTP = R"(HTTP/1.1 200 OK
-Date: Sat, 09 Oct 2010 14:28:02 GMT
-Server: Apache
-Last-Modified: Tue, 01 Dec 2009 20:18:22 GMT
-ETag: "51142bc1-7449-479b075b2891b"
-Accept-Ranges: bytes
-Content-Length: 29769
-Content-Type: text/html)";
-            if(client->c_sendPure(msgHTTP) == -1)
-            {
-                delete client;
-                my_data->main_Rs232->print("LED_AT:0;");
-                iDOM_THREAD::stop_thread(threadName, my_data);
-                return;
-            }
-        }
+
         if(client->c_send("\nFAIL\n") == -1)
         {
             delete client;
