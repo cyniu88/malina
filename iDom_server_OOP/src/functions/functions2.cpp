@@ -320,19 +320,27 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
 		
 		if(useful_F_libs::hasSubstring(KEY_rec2, "HTTP"))
         {
-            std::string msgHTTP = R"(HTTP/1.1 200 OK
-									Date: Sat, 09 Oct 2010 14:28:02 GMT
-									Server: Apache
-									Last-Modified: Tue, 01 Dec 2009 20:18:22 GMT
-									ETag: "51142bc1-7449-479b075b2891b"
-									Accept-Ranges: bytes
-									Content-Length: 29769
-									Content-Type: text/html)";
+			
+		time(&my_data->now_time);
+		std::string str_buf = "uptime: ";
+		str_buf.append(useful_F::sek_to_uptime(difftime(my_data->now_time,my_data->start) ) );
+	
+        std::string msgHTML = R"(<html>
+  <head>
+    <title>Success</title>
+  </head>
+  <body>
+    <p>Thank you my Lord! <br> How do you do?? Are you mad ? <br>)" + str_buf + "<br>" + KEY_rec2 + R"(</p>
+  </body>
+</html>)";
+
+            std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
 		
-            if(client->c_sendPure(msgHTTP) == -1)
-            {
-				std::cout << "nie wyslano "  << std::endl;
-            }
+          
+				client->c_sendPure(msgHTTP);
+				client->c_sendPure(msgHTML);
+            
+				
 			    log_file_mutex.mutex_lock();
 				log_file_cout << DEBUG << "odebrano HTTP " << KEY_rec2 << std::endl;
 				log_file_mutex.mutex_unlock();
