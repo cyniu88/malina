@@ -40,8 +40,8 @@ void useful_F::setStaticData(thread_data *my_dataPtr)
 }
 
 void useful_F::tokenizer (std::vector <std::string> &command,
-                         std::string separator,
-                         const std::string &text){
+                          std::string separator,
+                          const std::string &text){
     std::string temp;
 
     for(char n: text)
@@ -261,7 +261,7 @@ std::string useful_F::l_send_file(std::string path, std::string find, bool rever
 
 ///////////////////// watek polaczenia TCP /////////////////////////////////////
 void useful_F::Server_connectivity_thread(thread_data *my_data, const std::string &threadName){
-    C_connection *client = new C_connection(my_data);
+    auto client = std::make_unique<C_connection>(my_data);
     static unsigned int connectionCounter = 0;
     bool key_ok = false;
     std::string tm = inet_ntoa(my_data->from.sin_addr);
@@ -295,7 +295,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "CLOSE, AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) << std::endl;
         log_file_mutex.mutex_unlock();
-        delete client;
+
         my_data->main_Rs232->print("LED_AT:0;");
         iDOM_THREAD::stop_thread(threadName, my_data);
         return;
@@ -315,41 +315,16 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     }
     else
     {
-		auto KEY_rec2 = KEY_rec;
-		client->cryptoLog(KEY_rec2);
-		
-		if(useful_F_libs::hasSubstring(KEY_rec2, "HTTP"))
-        {
-			
-		time(&my_data->now_time);
-		std::string str_buf = "uptime: ";
-		str_buf.append(useful_F::sek_to_uptime(difftime(my_data->now_time,my_data->start) ) );
-	
-        std::string msgHTML = R"(<html>
-  <head>
-    <title>Success</title>
-  </head>
-  <body>
-    <p>Thank you my Lord! <br> How do you do?? Are you mad ? <br>)" + str_buf + "<br>" + KEY_rec2 + R"(</p>
-  </body>
-</html>)";
+        auto KEY_rec2 = KEY_rec;
+        client->cryptoLog(KEY_rec2);
 
-            std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
-		
-          
-				client->c_sendPure(msgHTTP);
-				client->c_sendPure(msgHTML);
-            
-				
-			    log_file_mutex.mutex_lock();
-				log_file_cout << DEBUG << "odebrano HTTP " << KEY_rec2 << std::endl;
-				log_file_mutex.mutex_unlock();
-			    delete client;
-                my_data->main_Rs232->print("LED_AT:0;");
-                iDOM_THREAD::stop_thread(threadName, my_data);
-                return;
+        if(useful_F_libs::hasSubstring(KEY_rec2, "HTTP"))
+        {
+            client->hendleHTTP(KEY_rec2);
+            iDOM_THREAD::stop_thread(threadName, my_data);
+            return;
         }
-		
+
         key_ok = false;
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) << std::endl;
@@ -368,7 +343,6 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
 
         if(client->c_send("\nFAIL\n") == -1)
         {
-            delete client;
             my_data->main_Rs232->print("LED_AT:0;");
             iDOM_THREAD::stop_thread(threadName, my_data);
             return;
@@ -380,7 +354,6 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         int recvSize = client->c_recv(0);
         if(recvSize == -1)
         {
-            delete client;
             my_data->main_Rs232->print("LED_AT:0;");
             iDOM_THREAD::stop_thread(threadName, my_data);
             return;
@@ -388,8 +361,6 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
 
         std::string userLevel = client->c_read_buf(recvSize);
         client->c_send("OK you are "+ userLevel);
-        puts("user level to:");
-        puts(userLevel.c_str());
 
         if(userLevel == "ROOT")
         {
@@ -438,7 +409,6 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         }
     }
     client->onStopConnection();
-    delete client;
     my_data->main_Rs232->print("LED_AT:0;");
 #ifdef BT_TEST
     std::cout << "zamykamy server" << std::endl;
@@ -480,7 +450,7 @@ void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
     int v_socket;
     int SERVER_PORT = my_data->server_settings->_server.PORT;
     my_data->server_settings->_server.SERVER_IP =
-        useful_F::conv_dns(my_data->server_settings->_server.SERVER_IP);
+            useful_F::conv_dns(my_data->server_settings->_server.SERVER_IP);
     const char *SERVER_IP = my_data->server_settings->_server.SERVER_IP.c_str();
 
     memset(&server, 0, sizeof(server));

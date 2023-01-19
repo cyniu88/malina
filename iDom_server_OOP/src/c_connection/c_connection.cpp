@@ -76,7 +76,7 @@ int C_connection::c_send(const std::string &command )
 
 int C_connection::c_sendPure(const std::string &command)
 {
-  return  send( c_socket, command.c_str(), command.length(), 0 );
+    return send(c_socket, command.c_str(), command.length(), 0 );
 }
 
 int C_connection::c_recv(int para)

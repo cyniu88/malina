@@ -44,3 +44,51 @@ void C_connection::cryptoLog(std::string &toEncrypt)
 {
     crypto(toEncrypt,m_encriptionKey,m_encrypted);
 }
+
+void C_connection::hendleHTTP(const std::string &msg)
+{
+    std::string msgHTML = R"(<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iDom gateway</title>
+</head>
+<body>
+    <center><div>
+        <a id="redirect-btn" target="main">
+        <button type="button" style="width: 80%; padding: 80px; cursor: pointer; box-shadow: 6px 6px 5px; #999; -webkit-box-shadow: 6px 6px 5px #999; -moz-box-shadow: 6px 6px 5px #999; font-weight: bold; background: #ffff00; color: #000; border-radius: 10px; border: 1px solid #999; font-size: 350%;">Click Me!</button> </a>
+    </div>
+    </center>
+       <br>
+    <iframe  frameborder="0" name="main" width=100% height=600 align="left" >koko</iframe>
+
+    <center>11-06-2022 <a href=" " target=_blank title="11-06-2022">Cyniu</a></center>
+
+    <script>
+        const baseLink = "http://cyniu88.no-ip.pl/cgi-bin/gateway.sh";
+
+        var urlQuery = new URLSearchParams(window.location.search);
+        //urlQuery = urlQuery.split('=').join(' ');
+
+        document.getElementById("redirect-btn").href = baseLink + "?" + urlQuery;
+
+    </script>
+</body>
+</html>)";
+
+    std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
+
+
+    c_sendPure(msgHTTP);
+    c_sendPure(msgHTML);
+
+
+    log_file_mutex.mutex_lock();
+    log_file_cout << DEBUG << "odebrano HTTP " << msg<< std::endl;
+    log_file_mutex.mutex_unlock();
+
+    my_data->main_Rs232->print("LED_AT:0;");
+
+}
