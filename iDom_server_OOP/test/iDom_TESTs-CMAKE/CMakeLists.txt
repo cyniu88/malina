@@ -92,6 +92,8 @@ set(SOURCE_FILES  "main.cpp"
     "../../src/SATEL_INTEGRA/BT/test.cpp"
     "../../src/SATEL_INTEGRA/satel_integra_handler.cpp"
     "../../src/SATEL_INTEGRA/BT/satel_integra_stub.cpp"
+    "../../src/HTTP/test/http_BT.cpp"
+    "../../src/HTTP/http.cpp"
     )
 # Get the current working branch
 execute_process(

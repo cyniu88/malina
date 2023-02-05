@@ -465,6 +465,7 @@ Content-Length: 43
 )";
     send(s, httpMsg.c_str(), httpMsg.size(), 0 );
 
+    std::this_thread::sleep_for(100ms);
     char buffer[10000];
     auto recC =  recv(s, buffer, sizeof( buffer ), 0);
     std::cout << "!!! odebrano: size " << recC << "###" << std::endl;

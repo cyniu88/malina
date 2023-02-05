@@ -47,6 +47,7 @@ void C_connection::cryptoLog(std::string &toEncrypt)
 
 void C_connection::hendleHTTP(const std::string &msg)
 {
+    std::vector<std::string> dataToSend;
     std::string msgHTML = R"(<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,7 +68,7 @@ void C_connection::hendleHTTP(const std::string &msg)
     <center>11-06-2022 <a href=" " target=_blank title="11-06-2022">Cyniu</a></center>
 
     <script>
-        const baseLink = "http://cyniu88.no-ip.pl/cgi-bin/gateway.sh";
+        const baseLink = "http://cyniu88.no-ip.pl:48833/run/command";
 
         var urlQuery = new URLSearchParams(window.location.search);
         //urlQuery = urlQuery.split('=').join(' ');
@@ -80,15 +81,16 @@ void C_connection::hendleHTTP(const std::string &msg)
 
     std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
 
+    dataToSend.push_back(msgHTTP);
+    dataToSend.push_back(msgHTML);
 
-    c_sendPure(msgHTTP);
-    c_sendPure(msgHTML);
+    for(const auto& d: dataToSend)
+        c_sendPure(d);
 
 
     log_file_mutex.mutex_lock();
     log_file_cout << DEBUG << "odebrano HTTP " << msg<< std::endl;
     log_file_mutex.mutex_unlock();
 
-    my_data->main_Rs232->print("LED_AT:0;");
 
 }

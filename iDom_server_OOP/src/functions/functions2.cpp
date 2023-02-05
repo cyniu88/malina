@@ -321,6 +321,8 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         if(useful_F_libs::hasSubstring(KEY_rec2, "HTTP"))
         {
             client->hendleHTTP(KEY_rec2);
+
+            my_data->main_Rs232->print("LED_AT:0;");
             iDOM_THREAD::stop_thread(threadName, my_data);
             return;
         }
