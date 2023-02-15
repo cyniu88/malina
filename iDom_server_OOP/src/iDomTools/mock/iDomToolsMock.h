@@ -75,6 +75,12 @@ public:
                                                   const std::string& senderName,
                                                   const std::string &accessToken,
                                                   const std::string &url));
+    MOCK_METHOD6(sendViberUrl, nlohmann::json(const std::string& msg,
+                                              const std::string& url2,
+                                              const std::string& receiver,
+                                              const std::string& senderName,
+                                              const std::string &accessToken,
+                                              const std::string &url));
     MOCK_METHOD5(sendViberMsgBool, STATE(const std::string& msg,
                                          const std::string& receiver,
                                          const std::string& senderName,

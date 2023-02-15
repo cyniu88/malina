@@ -95,6 +95,12 @@ public:
                                     const std::string& senderName,
                                     const std::string &accessToken = "NULL",
                                     const std::string &url = "NULL") override;
+    nlohmann::json sendViberUrl(const std::string& msg,
+                                    const std::string& url2,
+                                    const std::string& receiver,
+                                    const std::string& senderName,
+                                    const std::string &accessToken = "NULL",
+                                    const std::string &url = "NULL") override;
     STATE sendViberMsgBool(const std::string& msg,
                            const std::string& receiver,
                            const std::string& senderName,

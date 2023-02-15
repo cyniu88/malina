@@ -92,6 +92,17 @@ std::string viber_API::sendViberPicture(const std::string& msg,
     TEST_DATA::return_viber_msg = msg;
     return R"({"message_status":"ok"})";
 }
+std::string viber_API::sendViberUrl(const std::string& msg,
+                                    const std::string& url2,
+                                    const std::string& receiver,
+                                    const std::string& senderName,
+                                    const std::string& accessToken ,
+                                    const std::string& url){
+    std::cout << "sendViberUrl() "<< msg <<" to: "<< receiver << std::endl;
+    TEST_DATA::return_viber_msg = msg;
+    return R"({"message_status":"ok"})";
+}
+
 FACEBOOK_API::FACEBOOK_API(){}
 std::string FACEBOOK_API::postTxtOnWall(const std::string& msg,
                                         const std::string& accessToken ){return "";}

@@ -87,6 +87,12 @@ public:
                                     const std::string& senderName,
                                     const std::string &accessToken = "NULL",
                                     const std::string &url = "NULL") = 0;
+    virtual nlohmann::json sendViberUrl(const std::string& msg,
+                                    const std::string& url2,
+                                    const std::string& receiver,
+                                    const std::string& senderName,
+                                    const std::string &accessToken = "NULL",
+                                    const std::string &url = "NULL") = 0;
     virtual STATE sendViberMsgBool(const std::string& msg,
                            const std::string& receiver,
                            const std::string& senderName,

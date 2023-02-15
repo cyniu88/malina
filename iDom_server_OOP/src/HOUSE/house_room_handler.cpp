@@ -257,12 +257,13 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
         // DingDong  dzownek
         if(bulbID == 88 and bulbState == 1 ){
             my_data->main_iDomTools->doorbellDingDong();
-            my_data->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
+            useful_F_libs::httpPost("http://cyniu88.no-ip.pl/cgi-bin/dzwonek.sh");
+            my_data->main_iDomTools->sendViberUrl("DZWONEK do drzwi!",
                                                       "http://cyniu88.no-ip.pl/dzwonek/wejscie.jpg",
                                                       my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                                       my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
 
-            my_data->main_iDomTools->sendViberPicture("wjazd",
+            my_data->main_iDomTools->sendViberUrl("wjazd",
                                                       "http://cyniu88.no-ip.pl/dzwonek/wjazd.jpg",
                                                       my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                                       my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed

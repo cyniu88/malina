@@ -44,7 +44,7 @@ TEST_F(http_class_fixture, baseTestGET)
 TEST_F(http_class_fixture, getURL)
 {
     EXPECT_STREQ( Http::getUrl(msgGET).c_str(), "/api/gate_open.html" );
-    EXPECT_STREQ( Http::getUrl(msgPOST).c_str(), "/iDom/cyniu" );
+    EXPECT_STREQ( Http::getUrl(msgPOST).c_str(), " /iDom/cyniu" );
 }
 
 TEST_F(http_class_fixture, getQuery)
