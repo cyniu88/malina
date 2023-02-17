@@ -99,6 +99,7 @@ set(SOURCE_FILES
     "../../src/HOUSE/room.cpp"
     "../../src/SATEL_INTEGRA/satel_integra.cpp"
     "../../src/SATEL_INTEGRA/satel_integra_handler.cpp"
+    "../../src/HTTP/http.cpp"
     )
 # Get the current working branch
 execute_process(

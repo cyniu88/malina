@@ -43,7 +43,7 @@ TEST_F(http_class_fixture, baseTestPOST)
 {
     EXPECT_EQ(Http::getContentLength(msgPOST), 43);
     ASSERT_EQ(Http::getContentType(msgPOST), Content_Type::ApplicationJSON);
-    EXPECT_STREQ(std::any_cast<std::string>(Http::getContent(msgPOST)).c_str(), content.c_str());
+    EXPECT_STREQ(Http::getContent(msgPOST).c_str(), content.c_str());
     EXPECT_EQ(Http::getMethod(msgPOST), METHOD_HTTP::POST);
 }
 
@@ -70,9 +70,4 @@ TEST_F(http_class_fixture, getQuery)
 
    EXPECT_EQ(ov.at("kkk"), "999");
    EXPECT_EQ(ov.at("lolo"), "");
-}
-
-TEST_F(http_class_fixture, getContent)
-{
-    EXPECT_STREQ( Http::getContent(msgPOST).c_str(), content.c_str());
 }
