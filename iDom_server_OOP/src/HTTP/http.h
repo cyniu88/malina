@@ -1,6 +1,6 @@
 #ifndef _HTTP_h_
 #define _HTTP_h_
-#include <any>
+
 #include <string>
 #include <map>
 
@@ -25,7 +25,7 @@ struct QUERY
 
 class Http {
 public:
-  static std::any getContent(const std::string& msg);
+  static std::string getContent(const std::string& msg);
   static int getContentLength(const std::string& msg);
   static Content_Type getContentType(const std::string& msg);
   static METHOD_HTTP getMethod(const std::string& msg);

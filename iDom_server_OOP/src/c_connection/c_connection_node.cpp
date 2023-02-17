@@ -1,5 +1,8 @@
 #include <iostream>
 #include "c_connection.h"
+#include "../HTTP/http.h"
+#include "json.hpp"
+#include "../functions/functions.h"
 
 void C_connection::setEncriptionKey(const std::string& key)
 {
@@ -47,6 +50,13 @@ void C_connection::cryptoLog(std::string &toEncrypt)
 
 void C_connection::hendleHTTP(const std::string &msg)
 {
+    if(Http::getContentType(msg) == Content_Type::ApplicationJSON and Http::getUrl(msg) == "/iDom/log")
+    {
+        nlohmann::json jj = nlohmann::json::parse(Http::getContent(msg));
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "logowanie z ESP: " << jj["msg"] << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     std::vector<std::string> dataToSend;
     std::string msgHTML = R"(<!DOCTYPE html>
 <html lang="en">

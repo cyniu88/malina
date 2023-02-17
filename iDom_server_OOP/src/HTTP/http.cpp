@@ -1,23 +1,11 @@
 #include "http.h"
 #include "../functions/functions.h"
+#include <algorithm>
 
-std::any Http::getContent(const std::string& msg)
+
+std::string Http::getContent(const std::string& msg)
 {
-    std::any data;
-    std::string str;
-
-    switch (Http::getContentType(msg)) {
-    case Content_Type::TextHtml:
-
-        break;
-    case Content_Type::ApplicationJSON:
-    case Content_Type::iDom_logging:
-        data = msg.substr(msg.length() - Http::getContentLength(msg) );
-        break;
-    default:
-        break;
-    }
-    return data;
+    return msg.substr(msg.length() - Http::getContentLength(msg) );
 }
 
 int Http::getContentLength(const std::string &msg)
@@ -58,9 +46,13 @@ METHOD_HTTP Http::getMethod(const std::string &msg)
 std::string Http::getUrl(const std::string &msg)
 {
     std::string str = msg.substr(0,msg.find_first_of("\r\n"));
+    std::cout << std::endl << std::endl << "cyniu: " << str << std::endl;
+    auto pos = str.find_first_of("?");
+    if(pos == std::string::npos)
+        pos = str.find_last_of(" ");
     auto first = str.find_first_of(" ")+5;
-    auto sec = str.find_last_of("?");
-    str = msg.substr(first, sec - first);
+    str = msg.substr(first, pos - first);
+    str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
     return str;
 }
 
