@@ -7,7 +7,7 @@ class http_class_fixture : public testing::Test
 {
 public:
     const std::string content{R"({"msg":"test viber msg","millis":529443897})"};
-    std::string msgPOST = R"(HTTP POST /iDom/log HTTP/1.1
+    std::string msgPOST = R"(POST /iDom/log HTTP/1.1
 Host: cyniu88.no-ip.pl:48833
 User-Agent: ESP8266HTTPClient
 Accept-Encoding: identity;q=1,chunked;q=0.1,*;q=0

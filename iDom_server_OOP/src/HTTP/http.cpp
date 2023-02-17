@@ -50,7 +50,7 @@ std::string Http::getUrl(const std::string &msg)
     auto pos = str.find_first_of("?");
     if(pos == std::string::npos)
         pos = str.find_last_of(" ");
-    auto first = str.find_first_of(" ")+5;
+    auto first = str.find_first_of("/");
     str = msg.substr(first, pos - first);
     str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
     return str;
