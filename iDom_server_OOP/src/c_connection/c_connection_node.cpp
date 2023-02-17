@@ -17,8 +17,8 @@ void C_connection::setEncrypted(bool flag)
 void C_connection::crypto(std::string &toEncrypt, std::string key, bool encrypted)
 {
     if (!encrypted){
-          return;
-      }
+        return;
+    }
     unsigned int keySize = key.size()-1;
 #ifdef BT_TEST
     std::cout << "key: " << key << " size: " << key.size() << std::endl;
@@ -50,15 +50,24 @@ void C_connection::cryptoLog(std::string &toEncrypt)
 
 void C_connection::hendleHTTP(const std::string &msg)
 {
+
+    std::vector<std::string> dataToSend;
+
     if(Http::getContentType(msg) == Content_Type::ApplicationJSON and Http::getUrl(msg) == "/iDom/log")
     {
         nlohmann::json jj = nlohmann::json::parse(Http::getContent(msg));
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "logowanie z ESP: " << jj["msg"] << std::endl;
         log_file_mutex.mutex_unlock();
+        std::string msgHTML = R"(ok)";
+        std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
+
+        dataToSend.push_back(msgHTTP);
+        dataToSend.push_back(msgHTML);
     }
-    std::vector<std::string> dataToSend;
-    std::string msgHTML = R"(<!DOCTYPE html>
+    else
+    {
+        std::string msgHTML = R"(<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -89,18 +98,17 @@ void C_connection::hendleHTTP(const std::string &msg)
 </body>
 </html>)";
 
-    std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
+        std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
 
-    dataToSend.push_back(msgHTTP);
-    dataToSend.push_back(msgHTML);
+        dataToSend.push_back(msgHTTP);
+        dataToSend.push_back(msgHTML);
 
+
+
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG << "odebrano HTTP " << msg<< std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     for(const auto& d: dataToSend)
         c_sendPure(d);
-
-
-    log_file_mutex.mutex_lock();
-    log_file_cout << DEBUG << "odebrano HTTP " << msg<< std::endl;
-    log_file_mutex.mutex_unlock();
-
-
 }
