@@ -46,7 +46,6 @@ METHOD_HTTP Http::getMethod(const std::string &msg)
 std::string Http::getUrl(const std::string &msg)
 {
     std::string str = msg.substr(0,msg.find_first_of("\r\n"));
-    std::cout << std::endl << std::endl << "cyniu: " << str << std::endl;
     auto pos = str.find_first_of("?");
     if(pos == std::string::npos)
         pos = str.find_last_of(" ");
