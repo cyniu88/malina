@@ -53,6 +53,9 @@ void C_connection::hendleHTTP(const std::string &msg)
 
     std::vector<std::string> dataToSend;
 
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG << "logowanie z ESP: " << Http::getUrl(msg) << " " << (int)Http::getContentType(msg) << std::endl;
+        log_file_mutex.mutex_unlock();
     if(Http::getContentType(msg) == Content_Type::ApplicationJSON and Http::getUrl(msg) == "/iDom/log")
     {
         nlohmann::json jj = nlohmann::json::parse(Http::getContent(msg));
