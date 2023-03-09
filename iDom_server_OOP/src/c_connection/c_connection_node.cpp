@@ -57,7 +57,7 @@ void C_connection::hendleHTTP(const std::string &msg)
     {
         nlohmann::json jj = nlohmann::json::parse(Http::getContent(msg));
         log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "logowanie z ESP: " << jj["msg"] << "millis: " << jj["millis"] << std::endl;
+        log_file_cout << INFO << "logowanie z ESP: " << jj["msg"] << " millis: " << jj["millis"] << std::endl;
         log_file_mutex.mutex_unlock();
         std::string msgHTML = R"(ok)";
         std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
