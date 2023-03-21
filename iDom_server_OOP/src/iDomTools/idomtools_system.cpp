@@ -141,6 +141,7 @@ void iDomTOOLS::raspberryReboot()
 
 void iDomTOOLS::close_iDomServer ()
 {
+	puts("close");
     std::string s = "close server";
     iDomTOOLS::MPD_stop();
     my_data->iDomProgramState = iDomStateEnum::CLOSE;
