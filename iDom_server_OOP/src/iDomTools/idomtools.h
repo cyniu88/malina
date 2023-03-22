@@ -151,10 +151,10 @@ public:
     void healthCheck() override;
 
     ////////////////////// system /////////////////////////
-    void close_iDomServer [[ noreturn ]]() override;
-    void reloadSoft_iDomServer[[ noreturn ]] () override;
-    void reloadHard_iDomServer[[ noreturn ]] () override;
-    void raspberryReboot[[ noreturn ]] () override;
+    void close_iDomServer () override;
+    void reloadSoft_iDomServer () override;
+    void reloadHard_iDomServer () override;
+    void raspberryReboot () override;
 
     //////////////////////// iDom_API /////////////////////
     std::string dump() const override;

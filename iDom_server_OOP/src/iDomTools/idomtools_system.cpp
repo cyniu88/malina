@@ -119,7 +119,8 @@ void iDomTOOLS::reloadSoft_iDomServer()
     std::string s = "close server";
     my_data->iDomProgramState = iDomStateEnum::RELOAD;
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
-    throw s;
+    //throw s;
+    useful_F::workServer = false;
 }
 
 void iDomTOOLS::reloadHard_iDomServer()
@@ -127,7 +128,8 @@ void iDomTOOLS::reloadHard_iDomServer()
     std::string s = "close server";
     my_data->iDomProgramState = iDomStateEnum::HARD_RELOAD;
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
-    throw s;
+    //throw s;
+    useful_F::workServer = false;
 }
 
 void iDomTOOLS::raspberryReboot()
@@ -136,7 +138,8 @@ void iDomTOOLS::raspberryReboot()
     iDomTOOLS::MPD_stop();
     my_data->iDomProgramState = iDomStateEnum::RASPBERRY_RELOAD;
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
-    throw s;
+    //throw s;
+    useful_F::workServer = false;
 }
 
 void iDomTOOLS::close_iDomServer ()
