@@ -55,7 +55,7 @@ void iDomTOOLS::healthCheck()
     }
 
     ////////////// RFLink ///////////
-    auto t = Clock::getUnixTime()- my_data->main_RFLink->m_pingTime;
+    auto t = Clock::getUnixTime() - my_data->main_RFLink->m_pingTime;
 
     if(t > 310
             and my_data->mqttHandler->_subscribed == true
