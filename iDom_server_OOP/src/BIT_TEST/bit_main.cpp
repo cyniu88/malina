@@ -233,7 +233,7 @@ TEST_F(bit_fixture, socket_close_server_command){
     std::cout << "odebrano4: " << toCheck << std::endl;
 
     EXPECT_TRUE(useful_F::workServer);
-    toCheck = send_receive(s, "program stop",key);
+    toCheck = send_receive(s, "program stop", key);
 
     std::cout << "odebrano8: " << toCheck << std::endl;
     EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "CLOSE"));

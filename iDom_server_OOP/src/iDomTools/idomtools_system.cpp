@@ -146,5 +146,6 @@ void iDomTOOLS::close_iDomServer ()
     iDomTOOLS::MPD_stop();
     my_data->iDomProgramState = iDomStateEnum::CLOSE;
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
-    throw s;
+    useful_F::workServer = false;
+    //throw s;
 }
