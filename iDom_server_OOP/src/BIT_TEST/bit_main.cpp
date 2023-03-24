@@ -242,6 +242,7 @@ TEST_F(bit_fixture, socket_close_server_command){
     shutdown(s, SHUT_RDWR );
     iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
     EXPECT_FALSE(useful_F::workServer);
+    EXPECT_EQ(test_my_data.iDomProgramState, iDomStateEnum::CLOSE);
 }
 
 TEST_F(bit_fixture, socket_reload_server_command){
@@ -282,6 +283,7 @@ TEST_F(bit_fixture, socket_reload_server_command){
     shutdown(s, SHUT_RDWR );
     iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
     EXPECT_FALSE(useful_F::workServer);
+    EXPECT_EQ(test_my_data.iDomProgramState, iDomStateEnum::HARD_RELOAD);
 }
 
 TEST_F(bit_fixture, socket_reboot_rasp_command){

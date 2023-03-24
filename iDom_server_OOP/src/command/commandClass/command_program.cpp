@@ -2,9 +2,7 @@
 #include "../../functions/functions.h"
 #include "../../433MHz/RFLink/rflinkhandler.h"
 
-command_program::command_program(const std::string &name):command(name)
-{
-}
+command_program::command_program(const std::string &name):command(name){}
 
 std::string command_program::execute(std::vector<std::string> &v, thread_data *my_data)
 {
