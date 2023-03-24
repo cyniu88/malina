@@ -73,7 +73,7 @@ void CRON::runEveryone_5min()
 {
     auto topic = my_data->server_settings->_mqtt_broker.topicSubscribe;
     topic.pop_back();
-    my_data->mqttHandler->publish(topic +"command","433MHz send 10;PING;");
+    my_data->mqttHandler->publish(topic + "command","433MHz send 10;PING;");
 
     try
     {

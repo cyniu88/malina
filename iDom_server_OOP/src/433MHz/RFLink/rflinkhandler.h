@@ -24,7 +24,7 @@ struct RFLink_DEV{
     }
 };
 
-class RFLinkHandler
+class RFLinkHandler : public iDom_API
 {
     thread_data *my_data;
     SerialPi m_serial_RFLink;
@@ -47,11 +47,14 @@ public:
     void sendCommand(std::string cmd);
     std::string sendCommandAndWaitForReceive(std::string cmd);
     std::string readFromRS232();
+
+    std::string dump() const override;
+
 private:
     std::string internalReadFromRS232();
-//#ifdef BT_TEST
+    //#ifdef BT_TEST
 public:
-//#endif
+    //#endif
     static std::string getArgumentValueFromRFLinkMSG(const std::string &msg, const std::string &var);
 };
 
