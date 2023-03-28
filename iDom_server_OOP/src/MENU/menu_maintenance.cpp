@@ -54,7 +54,6 @@ void MENU_MAINTENANCE::keyPadDown()
 void MENU_MAINTENANCE::keyPadLeft()
 {
     --counter;
-    std::string("gg");
     std::stringstream ss;
     ss << counter << " : " << (char)counter;
     print("dane: ", ss.str());
@@ -63,7 +62,6 @@ void MENU_MAINTENANCE::keyPadLeft()
 void MENU_MAINTENANCE::keyPadRight()
 {
     ++counter;
-    std::string("gg");
     std::stringstream ss;
     ss << counter << " : " << (char)counter;
     print("dane: ", ss.str());
