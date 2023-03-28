@@ -9,6 +9,8 @@ RFLinkHandler::RFLinkHandler(thread_data *my_data):
     m_serial_RFLink(my_data->server_settings->_rflink.RFLinkPort)
 {
     this->my_data = my_data;
+    m_className.append(typeid(this).name());
+    addToMap(m_className,this);
 #ifdef BT_TEST
     std::cout << "RFLinkHandler::RFLinkHandler()"<<std::endl;
 #endif
@@ -16,6 +18,7 @@ RFLinkHandler::RFLinkHandler(thread_data *my_data):
 
 RFLinkHandler::~RFLinkHandler()
 {
+    removeFromMap(m_className);
 #ifdef BT_TEST
     std::cout << "RFLinkHandler::~RFLinkHandler()"<<std::endl;
 #endif
@@ -65,6 +68,16 @@ std::string RFLinkHandler::readFromRS232()
 {
     std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
     return internalReadFromRS232();
+}
+
+std::string RFLinkHandler::dump() const
+{
+    std::stringstream ret;
+
+    ret << "m_pingTime: " << this->m_pingTime << std::endl;
+    ret << "m_okTime: " << this->m_okTime << std::endl;
+    ret << "sm_RFLink_BUFOR: " << this->sm_RFLink_BUFOR << std::endl;
+    return ret.str();
 }
 
 std::string RFLinkHandler::internalReadFromRS232()

@@ -2,9 +2,7 @@
 #include "../../functions/functions.h"
 #include "../../433MHz/RFLink/rflinkhandler.h"
 
-command_program::command_program(const std::string &name):command(name)
-{
-}
+command_program::command_program(const std::string &name):command(name){}
 
 std::string command_program::execute(std::vector<std::string> &v, thread_data *my_data)
 {
@@ -23,17 +21,21 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     if (v[1] == "stop")
     {
         my_data->main_iDomTools->close_iDomServer();
+        return "CLOSE";
     }
     if (v.size() < 3 )
     {
+        std::cout << "cyniu size: " << v.size() << std::endl;
         return "add more paramiters";
     }
     if(v[1] == "reload" && v[2] == "soft"){
         my_data->main_iDomTools->reloadSoft_iDomServer();
+        return "CLOSE";
     }
     else if(v[1] == "reload" && v[2] == "hard")
     {
         my_data->main_iDomTools->reloadHard_iDomServer();
+        return "CLOSE";
     }
     else if(v[1] == "clear" && v[2] == "ram")
     {

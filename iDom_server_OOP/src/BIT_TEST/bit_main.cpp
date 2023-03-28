@@ -233,7 +233,7 @@ TEST_F(bit_fixture, socket_close_server_command){
     std::cout << "odebrano4: " << toCheck << std::endl;
 
     EXPECT_TRUE(useful_F::workServer);
-    toCheck = send_receive(s, "program stop",key);
+    toCheck = send_receive(s, "program stop", key);
 
     std::cout << "odebrano8: " << toCheck << std::endl;
     EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "CLOSE"));
@@ -242,7 +242,90 @@ TEST_F(bit_fixture, socket_close_server_command){
     shutdown(s, SHUT_RDWR );
     iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
     EXPECT_FALSE(useful_F::workServer);
+    EXPECT_EQ(test_my_data.iDomProgramState, iDomStateEnum::CLOSE);
 }
+
+TEST_F(bit_fixture, socket_reload_server_command){
+
+    start_iDomServer();
+
+    struct sockaddr_in serwer =
+    {
+        .sin_family = AF_INET,
+                .sin_port = htons( 8833 )
+    };
+
+    inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
+
+    const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
+
+    sleep(1);
+    int connectStatus = connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    ASSERT_EQ(connectStatus,0);
+    std::cout << "connect status: "<< connectStatus <<std::endl;
+
+    auto key = useful_F::RSHash();
+    std::string toCheck;
+
+    send_receive(s, key,key);
+    toCheck = send_receive(s, "ROOT",key);
+    EXPECT_STREQ(toCheck.c_str(), "OK you are ROOT");
+
+    std::cout << "odebrano4: " << toCheck << std::endl;
+
+    EXPECT_TRUE(useful_F::workServer);
+    toCheck = send_receive(s, "program reload hard", key);
+
+    std::cout << "odebrano8: " << toCheck << std::endl;
+    EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "CLOSE"));
+
+    close(s);
+    shutdown(s, SHUT_RDWR );
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    EXPECT_FALSE(useful_F::workServer);
+    EXPECT_EQ(test_my_data.iDomProgramState, iDomStateEnum::HARD_RELOAD);
+}
+
+TEST_F(bit_fixture, socket_reboot_rasp_command){
+
+    start_iDomServer();
+
+    struct sockaddr_in serwer =
+    {
+        .sin_family = AF_INET,
+                .sin_port = htons( 8833 )
+    };
+
+    inet_pton( serwer.sin_family, ipAddress, & serwer.sin_addr );
+
+    const int s = socket( serwer.sin_family, SOCK_STREAM, 0 );
+
+    sleep(1);
+    int connectStatus = connect(s,( struct sockaddr * ) & serwer, sizeof( serwer ) );
+    ASSERT_EQ(connectStatus,0);
+    std::cout << "connect status: "<< connectStatus <<std::endl;
+
+    auto key = useful_F::RSHash();
+    std::string toCheck;
+
+    send_receive(s, key,key);
+    toCheck = send_receive(s, "ROOT",key);
+    EXPECT_STREQ(toCheck.c_str(), "OK you are ROOT");
+
+    std::cout << "odebrano4: " << toCheck << std::endl;
+
+    EXPECT_TRUE(useful_F::workServer);
+    toCheck = send_receive(s, "program raspberry reboot", key);
+
+    std::cout << "odebrano8: " << toCheck << std::endl;
+    EXPECT_THAT(toCheck.c_str(), testing::HasSubstr( "command done with exitcode: 0"));
+
+    close(s);
+    shutdown(s, SHUT_RDWR );
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    EXPECT_FALSE(useful_F::workServer);
+}
+
 TEST_F(bit_fixture, socket_wrong_key_after_while){
 
     start_iDomServer();

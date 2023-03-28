@@ -38,9 +38,11 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string& threadName){
     v.push_back("433MHz");
     v.push_back("");
 
-    std::this_thread::sleep_for(5s);
+    std::this_thread::sleep_for(15s);
     command_ardu workerRFLink("ardu", my_data);
 
+    my_data->main_RFLink->sendCommand("10;PING;");
+    my_data->main_RFLink->sendCommand("10;PING;");
     my_data->main_RFLink->sendCommand("10;PING;");
 
     while(useful_F::go_while){
@@ -101,8 +103,45 @@ void f_satelIntegra32(thread_data *my_data, const std::string& threadName){
     iDOM_THREAD::stop_thread(threadName, my_data);
 } // koniec Satel Integra32
 
+
+void my_sig_handler(int s)
+{
+	printf("\nCaught signal %d\n", s);
+	std::cout << "MENU:" << std::endl << "0 - STOP" << std::endl << "1 - RELOAD" << std::endl;
+	int k;
+	std::cin >> k ;
+	std::cout << "podałeś: " << k << std::endl;
+	if(useful_F::myStaticData->main_iDomTools != std::nullptr_t()){
+	if(k == 0)
+	{
+		std::cout << "zamykam" << std::endl;
+		useful_F::myStaticData->main_iDomTools->close_iDomServer();
+	}
+	else if(k == 1)
+	{
+		std::cout << "jeszce nie przeladowywuje :(" << std::endl;
+		useful_F::myStaticData->main_iDomTools->reloadHard_iDomServer();
+	}
+	else
+		std::cout << "co ty podales?" << std::endl;
+    }
+}
+
+void catchSigInt()
+{
+	struct sigaction sigIntHandler;
+
+	sigIntHandler.sa_handler = my_sig_handler;
+	sigemptyset(&sigIntHandler.sa_mask);
+	sigIntHandler.sa_flags = 0;
+
+	sigaction(SIGINT, &sigIntHandler, NULL);
+}
+	
 iDomStateEnum iDom_main()
 {
+	
+    catchSigInt();
     iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
     useful_F::go_while = true;
     std::ofstream pidFile;

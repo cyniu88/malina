@@ -521,7 +521,7 @@ void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
             continue;
         }
 
-        //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscy ////////////////////
+        //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscu ////////////////////
 
         int freeSlotID = iDOM_THREAD::findFreeThreadSlot(my_data->main_THREAD_arr);
 
