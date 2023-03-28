@@ -39,8 +39,8 @@ void useful_F::setStaticData(thread_data *my_dataPtr)
     myStaticData = my_dataPtr;
 }
 
-void useful_F::tokenizer (std::vector <std::string> &command,
-                          std::string separator,
+void useful_F::tokenizer(std::vector <std::string> &command,
+                          const std::string& separator,
                           const std::string &text){
     std::string temp;
 
@@ -188,7 +188,7 @@ std::string useful_F::sek_to_uptime(long long secy )
 }
 
 //wysylanie pliku
-std::string useful_F::l_send_file(const std::string& path, std::string find, bool reverse )
+std::string useful_F::l_send_file(const std::string& path, const std::string& find, bool reverse )
 {
     std::string str_buf;
     if(find.empty() == true)

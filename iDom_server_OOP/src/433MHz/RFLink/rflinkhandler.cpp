@@ -53,14 +53,14 @@ void RFLinkHandler::sendCommand(std::string cmd)
 {
     std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
     cmd.append("\n\r"); // add NL & CR
-    m_serial_RFLink.print(cmd.c_str());
+    m_serial_RFLink.print(cmd);
 }
 
 std::string RFLinkHandler::sendCommandAndWaitForReceive(std::string cmd)
 {
     std::lock_guard<std::mutex> m_lock(sm_RFLink_MUTEX);
     cmd.append("\n\r"); // add NL & CR
-    m_serial_RFLink.print(cmd.c_str());
+    m_serial_RFLink.print(cmd);
     return internalReadFromRS232();
 }
 

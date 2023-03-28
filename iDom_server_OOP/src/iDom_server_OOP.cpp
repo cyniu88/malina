@@ -140,7 +140,10 @@ void catchSigInt()
 	
 iDomStateEnum iDom_main()
 {
-	
+	log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "\n\n------------------------ START PROGRAMU -----------------------"<< std::endl;
+    log_file_mutex.mutex_unlock();
+
     catchSigInt();
     iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
     useful_F::go_while = true;
@@ -204,7 +207,6 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "thread MQTT \t" << server_settings._runThread.MQTT << std::endl;
     log_file_cout << INFO << "thread RFLink \t" << server_settings._runThread.RFLink << std::endl;
     log_file_cout << INFO << " \n" << std::endl;
-    log_file_cout << INFO << "------------------------ START PROGRAMU -----------------------"<< std::endl;
     log_file_cout << DEBUG << "zbudowany dnia: " << __DATE__ << " o godzinie: " << __TIME__ << std::endl;
 
     std::stringstream r;
