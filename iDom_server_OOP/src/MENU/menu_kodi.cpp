@@ -81,6 +81,7 @@ MENU_KODI &MENU_KODI::operator=(const MENU_KODI &base)
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
+        kodiVolume = base.kodiVolume;
     }
     return * this;
 }
@@ -92,6 +93,7 @@ MENU_KODI &MENU_KODI::operator=(MENU_KODI &&base)
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
+        kodiVolume = base.kodiVolume;
     }
     return * this;
 }

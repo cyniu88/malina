@@ -188,7 +188,7 @@ std::string useful_F::sek_to_uptime(long long secy )
 }
 
 //wysylanie pliku
-std::string useful_F::l_send_file(std::string path, std::string find, bool reverse )
+std::string useful_F::l_send_file(const std::string& path, std::string find, bool reverse )
 {
     std::string str_buf;
     if(find.empty() == true)
