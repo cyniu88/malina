@@ -90,6 +90,7 @@ constexpr int ok    = 0;
 constexpr int GPIO_SPIK = 21;
 constexpr int GPIO_PRINTER = 22;
 }
+
 struct ALERT
 {
     Clock time;
@@ -133,6 +134,7 @@ struct FTP_SERVER{
     std::string user;
     std::string pass;
 };
+
 struct iDOM_STATE{
     STATE houseState = STATE::UNDEFINE;
     unsigned int counter = 0;
@@ -277,7 +279,6 @@ struct thread_data{
     std::shared_ptr<RADIO_EQ_CONTAINER> main_REC = std::nullptr_t();
     std::unique_ptr<iDomSTATUS> main_iDomStatus = std::nullptr_t();
     std::unique_ptr<iDomKEY_ACCESS> m_keyHandler = std::nullptr_t();
-   // std::unique_ptr<MENU_STATE_BASE> main_menu = std::make_unique<MENU_MAIN>();
 };
 
 iDomStateEnum iDom_main();

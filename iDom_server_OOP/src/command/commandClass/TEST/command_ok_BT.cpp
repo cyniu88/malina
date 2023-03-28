@@ -5,7 +5,7 @@
 class command_ok_Class_fixture : public testing::Test
 {
 public:
-    command_ok_Class_fixture():test_command_ok(std::make_unique <command_ok> ("ok"))
+    command_ok_Class_fixture():test_command_ok(std::make_unique <command_ok> ("ok")), test_my_data()
     {
     }
 

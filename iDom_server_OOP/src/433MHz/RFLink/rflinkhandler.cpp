@@ -75,6 +75,7 @@ std::string RFLinkHandler::dump() const
     std::stringstream ret;
 
     ret << "m_pingTime: " << this->m_pingTime << std::endl;
+    ret << "m_pingTime: " << Clock::unixTimeToString( this->m_pingTime )<< std::endl;
     ret << "m_okTime: " << this->m_okTime << std::endl;
     ret << "sm_RFLink_BUFOR: " << this->sm_RFLink_BUFOR << std::endl;
     return ret.str();

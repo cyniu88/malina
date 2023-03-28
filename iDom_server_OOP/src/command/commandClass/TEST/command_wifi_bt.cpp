@@ -5,7 +5,7 @@
 class command_wifi_Class_fixture : public testing::Test
 {
 public:
-    command_wifi_Class_fixture():test_command_wifi(std::make_unique <command_wifi>("wifi"))
+    command_wifi_Class_fixture():test_command_wifi(std::make_unique <command_wifi>("wifi")), test_my_data()
     {
     }
 

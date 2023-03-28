@@ -5,7 +5,7 @@
 class command_big_Class_fixture : public testing::Test
 {
 public:
-    command_big_Class_fixture():test_command_big(std::make_unique <command_big> ("big"))
+    command_big_Class_fixture():test_command_big(std::make_unique <command_big> ("big")), test_my_data()
     {
     }
 
@@ -13,7 +13,7 @@ protected:
     std::unique_ptr<command_big> test_command_big;
 
     std::vector<std::string> test_v;
-    thread_data test_my_data;
+   thread_data test_my_data;
 
 };
 

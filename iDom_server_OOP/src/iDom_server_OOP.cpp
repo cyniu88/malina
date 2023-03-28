@@ -140,7 +140,6 @@ void catchSigInt()
 	
 iDomStateEnum iDom_main()
 {
-	
     catchSigInt();
     iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
     useful_F::go_while = true;
@@ -220,7 +219,6 @@ iDomStateEnum iDom_main()
     /////////////////////////////// RC 433MHz ////////////////////
     node_data.main_REC = std::make_unique<RADIO_EQ_CONTAINER>(&node_data);
     node_data.main_REC->loadConfig(server_settings._server.radio433MHzConfigFile);
-    //std::unique_ptr<RFLinkHandler> rflinkHandler(new RFLinkHandler(&node_data));
     node_data.main_RFLink = std::make_shared<RFLinkHandler>(&node_data);
 
     if (server_settings._runThread.RFLink == true and node_data.main_RFLink->init())
@@ -374,8 +372,7 @@ iDomStateEnum iDom_main()
     ///////////////////////////////////////////////////// STARTED //////////////////////////////////////////////////
     node_data.serverStarted = true;
     //////// get light state
-    node_data.mqttHandler->publish(house_room_handler::m_mqttPublishTopic,"777;1;0;0");
-    ///////////////////////////////////////
+    node_data.mqttHandler->publish(house_room_handler::m_mqttPublishTopic, "777;1;0;0");
     ///////////////////////////////////////////////////// start server ////////////////////////////////////////////////////
 
     useful_F::startServer(&node_data, &mainTasker);

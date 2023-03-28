@@ -5,7 +5,7 @@
 class command_exit_Class_fixture : public testing::Test
 {
 public:
-    command_exit_Class_fixture():test_command_exit(std::make_unique <commandEXIT>("exit"))
+    command_exit_Class_fixture():test_command_exit(std::make_unique <commandEXIT>("exit")), test_my_data()
     {
     }
 

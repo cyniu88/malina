@@ -71,9 +71,9 @@ protected:
     thread_data* my_dataPTR;
     LCD_c* lcdPTR;
     MENU_STATE_MACHINE* stateMachinePTR;
-    const std::string arrow = std::string(1,(char)8) + "              " + std::string(1,(char)9);
+    const std::string arrow = std::string(1, (char)8) + "              " + std::string(1,(char)9);
     STATE lcdLED = STATE::OFF;
-    const std::string celsiusDegrees = std::string(1,(char)223) + "c";
+    const std::string celsiusDegrees = std::string(1, (char)223) + "c";
 
     std::string _row1;
     std::string _row2;

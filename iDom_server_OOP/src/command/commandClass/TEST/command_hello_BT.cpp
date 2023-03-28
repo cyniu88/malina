@@ -5,7 +5,7 @@
 class command_hello_Class_fixture : public testing::Test
 {
 public:
-    command_hello_Class_fixture():test_command_hello(std::make_unique <command_hello>("hello"))
+    command_hello_Class_fixture():test_command_hello(std::make_unique <command_hello>("hello")), test_my_data()
     {
     }
 

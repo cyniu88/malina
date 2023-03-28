@@ -6,7 +6,7 @@
 class command_clock_Class_fixture : public testing::Test
 {
 public:
-    command_clock_Class_fixture():test_command_clock(std::make_unique<command_clock>("clock"))
+    command_clock_Class_fixture():test_command_clock(std::make_unique<command_clock>("clock")), test_my_data()
     {
     }
 

@@ -56,6 +56,8 @@ light_bulb &light_bulb::operator=(const light_bulb &a)
     m_onTime = a.m_onTime;
     m_satelAlarmUnixTime = a.m_satelAlarmUnixTime;
     m_bulbCounter = a.m_bulbCounter;
+    m_satelAlarmHowLong = a.m_satelAlarmHowLong;
+    m_satelAlarm = a.m_satelAlarm;
     return *this;
 }
 
@@ -71,6 +73,8 @@ light_bulb& light_bulb::operator =(light_bulb&& a)
     m_onTime = std::move(a.m_onTime);
     m_satelAlarmUnixTime = std::move(a.m_satelAlarmUnixTime);
     m_bulbCounter = std::move(a.m_bulbCounter);
+    m_satelAlarmHowLong = std::move(a.m_satelAlarmHowLong);
+    m_satelAlarm = std::move(a.m_satelAlarm);
     return *this;
 }
 
