@@ -112,8 +112,9 @@ bool SATEL_INTEGRA::isAlarmArmed()
 {
     unsigned char cmd[1] = {INTEGRA_ENUM::ARMED_PARTITIONS};
 
-#ifdef BT_TEST
+
     auto io  = sendIntegra(cmd, 1);
+#ifdef BT_TEST
     for (int i = 0 ; i < io; ++i){
         char d = m_message[i];
         auto bs = std::bitset<8>(d);
@@ -122,7 +123,7 @@ bool SATEL_INTEGRA::isAlarmArmed()
 #endif
 
     if(m_message[2] not_eq INTEGRA_ENUM::ARMED_PARTITIONS){
-        std::cout << "zła odpowedz servera" << m_message[2] <<std::endl;
+        std::cout << "zła odpowiedź servera " << (int) m_message[2] <<std::endl;
         return false;
     }
     switch (m_message[3]) {
