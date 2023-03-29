@@ -112,8 +112,8 @@ bool SATEL_INTEGRA::isAlarmArmed()
 {
     unsigned char cmd[1] = {INTEGRA_ENUM::ARMED_PARTITIONS};
 
-#ifdef BT_TEST
     auto io  = sendIntegra(cmd, 1);
+#ifdef BT_TEST
     for (int i = 0 ; i < io; ++i){
         char d = m_message[i];
         auto bs = std::bitset<8>(d);
