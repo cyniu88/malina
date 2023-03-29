@@ -435,7 +435,7 @@ std::string useful_F::conv_dns(std::string& temp){
     // print information about this host:
     printf( "Official name is: %s\n", he->h_name );
     printf( "IP addresses: ");
-    addr_list =( struct in_addr ** ) he->h_addr_list;
+    addr_list = ( struct in_addr **) (he->h_addr_list);
 
     for( i = 0; addr_list[ i ] not_eq NULL; i++ )
     {

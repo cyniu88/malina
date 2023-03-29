@@ -60,7 +60,6 @@ public:
     //////////////////////////// lightning ////////////////////////
     void checkLightning() override;
 
-
     //////////////////////////// weather /////////////////////////
     std::string getSunrise(bool extend = false) override;
     std::string getSunset(bool extend = false) override;

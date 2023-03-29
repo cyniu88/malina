@@ -26,7 +26,6 @@ struct temperature {
 };
 class THERMOMETER : public iDom_API
 {
-
    // THERMOMETER() = default;
 public:
     explicit THERMOMETER(int iter);
