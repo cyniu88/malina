@@ -116,39 +116,30 @@ std::string iDomTOOLS::openGateLink(std::vector<std::string> v)
 
 void iDomTOOLS::reloadSoft_iDomServer()
 {
-    std::string s = "close server";
     my_data->iDomProgramState = iDomStateEnum::RELOAD;
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
-    //throw s;
     useful_F::workServer = false;
 }
 
 void iDomTOOLS::reloadHard_iDomServer()
 {
-    std::string s = "close server";
     my_data->iDomProgramState = iDomStateEnum::HARD_RELOAD;
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
-    //throw s;
     useful_F::workServer = false;
 }
 
 void iDomTOOLS::raspberryReboot()
 {
-    std::string s = "raspberry reload";
     iDomTOOLS::MPD_stop();
     my_data->iDomProgramState = iDomStateEnum::RASPBERRY_RELOAD;
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
-    //throw s;
     useful_F::workServer = false;
 }
 
 void iDomTOOLS::close_iDomServer ()
 {
-	puts("close");
-    std::string s = "close server";
     iDomTOOLS::MPD_stop();
     my_data->iDomProgramState = iDomStateEnum::CLOSE;
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
     useful_F::workServer = false;
-    //throw s;
 }

@@ -205,7 +205,7 @@ void main_mpd_cli(thread_data* my_data, const std::string &threadName )
     //std::cout << " adres hosta to " << hostname << std::endl;
     if(hostname == NULL) {
         //std::cout << " ip mpd to " << my_data->server_settings->MPD_IP << " ! \n";
-        hostname = (char*)my_data->server_settings->_server.MPD_IP.c_str();
+        hostname = my_data->server_settings->_server.MPD_IP.data();
     }
     if(port){
         iport = std::stoi(port);

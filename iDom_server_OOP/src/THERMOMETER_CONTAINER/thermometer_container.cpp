@@ -18,14 +18,14 @@ THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string& name
 THERMOMETER::THERMOMETER(int iter):m_stats(iter)
 {
     m_className.append(typeid (this).name());
-    addToMap(m_className,this);
+    addToMap(m_className, this);
 }
 
 THERMOMETER::THERMOMETER(const THERMOMETER &a):m_thermometer(a.m_thermometer),
     m_stats(a.m_stats)
 {
     m_className.append(typeid (this).name());
-    addToMap(m_className,this);
+    addToMap(m_className, this);
 }
 
 THERMOMETER::~THERMOMETER()
@@ -51,7 +51,7 @@ std::string THERMOMETER::dump() const
 
 void THERMOMETER_CONTAINER::add(const std::string &name)
 {
-    auto pair = std::make_pair(name, THERMOMETER(15));
+    auto pair = std::make_pair(name, THERMOMETER(120));
     pair.second.m_thermometer.thermometrName = name;
     thermoMap.insert(pair);
 }
