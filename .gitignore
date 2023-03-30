@@ -8,3 +8,4 @@ default.profraw
 iDom_TESTs-CMAKE
 null
 *.bak
+.vscode
