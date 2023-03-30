@@ -190,7 +190,7 @@ iDomStateEnum iDom_main()
 
     /////////////////////////////////////////// zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
-    log_file_cout << "\n*****************************************************************\n*****************************************************************\n  "<<  " \t\t\t\t\t start programu " << std::endl;
+    log_file_cout << "\n************************************************\n*****************************************************************\n  " << std::endl;
     log_file_cout << INFO << "ID serwera\t" << server_settings._server.ID_server << std::endl;
     log_file_cout << INFO << "PortRS232\t" << server_settings._rs232.portRS232 << std::endl;
     log_file_cout << INFO << "BaudRate RS232\t" << server_settings._rs232.BaudRate << std::endl;

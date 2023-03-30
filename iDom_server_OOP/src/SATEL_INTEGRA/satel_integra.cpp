@@ -122,7 +122,7 @@ bool SATEL_INTEGRA::isAlarmArmed()
 #endif
 
     if(m_message[2] not_eq INTEGRA_ENUM::ARMED_PARTITIONS){
-        std::cout << "zła odpowedz servera" << m_message[2] <<std::endl;
+        std::cout << "zła odpowiedź servera " << (int) m_message[2] <<std::endl;
         return false;
     }
     switch (m_message[3]) {
