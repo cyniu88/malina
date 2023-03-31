@@ -1,10 +1,8 @@
 #include "serialpi.h"
- #include <stdio.h>
+#include <stdio.h>
 
-
-SerialPi::SerialPi(const std::string& address): m_address(address),m_serial_port(0)
+SerialPi::SerialPi(const std::string &address) : m_address(address), m_serial_port(0)
 {
-
 }
 
 SerialPi::~SerialPi()
@@ -14,9 +12,9 @@ SerialPi::~SerialPi()
 
 void SerialPi::begin(int budrate)
 {
-    if ((m_serial_port = serialOpen(m_address.c_str(), budrate)) < 0)	/* open serial port */
+    if ((m_serial_port = serialOpen(m_address.c_str(), budrate)) < 0) /* open serial port */
     {
-        throw "cannot open serial port"; //todo add exceptions
+        throw "cannot open serial port"; // todo add exceptions
     }
 }
 
@@ -36,6 +34,6 @@ void SerialPi::flush()
 }
 void SerialPi::print(const std::string &m)
 {
-    std::lock_guard <std::mutex> lock (mutex_rs232);
-    serialPrintf(m_serial_port,m.c_str());
+    std::lock_guard<std::mutex> lock(mutex_rs232);
+    serialPrintf(m_serial_port, m.c_str());
 }

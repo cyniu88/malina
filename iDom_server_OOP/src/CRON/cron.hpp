@@ -3,17 +3,18 @@
 #include <iostream>
 #include <time.h>
 #include <string>
-#include"../functions/functions.h"
+#include "../functions/functions.h"
 
 class CRON
 {
 public:
-    explicit CRON( thread_data* my_data);
+    explicit CRON(thread_data *my_data);
     void run();
+
 private:
     CRON();
     bool check_temperature;
-    thread_data * my_data;
+    thread_data *my_data;
     void send_time();
     void runEveryone_1min(tm *act_date);
     void runEveryone_5min();

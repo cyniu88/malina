@@ -13,16 +13,16 @@
 class CommandHandlerMQTT;
 struct thread_data;
 
-class house_room_handler: public iDom_API
+class house_room_handler : public iDom_API
 {
-    thread_data* my_data;
+    thread_data *my_data;
     unsigned int m_lastNotifyUnixTime = 0;
 
     Circular_buffer m_circBuffSatelSensorId;
 
 public:
     std::map<int, std::map<std::string, std::vector<std::string>>> m_buttonConfig;
-    static std::string  m_mqttPublishTopic;
+    static std::string m_mqttPublishTopic;
 
     std::map<int, std::shared_ptr<light_bulb>> m_lightingBulbMap;
     std::map<std::string, std::shared_ptr<ROOM>> m_roomMap;
@@ -31,12 +31,12 @@ public:
     explicit house_room_handler(thread_data *my_data);
     ~house_room_handler();
 
-    void loadConfig(const std::string& configPath);
+    void loadConfig(const std::string &configPath);
     void loadButtonConfig(const std::string &configPath);
 
-    void turnOnAllInRoom(const std::string& roomName);
-    void turnOffAllInRoom(const std::string& roomName);
-    void changeAllInRoom(const std::string& roomName);
+    void turnOnAllInRoom(const std::string &roomName);
+    void turnOffAllInRoom(const std::string &roomName);
+    void changeAllInRoom(const std::string &roomName);
 
     void turnOnAllBulb();
     void turnOffAllBulb();
@@ -52,7 +52,7 @@ public:
     nlohmann::json getInfoJSON_allON();
 
     void executeCommandFromMQTT(const std::string &msg);
-    void executeButtonComand(const unsigned int buttonID, const std::string & action, CommandHandlerMQTT* commandMQTTptr);
+    void executeButtonComand(const unsigned int buttonID, const std::string &action, CommandHandlerMQTT *commandMQTTptr);
 
     void satelSensorActive(int sensorID);
 

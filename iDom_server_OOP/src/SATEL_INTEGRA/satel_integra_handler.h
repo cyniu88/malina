@@ -9,16 +9,17 @@ class SATEL_INTEGRA_HANDLER : public SATEL_INTEGRA_HANDLER_INTERFACE
 {
     thread_data *my_data;
     SATEL_INTEGRA m_integra32;
+
 public:
     SATEL_INTEGRA_HANDLER() = default;
-    explicit SATEL_INTEGRA_HANDLER(thread_data* myData);
+    explicit SATEL_INTEGRA_HANDLER(thread_data *myData);
     ~SATEL_INTEGRA_HANDLER();
 
     void checkSatel() override;
     void checkAlarm(STATE &st) override;
     void run() override;
 
-     SATEL_INTEGRA_INTERFACE* getSatelPTR() override;
+    SATEL_INTEGRA_INTERFACE *getSatelPTR() override;
 };
 
 #endif // SATEL_INTEGRA_HANDLER_H

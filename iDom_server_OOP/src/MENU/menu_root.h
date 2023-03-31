@@ -6,11 +6,11 @@
 class MENU_ROOT : public MENU_STATE_BASE
 {
 public:
-    MENU_ROOT(thread_data *my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm, STATE lcdLED = STATE::OFF);
+    MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
     MENU_ROOT(const MENU_ROOT &base);
     MENU_ROOT(MENU_ROOT &&base);
-    MENU_ROOT &operator= (const MENU_ROOT &base);
-    MENU_ROOT &operator= (MENU_ROOT &&base);
+    MENU_ROOT &operator=(const MENU_ROOT &base);
+    MENU_ROOT &operator=(MENU_ROOT &&base);
     ~MENU_ROOT();
     void entry() override;
     void exit() override;
@@ -26,7 +26,8 @@ public:
     void reboot() override;
     void timeout(std::function<void()> function = std::nullptr_t()) override;
     void offLcd() override;
-    void quickPrint(const std::string &row1, const std::string & row2) override;
+    void quickPrint(const std::string &row1, const std::string &row2) override;
+
 private:
     void volumeUp();
     void volumeDown();

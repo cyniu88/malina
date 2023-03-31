@@ -9,36 +9,42 @@
 using namespace std::chrono_literals;
 
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
-void Send_Recieve_rs232_thread (thread_data *my_data, const std::string& threadName){
+void Send_Recieve_rs232_thread(thread_data *my_data, const std::string &threadName)
+{
     my_data->main_Rs232 = std::make_unique<SerialPi>(my_data->server_settings->_rs232.portRS232);
     my_data->main_Rs232->begin(my_data->server_settings->_rs232.BaudRate);
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "otwarcie portu RS232 " << my_data->server_settings->_rs232.portRS232 <<
-                     " " << my_data->server_settings->_rs232.BaudRate << std::endl;
+    log_file_cout << INFO << "otwarcie portu RS232 " << my_data->server_settings->_rs232.portRS232 << " " << my_data->server_settings->_rs232.BaudRate << std::endl;
     log_file_mutex.mutex_unlock();
     std::string buffor;
 
-    while(useful_F::go_while)
+    while (useful_F::go_while)
     {
-        if(my_data->main_Rs232->available() > 0){
+        if (my_data->main_Rs232->available() > 0)
+        {
             char t = my_data->main_Rs232->read();
-            if(t == '\n'){
+            if (t == '\n')
+            {
                 my_data->main_Rs232->flush();
-                auto data = useful_F::split(buffor,':');
-                if(data.at(0) == "KEY_PAD"){
+                auto data = useful_F::split(buffor, ':');
+                if (data.at(0) == "KEY_PAD")
+                {
                     int id = std::stoi(data.at(1));
                     KEY_PAD keyEvent = static_cast<KEY_PAD>(id);
                     my_data->main_key_menu_handler->recKeyEvent(keyEvent);
                 }
-                else if(data.at(0) == "TIMEOUT"){
+                else if (data.at(0) == "TIMEOUT")
+                {
                     my_data->main_key_menu_handler->timeout();
                 }
-                else{
+                else
+                {
                     my_data->mqttHandler->publish("rs232", buffor);
                 }
                 buffor.clear();
             }
-            else{
+            else
+            {
                 buffor.push_back(t);
             }
         }

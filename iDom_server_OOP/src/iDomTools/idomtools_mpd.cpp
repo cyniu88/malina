@@ -1,16 +1,16 @@
 #include "idomtools.h"
 #include "../blockQueue/blockqueue.h"
 
-void iDomTOOLS::MPD_play(thread_data* my_data)
+void iDomTOOLS::MPD_play(thread_data *my_data)
 {
-    if(my_data->idom_all_state.houseState == STATE::UNLOCK)
+    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
     {
         blockQueue _q;
         _q._add(MPD_COMMAND::PLAY);
     }
     else
     {
-        my_data->myEventHandler.run("MPD")->addEvent("MPD can not start due to home state: "+
+        my_data->myEventHandler.run("MPD")->addEvent("MPD can not start due to home state: " +
                                                      stateToString(my_data->idom_all_state.houseState));
     }
 }
@@ -60,7 +60,7 @@ void iDomTOOLS::MPD_volumeSet(thread_data *my_data, int vol)
 
 void iDomTOOLS::MPD_play(thread_data *my_data, int id)
 {
-    if(my_data->idom_all_state.houseState == STATE::UNLOCK)
+    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
     {
         my_data->ptr_MPD_info->currentSongID = id;
         blockQueue _q;
@@ -68,7 +68,7 @@ void iDomTOOLS::MPD_play(thread_data *my_data, int id)
     }
     else
     {
-        my_data->myEventHandler.run("MPD")->addEvent("MPD can not start due to home state: "+
+        my_data->myEventHandler.run("MPD")->addEvent("MPD can not start due to home state: " +
                                                      stateToString(my_data->idom_all_state.houseState));
     }
 }

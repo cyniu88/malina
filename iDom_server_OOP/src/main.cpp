@@ -1,7 +1,7 @@
 
 #include <signal.h>
 #include "iDom_server_OOP.h"
-	
+
 using namespace std::chrono_literals;
 
 int main(int argc, char *argv[])
@@ -17,25 +17,26 @@ int main(int argc, char *argv[])
             {
                 iDomStateProgram = iDom_main();
             }
-            catch (const std::exception& e)
+            catch (const std::exception &e)
             {
-                std::cout << "złąpano wyjatek programu wiec restart "<< e.what() << std::endl;
+                std::cout << "złąpano wyjatek programu wiec restart " << e.what() << std::endl;
                 iDomStateProgram = iDomStateEnum::RELOAD;
             }
-            if(iDomStateProgram == iDomStateEnum::RELOAD)
+            if (iDomStateProgram == iDomStateEnum::RELOAD)
             {
-                std::cout << std::endl << "przeładowywuje program" << std::endl;
+                std::cout << std::endl
+                          << "przeładowywuje program" << std::endl;
                 std::this_thread::sleep_for((++t));
             }
-        }
-        while (iDomStateProgram == iDomStateEnum::RELOAD);
+        } while (iDomStateProgram == iDomStateEnum::RELOAD);
 
-        if(iDomStateProgram == iDomStateEnum::CLOSE)
+        if (iDomStateProgram == iDomStateEnum::CLOSE)
         {
             std::cout << "zamykam program" << std::endl;
             return 0;
         }
-        else if(iDomStateProgram == iDomStateEnum::RASPBERRY_RELOAD){
+        else if (iDomStateProgram == iDomStateEnum::RASPBERRY_RELOAD)
+        {
             std::cout << "zamykam program i robie restart maliny" << std::endl;
             return 10;
         }
@@ -58,12 +59,11 @@ int main(int argc, char *argv[])
             std::cout << "nie ma parametru wiec odpalam program " << ret << std::endl;
             ret = system("./iDom_server-CMAKE");
             std::cout << "system() zwraca ret " << std::hex << ret << std::endl;
-			
+
             if (ret == 2560)
-			{
-				std::cout << "reboot maliny " << system("shutdown -r now") << std::endl;
-			}
-			
+            {
+                std::cout << "reboot maliny " << system("shutdown -r now") << std::endl;
+            }
         }
         std::cout << "ZAMYKAM NA AMEN" << std::endl;
     }

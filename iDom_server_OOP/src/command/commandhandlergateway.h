@@ -3,10 +3,10 @@
 
 #include "commandhandler.h"
 
-class commandHandlerGATEWAY:public commandHandler
+class commandHandlerGATEWAY : public commandHandler
 {
 public:
-    explicit commandHandlerGATEWAY(thread_data* my_data);
+    explicit commandHandlerGATEWAY(thread_data *my_data);
     virtual ~commandHandlerGATEWAY() = default;
 
     std::string run(std::vector<std::string> &v, thread_data *my_data) override;

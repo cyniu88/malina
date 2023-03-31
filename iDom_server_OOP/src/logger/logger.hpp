@@ -53,8 +53,9 @@
 #include <sstream>
 
 // Log levels
-typedef enum {
-    US =0,
+typedef enum
+{
+    US = 0,
     VERBOSE,
     DEBUG,
     INFO,
@@ -64,51 +65,53 @@ typedef enum {
     FATAL
 } logger_level;
 
-class Logger : public std::ostringstream {
+class Logger : public std::ostringstream
+{
 public:
-
     explicit Logger(const char *f);
-    explicit Logger(const std::string& f);
-    Logger (const Logger &);
-    Logger &operator= (const Logger &);
+    explicit Logger(const std::string &f);
+    Logger(const Logger &);
+    Logger &operator=(const Logger &);
     ~Logger();
     static pthread_mutex_t mutex_log;
 
-    void set_level(const logger_level& level);
+    void set_level(const logger_level &level);
     void flush();
     void mutex_lock();
     void mutex_unlock();
 
     template <typename T>
-    Logger& operator<<(const T& t)
+    Logger &operator<<(const T &t)
     {
         *static_cast<std::ostringstream *>(this) << t;
         return (*this);
     }
 
-    Logger& operator<<(const logger_level& level);
-    typedef Logger& (* LoggerManip)(Logger&);
-    Logger& operator<<(LoggerManip m);
+    Logger &operator<<(const logger_level &level);
+    typedef Logger &(*LoggerManip)(Logger &);
+    Logger &operator<<(LoggerManip m);
 
 private:
     std::string get_time() const;
-    inline const char* level_str(const logger_level& level);
+    inline const char *level_str(const logger_level &level);
+
 public:
     std::ofstream _file;
+
 private:
-    std::ostream& _log;
+    std::ostream &_log;
     logger_level _level;
     logger_level _line_level;
 };
 
-
-namespace std { 
-inline Logger& endl(Logger& out)
+namespace std
 {
-    out.put('\n');
-    out.flush();
-    return (out);
-}
-}// end namespace std
+    inline Logger &endl(Logger &out)
+    {
+        out.put('\n');
+        out.flush();
+        return (out);
+    }
+} // end namespace std
 
 #endif

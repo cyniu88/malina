@@ -23,7 +23,7 @@ Niby opisane jest to na stronach dostawców - ale nie do końca - więc pełen o
 
 Wszystkie te funkcje działają równolegle bo układ może zapamiętać do 50 kodów! Dodatkowo w trybie włącznika czasowego można skrócić czas załączenia poprzez wysłanie kodu WYŁĄCZ z wcześniej ustawionej funkcji latched.
  */
-RADIO_BUTTON::RADIO_BUTTON(thread_data *my_data, const RADIO_EQ_CONFIG& cfg, RADIO_EQ_TYPE type)
+RADIO_BUTTON::RADIO_BUTTON(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type)
 {
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;

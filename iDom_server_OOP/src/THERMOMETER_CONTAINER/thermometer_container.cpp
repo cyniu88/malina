@@ -1,7 +1,7 @@
 #include "thermometer_container.h"
 #include "../iDom_server_OOP.h"
 
-THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string& name)
+THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string &name)
 {
     auto m = thermoMap.find(name);
     if (m not_eq thermoMap.end())
@@ -9,22 +9,22 @@ THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string& name
     else
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL <<" THERMOMETER_CONTAINER::returnThermometerPtr()"<<std::endl;
+        log_file_cout << CRITICAL << " THERMOMETER_CONTAINER::returnThermometerPtr()" << std::endl;
         log_file_mutex.mutex_unlock();
         throw std::string("thermometer not found!");
     }
 }
 
-THERMOMETER::THERMOMETER(int iter):m_stats(iter)
+THERMOMETER::THERMOMETER(int iter) : m_stats(iter)
 {
-    m_className.append(typeid (this).name());
+    m_className.append(typeid(this).name());
     addToMap(m_className, this);
 }
 
-THERMOMETER::THERMOMETER(const THERMOMETER &a):m_thermometer(a.m_thermometer),
-    m_stats(a.m_stats)
+THERMOMETER::THERMOMETER(const THERMOMETER &a) : m_thermometer(a.m_thermometer),
+                                                 m_stats(a.m_stats)
 {
-    m_className.append(typeid (this).name());
+    m_className.append(typeid(this).name());
     addToMap(m_className, this);
 }
 
@@ -87,7 +87,7 @@ void THERMOMETER_CONTAINER::updateAll(std::vector<std::string> *vectorThermo)
     std::string in = vectorThermo->at(0);
     std::string out = vectorThermo->at(1);
     setTemp("inside", std::stod(in));
-    setTemp("outside",std::stod(out));
+    setTemp("outside", std::stod(out));
 }
 
 void THERMOMETER_CONTAINER::updateStats(const std::string &name)
@@ -117,9 +117,10 @@ int THERMOMETER_CONTAINER::sizeOf()
 
 void THERMOMETER_CONTAINER::showAll()
 {
-    for(const auto& n : thermoMap)
+    for (const auto &n : thermoMap)
     {
         std::cout << n.first << " ";
     }
-    std::cout << std::endl << "koniec prointowania w " << std::endl;
+    std::cout << std::endl
+              << "koniec prointowania w " << std::endl;
 }

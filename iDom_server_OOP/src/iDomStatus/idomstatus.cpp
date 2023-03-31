@@ -17,27 +17,28 @@ iDomSTATUS::~iDomSTATUS()
 
 void iDomSTATUS::addObject(std::string name, STATE st)
 {
-    std::lock_guard < std::mutex > lock ( m_lockGuard);
-    m_stateMAP.insert(std::make_pair(name,st));
+    std::lock_guard<std::mutex> lock(m_lockGuard);
+    m_stateMAP.insert(std::make_pair(name, st));
 }
 
-void iDomSTATUS::setObjectState(const std::string& name, STATE st)
+void iDomSTATUS::setObjectState(const std::string &name, STATE st)
 {
     std::lock_guard<std::mutex> lock(m_lockGuard);
     auto i = m_stateMAP.find(name);
-    if (i not_eq m_stateMAP.end()){
+    if (i not_eq m_stateMAP.end())
+    {
         i->second = st;
     }
     else
     {
         lock.~lock_guard();
-        addObject(name,st);
+        addObject(name, st);
     }
 }
 
-STATE iDomSTATUS::getObjectState(const std::string& name)
+STATE iDomSTATUS::getObjectState(const std::string &name)
 {
-    std::lock_guard <std::mutex> lock(m_lockGuard);
+    std::lock_guard<std::mutex> lock(m_lockGuard);
     auto i = m_stateMAP.find(name);
     if (i not_eq m_stateMAP.end())
     {
@@ -46,10 +47,10 @@ STATE iDomSTATUS::getObjectState(const std::string& name)
     return STATE::UNKNOWN;
 }
 
-std::string iDomSTATUS::getObjectStateString(const std::string& name)
+std::string iDomSTATUS::getObjectStateString(const std::string &name)
 {
     std::stringstream dataStr;
-    std::lock_guard < std::mutex > lock ( m_lockGuard);
+    std::lock_guard<std::mutex> lock(m_lockGuard);
     auto i = m_stateMAP.find(name);
     if (i not_eq m_stateMAP.end())
     {
@@ -64,8 +65,8 @@ std::string iDomSTATUS::getAllObjectsStateString()
 {
     std::stringstream st;
     st << "state: ";
-    std::lock_guard < std::mutex > lock( m_lockGuard);
-    for (const auto& elm : m_stateMAP)
+    std::lock_guard<std::mutex> lock(m_lockGuard);
+    for (const auto &elm : m_stateMAP)
     {
         st << elm.first << "=";
         st << elm.second << " ";
@@ -73,7 +74,8 @@ std::string iDomSTATUS::getAllObjectsStateString()
     // shortcut solution for buderus
     st << "burnGas=";
     auto heating = useful_F::myStaticData->ptr_buderus->isHeatingActiv();
-    if (heating == true) {
+    if (heating == true)
+    {
         st << STATE::ACTIVE;
         st << " burnGasStartTime="
            << useful_F::myStaticData->ptr_buderus->getHeatingStartTime() << ' ';

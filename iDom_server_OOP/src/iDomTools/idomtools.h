@@ -11,8 +11,8 @@
 struct thread_data;
 class RADIO_BUTTON;
 
-class iDomTOOLS : public  iDomTOOLS_INTERFACE, iDom_API
-{ 
+class iDomTOOLS : public iDomTOOLS_INTERFACE, iDom_API
+{
 protected:
     THERMOMETER_CONTAINER m_allThermometer;
     THERMOMETER_CONTAINER m_allThermometerUpdate;
@@ -24,17 +24,18 @@ protected:
     viber_API m_viber;
     FACEBOOK_API m_facebook;
     std::mutex m_msgMutex;
-    std::vector<RADIO_BUTTON*> m_buttonPointerVector;
+    std::vector<RADIO_BUTTON *> m_buttonPointerVector;
     Clock m_lastButton433MHzLockUnlockTime;
     int m_restartAlarmRFLink = 0;
     std::vector<std::string> textToSpeachVector;
+
 public:
     explicit iDomTOOLS(thread_data *myData);
     ~iDomTOOLS();
 
-    TEMPERATURE_STATE getTHERMOMETER_CONTAINERlastState(const std::string& name) override;
+    TEMPERATURE_STATE getTHERMOMETER_CONTAINERlastState(const std::string &name) override;
     TEMPERATURE_STATE hasTemperatureChange(const std::string &thermometerName, double reference, double histereza) override;
-    void sendSMSifTempChanged(const std::string& thermomethernName, int reference) override;
+    void sendSMSifTempChanged(const std::string &thermomethernName, int reference) override;
     std::string getThermoStats(const std::string &name) override;
     void updateTemperatureStats() override;
 
@@ -70,10 +71,10 @@ public:
 
     WEATHER_DATABASE getAlert() override;
 
-    void textToSpeach(std::vector <std::string> *textVector) override;
+    void textToSpeach(std::vector<std::string> *textVector) override;
     std::string getTextToSpeach() override;
 
-    std::vector <std::string> getTemperature() override;
+    std::vector<std::string> getTemperature() override;
     std::string getTemperatureString() override;
     std::string getSmog() override;
     void send_data_to_thingSpeak() override;
@@ -83,36 +84,36 @@ public:
     void cameraLedON(const std::string &link) override;
     void cameraLedOFF(const std::string &link) override;
     //////////////////// viber msg /////////////////////////
-    nlohmann::json sendViberMsg(const std::string& msg,
-                                const std::string& receiver,
-                                const std::string& senderName,
+    nlohmann::json sendViberMsg(const std::string &msg,
+                                const std::string &receiver,
+                                const std::string &senderName,
                                 const std::string &accessToken = "NULL",
                                 const std::string &url = "NULL") override;
-    nlohmann::json sendViberPicture(const std::string& msg,
-                                    const std::string& image,
-                                    const std::string& receiver,
-                                    const std::string& senderName,
+    nlohmann::json sendViberPicture(const std::string &msg,
+                                    const std::string &image,
+                                    const std::string &receiver,
+                                    const std::string &senderName,
                                     const std::string &accessToken = "NULL",
                                     const std::string &url = "NULL") override;
-    nlohmann::json sendViberUrl(const std::string& msg,
-                                    const std::string& url2,
-                                    const std::string& receiver,
-                                    const std::string& senderName,
-                                    const std::string &accessToken = "NULL",
-                                    const std::string &url = "NULL") override;
-    STATE sendViberMsgBool(const std::string& msg,
-                           const std::string& receiver,
-                           const std::string& senderName,
+    nlohmann::json sendViberUrl(const std::string &msg,
+                                const std::string &url2,
+                                const std::string &receiver,
+                                const std::string &senderName,
+                                const std::string &accessToken = "NULL",
+                                const std::string &url = "NULL") override;
+    STATE sendViberMsgBool(const std::string &msg,
+                           const std::string &receiver,
+                           const std::string &senderName,
                            const std::string &accessToken = "NULL",
                            const std::string &url = "NULL") override;
-    STATE sendViberPictureBool(const std::string& msg,
-                               const std::string& image,
-                               const std::string& receiver,
-                               const std::string& senderName,
+    STATE sendViberPictureBool(const std::string &msg,
+                               const std::string &image,
+                               const std::string &receiver,
+                               const std::string &senderName,
                                const std::string &accessToken = "NULL",
                                const std::string &url = "NULL") override;
     //////////////////// facebook //////////////////////////
-    std::string postOnFacebook(const std::string& msg, const std::string& image ="NULL") override;
+    std::string postOnFacebook(const std::string &msg, const std::string &image = "NULL") override;
 
     //////////////////// LED part //////////////////////////
     std::string ledOFF() override;
@@ -122,16 +123,16 @@ public:
     //////////////////// ALERT //////////////////////////
     void checkAlarm() override;
     //////////////////// MPD part //////////////////////////
-    void MPD_play(thread_data* my_data) override;
+    void MPD_play(thread_data *my_data) override;
     void MPD_stop() override;
     void MPD_next() override;
     void MPD_prev() override;
     void MPD_pause() override;
     void MPD_volumeUp() override;
     void MPD_volumeDown() override;
-    void MPD_volumeSet(thread_data* my_data, int vol) override;
-    void MPD_play(thread_data* my_data,int id) override;
-    int  MPD_getVolume(thread_data *my_data) override;
+    void MPD_volumeSet(thread_data *my_data, int vol) override;
+    void MPD_play(thread_data *my_data, int id) override;
+    int MPD_getVolume(thread_data *my_data) override;
 
     /////////////////////// SAVE STATE iDOM ////////////////
     void saveState_iDom(const bool &started) override;
@@ -150,10 +151,10 @@ public:
     void healthCheck() override;
 
     ////////////////////// system /////////////////////////
-    void close_iDomServer () override;
-    void reloadSoft_iDomServer () override;
-    void reloadHard_iDomServer () override;
-    void raspberryReboot () override;
+    void close_iDomServer() override;
+    void reloadSoft_iDomServer() override;
+    void reloadHard_iDomServer() override;
+    void raspberryReboot() override;
 
     //////////////////////// iDom_API /////////////////////
     std::string dump() const override;
@@ -163,6 +164,7 @@ public:
 
     //////////////////  doorbell  ////////////////////////
     void doorbellDingDong() override;
+
 private:
     void runCommandFromJson(const std::vector<std::string> &jj);
 };

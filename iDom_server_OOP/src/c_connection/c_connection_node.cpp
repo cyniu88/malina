@@ -4,7 +4,7 @@
 #include "json.hpp"
 #include "../functions/functions.h"
 
-void C_connection::setEncriptionKey(const std::string& key)
+void C_connection::setEncriptionKey(const std::string &key)
 {
     m_encriptionKey = key;
 }
@@ -16,17 +16,18 @@ void C_connection::setEncrypted(bool flag)
 
 void C_connection::crypto(std::string &toEncrypt, std::string key, bool encrypted)
 {
-    if (!encrypted){
+    if (!encrypted)
+    {
         return;
     }
-    unsigned int keySize = key.size()-1;
+    unsigned int keySize = key.size() - 1;
 #ifdef BT_TEST
     std::cout << "key: " << key << " size: " << key.size() << std::endl;
 #endif
-    for (unsigned int i = 0; i < toEncrypt.size (); i++)
+    for (unsigned int i = 0; i < toEncrypt.size(); i++)
     {
         if (keySize == 0)
-            keySize = key.size()-1;
+            keySize = key.size() - 1;
         else
             --keySize;
         toEncrypt[i] ^= key[keySize];
@@ -35,7 +36,6 @@ void C_connection::crypto(std::string &toEncrypt, std::string key, bool encrypte
 
 void C_connection::onStartConnection()
 {
-
 }
 
 void C_connection::onStopConnection()
@@ -45,7 +45,7 @@ void C_connection::onStopConnection()
 
 void C_connection::cryptoLog(std::string &toEncrypt)
 {
-    crypto(toEncrypt,m_encriptionKey,m_encrypted);
+    crypto(toEncrypt, m_encriptionKey, m_encrypted);
 }
 
 void C_connection::hendleHTTP(const std::string &msg)
@@ -53,7 +53,7 @@ void C_connection::hendleHTTP(const std::string &msg)
 
     std::vector<std::string> dataToSend;
 
-    if(Http::getContentType(msg) == Content_Type::ApplicationJSON and Http::getUrl(msg) == "/iDom/log")
+    if (Http::getContentType(msg) == Content_Type::ApplicationJSON and Http::getUrl(msg) == "/iDom/log")
     {
         nlohmann::json jj = nlohmann::json::parse(Http::getContent(msg));
         log_file_mutex.mutex_lock();
@@ -103,12 +103,10 @@ void C_connection::hendleHTTP(const std::string &msg)
         dataToSend.push_back(msgHTTP);
         dataToSend.push_back(msgHTML);
 
-
-
         log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG << "odebrano HTTP " << msg<< std::endl;
+        log_file_cout << DEBUG << "odebrano HTTP " << msg << std::endl;
         log_file_mutex.mutex_unlock();
     }
-    for(const auto& d: dataToSend)
+    for (const auto &d : dataToSend)
         c_sendPure(d);
 }

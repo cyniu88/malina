@@ -3,31 +3,31 @@
 
 #include "../RADIO_433_eq/radio_433_eq.h"
 
-MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED):
-    MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED),
-    tempCounter(0)
+MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(my_data, lcdPTR, msm, lcdLED),
+                                                                                                   tempCounter(0)
 {
 }
 
-MENU_ROOT::MENU_ROOT(const MENU_ROOT &base): MENU_STATE_BASE(base),
-    tempCounter(base.tempCounter)
+MENU_ROOT::MENU_ROOT(const MENU_ROOT &base) : MENU_STATE_BASE(base),
+                                              tempCounter(base.tempCounter)
 {
 }
 
-MENU_ROOT::MENU_ROOT(MENU_ROOT &&base):MENU_STATE_BASE(std::move(base)),
-    tempCounter(base.tempCounter)
+MENU_ROOT::MENU_ROOT(MENU_ROOT &&base) : MENU_STATE_BASE(std::move(base)),
+                                         tempCounter(base.tempCounter)
 {
 }
 
 MENU_ROOT &MENU_ROOT::operator=(const MENU_ROOT &base)
 {
-    if(&base not_eq this){
+    if (&base not_eq this)
+    {
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
         tempCounter = base.tempCounter;
     }
-    return * this;
+    return *this;
 }
 
 MENU_ROOT::~MENU_ROOT()
@@ -36,18 +36,19 @@ MENU_ROOT::~MENU_ROOT()
 
 MENU_ROOT &MENU_ROOT::operator=(MENU_ROOT &&base)
 {
-    if(&base not_eq this){
+    if (&base not_eq this)
+    {
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
         tempCounter = base.tempCounter;
     }
-    return * this;
+    return *this;
 }
 
 void MENU_ROOT::entry()
 {
-    if(my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::STOP)
+    if (my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::STOP)
     {
         lcdPTR->noBacklight();
     }
@@ -60,12 +61,11 @@ void MENU_ROOT::entry()
 
 void MENU_ROOT::exit()
 {
-
 }
 
 std::string MENU_ROOT::getStateName() const
 {
-    return typeid (this).name();
+    return typeid(this).name();
 }
 
 void MENU_ROOT::keyPadMenu()
@@ -101,26 +101,31 @@ void MENU_ROOT::keyPadRight()
 void MENU_ROOT::keyPadEpg()
 {
     std::stringstream ss;
-    if(tempCounter == 0){
+    if (tempCounter == 0)
+    {
         ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getInsideTemp()
-           << (char)223 <<"c   " << my_dataPTR->ptr_buderus->getOutdoorTemp() << ((char)223) << "c";
+           << (char)223 << "c   " << my_dataPTR->ptr_buderus->getOutdoorTemp() << ((char)223) << "c";
         quickPrint("Temp: in    out", ss.str());
     }
-    else if(tempCounter == 1){
-        RADIO_WEATHER_STATION* st = static_cast<RADIO_WEATHER_STATION*>(my_dataPTR->main_REC->getEqPointer("first"));
+    else if (tempCounter == 1)
+    {
+        RADIO_WEATHER_STATION *st = static_cast<RADIO_WEATHER_STATION *>(my_dataPTR->main_REC->getEqPointer("first"));
         auto temp = st->data.getTemperature();
         ss << std::setprecision(4) << temp << celsiusDegrees << "    " << my_dataPTR->lusina.shedTemp.average() << celsiusDegrees;
         quickPrint("domek ogrodnika", ss.str());
     }
-    else if(tempCounter == 2){
-        ss << std::setprecision(4) <<  my_dataPTR->lusina.shedHum.average()<<  "%   " << my_dataPTR->lusina.shedPres.average() << "hPa";
+    else if (tempCounter == 2)
+    {
+        ss << std::setprecision(4) << my_dataPTR->lusina.shedHum.average() << "%   " << my_dataPTR->lusina.shedPres.average() << "hPa";
         quickPrint("Wilgoc  Cis", ss.str());
     }
-    else if(tempCounter == 3){
-        ss << std::setprecision(4) <<  my_dataPTR->lusina.shedBat.average()<<  "V";
+    else if (tempCounter == 3)
+    {
+        ss << std::setprecision(4) << my_dataPTR->lusina.shedBat.average() << "V";
         quickPrint("Bateria", ss.str());
     }
-    else {
+    else
+    {
         ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getBoilerTemp()
            << celsiusDegrees << "    " << my_dataPTR->ptr_buderus->getCurFlowTemp() << celsiusDegrees;
         quickPrint("boiler   curFlow", ss.str());
@@ -140,7 +145,7 @@ void MENU_ROOT::reboot()
     my_dataPTR->main_iDomTools->reloadHard_iDomServer();
 }
 
-void MENU_ROOT::timeout(std::function<void ()> function)
+void MENU_ROOT::timeout(std::function<void()> function)
 {
     entry();
 }
@@ -174,10 +179,12 @@ void MENU_ROOT::volumeDown()
 
 void MENU_ROOT::mpdStartStop()
 {
-    if(my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::STOP){
+    if (my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::STOP)
+    {
         my_dataPTR->main_iDomTools->MPD_play(my_dataPTR);
     }
-    else{
+    else
+    {
         my_dataPTR->main_iDomTools->MPD_stop();
         lcdPTR->clear();
         lcdPTR->noBacklight();
@@ -196,13 +203,13 @@ void MENU_ROOT::mpdPrev()
 
 void MENU_ROOT::scrollText()
 {
-    if((Clock::getUnixTime() - time) < offset)
+    if ((Clock::getUnixTime() - time) < offset)
         return;
     time = Clock::getUnixTime();
     offset = 1;
-    if(_row1.size() > numberOfChar)
+    if (_row1.size() > numberOfChar)
     {
-        if(numberOfCharCounter != 0)
+        if (numberOfCharCounter != 0)
         {
             lcdPTR->scrollLeft();
             --numberOfCharCounter;

@@ -1,17 +1,17 @@
 #ifndef SATEL_INTEGRA_H
 #define SATEL_INTEGRA_H
 
-#include<sys/socket.h>    //socket
-#include<arpa/inet.h> //inet_addr
-#include<list>
-#include<mutex>
+#include <sys/socket.h> //socket
+#include <arpa/inet.h>  //inet_addr
+#include <list>
+#include <mutex>
 
 #include "../idom_api.h"
 #include "satel_enum.h"
 #include "../libs/useful/useful.h"
 #include "satel_integra_interface.h"
 
-class SATEL_INTEGRA :  public SATEL_INTEGRA_INTERFACE, public iDom_API
+class SATEL_INTEGRA : public SATEL_INTEGRA_INTERFACE, public iDom_API
 {
     int m_sock;
     int m_i;
@@ -26,12 +26,13 @@ class SATEL_INTEGRA :  public SATEL_INTEGRA_INTERFACE, public iDom_API
 public:
 #endif
     unsigned char m_message[2000];
+
 public:
     SATEL_INTEGRA();
     SATEL_INTEGRA(const std::string &host, int port);
-    ~ SATEL_INTEGRA();
-    void setIntegraPin(const std::string& pin);
-    void connectIntegra(const std::string& host, const int port);
+    ~SATEL_INTEGRA();
+    void setIntegraPin(const std::string &pin);
+    void connectIntegra(const std::string &host, const int port);
     void disconnectIntegra();
     void reconnectIntegra() override;
     std::string getIntegraInfo() override;
@@ -43,14 +44,14 @@ public:
     void outputOff(unsigned int id) override;
     std::string dump() const override;
     STATE connectionState();
+
 private:
     void calculateCRC(const unsigned char *pCmd, unsigned int length, unsigned short &result);
     int sendIntegra(const unsigned char *cmd, const unsigned int cmdLength);
     int recvIntegra();
-    const char* satelType(unsigned char t);
+    const char *satelType(unsigned char t);
     void expandForSpecialValue(std::list<unsigned char> &result);
-    std::string getFullFrame(const unsigned char* pCmd, const unsigned int cmdLength);
-
+    std::string getFullFrame(const unsigned char *pCmd, const unsigned int cmdLength);
 };
 
 #endif // SATEL_INTEGRA_H

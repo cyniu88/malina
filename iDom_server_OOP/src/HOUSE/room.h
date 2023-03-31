@@ -14,7 +14,7 @@ public:
     std::map<int, std::shared_ptr<light_bulb>> m_lightingBulbMap;
     STATE m_state = STATE::UNDEFINE;
 
-    ROOM(const std::vector<int>& satelSensorID, const std::string &name, const std::map<int, std::shared_ptr<light_bulb>> & lightingBulbMap );
+    ROOM(const std::vector<int> &satelSensorID, const std::string &name, const std::map<int, std::shared_ptr<light_bulb>> &lightingBulbMap);
 
     void satelSensorActive();
     nlohmann::json getStatsJSON();

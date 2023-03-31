@@ -16,27 +16,29 @@ void iDomKEY_ACCESS::readJSON()
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "czytam zapisany stan kluczy iDom" << std::endl;
     log_file_mutex.mutex_unlock();
-    try {
+    try
+    {
         i >> m_data;
-    } catch (...) {
+    }
+    catch (...)
+    {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "problem z czytaniem zapisanych stanów kluczy iDom" << std::endl;
         log_file_mutex.mutex_unlock();
     }
 }
 
-iDomKEY_ACCESS::iDomKEY_ACCESS(const std::string &path_database):
-                                                                   m_pathDatabase(path_database)
+iDomKEY_ACCESS::iDomKEY_ACCESS(const std::string &path_database) : m_pathDatabase(path_database)
 {
-    m_className.append(typeid (this).name());
-    iDom_API::addToMap(m_className,this);
+    m_className.append(typeid(this).name());
+    iDom_API::addToMap(m_className, this);
     readJSON();
 }
 
-iDomKEY_ACCESS::iDomKEY_ACCESS(const iDomKEY_ACCESS &k): m_data(k.m_data), m_pathDatabase(k.m_pathDatabase)
+iDomKEY_ACCESS::iDomKEY_ACCESS(const iDomKEY_ACCESS &k) : m_data(k.m_data), m_pathDatabase(k.m_pathDatabase)
 {
-    m_className.append(typeid (this).name());
-    iDom_API::addToMap(m_className,this);
+    m_className.append(typeid(this).name());
+    iDom_API::addToMap(m_className, this);
 }
 
 iDomKEY_ACCESS::~iDomKEY_ACCESS()
@@ -44,7 +46,7 @@ iDomKEY_ACCESS::~iDomKEY_ACCESS()
     iDom_API::removeFromMap(m_className);
 }
 
-void iDomKEY_ACCESS::addKEY(const std::string &name, size_t size, bool temp )
+void iDomKEY_ACCESS::addKEY(const std::string &name, size_t size, bool temp)
 {
     std::string _key = m_generator.random_string(size);
     nlohmann::json temp_J;
@@ -58,7 +60,7 @@ void iDomKEY_ACCESS::addKEY(const std::string &name, size_t size, bool temp )
 
 void iDomKEY_ACCESS::addTempKEY(const std::string &name, size_t size)
 {
-    addKEY(name,size,true);
+    addKEY(name, size, true);
 }
 
 void iDomKEY_ACCESS::removeKEY(const std::string &name)
@@ -81,7 +83,7 @@ std::string iDomKEY_ACCESS::listKEY()
 
 bool iDomKEY_ACCESS::useKEY(const std::string &name, const std::string &key)
 {
-    if(m_data.find(name) == m_data.end())
+    if (m_data.find(name) == m_data.end())
     {
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "proba uzycia nieistniejacego klucza access iDom: "
@@ -93,7 +95,8 @@ bool iDomKEY_ACCESS::useKEY(const std::string &name, const std::string &key)
     std::string k = m_data[name].at("key").get<std::string>();
     bool toDel = m_data[name].at("temporary").get<bool>();
 
-    if(toDel){
+    if (toDel)
+    {
         m_data.erase(name);
         writeJSON();
     }
@@ -107,15 +110,15 @@ void iDomKEY_ACCESS::removeExpiredKeys(unsigned int hours)
 
     std::vector<std::string> vv;
 
-    for(auto& jj : m_data)
+    for (auto &jj : m_data)
     {
-        if( (timeNow - jj["time"].get<unsigned int>()) > timeRef && jj["temporary"].get<bool>() )
+        if ((timeNow - jj["time"].get<unsigned int>()) > timeRef && jj["temporary"].get<bool>())
         {
-            vv.push_back( jj["name"].get<std::string>());
+            vv.push_back(jj["name"].get<std::string>());
         }
     }
 
-    for (const auto& k : vv)
+    for (const auto &k : vv)
     {
 #ifdef BT_TEST
         std::cout << " kasuje wygasly klucz access key iDom: "

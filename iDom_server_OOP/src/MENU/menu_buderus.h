@@ -6,7 +6,8 @@
 
 class MENU_BUDERUS : public MENU_STATE_BASE
 {
-    cyniu::ContainerMenu<std::string,std::function<std::string()>> menuDatabase;
+    cyniu::ContainerMenu<std::string, std::function<std::string()>> menuDatabase;
+
 public:
     MENU_BUDERUS(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
     MENU_BUDERUS(const MENU_BUDERUS &base);

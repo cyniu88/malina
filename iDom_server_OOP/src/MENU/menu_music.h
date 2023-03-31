@@ -2,7 +2,6 @@
 #define MENU_MUSIC_H
 #include "menu_base.h"
 
-
 class MENU_MUSIC : public MENU_STATE_BASE
 {
 public:

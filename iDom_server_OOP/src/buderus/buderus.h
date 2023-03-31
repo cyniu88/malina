@@ -8,8 +8,7 @@
 #include "../idom_api.h"
 #include "../iDom_server_OOP.h"
 
-
-class BUDERUS: public BUDERUS_IF, iDom_API
+class BUDERUS : public BUDERUS_IF, iDom_API
 {
     mutable std::mutex m_lockGuard;
     nlohmann::json m_boiler_data;
@@ -20,7 +19,7 @@ class BUDERUS: public BUDERUS_IF, iDom_API
     double m_outdoorTemp = 0.0;
     double m_insideTemp = 0.0;
     double m_boilerTemp = 0.0;
-    double m_curFlowTemp  = 0.0;
+    double m_curFlowTemp = 0.0;
     bool m_circlePompCanRun = false;
     STATE m_circlePump = STATE::UNDEFINE;
 
@@ -42,7 +41,7 @@ public:
     std::string getAllData() const override;
 
     double getOutdoorTemp() const override;
-    double getInsideTemp()  const override;
+    double getInsideTemp() const override;
     double getBoilerTemp() const override;
     double getCurFlowTemp() const override;
 

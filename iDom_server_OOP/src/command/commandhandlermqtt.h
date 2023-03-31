@@ -4,15 +4,15 @@
 #include <string>
 
 #include "../iDom_server_OOP.h"
-//#include "command.h"
+// #include "command.h"
 class command;
 class CommandHandlerMQTT
 {
-    std::map<std::string, std::unique_ptr<command> > commandMap;
+    std::map<std::string, std::unique_ptr<command>> commandMap;
 
 public:
     CommandHandlerMQTT();
-    std::string run(std::vector <std::string> &v, thread_data *my_data);
+    std::string run(std::vector<std::string> &v, thread_data *my_data);
 };
 
 #endif // COMMANDHANDLERMQTT_H

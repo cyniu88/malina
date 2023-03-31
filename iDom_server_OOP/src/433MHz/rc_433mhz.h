@@ -4,9 +4,10 @@
 
 class RC_433MHz
 {
-    thread_data * m_my_data;
+    thread_data *m_my_data;
+
 public:
-    explicit RC_433MHz(thread_data * my_data);
+    explicit RC_433MHz(thread_data *my_data);
     void sendCode(const std::string &code);
     std::string receiveCode();
 };

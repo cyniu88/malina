@@ -22,14 +22,14 @@ public:
 class SATEL_INTEGRA_HANDLER_INTERFACE
 {
 public:
-   SATEL_INTEGRA_HANDLER_INTERFACE(){};
-   virtual ~SATEL_INTEGRA_HANDLER_INTERFACE() {};
+    SATEL_INTEGRA_HANDLER_INTERFACE(){};
+    virtual ~SATEL_INTEGRA_HANDLER_INTERFACE(){};
 
     virtual void checkSatel() = 0;
     virtual void checkAlarm(STATE &st) = 0;
     virtual void run() = 0;
 
-    virtual SATEL_INTEGRA_INTERFACE* getSatelPTR() = 0;
+    virtual SATEL_INTEGRA_INTERFACE *getSatelPTR() = 0;
 };
 
 #endif // SATEL_INTEGRA_INTERFACE_H

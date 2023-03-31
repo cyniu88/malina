@@ -30,7 +30,7 @@ std::string MENU_KODI::sendCommandToKodi(const std::string &command, const std::
 
     std::string address = kodiHost;
 
-   // CURLcode ret;
+    // CURLcode ret;
     CURL *hnd;
     struct curl_slist *slist1;
     std::string jsonstr = data;
@@ -48,7 +48,7 @@ std::string MENU_KODI::sendCommandToKodi(const std::string &command, const std::
     curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
     curl_easy_setopt(hnd, CURLOPT_TCP_KEEPALIVE, 1L);
     curl_easy_setopt(hnd, CURLOPT_PORT, 8080);
-    //curl_easy_setopt(hnd, CURLOPT_WRITEDATA, &readBuffer);
+    // curl_easy_setopt(hnd, CURLOPT_WRITEDATA, &readBuffer);
 
     curl_easy_perform(hnd);
 
@@ -59,17 +59,17 @@ std::string MENU_KODI::sendCommandToKodi(const std::string &command, const std::
     return readBuffer;
 }
 
-MENU_KODI::MENU_KODI(thread_data *my_data, LCD_c* lcdPTR, MENU_STATE_MACHINE* msm, STATE lcdLED): MENU_STATE_BASE (my_data, lcdPTR, msm, lcdLED)
+MENU_KODI::MENU_KODI(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(my_data, lcdPTR, msm, lcdLED)
 {
     std::cout << "MENU_KODI::MENU_KODI()" << std::endl;
 }
 
-MENU_KODI::MENU_KODI(const MENU_KODI &base):MENU_STATE_BASE(base)
+MENU_KODI::MENU_KODI(const MENU_KODI &base) : MENU_STATE_BASE(base)
 {
     // std::cout << "MENU_KODI::MENU_KODI() kopiujacy" << std::endl;
 }
 
-MENU_KODI::MENU_KODI(MENU_KODI &&base):MENU_STATE_BASE(std::move(base))
+MENU_KODI::MENU_KODI(MENU_KODI &&base) : MENU_STATE_BASE(std::move(base))
 {
     //  std::cout << "MENU_KODI::MENU_KODI() przenoszacy" << std::endl;
 }
@@ -77,30 +77,31 @@ MENU_KODI::MENU_KODI(MENU_KODI &&base):MENU_STATE_BASE(std::move(base))
 MENU_KODI &MENU_KODI::operator=(const MENU_KODI &base)
 {
     //  std::cout << "MENU_KODI::operator = kopiujacy" << std::endl;
-    if(&base not_eq this){
+    if (&base not_eq this)
+    {
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
         kodiVolume = base.kodiVolume;
     }
-    return * this;
+    return *this;
 }
 
 MENU_KODI &MENU_KODI::operator=(MENU_KODI &&base)
 {
     //  std::cout << "MENU_KODI::operator = przenoszacy" << std::endl;
-    if(&base not_eq this){
+    if (&base not_eq this)
+    {
         my_dataPTR = base.my_dataPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
         kodiVolume = base.kodiVolume;
     }
-    return * this;
+    return *this;
 }
 
 MENU_KODI::~MENU_KODI()
 {
-
 }
 
 void MENU_KODI::entry()
@@ -112,37 +113,36 @@ void MENU_KODI::entry()
 
 void MENU_KODI::exit()
 {
-
 }
 
 void MENU_KODI::keyPadOk()
 {
-    std::cout << "odebrano: " << sendCommandToKodi("Input.Select","") << std::endl;
+    std::cout << "odebrano: " << sendCommandToKodi("Input.Select", "") << std::endl;
 }
 
 void MENU_KODI::keyPadUp()
 {
-    std::cout << "odebrano: " << sendCommandToKodi("Input.Up","") << std::endl;
+    std::cout << "odebrano: " << sendCommandToKodi("Input.Up", "") << std::endl;
 }
 
 void MENU_KODI::keyPadDown()
 {
-    std::cout << "odebrano: " << sendCommandToKodi("Input.Down","") << std::endl;
+    std::cout << "odebrano: " << sendCommandToKodi("Input.Down", "") << std::endl;
 }
 
 void MENU_KODI::keyPadLeft()
 {
-    std::cout << "odebrano: " << sendCommandToKodi("Input.Left","") << std::endl;
+    std::cout << "odebrano: " << sendCommandToKodi("Input.Left", "") << std::endl;
 }
 
 void MENU_KODI::keyPadRight()
 {
-    std::cout << "odebrano: " << sendCommandToKodi("Input.Right","") << std::endl;
+    std::cout << "odebrano: " << sendCommandToKodi("Input.Right", "") << std::endl;
 }
 
 void MENU_KODI::keyPadRes()
 {
-    std::cout << "odebrano: " << sendCommandToKodi("Input.Back","") << std::endl;
+    std::cout << "odebrano: " << sendCommandToKodi("Input.Back", "") << std::endl;
 }
 
 void MENU_KODI::keyPadEpg()
@@ -152,21 +152,21 @@ void MENU_KODI::keyPadEpg()
 
 void MENU_KODI::keyPadPower()
 {
-    std::cout << "odebrano: " << sendCommandToKodi("Application.Quit","") << std::endl;
+    std::cout << "odebrano: " << sendCommandToKodi("Application.Quit", "") << std::endl;
 }
 
 void MENU_KODI::keyPadMenu()
 {
-    std::cout << "odebrano: " << sendCommandToKodi("Input.Home","") << std::endl;
+    std::cout << "odebrano: " << sendCommandToKodi("Input.Home", "") << std::endl;
 }
 
 std::string MENU_KODI::getStateName() const
 {
-    return typeid (this).name();
+    return typeid(this).name();
 }
 
-void MENU_KODI::timeout(std::function<void ()> function)
+void MENU_KODI::timeout(std::function<void()> function)
 {
-    //exit from kodi menu after  off  kodi
+    // exit from kodi menu after  off  kodi
     changeStateTo<MENU_ROOT>();
 }

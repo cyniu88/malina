@@ -15,7 +15,7 @@ std::string iDomTOOLS::getSystemInfo()
     if (getloadavg(load, 3) not_eq -1)
     {
 #ifdef BT_TEST
-        printf("load average : %f , %f , %f\n", load[0],load[1],load[2]);
+        printf("load average : %f , %f , %f\n", load[0], load[1], load[2]);
 #endif
     }
     const double megabyte = 1024 * 1024;
@@ -29,14 +29,15 @@ std::string iDomTOOLS::getSystemInfo()
     auto seconds = input_seconds % 60;
 
     std::stringstream ret;
-    ret << "System uptime: " << days <<" day " << hours
+    ret << "System uptime: " << days << " day " << hours
         << " hours " << minutes << " minutes "
-        << seconds << " seconds " << std::endl << "Load: "
-        << (info.loads[0]/65536) << "% - 1 min, " <<(info.loads[1]/65536)
-            << "% - 5 min, "<<(info.loads[2]/65536) << "% - 15 min." << std::endl
-                                                    << "process count : " << info.procs << std::endl
-                                                    << "total RAM   : "<< (info.totalram / megabyte)<< "MB" << std::endl
-                                                    << "free RAM   : " << (info.freeram / megabyte) << "MB" << std::endl;
+        << seconds << " seconds " << std::endl
+        << "Load: "
+        << (info.loads[0] / 65536) << "% - 1 min, " << (info.loads[1] / 65536)
+        << "% - 5 min, " << (info.loads[2] / 65536) << "% - 15 min." << std::endl
+        << "process count : " << info.procs << std::endl
+        << "total RAM   : " << (info.totalram / megabyte) << "MB" << std::endl
+        << "free RAM   : " << (info.freeram / megabyte) << "MB" << std::endl;
 
     return ret.str();
 }
@@ -46,10 +47,11 @@ void iDomTOOLS::healthCheck()
 {
     int alarm_433MHz = 2131;
 
-    if(my_data->mqttHandler->_connected == false){
+    if (my_data->mqttHandler->_connected == false)
+    {
         puts("brak polaczenia z serverm MQTT");
     }
-    if(my_data->mqttHandler->_subscribed == false)
+    if (my_data->mqttHandler->_subscribed == false)
     {
         puts("brak subskrybcji do servera mqtt");
     }
@@ -57,31 +59,31 @@ void iDomTOOLS::healthCheck()
     ////////////// RFLink ///////////
     auto t = Clock::getUnixTime() - my_data->main_RFLink->m_pingTime;
 
-    if(t > 310
-            and my_data->mqttHandler->_subscribed == true
-            and my_data->server_settings->_runThread.RFLink == true)
+    if (t > 310 and my_data->mqttHandler->_subscribed == true and my_data->server_settings->_runThread.RFLink == true)
     {
         m_restartAlarmRFLink++;
-        if(m_restartAlarmRFLink == 2){
+        if (m_restartAlarmRFLink == 2)
+        {
             log_file_mutex.mutex_lock();
             log_file_cout << WARNING << "restart servera z powodu braku polaczenia z RFLinkiem" << std::endl;
             log_file_mutex.mutex_unlock();
             my_data->main_iDomTools->reloadHard_iDomServer();
         }
-        //else if(m_restartAlarmRFLink == 2){
+        // else if(m_restartAlarmRFLink == 2){
         my_data->main_RFLink = std::make_shared<RFLinkHandler>(my_data);
         useful_F::sleep(1s);
         my_data->main_RFLink->init();
 
-        //my_data->main_RFLink->sendCommand("10;REBOOT;");
-        //}
+        // my_data->main_RFLink->sendCommand("10;REBOOT;");
+        // }
         std::string m("brak połaczenia RS232 z RFLink'iem");
         std::cout << "brak pingu RFLinka 433MHz t: " << t << std::endl;
         my_data->iDomAlarm.raiseAlarm(alarm_433MHz, m);
-        my_data->main_iDomTools->sendViberMsg(m,my_data->server_settings->_fb_viber.viberReceiver.at(0),
+        my_data->main_iDomTools->sendViberMsg(m, my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender + "health");
     }
-    else{
+    else
+    {
         my_data->iDomAlarm.clearAlarm(alarm_433MHz);
         m_restartAlarmRFLink = 0;
     }
@@ -105,9 +107,10 @@ std::string iDomTOOLS::openGateLink(std::vector<std::string> v)
     std::string key = my_data->m_keyHandler->getKEY(tempName);
     std::stringstream ret;
 
-    ret << my_data->server_settings->_gateway.url << tempName << "&" << key ;
+    ret << my_data->server_settings->_gateway.url << tempName << "&" << key;
 
-    for(const auto& s : v){
+    for (const auto &s : v)
+    {
         ret << "&" << s;
     }
 
@@ -136,7 +139,7 @@ void iDomTOOLS::raspberryReboot()
     useful_F::workServer = false;
 }
 
-void iDomTOOLS::close_iDomServer ()
+void iDomTOOLS::close_iDomServer()
 {
     iDomTOOLS::MPD_stop();
     my_data->iDomProgramState = iDomStateEnum::CLOSE;

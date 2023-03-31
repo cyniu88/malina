@@ -23,12 +23,11 @@ class iDomTOOLS_INTERFACE
 public:
     virtual ~iDomTOOLS_INTERFACE() = default;
 
-    virtual TEMPERATURE_STATE getTHERMOMETER_CONTAINERlastState(const std::string& name) = 0;
+    virtual TEMPERATURE_STATE getTHERMOMETER_CONTAINERlastState(const std::string &name) = 0;
     virtual TEMPERATURE_STATE hasTemperatureChange(const std::string &thermometerName, double reference, double histereza) = 0;
-    virtual void sendSMSifTempChanged(const std::string& thermomethernName, int reference) = 0;
+    virtual void sendSMSifTempChanged(const std::string &thermomethernName, int reference) = 0;
     virtual std::string getThermoStats(const std::string &name) = 0;
     virtual void updateTemperatureStats() = 0;
-
 
     virtual void turnOnSpeakers() = 0;
     virtual void turnOffSpeakers() = 0;
@@ -52,21 +51,20 @@ public:
     //////////////////////////// lightning ////////////////////////
     virtual void checkLightning() = 0;
 
-
     //////////////////////////// weather /////////////////////////
     virtual std::string getSunrise(bool extend = false) = 0;
     virtual std::string getSunset(bool extend = false) = 0;
     virtual Clock getSunsetClock() = 0;
     virtual Clock getSunriseClock() = 0;
     virtual std::string getDayLenght(bool extend = false) = 0;
-    virtual std::string getWeatherEvent(const std::string &city, unsigned int radius ) = 0;
+    virtual std::string getWeatherEvent(const std::string &city, unsigned int radius) = 0;
 
     virtual WEATHER_DATABASE getAlert() = 0;
 
-    virtual void textToSpeach(std::vector <std::string> *textVector) = 0;
+    virtual void textToSpeach(std::vector<std::string> *textVector) = 0;
     virtual std::string getTextToSpeach() = 0;
 
-    virtual std::vector <std::string> getTemperature() = 0;
+    virtual std::vector<std::string> getTemperature() = 0;
     virtual std::string getTemperatureString() = 0;
     virtual std::string getSmog() = 0;
     virtual void send_data_to_thingSpeak() = 0;
@@ -76,36 +74,36 @@ public:
     virtual void cameraLedON(const std::string &link) = 0;
     virtual void cameraLedOFF(const std::string &link) = 0;
     //////////////////// viber msg /////////////////////////
-    virtual nlohmann::json sendViberMsg(const std::string& msg,
-                                const std::string& receiver,
-                                const std::string& senderName,
-                                const std::string &accessToken = "NULL",
-                                const std::string &url = "NULL") = 0;
-    virtual nlohmann::json sendViberPicture(const std::string& msg,
-                                    const std::string& image,
-                                    const std::string& receiver,
-                                    const std::string& senderName,
-                                    const std::string &accessToken = "NULL",
-                                    const std::string &url = "NULL") = 0;
-    virtual nlohmann::json sendViberUrl(const std::string& msg,
-                                    const std::string& url2,
-                                    const std::string& receiver,
-                                    const std::string& senderName,
-                                    const std::string &accessToken = "NULL",
-                                    const std::string &url = "NULL") = 0;
-    virtual STATE sendViberMsgBool(const std::string& msg,
-                           const std::string& receiver,
-                           const std::string& senderName,
-                           const std::string &accessToken = "NULL",
-                           const std::string &url = "NULL") = 0;
-    virtual STATE sendViberPictureBool(const std::string& msg,
-                               const std::string& image,
-                               const std::string& receiver,
-                               const std::string& senderName,
-                               const std::string &accessToken = "NULL",
-                               const std::string &url = "NULL") = 0;
+    virtual nlohmann::json sendViberMsg(const std::string &msg,
+                                        const std::string &receiver,
+                                        const std::string &senderName,
+                                        const std::string &accessToken = "NULL",
+                                        const std::string &url = "NULL") = 0;
+    virtual nlohmann::json sendViberPicture(const std::string &msg,
+                                            const std::string &image,
+                                            const std::string &receiver,
+                                            const std::string &senderName,
+                                            const std::string &accessToken = "NULL",
+                                            const std::string &url = "NULL") = 0;
+    virtual nlohmann::json sendViberUrl(const std::string &msg,
+                                        const std::string &url2,
+                                        const std::string &receiver,
+                                        const std::string &senderName,
+                                        const std::string &accessToken = "NULL",
+                                        const std::string &url = "NULL") = 0;
+    virtual STATE sendViberMsgBool(const std::string &msg,
+                                   const std::string &receiver,
+                                   const std::string &senderName,
+                                   const std::string &accessToken = "NULL",
+                                   const std::string &url = "NULL") = 0;
+    virtual STATE sendViberPictureBool(const std::string &msg,
+                                       const std::string &image,
+                                       const std::string &receiver,
+                                       const std::string &senderName,
+                                       const std::string &accessToken = "NULL",
+                                       const std::string &url = "NULL") = 0;
     //////////////////// facebook //////////////////////////
-    virtual std::string postOnFacebook(const std::string& msg, const std::string& image ="NULL") = 0;
+    virtual std::string postOnFacebook(const std::string &msg, const std::string &image = "NULL") = 0;
 
     //////////////////// LED part //////////////////////////
     virtual std::string ledOFF() = 0;
@@ -115,16 +113,16 @@ public:
     //////////////////// ALERT //////////////////////////
     virtual void checkAlarm() = 0;
     //////////////////// MPD part //////////////////////////
-    virtual void MPD_play(thread_data* my_data) = 0;
+    virtual void MPD_play(thread_data *my_data) = 0;
     virtual void MPD_stop() = 0;
     virtual void MPD_next() = 0;
     virtual void MPD_prev() = 0;
     virtual void MPD_pause() = 0;
     virtual void MPD_volumeUp() = 0;
     virtual void MPD_volumeDown() = 0;
-    virtual void MPD_volumeSet(thread_data* my_data, int vol) = 0;
-    virtual void MPD_play(thread_data* my_data,int id) = 0;
-    virtual int  MPD_getVolume(thread_data *my_data) = 0;
+    virtual void MPD_volumeSet(thread_data *my_data, int vol) = 0;
+    virtual void MPD_play(thread_data *my_data, int id) = 0;
+    virtual int MPD_getVolume(thread_data *my_data) = 0;
 
     /////////////////////// SAVE STATE iDOM ////////////////
     virtual void saveState_iDom(const bool &started) = 0;
@@ -142,13 +140,13 @@ public:
     virtual void healthCheck() = 0;
 
     ////////////////////// system /////////////////////////
-    virtual void close_iDomServer [[ noreturn ]]() = 0;
-    virtual void reloadSoft_iDomServer[[ noreturn ]] () = 0;
-    virtual void reloadHard_iDomServer[[ noreturn ]] () = 0;
-    virtual void raspberryReboot[[ noreturn ]] () = 0;
+    virtual void close_iDomServer [[noreturn]] () = 0;
+    virtual void reloadSoft_iDomServer [[noreturn]] () = 0;
+    virtual void reloadHard_iDomServer [[noreturn]] () = 0;
+    virtual void raspberryReboot [[noreturn]] () = 0;
 
     //////////////////////// iDom_API /////////////////////
-    //std::string dump() const override;
+    // std::string dump() const override;
 
     //////////////////////// link generator ///////////////
     virtual std::string openGateLink(std::vector<std::string> v) = 0;

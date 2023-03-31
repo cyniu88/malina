@@ -10,13 +10,13 @@
 
 class commandHandler
 {
-    thread_data * my_data;
+    thread_data *my_data;
 
 public:
-    std::map<std::string, std::unique_ptr<command> > commandMap;
-    explicit commandHandler(thread_data * my_data);
+    std::map<std::string, std::unique_ptr<command>> commandMap;
+    explicit commandHandler(thread_data *my_data);
     virtual ~commandHandler();
-    virtual std::string run(std::vector <std::string> &v, thread_data *my_data);
+    virtual std::string run(std::vector<std::string> &v, thread_data *my_data);
 };
 
 #endif // COMMANDHANDLE_H

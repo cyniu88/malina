@@ -42,10 +42,11 @@
 #include "MENU/menu_base.h"
 #include "SATEL_INTEGRA/satel_integra_interface.h"
 
-#define log_file_cout  f_log //std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
+#define log_file_cout f_log // std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
 
-enum class color : int{
+enum class color : int
+{
     orange = 0,
     red = 1,
     green = 2,
@@ -55,9 +56,8 @@ enum class color : int{
     cyan = 6,
     magenta = 7,
     dark_orange = 8,
-    //NOTE update std::unordered_map<std::string, color> stringToColor below
+    // NOTE update std::unordered_map<std::string, color> stringToColor below
 };
-
 
 const std::unordered_map<std::string, color> stringToColor = {
     {"orange", color::orange},
@@ -68,10 +68,10 @@ const std::unordered_map<std::string, color> stringToColor = {
     {"yellow", color::yellow},
     {"cyan", color::cyan},
     {"magenta", color::magenta},
-    {"dark_orange", color::dark_orange}
-};
+    {"dark_orange", color::dark_orange}};
 
-enum class iDomStateEnum{
+enum class iDomStateEnum
+{
     CLOSE = 0,
     RELOAD,
     ERROR,
@@ -82,13 +82,13 @@ enum class iDomStateEnum{
 
 namespace iDomConst
 {
-constexpr int MAX_CONNECTION = 10;
-constexpr int FREE  = 1;
-constexpr int RS232 = 11;
-constexpr int CLOCK = 12;
-constexpr int ok    = 0;
-constexpr int GPIO_SPIK = 21;
-constexpr int GPIO_PRINTER = 22;
+    constexpr int MAX_CONNECTION = 10;
+    constexpr int FREE = 1;
+    constexpr int RS232 = 11;
+    constexpr int CLOCK = 12;
+    constexpr int ok = 0;
+    constexpr int GPIO_SPIK = 21;
+    constexpr int GPIO_PRINTER = 22;
 }
 
 struct ALERT
@@ -107,85 +107,97 @@ extern std::string buffer;
 
 enum class TEMPERATURE_STATE;
 
-struct MPD_info{
-    std::string title   = "NULL";
-    std::string radio   = "NULL";
-    std::string artist  = "NULL";
+struct MPD_info
+{
+    std::string title = "NULL";
+    std::string radio = "NULL";
+    std::string artist = "NULL";
     int volume = 0;
     bool isPlay = false;
     int currentSongID = 0;
-    std::vector <std::string> songList = {"NULL"};
+    std::vector<std::string> songList = {"NULL"};
 };
 
-struct Thread_array_struc {
+struct Thread_array_struc
+{
     std::thread thread;
     std::thread::id thread_ID = std::thread::id(0);
     std::string thread_name;
     unsigned int thread_socket = 0;
 };
 
-struct address_another_servers {
+struct address_another_servers
+{
     int id;
     std::string SERVER_IP;
 };
 
-struct FTP_SERVER{
+struct FTP_SERVER
+{
     std::string URL;
     std::string user;
     std::string pass;
 };
 
-struct iDOM_STATE{
+struct iDOM_STATE
+{
     STATE houseState = STATE::UNDEFINE;
     unsigned int counter = 0;
     STATE alarmSatelState = STATE::UNDEFINE;
 };
 
-struct GATEWAY{
+struct GATEWAY
+{
     std::string url = "NULL";
     unsigned int keySize = 0;
 };
 
-struct RunThread_CFG{
+struct RunThread_CFG
+{
     bool RFLink = false;
-    bool MPD   = false;
-    bool CRON  = false;
+    bool MPD = false;
+    bool CRON = false;
     bool RS232 = false;
     bool DUMMY = false;
-    bool MQTT  = false;
+    bool MQTT = false;
     bool SATEL = false;
 };
 
-struct CAMERA_CFG{
+struct CAMERA_CFG
+{
     std::string cameraLedON = "";
     std::string cameraLedOFF = "";
     std::string cameraURL = "";
 };
 
-struct RFLink_CFG{
+struct RFLink_CFG
+{
     std::string RFLinkPort;
     int RFLinkBaudRate;
 };
 
-struct RS232_CFG{
+struct RS232_CFG
+{
     std::string portRS232;
     int BaudRate;
 };
 
-struct FB_AND_VIBER_CFG{
+struct FB_AND_VIBER_CFG
+{
     std::string facebookAccessToken = "";
     std::string viberToken = "NULL";
     std::string viberAvatar;
-    std::vector <std::string> viberReceiver;
+    std::vector<std::string> viberReceiver;
     std::string viberSender;
 };
 
-struct CONFIG_SERVER{
+struct CONFIG_SERVER
+{
     int PORT;
     std::string SERVER_IP;
     std::string MPD_IP;
-    std::string TS_KEY= " gg ";
-    std::string TS_KEY2= " gg ";
+    std::string TS_KEY = " gg ";
+    std::string TS_KEY2 = " gg ";
     std::string radio433MHzConfigFile;
     int ID_server = 0;
     int v_delay;
@@ -196,15 +208,17 @@ struct CONFIG_SERVER{
     std::string keyDatabasePath = "NULL";
 };
 
-struct MQTT_BROKER_CFG{
+struct MQTT_BROKER_CFG
+{
     std::string host = "localhost";
     std::string topicSubscribe = "iDom";
     std::string topicPublish = "iDom";
     int port = 1883;
-    int qos  = 2;
+    int qos = 2;
 };
 
-struct SATEL_INTEGRA_CFG{
+struct SATEL_INTEGRA_CFG
+{
     std::string host = "null";
     int port = 7094;
     std::string pin = "null";
@@ -212,7 +226,8 @@ struct SATEL_INTEGRA_CFG{
     unsigned int partitionID = 1;
 };
 
-struct CONFIG_JSON{
+struct CONFIG_JSON
+{
     RunThread_CFG _runThread;
     CAMERA_CFG _camera;
     FB_AND_VIBER_CFG _fb_viber;
@@ -234,24 +249,26 @@ class BUDERUS_IF;
 class KEY_HANDLER;
 class SATEL_INTEGRA_HANDLER_INTERFACE;
 class iDomKEY_ACCESS;
-//TODO temporary
+// TODO temporary
 
-struct LUSINA{
+struct LUSINA
+{
     nlohmann::json shedJson;
     nlohmann::json shedConfJson;
-    STATISTIC <float>shedTemp;
-    STATISTIC <int>shedHum;
-    STATISTIC <float>shedBat;
-    STATISTIC <float>shedPres;
+    STATISTIC<float> shedTemp;
+    STATISTIC<int> shedHum;
+    STATISTIC<float> shedBat;
+    STATISTIC<float> shedPres;
     std::string temperatureDS20;
     std::string temperatureDTH;
     std::string humidityDTH;
-    STATISTIC <int>statHumi;
-    STATISTIC <float>statTemp;
-    LUSINA(): shedTemp(18), shedHum(18),shedBat(18), shedPres(18),statHumi(270),statTemp(270){}
+    STATISTIC<int> statHumi;
+    STATISTIC<float> statTemp;
+    LUSINA() : shedTemp(18), shedHum(18), shedBat(18), shedPres(18), statHumi(270), statTemp(270) {}
 };
 
-struct thread_data{
+struct thread_data
+{
     int s_client_sock;
     struct sockaddr_in from;
     struct CONFIG_JSON *server_settings = NULL;
@@ -267,7 +284,7 @@ struct thread_data{
     alarm_C iDomAlarm;
     bool serverStarted = false;
     LUSINA lusina;
-    SATEL_INTEGRA_HANDLER_INTERFACE* satelIntegraHandler = std::nullptr_t();
+    SATEL_INTEGRA_HANDLER_INTERFACE *satelIntegraHandler = std::nullptr_t();
     std::unique_ptr<KEY_HANDLER> main_key_menu_handler = std::nullptr_t();
     std::shared_ptr<iDomTOOLS_INTERFACE> main_iDomTools = std::nullptr_t();
     std::unique_ptr<SerialPi> main_Rs232 = std::nullptr_t();

@@ -1,6 +1,6 @@
 #ifndef BUDERUS_MOCK_H
 #define BUDERUS_MOCK_H
-#include<gmock/gmock.h>
+#include <gmock/gmock.h>
 
 #include "../buderus.h"
 
@@ -35,7 +35,7 @@ public:
     MOCK_METHOD1(setTempInsideBuilding, void(const std::string &t));
 
     MOCK_CONST_METHOD0(getHeatingStartTime, unsigned int());
-    MOCK_METHOD0(getDump,std::string());
+    MOCK_METHOD0(getDump, std::string());
 };
 
 #endif // BUDERUS_MOCK_H

@@ -2,24 +2,28 @@
 #define IDOMTOOLS_USEFULL_H
 #include <string>
 
-enum class PIN_STATE{
+enum class PIN_STATE
+{
     LOW_STATE = 0,
     HIGH_STATE = 1,
     UNKNOWN_STATE = 2
 };
 
-enum class USER_LEVEL{
+enum class USER_LEVEL
+{
     ROOT,
     USER
 };
 
-struct WEATHER_ALER{
+struct WEATHER_ALER
+{
     std::string name;
     std::string alert;
     bool sended = false;
 };
 
-struct WEATHER_DATABASE{
+struct WEATHER_DATABASE
+{
     WEATHER_ALER lightning;
     WEATHER_ALER Frost;
     WEATHER_ALER Heat;

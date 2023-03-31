@@ -8,7 +8,8 @@
 #include <mutex>
 #include "../logger/logger.hpp"
 
-enum class MPD_COMMAND {
+enum class MPD_COMMAND
+{
     PLAY,
     PLAY_ID,
     PAUSE,
@@ -30,7 +31,7 @@ public:
     blockQueue();
     static std::mutex mutex_queue_char;
 
-    static std::queue <MPD_COMMAND> _MPD_CommandQ;
+    static std::queue<MPD_COMMAND> _MPD_CommandQ;
 
     void _add(MPD_COMMAND X);
     MPD_COMMAND _get() const;
@@ -49,11 +50,11 @@ public:
     SharedQueue();
     ~SharedQueue();
 
-    T& front();
+    T &front();
     void pop_front();
 
-    void push_back(const T& item);
-    void push_back(T&& item);
+    void push_back(const T &item);
+    void push_back(T &&item);
 
     int size() const;
     bool empty() const;
@@ -65,13 +66,13 @@ private:
 };
 
 template <typename T>
-SharedQueue<T>::SharedQueue(){}
+SharedQueue<T>::SharedQueue() {}
 
 template <typename T>
-SharedQueue<T>::~SharedQueue(){}
+SharedQueue<T>::~SharedQueue() {}
 
 template <typename T>
-T& SharedQueue<T>::front()
+T &SharedQueue<T>::front()
 {
     std::unique_lock<std::mutex> mlock(mutex_);
     while (queue_.empty())
@@ -93,7 +94,7 @@ void SharedQueue<T>::pop_front()
 }
 
 template <typename T>
-void SharedQueue<T>::push_back(const T& item)
+void SharedQueue<T>::push_back(const T &item)
 {
     std::unique_lock<std::mutex> mlock(mutex_);
     queue_.push_back(item);
@@ -102,7 +103,7 @@ void SharedQueue<T>::push_back(const T& item)
 }
 
 template <typename T>
-void SharedQueue<T>::push_back(T&& item)
+void SharedQueue<T>::push_back(T &&item)
 {
     std::unique_lock<std::mutex> mlock(mutex_);
     queue_.push_back(std::move(item));
