@@ -15,7 +15,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     {
         std::stringstream r;
         const char* PROG_INFO = "iDomServer: " __DATE__ ", " __TIME__;
-        r << "wersja " << PROG_INFO << " "<< GIT_BRANCH << " " << GIT_COMMIT_HASH << std::endl;
+        r << "wersja " << PROG_INFO << " " << GIT_BRANCH << " " << GIT_COMMIT_HASH << std::endl;
         return r.str();
     }
     if (v[1] == "stop")

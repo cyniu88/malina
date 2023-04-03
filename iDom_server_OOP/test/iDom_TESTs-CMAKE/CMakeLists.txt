@@ -12,7 +12,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 include_directories(${INCLUDE_DIRECTORIES})
 
-set(SOURCE_FILES  "main.cpp"
+set(LIBS_SRC
     "../../libs/useful/usefull.cpp"
     "../../libs/useful/test/useful_bt.cpp"
     "../../libs/Statistic/statistic_test/statistic_BT.cpp"
@@ -32,7 +32,9 @@ set(SOURCE_FILES  "main.cpp"
     "../../libs/alarm/TEST/alarm_BT.cpp"
     "../../libs/circular_buffer/circular_buffer.h"
     "../../libs/circular_buffer/circular_buffer.cpp"
-    "../../libs/circular_buffer/test/BT.cpp"
+    "../../libs/circular_buffer/test/BT.cpp" )
+
+set(SOURCE_FILES  "main.cpp" "test_data.h"
     "../../src/RADIO_433_eq/test/radio_433_test.cpp"
     "../../src/RADIO_433_eq/radio_button.cpp"
     "../../src/RADIO_433_eq/radio_433_eq.cpp"
@@ -123,5 +125,5 @@ file(GLOB SOURCE_FILES2 "../../src/command/*.*"
     "../../src/command/test/*.*"
     "../../src/MENU/*.*"
     "../../src/MENU/*/*")
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${SOURCE_FILES2})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${SOURCE_FILES2} ${LIBS_SRC} )
 TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  pthread gtest gmock curl rt pthread )

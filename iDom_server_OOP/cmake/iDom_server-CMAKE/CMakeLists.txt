@@ -127,4 +127,4 @@ file(GLOB SOURCE_FILES2 "../../src/command/*.cpp"
     "../../src/command/commandClass/*.cpp"
     "../../src/MENU/*.cpp")
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${SOURCE_FILES2})
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  wiringPiDev wiringPi lirc_client rt pthread curl mpd mosquitto )
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  wiringPiDev wiringPi rt pthread curl mpd mosquitto )

@@ -433,15 +433,15 @@ void WirePi::wait_i2c_done() {
     }
     
     mapaddr = spi0Mem;
-    if (((uint32_t)mapaddr % PAGESIZE) != 0)
-        mapaddr += PAGESIZE - ((uint32_t)mapaddr % PAGESIZE);
+//    if (((uint32_t)mapaddr % PAGESIZE) != 0)
+//        mapaddr += PAGESIZE - ((uint32_t)mapaddr % PAGESIZE);
     
-    spi0 = (uint32_t *)mmap(mapaddr, BLOCK_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_FIXED, gpio.mem_fd, BCM2835_SPI0_BASE);
+//    spi0 = (uint32_t *)mmap(mapaddr, BLOCK_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_FIXED, gpio.mem_fd, BCM2835_SPI0_BASE);
     
-    if ((int32_t)spi0 < 0){
-        fprintf(stderr, "bcm2835_init: mmap failed (spi0): %s\n", strerror(errno));
-        exit(1);
-    }
+//    if ((int32_t)spi0 < 0){
+//        fprintf(stderr, "bcm2835_init: mmap failed (spi0): %s\n", strerror(errno));
+//        exit(1);
+//    }
  }
 
 void SPIPi::begin(){
