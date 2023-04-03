@@ -9,3 +9,6 @@ iDom_TESTs-CMAKE
 null
 *.bak
 .vscode
+Makefile
+*.cmake
+iDom_server-CMAKE
