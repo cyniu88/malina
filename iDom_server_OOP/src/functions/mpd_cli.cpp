@@ -257,7 +257,7 @@ void main_mpd_cli(thread_data *my_data, const std::string &threadName)
         int work;
         work = mpd_connect(obj);
 
-        while (work)
+        while (work != MPD_OK)
         {
             log_file_mutex.mutex_lock();
             log_file_cout << ERROR << "nie udalo sie polaczyc z MPD " << std::endl;
@@ -275,7 +275,7 @@ void main_mpd_cli(thread_data *my_data, const std::string &threadName)
 
         std::cout << " stop " << std::endl;
 
-        if (!work)
+        if (work == MPD_OK)
         {
             MPD_COMMAND buffer_tmp;
             do

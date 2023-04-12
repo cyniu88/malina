@@ -293,9 +293,9 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     my_data->myEventHandler.run("connections")->addEvent(tm);
     my_data->main_Rs232->print("LED_AT:1;");
 
-    int recvSize = client->c_recv(0);
+    int recvSize_tm = client->c_recv(0);
 
-    if (recvSize == -1)
+    if (recvSize_tm == -1)
     {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "CLOSE, AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) << std::endl;
@@ -307,7 +307,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     }
     std::string KEY_OWN = useful_F::RSHash();
     client->setEncriptionKey(KEY_OWN);
-    std::string KEY_rec = client->c_read_buf(recvSize);
+    std::string KEY_rec = client->c_read_buf(recvSize_tm);
 
     if (KEY_rec == KEY_OWN) // stop runing idom_server
     {
@@ -356,15 +356,15 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     }
     /// ///////////////////////user level
     {
-        int recvSize = client->c_recv(0);
-        if (recvSize == -1)
+        int recvSize_tm = client->c_recv(0);
+        if (recvSize_tm == -1)
         {
             my_data->main_Rs232->print("LED_AT:0;");
             iDOM_THREAD::stop_thread(threadName, my_data);
             return;
         }
 
-        std::string userLevel = client->c_read_buf(recvSize);
+        std::string userLevel = client->c_read_buf(recvSize_tm);
         client->c_send("OK you are " + userLevel);
 
         if (userLevel == "ROOT")
@@ -382,8 +382,8 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     }
     while (useful_F::go_while && key_ok)
     {
-        int recvSize = client->c_recv(0);
-        if (recvSize == -1)
+        int recvSize_tm = client->c_recv(0);
+        if (recvSize_tm == -1)
         {
             puts("klient sie rozlaczyl");
             break;
@@ -391,7 +391,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         // ########################### analia wiadomoscu ####################################//
         try
         {
-            client->c_analyse(recvSize);
+            client->c_analyse(recvSize_tm);
         }
         catch (std::string &s)
         {

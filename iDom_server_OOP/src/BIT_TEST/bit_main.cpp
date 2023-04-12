@@ -597,16 +597,24 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler)
     bit_Tasker->runTasker();
     EXPECT_FALSE(test_my_data.ptr_buderus->isHeatingActiv());
     /////////////////////////////////  boiler data //////////////////////////////////////////////////////
-    std::string test_boilerData = R"({"wWComfort":"Hot",   "wWSelTemp":60,   "wWDesiredTemp":70,   "selFlowTemp":5,   "selBurnPow":0,   "curBurnPow":0,   "pumpMod":10,   "wWCircPump":0,   "curFlowTemp":30.9,   "switchTemp":0,)"
-                                  R"("boilTemp":16.4,   "wWActivated":"off",   "wWOnetime":"on",   "burnGas":"on",   "flameCurr":0,   "heatPmp":"on",   "fanWork":"off",   "ignWork":"off",   "wWCirc":"off",)"
-                                  R"("heating_temp":50,   "outdoorTemp":9.99,   "wwStorageTemp2":62.2,   "pump_mod_max":100,   "pump_mod_min":10,   "wWHeat":"off",   "UBAuptime":14590,   "burnStarts":27,   "burnWorkMin":13594,   "heatWorkMin":13594,   "ServiceCode":"0H",)"
-                                  R"("ServiceCodeNumber":203})";
+     std::string test_boilerData = R"({"heatingActive":"off","tapwaterActive":"off","selFlowTemp":5,"selBurnPow":0,"curBurnPow":0,"heatingPumpMod":0,"outdoorTemp":11.9,"curFlowTemp":23.5,"burnGas":"off","flameCurr":0,"heatingPump":"off","fanWork":"off","ignWork":"off","heatingActivated":"on","heatingTemp":35,"pumpModMax":100,"pumpModMin":10,"pumpDelay":3,"burnMinPeriod":10,"burnMinPower":0,"burnMaxPower":71,"boilHystOn":-6,"boilHystOff":6,"burnStarts":3721,"burnWorkMin":372217,"heatWorkMin":337732,"UBAuptime":1683134,"serviceCode":"0H","serviceCodeNumber":203,"lastCode":"6L(229) 23.12.2021 20:24","maintenanceMessage":"-","maintenance":"off"})";
 
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data", test_boilerData);
     bit_Tasker->runTasker();
     auto ret = test_my_data.ptr_buderus->getDump();
     std::cout << ret << std::endl;
-    EXPECT_THAT(ret, ::testing::HasSubstr("13594"));
+    EXPECT_EQ(test_my_data.ptr_buderus->getOutdoorTemp(), 11.9);
+    EXPECT_THAT(ret, ::testing::HasSubstr("1683134"));
+
+
+    /////////////////////////////////  boiler data ww //////////////////////////////////////////////////////
+    std::string test_boilerData_ww = R"({"wWComfort":"Eco","wWSelTemp":60,"wWSetTemp":10,"wWDisinfectionTemp":70,"wWType":"buffer","wWChargeType":"3-way valve","wWCircPump":"on","wWCircPumpMode":"continuous","wWCirc":"off","wWCurTemp":64,"wWCurTemp2":64,"wWCurFlow":0,"wWStorageTemp2":64,"wWActivated":"on","wWOneTime":"off","wWDisinfecting":"off","wWCharging":"off","wWRecharging":"off","wWTempOK":"on","wWActive":"off","wWHeat":"off","wWStarts":1762,"wWMaxPower":100,"wWWorkM":34502})";
+
+    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data_ww", test_boilerData_ww);
+    bit_Tasker->runTasker();
+    ret = test_my_data.ptr_buderus->getDump();
+    std::cout << ret << std::endl;
+    EXPECT_EQ(test_my_data.ptr_buderus->getBoilerTemp(), 64);
 
     test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/thermostat_data",
                                                 R"({"some":"data"})");

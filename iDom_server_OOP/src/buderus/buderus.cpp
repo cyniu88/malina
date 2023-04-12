@@ -1,6 +1,5 @@
 #include "buderus.h"
 
-#include "../thread_functions/iDom_thread.h"
 #include "../functions/functions.h"
 
 BUDERUS::BUDERUS()
@@ -23,40 +22,46 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
     m_boiler_data = jj;
     try
     {
-        m_outdoorTemp = jj.at("outdoorTemp").get<double>();
-        m_boilerTemp = jj.at("wwStorageTemp2").get<double>();
-        m_curFlowTemp = jj.at("curFlowTemp").get<double>();
-        auto burnGas = jj.at("burnGas").get<std::string>();
-        if (burnGas == "on" && m_heating_active == false)
-        {
-            m_heating_active = true;
-            m_heating_time = Clock::getUnixTime();
-        }
-        else if (burnGas == "off" && m_heating_active == true)
-        {
-            m_heating_active = false;
-        }
-
-        if (jj.at("wWCirc").get<std::string>() == "on")
-        {
-            if (m_circlePump not_eq STATE::ON)
+        if(jj.contains("outdoorTemp"))
+            m_outdoorTemp = jj.at("outdoorTemp").get<double>();
+        if(jj.contains("wWStorageTemp2"))
+            m_boilerTemp = jj.at("wWStorageTemp2").get<double>();
+        if(jj.contains("curFlowTemp"))
+            m_curFlowTemp = jj.at("curFlowTemp").get<double>();
+        if(jj.contains("burnGas")){
+            auto burnGas = jj.at("burnGas").get<std::string>();
+            if (burnGas == "on" && m_heating_active == false)
             {
-                useful_F::myStaticData->main_iDomTools->sendViberMsg("uruchamiam pompe obiegową CWU",
-                                                                     useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
-                                                                     useful_F::myStaticData->server_settings->_fb_viber.viberSender + "BUDERUS");
-                useful_F::myStaticData->main_Rs232->print("LED_ALARM:1");
-                m_circlePump = STATE::ON;
+                m_heating_active = true;
+                m_heating_time = Clock::getUnixTime();
+            }
+            else if (burnGas == "off" && m_heating_active == true)
+            {
+                m_heating_active = false;
             }
         }
-        else
-        {
-            if (m_circlePump == STATE::ON)
+        if(jj.contains("wWCirc")){
+            if (jj.at("wWCirc").get<std::string>() == "on")
             {
-                useful_F::myStaticData->main_iDomTools->sendViberMsg("zakończono precę pompy obiegowej CWU",
-                                                                     useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
-                                                                     useful_F::myStaticData->server_settings->_fb_viber.viberSender + "BUDERUS");
-                useful_F::myStaticData->main_Rs232->print("LED_ALARM:0");
-                m_circlePump = STATE::OFF;
+                if (m_circlePump not_eq STATE::ON)
+                {
+                    useful_F::myStaticData->main_iDomTools->sendViberMsg("uruchamiam pompe obiegową CWU",
+                                                                         useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
+                                                                         useful_F::myStaticData->server_settings->_fb_viber.viberSender + "BUDERUS");
+                    useful_F::myStaticData->main_Rs232->print("LED_ALARM:1");
+                    m_circlePump = STATE::ON;
+                }
+            }
+            else
+            {
+                if (m_circlePump == STATE::ON)
+                {
+                    useful_F::myStaticData->main_iDomTools->sendViberMsg("zakończono precę pompy obiegowej CWU",
+                                                                         useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
+                                                                         useful_F::myStaticData->server_settings->_fb_viber.viberSender + "BUDERUS");
+                    useful_F::myStaticData->main_Rs232->print("LED_ALARM:0");
+                    m_circlePump = STATE::OFF;
+                }
             }
         }
     }

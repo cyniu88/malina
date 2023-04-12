@@ -702,7 +702,7 @@ void iDomTOOLS::send_data_to_thingSpeak()
     catch (...)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak brak jsona" << std::endl;
+        log_file_cout << CRITICAL << " błąd wysyłania temperatury na thingspeak brak jsona" << std::endl;
         log_file_mutex.mutex_unlock();
         s2 = "1";
     }
@@ -710,7 +710,7 @@ void iDomTOOLS::send_data_to_thingSpeak()
     if (s == "0" or s2 == "0")
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << " błąd wysyłania temoeratury na thingspeak s: " << s << " s2: " << s2 << std::endl;
+        log_file_cout << CRITICAL << " błąd wysyłania temperatury na thingspeak s: " << s << " s2: " << s2 << std::endl;
         log_file_mutex.mutex_unlock();
     }
 }

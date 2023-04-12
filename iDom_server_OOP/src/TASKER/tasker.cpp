@@ -28,7 +28,7 @@ int TASKER::runTasker()
             v.push_back(kk.second);
             (void)commandMQTT.run(v, my_data);
         }
-        else if (kk.first == "iDom-client/buderus/ems-esp/boiler_data")
+        else if (kk.first == "iDom-client/buderus/ems-esp/boiler_data" or kk.first == "iDom-client/buderus/ems-esp/boiler_data_ww")
         {
             std::vector<std::string> v = {"buderus", "boiler_data"};
             v.push_back(kk.second);

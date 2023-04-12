@@ -48,9 +48,17 @@ nlohmann::json ROOM::getStatsJSON()
     jj["satel activatet counter"] = satelSensorCounter;
 
     for (auto& bulb : m_lightingBulbMap){
-        kk.push_back( bulb.second->getStatsJSON());
+        kk.push_back(bulb.second->getStatsJSON());
         //jj[bulb.first] = bulb.second->getBulbName();
     }
+
+//    std::transform(m_lightingBulbMap.cbegin(),
+//                   m_lightingBulbMap.cend(),
+//                   kk.begin(),
+//                   [](std::pair<int, std::shared_ptr<light_bulb>> c) {
+//                       std::cout << "dupa: "<< c.second->getStatsJSON().dump(4) << std::endl;
+//                       return c.second->getStatsJSON(); });
+
     jj["z bulb"] = kk;
     //jj.push_back(kk);
     return jj;
