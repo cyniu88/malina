@@ -6,7 +6,6 @@
 #include <pthread.h>
 #include <iostream>
 #include <mutex>
-#include "../logger/logger.hpp"
 
 enum class MPD_COMMAND
 {

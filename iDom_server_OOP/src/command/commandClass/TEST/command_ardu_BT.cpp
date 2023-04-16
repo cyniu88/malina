@@ -5,6 +5,7 @@
 #include "../../../functions/functions.h"
 #include "../../../RADIO_433_eq/radio_433_eq.h"
 #include "../../../433MHz/RFLink/rflinkhandler.h"
+#include "../../../blockQueue/blockqueue.h"
 
 class commandArdu_Class_fixture : public testing::Test
 {

@@ -5,6 +5,8 @@
 #include "iDomTools_fixture.h"
 #include "../mqtt_mosquitto/MQTT_mosquitto/mqtt.h"
 #include "test_data.h"
+#include "../src/blockQueue/blockqueue.h"
+//#include
 
 TEST_F(iDomTOOLS_ClassTest, smog)
 {

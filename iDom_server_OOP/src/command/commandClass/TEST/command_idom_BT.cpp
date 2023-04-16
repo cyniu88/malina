@@ -5,6 +5,7 @@
 #include "../../../iDomTools/test/iDomTools_fixture.h"
 #include "../../../thread_functions/iDom_thread.h"
 #include "../../../MENU/menu_root.h"
+#include "../../../blockQueue/blockqueue.h"
 #include "test_data.h"
 
 class commandiDom_Class_fixture : public iDomTOOLS_ClassTest

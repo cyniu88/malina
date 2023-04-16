@@ -8,6 +8,7 @@
 #include "functions.h"
 #include "../thread_functions/iDom_thread.h"
 #include "../command/commandhandlergateway.h"
+#include "../c_connection/c_connection.h"
 
 std::vector<std::string> useful_F::split(const std::string &s, char separator)
 {

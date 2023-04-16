@@ -5,6 +5,7 @@
 #include "../iDomTools/test/iDomTools_fixture.h"
 #include "../TASKER/tasker.h"
 #include "../src/thread_functions/iDom_thread.h"
+#include "../src/blockQueue/blockqueue.h"
 
 class bit_fixture : public iDomTOOLS_ClassTest
 {
