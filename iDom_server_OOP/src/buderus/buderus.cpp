@@ -19,13 +19,16 @@ BUDERUS::~BUDERUS()
 void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
 {
     std::lock_guard<std::mutex> lock(m_lockGuard);
-    m_boiler_data = jj;
     try
     {
-        if(jj.contains("outdoorTemp"))
+        if(jj.contains("outdoorTemp")){
             m_outdoorTemp = jj.at("outdoorTemp").get<double>();
-        if(jj.contains("wWStorageTemp2"))
+            m_boiler_data = jj;
+        }
+        if(jj.contains("wWStorageTemp2")){
             m_boilerTemp = jj.at("wWStorageTemp2").get<double>();
+            m_boiler_data_ww = jj;
+        }
         if(jj.contains("curFlowTemp"))
             m_curFlowTemp = jj.at("curFlowTemp").get<double>();
         if(jj.contains("burnGas")){
@@ -210,6 +213,7 @@ std::string BUDERUS::dump() const
 
     ret << '{' << std::endl;
     ret << R"("m_boiler_data": )" << m_boiler_data.dump(4) << "," << std::endl;
+    ret << R"("m_boiler_data_ww": )" << m_boiler_data_ww.dump(4) << "," << std::endl;
     ret << R"("m_thermostat_data": )" << m_thermostat_data.dump(4) << "," << std::endl;
     ret << R"("m_tapwater_active": )" << m_tapwater_active << "," << std::endl;
     ret << R"("m_heating_active": )" << m_heating_active << "," << std::endl;

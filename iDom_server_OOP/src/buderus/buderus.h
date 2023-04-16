@@ -12,6 +12,7 @@ class BUDERUS : public BUDERUS_IF, iDom_API
 {
     mutable std::mutex m_lockGuard;
     nlohmann::json m_boiler_data;
+    nlohmann::json m_boiler_data_ww;
     nlohmann::json m_thermostat_data;
     bool m_tapwater_active = false;
     bool m_heating_active = false;
