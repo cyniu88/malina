@@ -1,4 +1,5 @@
 #include "command_shed.h"
+#include "../../iDomTools/idomtools_interface.h"
 
 command_shed::command_shed(const std::string &name):command(name)
 {

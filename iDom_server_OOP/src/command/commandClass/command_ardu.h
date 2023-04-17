@@ -6,6 +6,7 @@
 
 #include "../../RADIO_433_eq/radio_433_eq.h"
 #include "../../433MHz/RFLink/rflinkhandler.h"
+#include "../../command/command.h"
 
 class command_ardu : public command
 {

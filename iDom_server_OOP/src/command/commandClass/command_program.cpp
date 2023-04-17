@@ -1,6 +1,7 @@
 #include "command_program.h"
 #include "../../functions/functions.h"
 #include "../../433MHz/RFLink/rflinkhandler.h"
+#include "../../iDomTools/idomtools_interface.h"
 
 command_program::command_program(const std::string &name):command(name){}
 

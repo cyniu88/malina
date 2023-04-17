@@ -4,8 +4,8 @@
 #include <string>
 
 #include "../iDom_server_OOP.h"
-// #include "command.h"
-class command;
+#include "../command/command.h"
+
 class CommandHandlerMQTT
 {
     std::map<std::string, std::unique_ptr<command>> commandMap;

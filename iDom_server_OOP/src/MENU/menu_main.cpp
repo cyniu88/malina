@@ -6,6 +6,7 @@
 #include "menu_buderus.h"
 #include "menu_info.h"
 #include "menu_maintenance.h"
+#include "../iDomTools/idomtools_interface.h"
 
 MENU_MAIN::MENU_MAIN(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(my_data, lcdPTR, msm, lcdLED)
 {

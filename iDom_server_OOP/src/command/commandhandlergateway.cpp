@@ -1,6 +1,7 @@
 #include "commandhandlergateway.h"
 #include "../libs/emoji/emoji.h"
 #include "commandClass/command_gateway.h"
+#include "../iDomTools/idomtools_interface.h"
 
 commandHandlerGATEWAY::commandHandlerGATEWAY(thread_data *my_data) : commandHandler(my_data)
 {

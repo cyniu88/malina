@@ -7,6 +7,9 @@
 #include <memory>
 
 #include "idomtools_interface.h"
+#include "../libs/facebookAPI/facebookAPI.h"
+#include "../libs/sunrise-sunset/sunriseset.h"
+#include "../libs/viberAPI/viber_api.h"
 
 struct thread_data;
 class RADIO_BUTTON;

@@ -7,6 +7,8 @@
 #include "../functions/functions.h"
 #include "../RADIO_433_eq/radio_433_eq.h"
 #include "../thread_functions/iDom_thread.h"
+#include "idomtools.h"
+#include "../iDomSaveState/idom_save_state.h"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData) : m_key(myData->server_settings->_server.TS_KEY),
                                             m_key2(myData->server_settings->_server.TS_KEY2)

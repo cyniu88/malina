@@ -7,17 +7,17 @@
 #include "CRON/cron.hpp"
 #include "functions/functions.h"
 #include "functions/mpd_cli.h"
-#include "c_connection/c_connection.h"
 #include "TASKER/tasker.h"
 #include "RADIO_433_eq//radio_433_eq.h"
 #include "thread_functions/rs232_thread.h"
 #include "433MHz/RFLink/rflinkhandler.h"
 #include "command/commandClass/command_ardu.h"
 #include "thread_functions/iDom_thread.h"
-#include "command/commandhandlergateway.h"
 #include "MENU/menu_root.h"
 #include "SATEL_INTEGRA/satel_integra_handler.h"
 #include "buderus/buderus.h"
+#include "iDomTools/idomtools.h"
+#include "iDomSaveState/idom_save_state.h"
 
 using namespace std::chrono_literals;
 

@@ -6,6 +6,7 @@
 #include "../../HOUSE/TEST/house_room_handler_stub.h"
 #include "../../SATEL_INTEGRA/BT/satel_integra_stub.h"
 #include "../../buderus/mock/buderus_mock.h"
+#include "../../iDomTools/idomtools.h"
 
 class iDomTOOLS_ClassTest : public testing::Test
 {

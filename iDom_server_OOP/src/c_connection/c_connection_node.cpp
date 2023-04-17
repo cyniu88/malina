@@ -3,6 +3,7 @@
 #include "../HTTP/http.h"
 #include "json.hpp"
 #include "../functions/functions.h"
+#include "../iDomTools/idomtools_interface.h"
 
 void C_connection::setEncriptionKey(const std::string &key)
 {

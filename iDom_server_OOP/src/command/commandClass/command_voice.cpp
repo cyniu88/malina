@@ -1,5 +1,6 @@
 #include "command_voice.h"
 #include "../libs/emoji/emoji.h"
+#include "../../iDomTools/idomtools_interface.h"
 
 command_voice::command_voice(const std::string &name): command(name)
 {

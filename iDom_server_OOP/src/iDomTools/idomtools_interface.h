@@ -4,16 +4,9 @@
 #include "idomtools_useful.h"
 #include "json.hpp"
 
-#include "../iDom_server_OOP.h"
+
 #include "../THERMOMETER_CONTAINER/thermometer_container.h"
-#include "../iDomKEY_ACCESS/idomkey_access.h"
-
-#include "../../libs/sunrise-sunset/sunriseset.h"
-#include "../../libs/viberAPI/viber_api.h"
-#include "../../libs/facebookAPI/facebookAPI.h"
-#include "../../libs/Statistic/statistic.h"
-
-#include "../idom_api.h"
+#include "../../libs/useful/useful.h"
 
 struct thread_data;
 

@@ -2,6 +2,7 @@
 #include "menu_main.h"
 
 #include "../RADIO_433_eq/radio_433_eq.h"
+#include "../iDomTools/idomtools_interface.h"
 
 MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(my_data, lcdPTR, msm, lcdLED),
                                                                                                    tempCounter(0)

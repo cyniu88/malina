@@ -6,6 +6,7 @@
 #include "../mqtt_mosquitto/MQTT_mosquitto/mqtt.h"
 #include "test_data.h"
 #include "../src/blockQueue/blockqueue.h"
+#include "../src/iDomSaveState/idom_save_state.h"
 //#include
 
 TEST_F(iDomTOOLS_ClassTest, smog)

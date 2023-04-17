@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 #include "../iDom_server_OOP.h"
+#include "../command/command.h"
 
 class commandHandler
 {

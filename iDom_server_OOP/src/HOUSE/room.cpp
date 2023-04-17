@@ -1,6 +1,7 @@
 #include "room.h"
 #include "house_room_handler.h"
 #include "../functions/functions.h"
+#include "../iDomTools/idomtools_interface.h"
 
 ROOM::ROOM(const std::vector<int> &satelSensorID, const std::string &name, const std::map<int, std::shared_ptr<light_bulb> > &lightingBulbMap):
     m_satelSensorID(satelSensorID),

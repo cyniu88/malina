@@ -6,7 +6,6 @@
 #include "buderus_interface.h"
 #include "../json2/json.hpp"
 #include "../idom_api.h"
-#include "../iDom_server_OOP.h"
 
 class BUDERUS : public BUDERUS_IF, iDom_API
 {

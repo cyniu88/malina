@@ -2,7 +2,7 @@
 #define BUDERUS_INTERFACE_H
 
 #include "../json2/json.hpp"
-#include "../iDom_server_OOP.h"
+#include "../libs/useful/useful.h"
 
 class BUDERUS_IF
 {

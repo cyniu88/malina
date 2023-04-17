@@ -3,6 +3,7 @@
 #include "mpd_cli.h"
 #include "../TASKER/tasker.h"
 #include "../thread_functions/iDom_thread.h"
+#include "../iDomTools/idomtools_interface.h"
 
 using namespace std::chrono_literals;
 

@@ -1,6 +1,5 @@
 #include "commandtest.h"
-#include "../../functions/functions.h"
-#include "../../../ftplibpp/ftplib.h"
+#include "../../iDomTools/idomtools_interface.h"
 
 commandTEST::commandTEST(const std::string &name):command(name)
 {

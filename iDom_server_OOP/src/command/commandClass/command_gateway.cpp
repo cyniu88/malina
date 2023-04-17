@@ -1,4 +1,5 @@
 #include "command_gateway.h"
+#include "../../iDomTools/idomtools_interface.h"
 
 command_gateway::command_gateway(const std::string &name):command(name)
 {

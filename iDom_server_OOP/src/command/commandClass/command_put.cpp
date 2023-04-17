@@ -1,4 +1,5 @@
 #include "command_put.h"
+#include "../../iDomTools/idomtools_interface.h"
 
 command_put::command_put(const std::string &name):command(name)
 {

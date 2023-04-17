@@ -1,8 +1,11 @@
 #include <iostream>
 #include <time.h>
 #include <string>
+#include <bitset>
+
 #include "../functions/functions.h"
 #include "satel_integra_handler.h"
+#include "../iDomTools/idomtools_interface.h"
 
 using namespace std::chrono_literals;
 

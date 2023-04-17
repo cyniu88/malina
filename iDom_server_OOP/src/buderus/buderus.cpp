@@ -1,6 +1,7 @@
 #include "buderus.h"
 
 #include "../functions/functions.h"
+#include "../iDomTools/idomtools_interface.h"
 
 BUDERUS::BUDERUS()
 {

@@ -1,4 +1,5 @@
 #include "command_idom.h"
+#include "../../iDomTools/idomtools_interface.h"
 
 command_iDom::command_iDom(const std::string &name):command(name)
 {

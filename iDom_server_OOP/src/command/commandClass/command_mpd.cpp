@@ -1,5 +1,6 @@
 #include "command_mpd.h"
 #include "../../functions/functions.h"
+#include "../../iDomTools/idomtools_interface.h"
 
 command_mpd::command_mpd(const std::string &name) :command(name)
 {

@@ -28,19 +28,16 @@
 
 // MOJE BIBLIOTEKI
 #include "logger/logger.hpp"
-#include "command/command.h"
 #include "../libs/event_counters/event_counters_handler.h"
 #include "../libs/alarm/alarm.h"
 #include "../libs/Statistic/statistic.h"
-#include "iDomTools/idomtools.h"
 #include "iDomStatus/idomstatus.h"
-#include "iDomSaveState/idom_save_state.h"
 #include "../mqtt_mosquitto/MQTT_mosquitto/mqtt.h"
 #include "buderus/buderus_interface.h"
 #include "HOUSE/house_room_handler.h"
 #include "SerialPi/serialpi.h"
-#include "MENU/menu_base.h"
 #include "SATEL_INTEGRA/satel_integra_interface.h"
+#include "iDomKEY_ACCESS/idomkey_access.h"
 
 #define log_file_cout f_log // std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
@@ -82,13 +79,13 @@ enum class iDomStateEnum
 
 namespace iDomConst
 {
-    constexpr int MAX_CONNECTION = 10;
-    constexpr int FREE = 1;
-    constexpr int RS232 = 11;
-    constexpr int CLOCK = 12;
-    constexpr int ok = 0;
-    constexpr int GPIO_SPIK = 21;
-    constexpr int GPIO_PRINTER = 22;
+constexpr int MAX_CONNECTION = 10;
+constexpr int FREE = 1;
+constexpr int RS232 = 11;
+constexpr int CLOCK = 12;
+constexpr int ok = 0;
+constexpr int GPIO_SPIK = 21;
+constexpr int GPIO_PRINTER = 22;
 }
 
 struct ALERT
@@ -241,15 +238,75 @@ struct CONFIG_JSON
     nlohmann::json _command;
 };
 
-class command; // for struc thread_data req
+//class command; // for struc thread_data req
 class iDomTOOLS_INTERFACE;
 class RADIO_EQ_CONTAINER;
 class RFLinkHandler;
-class BUDERUS_IF;
-class KEY_HANDLER;
 class SATEL_INTEGRA_HANDLER_INTERFACE;
-class iDomKEY_ACCESS;
 // TODO temporary
+enum class PILOT_KEY
+{
+    KEY_POWER,
+    KEY_AUDIO,
+    KEY_EPG,
+    KEY_OK,
+    KEY_RADIO,
+    KEY_TV,
+    KEY_0,
+    KEY_1,
+    KEY_2,
+    KEY_3,
+    KEY_4,
+    KEY_5,
+    KEY_6,
+    KEY_7,
+    KEY_8,
+    KEY_9,
+    KEY_CHANNELDOWN,
+    KEY_CHANNELUP,
+    KEY_DOWN,
+    KEY_EXIT,
+    KEY_FAVORITES,
+    KEY_INFO,
+    KEY_LANGUAGE,
+    KEY_MENU,
+    KEY_MUTE,
+    KEY_REFRESH,
+    KEY_SAT,
+    KEY_SUBTITLE,
+    KEY_TEXT,
+    KEY_UP,
+    KEY_VOLUMEDOWN,
+    KEY_VOLUMEUP,
+    SLEEPER,
+    DUMMY
+};
+
+enum class KEY_PAD : int
+{
+    POWER = 1,
+    OK = 2,
+    RES = 4,
+    UP = 16,
+    MENU = 32,
+    RIGHT = 64,
+    DOWN = 256,
+    LEFT = 512,
+    EPG = 1024,
+    REBOOT = 5,
+    OFF_LCD = 777,
+    TIMEOUT = 778,
+};
+
+class KEY_HANDLER_BASE{
+public:
+    virtual ~KEY_HANDLER_BASE() = default;
+    virtual void recKeyEvent(KEY_PAD eventId) = 0;
+    virtual void recIrdaEvent(PILOT_KEY eventId) = 0;
+    virtual void timeout() = 0;
+    virtual void quickPrint(const std::string &row1, const std::string &row2) = 0;
+    virtual void scrollText() = 0;
+};
 
 struct LUSINA
 {
@@ -285,7 +342,7 @@ struct thread_data
     bool serverStarted = false;
     LUSINA lusina;
     SATEL_INTEGRA_HANDLER_INTERFACE *satelIntegraHandler = std::nullptr_t();
-    std::unique_ptr<KEY_HANDLER> main_key_menu_handler = std::nullptr_t();
+    std::unique_ptr<KEY_HANDLER_BASE> main_key_menu_handler = std::nullptr_t();
     std::shared_ptr<iDomTOOLS_INTERFACE> main_iDomTools = std::nullptr_t();
     std::unique_ptr<SerialPi> main_Rs232 = std::nullptr_t();
     std::shared_ptr<RFLinkHandler> main_RFLink = std::nullptr_t();
@@ -296,6 +353,7 @@ struct thread_data
     std::shared_ptr<RADIO_EQ_CONTAINER> main_REC = std::nullptr_t();
     std::unique_ptr<iDomSTATUS> main_iDomStatus = std::nullptr_t();
     std::unique_ptr<iDomKEY_ACCESS> m_keyHandler = std::nullptr_t();
+    ~thread_data() = default;
 };
 
 iDomStateEnum iDom_main();

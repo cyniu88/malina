@@ -1,6 +1,9 @@
 #include <iostream>
+#include <curl/curl.h>
+
 #include "menu_kodi.h"
 #include "menu_root.h"
+#include "../iDomTools/idomtools_interface.h"
 
 /*
 up     [{"jsonrpc":"2.0","method":"Input.Up","params":[],"id":2361}]

@@ -1,5 +1,6 @@
 #include "idomtools.h"
 #include "../blockQueue/blockqueue.h"
+#include "../iDom_server_OOP.h"
 
 void iDomTOOLS::MPD_play(thread_data *my_data)
 {

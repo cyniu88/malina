@@ -1,4 +1,5 @@
 #include "cron.hpp"
+#include "../iDomTools/idomtools_interface.h"
 
 CRON::CRON(thread_data *my_data)
 {
@@ -22,7 +23,6 @@ void CRON::run()
         {
             try
             {
-
                 runEveryone_1min(act_date);
                 if (act_date->tm_min % 5 == 0)
                 {

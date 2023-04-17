@@ -3,6 +3,7 @@
 #include "house_room_handler.h"
 #include "json.hpp"
 #include "../functions/functions.h"
+#include "../iDomTools/idomtools_interface.h"
 
 std::string house_room_handler::m_mqttPublishTopic = "swiatlo/output/";
 

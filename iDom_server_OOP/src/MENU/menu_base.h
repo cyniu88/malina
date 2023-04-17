@@ -2,62 +2,10 @@
 #define MENU_H
 #include <memory>
 #include <iostream>
-#include "../iDom_server_OOP.h"
 #include "../LCD_c/lcd_c.h"
+#include "../../libs/useful/useful.h"
+#include "../iDom_server_OOP.h"
 
-enum class PILOT_KEY
-{
-    KEY_POWER,
-    KEY_AUDIO,
-    KEY_EPG,
-    KEY_OK,
-    KEY_RADIO,
-    KEY_TV,
-    KEY_0,
-    KEY_1,
-    KEY_2,
-    KEY_3,
-    KEY_4,
-    KEY_5,
-    KEY_6,
-    KEY_7,
-    KEY_8,
-    KEY_9,
-    KEY_CHANNELDOWN,
-    KEY_CHANNELUP,
-    KEY_DOWN,
-    KEY_EXIT,
-    KEY_FAVORITES,
-    KEY_INFO,
-    KEY_LANGUAGE,
-    KEY_MENU,
-    KEY_MUTE,
-    KEY_REFRESH,
-    KEY_SAT,
-    KEY_SUBTITLE,
-    KEY_TEXT,
-    KEY_UP,
-    KEY_VOLUMEDOWN,
-    KEY_VOLUMEUP,
-    SLEEPER,
-    DUMMY
-};
-
-enum class KEY_PAD : int
-{
-    POWER = 1,
-    OK = 2,
-    RES = 4,
-    UP = 16,
-    MENU = 32,
-    RIGHT = 64,
-    DOWN = 256,
-    LEFT = 512,
-    EPG = 1024,
-    REBOOT = 5,
-    OFF_LCD = 777,
-    TIMEOUT = 778,
-};
 
 class MENU_STATE_BASE;
 class MENU_STATE_MACHINE
@@ -67,6 +15,7 @@ public:
     ~MENU_STATE_MACHINE() = default;
     void setStateMachine(std::unique_ptr<MENU_STATE_BASE> ptr);
 };
+
 
 class MENU_STATE_BASE
 {
@@ -120,13 +69,14 @@ public:
     }
 };
 
-class KEY_HANDLER
+class KEY_HANDLER: public KEY_HANDLER_BASE
 {
 protected:
     MENU_STATE_MACHINE *stateMachinePtr;
     std::mutex lock;
 
 public:
+    KEY_HANDLER() = default;
     explicit KEY_HANDLER(MENU_STATE_MACHINE *msm);
     ~KEY_HANDLER() = default;
     void recKeyEvent(KEY_PAD eventId);
