@@ -91,17 +91,17 @@ void bit_fixture::start_iDomServer()
 
 std::string bit_fixture::send_receive(int socket, std::string msg, std::string key, bool crypt)
 {
-    char buffer[10000];
+    char buffer_new[10000];
     std::string ret;
     std::string ok = "ok";
 
     std::cout << " wysłałem: " << msg << std::endl;
     crypto(msg, key, crypt);
     send(socket, msg.c_str(), msg.size(), 0);
-    ssize_t size = recv(socket, buffer, sizeof(buffer), 0);
+    ssize_t size = recv(socket, buffer_new, sizeof(buffer_new), 0);
     for (ssize_t i = 0; i < size; ++i)
     {
-        ret.push_back(buffer[i]);
+        ret.push_back(buffer_new[i]);
     }
     crypto(ret, key, crypt);
     std::cout << " w połowie " << ret << std::endl;
@@ -111,18 +111,18 @@ std::string bit_fixture::send_receive(int socket, std::string msg, std::string k
     crypto(ok, key, crypt);
     send(socket, ok.c_str(), ok.size(), 0);
 
-    size = recv(socket, buffer, sizeof(buffer), 0);
+    size = recv(socket, buffer_new, sizeof(buffer_new), 0);
 
     while (size not_eq sizeRec)
     {
         std::cout << " w while: " << size << " recSize: " << sizeRec << std::endl;
-        size += recv(socket, buffer, sizeof(buffer), 0);
+        size += recv(socket, buffer_new, sizeof(buffer_new), 0);
     }
 
     EXPECT_EQ(size, sizeRec);
     for (ssize_t i = 0; i < size; ++i)
     {
-        ret.push_back(buffer[i]);
+        ret.push_back(buffer_new[i]);
     }
     crypto(ret, key, crypt);
     std::cout << " kończymy z " << ret << std::endl;
@@ -557,14 +557,14 @@ Content-Length: 43
     send(s, httpMsg.c_str(), httpMsg.size(), 0);
 
     std::this_thread::sleep_for(100ms);
-    char buffer[10000];
-    auto recC = recv(s, buffer, sizeof(buffer), 0);
+    char buffer_new[10000];
+    auto recC = recv(s, buffer_new, sizeof(buffer_new), 0);
     std::cout << "!!! odebrano: size " << recC << "###" << std::endl;
 
     std::string toCheck;
     for (int i = 0; i < recC; ++i)
     {
-        toCheck.push_back(buffer[i]);
+        toCheck.push_back(buffer_new[i]);
     }
     std::cout << "odebrano: " << toCheck << std::endl;
     EXPECT_THAT(toCheck, ::testing::HasSubstr("HTTP/1.1 200 OK"));

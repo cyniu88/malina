@@ -73,9 +73,5 @@ std::string command_voice::help() const
 
 bool command_voice::vectorContain(const std::vector<std::string> &vector, const std::string &str)
 {
-    for(auto &vv : vector){
-        if(useful_F_libs::hasSubstring(vv, str) == true)
-            return true;
-    }
-    return false;
+    return std::any_of(vector.begin(), vector.end(), [str](const std::string & vv){return useful_F_libs::hasSubstring(vv, str);});
 }

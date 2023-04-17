@@ -873,11 +873,11 @@ int getBoardRev(){
 	
 	fclose(cpu_info);
 	
-	if (line == NULL){
+    if (line == NULL){
 		fprintf (stderr, "Unable to determine board revision from /proc/cpuinfo.\n");
 		exit(1);
 	}
-	
+
 	for (c = line; *c; ++c)
     if (isdigit (*c))
       break;
@@ -922,6 +922,7 @@ int raspberryPinNumber(int arduinoPin){
 		case 12: return 9; break;
 		case 13: return 11; break;
 	}
+        return 11;
 }
 
 // safe read from peripheral

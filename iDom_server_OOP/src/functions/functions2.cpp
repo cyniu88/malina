@@ -49,15 +49,11 @@ void useful_F::tokenizer(std::vector<std::string> &command,
 {
     std::string temp;
 
-    for (char n : text)
+    for (const char& n : text)
     { // the initializer may be an array
-        bool is_sep = false;
-        for (char m : separator)
-        {
-            if (n == m)
-                is_sep = true;
-        }
-        if (is_sep == false)
+
+
+        if (!std::any_of(separator.begin(), separator.end(), [n](int y) { return n == y; }))
             temp.push_back(n);
         else
         {
@@ -359,15 +355,15 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     }
     /// ///////////////////////user level
     {
-        int recvSize_tm = client->c_recv(0);
-        if (recvSize_tm == -1)
+        int recvSize_tm_n = client->c_recv(0);
+        if (recvSize_tm_n == -1)
         {
             my_data->main_Rs232->print("LED_AT:0;");
             iDOM_THREAD::stop_thread(threadName, my_data);
             return;
         }
 
-        std::string userLevel = client->c_read_buf(recvSize_tm);
+        std::string userLevel = client->c_read_buf(recvSize_tm_n);
         client->c_send("OK you are " + userLevel);
 
         if (userLevel == "ROOT")
@@ -385,8 +381,8 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     }
     while (useful_F::go_while && key_ok)
     {
-        int recvSize_tm = client->c_recv(0);
-        if (recvSize_tm == -1)
+        int recvSize_tm_n = client->c_recv(0);
+        if (recvSize_tm_n == -1)
         {
             puts("klient sie rozlaczyl");
             break;
@@ -394,7 +390,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         // ########################### analia wiadomoscu ####################################//
         try
         {
-            client->c_analyse(recvSize_tm);
+            client->c_analyse(recvSize_tm_n);
         }
         catch (std::string &s)
         {

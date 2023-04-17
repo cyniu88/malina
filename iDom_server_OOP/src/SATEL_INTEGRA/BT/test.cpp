@@ -91,18 +91,18 @@ void satelServer(){
                     std::cout << " STUB SATEL RECV: " << m_recv_size  << std::endl;
                     if(c_buffer[2] == INTEGRA_ENUM::VERSION){
                         std::cout << "wersja integry" << std::endl;
-                        std::string len;
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x41);
-                        len.push_back(0xae);
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::END);
-                        int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
+                        std::string len_new;
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x41);
+                        len_new.push_back(0xae);
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::END);
+                        int siz = send( v_sock_ind, len_new.c_str() ,len_new.length(), 0);
                         if( siz >= 0)
                         {
                             std::cout << "wyslano " << siz << std::endl;
@@ -112,32 +112,32 @@ void satelServer(){
                     }
                     else if(c_buffer[2] == INTEGRA_ENUM::OUTPUTS_STATE){
                         std::cout << "stan wejsc integry" << std::endl;
-                        std::string len;
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::OUTPUTS_STATE);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x43);
-                        len.push_back(0x0e);
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::END);
+                        std::string len_new;
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::OUTPUTS_STATE);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x43);
+                        len_new.push_back(0x0e);
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::END);
 
-                        int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
+                        int siz = send( v_sock_ind, len_new.c_str() ,len_new.length(), 0);
                         if( siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
@@ -147,7 +147,7 @@ void satelServer(){
                     }
                     else if(c_buffer[2] == (char)INTEGRA_ENUM::ARM){
                         std::cout << "uzbrojenie alarmu "  << (int)c_buffer[3] << " " << (int)c_buffer[4] << std::endl;
-                        std::string len;
+                        //std::string len;
 
 
                         int siz = send(v_sock_ind, c_buffer, m_recv_size, 0);
@@ -160,7 +160,7 @@ void satelServer(){
                     }
                     else if(c_buffer[2] == (char)INTEGRA_ENUM::DISARM){
                         std::cout << "rozbrojenie alarmu "  << (int)c_buffer[3] << " " << (int)c_buffer[4] << std::endl;
-                        std::string len;
+                       // std::string len;
 
 
                         int siz = send(v_sock_ind, c_buffer, m_recv_size, 0);
@@ -173,21 +173,21 @@ void satelServer(){
                     }
                     else if(c_buffer[2] == (char)INTEGRA_ENUM::OUTPUT_ON){
                         std::cout << "zmiana stanu alarmu integry" << std::endl;
-                        std::string len;
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::OUTPUT_ON);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x85);
-                        len.push_back(0xc4);
+                        std::string len_new;
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::OUTPUT_ON);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x85);
+                        len_new.push_back(0xc4);
 
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::END);
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::END);
 
-                        int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
+                        int siz = send( v_sock_ind, len_new.c_str() ,len_new.length(), 0);
                         if( siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
@@ -197,21 +197,21 @@ void satelServer(){
                     }
                     else if(c_buffer[2] == (char)INTEGRA_ENUM::OUTPUT_OFF){
                         std::cout << "zmiana stanu alarmu integry" << std::endl;
-                        std::string len;
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::OUTPUT_OFF);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x85);
-                        len.push_back(0xd4);
+                        std::string len_new;
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::OUTPUT_OFF);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x85);
+                        len_new.push_back(0xd4);
 
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::END);
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::END);
 
-                        int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
+                        int siz = send( v_sock_ind, len_new.c_str() ,len_new.length(), 0);
                         if( siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
@@ -221,21 +221,21 @@ void satelServer(){
                     }
                     else if(c_buffer[2] == INTEGRA_ENUM::ARMED_PARTITIONS){
                         std::cout << "stan alarmu integry" << std::endl;
-                        std::string len;
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::ARMED_PARTITIONS);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x00);
-                        len.push_back(0x7d);
-                        len.push_back(0xc4);
+                        std::string len_new;
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::ARMED_PARTITIONS);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x00);
+                        len_new.push_back(0x7d);
+                        len_new.push_back(0xc4);
 
-                        len.push_back(INTEGRA_ENUM::HEADER_MSG);
-                        len.push_back(INTEGRA_ENUM::END);
+                        len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
+                        len_new.push_back(INTEGRA_ENUM::END);
 
-                        int siz = send( v_sock_ind, len.c_str() ,len.length(), 0);
+                        int siz = send( v_sock_ind, len_new.c_str() ,len_new.length(), 0);
                         if( siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;

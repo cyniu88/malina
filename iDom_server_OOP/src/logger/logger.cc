@@ -50,110 +50,112 @@
 pthread_mutex_t Logger::mutex_log = PTHREAD_MUTEX_INITIALIZER;
 
 Logger::Logger(const char *f) : _file(f, std::ios::out | std::ios::app),
-                                _log(_file),
-                                _level(INFO),
-                                _line_level(VERBOSE)
+    _log(_file),
+    _level(INFO),
+    _line_level(VERBOSE)
 {
-  assert(_file.is_open());
+    assert(_file.is_open());
 }
 
 Logger::Logger(const std::string &f) : _file(f.c_str(), std::ios::out | std::ios::app),
-                                       _log(_file),
-                                       _level(INFO),
-                                       _line_level(VERBOSE)
+    _log(_file),
+    _level(INFO),
+    _line_level(VERBOSE)
 {
-  assert(_file.is_open());
+    assert(_file.is_open());
 }
 
 Logger::~Logger()
 {
-  if (_file.is_open())
-  {
-    _log.flush();
-    _file.close();
-  }
+    if (_file.is_open())
+    {
+        _log.flush();
+        _file.close();
+    }
 }
 
 void Logger::set_level(const logger_level &level)
 {
-  _level = level;
+    _level = level;
 }
 
 void Logger::flush()
 {
-  if (_line_level >= _level)
-  {
-    _log << get_time() << " -- [" << level_str(_line_level) << "] -- " << str();
-    _log.flush();
-  }
-  else
-  {
-    _log << get_time() << " -- [" << level_str(_line_level) << "] -- " << str();
-    _log.flush();
-  }
+    if (_line_level >= _level)
+    {
+        _log << get_time() << " -- [" << level_str(_line_level) << "] -- " << str();
+        _log.flush();
+    }
+    else
+    {
+        _log << get_time() << " -- [" << level_str(_line_level) << "] -- " << str();
+        _log.flush();
+    }
 
-  str("");
-  _line_level = VERBOSE;
+    str("");
+    _line_level = VERBOSE;
 }
 
 Logger &Logger::operator<<(const logger_level &level)
 {
-  _line_level = level;
-  return (*this);
+    _line_level = level;
+    return (*this);
 }
 
 Logger &Logger::operator<<(LoggerManip m)
 {
-  return m(*this);
+    return m(*this);
 }
 
 std::string Logger::get_time() const
 {
-  struct tm *timeinfo;
-  time_t rawtime;
-  char *time_buf;
+    struct tm *timeinfo;
+    time_t rawtime;
+    char *time_buf;
 
-  time(&rawtime);
-  timeinfo = localtime(&rawtime);
-  time_buf = asctime(timeinfo);
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+    time_buf = asctime(timeinfo);
 
-  std::string ret(time_buf);
-  if (!ret.empty() && ret[ret.length() - 1] == '\n')
-  {
-    ret.erase(ret.length() - 1);
-  }
+    std::string ret(time_buf);
+    if (!ret.empty() && ret[ret.length() - 1] == '\n')
+    {
+        ret.erase(ret.length() - 1);
+    }
 
-  return (ret);
+    return (ret);
 }
 
 inline const char *Logger::level_str(const logger_level &level)
 {
-  switch (level)
-  {
-  case VERBOSE:
-    return ("VERBOSE ");
-  case DEBUG:
-    return (" DEBUG  ");
-  case INFO:
+    switch (level)
+    {
+    case VERBOSE:
+        return ("VERBOSE ");
+    case DEBUG:
+        return (" DEBUG  ");
+    case INFO:
+        return ("  INFO  ");
+    case WARNING:
+        return ("WARNING ");
+    case ERROR:
+        return (" ERROR  ");
+    case CRITICAL:
+        return ("CRITICAL");
+    case FATAL:
+        return (" FATAL  ");
+    default:
+        assert(false);
+    }
     return ("  INFO  ");
-  case WARNING:
-    return ("WARNING ");
-  case ERROR:
-    return (" ERROR  ");
-  case CRITICAL:
-    return ("CRITICAL");
-  case FATAL:
-    return (" FATAL  ");
-  default:
-    assert(false);
-  }
 }
+
 void Logger::mutex_lock()
 {
-  pthread_mutex_lock(&Logger::mutex_log);
+    pthread_mutex_lock(&Logger::mutex_log);
 }
 
 void Logger::mutex_unlock()
 {
-  pthread_mutex_unlock(&Logger::mutex_log);
+    pthread_mutex_unlock(&Logger::mutex_log);
 }

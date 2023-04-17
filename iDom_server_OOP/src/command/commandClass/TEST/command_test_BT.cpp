@@ -24,7 +24,7 @@ TEST_F(command_test_Class_fixture, test)
     EXPECT_STREQ(ret.c_str(),"test - for test");
 }
 
-TEST_F(command_test_Class_fixture, throw)
+TEST_F(command_test_Class_fixture, throw_test)
 {
     test_v.push_back("test");
     test_v.push_back("throw");
