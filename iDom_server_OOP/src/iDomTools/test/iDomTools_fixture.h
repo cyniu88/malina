@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include "testJSON.h"
 #include "../../src/functions/functions.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
-#include "testJSON.h"
 #include "../../HOUSE/TEST/house_room_handler_stub.h"
 #include "../../SATEL_INTEGRA/BT/satel_integra_stub.h"
 #include "../../buderus/mock/buderus_mock.h"

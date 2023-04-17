@@ -5,6 +5,7 @@
 #include "test_data.h"
 #include "../../iDomTools/mock/iDomToolsMock.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
+#include "../../command/commandhandlerroot.h"
 
 class c_connection_fixture : public testing::Test
 {

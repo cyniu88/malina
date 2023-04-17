@@ -6,7 +6,7 @@ class commandHandlerRoot : public commandHandler
 {
 public:
     explicit commandHandlerRoot(thread_data *my_data);
-    virtual ~commandHandlerRoot();
+    virtual ~commandHandlerRoot() = default;
 };
 
 #endif // COMMANDHANDLERROOT_H

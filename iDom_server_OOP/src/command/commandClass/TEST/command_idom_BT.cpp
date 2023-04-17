@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "../command_idom.h"
-#include "../../../433MHz/RFLink/rflinkhandler.h"
 #include "../../../iDomTools/test/iDomTools_fixture.h"
 #include "../../../thread_functions/iDom_thread.h"
 #include "../../../MENU/menu_root.h"

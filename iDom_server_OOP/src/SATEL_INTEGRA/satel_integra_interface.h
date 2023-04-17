@@ -2,6 +2,7 @@
 #define SATEL_INTEGRA_INTERFACE_H
 
 #include "../libs/useful/useful.h"
+
 class SATEL_INTEGRA;
 class SATEL_INTEGRA_INTERFACE
 {

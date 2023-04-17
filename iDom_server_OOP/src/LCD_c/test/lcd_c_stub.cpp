@@ -1,6 +1,5 @@
 #include <iostream>
 #include "../lcd_c.h"
-#include "../../liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.h"
 
 LiquidCrystal_I2C::LiquidCrystal_I2C(uint8_t lcd_Addr,uint8_t lcd_cols,uint8_t lcd_rows){
      std::cout << "LiquidCrystal_I2C::LiquidCrystal_I2C())"  <<std::endl;

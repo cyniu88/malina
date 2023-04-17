@@ -1,7 +1,8 @@
-#include "iDom_thread.h"
 #include <tuple>
 #include <array>
 #include <functional>
+
+#include "iDom_thread.h"
 
 using namespace std::chrono_literals;
 

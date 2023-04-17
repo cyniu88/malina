@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "../functions/functions.h"
+#include "satel_enum.h"
 
 SATEL_INTEGRA::SATEL_INTEGRA()
 {

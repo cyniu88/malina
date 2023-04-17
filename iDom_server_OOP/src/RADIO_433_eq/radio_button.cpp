@@ -30,10 +30,6 @@ RADIO_BUTTON::RADIO_BUTTON(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RAD
     RADIO_EQ::m_config = cfg;
 }
 
-RADIO_BUTTON::~RADIO_BUTTON()
-{
-}
-
 STATE RADIO_BUTTON::getState() const
 {
     return m_state;

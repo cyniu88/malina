@@ -3,7 +3,6 @@
 
 #include "../command_event.h"
 
-
 class command_event_Class_fixture : public testing::Test
 {
 public:

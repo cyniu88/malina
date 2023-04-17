@@ -2,7 +2,6 @@
 #define IDOM_SAVE_STATE_H
 
 #include <mutex>
-#include "../idom_api.h"
 #include "json.hpp"
 
 class iDom_SAVE_STATE

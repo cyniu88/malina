@@ -8,6 +8,7 @@
 #include "functions.h"
 #include "../thread_functions/iDom_thread.h"
 #include "../command/commandhandlergateway.h"
+#include "../command/commandhandlerroot.h"
 #include "../c_connection/c_connection.h"
 #include "../iDomTools/idomtools_interface.h"
 

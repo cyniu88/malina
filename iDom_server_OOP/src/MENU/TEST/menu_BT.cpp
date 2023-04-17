@@ -8,7 +8,6 @@
 #include "../../buderus/mock/buderus_mock.h"
 #include "../menu_base.h"
 #include "../menu_root.h"
-#include "../menu_main.h"
 #include "../menu_light.h"
 
 class menu_state_machine_fixture: public testing::Test

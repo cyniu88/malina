@@ -2,6 +2,7 @@
 #define THERMOMETER_CONTAINER_H
 #include <map>
 #include <vector>
+
 #include "../../libs/Statistic/statistic.h"
 #include "../idom_api.h"
 

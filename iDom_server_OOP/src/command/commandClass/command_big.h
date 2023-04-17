@@ -1,7 +1,6 @@
 #ifndef COMMAND_BIG_H
 #define COMMAND_BIG_H
 
-#include <iostream>
 #include <string>
 #include <vector>
 #include "../command.h"

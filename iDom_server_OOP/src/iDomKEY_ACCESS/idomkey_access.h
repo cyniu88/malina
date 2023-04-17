@@ -2,7 +2,7 @@
 #define IDOMKEY_ACCESS_H
 
 #include "../idom_api.h"
-#include "../json2/json.hpp"
+#include "json.hpp"
 #include "../libs/generator/generator.h"
 
 class iDomKEY_ACCESS : public iDom_API

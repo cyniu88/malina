@@ -59,10 +59,6 @@ commandHandler::commandHandler(thread_data * my_data)
     this->my_data = my_data;
 }
 
-commandHandler::~commandHandler()
-{
-}
-
 std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_data)
 {
     if (commandMap.find(v.front()) == commandMap.end()){

@@ -7,7 +7,6 @@
 #include <mutex>
 
 #include "../idom_api.h"
-#include "satel_enum.h"
 #include "../libs/useful/useful.h"
 #include "satel_integra_interface.h"
 

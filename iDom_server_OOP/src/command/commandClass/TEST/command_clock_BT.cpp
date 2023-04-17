@@ -2,7 +2,6 @@
 
 #include "../command_clock.h"
 
-
 class command_clock_Class_fixture : public testing::Test
 {
 public:

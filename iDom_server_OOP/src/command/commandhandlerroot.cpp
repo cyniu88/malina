@@ -55,6 +55,3 @@ commandHandlerRoot::commandHandlerRoot(thread_data *my_data) : commandHandler(my
     commandMap.insert(std::make_pair(light->getCommandName(), std::move(light)));
 }
 
-commandHandlerRoot::~commandHandlerRoot()
-{
-}

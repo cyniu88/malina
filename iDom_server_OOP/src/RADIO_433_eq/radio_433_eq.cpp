@@ -13,10 +13,6 @@ RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data,
     RADIO_EQ::m_config = cfg;
 }
 
-RADIO_SWITCH::~RADIO_SWITCH()
-{
-}
-
 void RADIO_SWITCH::on()
 {
     if (RADIO_EQ::m_config.onCode not_eq "null")

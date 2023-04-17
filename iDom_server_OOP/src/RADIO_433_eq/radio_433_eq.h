@@ -1,9 +1,9 @@
 #ifndef RADIO_SWITCH_H
 #define RADIO_SWITCH_H
-#include <map>
-#include "../iDomStatus/idomstatus.h"
-#include "../433MHz/RFLink/rflinkhandler.h"
 
+#include <map>
+
+#include "../433MHz/RFLink/rflinkhandler.h"
 #include "../433MHz/rc_433mhz.h"
 #include "json.hpp"
 
@@ -166,7 +166,7 @@ class RADIO_BUTTON : public RADIO_EQ
 
 public:
     RADIO_BUTTON(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type);
-    ~RADIO_BUTTON();
+    ~RADIO_BUTTON() = default;
     STATE getState() const override;
     void setState(STATE s);
     std::string getName() const override;
@@ -187,7 +187,7 @@ public:
 
 public:
     RADIO_SWITCH(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type);
-    ~RADIO_SWITCH();
+    ~RADIO_SWITCH() = default;
     void on();
     void off();
     void on_Off();

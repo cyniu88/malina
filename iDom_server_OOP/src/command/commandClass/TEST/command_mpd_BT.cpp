@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "../command_mpd.h"
-#include "../../../blockQueue/blockqueue.h"
 #include "../../../iDomTools/mock/iDomToolsMock.h"
 
 

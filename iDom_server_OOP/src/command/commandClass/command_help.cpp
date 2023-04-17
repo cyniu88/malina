@@ -1,6 +1,4 @@
 #include "command_help.h"
-#include <vector>
-#include <algorithm>
 
 command_help::command_help(const std::string &name,std::map <std::string, std::unique_ptr<command> >* commandMapPtr):
     command(name),

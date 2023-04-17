@@ -1,5 +1,4 @@
 #include "commandhandlermqtt.h"
-#include "../../libs/emoji/emoji.h"
 #include "commandClass/command_433mhz.h"
 #include "commandClass/commandrs232.h"
 #include "commandClass/command_mpd.h"

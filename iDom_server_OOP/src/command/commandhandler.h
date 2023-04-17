@@ -16,7 +16,7 @@ class commandHandler
 public:
     std::map<std::string, std::unique_ptr<command>> commandMap;
     explicit commandHandler(thread_data *my_data);
-    virtual ~commandHandler();
+    virtual ~commandHandler() = default;
     virtual std::string run(std::vector<std::string> &v, thread_data *my_data);
 };
 
