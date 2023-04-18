@@ -53,7 +53,7 @@ void useful_F::tokenizer(std::vector<std::string> &command,
     { // the initializer may be an array
 
 
-        if (!std::any_of(separator.begin(), separator.end(), [n](int y) { return n == y; }))
+        if (!std::any_of(separator.cbegin(), separator.cend(), [n](int y) { return n == y; }))
             temp.push_back(n);
         else
         {

@@ -10,6 +10,24 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 include_directories(${INCLUDE_DIRECTORIES})
 
+set(LIBS_SRC
+    "libs/event_counters/event/event_unknown.cpp"
+    "libs/event_counters/event/new_connect_event.cpp"
+    "libs/event_counters/event_counters_handler.cpp"
+    "libs/event_counters/event_counters.cpp"
+    "libs/event_counters/event/event_mpd.cpp"
+    "libs/event_counters/event/event_pilot.cpp"
+    "libs/event_counters/event/event_command.cpp"
+    "libs/alarm/alarm.cpp"
+    "libs/generator/generator.cpp"
+    "libs/circular_buffer/circular_buffer.cpp"
+    "libs/viberAPI/viber_api.cpp"
+    "libs/facebookAPI/facebookAPI.cpp"
+    "libs/useful/usefull.cpp"
+    "libs/sunrise-sunset/sunriseset.cpp"
+    "libs/config_parser/parser.cpp"
+    "libs/emoji/emoji.cpp"
+)
 set(SOURCE_FILES
     "src/main.cpp"
     "src/iDom_server_OOP.cpp"
@@ -42,31 +60,18 @@ set(SOURCE_FILES
     "src/command/commandClass/command_shed.cpp"
     "src/command/commandClass/command_sleep.cpp"
     "src/command/commandClass/command_light.cpp"
-    "libs/event_counters/event/event_unknown.cpp"
-    "libs/event_counters/event/new_connect_event.cpp"
-    "libs/event_counters/event_counters_handler.cpp"
-    "libs/event_counters/event_counters.cpp"
     "src/command/commandClass/command_event.cpp"
-    "libs/event_counters/event/event_mpd.cpp"
-    "libs/event_counters/event/event_pilot.cpp"
-    "libs/event_counters/event/event_command.cpp"
     "src/iDomTools/idomtools.cpp"
     "src/command/commandClass/command_idom.cpp"
-    "libs/sunrise-sunset/sunriseset.cpp"
     "src/iDomTools/idomtools_mpd.cpp"
     "src/command/commandhandlerroot.cpp"
     "src/command/commandClass/command_log.cpp"
     "src/TASKER/tasker.cpp"
     "src/command/commandhandlerrs232.cpp"
     "src/iDomStatus/idomstatus.cpp"
-    "libs/useful/usefull.cpp"
     "src/command/commandClass/command_state.cpp"
-    "libs/viberAPI/viber_api.cpp"
-    "libs/facebookAPI/facebookAPI.cpp"
     "src/THERMOMETER_CONTAINER/thermometer_container.cpp"
-    "libs/config_parser/parser.cpp"
     "ftplibpp/ftplib.cpp"
-    "libs/emoji/emoji.cpp"
     "src/433MHz/rc_433mhz.cpp"
     "src/RADIO_433_eq/radio_433_eq.cpp"
     "src/command/commandClass/command_433mhz.cpp"
@@ -86,9 +91,6 @@ set(SOURCE_FILES
     "src/command/commandhandlermqtt.cpp"
     "src/command/commandClass/command_wifi.cpp"
     "src/command/commandClass/command_wifi.h"
-    "libs/alarm/alarm.cpp"
-    "libs/generator/generator.cpp"
-    "libs/circular_buffer/circular_buffer.cpp"
     "src/iDomKEY_ACCESS/idomkey_access.cpp"
     "src/command/commandhandlergateway.cpp"
     "src/command/commandClass/command_gateway.cpp"
@@ -126,5 +128,5 @@ set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 file(GLOB SOURCE_FILES2 "src/command/*.cpp"
     "src/command/commandClass/*.cpp"
     "src/MENU/*.cpp")
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${SOURCE_FILES2})
+add_executable(${PROJECT_NAME} ${LIBS_SRC} ${SOURCE_FILES} ${SOURCE_FILES2})
 TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  wiringPiDev wiringPi rt pthread curl mpd mosquitto )
