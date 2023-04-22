@@ -428,8 +428,6 @@ std::string SATEL_INTEGRA::getFullFrame(const unsigned char *pCmd, const unsigne
     // add sufix
     result.push_back(INTEGRA_ENUM::HEADER_MSG);
     result.push_back(INTEGRA_ENUM::END);
-
-
     std::copy(result.begin(), result.end(), std::back_inserter(message));
     return message;
 }

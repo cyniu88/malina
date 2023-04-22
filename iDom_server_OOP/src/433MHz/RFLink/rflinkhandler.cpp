@@ -26,7 +26,7 @@ RFLinkHandler::~RFLinkHandler()
 
 bool RFLinkHandler::init()
 {
-    if( access( my_data->server_settings->_rflink.RFLinkPort.c_str(), F_OK ) not_eq -1 )
+    if(access( my_data->server_settings->_rflink.RFLinkPort.c_str(), F_OK ) not_eq -1 )
     {
         m_serial_RFLink.begin(my_data->server_settings->_rflink.RFLinkBaudRate);
         log_file_mutex.mutex_lock();

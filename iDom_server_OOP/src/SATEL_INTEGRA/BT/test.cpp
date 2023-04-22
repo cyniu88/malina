@@ -103,7 +103,7 @@ void satelServer(){
                         len_new.push_back(INTEGRA_ENUM::HEADER_MSG);
                         len_new.push_back(INTEGRA_ENUM::END);
                         int siz = send( v_sock_ind, len_new.c_str() ,len_new.length(), 0);
-                        if( siz >= 0)
+                        if(siz >= 0)
                         {
                             std::cout << "wyslano " << siz << std::endl;
                         }
@@ -138,7 +138,7 @@ void satelServer(){
                         len_new.push_back(INTEGRA_ENUM::END);
 
                         int siz = send( v_sock_ind, len_new.c_str() ,len_new.length(), 0);
-                        if( siz >= 0)
+                        if(siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
                         }
@@ -151,7 +151,7 @@ void satelServer(){
 
 
                         int siz = send(v_sock_ind, c_buffer, m_recv_size, 0);
-                        if( siz >= 0)
+                        if(siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
                         }
@@ -164,7 +164,7 @@ void satelServer(){
 
 
                         int siz = send(v_sock_ind, c_buffer, m_recv_size, 0);
-                        if( siz >= 0)
+                        if(siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
                         }
@@ -188,7 +188,7 @@ void satelServer(){
                         len_new.push_back(INTEGRA_ENUM::END);
 
                         int siz = send( v_sock_ind, len_new.c_str() ,len_new.length(), 0);
-                        if( siz >= 0)
+                        if(siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
                         }
@@ -212,7 +212,7 @@ void satelServer(){
                         len_new.push_back(INTEGRA_ENUM::END);
 
                         int siz = send( v_sock_ind, len_new.c_str() ,len_new.length(), 0);
-                        if( siz >= 0)
+                        if(siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
                         }
@@ -236,7 +236,7 @@ void satelServer(){
                         len_new.push_back(INTEGRA_ENUM::END);
 
                         int siz = send( v_sock_ind, len_new.c_str() ,len_new.length(), 0);
-                        if( siz >= 0)
+                        if(siz >= 0)
                         {
                             std::cout << "wyslano "<< std::endl;
                         }

@@ -54,7 +54,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         return ret.str();
     }
     else if (v[1] == "temperature"){
-        if ( v.size() < 3){
+        if(v.size() < 3){
             return my_data->main_iDomTools->getTemperatureString();
         }
         else {

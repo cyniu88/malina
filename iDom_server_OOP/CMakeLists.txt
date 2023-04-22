@@ -31,6 +31,7 @@ set(LIBS_SRC
 set(SOURCE_FILES
     "src/main.cpp"
     "src/iDom_server_OOP.cpp"
+    "src/iDom_server_OOP.h"
     "src/c_connection/c_connection.cpp"
     "src/functions/functions.cpp"
     "src/c_connection/c_connection2.cpp"
@@ -71,7 +72,6 @@ set(SOURCE_FILES
     "src/iDomStatus/idomstatus.cpp"
     "src/command/commandClass/command_state.cpp"
     "src/THERMOMETER_CONTAINER/thermometer_container.cpp"
-    "ftplibpp/ftplib.cpp"
     "src/433MHz/rc_433mhz.cpp"
     "src/RADIO_433_eq/radio_433_eq.cpp"
     "src/command/commandClass/command_433mhz.cpp"
@@ -125,8 +125,8 @@ message(${GIT_COMMIT_HASH})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17  -DNOSSL -O3 ")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
-file(GLOB SOURCE_FILES2 "src/command/*.cpp"
-    "src/command/commandClass/*.cpp"
-    "src/MENU/*.cpp")
+file(GLOB SOURCE_FILES2 "src/command/*.*"
+    "src/command/commandClass/*.*"
+    "src/MENU/*.*")
 add_executable(${PROJECT_NAME} ${LIBS_SRC} ${SOURCE_FILES} ${SOURCE_FILES2})
 TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  wiringPiDev wiringPi rt pthread curl mpd mosquitto )
