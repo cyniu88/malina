@@ -1,4 +1,5 @@
 #include "satel_integra_stub.h"
+#include <iostream>
 
 SATEL_INTEGRA_HANDLER_STUB::SATEL_INTEGRA_HANDLER_STUB()
 {
