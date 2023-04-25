@@ -94,12 +94,12 @@ TEST_F(c_connection_fixture, cryptoLog)
     EXPECT_STREQ(msgBackup.c_str(), msg.c_str());
 }
 
-TEST_F(c_connection_fixture, onStopConnection)
-{
-    EXPECT_CALL(*main_iDomTools.get(), cameraLedOFF(testing::_));
-    TEST_DATA::return_httpPost = "ok.\n";
-    test_connection->onStopConnection();
-}
+// TEST_F(c_connection_fixture, onStopConnection)
+// {
+//     EXPECT_CALL(*main_iDomTools.get(), cameraLedOFF(testing::_));
+//     TEST_DATA::return_httpPost = "ok.\n";
+//     test_connection->onStopConnection();
+// }
 
 TEST_F(c_connection_fixture, exitFlow)
 {

@@ -49,11 +49,11 @@ void useful_F::tokenizer(std::vector<std::string> &command,
 {
     std::string temp;
 
-    for (const char& n : text)
+    for (const char &n : text)
     { // the initializer may be an array
 
-
-        if (!std::any_of(separator.cbegin(), separator.cend(), [n](int y) { return n == y; }))
+        if (!std::any_of(separator.cbegin(), separator.cend(), [n](int y)
+                         { return n == y; }))
             temp.push_back(n);
         else
         {
@@ -70,7 +70,7 @@ void useful_F::tokenizer(std::vector<std::string> &command,
     if (command.size() == 0)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << " throw useful_F::tokenizer ()" << std::endl;
+        log_file_cout << CRITICAL << "throw useful_F::tokenizer()" << std::endl;
         log_file_mutex.mutex_unlock();
         throw std::string("command empty");
     }
