@@ -1,8 +1,6 @@
 #ifndef COMMAND_UPTIME_H
 #define COMMAND_UPTIME_H
 
-
-#include <iostream>
 #include <string>
 #include <vector>
 #include "../command.h"

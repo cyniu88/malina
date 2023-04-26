@@ -4,13 +4,7 @@
 #include "../../iDomTools/idomtools_interface.h"
 
 command_433MHz::command_433MHz(const std::string &name):command(name)
-{
-}
-
-command_433MHz::~command_433MHz()
-{
-    // puts("command_433MHz::~command_433MHz()");
-}
+{}
 
 std::string command_433MHz::execute(std::vector<std::string> &v, thread_data *my_data)
 {

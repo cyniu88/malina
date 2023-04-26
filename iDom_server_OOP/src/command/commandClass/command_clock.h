@@ -1,9 +1,6 @@
 #ifndef COMMAND_CLOCK_H
 #define COMMAND_CLOCK_H
 
-#include <iostream>
-#include <string>
-#include <vector>
 #include "../command.h"
 
 class command_clock : public command

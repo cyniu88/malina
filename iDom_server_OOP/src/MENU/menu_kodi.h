@@ -15,7 +15,7 @@ public:
     MENU_KODI(MENU_KODI &&base);
     MENU_KODI &operator=(const MENU_KODI &base);
     MENU_KODI &operator=(MENU_KODI &&base);
-    ~MENU_KODI();
+    ~MENU_KODI() = default;
     void entry() override;
     void exit() override;
     void keyPadOk() override;

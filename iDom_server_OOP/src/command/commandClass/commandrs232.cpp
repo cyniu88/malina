@@ -3,6 +3,7 @@
 commandRS232::commandRS232(const std::string &name):command(name)
 {
 }
+
 std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_data)
 {
     std::string str_buf = "default";

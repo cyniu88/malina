@@ -103,10 +103,6 @@ MENU_KODI &MENU_KODI::operator=(MENU_KODI &&base)
     return *this;
 }
 
-MENU_KODI::~MENU_KODI()
-{
-}
-
 void MENU_KODI::entry()
 {
     my_dataPTR->main_iDomTools->startKodi_Thread();

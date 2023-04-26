@@ -1,7 +1,6 @@
 #ifndef COMMANDHANDLE_H
 #define COMMANDHANDLE_H
 
-#include <iostream>
 #include <string>
 #include <vector>
 #include <map>

@@ -8,7 +8,6 @@
 
 class commandRS232 : public command
 {
-    int counter =0;
 public:
     explicit commandRS232(const std::string& name);
     std::string execute(std::vector <std::string> &v,thread_data * my_data) override;

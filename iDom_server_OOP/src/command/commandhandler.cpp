@@ -1,19 +1,18 @@
-#include <iostream>
-#include "../../libs/emoji/emoji.h"
 #include "commandhandler.h"
-#include "commandClass/command_uptime.h"
+#include "../../libs/emoji/emoji.h"
 #include "commandClass/command_big.h"
 #include "commandClass/command_clock.h"
 #include "commandClass/command_hello.h"
 #include "commandClass/command_help.h"
 #include "commandClass/command_ip.h"
-#include "commandClass/command_put.h"
-#include "commandClass/command_ok.h"
-#include "commandClass/command_show.h"
-#include "commandClass/commandtest.h"
 #include "commandClass/command_log.h"
-#include "commandClass/commandexit.h"
+#include "commandClass/command_ok.h"
+#include "commandClass/command_put.h"
 #include "commandClass/command_shed.h"
+#include "commandClass/command_show.h"
+#include "commandClass/command_uptime.h"
+#include "commandClass/commandexit.h"
+#include "commandClass/commandtest.h"
 
 commandHandler::commandHandler(thread_data * my_data)
 {

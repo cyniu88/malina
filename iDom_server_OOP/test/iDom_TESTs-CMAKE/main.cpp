@@ -1,18 +1,18 @@
-#include <iostream>
-#include <gtest/gtest.h>
-#include <gconv.h>
-#include <fstream>
-#include <sstream>
-#include <test_data.h>
 #include <curl/curl.h>
+#include <gconv.h>
+#include <gtest/gtest.h>
+#include <iostream>
+#include <test_data.h>
 
-#include "../libs/useful/useful.h"
-#include "../src/SerialPi/serialpi.h"
-#include "../src/functions/functions.h"
-#include "../libs/viberAPI/viber_api.h"
 #include "../libs/facebookAPI/facebookAPI.h"
+#include "../libs/useful/useful.h"
+#include "../libs/viberAPI/viber_api.h"
+#include "../src/SerialPi/serialpi.h"
+#include "../src/logger/logger.hpp"
 
-#define log_file_cout f_log //std::cout   zmien f_log na std::cout  i bedzie wypisywac na
+#define log_file_cout f_log // std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
+#define log_file_mutex f_log
+
 std::string  _logfile = "/mnt/ramdisk/iDom_log_BT.log";
 
 Logger log_file_mutex(_logfile);

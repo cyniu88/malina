@@ -1,8 +1,3 @@
-#include <algorithm>
-#include <fstream>
-#include <string>
-#include <typeinfo>
-
 #include "../../libs/emoji/emoji.h"
 #include "../functions/functions.h"
 #include "../RADIO_433_eq/radio_433_eq.h"

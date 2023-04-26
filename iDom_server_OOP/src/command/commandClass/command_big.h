@@ -1,8 +1,6 @@
 #ifndef COMMAND_BIG_H
 #define COMMAND_BIG_H
 
-#include <string>
-#include <vector>
 #include "../command.h"
 
 class command_big : public command

@@ -1,13 +1,8 @@
 #include "idomtools.h"
 #include <sys/sysinfo.h>
-#include <sys/utsname.h>
-#include <sys/resource.h>
-#include <sys/time.h>
-#include <unistd.h>
 
-#include "../functions/functions.h"
 #include "../433MHz/RFLink/rflinkhandler.h"
-#include "../thread_functions/iDom_thread.h"
+#include "../functions/functions.h"
 
 std::string iDomTOOLS::getSystemInfo()
 {

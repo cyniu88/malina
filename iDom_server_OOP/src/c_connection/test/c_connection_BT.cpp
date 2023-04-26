@@ -1,11 +1,10 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "../c_connection.h"
-#include "test_data.h"
-#include "../../iDomTools/mock/iDomToolsMock.h"
 #include "../../RADIO_433_eq/radio_433_eq.h"
 #include "../../command/commandhandlerroot.h"
+#include "../../iDomTools/mock/iDomToolsMock.h"
+#include "../c_connection.h"
 
 class c_connection_fixture : public testing::Test
 {

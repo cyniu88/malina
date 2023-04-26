@@ -1,4 +1,3 @@
-#include <iostream>
 #include "menu_main.h"
 #include "menu_light.h"
 #include "menu_root.h"
@@ -47,11 +46,6 @@ MENU_MAIN &MENU_MAIN::operator=(MENU_MAIN &&base)
         menuDatabase = std::move(base.menuDatabase);
     }
     return *this;
-}
-
-MENU_MAIN::~MENU_MAIN()
-{
-    // std::cout << "MENU_MAIN::~MENU_MAIN()" << std::endl;
 }
 
 void MENU_MAIN::entry()

@@ -21,7 +21,7 @@ public:
     MENU_LIGHT(MENU_LIGHT &&base);
     MENU_LIGHT &operator=(const MENU_LIGHT &base);
     MENU_LIGHT &operator=(MENU_LIGHT &&base);
-    ~MENU_LIGHT();
+    ~MENU_LIGHT() = default;
     void entry() override;
     void exit() override;
     std::string getStateName() const override;

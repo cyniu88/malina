@@ -1,7 +1,6 @@
 #ifndef COMMAND_SLEEP_H
 #define COMMAND_SLEEP_H
 
-#include <iostream>
 #include <string>
 #include <vector>
 #include "../command.h"

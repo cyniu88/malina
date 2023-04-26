@@ -1,8 +1,6 @@
 #ifndef COMMANDEXIT_H
 #define COMMANDEXIT_H
-#include <iostream>
-#include <string>
-#include <vector>
+
 #include "../command.h"
 
 class commandEXIT : public command

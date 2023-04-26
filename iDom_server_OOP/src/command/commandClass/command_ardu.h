@@ -1,8 +1,5 @@
 #ifndef COMMND_ARDU_H
 #define COMMND_ARDU_H
-#include <iostream>
-#include <string>
-#include <vector>
 
 #include "../../RADIO_433_eq/radio_433_eq.h"
 #include "../../command/command.h"
@@ -16,6 +13,7 @@ class command_ardu : public command
 public:
     explicit command_ardu(const std::string& name);
     command_ardu(const std::string& name, thread_data* my_data );
+    ~command_ardu() = default;
     std::string execute(std::vector <std::string> &v,thread_data* my_data) override;
     std::string help() const override;
 #ifndef BT_TEST

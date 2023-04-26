@@ -16,7 +16,7 @@ public:
     MENU_MAIN(MENU_MAIN &&base);
     MENU_MAIN &operator=(const MENU_MAIN &base);
     MENU_MAIN &operator=(MENU_MAIN &&base);
-    ~MENU_MAIN();
+    ~MENU_MAIN() = default;
     void entry() override;
     void exit() override;
     std::string getStateName() const override;

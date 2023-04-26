@@ -1,11 +1,8 @@
 #ifndef MENU_H
 #define MENU_H
-#include <memory>
-#include <iostream>
-#include "../LCD_c/lcd_c.h"
-#include "../../libs/useful/useful.h"
-#include "../iDom_server_OOP.h"
 
+#include "../LCD_c/lcd_c.h"
+#include "../iDom_server_OOP.h"
 
 class MENU_STATE_BASE;
 class MENU_STATE_MACHINE
@@ -79,10 +76,10 @@ public:
     KEY_HANDLER() = default;
     explicit KEY_HANDLER(MENU_STATE_MACHINE *msm);
     ~KEY_HANDLER() = default;
-    void recKeyEvent(KEY_PAD eventId);
-    void recIrdaEvent(PILOT_KEY eventId);
-    void timeout();
-    void quickPrint(const std::string &row1, const std::string &row2);
-    void scrollText();
+    void recKeyEvent(KEY_PAD eventId) override;
+    void recIrdaEvent(PILOT_KEY eventId) override;
+    void timeout() override;
+    void quickPrint(const std::string &row1, const std::string &row2) override;
+    void scrollText() override;
 };
 #endif // MENU_H

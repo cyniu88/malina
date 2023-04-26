@@ -1,14 +1,10 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include <iostream>
 #include <string>
 #include <vector>
-#include <map>
-#include <memory>
-#include "../../../iDom_server_OOP/src/iDom_server_OOP.h"
 
-struct thread_data;
+#include "../iDom_server_OOP.h"
 
 class command
 {
