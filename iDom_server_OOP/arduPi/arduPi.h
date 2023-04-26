@@ -307,33 +307,19 @@ typedef enum
     SPI_CLOCK_DIV1     = 1,       ///< 0 = 256us = 4kHz
 } bcm2835SPIClockDivider;
 
-typedef enum
-{
-    BCM2835_GPIO_FSEL_INPT  = 0b000,   ///< Input
-    BCM2835_GPIO_FSEL_OUTP  = 0b001,   ///< Output
-    BCM2835_GPIO_FSEL_ALT0  = 0b100,   ///< Alternate function 0
-    BCM2835_GPIO_FSEL_ALT1  = 0b101,   ///< Alternate function 1
-    BCM2835_GPIO_FSEL_ALT2  = 0b110,   ///< Alternate function 2
-    BCM2835_GPIO_FSEL_ALT3  = 0b111,   ///< Alternate function 3
-    BCM2835_GPIO_FSEL_ALT4  = 0b011,   ///< Alternate function 4
-    BCM2835_GPIO_FSEL_ALT5  = 0b010,   ///< Alternate function 5
-    BCM2835_GPIO_FSEL_MASK  = 0b111    ///< Function select bits mask
+typedef enum {
+    BCM2835_GPIO_FSEL_INPT = 0b000, ///< Input
+    BCM2835_GPIO_FSEL_OUTP = 0b001, ///< Output
+    BCM2835_GPIO_FSEL_ALT0 = 0b100, ///< Alternate function 0
+    BCM2835_GPIO_FSEL_ALT1 = 0b101, ///< Alternate function 1
+    BCM2835_GPIO_FSEL_ALT2 = 0b110, ///< Alternate function 2
+    BCM2835_GPIO_FSEL_ALT3 = 0b111, ///< Alternate function 3
+    BCM2835_GPIO_FSEL_ALT4 = 0b011, ///< Alternate function 4
+    BCM2835_GPIO_FSEL_ALT5 = 0b010, ///< Alternate function 5
+    BCM2835_GPIO_FSEL_MASK = 0b111  ///< Function select bits mask
 } bcm2835FunctionSelect;
 
-
-namespace unistd {
-        //All functions of unistd.h must be called like this: unistd::the_function()
-    #include <unistd.h>
-}
-
-
-enum Representation{
-        BIN,
-        OCT,
-        DEC,
-        HEX,
-        BYTE
-};
+enum Representation { BIN, OCT, DEC, HEX, BYTE };
 
 typedef enum {
     m_INPUT,

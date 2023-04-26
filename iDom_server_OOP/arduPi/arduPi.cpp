@@ -19,10 +19,11 @@
 *  Author: Anartz Nuin Jiménez
 */
 
-
 #include "arduPi.h"
-#include "iostream"
-
+namespace unistd {
+//All functions of unistd.h must be called like this: unistd::the_function()
+#include <unistd.h>
+} // namespace unistd
 struct bcm2835_peripheral gpio = {GPIO_BASE};
 struct bcm2835_peripheral bsc_rev1 = {IOBASE + 0X205000};
 struct bcm2835_peripheral bsc_rev2 = {IOBASE + 0X804000};
