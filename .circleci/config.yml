@@ -71,9 +71,11 @@ jobs:
           command: |
                    'pwd'
                    'ls'
-                   'cmake -BiDom_server_OOP/ -HiDom_server_OOP/'
-                   'ls iDom_server_OOP/'
-                   'make -j2 -C iDom_server_OOP/'
+                   'cd iDom_server_OOP/'
+                   'cmake .'
+                   'ls'
+                   'make -j2'
+                   'cd'
       - run:
           name: Creating Build Files
           command: 'cmake -BiDom_server_OOP/test/iDom_TESTs-CMAKE/ -HiDom_server_OOP/test/iDom_TESTs-CMAKE/'
