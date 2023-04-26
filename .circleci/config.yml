@@ -22,7 +22,7 @@ jobs:
          
       - run:
           name: Install CMAKE GIT and libs
-          command: 'apt-get update && sudo apt-get install -y cmake git libwiringpi-dev libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev'
+          command: 'apt-get update && sudo apt-get install -y cmake git musl-dev libwiringpi-dev libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev'
       - run:
           name: google test init
           command: |
