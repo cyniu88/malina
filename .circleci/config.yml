@@ -70,7 +70,7 @@ jobs:
           name: Build release
           command: |
                    'pwd'
-                   'ls'
+                   'ls - lah'
                    'cd iDom_server_OOP/'
                    'cmake .'
                    'ls'
