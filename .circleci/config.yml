@@ -68,7 +68,7 @@ jobs:
           command: './koko/koko'
       - run:
           name: Create Build Files RELEASE
-          command: "cmake -BiDom_server_OOP/ -HiDom_server_OOP/'
+          command: 'cmake -BiDom_server_OOP/ -HiDom_server_OOP/'
       - run:
           name: Creating Build Files
           command: 'cmake -BiDom_server_OOP/test/iDom_TESTs-CMAKE/ -HiDom_server_OOP/test/iDom_TESTs-CMAKE/'
