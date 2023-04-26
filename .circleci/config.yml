@@ -69,6 +69,8 @@ jobs:
       - run:
           name: Build release
           command: |
+                   'pwd'
+                   'ls'
                    'cmake -BiDom_server_OOP/ -HiDom_server_OOP/'
                    'ls iDom_server_OOP/'
                    'make -j2 -C iDom_server_OOP/'
