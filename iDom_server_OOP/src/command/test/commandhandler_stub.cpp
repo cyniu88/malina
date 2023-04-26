@@ -1,7 +1,7 @@
-#include "../../src/functions/functions.h"
 #include "../../src/LCD_c/lcd_c.h"
 
-std::string LCD_c::getData(){
+std::string LCD_c::getData() const
+{
     return " data test";
 }
 

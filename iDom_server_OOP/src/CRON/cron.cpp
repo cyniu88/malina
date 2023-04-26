@@ -1,4 +1,5 @@
 #include "cron.hpp"
+#include "../functions/functions.h"
 #include "../iDomTools/idomtools_interface.h"
 
 CRON::CRON(thread_data *my_data)

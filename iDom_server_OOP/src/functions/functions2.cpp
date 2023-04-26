@@ -1,9 +1,8 @@
-#include <iostream>
 #include <fstream>
-#include <regex>
+#include <iostream>
 #include <iterator>
-#include <vector>
 #include <netdb.h>
+#include <vector>
 
 #include "functions.h"
 #include "../thread_functions/iDom_thread.h"
@@ -424,7 +423,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
 }
 
 // przerobka adresu na ip . //////////////////////////////////
-std::string useful_F::conv_dns(std::string &temp)
+std::string useful_F::conv_dns(const std::string &temp)
 {
 
     int i;

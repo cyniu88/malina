@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <regex>
+
 #include "../liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.h"
 #include "../idom_api.h"
 
@@ -39,7 +40,7 @@ public:
     void scrollLeft();
     void scrollRight();
     void printString(const std::string &row1, const std::string &row2, bool clear = false);
-    std::string getData();
+    std::string getData() const;
     std::string dump() const override;
 
 private:

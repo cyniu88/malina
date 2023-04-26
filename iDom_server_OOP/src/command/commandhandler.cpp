@@ -68,6 +68,6 @@ std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_dat
         return EMOJI::emoji(E_emoji::WARNING_SIGN) + " unknown command: "+ v.front();
     }
     else{
-        return commandMap[v.front()]->execute(v,my_data);
+        return commandMap[v.front()]->execute(v, my_data);
     }
 }

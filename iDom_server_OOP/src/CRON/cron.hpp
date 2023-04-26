@@ -1,9 +1,9 @@
 #ifndef CRON_HPP
 #define CRON_HPP
 #include <iostream>
-#include <time.h>
 #include <string>
-#include "../functions/functions.h"
+#include <time.h>
+struct thread_data;
 
 class CRON
 {

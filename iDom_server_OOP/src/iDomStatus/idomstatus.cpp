@@ -1,21 +1,7 @@
 #include "idomstatus.h"
 #include "../functions/functions.h"
 
-iDomSTATUS::iDomSTATUS()
-{
-#ifdef BT_TEST
-    std::cout << "iDomSTATUS::iDomSTATUS()" << std::endl;
-#endif
-}
-
-iDomSTATUS::~iDomSTATUS()
-{
-#ifdef BT_TEST
-    std::cout << "iDomSTATUS::~iDomSTATUS()" << std::endl;
-#endif
-}
-
-void iDomSTATUS::addObject(std::string name, STATE st)
+void iDomSTATUS::addObject(const std::string &name, STATE st)
 {
     std::lock_guard<std::mutex> lock(m_lockGuard);
     m_stateMAP.insert(std::make_pair(name, st));
@@ -36,24 +22,22 @@ void iDomSTATUS::setObjectState(const std::string &name, STATE st)
     }
 }
 
-STATE iDomSTATUS::getObjectState(const std::string &name)
+STATE iDomSTATUS::getObjectState(const std::string &name) const
 {
     std::lock_guard<std::mutex> lock(m_lockGuard);
-    auto i = m_stateMAP.find(name);
-    if (i not_eq m_stateMAP.end())
-    {
+
+    if (auto i = m_stateMAP.find(name); i not_eq m_stateMAP.end()) {
         return i->second;
     }
     return STATE::UNKNOWN;
 }
 
-std::string iDomSTATUS::getObjectStateString(const std::string &name)
+std::string iDomSTATUS::getObjectStateString(const std::string &name) const
 {
     std::stringstream dataStr;
     std::lock_guard<std::mutex> lock(m_lockGuard);
-    auto i = m_stateMAP.find(name);
-    if (i not_eq m_stateMAP.end())
-    {
+
+    if (auto i = m_stateMAP.find(name); i not_eq m_stateMAP.end()) {
         dataStr << i->second;
         return dataStr.str();
     }
@@ -61,7 +45,7 @@ std::string iDomSTATUS::getObjectStateString(const std::string &name)
     return dataStr.str();
 }
 
-std::string iDomSTATUS::getAllObjectsStateString()
+std::string iDomSTATUS::getAllObjectsStateString() const
 {
     std::stringstream st;
     st << "state: ";

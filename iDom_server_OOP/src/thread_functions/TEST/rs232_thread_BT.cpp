@@ -1,12 +1,10 @@
-#include <gtest/gtest.h>
 #include "../../iDom_server_OOP.h"
 #include "../rs232_thread.h"
 #include "test_data.h"
+#include <gtest/gtest.h>
 
 class rs232_thread_fixture
-{
-};
-
+{};
 
 /*
 TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_RS232)

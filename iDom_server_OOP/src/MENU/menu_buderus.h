@@ -14,7 +14,7 @@ public:
     MENU_BUDERUS(MENU_BUDERUS &&base);
     MENU_BUDERUS &operator=(const MENU_BUDERUS &base);
     MENU_BUDERUS &operator=(MENU_BUDERUS &&base);
-    ~MENU_BUDERUS();
+    ~MENU_BUDERUS() = default;
     void entry() override;
     void exit() override;
     void keyPadOk() override;

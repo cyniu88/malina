@@ -3,7 +3,7 @@
 
 #include <map>
 #include <mutex>
-#include <sstream>
+
 #include "../libs/generator/generator.h"
 
 class iDom_API
@@ -17,7 +17,7 @@ public:
         m_className = g.random_string(10);
         m_className.append(" \n");
     }
-    virtual ~iDom_API(){};
+    virtual ~iDom_API() = default;
     virtual std::string dump() const = 0;
 
     static void addToMap(const std::string& , iDom_API*); // add to constructor

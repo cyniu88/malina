@@ -36,10 +36,6 @@ MENU_BUDERUS &MENU_BUDERUS::operator=(MENU_BUDERUS &&base)
     return *this;
 }
 
-MENU_BUDERUS::~MENU_BUDERUS()
-{
-}
-
 void MENU_BUDERUS::entry()
 {
     menuDatabase.pushBack({"RUN CIRCLE PUMP", [=]()

@@ -1,23 +1,26 @@
 #ifndef IDOMSTATUS_H
 #define IDOMSTATUS_H
+
 #include <iostream>
 #include <map>
 #include <mutex>
 #include <string>
+
 #include "../../libs/useful/useful.h"
 
 class iDomSTATUS
 {
     std::map<std::string, STATE> m_stateMAP;
-    std::mutex m_lockGuard;
+    mutable std::mutex m_lockGuard;
+
 public:
-    iDomSTATUS();
-    ~iDomSTATUS();
-    void addObject(std::string name, STATE st = STATE::UNDEFINE );
+    iDomSTATUS() = default;
+    ~iDomSTATUS() = default;
+    void addObject(const std::string &name, STATE st = STATE::UNDEFINE);
     void setObjectState(const std::string &name, STATE st);
-    STATE getObjectState(const std::string &name);
-    std::string getObjectStateString(const std::string &name);
-    std::string getAllObjectsStateString();
+    STATE getObjectState(const std::string &name) const;
+    std::string getObjectStateString(const std::string &name) const;
+    std::string getAllObjectsStateString() const;
 };
 
 #endif // IDOMSTATUS_H

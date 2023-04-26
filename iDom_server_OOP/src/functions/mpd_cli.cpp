@@ -1,9 +1,8 @@
-#include <sstream>
-
 #include "mpd_cli.h"
-#include "../TASKER/tasker.h"
-#include "../thread_functions/iDom_thread.h"
+#include "../blockQueue/blockqueue.h"
+#include "../functions/functions.h"
 #include "../iDomTools/idomtools_interface.h"
+#include "../thread_functions/iDom_thread.h"
 
 using namespace std::chrono_literals;
 

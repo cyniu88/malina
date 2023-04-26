@@ -16,7 +16,7 @@ LCD_c::~LCD_c()
     removeFromMap(m_className);
 }
 
-std::string LCD_c::getData()
+std::string LCD_c::getData() const
 {
     std::stringstream ss;
     ss << "m_printed:\t" << m_printed << std::endl;

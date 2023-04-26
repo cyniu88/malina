@@ -7,11 +7,11 @@
 class iDom_SAVE_STATE
 {
 public:
-    std::mutex m_mutex;
+    mutable std::mutex m_mutex;
     explicit iDom_SAVE_STATE(const std::string &path);
-    ~iDom_SAVE_STATE();
+    ~iDom_SAVE_STATE() = default;
 
-    nlohmann::json read();
+    nlohmann::json read() const;
     void write(const nlohmann::json &jj);
 
 private:

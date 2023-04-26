@@ -10,14 +10,7 @@ iDom_SAVE_STATE::iDom_SAVE_STATE(const std::string &path) : m_path(path)
 #endif
 }
 
-iDom_SAVE_STATE::~iDom_SAVE_STATE()
-{
-#ifdef BT_TEST
-    puts("iDom_SAVE_STATE::~iDom_SAVE_STATE()");
-#endif
-}
-
-nlohmann::json iDom_SAVE_STATE::read()
+nlohmann::json iDom_SAVE_STATE::read() const
 {
     std::lock_guard<std::mutex> lGuard(m_mutex);
     // read a JSON file

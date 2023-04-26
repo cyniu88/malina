@@ -1,12 +1,9 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-#include <iostream>
-#include <stdlib.h>
-#include <vector>
 #include <chrono>
 #include <string>
-#include <mutex>
+#include <vector>
 
 #include "../iDom_server_OOP.h"
 #include "../TASKER/tasker.h"
@@ -18,7 +15,7 @@ class useful_F
 
 public:
     volatile static unsigned int lastInterruptTime;
-    static std::string conv_dns(std::string &temp);
+    static std::string conv_dns(const std::string &temp);
     /////// not used now
     // void ChangeEndianness(int32_t * value, int MAX_MSG_LEN_INT);
     // void binary(int val);
