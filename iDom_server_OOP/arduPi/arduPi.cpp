@@ -20,10 +20,11 @@
 */
 
 #include "arduPi.h"
-namespace unistd {
-//All functions of unistd.h must be called like this: unistd::the_function()
+//namespace unistd {
+//All functions of unistd.h must be called like this: the_function()
 #include <unistd.h>
-} // namespace unistd
+//} // namespace unistd
+
 struct bcm2835_peripheral gpio = {GPIO_BASE};
 struct bcm2835_peripheral bsc_rev1 = {IOBASE + 0X205000};
 struct bcm2835_peripheral bsc_rev2 = {IOBASE + 0X804000};
@@ -395,14 +396,14 @@ int WirePi::map_peripheral(struct bcm2835_peripheral *p)
 void WirePi::unmap_peripheral(struct bcm2835_peripheral *p) {
 
     munmap(p->map, BLOCK_SIZE);
-    unistd::close(p->mem_fd);
+    close(p->mem_fd);
 }
 
 void WirePi::wait_i2c_done() {
         //Wait till done, let's use a timeout just in case
         int timeout = 50;
         while((!((BSC0_S) & BSC_S_DONE)) && --timeout) {
-            unistd::usleep(1000);
+        usleep(1000);
         }
         if(timeout == 0)
             printf("wait_i2c_done() timeout. Something went wrong.\n");
@@ -573,7 +574,7 @@ void SPIPi::setChipSelectPolarity(uint8_t cs, uint8_t active){
 
 // Sleep the specified milliseconds
 void m_delay(long millis){
-	unistd::usleep(millis*1000);
+    usleep(millis * 1000);
 }
 
 void m_delayMicroseconds(long micros){
@@ -1028,28 +1029,28 @@ void * threadFunction(void *args){
 	}
 	pfd.fd=fd;
 	pfd.events=POLLPRI;
-	
-	ret=unistd::read(fd,rdbuf,RDBUF_LEN-1);
-	if(ret<0){
+
+    ret = read(fd, rdbuf, RDBUF_LEN - 1);
+    if(ret<0){
 		perror("Error reading interrupt file\n");
 		exit(1);
 	}
 	
 	while(1){
 		memset(rdbuf, 0x00, RDBUF_LEN);
-		unistd::lseek(fd, 0, SEEK_SET);
-		ret=poll(&pfd, 1, -1);
+        lseek(fd, 0, SEEK_SET);
+        ret=poll(&pfd, 1, -1);
 		if(ret<0){
 			perror("Error waiting for interrupt\n");
-			unistd::close(fd);
-			exit(1);
+            close(fd);
+            exit(1);
 		}
 		if(ret==0){
 			printf("Timeout\n");
 			continue;
 		}
-		ret=unistd::read(fd,rdbuf,RDBUF_LEN-1);
-		if(ret<0){
+        ret = read(fd, rdbuf, RDBUF_LEN - 1);
+        if(ret<0){
 			perror("Error reading interrupt file\n");
 			exit(1);
 		}
