@@ -22,7 +22,7 @@ jobs:
          
       - run:
           name: Install CMAKE GIT and libs
-          command: 'apt-get update && sudo apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev'
+          command: 'apt-get update && sudo apt-get install -y cmake git libwiringpi-dev libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev'
       - run:
           name: google test init
           command: |
@@ -66,7 +66,12 @@ jobs:
       - run:
           name: runt
           command: './koko/koko'
-          
+      - run:
+          name: Build release
+          command: |
+                   'cmake -BiDom_server_OOP/ -HiDom_server_OOP/'
+                   'ls iDom_server_OOP/'
+                   'make -j2 -C iDom_server_OOP/'
       - run:
           name: Creating Build Files
           command: 'cmake -BiDom_server_OOP/test/iDom_TESTs-CMAKE/ -HiDom_server_OOP/test/iDom_TESTs-CMAKE/'
