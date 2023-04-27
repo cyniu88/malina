@@ -46,7 +46,7 @@ class KEY
 public:
     KEY(PILOT_KEY value, const std::string& name);
     KEY(const KEY& k);
-    virtual ~KEY();
+    virtual ~KEY() = default;
     std::string getName() const;
     virtual PILOT_KEY getValue() const;
 
@@ -61,7 +61,7 @@ class SuperKEY : public KEY
 {
 public:
     SuperKEY (PILOT_KEY v, const std::string &n, const std::string& LogName);
-    virtual ~SuperKEY();
+    virtual ~SuperKEY() = default;
     PILOT_KEY getValue() const override;
 
 protected:
@@ -75,7 +75,7 @@ class pilot
     std::map <std::string , std::unique_ptr <KEY> > *key_map;
 public:
     explicit pilot(std::map <std::string , std::unique_ptr <KEY> > *key_map);
-    virtual ~pilot( );
+    virtual ~pilot() = default;
     void setup();
 private:
     pilot();

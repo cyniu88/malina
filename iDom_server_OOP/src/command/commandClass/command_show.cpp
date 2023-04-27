@@ -80,7 +80,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
 std::string command_show::help() const
 {
     std::stringstream help;
-    help << "show <parameter>- for show something" <<std::endl << std::endl;
+    help << "show <parameter> - for show something" <<std::endl << std::endl;
     help << "parameter:" << std::endl;
     help << "\tlog             - show all server log" << std::endl;
     help << "\tlog <string>    - show all server log lines which contain <string>" << std::endl;
@@ -91,4 +91,3 @@ std::string command_show::help() const
 
     return help.str();
 }
-

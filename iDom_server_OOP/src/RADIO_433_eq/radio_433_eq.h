@@ -131,7 +131,7 @@ class RADIO_EQ
 {
 public:
     RADIO_EQ();
-    virtual ~RADIO_EQ();
+    virtual ~RADIO_EQ() = default;
     virtual STATE getState() const = 0;
     virtual std::string getName() const = 0;
     virtual std::string getID() const = 0;
@@ -150,7 +150,7 @@ class RADIO_WEATHER_STATION : public RADIO_EQ
 
 public:
     RADIO_WEATHER_STATION(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type);
-    ~RADIO_WEATHER_STATION();
+    ~RADIO_WEATHER_STATION() = default;
     STATE getState() const override;
     std::string getName() const override;
     std::string getID() const override;

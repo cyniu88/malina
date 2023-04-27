@@ -46,8 +46,8 @@ template <typename T>
 class SharedQueue
 {
 public:
-    SharedQueue();
-    ~SharedQueue();
+    SharedQueue() = default;
+    ~SharedQueue() = default;
 
     T &front();
     void pop_front();
@@ -63,12 +63,6 @@ private:
     mutable std::mutex mutex_;
     std::condition_variable cond_;
 };
-
-template <typename T>
-SharedQueue<T>::SharedQueue() {}
-
-template <typename T>
-SharedQueue<T>::~SharedQueue() {}
 
 template <typename T>
 T &SharedQueue<T>::front()
