@@ -381,10 +381,6 @@ RADIO_EQ::RADIO_EQ() : m_type(RADIO_EQ_TYPE::NONE)
     this->m_my_data = std::nullptr_t();
 }
 
-RADIO_EQ::~RADIO_EQ()
-{
-}
-
 RADIO_EQ_TYPE RADIO_EQ::getType() const
 {
     return m_type;
@@ -395,10 +391,6 @@ RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *my_data, const RADIO_E
     RADIO_EQ::m_my_data = my_data;
     RADIO_EQ::m_type = type;
     RADIO_EQ::m_config = cfg;
-}
-
-RADIO_WEATHER_STATION::~RADIO_WEATHER_STATION()
-{
 }
 
 STATE RADIO_WEATHER_STATION::getState() const

@@ -41,10 +41,6 @@ MENU_MUSIC &MENU_MUSIC::operator=(MENU_MUSIC &&base)
     return *this;
 }
 
-MENU_MUSIC::~MENU_MUSIC()
-{
-}
-
 void MENU_MUSIC::entry()
 {
     my_dataPTR->main_iDomTools->MPD_play(my_dataPTR);

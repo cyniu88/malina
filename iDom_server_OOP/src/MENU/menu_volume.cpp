@@ -40,10 +40,6 @@ MENU_VOLUME &MENU_VOLUME::operator=(MENU_VOLUME &&base)
     return *this;
 }
 
-MENU_VOLUME::~MENU_VOLUME()
-{
-}
-
 void MENU_VOLUME::entry()
 {
 }

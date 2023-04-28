@@ -31,10 +31,6 @@ MENU_ROOT &MENU_ROOT::operator=(const MENU_ROOT &base)
     return *this;
 }
 
-MENU_ROOT::~MENU_ROOT()
-{
-}
-
 MENU_ROOT &MENU_ROOT::operator=(MENU_ROOT &&base)
 {
     if (&base not_eq this)

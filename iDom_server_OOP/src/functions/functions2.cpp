@@ -383,7 +383,6 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         int recvSize_tm_n = client->c_recv(0);
         if (recvSize_tm_n == -1)
         {
-            puts("klient sie rozlaczyl");
             break;
         }
         // ########################### analia wiadomoscu ####################################//

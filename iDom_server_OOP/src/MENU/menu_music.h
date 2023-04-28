@@ -10,7 +10,7 @@ public:
     MENU_MUSIC(MENU_MUSIC &&base);
     MENU_MUSIC &operator=(const MENU_MUSIC &base);
     MENU_MUSIC &operator=(MENU_MUSIC &&base);
-    ~MENU_MUSIC();
+    ~MENU_MUSIC() = default;
     void entry() override;
     void exit() override;
     void keyPadPower() override;

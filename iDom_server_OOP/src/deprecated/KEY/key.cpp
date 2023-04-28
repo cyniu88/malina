@@ -9,10 +9,6 @@ KEY::KEY(const KEY &k): _value{k._value},key_name{k.key_name}
 {
 }
 
-KEY::~KEY()
-{
-}
-
 std::string KEY::getName() const
 {
     return key_name;
@@ -94,9 +90,6 @@ void pilot::setup(){
 pilot::pilot(std::map <std::string , std::unique_ptr <KEY> > *key_map) : key_map (key_map)
 {
 }
-pilot::~pilot()
-{
-}
 
 PILOT_KEY SuperKEY::getValue() const
 {
@@ -108,6 +101,4 @@ PILOT_KEY SuperKEY::getValue() const
 
 SuperKEY::SuperKEY (PILOT_KEY v, const std::string& n, const std::string& LogName) : KEY(v,n) , LogName(LogName)
 {
-}
-SuperKEY::~SuperKEY() {
 }

@@ -10,7 +10,7 @@ public:
     MENU_VOLUME(MENU_VOLUME &&base);
     MENU_VOLUME &operator=(const MENU_VOLUME &base);
     MENU_VOLUME &operator=(MENU_VOLUME &&base);
-    ~MENU_VOLUME();
+    ~MENU_VOLUME() = default;
     void entry() override;
     void exit() override;
     std::string getStateName() const override;
