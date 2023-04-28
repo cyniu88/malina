@@ -17,7 +17,6 @@ std::string  _logfile = "/mnt/ramdisk/iDom_log_BT.log";
 
 Logger log_file_mutex(_logfile);
 
-
 std::string TEST_DATA::return_send_to_arduino = "-2:-2";
 std::string TEST_DATA::return_httpPost = "ok.\n";
 std::string TEST_DATA::return_httpPost_expect = "";
