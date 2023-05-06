@@ -634,7 +634,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     return cj;
 }
 
-std::map<std::string, iDom_API *> iDom_API::m_map_iDom_API;
+std::unordered_map<std::string, iDom_API *> iDom_API::m_map_iDom_API;
 std::mutex iDom_API::m_locker;
 
 std::string iDom_API::getDump()

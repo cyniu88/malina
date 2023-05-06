@@ -10,7 +10,7 @@ RFLinkHandler::RFLinkHandler(thread_data *my_data):
 {
     this->my_data = my_data;
     m_className.append(typeid(this).name());
-    addToMap(m_className,this);
+    addToMap(m_className, this);
 #ifdef BT_TEST
     std::cout << "RFLinkHandler::RFLinkHandler()"<<std::endl;
 #endif
