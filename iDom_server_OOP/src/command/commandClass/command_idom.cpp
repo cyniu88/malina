@@ -176,7 +176,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1] == "blink"  and
              my_data->server_settings->_runThread.SATEL == true) {
         my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
-        return "done" + std::to_string(counter);
+        return "done " + std::to_string(counter);
     }
     else if (v[1] == "doorbell") {
         my_data->main_iDomTools->sendViberPicture("DZWONEK do bramy!",

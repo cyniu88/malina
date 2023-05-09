@@ -352,7 +352,7 @@ void house_room_handler::executeButtonComand(const unsigned int buttonID,
 
 void house_room_handler::satelSensorActive(int sensorID)
 {
-    if (sensorID == 1 || sensorID == 10)
+    if (sensorID == 1 or sensorID == 10 or sensorID == 3 or sensorID == 2)
     {
         return;
     }
