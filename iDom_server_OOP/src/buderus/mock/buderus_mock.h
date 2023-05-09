@@ -29,7 +29,7 @@ public:
 
     MOCK_METHOD0(circlePompToRun, void());
     MOCK_METHOD0(runCirclePompForWhile, void());
-    MOCK_METHOD0(getCirclePumpState, STATE());
+    MOCK_CONST_METHOD0(getCirclePumpState, STATE());
 
     MOCK_METHOD0(boilerHeatOneTime, void());
     MOCK_METHOD1(setTempInsideBuilding, void(const std::string &t));

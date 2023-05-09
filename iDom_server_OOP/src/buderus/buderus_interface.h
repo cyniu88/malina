@@ -29,7 +29,7 @@ public:
 
     virtual void circlePompToRun() = 0;
     virtual void runCirclePompForWhile() = 0;
-    virtual STATE getCirclePumpState() = 0;
+    virtual STATE getCirclePumpState() const = 0;
 
     virtual void boilerHeatOneTime() = 0;
     virtual void setTempInsideBuilding(const std::string &t) = 0;

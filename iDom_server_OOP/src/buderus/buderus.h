@@ -47,7 +47,7 @@ public:
 
     void circlePompToRun() override;
     void runCirclePompForWhile() override;
-    STATE getCirclePumpState() override;
+    STATE getCirclePumpState() const override;
 
     void boilerHeatOneTime() override;
     void setTempInsideBuilding(const std::string &t) override;

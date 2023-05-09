@@ -177,7 +177,7 @@ void BUDERUS::runCirclePompForWhile()
                                                  R"({"cmd":"wwcirculation","data":"on"})");
 }
 
-STATE BUDERUS::getCirclePumpState()
+STATE BUDERUS::getCirclePumpState() const
 {
     return m_circlePump;
 }
