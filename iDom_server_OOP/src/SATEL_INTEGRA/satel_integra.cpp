@@ -8,13 +8,13 @@
 
 SATEL_INTEGRA::SATEL_INTEGRA()
 {
-    m_className.append(typeid(this).name());
+    m_className.insert(0, typeid(this).name());
     iDom_API::addToMap(m_className, this);
 }
 
 SATEL_INTEGRA::SATEL_INTEGRA(const std::string &host, int port) : m_host(host), m_port(port)
 {
-    m_className.append(typeid(this).name());
+    m_className.insert(0, typeid(this).name());
     iDom_API::addToMap(m_className, this);
 }
 

@@ -9,7 +9,7 @@ RFLinkHandler::RFLinkHandler(thread_data *my_data):
     m_serial_RFLink(my_data->server_settings->_rflink.RFLinkPort)
 {
     this->my_data = my_data;
-    m_className.append(typeid(this).name());
+    m_className.insert(0, typeid(this).name());
     addToMap(m_className, this);
 #ifdef BT_TEST
     std::cout << "RFLinkHandler::RFLinkHandler()"<<std::endl;

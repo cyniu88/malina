@@ -9,7 +9,7 @@ light_bulb::light_bulb(const std::string &roomName, const std::string &bulbName,
 #ifdef BT_TEST
     std::cout << "light_bulb::light_bulb()" << std::endl;
 #endif
-    m_className.append(typeid(this).name());
+    m_className.insert(0, typeid(this).name());
     iDom_API::addToMap(m_className, this);
 }
 

@@ -9,7 +9,7 @@ std::string house_room_handler::m_mqttPublishTopic = "swiatlo/output/";
 
 house_room_handler::house_room_handler(thread_data *my_data)
 {
-    m_className.append(typeid(this).name());
+    m_className.insert(0, typeid(this).name());
     this->my_data = my_data;
     iDom_API::addToMap(m_className, this);
 }

@@ -5,7 +5,7 @@
 
 BUDERUS::BUDERUS()
 {
-    m_className.append(typeid(this).name());
+    m_className.insert(0, typeid(this).name());
     iDom_API::addToMap(m_className, this);
 #ifdef BT_TEST
     std::cout << "BUDERUS::BUDERUS()" << std::endl;

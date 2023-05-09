@@ -146,6 +146,7 @@ void useful_F::kodi(thread_data *my_data, const std::string &threadName)
     my_data->main_iDomStatus->setObjectState("KODI", STATE::DEACTIVE);
     iDOM_THREAD::stop_thread("kodi smartTV", my_data);
 }
+
 std::string useful_F::RSHash(const std::string &data, unsigned int b, unsigned int a)
 {
     time_t act_time;
@@ -634,7 +635,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     return cj;
 }
 
-std::unordered_map<std::string, iDom_API *> iDom_API::m_map_iDom_API;
+std::map<std::string, iDom_API *> iDom_API::m_map_iDom_API;
 std::mutex iDom_API::m_locker;
 
 std::string iDom_API::getDump()

@@ -35,7 +35,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : m_key(myData->server_settings->_serv
     m_buttonPointerVector = my_data->main_REC->getButtonPointerVector();
     m_lastButton433MHzLockUnlockTime = Clock::getTime() + Clock(23, 58);
 
-    iDom_API::m_className.append(typeid(this).name());
+    iDom_API::m_className.insert(0, typeid(this).name());
     iDom_API::addToMap(m_className, this);
 }
 

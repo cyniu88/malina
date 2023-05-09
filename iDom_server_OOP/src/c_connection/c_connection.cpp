@@ -9,9 +9,9 @@ C_connection::C_connection(thread_data *my_data) : c_socket(my_data->s_client_so
     this->m_encrypted = my_data->server_settings->_server.encrypted;
     std::fill(std::begin(c_buffer), std::end(c_buffer), ',');
     onStartConnection();
-    m_className.append(typeid(this).name());
-    m_className.append(" ");
-    m_className.append(std::to_string(c_socket));
+    m_className.insert(0, std::to_string(c_socket));
+    m_className.insert(0, " ");
+    m_className.insert(0, typeid(this).name());
     iDom_API::addToMap(m_className, this);
 #ifdef BT_TEST
     std::cout << "C_connection::C_connection " << std::endl;
