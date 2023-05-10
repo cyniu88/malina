@@ -262,9 +262,15 @@ void SATEL_INTEGRA::outputOff(unsigned int id)
 }
 
 std::string SATEL_INTEGRA::dump() const
-{
+{ 
+    std::string msg((char*)(m_message));
+
     std::stringstream ss;
-    ss << "m_message " << m_message << std::endl;
+    ss << "m_message ";
+    for(const auto& a : msg){
+        ss << INTEGRA_ENUM(a) << " ";
+    }
+    ss << std::endl;
     ss << "m_host " << m_host << std::endl;
     ss << "m_port " << m_port << std::endl;
     return ss.str();
@@ -301,7 +307,7 @@ int SATEL_INTEGRA::sendIntegra(const unsigned char *cmd, const unsigned int cmdL
     {
         char d = (const char)cmdPayload.at(i);
         auto bs = std::bitset<8>(d);
-        std::cout << "BITY2 " << bs.to_string() << std::endl;
+        std::cout << "BITY2 " << bs.to_string() << " " << INTEGRA_ENUM(d) << std::endl;
     }
 #endif
     int size = send(m_sock, cmdPayload.c_str(), cmdPayload.size(), MSG_NOSIGNAL);

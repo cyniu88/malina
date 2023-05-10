@@ -14,7 +14,21 @@ enum class TEMPERATURE_STATE
   Unknown
 };
 
-std::ostream &operator<<(std::ostream &os, const TEMPERATURE_STATE &v);
+inline std::ostream &operator<<(std::ostream &os, const TEMPERATURE_STATE &v)
+{
+    switch (v)
+    {
+    case TEMPERATURE_STATE::Under:
+        os << "Under";
+    case TEMPERATURE_STATE::Over:
+        os << "Over";
+    case TEMPERATURE_STATE::NoChanges:
+        os << "NoChanges";
+    default:
+        os << "Unknown";
+    }
+    return os;
+};
 
 struct temperature
 {
@@ -66,7 +80,7 @@ public:
   bool isMoreDiff(const std::string &name, double diff);
   std::pair<double, double> getLast2(const std::string &name);
   int sizeOf();
-  void showAll();
+  void showAll() const;
 };
 
 #endif // THERMOMETER_CONTAINER_H

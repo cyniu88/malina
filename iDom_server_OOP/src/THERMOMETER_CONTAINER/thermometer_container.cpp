@@ -49,16 +49,6 @@ std::string THERMOMETER::dump() const
     return ret.str();
 }
 
-std::ostream &operator<<(std::ostream &os, const TEMPERATURE_STATE &v){
-  switch (v) {
-    case TEMPERATURE_STATE::Under:       os << "Under";
-    case TEMPERATURE_STATE::Over:       os << "Over";
-    case TEMPERATURE_STATE::NoChanges:       os << "NoChanges";
-    default:       os << "Unknown";
-    }
-  return os;
-};
-
 void THERMOMETER_CONTAINER::add(const std::string &name)
 {
     auto pair = std::make_pair(name, THERMOMETER(120));
@@ -125,7 +115,7 @@ int THERMOMETER_CONTAINER::sizeOf()
     return static_cast<int>(thermoMap.size());
 }
 
-void THERMOMETER_CONTAINER::showAll()
+void THERMOMETER_CONTAINER::showAll() const
 {
     for (const auto &n : thermoMap)
     {

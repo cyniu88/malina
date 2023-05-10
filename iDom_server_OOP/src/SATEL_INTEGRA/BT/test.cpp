@@ -330,6 +330,7 @@ TEST_F(satel_integra_fixture, turnOnOffOutput)
     testIntegra.checkSatel();
     testIntegra.getSatelPTR()->outputOff(3);
     testIntegra.checkSatel();
+    std::cout << "cyniu: " << testIntegra.m_integra32.dump() << std::endl;
 }
 
 TEST_F(satel_integra_fixture, isArmed)
