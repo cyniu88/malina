@@ -8,37 +8,39 @@
 
 enum class TEMPERATURE_STATE
 {
-    Under,
-    Over,
-    NoChanges,
-    Unknown
+  Under,
+  Over,
+  NoChanges,
+  Unknown
 };
+
+std::ostream &operator<<(std::ostream &os, const TEMPERATURE_STATE &v);
 
 struct temperature
 {
-    // temperature(std::string name) : thermometrName(name){};
-    double newTemp = 1.0101;
-    double oldTemp = 1.0101;
-    double maxValue = 0;
-    std::string maxDate;
-    double minValue = 0;
-    std::string minDate;
-    std::string thermometrName;
+  // temperature(std::string name) : thermometrName(name){};
+  double newTemp = 1.0101;
+  double oldTemp = 1.0101;
+  double maxValue = 0;
+  std::string maxDate;
+  double minValue = 0;
+  std::string minDate;
+  std::string thermometrName;
 
-    TEMPERATURE_STATE lastState = TEMPERATURE_STATE::Unknown;
+  TEMPERATURE_STATE lastState = TEMPERATURE_STATE::Unknown;
 };
 class THERMOMETER : public iDom_API
 {
-    // THERMOMETER() = default;
+  // THERMOMETER() = default;
 public:
-    explicit THERMOMETER(int iter);
-    THERMOMETER(const THERMOMETER &a);
-    ~THERMOMETER();
+  explicit THERMOMETER(int iter);
+  THERMOMETER(const THERMOMETER &a);
+  ~THERMOMETER();
 
-    temperature m_thermometer;
-    STATISTIC<double> m_stats;
+  temperature m_thermometer;
+  STATISTIC<double> m_stats;
 
-    std::string dump() const override;
+  std::string dump() const override;
 };
 
 class THERMOMETER_CONTAINER
@@ -46,25 +48,25 @@ class THERMOMETER_CONTAINER
 #ifdef BT_TEST
 public:
 #endif
-    std::map<std::string, THERMOMETER> thermoMap;
-    THERMOMETER *returnThermometerPtr(const std::string &name);
+  std::map<std::string, THERMOMETER> thermoMap;
+  THERMOMETER *returnThermometerPtr(const std::string &name);
 
 public:
-    THERMOMETER_CONTAINER() = default;
-    void add(const std::string &name);
-    void setTemp(const std::string &name, double value);
-    double getTemp(const std::string &name);
-    double getOldTemp(const std::string &name);
-    TEMPERATURE_STATE getLastState(const std::string &name);
-    void setState(const std::string &name, TEMPERATURE_STATE state);
-    void updateAll(std::vector<std::string> *vectorThermo);
-    void updateStats(const std::string &name);
-    std::string getStatsByName(const std::string &name);
+  THERMOMETER_CONTAINER() = default;
+  void add(const std::string &name);
+  void setTemp(const std::string &name, double value);
+  double getTemp(const std::string &name);
+  double getOldTemp(const std::string &name);
+  TEMPERATURE_STATE getLastState(const std::string &name);
+  void setState(const std::string &name, TEMPERATURE_STATE state);
+  void updateAll(std::vector<std::string> *vectorThermo);
+  void updateStats(const std::string &name);
+  std::string getStatsByName(const std::string &name);
 
-    bool isMoreDiff(const std::string &name, double diff);
-    std::pair<double, double> getLast2(const std::string &name);
-    int sizeOf();
-    void showAll();
+  bool isMoreDiff(const std::string &name, double diff);
+  std::pair<double, double> getLast2(const std::string &name);
+  int sizeOf();
+  void showAll();
 };
 
 #endif // THERMOMETER_CONTAINER_H

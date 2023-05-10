@@ -70,7 +70,7 @@ jobs:
           name: Create Build Files RELEASE
           command: 'cmake -BiDom_server_OOP/ -HiDom_server_OOP/'
       - run:
-          name: Creating Binary Files Test
+          name: Creating Binary Files Release
           command: 'make -j2 -C iDom_server_OOP/'
       - run:
           name: Creating Build Files TEST

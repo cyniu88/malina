@@ -43,11 +43,21 @@ std::string THERMOMETER::dump() const
     ret << "m_thermometer.oldTemp: " << this->m_thermometer.oldTemp << std::endl;
     ret << "m_thermometer.maxValue: " << this->m_thermometer.maxValue << std::endl;
     ret << "m_thermometer.minValue: " << this->m_thermometer.minValue << std::endl;
-    ret << "m_thermometer.lastState: " << static_cast<int>(this->m_thermometer.lastState) << std::endl;
+    ret << "m_thermometer.lastState: " << this->m_thermometer.lastState << std::endl;
     ret << "m_thermometer.thermometrName: " << this->m_thermometer.thermometrName << std::endl;
 
     return ret.str();
 }
+
+std::ostream &operator<<(std::ostream &os, const TEMPERATURE_STATE &v){
+  switch (v) {
+    case TEMPERATURE_STATE::Under:       os << "Under";
+    case TEMPERATURE_STATE::Over:       os << "Over";
+    case TEMPERATURE_STATE::NoChanges:       os << "NoChanges";
+    default:       os << "Unknown";
+    }
+  return os;
+};
 
 void THERMOMETER_CONTAINER::add(const std::string &name)
 {
