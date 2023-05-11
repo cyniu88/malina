@@ -336,30 +336,6 @@ TEST_F(iDomTOOLS_ClassTest, speakersON_OFF)
     EXPECT_THAT(retStr, testing::HasSubstr("speakers can not start due to home state: LOCK"));
 }
 
-TEST_F(iDomTOOLS_ClassTest, printerON_OFF)
-{
-    useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-    test_my_data.main_iDomTools->turnOnPrinter();
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
-    test_my_data.main_iDomTools->turnOffPrinter();
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::OFF);
-    useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
-    test_my_data.main_iDomTools->turnOnPrinter();
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::OFF);
-    std::string retStr = useful_F::myStaticData->myEventHandler.run("230V")->getEvent();
-    EXPECT_THAT(retStr, testing::HasSubstr("Printer can not start due to home state: LOCK"));
-}
-
-TEST_F(iDomTOOLS_ClassTest, getPinState)
-{
-    setReturnPinState(0);
-    EXPECT_EQ(test_my_data.main_iDomTools->getPinState(0), PIN_STATE::LOW_STATE);
-    setReturnPinState(1);
-    EXPECT_EQ(test_my_data.main_iDomTools->getPinState(0), PIN_STATE::HIGH_STATE);
-    setReturnPinState(4);
-    EXPECT_EQ(test_my_data.main_iDomTools->getPinState(0), PIN_STATE::UNKNOWN_STATE);
-}
-
 TEST_F(iDomTOOLS_ClassTest, onOff230vOutdoor)
 {
  //   test_my_data.main_iDomTools->turnOnOff230vOutdoor();

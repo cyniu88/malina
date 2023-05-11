@@ -16,9 +16,6 @@ public:
 
     MOCK_METHOD0(turnOnSpeakers, void());
     MOCK_METHOD0(turnOffSpeakers, void());
-    MOCK_METHOD0(turnOnPrinter, void());
-    MOCK_METHOD0(turnOffPrinter, void());
-    MOCK_METHOD1(getPinState, PIN_STATE(int pin_number));
     MOCK_METHOD0(turnOnOff230vOutdoor, void());
     MOCK_METHOD1(turnOnOff433MHzSwitch, void(const std::string &name));
     MOCK_METHOD1(turnOn433MHzSwitch, void(std::string name));

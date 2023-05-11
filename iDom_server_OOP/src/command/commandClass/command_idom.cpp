@@ -93,11 +93,11 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else if (v[1] == "230V"){
         if (v.size() > 2 && v[2] == "ON"){
-            my_data->main_iDomTools->turnOnPrinter();
+            //my_data->main_iDomTools->turnOnPrinter();
             return "230V ON";
         }
         else if(v.size() > 2 && v[2] == "OFF"){
-            my_data->main_iDomTools->turnOffPrinter();
+            //my_data->main_iDomTools->turnOffPrinter();
             return "230V OFF";
         }
         else if(v.size() > 2 && v[2] == "OUTDOOR"){

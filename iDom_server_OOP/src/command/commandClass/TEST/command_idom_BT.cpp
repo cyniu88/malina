@@ -177,36 +177,6 @@ TEST_F(commandiDom_Class_fixture, lock_unlock)
     EXPECT_EQ(test_my_data.idom_all_state.houseState, STATE::UNLOCK);
 }
 
-TEST_F(commandiDom_Class_fixture, t_230V)
-{
-    test_my_data.idom_all_state.houseState = STATE::UNLOCK;
-    //////////////// fake command
-    test_v.push_back("230V");
-    test_v.push_back("fake");
-    std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
-    EXPECT_THAT(retStr,testing::HasSubstr("wrong paramiter"));
-    ///////////////// ON
-    test_my_data.main_iDomStatus->setObjectState("printer",STATE::UNDEFINE);
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::UNDEFINE);
-    test_v.clear();
-    test_v.push_back("iDom");
-    test_v.push_back("230V");
-    test_v.push_back("ON");
-    retStr = test_command_iDom->execute(test_v, &test_my_data);
-    std::cout << "retString: " << retStr << std::endl;
-    EXPECT_THAT(retStr,testing::HasSubstr("230V ON"));
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::ON);
-    ///////////////// OFF
-    test_v.clear();
-    test_v.push_back("iDom");
-    test_v.push_back("230V");
-    test_v.push_back("OFF");
-    retStr = test_command_iDom->execute(test_v, &test_my_data);
-    std::cout << "retString: " << retStr << std::endl;
-    EXPECT_THAT(retStr,testing::HasSubstr("230V OFF"));
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"), STATE::OFF);
-}
-
 TEST_F(commandiDom_Class_fixture, smog)
 {
     test_v.clear();

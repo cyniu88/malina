@@ -1,7 +1,5 @@
 #ifndef SERIALPI_H
 #define SERIALPI_H
-#include <wiringPi.h>
-#include <wiringSerial.h>
 #include <string>
 #include <exception>
 #include <mutex>

@@ -44,9 +44,6 @@ public:
 
     void turnOnSpeakers() override;
     void turnOffSpeakers() override;
-    void turnOnPrinter() override;
-    void turnOffPrinter() override;
-    PIN_STATE getPinState(int pin_number) override;
     void turnOnOff230vOutdoor() override;
     void turnOnOff433MHzSwitch(const std::string &name) override;
     void turnOn433MHzSwitch(std::string name) override;

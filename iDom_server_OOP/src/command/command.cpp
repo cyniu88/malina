@@ -4,7 +4,7 @@ command::command(const std::string &commandName) : commandName(commandName)
 {
 }
 
-std::string command::getCommandName()
+std::string command::getCommandName() const
 {
     return commandName;
 }

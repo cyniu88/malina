@@ -24,9 +24,6 @@ public:
 
     virtual void turnOnSpeakers() = 0;
     virtual void turnOffSpeakers() = 0;
-    virtual void turnOnPrinter() = 0;
-    virtual void turnOffPrinter() = 0;
-    virtual PIN_STATE getPinState(int pin_number) = 0;
     virtual void turnOnOff230vOutdoor() = 0;
     virtual void turnOnOff433MHzSwitch(const std::string &name) = 0;
     virtual void turnOn433MHzSwitch(std::string name) = 0;

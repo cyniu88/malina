@@ -193,7 +193,6 @@ void iDomTOOLS::turnOnSpeakers()
 {
     if (my_data->idom_all_state.houseState == STATE::UNLOCK)
     {
-        digitalWrite(iDomConst::GPIO_SPIK, HIGH);
         // FIXME temp fix
         my_data->main_iDomTools->turnOn433MHzSwitch("fan");
         ///////////////////////
@@ -208,47 +207,12 @@ void iDomTOOLS::turnOnSpeakers()
 
 void iDomTOOLS::turnOffSpeakers()
 {
-    digitalWrite(iDomConst::GPIO_SPIK, LOW);
+    //digitalWrite(iDomConst::GPIO_SPIK, LOW);
     // FIXME temp fix
     my_data->main_iDomTools->turnOff433MHzSwitch("fan");
     /////////////////////////////
     my_data->main_iDomStatus->setObjectState("speakers", STATE::OFF);
     my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
-}
-
-void iDomTOOLS::turnOnPrinter()
-{
-    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
-    {
-        digitalWrite(iDomConst::GPIO_PRINTER, HIGH);
-        my_data->myEventHandler.run("230V")->addEvent("230v drukarki ON");
-        my_data->main_iDomStatus->setObjectState("printer", STATE::ON);
-    }
-    else
-    {
-        my_data->myEventHandler.run("230V")->addEvent("Printer can not start due to home state: " + stateToString(my_data->idom_all_state.houseState));
-    }
-}
-
-void iDomTOOLS::turnOffPrinter()
-{
-    digitalWrite(iDomConst::GPIO_PRINTER, LOW);
-    my_data->myEventHandler.run("230V")->addEvent("230v drukarki OFF");
-    my_data->main_iDomStatus->setObjectState("printer", STATE::OFF);
-}
-
-PIN_STATE iDomTOOLS::getPinState(int pin_number)
-{
-    int pin_state = digitalRead(pin_number);
-    switch (pin_state)
-    {
-    case 0:
-        return PIN_STATE::LOW_STATE;
-    case 1:
-        return PIN_STATE::HIGH_STATE;
-    default:
-        return PIN_STATE::UNKNOWN_STATE;
-    }
 }
 
 void iDomTOOLS::turnOnOff230vOutdoor()
@@ -452,7 +416,6 @@ void iDomTOOLS::buttonLockHome()
 {
     ledOFF();
     MPD_stop();
-    turnOffPrinter();
     lockHome();
 }
 

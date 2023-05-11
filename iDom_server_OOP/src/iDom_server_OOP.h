@@ -21,7 +21,6 @@
 #include <errno.h>
 #include <signal.h>
 #include <time.h>
-#include <wiringPi.h>
 #include <chrono>
 #include <array>
 #include <atomic>
