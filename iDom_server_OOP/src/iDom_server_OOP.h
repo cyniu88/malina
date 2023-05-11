@@ -42,30 +42,6 @@
 #define log_file_cout f_log // std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
 
-enum class color : int
-{
-    orange = 0,
-    red = 1,
-    green = 2,
-    blue = 3,
-    white = 4,
-    yellow = 5,
-    cyan = 6,
-    magenta = 7,
-    dark_orange = 8,
-    // NOTE update std::unordered_map<std::string, color> stringToColor below
-};
-
-const std::unordered_map<std::string, color> stringToColor = {
-    {"orange", color::orange},
-    {"red", color::red},
-    {"green", color::green},
-    {"blue", color::blue},
-    {"white", color::white},
-    {"yellow", color::yellow},
-    {"cyan", color::cyan},
-    {"magenta", color::magenta},
-    {"dark_orange", color::dark_orange}};
 
 enum class iDomStateEnum
 {

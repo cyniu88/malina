@@ -2,7 +2,7 @@
 #define _HTTP_h_
 
 #include <string>
-#include <map>
+#include <unordered_map>
 
 enum class METHOD_HTTP
 {
@@ -33,7 +33,7 @@ public:
     static Content_Type getContentType(const std::string &msg);
     static METHOD_HTTP getMethod(const std::string &msg);
     static std::string getUrl(const std::string &msg);
-    static std::map<std::string, std::string> getQuery(const std::string &msg);
+    static std::unordered_map<std::string, std::string> getQuery(const std::string &msg);
 };
 
 #endif // _HTTP_h_

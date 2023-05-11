@@ -54,10 +54,10 @@ std::string Http::getUrl(const std::string &msg)
     return str;
 }
 
-std::map<std::string, std::string> Http::getQuery(const std::string &msg)
+std::unordered_map<std::string, std::string> Http::getQuery(const std::string &msg)
 {
     /// api/gate_open.html?kkk=999&uu=88&lolo
-    std::map<std::string, std::string> mapa;
+    std::unordered_map<std::string, std::string> mapa;
 
     std::string str = msg.substr(0, msg.find_first_of("\r\n"));
     auto first = str.find_first_of("?") + 1;

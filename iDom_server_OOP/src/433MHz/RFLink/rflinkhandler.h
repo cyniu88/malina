@@ -37,7 +37,7 @@ public:
     unsigned int m_okTime = 0;
     unsigned int m_pingTime = 0;
     ////// temporarnie //////
-    std::map<std::string, RFLink_DEV> m_rflinkMAP;
+    std::unordered_map<std::string, RFLink_DEV> m_rflinkMAP;
     /////////////////////////////
     explicit RFLinkHandler(thread_data *my_data);
     ~RFLinkHandler();

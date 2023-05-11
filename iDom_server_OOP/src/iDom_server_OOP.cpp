@@ -271,6 +271,7 @@ iDomStateEnum iDom_main()
         log_file_cout << DEBUG << "nie wystartowalem wątku RFLink" << std::endl;
         log_file_mutex.mutex_unlock();
     }
+
     /////////////////////////////////////////////// start wiringPi //////////////////////////////////////////////
     if (wiringPiSetup() == -1)
     {

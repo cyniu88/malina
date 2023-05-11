@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
 {
     iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
     std::cout << "startujemy program iDom" << std::endl;
+
     if (argc == 1)
     {
         auto t = 5s;

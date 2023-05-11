@@ -47,8 +47,8 @@ namespace cyniu
     template <class T_KEY, class T_VALUE>
     class ContainerMenuMap
     {
-        typedef typename std::map<T_KEY, T_VALUE>::iterator iteratorDatabaseMap;
-        iteratorDatabaseMap it;
+        typedef typename std::map<T_KEY, T_VALUE>::iterator IteratorDatabaseMap;
+        IteratorDatabaseMap it;
 
     public:
         std::map<T_KEY, T_VALUE> databaseMap;
@@ -77,7 +77,7 @@ namespace cyniu
             else
                 --it;
         }
-        iteratorDatabaseMap &getCurrent()
+        IteratorDatabaseMap &getCurrent()
         {
             return it;
         }
