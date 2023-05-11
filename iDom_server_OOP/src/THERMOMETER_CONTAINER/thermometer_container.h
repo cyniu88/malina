@@ -20,10 +20,13 @@ inline std::ostream &operator<<(std::ostream &os, const TEMPERATURE_STATE &v)
     {
     case TEMPERATURE_STATE::Under:
         os << "Under";
+        break;
     case TEMPERATURE_STATE::Over:
         os << "Over";
+        break;
     case TEMPERATURE_STATE::NoChanges:
         os << "NoChanges";
+        break;
     default:
         os << "Unknown";
     }
