@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
             try
             {
                 iDomStateProgram = iDom_main();
+                std::cout << "zamykam program z : " << iDomStateProgram << std::endl;
             }
             catch (const std::exception &e)
             {

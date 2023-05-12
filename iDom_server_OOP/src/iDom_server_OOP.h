@@ -51,6 +51,33 @@ enum class iDomStateEnum
     HARD_RELOAD,
     RASPBERRY_RELOAD
 };
+inline std::ostream &operator<<(std::ostream &os, const iDomStateEnum &v)
+{
+    switch (v)
+    {
+    case iDomStateEnum::CLOSE:
+        os << "CLOSE";
+        break;
+    case iDomStateEnum::RELOAD:
+        os << "RELOAD";
+        break;
+    case iDomStateEnum::ERROR:
+        os << "ERROR";
+        break;
+    case iDomStateEnum::WORKING:
+        os << "WORKING";
+        break;
+    case iDomStateEnum::HARD_RELOAD:
+        os << "HARD_RELOAD";
+        break;
+    case iDomStateEnum::RASPBERRY_RELOAD:
+        os << "RASPBERRY_RELOAD";
+        break;
+    default:
+        os << "Unknown";
+    }
+    return os;
+};
 
 namespace iDomConst
 {
