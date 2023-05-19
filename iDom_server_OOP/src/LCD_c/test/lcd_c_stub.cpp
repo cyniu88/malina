@@ -33,7 +33,7 @@ void LCD_c::scrollLeft()
 
 void LCD_c::scrollRight()
 {
-
+    std::cout << "LCD_c::scrollRight()"  <<std::endl;
 }
 
 void LCD_c::printString(const std::string &row1, const std::string &row2, bool clear)
@@ -41,3 +41,12 @@ void LCD_c::printString(const std::string &row1, const std::string &row2, bool c
    std::cout << "Wyświetlam na LCD: " << std::endl << row1 << std::endl << row2 << std::endl;
 }
 
+std::string LCD_c::getData() const
+{
+    return " data test";
+}
+
+std::string LCD_c::dump() const
+{
+    return "LCD STUB DUMP";
+}
