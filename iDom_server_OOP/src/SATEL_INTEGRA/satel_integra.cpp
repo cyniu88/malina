@@ -262,12 +262,13 @@ void SATEL_INTEGRA::outputOff(unsigned int id)
 }
 
 std::string SATEL_INTEGRA::dump() const
-{ 
-    std::string msg((char*)(m_message));
+{
+    std::string msg((char *)(m_message));
 
     std::stringstream ss;
     ss << "m_message ";
-    for(const auto& a : msg){
+    for (const auto &a : msg)
+    {
         ss << INTEGRA_ENUM(a) << " ";
     }
     ss << std::endl;

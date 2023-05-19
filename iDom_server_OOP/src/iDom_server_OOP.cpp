@@ -238,8 +238,7 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "thread DUMMY \t" << server_settings._runThread.DUMMY << std::endl;
     log_file_cout << INFO << "thread MQTT \t" << server_settings._runThread.MQTT << std::endl;
     log_file_cout << INFO << "thread RFLink \t" << server_settings._runThread.RFLink << std::endl;
-    log_file_cout << INFO << " \n"
-                  << std::endl;
+    log_file_cout << INFO << " \n" << std::endl;
     log_file_cout << DEBUG << "zbudowany dnia: " << __DATE__ << " o godzinie: " << __TIME__ << std::endl;
 
     std::stringstream r;
@@ -247,8 +246,7 @@ iDomStateEnum iDom_main()
     r << "wersja " << PROG_INFO << " " << GIT_BRANCH << " " << GIT_COMMIT_HASH << std::endl;
 
     log_file_cout << DEBUG << r.str() << std::endl;
-    log_file_cout << INFO << " \n"
-                  << std::endl;
+    log_file_cout << INFO << " \n" << std::endl;
     log_file_mutex.mutex_unlock();
 
     /////////////////////////////////////////////// koniec logowania do poliku ///////////////////////////////////////////////////
