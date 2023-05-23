@@ -6,7 +6,7 @@ project(iDom_TESTs-CMAKE)
 set(INCLUDE_DIRECTORIES "../../json2/" #"../../json/single_include/nlohmann/"
     "../../test/iDom_TESTs-CMAKE/"
     "../../test/libs_test/wiringPi")
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -117,7 +117,7 @@ add_definitions(-DGIT_BRANCH="${GIT_BRANCH}")
 message("dane :")
 message(${GIT_COMMIT_HASH})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -DBT_TEST -DNOSSL -O3 -fprofile-instr-generate -fcoverage-mapping")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a -DBT_TEST -DNOSSL -O3 -fprofile-instr-generate -fcoverage-mapping")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 file(GLOB SOURCE_FILES2 "../../src/command/*.*"
     "../../src/command/commandClass/TEST/*.*"
