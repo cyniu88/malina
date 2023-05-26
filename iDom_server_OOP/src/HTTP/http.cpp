@@ -1,9 +1,11 @@
 #include "http.h"
 #include "../functions/functions.h"
 #include <algorithm>
+#include <experimental/source_location>
 
 std::string Http::getContent(const std::string &msg)
 {
+    std::cout << "cyniu: " << std::experimental::fundamentals_v2::source_location::current().file_name() << std::endl;
     return msg.substr(msg.length() - Http::getContentLength(msg));
 }
 

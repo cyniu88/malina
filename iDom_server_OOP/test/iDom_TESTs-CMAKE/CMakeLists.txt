@@ -117,7 +117,7 @@ add_definitions(-DGIT_BRANCH="${GIT_BRANCH}")
 message("dane :")
 message(${GIT_COMMIT_HASH})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a -DBT_TEST -DNOSSL -O3 -fprofile-instr-generate -fcoverage-mapping")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a  -DBT_TEST -DNOSSL -O3 -fprofile-instr-generate -fcoverage-mapping")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 file(GLOB SOURCE_FILES2 "../../src/command/*.*"
     "../../src/command/commandClass/TEST/*.*"
