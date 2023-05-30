@@ -131,7 +131,8 @@ TEST_F(commandiDom_Class_fixture, temperature)
 {
   EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(22.0));
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(-12.0));
-  EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(62.2));
+  EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(62.2));    EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(12));
+  EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(12));
   // EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(35.2));
   test_v.clear();
   test_v.push_back("iDom");
@@ -152,6 +153,8 @@ TEST_F(commandiDom_Class_fixture, temperature)
 
 TEST_F(commandiDom_Class_fixture, text)
 {
+  EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(12));
+  EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(12));
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("text");
