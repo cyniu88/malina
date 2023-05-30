@@ -34,6 +34,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(-7.7));
     EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(-1.0));
     EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(60));
+    EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(60));
     EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
     test_my_data.main_iDomTools->send_data_to_thingSpeak();
 
@@ -44,6 +45,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(-7.7));
     EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(27.7));
     EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(60));
+    EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(60));
     EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
     test_my_data.main_iDomTools->send_data_to_thingSpeak();
 
@@ -55,6 +57,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(1.1));
     EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(20.3));
     EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(60));
+    EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(60));
     EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
     test_my_data.main_iDomTools->send_data_to_thingSpeak();
     EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::Over);
@@ -65,6 +68,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(1.1));
     EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(-0.3));
     EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(60));
+    EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(60));
     EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
     test_my_data.main_iDomTools->send_data_to_thingSpeak();
     EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::NoChanges);
@@ -75,6 +79,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(1.1));
     EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(-0.3));
     EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(60));
+    EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(60));
     EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
     test_my_data.main_iDomTools->send_data_to_thingSpeak();
     EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::NoChanges);
@@ -85,6 +90,7 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
     EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(1.1));
     EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(30.3));
     EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(60));
+    EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(60));
     EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
     test_my_data.main_iDomTools->send_data_to_thingSpeak();
     EXPECT_EQ(test_my_data.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::NoChanges);

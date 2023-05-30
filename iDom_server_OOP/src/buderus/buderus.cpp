@@ -211,7 +211,6 @@ std::string BUDERUS::getDump()
 std::string BUDERUS::dump() const
 {
     std::stringstream ret;
-
     ret << '{' << std::endl;
     ret << R"("m_boiler_data": )" << m_boiler_data.dump(4) << "," << std::endl;
     ret << R"("m_boiler_data_ww": )" << m_boiler_data_ww.dump(4) << "," << std::endl;
