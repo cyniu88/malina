@@ -122,9 +122,10 @@ TEST_F(iDomTOOLS_ClassTest, weatherAlert)
 
 TEST_F(iDomTOOLS_ClassTest, send_data_to_thingSpeak)
 {
-  EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(1.1));
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(-0.3));
   EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(true));
+  EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(62.2));    EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(12));
+  EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(12));
   TEST_DATA::return_send_to_arduino = "-2.3:-2";
   TEST_DATA::return_httpPost_expect = "NULL";
   test_my_data.lusina.statHumi.push_back(12);
