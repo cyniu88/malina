@@ -139,8 +139,7 @@ void my_sig_handler(int s)
 {
     printf("\nCaught signal %d\n", s);
 
-    if (s != SIGINT)
-    {
+
         std::cout << "MENU:" << std::endl
                   << "0 - STOP" << std::endl
                   << "1 - RELOAD" << std::endl;
@@ -162,11 +161,7 @@ void my_sig_handler(int s)
             else
                 std::cout << "co ty podales?" << std::endl;
         }
-    }
-    else
-    {
-        cyniu::BACKTRACE::handleCrash(s);
-    }
+    
 }
 
 void catchSigInt()
@@ -178,6 +173,8 @@ void catchSigInt()
     sigIntHandler.sa_flags = 0;
 
     sigaction(SIGINT, &sigIntHandler, NULL);
+    signal(SIGABRT, cyniu::BACKTRACE::handleCrash);
+    signal(SIGSEGV, cyniu::BACKTRACE::handleCrash);
 }
 
 iDomStateEnum iDom_main()

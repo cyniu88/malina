@@ -19,7 +19,8 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_da
     }
     else if (v[1] == "abort")
     {
-        raise(SIGABRT);
+        puts("podnosimy SEGV");
+        raise(SIGSEGV);
     }
 	else if (v[1] == "reboot")
 	{
