@@ -4,6 +4,7 @@
 #include <iostream>
 #include <random>
 #include <vector>
+#include <signal.h>
 
 enum CARD { _2 = 2, _3, _4, _5, _6, _7, _8, _9, _10 = 10, J = 11, D = 12, K = 13, A = 14 };
 inline std::ostream &operator<<(std::ostream &os, const CARD cat)
@@ -174,6 +175,7 @@ int main()
 
   std::cout << "koniec gry,  minimalna gra: " << min << " maksymalna ilosc gier: " << max
             << std::endl;
+            raise(SIGABRT);
   return 0;
 }
 
