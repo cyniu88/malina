@@ -186,6 +186,7 @@ TEST_F(iDomTOOLS_ClassTest, checkAlarm)
 
 TEST_F(iDomTOOLS_ClassTest, homeLockPlayStopMusic)
 {
+  EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
   ///////////////////////////////////// to save
   test_my_data.main_iDomStatus->setObjectState("house",STATE::UNDEFINE);
   test_my_data.main_iDomStatus->setObjectState("music", STATE::PLAY);
