@@ -124,6 +124,8 @@ add_definitions(-DGIT_BRANCH="${GIT_BRANCH}")
 message("dane :")
 message(${GIT_COMMIT_HASH})
 
+ADD_LINK_OPTIONS(-rdynamic)
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a  -DNOSSL -O3 ")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 file(GLOB SOURCE_FILES2 "src/command/*.*"

@@ -4,7 +4,80 @@
 #include <iostream>
 #include <random>
 #include <vector>
+#include <execinfo.h>
 #include <signal.h>
+#include <cxxabi.h> // demangle
+
+void handleCrash(int sig)
+{
+
+    void* array[100];
+
+    // Signal catched
+    fprintf(stderr, "handleCrash() signal received is: %d\n", sig);
+
+    // Backtrace available
+    int n_addresses = backtrace(array, 100);
+    fprintf(stderr, "backtrace() returned addresses: %d\n", n_addresses);
+
+    // Instead of 'backtrace_symbols_fd(array, n_addresses, STDERR_FILENO)', we will iterate to demangle symbols:
+    char** addresses = backtrace_symbols(array, n_addresses);
+
+    if (addresses == NULL)
+    {
+        perror("backtrace_symbols");
+        exit(EXIT_FAILURE);
+    }
+
+    // Demangle backtrace addresses:
+    std::string address, symbol;
+    // This check is removed.
+    // cppcheck-suppress variableScope
+    size_t openPos, closePos, plusPos;
+    char* demangledName;
+    int status;
+
+    for (int k = 0; k < n_addresses; k++)
+    {
+        // Address example: ./a.out(_Z16displayBacktracev) [0x556df272d3f6]
+        // Need to extract the symbol within brackets:
+        address = addresses[k];
+        openPos = address.find("(") + 1;
+        closePos = address.find(")");
+
+        if (closePos > openPos)
+        {
+            symbol = address.substr(openPos, closePos - openPos);
+            plusPos = symbol.find("+");
+
+            if (plusPos > 1)
+            {
+                symbol = symbol.substr(0, plusPos);
+            }
+
+            status = -1;
+            demangledName = abi::__cxa_demangle(symbol.c_str(), NULL, NULL, &status );
+
+            if (status == 0)
+            {
+                fprintf(stderr, "%s\n", demangledName);
+            }
+            else
+            {
+                fprintf(stderr, "%s\n", address.c_str());
+            }
+
+            free( demangledName );
+        }
+        else
+        {
+            fprintf(stderr, "%s\n", address.c_str());
+        }
+    }
+
+    free(addresses);
+}
+
 
 enum CARD { _2 = 2, _3, _4, _5, _6, _7, _8, _9, _10 = 10, J = 11, D = 12, K = 13, A = 14 };
 inline std::ostream &operator<<(std::ostream &os, const CARD cat)
@@ -158,9 +231,14 @@ int run()
 
   return iteracja;
 }
+void kokos(){
+
+            raise(SIGABRT);
+}
 
 int main()
 {
+   signal(SIGABRT, handleCrash);
   int max = 0;
   int min = 10'000;
   int run_m = 100'000;
@@ -175,7 +253,8 @@ int main()
 
   std::cout << "koniec gry,  minimalna gra: " << min << " maksymalna ilosc gier: " << max
             << std::endl;
-            raise(SIGABRT);
+  kokos();
+
   return 0;
 }
 

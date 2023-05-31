@@ -18,6 +18,7 @@
 #include "buderus/buderus.h"
 #include "iDomTools/idomtools.h"
 #include "iDomSaveState/idom_save_state.h"
+#include "../libs/backTrace/backTrace.h"
 
 using namespace std::chrono_literals;
 
@@ -137,26 +138,34 @@ void f_satelIntegra32(thread_data *my_data, const std::string &threadName)
 void my_sig_handler(int s)
 {
     printf("\nCaught signal %d\n", s);
-    std::cout << "MENU:" << std::endl
-              << "0 - STOP" << std::endl
-              << "1 - RELOAD" << std::endl;
-    int k;
-    std::cin >> k;
-    std::cout << "podałeś: " << k << std::endl;
-    if (useful_F::myStaticData->main_iDomTools != std::nullptr_t())
+
+    if (s != SIGINT)
     {
-        if (k == 0)
+        std::cout << "MENU:" << std::endl
+                  << "0 - STOP" << std::endl
+                  << "1 - RELOAD" << std::endl;
+        int k;
+        std::cin >> k;
+        std::cout << "podałeś: " << k << std::endl;
+        if (useful_F::myStaticData->main_iDomTools != std::nullptr_t())
         {
-            std::cout << "zamykam" << std::endl;
-            useful_F::myStaticData->main_iDomTools->close_iDomServer();
+            if (k == 0)
+            {
+                std::cout << "zamykam" << std::endl;
+                useful_F::myStaticData->main_iDomTools->close_iDomServer();
+            }
+            else if (k == 1)
+            {
+                std::cout << "jeszce nie przeladowywuje :(" << std::endl;
+                useful_F::myStaticData->main_iDomTools->reloadHard_iDomServer();
+            }
+            else
+                std::cout << "co ty podales?" << std::endl;
         }
-        else if (k == 1)
-        {
-            std::cout << "jeszce nie przeladowywuje :(" << std::endl;
-            useful_F::myStaticData->main_iDomTools->reloadHard_iDomServer();
-        }
-        else
-            std::cout << "co ty podales?" << std::endl;
+    }
+    else
+    {
+        cyniu::BACKTRACE::handleCrash(s);
     }
 }
 
@@ -238,7 +247,8 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "thread DUMMY \t" << server_settings._runThread.DUMMY << std::endl;
     log_file_cout << INFO << "thread MQTT \t" << server_settings._runThread.MQTT << std::endl;
     log_file_cout << INFO << "thread RFLink \t" << server_settings._runThread.RFLink << std::endl;
-    log_file_cout << INFO << " \n" << std::endl;
+    log_file_cout << INFO << " \n"
+                  << std::endl;
     log_file_cout << DEBUG << "zbudowany dnia: " << __DATE__ << " o godzinie: " << __TIME__ << std::endl;
 
     std::stringstream r;
@@ -246,7 +256,8 @@ iDomStateEnum iDom_main()
     r << "wersja " << PROG_INFO << " " << GIT_BRANCH << " " << GIT_COMMIT_HASH << std::endl;
 
     log_file_cout << DEBUG << r.str() << std::endl;
-    log_file_cout << INFO << " \n" << std::endl;
+    log_file_cout << INFO << " \n"
+                  << std::endl;
     log_file_mutex.mutex_unlock();
 
     /////////////////////////////////////////////// koniec logowania do poliku ///////////////////////////////////////////////////
