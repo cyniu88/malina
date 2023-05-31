@@ -402,7 +402,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         catch (const std::exception &e)
         {
             log_file_mutex.mutex_lock();
-            log_file_cout << CRITICAL << "złapano wyjatek: " << e.what() << " w " << std::experimental::fundamentals_v2::source_location::current().function_name() << std::endl;
+            log_file_cout << CRITICAL << std::experimental::fundamentals_v2::source_location::current().function_name() << "złapano wyjatek: " << e.what() << std::endl;
             log_file_mutex.mutex_unlock();
             break;
         }

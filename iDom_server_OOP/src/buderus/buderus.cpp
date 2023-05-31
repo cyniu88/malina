@@ -71,7 +71,7 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
     }
     catch (nlohmann::json::exception &e)
     {
-        std::cout << "wyjatek w boiler data " << e.what() << " | " << std::experimental::fundamentals_v2::source_location::current().function_name() << std::endl;
+        std::cout << "wyjatek w boiler data " << e.what() << std::endl;
     }
 }
 
