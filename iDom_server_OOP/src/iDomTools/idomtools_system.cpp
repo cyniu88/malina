@@ -72,7 +72,7 @@ void iDomTOOLS::healthCheck()
         // my_data->main_RFLink->sendCommand("10;REBOOT;");
         // }
         std::string m("brak połaczenia RS232 z RFLink'iem");
-        std::cout << "brak pingu RFLinka 433MHz t: " << t << std::endl;
+        std::cout << "brak pingu RFLinka 433MHz t: " << Clock::unixTimeToString(t) << std::endl;
         my_data->iDomAlarm.raiseAlarm(alarm_433MHz, m);
         my_data->main_iDomTools->sendViberMsg(m, my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender + "health");
