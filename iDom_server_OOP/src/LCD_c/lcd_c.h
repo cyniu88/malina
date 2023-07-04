@@ -4,14 +4,15 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include <cstddef>
 
-#include "../liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.h"
+#include "../../liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.h"
 #include "../idom_api.h"
 
-class LCD_c : public iDom_API
+class LCD_c //: public iDom_API
 {
     // przyklad ze strony "arduinowo.pl"
-    byte arrowDown[8] = {
+    unsigned char arrowDown[8] = {
         0b00100,
         0b00100,
         0b00100,
@@ -21,7 +22,7 @@ class LCD_c : public iDom_API
         0b01110,
         0b00100};
 
-    byte arrowUp[8] = {
+    unsigned char arrowUp[8] = {
         0b00100,
         0b01110,
         0b11111,
@@ -41,7 +42,7 @@ public:
     void scrollRight();
     void printString(const std::string &row1, const std::string &row2, bool clear = false);
     std::string getData() const;
-    std::string dump() const override;
+   // std::string dump() const override;
 
 private:
     std::string m_printed = "NULL";

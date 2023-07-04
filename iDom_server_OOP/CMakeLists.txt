@@ -30,9 +30,6 @@ set(LIBS_SRC
 )
 
 set(SOURCE_FILES
-    "arduPi/arduPi.cpp"
-    "arduPi/arduPi_template.cpp"
-    "ftplibpp/ftplib.cpp"
     "liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.cpp"
     "mqtt_mosquitto/MQTT_mosquitto/mqtt.cpp"
     "src/433MHz/rc_433mhz.cpp"
@@ -132,4 +129,4 @@ file(GLOB SOURCE_FILES2 "src/command/*.*"
     "src/command/commandClass/*.*"
     "src/MENU/*.*")
 add_executable(${PROJECT_NAME} ${LIBS_SRC} ${SOURCE_FILES} ${SOURCE_FILES2})
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  wiringPiDev wiringPi rt pthread curl mpd mosquitto )
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  wiringPiDev wiringPi rt pthread curl mpd mosquitto i2c )

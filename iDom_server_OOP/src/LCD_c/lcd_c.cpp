@@ -2,18 +2,18 @@
 
 LCD_c::LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows) : main_lcd(lcd_Addr, lcd_cols, lcd_rows)
 {
-    main_lcd.init();
+    main_lcd.begin();
     main_lcd.noCursor();
     // main_lcd.autoscroll();
     main_lcd.createChar(0, arrowDown);
     main_lcd.createChar(1, arrowUp);
-    m_className.append(typeid(this).name());
-    addToMap(m_className, this);
+   // m_className.append(typeid(this).name());
+   // addToMap(m_className, this);
 }
 
 LCD_c::~LCD_c()
 {
-    removeFromMap(m_className);
+   // removeFromMap(m_className);
 }
 
 std::string LCD_c::getData() const
@@ -23,12 +23,12 @@ std::string LCD_c::getData() const
     return ss.str();
 }
 
-std::string LCD_c::dump() const
-{
-    std::stringstream ret;
-    ret << "m_printed:\t" << m_printed << std::endl;
-    return ret.str();
-}
+// std::string LCD_c::dump() const
+// {
+//     std::stringstream ret;
+//     ret << "m_printed:\t" << m_printed << std::endl;
+//     return ret.str();
+// }
 
 void LCD_c::printString(const std::string &row1, const std::string &row2, bool clear)
 {

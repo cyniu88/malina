@@ -1,14 +1,19 @@
-// LiquidCrystalI2C for arduPI
-// library edited by Sarbyn in order to add compatibility
-// with coocking-hacks raspberry to arduino shield
+#pragma once
 
-//DFRobot.com
-#ifndef LiquidCrystal_I2C_h
-#define LiquidCrystal_I2C_h
+#include <cstdint>
+#include <cinttypes>
+#include <cstring>
 
-#include <inttypes.h>
+extern "C" {
+    #include <stdint.h>
+    #include <unistd.h>
+    #include <fcntl.h>
+    #include <linux/i2c-dev.h>
+    #include <i2c/smbus.h>
+    #include <sys/ioctl.h>
+}
 
-#include "../arduPi/arduPi.h"
+// #include "i2c-utils.h"
 
 // commands
 #define LCD_CLEARDISPLAY 0x01
@@ -52,83 +57,120 @@
 #define LCD_BACKLIGHT 0x08
 #define LCD_NOBACKLIGHT 0x00
 
-//#define En B00000100  // Enable bit
-//#define Rw B00000010  // Read/Write bit
-//#define Rs B00000001  // Register select bit
+#define En 0B00000100  // Enable bit
+#define Rw 0B00000010  // Read/Write bit
+#define Rs 0B00000001  // Register select bit
 
-#define En 4  // Enable bit
-#define Rw 2  // Read/Write bit
-#define Rs 1  // Register select bit
-
-
+/**
+ * This is the driver for the Liquid Crystal LCD displays that use the I2C bus.
+ *
+ * After creating an instance of this class, first call begin() before anything else.
+ * The backlight is on by default, since that is the most likely operating mode in
+ * most cases.
+ */
 class LiquidCrystal_I2C {
 public:
-  LiquidCrystal_I2C(uint8_t lcd_Addr,uint8_t lcd_cols,uint8_t lcd_rows);
-  void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS );
-  void clear();
-  void home();
-  void noDisplay();
-  void display();
-  void noBlink();
-  void blink();
-  void noCursor();
-  void cursor();
-  void scrollDisplayLeft();
-  void scrollDisplayRight();
-  void printLeft();
-  void printRight();
-  void leftToRight();
-  void rightToLeft();
-  void shiftIncrement();
-  void shiftDecrement();
-  void noBacklight();
-  void backlight();
-  void autoscroll();
-  void noAutoscroll(); 
-  void createChar(uint8_t, uint8_t[]);
-  void setCursor(uint8_t, uint8_t); 
-  //virtual size_t write(uint8_t);
-  void command(uint8_t);
-  void init();
-  int print(const char str[]) ;
+	/**
+	 * Constructor
+	 *
+	 * @param lcd_addr	I2C slave address of the LCD display. Most likely printed on the
+	 *					LCD circuit board, or look in the supplied LCD documentation.
+	 * @param lcd_cols	Number of columns your LCD display has.
+	 * @param lcd_rows	Number of rows your LCD display has.
+	 * @param charsize	The size in dots that the display has, use LCD_5x10DOTS or LCD_5x8DOTS.
+	 */
+	LiquidCrystal_I2C(uint8_t lcd_addr, uint8_t lcd_cols, uint8_t lcd_rows, uint8_t charsize = LCD_5x8DOTS);
+	~LiquidCrystal_I2C();
 
-////compatibility API function aliases
-void blink_on();						// alias for blink()
-void blink_off();       					// alias for noBlink()
-void cursor_on();      	 					// alias for cursor()
-void cursor_off();      					// alias for noCursor()
-void setBacklight(uint8_t new_val);				// alias for backlight() and nobacklight()
-void load_custom_character(uint8_t char_num, uint8_t *rows);	// alias for createChar()
-void printstr(const char[]);
+	/**
+	 * Set the LCD display in the correct begin state, must be called before anything else is done.
+	 */
+	void begin();
 
-////Unsupported API functions (not implemented in this library)
-uint8_t status();
-void setContrast(uint8_t new_val);
-uint8_t keypad();
-void setDelay(int,int);
-void on();
-void off();
-uint8_t init_bargraph(uint8_t graphtype);
-void draw_horizontal_graph(uint8_t row, uint8_t column, uint8_t len,  uint8_t pixel_col_end);
-void draw_vertical_graph(uint8_t row, uint8_t column, uint8_t len,  uint8_t pixel_col_end);
-	 
+	 /**
+	  * Remove all the characters currently shown. Next print/write operation will start
+	  * from the first position on LCD display.
+	  */
+	void clear();
+
+	/**
+	 * Next print/write operation will will start from the first position on the LCD display.
+	 */
+	void home();
+
+	 /**
+	  * Do not show any characters on the LCD display. Backlight state will remain unchanged.
+	  * Also all characters written on the display will return, when the display in enabled again.
+	  */
+	void noDisplay();
+
+	/**
+	 * Show the characters on the LCD display, this is the normal behaviour. This method should
+	 * only be used after noDisplay() has been used.
+	 */
+	void display();
+
+	/**
+	 * Do not blink the cursor indicator.
+	 */
+	void noBlink();
+
+	/**
+	 * Start blinking the cursor indicator.
+	 */
+	void blink();
+
+	/**
+	 * Do not show a cursor indicator.
+	 */
+	void noCursor();
+
+	/**
+ 	 * Show a cursor indicator, cursor can blink on not blink. Use the
+	 * methods blink() and noBlink() for changing cursor blink.
+	 */
+	void cursor();
+
+	void scrollDisplayLeft();
+	void scrollDisplayRight();
+	void printLeft();
+	void printRight();
+	void leftToRight();
+	void rightToLeft();
+	void shiftIncrement();
+	void shiftDecrement();
+	void noBacklight();
+	void backlight();
+	bool getBacklight();
+	void autoscroll();
+	void noAutoscroll();
+	void createChar(uint8_t, uint8_t[]);
+	void setCursor(uint8_t, uint8_t);
+	virtual size_t write(uint8_t);
+	void command(uint8_t);
+
+	inline void blink_on() { blink(); }
+	inline void blink_off() { noBlink(); }
+	inline void cursor_on() { cursor(); }
+	inline void cursor_off() { noCursor(); }
+
+// Compatibility API function aliases
+	void setBacklight(uint8_t new_val);				// alias for backlight() and nobacklight()
+	void load_custom_character(uint8_t char_num, uint8_t *rows);	// alias for createChar()
+	void printstr(const char[]);
 
 private:
-  void init_priv();
-  void send(uint8_t, uint8_t);
-  void write4bits(uint8_t);
-  void expanderWrite(uint8_t);
-  void pulseEnable(uint8_t);
-  uint8_t _Addr;
-  uint8_t _displayfunction;
-  uint8_t _displaycontrol;
-  uint8_t _displaymode;
-  uint8_t _numlines;
-  uint8_t _cols;
-  uint8_t _rows;
-  uint8_t _backlightval;
-  int write(const uint8_t *buffer, size_t size);
-  size_t write(uint8_t value);
+	void send(uint8_t, uint8_t);
+	void write4bits(uint8_t);
+	void expanderWrite(uint8_t);
+	void pulseEnable(uint8_t);
+	int i2c_bus;
+	uint8_t _addr;
+	uint8_t _displayfunction;
+	uint8_t _displaycontrol;
+	uint8_t _displaymode;
+	uint8_t _cols;
+	uint8_t _rows;
+	uint8_t _charsize;
+	uint8_t _backlightval;
 };
-
-#endif
