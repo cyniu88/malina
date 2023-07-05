@@ -30,6 +30,8 @@ set(LIBS_SRC
 )
 
 set(SOURCE_FILES
+    "liquidcrystal_i2c-for-ardupi/LCD.cpp"
+    "liquidcrystal_i2c-for-ardupi/I2CIO.cpp"
     "liquidcrystal_i2c-for-ardupi/LiquidCrystal_I2C.cpp"
     "mqtt_mosquitto/MQTT_mosquitto/mqtt.cpp"
     "src/433MHz/rc_433mhz.cpp"

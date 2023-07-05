@@ -1,36 +1,14 @@
 #include <iostream>
 #include "../lcd_c.h"
 
-// LiquidCrystal_I2C::LiquidCrystal_I2C(uint8_t lcd_addr, uint8_t lcd_cols, uint8_t lcd_rows, uint8_t charsize ){
-//      std::cout << "LiquidCrystal_I2C::LiquidCrystal_I2C())"  <<std::endl;
-// }
-
-// LiquidCrystal_I2C::~LiquidCrystal_I2C( ){
-//      std::cout << "LiquidCrystal_I2C::~LiquidCrystal_I2C())"  <<std::endl;
-// }
-
-LiquidCrystal_I2C::LiquidCrystal_I2C(uint8_t lcd_addr, uint8_t lcd_cols, uint8_t lcd_rows, uint8_t charsize)
+LCD_c::LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows) 
 {
-	std::cout << "LiquidCrystal_I2C::LiquidCrystal_I2C())"  <<std::endl;
-}
-
-LiquidCrystal_I2C::~LiquidCrystal_I2C() {
-	std::cout << "LiquidCrystal_I2C::~LiquidCrystal_I2C()"  <<std::endl;
-}
-
-size_t LiquidCrystal_I2C::write(unsigned char){
-
-}
-
- LCD_c::LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows):
-   main_lcd(lcd_Addr,lcd_cols,lcd_rows)
-{
-    std::cout << "LCD_c::LCD_c()"  <<std::endl;
+    std::cout << "LCD_c::LCD_c()" << std::endl;
 }
 
 LCD_c::~LCD_c()
 {
-    std::cout << "LCD_c::~LCD_c()"  <<std::endl;
+    std::cout << "LCD_c::~LCD_c()" << std::endl;
 }
 
 void LCD_c::noBacklight()
@@ -40,22 +18,24 @@ void LCD_c::noBacklight()
 
 void LCD_c::clear()
 {
-    std::cout << "LCD_c::clear()"  <<std::endl;
+    std::cout << "LCD_c::clear()" << std::endl;
 }
 
 void LCD_c::scrollLeft()
 {
-    std::cout << "LCD_c::scrollLeft()"  <<std::endl;
+    std::cout << "LCD_c::scrollLeft()" << std::endl;
 }
 
 void LCD_c::scrollRight()
 {
-    std::cout << "LCD_c::scrollRight()"  <<std::endl;
+    std::cout << "LCD_c::scrollRight()" << std::endl;
 }
 
 void LCD_c::printString(const std::string &row1, const std::string &row2, bool clear)
 {
-   std::cout << "Wyświetlam na LCD: " << std::endl << row1 << std::endl << row2 << std::endl;
+    std::cout << "Wyświetlam na LCD: " << std::endl
+              << row1 << std::endl
+              << row2 << std::endl;
 }
 
 std::string LCD_c::getData() const

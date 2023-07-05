@@ -63,7 +63,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
         try
         {
             my_data->ptr_MPD_info->volume = mpd_status_get_volume(mi);
-            my_data->main_key_menu_handler->quickPrint("Volume:", std::to_string(my_data->ptr_MPD_info->volume));
+            my_data->main_key_menu_handler->quickPrint("Volume:", std::to_string(my_data->ptr_MPD_info->volume)+" %");
             my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/volume",
                                           std::to_string(my_data->ptr_MPD_info->volume));
         }

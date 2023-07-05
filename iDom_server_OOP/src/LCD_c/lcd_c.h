@@ -46,7 +46,10 @@ public:
 
 private:
     std::string m_printed = "NULL";
-    LiquidCrystal_I2C main_lcd;
+    std::unique_ptr<LiquidCrystal_I2C> main_lcd;
+ 
+
+
 };
 
 #endif // LCD_C_H
