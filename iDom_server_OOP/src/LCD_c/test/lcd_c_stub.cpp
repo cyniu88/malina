@@ -1,12 +1,29 @@
 #include <iostream>
 #include "../lcd_c.h"
 
-LiquidCrystal_I2C::LiquidCrystal_I2C(uint8_t lcd_Addr,uint8_t lcd_cols,uint8_t lcd_rows){
-     std::cout << "LiquidCrystal_I2C::LiquidCrystal_I2C())"  <<std::endl;
+// LiquidCrystal_I2C::LiquidCrystal_I2C(uint8_t lcd_addr, uint8_t lcd_cols, uint8_t lcd_rows, uint8_t charsize ){
+//      std::cout << "LiquidCrystal_I2C::LiquidCrystal_I2C())"  <<std::endl;
+// }
+
+// LiquidCrystal_I2C::~LiquidCrystal_I2C( ){
+//      std::cout << "LiquidCrystal_I2C::~LiquidCrystal_I2C())"  <<std::endl;
+// }
+
+LiquidCrystal_I2C::LiquidCrystal_I2C(uint8_t lcd_addr, uint8_t lcd_cols, uint8_t lcd_rows, uint8_t charsize)
+{
+	std::cout << "LiquidCrystal_I2C::LiquidCrystal_I2C())"  <<std::endl;
 }
 
-LCD_c::LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows):
-main_lcd(lcd_Addr,lcd_cols,lcd_rows)
+LiquidCrystal_I2C::~LiquidCrystal_I2C() {
+	std::cout << "LiquidCrystal_I2C::~LiquidCrystal_I2C()"  <<std::endl;
+}
+
+size_t LiquidCrystal_I2C::write(unsigned char){
+
+}
+
+ LCD_c::LCD_c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows):
+   main_lcd(lcd_Addr,lcd_cols,lcd_rows)
 {
     std::cout << "LCD_c::LCD_c()"  <<std::endl;
 }
