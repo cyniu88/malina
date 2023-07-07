@@ -34,16 +34,7 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string &threadName)
     log_file_mutex.mutex_unlock();
     std::string msgFromRFLink;
     RC_433MHz rc433(my_data);
-    my_data->main_REC = std::make_unique<RADIO_EQ_CONTAINER>(my_data);
-    my_data->main_REC->loadConfig(my_data->server_settings->_server.radio433MHzConfigFile);
-    my_data->main_RFLink = std::make_shared<RFLinkHandler>(my_data);
-    if (my_data->main_RFLink->init() == false)
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << "watek " << threadName << "nie  wystartowal " << std::this_thread::get_id() << " z powodu niepowodzenia main_RFLink->init()" << std::endl;
-        log_file_mutex.mutex_unlock();
-        return;
-    }
+ 
     my_data->main_RFLink->flush();
     std::vector<std::string> v;
     v.push_back("ardu");
@@ -311,7 +302,11 @@ iDomStateEnum iDom_main()
     ////////////////////////////////thread starting part //////////////////////////////////////////////
     /////////////////////////////// RC 433MHz ////////////////////
 
-    if (server_settings._runThread.RFLink == true)
+    node_data.main_REC = std::make_unique<RADIO_EQ_CONTAINER>(&node_data);
+    node_data.main_REC->loadConfig(server_settings._server.radio433MHzConfigFile);
+    node_data.main_RFLink = std::make_shared<RFLinkHandler>(&node_data);
+
+    if (server_settings._runThread.RFLink == true and node_data.main_RFLink->init())
     {
         // start watku czytania RFLinka
         iDOM_THREAD::start_thread("RFLink thread",
