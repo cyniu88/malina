@@ -304,6 +304,10 @@ iDomStateEnum iDom_main()
     node_data.sleeper = 0;
 
 
+    /////////////////////////////////////// MQTT ////////////////////////////
+    node_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER");
+    node_data.mqttHandler->turnOffDebugeMode();
+
     ////////////////////////////////thread starting part //////////////////////////////////////////////
     /////////////////////////////// RC 433MHz ////////////////////
 
@@ -365,9 +369,6 @@ iDomStateEnum iDom_main()
     //////////////////////////////// SETTINGS //////////////////////////////
     node_data.main_iDomStatus->addObject("house", node_data.idom_all_state.houseState);
 
-    /////////////////////////////////////// MQTT ////////////////////////////
-    node_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER");
-    node_data.mqttHandler->turnOffDebugeMode();
 
 
 

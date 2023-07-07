@@ -54,18 +54,26 @@ int main(int argc, char *argv[])
     }
     else
     {
+        int counter = 0;
         int ret = 9;
-        while (ret != 0)
+        while (ret != 0 )
         {
             std::this_thread::sleep_for(1s);
             std::cout << "nie ma parametru wiec odpalam program " << ret << std::endl;
             ret = system("./iDom_server-CMAKE");
-            std::cout << "system() zwraca ret " << std::hex << ret << std::endl;
+            if(ret == 0)
+                counter = 0;
+            else
+                counter++;
+            std::cout << "system() zwraca ret " << std::hex << ret <<  "counter restartow: " << counter <<  std::endl;
 
             if (ret == 2560)
             {
                 std::cout << "reboot maliny " << system("shutdown -r now") << std::endl;
             }
+
+            if(counter == 10)
+                break;
         }
         std::cout << "ZAMYKAM NA AMEN" << std::endl;
     }
