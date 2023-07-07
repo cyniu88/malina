@@ -61,11 +61,11 @@ int main(int argc, char *argv[])
             std::this_thread::sleep_for(1s);
             std::cout << "nie ma parametru wiec odpalam program " << ret << std::endl;
             ret = system("./iDom_server-CMAKE");
-            if(ret == 0)
+            if(ret != 100)
                 counter = 0;
             else
                 counter++;
-            std::cout << "system() zwraca ret " << std::hex << ret <<  "counter restartow: " << counter <<  std::endl;
+            std::cout << "system() zwraca ret " << std::hex << ret <<  " | counter restartow: " << counter <<  std::endl;
 
             if (ret == 2560)
             {

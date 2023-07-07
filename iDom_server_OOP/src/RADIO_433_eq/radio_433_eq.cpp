@@ -198,7 +198,7 @@ std::vector<RADIO_SWITCH *> RADIO_EQ_CONTAINER::getSwitchPointerVector()
 
 std::vector<RADIO_BUTTON *> RADIO_EQ_CONTAINER::getButtonPointerVector()
 {
-    std::vector<RADIO_BUTTON *> buttonVector;
+    std::vector<RADIO_BUTTON *> buttonVector{};
     for (const auto &it : m_radioEqMap)
     {
         if (it.second->getType() == RADIO_EQ_TYPE::BUTTON)
