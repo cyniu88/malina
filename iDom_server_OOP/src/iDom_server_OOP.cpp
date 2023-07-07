@@ -34,6 +34,16 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string &threadName)
     log_file_mutex.mutex_unlock();
     std::string msgFromRFLink;
     RC_433MHz rc433(my_data);
+    my_data->main_REC = std::make_unique<RADIO_EQ_CONTAINER>(my_data);
+    my_data->main_REC->loadConfig(my_data->server_settings->_server.radio433MHzConfigFile);
+    my_data->main_RFLink = std::make_shared<RFLinkHandler>(my_data);
+    if (my_data->main_RFLink->init() == false)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "watek " << threadName << "nie  wystartowal " << std::this_thread::get_id() << " z powodu niepowodzenia main_RFLink->init()" << std::endl;
+        log_file_mutex.mutex_unlock();
+        return;
+    }
     my_data->main_RFLink->flush();
     std::vector<std::string> v;
     v.push_back("ardu");
@@ -139,29 +149,27 @@ void my_sig_handler(int s)
 {
     printf("\nCaught signal %d\n", s);
 
-
-        std::cout << "MENU:" << std::endl
-                  << "0 - STOP" << std::endl
-                  << "1 - RELOAD" << std::endl;
-        int k;
-        std::cin >> k;
-        std::cout << "podałeś: " << k << std::endl;
-        if (useful_F::myStaticData->main_iDomTools != std::nullptr_t())
+    std::cout << "MENU:" << std::endl
+              << "0 - STOP" << std::endl
+              << "1 - RELOAD" << std::endl;
+    int k;
+    std::cin >> k;
+    std::cout << "podałeś: " << k << std::endl;
+    if (useful_F::myStaticData->main_iDomTools != std::nullptr_t())
+    {
+        if (k == 0)
         {
-            if (k == 0)
-            {
-                std::cout << "zamykam" << std::endl;
-                useful_F::myStaticData->main_iDomTools->close_iDomServer();
-            }
-            else if (k == 1)
-            {
-                std::cout << "jeszce nie przeladowywuje :(" << std::endl;
-                useful_F::myStaticData->main_iDomTools->reloadHard_iDomServer();
-            }
-            else
-                std::cout << "co ty podales?" << std::endl;
+            std::cout << "zamykam" << std::endl;
+            useful_F::myStaticData->main_iDomTools->close_iDomServer();
         }
-    
+        else if (k == 1)
+        {
+            std::cout << "jeszce nie przeladowywuje :(" << std::endl;
+            useful_F::myStaticData->main_iDomTools->reloadHard_iDomServer();
+        }
+        else
+            std::cout << "co ty podales?" << std::endl;
+    }
 }
 
 void catchSigInt()
@@ -229,7 +237,7 @@ iDomStateEnum iDom_main()
     /////////////////////////////////////////// zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
     log_file_cout << "\n************************************************\n*****************************************************************\n  " << std::endl;
-    log_file_cout << std::boolalpha ;
+    log_file_cout << std::boolalpha;
     log_file_cout << INFO << "ID serwera\t" << server_settings._server.ID_server << std::endl;
     log_file_cout << INFO << "PortRS232\t" << server_settings._rs232.portRS232 << std::endl;
     log_file_cout << INFO << "BaudRate RS232\t" << server_settings._rs232.BaudRate << std::endl;
@@ -260,12 +268,46 @@ iDomStateEnum iDom_main()
 
     /////////////////////////////////////////////// koniec logowania do poliku ///////////////////////////////////////////////////
 
-    /////////////////////////////// RC 433MHz ////////////////////
-    node_data.main_REC = std::make_unique<RADIO_EQ_CONTAINER>(&node_data);
-    node_data.main_REC->loadConfig(server_settings._server.radio433MHzConfigFile);
-    node_data.main_RFLink = std::make_shared<RFLinkHandler>(&node_data);
+    /////////////////////////////////////////////// start wiringPi //////////////////////////////////////////////
+    if (wiringPiSetup() == -1)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "problem z wiringPiSetup()" << std::endl;
+        log_file_mutex.mutex_unlock();
+        exit(1);
+    }
 
-    if (server_settings._runThread.RFLink == true and node_data.main_RFLink->init())
+
+
+    ///////////////////////////////// tworzenie pliku mkfifo dla sterowania omx playerem
+    /*
+    int temp = mkfifo("/mnt/ramdisk/cmd",0666);
+
+    if(temp == 0)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "mkfifo - plik stworzony "<<strerror(errno) << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+    else if(temp == -1)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "mkfifo - "<<strerror(errno) << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+*/
+    //////////////////////////////////////////////////////////////////////
+
+    useful_F::setStaticData(&node_data);
+    /////////////////////////////////////////////////////////
+
+    node_data.sleeper = 0;
+
+
+    ////////////////////////////////thread starting part //////////////////////////////////////////////
+    /////////////////////////////// RC 433MHz ////////////////////
+
+    if (server_settings._runThread.RFLink == true)
     {
         // start watku czytania RFLinka
         iDOM_THREAD::start_thread("RFLink thread",
@@ -279,14 +321,7 @@ iDomStateEnum iDom_main()
         log_file_mutex.mutex_unlock();
     }
 
-    /////////////////////////////////////////////// start wiringPi //////////////////////////////////////////////
-    if (wiringPiSetup() == -1)
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "problem z wiringPiSetup()" << std::endl;
-        log_file_mutex.mutex_unlock();
-        exit(1);
-    }
+
     ////////////////////////////////////////start watku do komunikacji rs232
 
     if (server_settings._runThread.RS232 == true)
@@ -302,6 +337,12 @@ iDomStateEnum iDom_main()
         log_file_cout << DEBUG << "nie wystartowalem wątku RS232" << std::endl;
         log_file_mutex.mutex_unlock();
     }
+
+
+
+
+
+
     /////////////////////////////// MPD info /////////////////////////
     node_data.ptr_MPD_info = std::make_unique<MPD_info>();
     /////////////////////////////// iDom Status //////////////////////
@@ -328,31 +369,12 @@ iDomStateEnum iDom_main()
     node_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER");
     node_data.mqttHandler->turnOffDebugeMode();
 
-    ///////////////////////////////// tworzenie pliku mkfifo dla sterowania omx playerem
-    /*
-    int temp = mkfifo("/mnt/ramdisk/cmd",0666);
 
-    if(temp == 0)
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << INFO << "mkfifo - plik stworzony "<<strerror(errno) << std::endl;
-        log_file_mutex.mutex_unlock();
-    }
-    else if(temp == -1)
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << "mkfifo - "<<strerror(errno) << std::endl;
-        log_file_mutex.mutex_unlock();
-    }
-*/
-    //////////////////////////////////////////////////////////////////////
 
-    useful_F::setStaticData(&node_data);
-    /////////////////////////////////////////////////////////
 
-    node_data.sleeper = 0;
 
-    // start watku MQTT
+
+    //////////////////////////////////////// start watku MQTT
     if (server_settings._runThread.MQTT == true)
     {
         iDOM_THREAD::start_thread("MQTT thread", f_master_mqtt, &node_data);
@@ -363,7 +385,7 @@ iDomStateEnum iDom_main()
         log_file_cout << DEBUG << "nie wystartowalem wątku MQTT" << std::endl;
         log_file_mutex.mutex_unlock();
     }
-    // start watku SATEL INTEGRA32
+    //////////////////////////////////////// start watku SATEL INTEGRA32
     if (server_settings._runThread.SATEL == true)
     {
         iDOM_THREAD::start_thread("Satel INTEGRA32 thread", f_satelIntegra32, &node_data);
@@ -374,7 +396,7 @@ iDomStateEnum iDom_main()
         log_file_cout << DEBUG << "nie wystartowalem wątku satel integra32" << std::endl;
         log_file_mutex.mutex_unlock();
     }
-    // start watku mpd_cli
+    //////////////////////////////////////// start watku mpd_cli
     if (server_settings._runThread.MPD == true)
     {
         iDOM_THREAD::start_thread("MPD  thread", main_mpd_cli, &node_data);
@@ -385,7 +407,7 @@ iDomStateEnum iDom_main()
         log_file_cout << DEBUG << "nie wystartowalem wątku MPD" << std::endl;
         log_file_mutex.mutex_unlock();
     }
-    // start watku CRONa
+    ///////////////////////////////////////// start watku CRONa
     if (server_settings._runThread.CRON == true)
     {
         iDOM_THREAD::start_thread("Cron thread", f_master_CRON, &node_data);
@@ -422,6 +444,8 @@ iDomStateEnum iDom_main()
 
     useful_F::startServer(&node_data, &mainTasker);
 
+
+    //////////////////////////////////////////////////// close part ///////////////////////////////////////////////////////
     if (node_data.iDomProgramState == iDomStateEnum::CLOSE or node_data.iDomProgramState == iDomStateEnum::RASPBERRY_RELOAD)
     {
         node_data.main_iDomTools->MPD_stop();
