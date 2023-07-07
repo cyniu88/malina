@@ -454,22 +454,29 @@ std::string useful_F::conv_dns(const std::string &temp)
 void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
 {
     struct sockaddr_in server;
+    memset(&server, 0, sizeof(server));
     int v_socket;
     int SERVER_PORT = my_data->server_settings->_server.PORT;
-    my_data->server_settings->_server.SERVER_IP =
-        useful_F::conv_dns(my_data->server_settings->_server.SERVER_IP);
-    const char *SERVER_IP = my_data->server_settings->_server.SERVER_IP.c_str();
-
-    memset(&server, 0, sizeof(server));
-
     server.sin_family = AF_INET;
     server.sin_port = htons(SERVER_PORT);
-    if (inet_pton(AF_INET, SERVER_IP, &server.sin_addr) <= 0)
-    {
-        perror("inet_pton() ERROR");
-        exit(-1);
-    }
 
+    if (my_data->server_settings->_server.SERVER_IP == "auto")
+    {
+        server.sin_addr.s_addr = INADDR_ANY;
+    }
+    else
+    {
+
+        my_data->server_settings->_server.SERVER_IP =
+            useful_F::conv_dns(my_data->server_settings->_server.SERVER_IP);
+        const char *SERVER_IP = my_data->server_settings->_server.SERVER_IP.c_str();
+
+        if (inet_pton(AF_INET, SERVER_IP, &server.sin_addr) <= 0)
+        {
+            perror("inet_pton() ERROR");
+            exit(-1);
+        }
+    }
     if ((v_socket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
         perror("socket() ERROR");

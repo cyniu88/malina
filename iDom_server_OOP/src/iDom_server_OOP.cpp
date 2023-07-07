@@ -320,7 +320,6 @@ iDomStateEnum iDom_main()
         log_file_mutex.mutex_unlock();
     }
 
-
     ////////////////////////////////////////start watku do komunikacji rs232
 
     if (server_settings._runThread.RS232 == true)
@@ -336,10 +335,6 @@ iDomStateEnum iDom_main()
         log_file_cout << DEBUG << "nie wystartowalem wątku RS232" << std::endl;
         log_file_mutex.mutex_unlock();
     }
-
-
-
-
 
 
     /////////////////////////////// MPD info /////////////////////////
@@ -363,10 +358,6 @@ iDomStateEnum iDom_main()
     node_data.main_house_room_handler->loadButtonConfig("/etc/config/iDom_SERVER/button_config.json");
     //////////////////////////////// SETTINGS //////////////////////////////
     node_data.main_iDomStatus->addObject("house", node_data.idom_all_state.houseState);
-
-
-
-
 
 
 
