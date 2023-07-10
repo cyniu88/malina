@@ -25,6 +25,7 @@ protected:
     std::string m_key;
     std::string m_key2;
     viber_API m_viber;
+    bool m_viber_notif = true;
     FACEBOOK_API m_facebook;
     std::mutex m_msgMutex;
     std::vector<RADIO_BUTTON *> m_buttonPointerVector;

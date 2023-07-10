@@ -581,6 +581,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
 #endif /////////////////////// server settings
     cj._server.PORT = jj["Server_settings"].at("PORT").get<int>();
     cj._server.encrypted = jj["Server_settings"].at("ENCRYPTED").get<bool>();
+    cj._server.viber_notification = jj["Server_settings"].at("viber_notification").get<bool>();
     cj._server.ID_server = jj["Server_settings"].at("ID").get<int>();
     cj._server.SERVER_IP = jj["Server_settings"].at("SERVER_IP").get<std::string>();
     cj._server.saveFilePath = jj["Server_settings"].at("saveFilePath").get<std::string>();

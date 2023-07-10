@@ -24,8 +24,10 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : m_key(myData->server_settings->_serv
     my_data->main_iDomStatus->addObject("alarm", STATE::DEACTIVE);
     my_data->main_iDomStatus->addObject("KODI", STATE::DEACTIVE);
 
-    ///////// setup viber api
-    m_viber.setAvatar(my_data->server_settings->_fb_viber.viberAvatar);
+    m_viber_notif = my_data->server_settings->_server.viber_notification;
+
+        ///////// setup viber api
+        m_viber.setAvatar(my_data->server_settings->_fb_viber.viberAvatar);
     m_viber.setAccessToken(my_data->server_settings->_fb_viber.viberToken);
     m_viber.setURL("https://chatapi.viber.com/pa/send_message");
     ///////// setup faceboook api
@@ -207,8 +209,8 @@ void iDomTOOLS::turnOnSpeakers()
 
 void iDomTOOLS::turnOffSpeakers()
 {
-    //digitalWrite(iDomConst::GPIO_SPIK, LOW);
-    // FIXME temp fix
+    // digitalWrite(iDomConst::GPIO_SPIK, LOW);
+    //  FIXME temp fix
     my_data->main_iDomTools->turnOff433MHzSwitch("fan");
     /////////////////////////////
     my_data->main_iDomStatus->setObjectState("speakers", STATE::OFF);
@@ -714,6 +716,8 @@ nlohmann::json iDomTOOLS::sendViberMsg(const std::string &msg,
                                        const std::string &url)
 {
     nlohmann::json jj;
+    if (m_viber_notif == false)
+        return jj;
     std::lock_guard<std::mutex> lock(m_msgMutex);
     try
     {
@@ -736,6 +740,8 @@ nlohmann::json iDomTOOLS::sendViberPicture(const std::string &msg,
                                            const std::string &url)
 {
     nlohmann::json jj;
+    if (m_viber_notif == false)
+        return jj;
     std::lock_guard<std::mutex> lock(m_msgMutex);
     try
     {
@@ -753,6 +759,8 @@ nlohmann::json iDomTOOLS::sendViberPicture(const std::string &msg,
 nlohmann::json iDomTOOLS::sendViberUrl(const std::string &msg, const std::string &url2, const std::string &receiver, const std::string &senderName, const std::string &accessToken, const std::string &url)
 {
     nlohmann::json jj;
+    if (m_viber_notif == false)
+        return jj;
     std::lock_guard<std::mutex> lock(m_msgMutex);
     try
     {
@@ -773,7 +781,10 @@ STATE iDomTOOLS::sendViberMsgBool(const std::string &msg,
                                   const std::string &accessToken,
                                   const std::string &url)
 {
-    nlohmann::json jj = sendViberMsg(msg, receiver, senderName, accessToken, url);
+    nlohmann::json jj;
+    if (m_viber_notif == false)
+        return jj;
+    jj = sendViberMsg(msg, receiver, senderName, accessToken, url);
     STATE ret = STATE::SEND_NOK;
     if (jj.find("status_message") not_eq jj.end())
     {
@@ -800,6 +811,8 @@ STATE iDomTOOLS::sendViberPictureBool(const std::string &msg,
 {
     nlohmann::json jj = sendViberPicture(msg, image, receiver, senderName, accessToken, url);
     STATE ret = STATE::SEND_NOK;
+    if (m_viber_notif == false)
+        return ret;
     if (jj.at("status_message").get<std::string>() == "ok")
     {
         ret = STATE::SEND_OK;

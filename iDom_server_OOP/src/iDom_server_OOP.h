@@ -201,6 +201,7 @@ struct CONFIG_SERVER
     int ID_server = 0;
     int v_delay;
     bool encrypted = true;
+    bool viber_notification = true;
     FTP_SERVER ftpServer;
     std::string lightningApiURL = "NULL";
     std::string saveFilePath = "NULL";
