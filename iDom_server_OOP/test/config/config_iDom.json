@@ -14,7 +14,9 @@
 		"PORT": 8833,
 		"SERVER_IP": "192.168.1.144",
 		"saveFilePath": "/mnt/ramdisk/iDomState.save",
-		"key_DB_PATH": "mnt/ramdisk/key.database"
+		"key_DB_PATH": "mnt/ramdisk/key.database",
+                "viber_notification": true
+
 	},
 	"gateway": {
 		"url": "http://cyniu88.no-ip.pl",
