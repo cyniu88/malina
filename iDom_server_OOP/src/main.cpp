@@ -35,44 +35,44 @@ int main(int argc, char *argv[])
         if (iDomStateProgram == iDomStateEnum::CLOSE)
         {
             std::cout << "zamykam program" << std::endl;
-            return 0;
+            std::exit(EXIT_SUCCESS);
         }
         else if (iDomStateProgram == iDomStateEnum::RASPBERRY_RELOAD)
         {
             std::cout << "zamykam program i robie restart maliny" << std::endl;
-            return 10;
+            std::exit(10);
         }
         else if (iDomStateProgram == iDomStateEnum::ERROR)
         {
             std::cout << "zamykam program z ERROREM" << std::endl;
-            return 1;
+            std::exit(EXIT_FAILURE);
         }
         else if (iDomStateProgram == iDomStateEnum::HARD_RELOAD)
         {
-            return 3;
+            std::exit(3);
         }
     }
     else
     {
         int counter = 0;
         int ret = 9;
-        while (ret != 0 )
+        while (ret != 0)
         {
             std::this_thread::sleep_for(1s);
             std::cout << "nie ma parametru wiec odpalam program " << ret << std::endl;
             ret = system("./iDom_server-CMAKE");
-            if(ret != 100)
+            if (ret != 100)
                 counter = 0;
             else
                 counter++;
-            std::cout << "system() zwraca ret " << std::hex << ret <<  " | counter restartow: " << counter <<  std::endl;
+            std::cout << "system() zwraca ret " << std::hex << ret << " | counter restartow: " << counter << std::endl;
 
             if (ret == 2560)
             {
                 std::cout << "reboot maliny " << system("shutdown -r now") << std::endl;
             }
 
-            if(counter == 10)
+            if (counter == 10)
                 break;
         }
         std::cout << "ZAMYKAM NA AMEN" << std::endl;

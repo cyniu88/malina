@@ -26,8 +26,8 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : m_key(myData->server_settings->_serv
 
     m_viber_notif = my_data->server_settings->_server.viber_notification;
 
-        ///////// setup viber api
-        m_viber.setAvatar(my_data->server_settings->_fb_viber.viberAvatar);
+    ///////// setup viber api
+    m_viber.setAvatar(my_data->server_settings->_fb_viber.viberAvatar);
     m_viber.setAccessToken(my_data->server_settings->_fb_viber.viberToken);
     m_viber.setURL("https://chatapi.viber.com/pa/send_message");
     ///////// setup faceboook api

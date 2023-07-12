@@ -438,6 +438,7 @@ iDomStateEnum iDom_main()
         node_data.main_iDomTools->MPD_stop();
         node_data.main_iDomTools->turnOffSpeakers();
     }
+    
     node_data.mqttHandler->disconnect();
 
     std::this_thread::sleep_for(100ms);
