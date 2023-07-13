@@ -87,10 +87,11 @@ void iDomTOOLS::healthCheck()
 std::string iDomTOOLS::dump() const
 {
     std::stringstream ret;
+    ret << std::boolalpha;
     ret << "m_viber_notif: " << m_viber_notif << std::endl;
     ret << " m_restartAlarmRFLink: " << this->m_restartAlarmRFLink << std::endl;
     ret << " key: " << this->m_key << std::endl;
-    ret << " lastButton433MHzLockUnlockTime: " << this->m_lastButton433MHzLockUnlockTime.getString() << std::endl;
+    ret << " lastButton433MHzLockUnlockTime: " <<   this->m_lastButton433MHzLockUnlockTime << std::endl;
     return ret.str();
 }
 
