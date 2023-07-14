@@ -65,11 +65,11 @@ int main(int argc, char *argv[])
             std::cout << "nie ma parametru wiec odpalam program " << ret << std::endl;
             auto p1 = std::chrono::system_clock::now();
             auto timeStart = std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
-            
+             std::cout << "timeStart: " << timeStart <<  std::endl;
             std::cout << "cyniu: " << std::system("pwd") << std::endl;
             ret = std::system("./iDom_server-CMAKE");
             auto p2 = std::chrono::system_clock::now();
-            auto timeStart2 = std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
+            auto timeStart2 = std::chrono::duration_cast<std::chrono::seconds>(p2.time_since_epoch()).count();
 
             std::cout << "timeStart: " << timeStart << " timeStart2: " << timeStart << " RÓZNICA " << timeStart2 - timeStart << std::endl;
             if ((timeStart2 - timeStart) < 10)
