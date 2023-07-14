@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
         if (iDomStateProgram == iDomStateEnum::CLOSE)
         {
             std::cout << "zamykam program CLOSE" << std::endl;
-            //std::exit(0);
-		return 1024;
+            // std::exit(0);
+            return 1024;
         }
         else if (iDomStateProgram == iDomStateEnum::RASPBERRY_RELOAD)
         {
@@ -63,22 +63,23 @@ int main(int argc, char *argv[])
         {
             std::this_thread::sleep_for(1s);
             std::cout << "nie ma parametru wiec odpalam program " << ret << std::endl;
-            auto p1        = std::chrono::system_clock::now();
-	    auto timeStart = std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
-            std::cout << "seconds since epoch: " << timeStart          << std::endl;
-            std::cout << "cyniu: "               << std::system("pwd") << std::endl;
-	    ret = std::system("./iDom_server-CMAKE");
-            auto p2        = std::chrono::system_clock::now();
+            auto p1 = std::chrono::system_clock::now();
+            auto timeStart = std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
+            
+            std::cout << "cyniu: " << std::system("pwd") << std::endl;
+            ret = std::system("./iDom_server-CMAKE");
+            auto p2 = std::chrono::system_clock::now();
             auto timeStart2 = std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
 
-	    if((timeStart2 - timeStart) < 10)
-	    {
-		counter++;
+            std::cout << "timeStart: " << timeStart << " timeStart2: " << timeStart << " RÓZNICA " << timeStart2 - timeStart << std::endl;
+            if ((timeStart2 - timeStart) < 10)
+            {
+                counter++;
             }
-	    else
-		counter = 0;
+            else
+                counter = 0;
 
-            std::cout << "system() zwraca ret "  << ret << " | counter restartow: " << counter << std::endl;
+            std::cout << "system() zwraca ret " << ret << " | counter restartow: " << counter << std::endl;
 
             if (ret == 2560)
             {
