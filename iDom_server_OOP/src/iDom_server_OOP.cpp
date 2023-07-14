@@ -34,7 +34,7 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string &threadName)
     log_file_mutex.mutex_unlock();
     std::string msgFromRFLink;
     RC_433MHz rc433(my_data);
- 
+
     my_data->main_RFLink->flush();
     std::vector<std::string> v;
     v.push_back("ardu");
@@ -269,7 +269,6 @@ iDomStateEnum iDom_main()
     }
 
 
-
     ///////////////////////////////// tworzenie pliku mkfifo dla sterowania omx playerem
     /*
     int temp = mkfifo("/mnt/ramdisk/cmd",0666);
@@ -438,7 +437,7 @@ iDomStateEnum iDom_main()
         node_data.main_iDomTools->MPD_stop();
         node_data.main_iDomTools->turnOffSpeakers();
     }
-    
+
     node_data.mqttHandler->disconnect();
 
     std::this_thread::sleep_for(100ms);
@@ -448,5 +447,6 @@ iDomStateEnum iDom_main()
 
     useful_F::go_while = false;
     iDOM_THREAD::waitUntilAllThreadEnd(&node_data);
+
     return iDomStateProgram;
 }

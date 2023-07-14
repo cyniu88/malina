@@ -1,5 +1,7 @@
 
 #include <signal.h>
+#include <chrono>
+#include <iostream>
 #include "iDom_server_OOP.h"
 
 using namespace std::chrono_literals;
@@ -17,7 +19,7 @@ int main(int argc, char *argv[])
             try
             {
                 iDomStateProgram = iDom_main();
-                std::cout << "zamykam program z : " << iDomStateProgram << std::endl;
+                std::cout << "1 zamykam program z : " << iDomStateProgram << std::endl;
             }
             catch (const std::exception &e)
             {
@@ -34,8 +36,9 @@ int main(int argc, char *argv[])
 
         if (iDomStateProgram == iDomStateEnum::CLOSE)
         {
-            std::cout << "zamykam program" << std::endl;
-            std::exit(EXIT_SUCCESS);
+            std::cout << "zamykam program CLOSE" << std::endl;
+            //std::exit(0);
+		return 1024;
         }
         else if (iDomStateProgram == iDomStateEnum::RASPBERRY_RELOAD)
         {
@@ -60,19 +63,29 @@ int main(int argc, char *argv[])
         {
             std::this_thread::sleep_for(1s);
             std::cout << "nie ma parametru wiec odpalam program " << ret << std::endl;
-            ret = system("./iDom_server-CMAKE");
-            if (ret != 100)
-                counter = 0;
-            else
-                counter++;
-            std::cout << "system() zwraca ret " << std::hex << ret << " | counter restartow: " << counter << std::endl;
+            auto p1        = std::chrono::system_clock::now();
+	    auto timeStart = std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
+            std::cout << "seconds since epoch: " << timeStart          << std::endl;
+            std::cout << "cyniu: "               << std::system("pwd") << std::endl;
+	    ret = std::system("./iDom_server-CMAKE");
+            auto p2        = std::chrono::system_clock::now();
+            auto timeStart2 = std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
+
+	    if((timeStart2 - timeStart) < 10)
+	    {
+		counter++;
+            }
+	    else
+		counter = 0;
+
+            std::cout << "system() zwraca ret "  << ret << " | counter restartow: " << counter << std::endl;
 
             if (ret == 2560)
             {
                 std::cout << "reboot maliny " << system("shutdown -r now") << std::endl;
             }
 
-            if (counter == 10)
+            if (counter == 13)
                 break;
         }
         std::cout << "ZAMYKAM NA AMEN" << std::endl;
