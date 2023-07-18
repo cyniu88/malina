@@ -57,6 +57,6 @@ std::string command_shed::help() const
     std::stringstream help;
     help << "shed put <json> - send data from json" << std::endl
      << "shed show - print json data" << std::endl
-     << "set deepSleep <bool> <time>" << std::endl;
+     << "shed set deepSleep <bool> <time> - set time for sleep  if" << std::endl;
    return help.str();
 }

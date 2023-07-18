@@ -11,6 +11,8 @@ using namespace std::chrono_literals;
 
 int main(int argc, char *argv[])
 {
+    std::string filePath{"/mnt/ramdisk/cmd2"};
+
     auto write_to_file = [](const std::string &path, const std::string &msg)
     {
         std::ofstream ofs;
@@ -27,7 +29,7 @@ int main(int argc, char *argv[])
             ofs.close();
         }
         else
-            std::cout << "Unable to open file to write" << std::endl;
+            std::cout << "Unable to open file to write " << filePath << std::endl;
     };
 
     auto read_from_file = [](const std::string &path)
@@ -45,7 +47,7 @@ int main(int argc, char *argv[])
             ifs.close();
         }
         else
-            std::cout << "Unable to open file to read" << std::endl;
+            std::cout << "Unable to open file to read " << filePath << std::endl;
         return str;
     };
 
@@ -78,25 +80,25 @@ int main(int argc, char *argv[])
         if (iDomStateProgram == iDomStateEnum::CLOSE)
         {
             std::cout << "zamykam program CLOSE" << std::endl;
-            write_to_file("/mnt/ramdisk/cmd2", "0"); // std::exit(0);
+            write_to_file(filePath, "0"); // std::exit(0);
             return 0;
         }
         else if (iDomStateProgram == iDomStateEnum::RASPBERRY_RELOAD)
         {
             std::cout << "zamykam program i robie restart maliny" << std::endl;
-            write_to_file("/mnt/ramdisk/cmd2", "2560");
+            write_to_file(filePath, "2560");
             std::exit(2560);
         }
         else if (iDomStateProgram == iDomStateEnum::ERROR)
         {
             std::cout << "zamykam program z ERROREM" << std::endl;
-            write_to_file("/mnt/ramdisk/cmd2", "1");
+            write_to_file(filePath, "1");
 
             std::exit(EXIT_FAILURE);
         }
         else if (iDomStateProgram == iDomStateEnum::HARD_RELOAD)
         {
-            write_to_file("/mnt/ramdisk/cmd2", "3");
+            write_to_file(filePath, "3");
             std::exit(3);
         }
     }
@@ -113,7 +115,7 @@ int main(int argc, char *argv[])
             std::cout << "timeStart: " << timeStart << std::endl;
 
             ret = std::system("./iDom_server-CMAKE");
-            std::string odp = read_from_file("/mnt/ramdisk/cmd2");
+            std::string odp = read_from_file(filePath);
             ret = std::stoi(odp);
 
             auto p2 = std::chrono::system_clock::now();
