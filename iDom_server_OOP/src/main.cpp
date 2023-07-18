@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
             ofs.close();
         }
         else
-            std::cout << "Unable to open file to write " << filePath << std::endl;
+            std::cout << "Unable to open file to write " << path << std::endl;
     };
 
     auto read_from_file = [](const std::string &path)
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
             ifs.close();
         }
         else
-            std::cout << "Unable to open file to read " << filePath << std::endl;
+            std::cout << "Unable to open file to read " << path << std::endl;
         return str;
     };
 
