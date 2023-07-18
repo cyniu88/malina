@@ -11,47 +11,46 @@ using namespace std::chrono_literals;
 
 int main(int argc, char *argv[])
 {
-auto write_to_file = [](const std::string &path, const std::string& msg)
-{
-     std::ofstream ofs;
+    auto write_to_file = [](const std::string &path, const std::string &msg)
+    {
+        std::ofstream ofs;
 
- ofs.open( path,
- std::ios::out |   // output file stream
- std::ios::trunc |
- std::ios::ate );  // set file cursor at the end
+        ofs.open(path,
+                 std::ios::out | // output file stream
+                     std::ios::trunc |
+                     std::ios::ate); // set file cursor at the end
 
- if(ofs)
- {
- ofs << msg;
+        if (ofs)
+        {
+            ofs << msg;
 
- ofs.close();
- }
- else std:: cout << "Unable to open file to write" << std::endl;
-};
+            ofs.close();
+        }
+        else
+            std::cout << "Unable to open file to write" << std::endl;
+    };
 
-auto read_from_file = [](const std::string& path)
-{
-    
-     std::ifstream ifs;
- std::string str;
- ifs.open( path, std::ios::in );  // input file stream
+    auto read_from_file = [](const std::string &path)
+    {
+        std::ifstream ifs;
+        std::string str;
+        ifs.open(path, std::ios::in); // input file stream
 
- if(ifs)
- {
- while ( !ifs.eof() )
- {
- std::getline ( ifs, str);
- }
- ifs.close();
- }
- else std:: cout << "Unable to open file to read" << std::endl;
-    return str;
-};
-
+        if (ifs)
+        {
+            while (!ifs.eof())
+            {
+                std::getline(ifs, str);
+            }
+            ifs.close();
+        }
+        else
+            std::cout << "Unable to open file to read" << std::endl;
+        return str;
+    };
 
     iDomStateEnum iDomStateProgram = iDomStateEnum::WORKING;
     std::cout << "startujemy program iDom" << std::endl;
-
 
     if (argc == 1)
     {
@@ -79,14 +78,14 @@ auto read_from_file = [](const std::string& path)
         if (iDomStateProgram == iDomStateEnum::CLOSE)
         {
             std::cout << "zamykam program CLOSE" << std::endl;
-            write_to_file("/mnt/ramdisk/cmd2", "0");// std::exit(0);
-            return 1024;
+            write_to_file("/mnt/ramdisk/cmd2", "0"); // std::exit(0);
+            return 0;
         }
         else if (iDomStateProgram == iDomStateEnum::RASPBERRY_RELOAD)
         {
             std::cout << "zamykam program i robie restart maliny" << std::endl;
-            write_to_file("/mnt/ramdisk/cmd2", "10");
-            std::exit(10);
+            write_to_file("/mnt/ramdisk/cmd2", "2560");
+            std::exit(2560);
         }
         else if (iDomStateProgram == iDomStateEnum::ERROR)
         {
@@ -111,13 +110,10 @@ auto read_from_file = [](const std::string& path)
             std::cout << "nie ma parametru wiec odpalam program " << ret << std::endl;
             auto p1 = std::chrono::system_clock::now();
             auto timeStart = std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
-             std::cout << "timeStart: " << timeStart <<  std::endl;
-            std::cout << "cyniu: " << std::system("pwd") << std::endl;
-
+            std::cout << "timeStart: " << timeStart << std::endl;
 
             ret = std::system("./iDom_server-CMAKE");
-		std::string odp = read_from_file("/mnt/ramdisk/cmd2");
-		std::cout << "cyniu!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : " << odp <<std::endl;
+            std::string odp = read_from_file("/mnt/ramdisk/cmd2");
             ret = std::stoi(odp);
 
             auto p2 = std::chrono::system_clock::now();
