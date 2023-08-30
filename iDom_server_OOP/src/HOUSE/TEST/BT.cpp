@@ -108,7 +108,7 @@ TEST_F(house_fixture, bulb_status_from_mqtt) {
 
 TEST_F(house_fixture, dingDong)
 {
-    EXPECT_CALL(*main_iDomTools.get(), sendViberUrl(testing::_,testing::_,testing::_,testing::_,testing::_,testing::_)).Times(2);
+    EXPECT_CALL(*main_iDomTools.get(), sendViberPicture(testing::_,testing::_,testing::_,testing::_,testing::_,testing::_)).Times(2);
     EXPECT_CALL(*main_iDomTools.get(), sendViberMsg("zmiana statusu lampy bulbName w pomieszczeniu: roomName na ON przyciskiem: -1 czas trwania: 00:00",
                                                     "R1",
                                                     "test sender-light",
