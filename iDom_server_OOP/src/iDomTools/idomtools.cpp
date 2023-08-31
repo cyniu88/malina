@@ -357,7 +357,7 @@ void iDomTOOLS::lockHome()
     }
 
     my_data->main_iDomTools->sendViberPicture("dom zablokownay!",
-                                              "http://45.90.3.84/images/iDom/iDom/lock.jpg",
+                                              "https://45.90.3.84/images/iDom/iDom/lock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender);
 
@@ -398,7 +398,7 @@ void iDomTOOLS::unlockHome()
 
     // send message on viber
     my_data->main_iDomTools->sendViberPicture("dom odblokownay!",
-                                              "http://45.90.3.84/images/iDom/iDom/unlock.jpg",
+                                              "https://45.90.3.84/images/iDom/iDom/unlock.jpg",
                                               my_data->server_settings->_fb_viber.viberReceiver.at(0),
                                               my_data->server_settings->_fb_viber.viberSender);
 
