@@ -179,10 +179,10 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         return "done " + std::to_string(counter);
     }
     else if (v[1] == "doorbell") {
-        my_data->main_iDomTools->sendViberPicture("DZWONEK do bramy!",
-                                                  "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
-                                                  my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                                  my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
+        // my_data->main_iDomTools->sendViberPicture("DZWONEK do bramy!",
+        //                                           "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
+        //                                           my_data->server_settings->_fb_viber.viberReceiver.at(0),
+        //                                           my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "Dzwonek do bramy"<< std::endl;
         log_file_mutex.mutex_unlock();
