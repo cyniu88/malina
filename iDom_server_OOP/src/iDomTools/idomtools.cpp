@@ -599,7 +599,7 @@ std::string iDomTOOLS::getTemperatureString()
 std::string iDomTOOLS::getSmog()
 {
     std::string addres = "https://api.gios.gov.pl/pjp-api/rest/data/getData/20320";
-    std::string readBuffer = useful_F_libs::httpPost(addres, 10);
+    std::string readBuffer = useful_F_libs::httpPost(addres, 20);
     try
     {
         auto jj = nlohmann::json::parse(readBuffer);
@@ -616,6 +616,7 @@ std::string iDomTOOLS::getSmog()
     {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "wyjatek substr() e getSmog() !!!!!!" << std::endl;
+        log_file_cout << CRITICAL << "getSmog() return: " <<readBuffer << std::endl;
         log_file_mutex.mutex_unlock();
         return "-1";
     }
