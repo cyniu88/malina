@@ -302,7 +302,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
 
             // TODO temporary added viber notifiction
             auto time = Clock::getUnixTime() - m_lastNotifyUnixTime;
-            if (my_data->idom_all_state.houseState == STATE::LOCK or
+            if (my_data->idom_all_state.alarmSatelState == STATE::ARMED or
                 time > 600)
             {
                 m_lastNotifyUnixTime += time;
