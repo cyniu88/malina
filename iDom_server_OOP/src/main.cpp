@@ -25,7 +25,6 @@ int main(int argc, char *argv[])
         if (ofs)
         {
             ofs << msg;
-
             ofs.close();
         }
         else

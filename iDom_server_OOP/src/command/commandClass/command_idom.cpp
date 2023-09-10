@@ -75,11 +75,11 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     }
     else if (v[1] == "lock"){
         my_data->main_iDomTools->lockHome();
-        return "hous locked";
+        return "house locked";
     }
     else if (v[1] == "unlock"){
         my_data->main_iDomTools->unlockHome();
-        return "hous unlocked";
+        return "house unlocked";
     }
     else if (v[1] == "say"){
         if (v.size() > 3){
