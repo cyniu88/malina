@@ -95,7 +95,7 @@ std::string iDomTOOLS::dump() const
     return ret.str();
 }
 
-std::string iDomTOOLS::openGateLink(std::vector<std::string> v)
+std::string iDomTOOLS::getLink(std::vector<std::string> v)
 {
     generator gg;
     std::string tempName = gg.random_string(20);
@@ -103,7 +103,7 @@ std::string iDomTOOLS::openGateLink(std::vector<std::string> v)
     std::string key = my_data->m_keyHandler->getKEY(tempName);
     std::stringstream ret;
 
-    ret << my_data->server_settings->_gateway.url << tempName << "&" << key;
+    ret << my_data->server_settings->_gateway.url << "?" << tempName << "&" << key;
 
     for (const auto &s : v)
     {

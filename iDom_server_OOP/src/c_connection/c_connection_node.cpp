@@ -40,7 +40,7 @@ void C_connection::onStartConnection()
 
 void C_connection::onStopConnection()
 {
-   // my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->_camera.cameraLedOFF);
+    // my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->_camera.cameraLedOFF);
 }
 
 void C_connection::cryptoLog(std::string &toEncrypt)
@@ -48,7 +48,7 @@ void C_connection::cryptoLog(std::string &toEncrypt)
     crypto(toEncrypt, m_encriptionKey, m_encrypted);
 }
 
-void C_connection::hendleHTTP(const std::string &msg)
+void C_connection::handleHTTP(const std::string &msg)
 {
 
     std::vector<std::string> dataToSend;
@@ -65,8 +65,40 @@ void C_connection::hendleHTTP(const std::string &msg)
         dataToSend.push_back(msgHTTP);
         dataToSend.push_back(msgHTML);
     }
+
+    else if (Http::getUrl(msg) == "/run/command/")
+    {
+
+        std::cout << "2 cyniu: " << Http::getUrl(msg) << std::endl;
+        for (const auto& a : Http::getQuery(msg))
+        {
+            std::cout << "3 cyniu: " << a.first << std::endl;
+        }
+        std::string msgHTML = R"(<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iDom gateway</title>
+</head>
+<body><center>
+DONE!!
+</center></body>
+</html>)";
+
+        std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
+
+        dataToSend.push_back(msgHTTP);
+        dataToSend.push_back(msgHTML);
+
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG << "odebrano HTTP " << msg << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     else
     {
+        std::cout << "dupa " << std::endl;
         std::string msgHTML = R"(<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,7 +119,7 @@ void C_connection::hendleHTTP(const std::string &msg)
     <center>11-06-2022 <a href=" " target=_blank title="11-06-2022">Cyniu</a></center>
 
     <script>
-        const baseLink = "http://cyniu88.no-ip.pl:48833/run/command";
+        const baseLink = "http://cyniu88.no-ip.pl:48833/run/command/";
 
         var urlQuery = new URLSearchParams(window.location.search);
         //urlQuery = urlQuery.split('=').join(' ');

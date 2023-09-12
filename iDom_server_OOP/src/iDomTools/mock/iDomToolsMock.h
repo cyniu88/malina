@@ -134,7 +134,7 @@ public:
     // std::string dump() const override;
 
     //////////////////////// link generator ///////////////
-    MOCK_METHOD1(openGateLink, std::string(std::vector<std::string> v));
+    MOCK_METHOD1(getLink, std::string(std::vector<std::string> v));
 
     //////////////////  doorbell  ////////////////////////
     MOCK_METHOD0(doorbellDingDong, void());

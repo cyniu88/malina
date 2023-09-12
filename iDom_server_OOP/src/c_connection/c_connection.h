@@ -39,7 +39,7 @@ public:
     void onStartConnection();
     void onStopConnection();
     void cryptoLog(std::string &toEncrypt);
-    void hendleHTTP(const std::string &msg);
+    void handleHTTP(const std::string &msg);
 #ifdef BT_TEST
     std::string getStr_buf()
     {

@@ -161,7 +161,7 @@ public:
     std::string dump() const override;
 
     //////////////////////// link generator ///////////////
-    std::string openGateLink(std::vector<std::string> v) override;
+    std::string getLink(std::vector<std::string> v) override;
 
     //////////////////  doorbell  ////////////////////////
     void doorbellDingDong() override;

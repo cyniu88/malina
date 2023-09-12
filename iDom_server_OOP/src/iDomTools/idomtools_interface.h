@@ -139,7 +139,7 @@ public:
     // std::string dump() const override;
 
     //////////////////////// link generator ///////////////
-    virtual std::string openGateLink(std::vector<std::string> v) = 0;
+    virtual std::string getLink(std::vector<std::string> v) = 0;
 
     //////////////////  doorbell  ////////////////////////
     virtual void doorbellDingDong() = 0;

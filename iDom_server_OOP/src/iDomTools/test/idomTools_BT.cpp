@@ -630,7 +630,7 @@ TEST_F(iDomTOOLS_ClassTest, openGate_getLink)
 {
     test_my_data.server_settings->_gateway.url = "http://tst.pl?";
     test_my_data.server_settings->_gateway.keySize = 128;
-    auto ret = test_my_data.main_iDomTools->openGateLink({"t1","t2"});
+    auto ret = test_my_data.main_iDomTools->getLink({"t1","t2"});
     EXPECT_THAT(ret, testing::HasSubstr("http://"));
 
     std::string t_name = ret.substr(14,20);
