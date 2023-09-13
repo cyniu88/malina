@@ -257,9 +257,9 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1] == "key" && v[2] == "add")
     {
         if(v[3] == "tmp")
-            my_data->m_keyHandler->addKEY(v[4],std::stoul(v[5]),true);
+            my_data->m_keyHandler->addKEY(v[4],"null", std::stoul(v[5]),true);
         else {
-            my_data->m_keyHandler->addKEY(v[3],std::stoul(v[4]),false);
+            my_data->m_keyHandler->addKEY(v[3],"null", std::stoul(v[4]),false);
         }
         return my_data->m_keyHandler->listKEY();
     }

@@ -99,11 +99,12 @@ std::string iDomTOOLS::getLink(std::vector<std::string> v)
 {
     generator gg;
     std::string tempName = gg.random_string(20);
-    my_data->m_keyHandler->addTempKEY(tempName, my_data->server_settings->_gateway.keySize);
+    auto command = std::accumulate(std::begin(v), std::end(v), std::string(), [](std::string lhs, const std::string &rhs) { return lhs.empty() ? rhs : lhs + ' ' + rhs; });
+    my_data->m_keyHandler->addTempKEY(tempName, command, my_data->server_settings->_gateway.keySize);
     std::string key = my_data->m_keyHandler->getKEY(tempName);
     std::stringstream ret;
 
-    ret << my_data->server_settings->_gateway.url << "?" << tempName << "&" << key;
+    ret << my_data->server_settings->_gateway.url << "?name=" << tempName << "&key=" << key;
 
     for (const auto &s : v)
     {

@@ -53,6 +53,8 @@ void C_connection::handleHTTP(const std::string &msg)
 
     std::vector<std::string> dataToSend;
 
+    std::cout << "1 cyniu: " << Http::getUrl(msg) << std::endl;
+
     if (Http::getContentType(msg) == Content_Type::ApplicationJSON and Http::getUrl(msg) == "/iDom/log")
     {
         nlohmann::json jj = nlohmann::json::parse(Http::getContent(msg));
@@ -70,10 +72,26 @@ void C_connection::handleHTTP(const std::string &msg)
     {
 
         std::cout << "2 cyniu: " << Http::getUrl(msg) << std::endl;
-        for (const auto& a : Http::getQuery(msg))
+        auto query = Http::getQuery(msg);
+        for (const auto &a : query)
         {
             std::cout << "3 cyniu: " << a.first << std::endl;
         }
+        std::cout << "name: " << query["name"] << std::endl;
+        std::cout << "key: " << query["key"] << std::endl;
+        auto command = my_data->m_keyHandler->getCommand(query["name"]);
+        std::cout << "command: " << command << std::endl;
+
+        std::string data;
+        if (my_data->m_keyHandler->useKEY(query["name"], query["key"]))
+        {
+            auto topic = my_data->server_settings->_mqtt_broker.topicSubscribe;
+            topic.pop_back();
+            my_data->mqttHandler->publish(topic + "command", command);
+            data = " wyslano komende!";
+        }
+        else
+            data = "operacja niedozwolona";
         std::string msgHTML = R"(<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,11 +99,7 @@ void C_connection::handleHTTP(const std::string &msg)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iDom gateway</title>
-</head>
-<body><center>
-DONE!!
-</center></body>
-</html>)";
+</head><body><center><span style="color: red">)" + data + R"(</span></center></body></html>)";
 
         std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
 
@@ -96,9 +110,10 @@ DONE!!
         log_file_cout << DEBUG << "odebrano HTTP " << msg << std::endl;
         log_file_mutex.mutex_unlock();
     }
+
     else
     {
-        std::cout << "dupa " << std::endl;
+        std::cout << "2 dupa " << std::endl;
         std::string msgHTML = R"(<!DOCTYPE html>
 <html lang="en">
 <head>

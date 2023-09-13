@@ -46,7 +46,7 @@ iDomKEY_ACCESS::~iDomKEY_ACCESS()
     iDom_API::removeFromMap(m_className);
 }
 
-void iDomKEY_ACCESS::addKEY(const std::string &name, size_t size, bool temp)
+void iDomKEY_ACCESS::addKEY(const std::string &name, const std::string &command, size_t size, bool temp)
 {
     std::string _key = m_generator.random_string(size);
     nlohmann::json temp_J;
@@ -54,13 +54,14 @@ void iDomKEY_ACCESS::addKEY(const std::string &name, size_t size, bool temp)
     temp_J["key"] = _key;
     temp_J["temporary"] = temp;
     temp_J["time"] = Clock::getUnixTime();
+    temp_J["command"] = command;
     m_data[name] = temp_J;
     writeJSON();
 }
 
-void iDomKEY_ACCESS::addTempKEY(const std::string &name, size_t size)
+void iDomKEY_ACCESS::addTempKEY(const std::string &name, const std::string &command, size_t size)
 {
-    addKEY(name, size, true);
+    addKEY(name, command, size, true);
 }
 
 void iDomKEY_ACCESS::removeKEY(const std::string &name)
@@ -69,7 +70,7 @@ void iDomKEY_ACCESS::removeKEY(const std::string &name)
     writeJSON();
 }
 
-std::string iDomKEY_ACCESS::getKEY(const std::string &name)
+std::string iDomKEY_ACCESS::getKEY(const std::string &name) const
 {
     return m_data[name].at("key").get<std::string>();
 }
@@ -128,6 +129,15 @@ void iDomKEY_ACCESS::removeExpiredKeys(unsigned int hours)
     }
     writeJSON();
 }
+
+ std::string iDomKEY_ACCESS::getCommand(const std::string &name) const
+ {
+    if(m_data.find(name) == m_data.end())
+    {
+        return "null";
+    }
+    return m_data[name].at("command").get<std::string>();
+ }
 
 std::string iDomKEY_ACCESS::dump() const
 {

@@ -543,7 +543,7 @@ TEST_F(bit_fixture, socket_connection_http)
     std::cout << "connect status: " << connectStatus << std::endl;
 
     std::string httpMsg = R"(
- POST / HTTP/1.1
+ POST /dupa HTTP/1.1
 Host: cyniu88.no-ip.pl:8833
 User-Agent: ESP8266HTTPClient
 Accept-Encoding: identity;q=1,chunked;q=0.1,*;q=0

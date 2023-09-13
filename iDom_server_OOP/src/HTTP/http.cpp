@@ -46,11 +46,22 @@ METHOD_HTTP Http::getMethod(const std::string &msg)
 
 std::string Http::getUrl(const std::string &msg)
 {
-    std::string str = msg.substr(0, msg.find_first_of("\r\n"));
+    auto endPos = msg.find_first_of("\r\n");
+    if (endPos == std::string::npos)
+    {
+        return "null";
+    }
+
+    std::string str = msg.substr(0, endPos);
     auto pos = str.find_first_of("?");
     if (pos == std::string::npos)
         pos = str.find_last_of(" ");
     auto first = str.find_first_of("/");
+    if (first == std::string::npos)
+    {
+        return "null";
+    }
+
     str = msg.substr(first, pos - first);
     str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
     return str;
