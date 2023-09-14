@@ -50,10 +50,16 @@ void C_connection::cryptoLog(std::string &toEncrypt)
 
 void C_connection::handleHTTP(const std::string &msg)
 {
-
     std::vector<std::string> dataToSend;
-
-    std::cout << "1 cyniu: " << Http::getUrl(msg) << std::endl;
+    std::string htmlHEAD = R"(<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iDom gateway</title>
+    <link rel="icon" type="image/x-icon" href="http://cyniu88.no-ip.pl/favicon.ico">
+</head>)";
 
     if (Http::getContentType(msg) == Content_Type::ApplicationJSON and Http::getUrl(msg) == "/iDom/log")
     {
@@ -62,7 +68,7 @@ void C_connection::handleHTTP(const std::string &msg)
         log_file_cout << INFO << "logowanie z ESP: " << jj["msg"] << " millis: " << jj["millis"] << std::endl;
         log_file_mutex.mutex_unlock();
         std::string msgHTML = R"(ok)";
-        std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
+        std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
 
         dataToSend.push_back(msgHTTP);
         dataToSend.push_back(msgHTML);
@@ -70,17 +76,9 @@ void C_connection::handleHTTP(const std::string &msg)
 
     else if (Http::getUrl(msg) == "/run/command/")
     {
-
-        std::cout << "2 cyniu: " << Http::getUrl(msg) << std::endl;
         auto query = Http::getQuery(msg);
-        for (const auto &a : query)
-        {
-            std::cout << "3 cyniu: " << a.first << std::endl;
-        }
-        std::cout << "name: " << query["name"] << std::endl;
-        std::cout << "key: " << query["key"] << std::endl;
+      
         auto command = my_data->m_keyHandler->getCommand(query["name"]);
-        std::cout << "command: " << command << std::endl;
 
         std::string data;
         if (my_data->m_keyHandler->useKEY(query["name"], query["key"]))
@@ -91,17 +89,10 @@ void C_connection::handleHTTP(const std::string &msg)
             data = " wyslano komende!";
         }
         else
-            data = "operacja niedozwolona";
-        std::string msgHTML = R"(<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iDom gateway</title>
-</head><body><center><span style="color: red">)" + data + R"(</span></center></body></html>)";
+            data = "operacja niedozwolona!";
+        std::string msgHTML = htmlHEAD + R"(<body><center><span style="color: red">)" + data + R"(</span></center></body></html>)";
 
-        std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
+        std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
 
         dataToSend.push_back(msgHTTP);
         dataToSend.push_back(msgHTML);
@@ -113,16 +104,7 @@ void C_connection::handleHTTP(const std::string &msg)
 
     else
     {
-        std::cout << "2 dupa " << std::endl;
-        std::string msgHTML = R"(<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iDom gateway</title>
-</head>
-<body>
+        std::string msgHTML = htmlHEAD + R"(<body>
     <center><div>
         <a id="redirect-btn" target="main">
         <button type="button" style="width: 80%; padding: 80px; cursor: pointer; box-shadow: 6px 6px 5px; #999; -webkit-box-shadow: 6px 6px 5px #999; -moz-box-shadow: 6px 6px 5px #999; font-weight: bold; background: #ffff00; color: #000; border-radius: 10px; border: 1px solid #999; font-size: 350%;">Click Me!</button> </a>
@@ -131,7 +113,7 @@ void C_connection::handleHTTP(const std::string &msg)
        <br>
     <iframe  frameborder="0" name="main" width=100% height=600 align="left" >koko</iframe>
 
-    <center>11-06-2022 <a href=" " target=_blank title="11-06-2022">Cyniu</a></center>
+    <center>13-09-2023 <a href=" " target=_blank title="13-09-2023">Cyniu</a></center>
 
     <script>
         const baseLink = "http://cyniu88.no-ip.pl:48833/run/command/";
@@ -145,7 +127,7 @@ void C_connection::handleHTTP(const std::string &msg)
 </body>
 </html>)";
 
-        std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
+        std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
 
         dataToSend.push_back(msgHTTP);
         dataToSend.push_back(msgHTML);
