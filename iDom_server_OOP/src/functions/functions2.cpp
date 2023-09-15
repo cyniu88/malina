@@ -417,7 +417,7 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     client->onStopConnection();
     my_data->main_Rs232->print("LED_AT:0;");
 #ifdef BT_TEST
-    std::cout << "zamykamy server" << std::endl;
+    puts("zamykamy server" );
     useful_F::workServer = false; // wylacz nasluchwianie servera
 #endif
     iDOM_THREAD::stop_thread(threadName, my_data);
