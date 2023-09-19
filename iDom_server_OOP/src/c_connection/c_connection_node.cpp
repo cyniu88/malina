@@ -74,6 +74,38 @@ void C_connection::handleHTTP(const std::string &msg)
         dataToSend.push_back(msgHTML);
     }
 
+
+    else if (Http::getUrl(msg) == "/log")
+    {
+        std::string str_buf;
+                std::fstream log_file;
+        log_file.open(_logfile.c_str(), std::ios::in);
+        if (log_file.good() == false)
+        {
+            str_buf = " can not open file !";
+        }
+        else
+        {
+            str_buf.erase();
+            while (!log_file.eof())
+            {
+                str_buf.push_back(static_cast<char>(log_file.get()));
+            }
+            str_buf.erase(str_buf.length() - 1, str_buf.length());
+
+            log_file.close();
+        }
+        std::string msgHTML = htmlHEAD + R"(<body> <left><pre>)" +  str_buf + R"(</pre></left> </body> </html>)";
+
+        std::string msgHTTP = R"(HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Length: )" + std::to_string(msgHTML.length()) + "\r\n\r\n";
+
+        dataToSend.push_back(msgHTTP);
+        dataToSend.push_back(msgHTML);
+
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG << "odebrano HTTP " << msg << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
     else if (Http::getUrl(msg) == "/run/command/")
     {
         auto query = Http::getQuery(msg);
