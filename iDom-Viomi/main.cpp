@@ -36,9 +36,7 @@ int main(void)
                 int r = system("tinyplayer /mnt/UDISK/CYNIU/imp.mp3");
                 std::string result{"Wynik odgrywania: "};
                 result += std::to_string(r);
-                res.set_content(result, "text/plain"); 
-            });
-    
+                res.set_content(result, "text/plain"); });
 
-                                           svr.listen("0.0.0.0", 8080);
+    svr.listen("0.0.0.0", 8080);
 }
