@@ -1,4 +1,5 @@
 #include "../../libs/emoji/emoji.h"
+#include "../../libs/influxm/client.h"
 #include "../functions/functions.h"
 #include "../RADIO_433_eq/radio_433_eq.h"
 #include "../thread_functions/iDom_thread.h"
@@ -616,7 +617,7 @@ std::string iDomTOOLS::getSmog()
     {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "wyjatek substr() e getSmog() !!!!!!" << std::endl;
-        log_file_cout << CRITICAL << "getSmog() return: " <<readBuffer << std::endl;
+        log_file_cout << CRITICAL << "getSmog() return: " << readBuffer << std::endl;
         log_file_mutex.mutex_unlock();
         return "-1";
     }
@@ -674,6 +675,88 @@ void iDomTOOLS::send_data_to_thingSpeak()
     {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " błąd wysyłania temperatury na thingspeak s: " << s << " s2: " << s2 << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+}
+
+void iDomTOOLS::send_data_to_influxdb()
+{
+    try
+    {
+        char points[4096];
+        int pointsSize = 4096, offset = 0;
+
+        influx_client::flux::Client client(
+            "10.9.0.34", /* port */ 8086, /* token */
+            " "
+            "-aaaapov11112lj2-ovr5bbbbso6q==",
+            "organization", "iDom");
+
+        /* do something with client */
+        // get temperature in gardener house
+        RADIO_WEATHER_STATION *st = static_cast<RADIO_WEATHER_STATION *>(my_data->main_REC->getEqPointer("first"));
+        auto temp = st->data.getTemperature();
+
+        std::vector<std::string> _temperature = getTemperature();
+
+        auto code = client.writes(
+            {
+                {
+                    "temperatura",
+                    {},
+                    {{"outdoor", std::stof(_temperature.at(1))},
+                     {"inside", std::stof(_temperature.at(0))},
+                     {"floor", my_data->lusina.statTemp.average()},
+                     {"bojler", my_data->ptr_buderus->getBoilerTemp()},
+                     {"domek", temp},
+                     {"flow", my_data->ptr_buderus->getCurFlowTemp()},
+                     {"shedTemp", my_data->lusina.shedTemp.average()}},
+                    0,
+                },
+                {
+                    "wilgoc",
+                    {},
+                    {{"humi", my_data->lusina.shedHum.average()}},
+                    0,
+                },
+                {
+                    "bateria",
+                    {},
+                    {{"volt", my_data->lusina.shedBat.average()}},
+                    0,
+                },
+                {
+                    "smog",
+                    {},
+                    {{"smog", std::stof(getSmog())}},
+                    0,
+                },
+                {
+                    "cisnienie",
+                    {},
+                    {{"dom", my_data->lusina.shedPres.average()}},
+                    0,
+                },
+                {
+                    "piec",
+                    {},
+                    {{"praca", my_data->ptr_buderus->isHeatingActiv()}},
+                    0,
+                },
+            },
+            points, pointsSize);
+        if (code != 204)
+        {
+            log_file_mutex.mutex_lock();
+            log_file_cout << CRITICAL << " błąd wysyłania temperatury do influxdb " << code << std::endl;
+            log_file_mutex.mutex_unlock();
+            throw 55;
+        }
+    }
+    catch (...)
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << " błąd (wyjatek) wysyłania temperatury do influxdb " << std::endl;
         log_file_mutex.mutex_unlock();
     }
 }

@@ -79,6 +79,7 @@ public:
     std::string getTemperatureString() override;
     std::string getSmog() override;
     void send_data_to_thingSpeak() override;
+    void send_data_to_influxdb() override;
     std::string getFloorTemp() override;
 
     //////////////////// camera part ///////////////////////

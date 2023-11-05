@@ -15,6 +15,12 @@ std::string command_put::execute(std::vector<std::string> &v, thread_data *my_da
             my_data->main_iDomTools->send_data_to_thingSpeak();
             str_buf = "DONE";
         }
+        else         if (v[1] == "influx")
+        {
+            str_buf.erase();
+            my_data->main_iDomTools->send_data_to_influxdb();
+            str_buf = "DONE";
+        }
     }
     return str_buf;
 }
@@ -25,5 +31,6 @@ std::string command_put::help() const
     help << "put <parameter> - " << std::endl << std::endl;
     help << "parameter:" << std::endl;
     help << "\ttemperature - put actual temperature from inside and outside and smog on thingspeak\n" << std::endl;
+    help << "\tinflux - put actual temperature from inside and outside and smog and other to influxdb\n" << std::endl;
     return help.str();
 }

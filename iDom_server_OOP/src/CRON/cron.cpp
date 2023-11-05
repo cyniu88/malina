@@ -95,6 +95,8 @@ void CRON::runEveryone_5min()
 
     my_data->main_iDomTools->healthCheck();
     my_data->main_house_room_handler->turnOffUnexpectedBulb();
+    
+    my_data->main_iDomTools->send_data_to_influxdb();
 }
 
 void CRON::runEveryone_15min()
