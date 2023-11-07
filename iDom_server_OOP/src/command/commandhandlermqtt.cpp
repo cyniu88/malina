@@ -47,7 +47,7 @@ CommandHandlerMQTT::CommandHandlerMQTT()
     commandMap.insert(std::make_pair(shed->getCommandName(), std::move(shed)));
 }
 
-std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_data *my_data)
+std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_data *context)
 {
     if (commandMap.find(v.front()) == commandMap.end())
     {
@@ -56,10 +56,10 @@ std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_data *my
          log << "MQTT: " << v.front() << std::endl;
          log.close();
          return EMOJI::emoji(E_emoji::WARNING_SIGN) + " unknown command: "+ v.front();*/
-        return commandMap["voice"]->execute(v, my_data);
+        return commandMap["voice"]->execute(v, context);
     }
     else
     {
-        return commandMap[v.front()]->execute(v, my_data);
+        return commandMap[v.front()]->execute(v, context);
     }
 }

@@ -5,7 +5,7 @@
 
 command_program::command_program(const std::string &name):command(name){}
 
-std::string command_program::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_program::execute(std::vector<std::string> &v, thread_data *context)
 {
     std::string ret = help();
     if (v.size() <2 )
@@ -21,7 +21,7 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     }
     if (v[1] == "stop")
     {
-        my_data->main_iDomTools->close_iDomServer();
+        context->main_iDomTools->close_iDomServer();
         return "CLOSE";
     }
     if (v.size() < 3 )
@@ -30,12 +30,12 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
         return "add more paramiters";
     }
     if(v[1] == "reload" && v[2] == "soft"){
-        my_data->main_iDomTools->reloadSoft_iDomServer();
+        context->main_iDomTools->reloadSoft_iDomServer();
         return "CLOSE";
     }
     else if(v[1] == "reload" && v[2] == "hard")
     {
-        my_data->main_iDomTools->reloadHard_iDomServer();
+        context->main_iDomTools->reloadHard_iDomServer();
         return "CLOSE";
     }
     else if(v[1] == "clear" && v[2] == "ram")
@@ -47,122 +47,122 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *m
     {
         std::stringstream r;
         r << std::boolalpha;
-        r << "my_data->alarmTime.fromVolume \t" << my_data->alarmTime.fromVolume << std::endl;
-        r << "my_data->alarmTime.radioID \t" << my_data->alarmTime.radioID << std::endl;
-        r << "my_data->alarmTime.state \t" << my_data->alarmTime.state << std::endl;
-        r << "my_data->alarmTime.time \t" << my_data->alarmTime.time.getString() << std::endl;
-        r << "my_data->alarmTime.toVolume \t" << my_data->alarmTime.toVolume << std::endl;
+        r << "context->alarmTime.fromVolume \t" << context->alarmTime.fromVolume << std::endl;
+        r << "context->alarmTime.radioID \t" << context->alarmTime.radioID << std::endl;
+        r << "context->alarmTime.state \t" << context->alarmTime.state << std::endl;
+        r << "context->alarmTime.time \t" << context->alarmTime.time.getString() << std::endl;
+        r << "context->alarmTime.toVolume \t" << context->alarmTime.toVolume << std::endl;
         r << "command: " << std::endl;
-        for (const auto& k : my_data->alarmTime.commands)
+        for (const auto& k : context->alarmTime.commands)
         {
             r << k << std::endl;
         }
         r << std::endl;
-        r << "my_data->encriptionKey \t" << my_data->encriptionKey << std::endl;
+        r << "context->encriptionKey \t" << context->encriptionKey << std::endl;
         r << std::endl;
-        r << "my_data->server_settings->_rs232.BaudRate \t"
-          << my_data->server_settings->_rs232.BaudRate << std::endl;
-        r << "my_data->server_settings->_camera.cameraLedOFF \t"
-          << my_data->server_settings->_camera.cameraLedOFF << std::endl;
-        r << "my_data->server_settings->_camera.cameraLedON \t"
-          << my_data->server_settings->_camera.cameraLedON << std::endl;
-        r << "my_data->server_settings->_camera.cameraURL \t"
-          << my_data->server_settings->_camera.cameraURL << std::endl;
-        r << "my_data->server_settings->_server.encrypted \t"
-          << my_data->server_settings->_server.encrypted << std::endl;
-        r << "my_data->server_settings->_fb_viber.facebookAccessToken \t"
-          << my_data->server_settings->_fb_viber.facebookAccessToken << std::endl;
-        r << "my_data->server_settings->_server.ftpServer.URL \t"
-          << my_data->server_settings->_server.ftpServer.URL << std::endl;
-        r << "my_data->server_settings->_server.ftpServer.user \t"
-          << my_data->server_settings->_server.ftpServer.user << std::endl;
-        r << "my_data->server_settings->_server.ID_server \t"
-          << my_data->server_settings->_server.ID_server << std::endl;
-        r << "my_data->server_settings->_server.lightningApiURL \t"
-          << my_data->server_settings->_server.lightningApiURL << std::endl;
-        r << "my_data->server_settings->_server.MPD_IP \t"
-          << my_data->server_settings->_server.MPD_IP << std::endl;
-        r << "my_data->server_settings->_server.PORT \t"
-          << my_data->server_settings->_server.PORT << std::endl;
-        r << "my_data->server_settings->_rs232.portRS232 \t"
-          << my_data->server_settings->_rs232.portRS232<< std::endl;
-        r << "my_data->server_settings->_server.radio433MHzConfigFile \t"
-          << my_data->server_settings->_server.radio433MHzConfigFile << std::endl;
-        r << "my_data->server_settings->_rflink.RFLinkBaudRate \t"
-          << my_data->server_settings->_rflink.RFLinkBaudRate<< std::endl;
-        r << "my_data->server_settings->_rflink.RFLinkPort \t"
-          << my_data->server_settings->_rflink.RFLinkPort<< std::endl;
-        r << "my_data->server_settings->_server.saveFilePath \t"
-          << my_data->server_settings->_server.saveFilePath<< std::endl;
-        r << "my_data->server_settings->_server.SERVER_IP \t"
-          << my_data->server_settings->_server.SERVER_IP << std::endl;
-        r << "my_data->server_settings->_runThread.CRON \t"
-          << my_data->server_settings->_runThread.CRON << std::endl;
-        r << "my_data->server_settings->_runThread.DUMMY \t"
-          << my_data->server_settings->_runThread.DUMMY << std::endl;
-        r << "my_data->server_settings->_runThread.MPD \t"
-          << my_data->server_settings->_runThread.MPD << std::endl;
-        r << "my_data->server_settings->_runThread.RS232 \t"
-          << my_data->server_settings->_runThread.RS232 << std::endl;
-        r << "my_data->server_settings->_runThread.RFLink \t"
-          << my_data->server_settings->_runThread.RFLink << std::endl;
-        r << "my_data->server_settings->_runThread.MQTT \t"
-          << my_data->server_settings->_runThread.MQTT<< std::endl;
-        r << "my_data->server_settings->_server.TS_KEY \t"
-          << my_data->server_settings->_server.TS_KEY<< std::endl;
-        r << "my_data->server_settings->_fb_viber.viberAvatar \t"
-          << my_data->server_settings->_fb_viber.viberAvatar<< std::endl;
-        r << "my_data->server_settings->_fb_viber.viberReceiver.at(0) \t"
-          << my_data->server_settings->_fb_viber.viberReceiver.at(0) << std::endl;
-        r << "my_data->server_settings->_fb_viber.viberSender \t"
-          << my_data->server_settings->_fb_viber.viberSender << std::endl;
-        r << "my_data->server_settings->_fb_viber.viberToken \t"
-          << my_data->server_settings->_fb_viber.viberToken << std::endl;
-        r << "my_data->server_settings->_server.v_delay \t"
-          << my_data->server_settings->_server.v_delay << std::endl;
-        r << "my_data->server_settings->_command\t"
-          << my_data->server_settings->_command.dump(4) << std::endl;
+        r << "context->server_settings->_rs232.BaudRate \t"
+          << context->server_settings->_rs232.BaudRate << std::endl;
+        r << "context->server_settings->_camera.cameraLedOFF \t"
+          << context->server_settings->_camera.cameraLedOFF << std::endl;
+        r << "context->server_settings->_camera.cameraLedON \t"
+          << context->server_settings->_camera.cameraLedON << std::endl;
+        r << "context->server_settings->_camera.cameraURL \t"
+          << context->server_settings->_camera.cameraURL << std::endl;
+        r << "context->server_settings->_server.encrypted \t"
+          << context->server_settings->_server.encrypted << std::endl;
+        r << "context->server_settings->_fb_viber.facebookAccessToken \t"
+          << context->server_settings->_fb_viber.facebookAccessToken << std::endl;
+        r << "context->server_settings->_server.ftpServer.URL \t"
+          << context->server_settings->_server.ftpServer.URL << std::endl;
+        r << "context->server_settings->_server.ftpServer.user \t"
+          << context->server_settings->_server.ftpServer.user << std::endl;
+        r << "context->server_settings->_server.ID_server \t"
+          << context->server_settings->_server.ID_server << std::endl;
+        r << "context->server_settings->_server.lightningApiURL \t"
+          << context->server_settings->_server.lightningApiURL << std::endl;
+        r << "context->server_settings->_server.MPD_IP \t"
+          << context->server_settings->_server.MPD_IP << std::endl;
+        r << "context->server_settings->_server.PORT \t"
+          << context->server_settings->_server.PORT << std::endl;
+        r << "context->server_settings->_rs232.portRS232 \t"
+          << context->server_settings->_rs232.portRS232<< std::endl;
+        r << "context->server_settings->_server.radio433MHzConfigFile \t"
+          << context->server_settings->_server.radio433MHzConfigFile << std::endl;
+        r << "context->server_settings->_rflink.RFLinkBaudRate \t"
+          << context->server_settings->_rflink.RFLinkBaudRate<< std::endl;
+        r << "context->server_settings->_rflink.RFLinkPort \t"
+          << context->server_settings->_rflink.RFLinkPort<< std::endl;
+        r << "context->server_settings->_server.saveFilePath \t"
+          << context->server_settings->_server.saveFilePath<< std::endl;
+        r << "context->server_settings->_server.SERVER_IP \t"
+          << context->server_settings->_server.SERVER_IP << std::endl;
+        r << "context->server_settings->_runThread.CRON \t"
+          << context->server_settings->_runThread.CRON << std::endl;
+        r << "context->server_settings->_runThread.DUMMY \t"
+          << context->server_settings->_runThread.DUMMY << std::endl;
+        r << "context->server_settings->_runThread.MPD \t"
+          << context->server_settings->_runThread.MPD << std::endl;
+        r << "context->server_settings->_runThread.RS232 \t"
+          << context->server_settings->_runThread.RS232 << std::endl;
+        r << "context->server_settings->_runThread.RFLink \t"
+          << context->server_settings->_runThread.RFLink << std::endl;
+        r << "context->server_settings->_runThread.MQTT \t"
+          << context->server_settings->_runThread.MQTT<< std::endl;
+        r << "context->server_settings->_server.TS_KEY \t"
+          << context->server_settings->_server.TS_KEY<< std::endl;
+        r << "context->server_settings->_fb_viber.viberAvatar \t"
+          << context->server_settings->_fb_viber.viberAvatar<< std::endl;
+        r << "context->server_settings->_fb_viber.viberReceiver.at(0) \t"
+          << context->server_settings->_fb_viber.viberReceiver.at(0) << std::endl;
+        r << "context->server_settings->_fb_viber.viberSender \t"
+          << context->server_settings->_fb_viber.viberSender << std::endl;
+        r << "context->server_settings->_fb_viber.viberToken \t"
+          << context->server_settings->_fb_viber.viberToken << std::endl;
+        r << "context->server_settings->_server.v_delay \t"
+          << context->server_settings->_server.v_delay << std::endl;
+        r << "context->server_settings->_command\t"
+          << context->server_settings->_command.dump(4) << std::endl;
         r << std::endl;
-        r << "my_data->server_settings->sleeper \t"
-          << my_data->sleeper<< std::endl;
+        r << "context->server_settings->sleeper \t"
+          << context->sleeper<< std::endl;
         r << std::endl;
-        r << "my_data->iDomProgramState \t"
-          << static_cast<int>(my_data->iDomProgramState) << std::endl;
+        r << "context->iDomProgramState \t"
+          << static_cast<int>(context->iDomProgramState) << std::endl;
         r << std::endl;
-        r << "my_data->serverStarted \t"  << my_data->serverStarted << std::endl;
+        r << "context->serverStarted \t"  << context->serverStarted << std::endl;
         r << std::endl;
-        r << "my_data->main_iDomStatus \t"
-          << my_data->main_iDomStatus->getAllObjectsStateString()<< std::endl;
+        r << "context->main_iDomStatus \t"
+          << context->main_iDomStatus->getAllObjectsStateString()<< std::endl;
         r << std::endl;
-        r << "my_data->idom_all_state.houseState \t"
-          << my_data->idom_all_state.houseState << std::endl;
+        r << "context->idom_all_state.houseState \t"
+          << context->idom_all_state.houseState << std::endl;
         r << std::endl;
-        r << "my_data->now_time \t" << my_data->now_time<< std::endl;
-        r << "my_data->start - time \t" << my_data->start<< std::endl;
-        r << std::endl;
-
-        r << "my_data->ptr_MPD_info->artist \t" << my_data->ptr_MPD_info->artist<< std::endl;
-        r << "my_data->ptr_MPD_info->currentSongID \t" << my_data->ptr_MPD_info->currentSongID<< std::endl;
-        r << "my_data->ptr_MPD_info->isPlay \t" << my_data->ptr_MPD_info->isPlay<< std::endl;
-        r << "my_data->ptr_MPD_info->radio \t" << my_data->ptr_MPD_info->radio<< std::endl;
-        r << "my_data->ptr_MPD_info->songList.at(0) \t" << my_data->ptr_MPD_info->songList.at(0)<< std::endl;
-        r << "my_data->ptr_MPD_info->title \t" << my_data->ptr_MPD_info->title<< std::endl;
-        r << "my_data->ptr_MPD_info->volume \t" << my_data->ptr_MPD_info->volume<< std::endl;
-
-        r << std::endl;
-        r << "my_data->main_RFLink->okTime \t" << my_data->main_RFLink->m_okTime<< std::endl;
-        r << "my_data->main_RFLink->pingTime \t" << my_data->main_RFLink->m_pingTime<< std::endl;
-
+        r << "context->now_time \t" << context->now_time<< std::endl;
+        r << "context->start - time \t" << context->start<< std::endl;
         r << std::endl;
 
-        r << "my_data->mqttHandler->_connected: " << my_data->mqttHandler->_connected << std::endl;
-        r << "my_data->mqttHandler->_subscribed: " << my_data->mqttHandler->_subscribed << std::endl;
+        r << "context->ptr_MPD_info->artist \t" << context->ptr_MPD_info->artist<< std::endl;
+        r << "context->ptr_MPD_info->currentSongID \t" << context->ptr_MPD_info->currentSongID<< std::endl;
+        r << "context->ptr_MPD_info->isPlay \t" << context->ptr_MPD_info->isPlay<< std::endl;
+        r << "context->ptr_MPD_info->radio \t" << context->ptr_MPD_info->radio<< std::endl;
+        r << "context->ptr_MPD_info->songList.at(0) \t" << context->ptr_MPD_info->songList.at(0)<< std::endl;
+        r << "context->ptr_MPD_info->title \t" << context->ptr_MPD_info->title<< std::endl;
+        r << "context->ptr_MPD_info->volume \t" << context->ptr_MPD_info->volume<< std::endl;
+
+        r << std::endl;
+        r << "context->main_RFLink->okTime \t" << context->main_RFLink->m_okTime<< std::endl;
+        r << "context->main_RFLink->pingTime \t" << context->main_RFLink->m_pingTime<< std::endl;
+
+        r << std::endl;
+
+        r << "context->mqttHandler->_connected: " << context->mqttHandler->_connected << std::endl;
+        r << "context->mqttHandler->_subscribed: " << context->mqttHandler->_subscribed << std::endl;
         r << "buffer size:" << std::endl;
 
-        r << "mqtt bffer: " << my_data->mqttHandler->getReceiveQueueSize() << std::endl;
-        r << "rflink map size: " << my_data->main_RFLink->m_rflinkMAP.size() << std::endl;
+        r << "mqtt bffer: " << context->mqttHandler->getReceiveQueueSize() << std::endl;
+        r << "rflink map size: " << context->main_RFLink->m_rflinkMAP.size() << std::endl;
 
-        r << "alarm map size: " << my_data->iDomAlarm.alarmSize() << std::endl;
+        r << "alarm map size: " << context->iDomAlarm.alarmSize() << std::endl;
 
         r << iDom_API::getDump() << std::endl;
 

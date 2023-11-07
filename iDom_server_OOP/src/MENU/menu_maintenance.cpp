@@ -5,7 +5,7 @@
 #include "menu_root.h"
 #include "../iDomTools/idomtools_interface.h"
 
-MENU_MAINTENANCE::MENU_MAINTENANCE(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(my_data, lcdPTR, msm, lcdLED)
+MENU_MAINTENANCE::MENU_MAINTENANCE(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(context, lcdPTR, msm, lcdLED)
 {
 }
 
@@ -13,12 +13,12 @@ void MENU_MAINTENANCE::entry()
 {
     menuDatabase.pushBack({"  HARD RELOAD", [=]()
                            {print("iDom RELOAD",""); 
-													  my_dataPTR->main_iDomTools->reloadHard_iDomServer(); }});
+													  contextPTR->main_iDomTools->reloadHard_iDomServer(); }});
     menuDatabase.pushBack({"RASPBERRY RELOAD", [=]()
                            {print("Raspberry", "RELOAD");
-                                                      my_dataPTR->main_iDomTools->raspberryReboot(); }});
+                                                      contextPTR->main_iDomTools->raspberryReboot(); }});
     print(menuDatabase.getCurrent().name, arrow);
-    my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
+    contextPTR->main_Rs232->print("TIMEOUT:30000;");
 }
 
 void MENU_MAINTENANCE::exit()

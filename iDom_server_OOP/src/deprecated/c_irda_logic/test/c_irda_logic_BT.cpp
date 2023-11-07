@@ -15,12 +15,12 @@ public:
     void SetUp()
     {
         iDomTOOLS_ClassTest::SetUp();
-        test_irda = std::make_unique<c_irda_logic>(&test_my_data);
-        test_my_data.main_MENU = std::make_unique<menu_tree>("../config/MENU/", test_my_data.mainLCD);
+        test_irda = std::make_unique<c_irda_logic>(&test_context);
+        test_context.main_MENU = std::make_unique<menu_tree>("../config/MENU/", test_context.mainLCD);
 
-        test_my_data.main_tree = std::make_unique<files_tree>("../config/MOVIE/", test_my_data.mainLCD);
+        test_context.main_tree = std::make_unique<files_tree>("../config/MOVIE/", test_context.mainLCD);
 
-        test_my_data.server_settings->_server.omxplayerFile =  test_omxplayerFile;
+        test_context.server_settings->_server.omxplayerFile =  test_omxplayerFile;
 
         std::cout << "c_irda_logic_fixture SetUp()"<<std::endl;
     }
@@ -40,45 +40,45 @@ TEST_F(c_irda_logic_fixture, kodi)
         test_ThreadArrayStruc.at(i).thread_socket = 0;
     test_ThreadArrayStruc.at(1).thread_socket = 0;
     test_ThreadArrayStruc.at(1).thread_ID = std::this_thread::get_id();
-    test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
+    test_context.main_THREAD_arr = &test_ThreadArrayStruc;
 
-    test_my_data.main_iDomTools->unlockHome();
-    test_my_data.main_iDomStatus->setObjectState("music",STATE::PAUSE);
-    test_my_data.main_iDomStatus->setObjectState("speakers",STATE::OFF);
+    test_context.main_iDomTools->unlockHome();
+    test_context.main_iDomStatus->setObjectState("music",STATE::PAUSE);
+    test_context.main_iDomStatus->setObjectState("speakers",STATE::OFF);
     test_irda->_add(PILOT_KEY::KEY_REFRESH);
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
 }
 
 TEST_F(c_irda_logic_fixture, turnOnOffListwa)
 {
-    test_my_data.main_iDomTools->unlockHome();
-    test_my_data.main_iDomStatus->setObjectState("listwa",STATE::OFF);
+    test_context.main_iDomTools->unlockHome();
+    test_context.main_iDomStatus->setObjectState("listwa",STATE::OFF);
 
-    EXPECT_EQ(test_my_data.main_REC->getEqPointer("listwa")->getState(), STATE::UNDEFINE);
+    EXPECT_EQ(test_context.main_REC->getEqPointer("listwa")->getState(), STATE::UNDEFINE);
     test_irda->_add(PILOT_KEY::KEY_TEXT);
 
-    EXPECT_EQ(test_my_data.main_REC->getEqPointer("listwa")->getState(),
+    EXPECT_EQ(test_context.main_REC->getEqPointer("listwa")->getState(),
               STATE::ON) << "wrong state: "
-                         << stateToString(test_my_data.main_REC->getEqPointer("listwa")->getState());
+                         << stateToString(test_context.main_REC->getEqPointer("listwa")->getState());
     test_irda->_add(PILOT_KEY::KEY_TEXT);
 
-    EXPECT_EQ(test_my_data.main_REC->getEqPointer("listwa")->getState(),
+    EXPECT_EQ(test_context.main_REC->getEqPointer("listwa")->getState(),
               STATE::OFF) << "wrong state: "
-                          << stateToString(test_my_data.main_REC->getEqPointer("listwa")->getState());
+                          << stateToString(test_context.main_REC->getEqPointer("listwa")->getState());
 }
 
 TEST_F(c_irda_logic_fixture, turnOnOffPrinter)
 {
     setReturnPinState(0);
-    test_my_data.main_iDomTools->unlockHome();
-    test_my_data.main_iDomStatus->setObjectState("printer", STATE::OFF);
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"),
+    test_context.main_iDomTools->unlockHome();
+    test_context.main_iDomStatus->setObjectState("printer", STATE::OFF);
+    EXPECT_EQ(test_context.main_iDomStatus->getObjectState("printer"),
               STATE::OFF);
 
     test_irda->mainPilotHandler(PILOT_KEY::KEY_FAVORITES);
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("printer"),
+    EXPECT_EQ(test_context.main_iDomStatus->getObjectState("printer"),
               STATE::ON);
-    std::cout <<"event: " << test_my_data.myEventHandler.run("230V")->getEvent() <<std::endl;
+    std::cout <<"event: " << test_context.myEventHandler.run("230V")->getEvent() <<std::endl;
 }
 
 TEST_F(c_irda_logic_fixture, irdaMPD)
@@ -113,8 +113,8 @@ TEST_F(c_irda_logic_fixture, irdaMPD)
 
 TEST_F(c_irda_logic_fixture, sleeper_Logic_EXIT)
 {
-    test_my_data.sleeper = 0;
-    EXPECT_EQ(test_my_data.sleeper, 0);
+    test_context.sleeper = 0;
+    EXPECT_EQ(test_context.sleeper, 0);
     test_irda->_add(PILOT_KEY::KEY_MENU);
     do {
         test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
@@ -124,16 +124,16 @@ TEST_F(c_irda_logic_fixture, sleeper_Logic_EXIT)
     } while(TEST_DATA::LCD_print != "5.SLEEPer");
     test_irda->_add(PILOT_KEY::KEY_OK);
     test_irda->_add(PILOT_KEY::KEY_UP);
-    EXPECT_EQ(test_my_data.sleeper, 1);
+    EXPECT_EQ(test_context.sleeper, 1);
     test_irda->_add(PILOT_KEY::KEY_UP);
-    EXPECT_EQ(test_my_data.sleeper, 2);
+    EXPECT_EQ(test_context.sleeper, 2);
     test_irda->_add(PILOT_KEY::KEY_EXIT);
-    EXPECT_EQ(test_my_data.sleeper, 0);
+    EXPECT_EQ(test_context.sleeper, 0);
 }
 
 TEST_F(c_irda_logic_fixture, sleeper_Logic_OK)
 {
-    std::cout << test_my_data.main_REC->listAllName() << std::endl;
+    std::cout << test_context.main_REC->listAllName() << std::endl;
 
     std::array<Thread_array_struc,iDomConst::MAX_CONNECTION> test_ThreadArrayStruc;
 
@@ -141,29 +141,29 @@ TEST_F(c_irda_logic_fixture, sleeper_Logic_OK)
         test_ThreadArrayStruc.at(i).thread_socket = i+1;
     test_ThreadArrayStruc.at(3).thread_socket = 0;
     test_ThreadArrayStruc.at(3).thread_ID = std::this_thread::get_id();
-    test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
-    test_my_data.sleeper = 0;
-    EXPECT_EQ(test_my_data.sleeper, 0);
+    test_context.main_THREAD_arr = &test_ThreadArrayStruc;
+    test_context.sleeper = 0;
+    EXPECT_EQ(test_context.sleeper, 0);
     test_irda->_add(PILOT_KEY::KEY_MENU);
     do {
         test_irda->_add(PILOT_KEY::KEY_VOLUMEUP);
     } while(TEST_DATA::LCD_print != "5.SLEEPer");
     test_irda->_add(PILOT_KEY::KEY_OK);
     test_irda->_add(PILOT_KEY::KEY_UP);
-    EXPECT_EQ(test_my_data.sleeper, 1);
+    EXPECT_EQ(test_context.sleeper, 1);
     test_irda->_add(PILOT_KEY::KEY_UP);
-    EXPECT_EQ(test_my_data.sleeper, 2);
+    EXPECT_EQ(test_context.sleeper, 2);
     test_irda->_add(PILOT_KEY::KEY_CHANNELUP);
-    EXPECT_EQ(test_my_data.sleeper, 12);
+    EXPECT_EQ(test_context.sleeper, 12);
     test_irda->_add(PILOT_KEY::KEY_CHANNELDOWN);
-    EXPECT_EQ(test_my_data.sleeper, 2);
+    EXPECT_EQ(test_context.sleeper, 2);
     test_irda->_add(PILOT_KEY::KEY_DOWN);
-    EXPECT_EQ(test_my_data.sleeper, 1);
+    EXPECT_EQ(test_context.sleeper, 1);
     test_irda->_add(PILOT_KEY::KEY_OK);
     sleep(2);
-    EXPECT_EQ(test_my_data.sleeper, 0);
+    EXPECT_EQ(test_context.sleeper, 0);
     test_irda->_add(PILOT_KEY::KEY_EXIT);
-    EXPECT_EQ(test_my_data.sleeper, 0);\
+    EXPECT_EQ(test_context.sleeper, 0);\
 
     //////////////default
     test_irda->who = PILOT_STATE::SLEEPER;
@@ -172,12 +172,12 @@ TEST_F(c_irda_logic_fixture, sleeper_Logic_OK)
 
 TEST_F(c_irda_logic_fixture, LED_ON_OFF)
 {
-    EXPECT_EQ( test_my_data.myEventHandler.run("LED")->getLast1minNumberEvent(),0);
-    for (int i = 1 ; i < test_my_data.ptr_pilot_led->colorLED.size() + 2; ++i)
+    EXPECT_EQ( test_context.myEventHandler.run("LED")->getLast1minNumberEvent(),0);
+    for (int i = 1 ; i < test_context.ptr_pilot_led->colorLED.size() + 2; ++i)
     {
         test_irda->_add(PILOT_KEY::KEY_LANGUAGE);
-        EXPECT_EQ( test_my_data.myEventHandler.run("LED")->getLast1minNumberEvent(),i);
-        EXPECT_THAT(test_my_data.myEventHandler.run("LED")->getEvent(),
+        EXPECT_EQ( test_context.myEventHandler.run("LED")->getLast1minNumberEvent(),i);
+        EXPECT_THAT(test_context.myEventHandler.run("LED")->getEvent(),
                     testing::HasSubstr("LED can not start due to home state: UNDEFINE"));
     }
     test_irda->_add(PILOT_KEY::KEY_SUBTITLE);
@@ -213,7 +213,7 @@ TEST_F(c_irda_logic_fixture, menu_files)
 {
     blockQueue  test_q;
     test_q._clearAll();
-    test_my_data.idom_all_state.houseState = STATE::UNLOCK;
+    test_context.idom_all_state.houseState = STATE::UNLOCK;
     int timeout = 10;
     test_irda->_add(PILOT_KEY::KEY_MENU);
     do {
@@ -236,7 +236,7 @@ TEST_F(c_irda_logic_fixture, menu_files)
     EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
     ///////////////// play - no MPD
 
-    test_my_data.ptr_MPD_info->isPlay  = false;
+    test_context.ptr_MPD_info->isPlay  = false;
     test_irda->_add(PILOT_KEY::KEY_MENU);
     timeout = 10;
     do {
@@ -257,10 +257,10 @@ TEST_F(c_irda_logic_fixture, menu_files)
     EXPECT_EQ(test_irda->who, PILOT_STATE::PROJECTOR);
     test_irda->_add(PILOT_KEY::KEY_EXIT);
     EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"),STATE::OFF);
+    EXPECT_EQ(test_context.main_iDomStatus->getObjectState("speakers"),STATE::OFF);
     ///////////////// play -  MPD
-    test_my_data.ptr_MPD_info->isPlay  = true;
-    EXPECT_TRUE(test_my_data.ptr_MPD_info->isPlay);
+    test_context.ptr_MPD_info->isPlay  = true;
+    EXPECT_TRUE(test_context.ptr_MPD_info->isPlay);
     test_irda->_add(PILOT_KEY::KEY_MENU);
     timeout = 10;
     do {
@@ -335,18 +335,18 @@ TEST_F(c_irda_logic_fixture, projektor)
     std::cout << "retString.size() : " << retString.size() << std::endl;
    // EXPECT_EQ(retString,"i");
 
-    test_my_data.ptr_MPD_info->isPlay = true;
+    test_context.ptr_MPD_info->isPlay = true;
     test_irda->_add(PILOT_KEY::KEY_EXIT);
     retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
     std::cout << "retString.size() : " << retString.size() << std::endl;
     EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
 
-    test_my_data.ptr_MPD_info->isPlay = false;
+    test_context.ptr_MPD_info->isPlay = false;
     test_irda->_add(PILOT_KEY::KEY_EXIT);
     retString = useful_F_libs::read_from_mkfifo(test_omxplayerFile.c_str());
     std::cout << "retString.size() : " << retString.size() << std::endl;
     EXPECT_EQ(test_irda->who, PILOT_STATE::MPD);
-    EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"),STATE::OFF);
+    EXPECT_EQ(test_context.main_iDomStatus->getObjectState("speakers"),STATE::OFF);
 
     //// dummy
     test_irda->who = PILOT_STATE::PROJECTOR;

@@ -14,7 +14,7 @@ public:
     test_command_iDom(std::make_unique<command_iDom>("iDom"))
   {
     test_q._clearAll();
-    test_my_data.main_RFLink = std::make_shared<RFLinkHandler>(&test_my_data);
+    test_context.main_RFLink = std::make_shared<RFLinkHandler>(&test_context);
   }
 
 protected:
@@ -38,44 +38,44 @@ TEST_F(commandiDom_Class_fixture, help)
 
 TEST_F(commandiDom_Class_fixture, less_param)
 {
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   EXPECT_THAT(retStr,testing::HasSubstr("need parameter!"));
 }
 
 TEST_F(commandiDom_Class_fixture, unknonw_para)
 {
   test_v.push_back("fake");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   EXPECT_THAT(retStr,testing::HasSubstr("iDom - unknown parameter:"));
 }
 
 TEST_F(commandiDom_Class_fixture, speakers)
 {
-  test_my_data.idom_all_state.houseState = STATE::LOCK;
-  test_my_data.main_iDomTools->unlockHome();
+  test_context.idom_all_state.houseState = STATE::LOCK;
+  test_context.main_iDomTools->unlockHome();
   //////////////// fake command
   test_v.push_back("speakers");
   test_v.push_back("fake");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   EXPECT_THAT(retStr,testing::HasSubstr("unknow speakers action: fake"));
   ///////////////// ON
-  test_my_data.main_iDomStatus->setObjectState("speakers",STATE::UNDEFINE);
-  EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
+  test_context.main_iDomStatus->setObjectState("speakers",STATE::UNDEFINE);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("speakers");
   test_v.push_back("ON");
-  retStr = test_command_iDom->execute(test_v, &test_my_data);
+  retStr = test_command_iDom->execute(test_v, &test_context);
   EXPECT_THAT(retStr,testing::HasSubstr("speakers ON"));
-  EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::ON);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("speakers"), STATE::ON);
   ///////////////// OFF
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("speakers");
   test_v.push_back("OFF");
-  retStr = test_command_iDom->execute(test_v, &test_my_data);
+  retStr = test_command_iDom->execute(test_v, &test_context);
   EXPECT_THAT(retStr,testing::HasSubstr("speakers OFF"));
-  EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
   // */
 }
 
@@ -84,14 +84,14 @@ TEST_F(commandiDom_Class_fixture, sunset_sunrise)
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("sunset");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr("Sunset time:"));
 
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("sunrise");
-  retStr = test_command_iDom->execute(test_v, &test_my_data);
+  retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr("Sunrise time:"));
 }
@@ -102,7 +102,7 @@ TEST_F(commandiDom_Class_fixture, day_lenght)
   test_v.push_back("iDom");
   test_v.push_back("day");
   test_v.push_back("lenght");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr("Day Lenght :"));
 }
@@ -112,7 +112,7 @@ TEST_F(commandiDom_Class_fixture, sun)
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("sun");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr("Day Lenght :"));
 }
@@ -122,7 +122,7 @@ TEST_F(commandiDom_Class_fixture, sysinfo)
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("sysinfo");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr("free RAM"));
 }
@@ -135,7 +135,7 @@ TEST_F(commandiDom_Class_fixture, temperature)
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("temperature");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr("inside\":-12.0"));
 
@@ -144,7 +144,7 @@ TEST_F(commandiDom_Class_fixture, temperature)
   test_v.push_back("temperature");
   test_v.push_back("stats");
   test_v.push_back("insideee");
-  retStr = test_command_iDom->execute(test_v, &test_my_data);
+  retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr("not found!"));
 }
@@ -156,7 +156,7 @@ TEST_F(commandiDom_Class_fixture, text)
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("text");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr("Godzina"));
 }
@@ -166,16 +166,16 @@ TEST_F(commandiDom_Class_fixture, lock_unlock)
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("lock");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
-  EXPECT_EQ(test_my_data.idom_all_state.houseState, STATE::LOCK);
+  EXPECT_EQ(test_context.idom_all_state.houseState, STATE::LOCK);
 
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("unlock");
-  retStr = test_command_iDom->execute(test_v, &test_my_data);
+  retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
-  EXPECT_EQ(test_my_data.idom_all_state.houseState, STATE::UNLOCK);
+  EXPECT_EQ(test_context.idom_all_state.houseState, STATE::UNLOCK);
 }
 
 TEST_F(commandiDom_Class_fixture, smog)
@@ -183,7 +183,7 @@ TEST_F(commandiDom_Class_fixture, smog)
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("smog");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr(" mg/m^3"));
 }
@@ -199,7 +199,7 @@ TEST_F(commandiDom_Class_fixture, say)
   test_v.push_back("say");
   test_v.push_back("dummy");
   test_v.push_back("dummy");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   //EXPECT_THAT(retStr,testing::HasSubstr("sad"));
 }
@@ -210,24 +210,24 @@ TEST_F(commandiDom_Class_fixture, wifi)
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("wifi");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr("ok"));
 }
 
 TEST_F(commandiDom_Class_fixture, camera)
 {
-  test_my_data.server_settings->_camera.cameraLedOFF = "cameraOFF";
-  test_my_data.server_settings->_camera.cameraLedON = "cameraON";
+  test_context.server_settings->_camera.cameraLedOFF = "cameraOFF";
+  test_context.server_settings->_camera.cameraLedON = "cameraON";
 
   Clock::setTime_forBT_usage(23,23);
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("camera");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_STREQ(retStr.c_str(),"not enough parameters");
-  EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::UNKNOWN);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("cameraLED"),STATE::UNKNOWN);
   ////////////////////////////////////////// ON
   TEST_DATA::return_httpPost = "ok.\n";
   test_v.clear();
@@ -236,9 +236,9 @@ TEST_F(commandiDom_Class_fixture, camera)
   test_v.push_back("LED");
 
   test_v.push_back("ON");
-  retStr = test_command_iDom->execute(test_v, &test_my_data);
+  retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
-  EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::ON);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("cameraLED"),STATE::ON);
   EXPECT_STREQ(retStr.c_str(),"led DONE");
   ////////////////////////////////////////// OFF
   TEST_DATA::return_httpPost = "ok.\n";
@@ -248,30 +248,30 @@ TEST_F(commandiDom_Class_fixture, camera)
   test_v.push_back("LED");
 
   test_v.push_back("OFF");
-  retStr = test_command_iDom->execute(test_v, &test_my_data);
+  retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
-  EXPECT_EQ(test_my_data.main_iDomStatus->getObjectState("cameraLED"),STATE::OFF);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("cameraLED"),STATE::OFF);
   EXPECT_STREQ(retStr.c_str(),"led DONE");
 }
 
 TEST_F(commandiDom_Class_fixture, kodi)
 {
   MENU_STATE_MACHINE stateMechine;
-  auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, nullptr, &stateMechine);
+  auto ptr = std::make_unique<MENU_ROOT>(&test_context, nullptr, &stateMechine);
   stateMechine.setStateMachine(std::move(ptr));
-  test_my_data.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
-  test_my_data.main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);
+  test_context.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
+  test_context.main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("KODI");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
 
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_STREQ(retStr.c_str(),"kodi already run");
 
-  test_my_data.main_iDomStatus->setObjectState("KODI",STATE::DEACTIVE);
-  test_my_data.main_iDomStatus->setObjectState("music",STATE::PLAY);
-  test_my_data.main_iDomStatus->setObjectState("speakers",STATE::ON);
+  test_context.main_iDomStatus->setObjectState("KODI",STATE::DEACTIVE);
+  test_context.main_iDomStatus->setObjectState("music",STATE::PLAY);
+  test_context.main_iDomStatus->setObjectState("speakers",STATE::ON);
 
   std::array<Thread_array_struc,iDomConst::MAX_CONNECTION> test_ThreadArrayStruc;
 
@@ -279,15 +279,15 @@ TEST_F(commandiDom_Class_fixture, kodi)
     test_ThreadArrayStruc.at(i).thread_socket = 0;
   test_ThreadArrayStruc.at(3).thread_socket = 0;
   test_ThreadArrayStruc.at(3).thread_ID = std::this_thread::get_id();
-  test_my_data.main_THREAD_arr = &test_ThreadArrayStruc;
+  test_context.main_THREAD_arr = &test_ThreadArrayStruc;
 
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("KODI");
-  retStr = test_command_iDom->execute(test_v, &test_my_data);
+  retStr = test_command_iDom->execute(test_v, &test_context);
 
   //sleep(1);
-  iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+  iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
 
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr("STARTED"));
@@ -298,7 +298,7 @@ TEST_F(commandiDom_Class_fixture, kodi)
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("KODI");
-  retStr = test_command_iDom->execute(test_v, &test_my_data);
+  retStr = test_command_iDom->execute(test_v, &test_context);
 
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_STREQ(retStr.c_str(),"not free space to new thread");
@@ -309,7 +309,7 @@ TEST_F(commandiDom_Class_fixture, health_alarm)
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("health");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr("no alarms!"));
 }
@@ -324,10 +324,10 @@ TEST_F(commandiDom_Class_fixture, addAccessKEY)
   test_v.push_back("add");
   test_v.push_back("kokos");
   test_v.push_back("20");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr(s));
-  test_my_data.m_keyHandler->removeKEY(s);
+  test_context.m_keyHandler->removeKEY(s);
 }
 
 TEST_F(commandiDom_Class_fixture, addAccessKEY_temp)
@@ -340,39 +340,39 @@ TEST_F(commandiDom_Class_fixture, addAccessKEY_temp)
   test_v.push_back("tmp");
   test_v.push_back(s);
   test_v.push_back("20");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr(s));
-  test_my_data.m_keyHandler->removeKEY(s);
+  test_context.m_keyHandler->removeKEY(s);
 }
 
 TEST_F(commandiDom_Class_fixture, removeAccessKEY)
 {
   std::string s = "ttt";
-  test_my_data.m_keyHandler->addKEY(s,"null", 23);
+  test_context.m_keyHandler->addKEY(s,"null", 23);
 
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("key");
   test_v.push_back("remove");
   test_v.push_back(s);
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr(s));
-  test_my_data.m_keyHandler->removeKEY(s);
+  test_context.m_keyHandler->removeKEY(s);
 }
 
 TEST_F(commandiDom_Class_fixture, getOpenLink)
 {
-  test_my_data.server_settings->_gateway.url = "http://test.pl";
-  test_my_data.server_settings->_gateway.keySize = 128;
+  test_context.server_settings->_gateway.url = "http://test.pl";
+  test_context.server_settings->_gateway.keySize = 128;
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("link");
   test_v.push_back("gate");
-  std::string retStr = test_command_iDom->execute(test_v, &test_my_data);
+  std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr, testing::HasSubstr("http://"));
   EXPECT_EQ(retStr.at(19) , '=');
-  EXPECT_EQ(retStr.at(45 + test_my_data.server_settings->_gateway.keySize) , '&');
+  EXPECT_EQ(retStr.at(45 + test_context.server_settings->_gateway.keySize) , '&');
 }

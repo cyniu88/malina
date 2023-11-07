@@ -5,7 +5,7 @@ command_iDom::command_iDom(const std::string &name):command(name)
 {
 }
 
-std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_iDom::execute(std::vector<std::string> &v, thread_data *context)
 {
     if (v.size()<2){
         return "need parameter!\n" + help();
@@ -13,11 +13,11 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     if (v[1] == "speakers")
     {
         if (v[2] == "ON"){
-            my_data->main_iDomTools->turnOnSpeakers();
+            context->main_iDomTools->turnOnSpeakers();
             return "speakers ON";
         }
         else if (v[2] == "OFF"){
-            my_data->main_iDomTools->turnOffSpeakers();
+            context->main_iDomTools->turnOffSpeakers();
             return "speakers OFF";
         }
         else{
@@ -25,43 +25,43 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
     }
     else if (v[1] == "sunset"){
-        return my_data->main_iDomTools->getSunset(true);
+        return context->main_iDomTools->getSunset(true);
     }
     else if (v[1] == "sunrise"){
-        return my_data->main_iDomTools->getSunrise(true);
+        return context->main_iDomTools->getSunrise(true);
     }
     else if (v[1] == "day" && v[2] == "lenght"){
-        return my_data->main_iDomTools->getDayLenght(true);
+        return context->main_iDomTools->getDayLenght(true);
     }
     else if (v[1] == "sun"){
         std::string ret;
-        ret = my_data->main_iDomTools->getSunrise(true);
+        ret = context->main_iDomTools->getSunrise(true);
         ret.append("\n");
-        ret.append(my_data->main_iDomTools->getSunset(true));
+        ret.append(context->main_iDomTools->getSunset(true));
         ret.append("\n");
-        ret.append(my_data->main_iDomTools->getDayLenght(true));
+        ret.append(context->main_iDomTools->getDayLenght(true));
         ret.append("\n");
         return ret;
     }
     else if (v[1] == "sysinfo"){
-        return my_data->main_iDomTools->getSystemInfo();
+        return context->main_iDomTools->getSystemInfo();
     }
     else if (v[1] == "lusina") //TODO temorary
     {
         std::stringstream ret;
-        ret << my_data->lusina.statHumi.stats() <<std::endl;
-        ret << my_data->lusina.statTemp.stats();
+        ret << context->lusina.statHumi.stats() <<std::endl;
+        ret << context->lusina.statTemp.stats();
         return ret.str();
     }
     else if (v[1] == "temperature"){
         if(v.size() < 3){
-            return my_data->main_iDomTools->getTemperatureString();
+            return context->main_iDomTools->getTemperatureString();
         }
         else {
             if (v[2] == "stats"){
                 std::string ret;
                 try{
-                    ret = my_data->main_iDomTools->getThermoStats(v[3]);
+                    ret = context->main_iDomTools->getThermoStats(v[3]);
                 }
                 catch (std::string& obj){
                     ret = obj + " " + v[3];
@@ -71,37 +71,37 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         }
     }
     else if (v[1] == "text"){
-        return my_data->main_iDomTools->getTextToSpeach();
+        return context->main_iDomTools->getTextToSpeach();
     }
     else if (v[1] == "lock"){
-        my_data->main_iDomTools->lockHome();
+        context->main_iDomTools->lockHome();
         return "house locked";
     }
     else if (v[1] == "unlock"){
-        my_data->main_iDomTools->unlockHome();
+        context->main_iDomTools->unlockHome();
         return "house unlocked";
     }
     else if (v[1] == "say"){
         if (v.size() > 3){
-            std::vector<std::string> vTTS = { my_data->main_iDomTools->getTextToSpeach()};
-            my_data->main_iDomTools->textToSpeach(&vTTS);
+            std::vector<std::string> vTTS = { context->main_iDomTools->getTextToSpeach()};
+            context->main_iDomTools->textToSpeach(&vTTS);
             return "sad";
         }
     }
     else if (v[1] == "smog"){
-        return my_data->main_iDomTools->getSmog() + " mg/m^3";
+        return context->main_iDomTools->getSmog() + " mg/m^3";
     }
     else if (v[1] == "230V"){
         if (v.size() > 2 && v[2] == "ON"){
-            //my_data->main_iDomTools->turnOnPrinter();
+            //context->main_iDomTools->turnOnPrinter();
             return "230V ON";
         }
         else if(v.size() > 2 && v[2] == "OFF"){
-            //my_data->main_iDomTools->turnOffPrinter();
+            //context->main_iDomTools->turnOffPrinter();
             return "230V OFF";
         }
         else if(v.size() > 2 && v[2] == "OUTDOOR"){
-            my_data->main_iDomTools->turnOnOff230vOutdoor();
+            context->main_iDomTools->turnOnOff230vOutdoor();
             return "change outdoor";
         }
         else {
@@ -116,7 +116,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1] == "kill"){
 
         if (v[2]=="thread"){
-            my_data->main_THREAD_arr->at(std::stoul(v[3]) ).thread.~thread();
+            context->main_THREAD_arr->at(std::stoul(v[3]) ).thread.~thread();
             return "done!";
         }
     }
@@ -126,7 +126,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             msg.push_back(' ');
             msg.append(v[i]);
         }
-        return my_data->main_iDomTools->postOnFacebook(msg);
+        return context->main_iDomTools->postOnFacebook(msg);
     }
     else if (v[1] == "viber"){
         std::string msg;
@@ -134,8 +134,8 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             msg.push_back(' ');
             msg.append(v[i]);
         }
-        STATE stMSG = my_data->main_iDomTools->sendViberMsgBool(msg, my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                                                my_data->server_settings->_fb_viber.viberSender);
+        STATE stMSG = context->main_iDomTools->sendViberMsgBool(msg, context->server_settings->_fb_viber.viberReceiver.at(0),
+                                                                context->server_settings->_fb_viber.viberSender);
         if(stMSG == STATE::SEND_OK){
             return "wiadomosc wyslana poprawnie";
         }
@@ -149,10 +149,10 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             return "not enough parameters";
         }
         if (v[2] == "LED" && v[3] == "ON"){
-            my_data->main_iDomTools->cameraLedON(my_data->server_settings->_camera.cameraLedON);
+            context->main_iDomTools->cameraLedON(context->server_settings->_camera.cameraLedON);
         }
         else if (v[2] == "LED" && v[3] == "OFF"){
-            my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->_camera.cameraLedOFF);
+            context->main_iDomTools->cameraLedOFF(context->server_settings->_camera.cameraLedOFF);
         }
         return "led DONE";
     }
@@ -161,35 +161,35 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
         if (v.size() < 4){
             return "not enough parameters";
         }
-        std::string tempHTML = my_data->main_iDomTools->getWeatherEvent(v[2],std::stoi(v[3]));
+        std::string tempHTML = context->main_iDomTools->getWeatherEvent(v[2],std::stoi(v[3]));
         return useful_F_libs::removeHtmlTag(tempHTML);
     }
     else if (v[1] == "KODI"){
-        return my_data->main_iDomTools->startKodi_Thread();
+        return context->main_iDomTools->startKodi_Thread();
     }
     else if (v[1] == "health") {
-        return my_data->iDomAlarm.showAlarm();
+        return context->iDomAlarm.showAlarm();
     }
     else if (v[1] == "isDay"){
-        return my_data->main_iDomTools->isItDay() ? "isDay:true" : "isDay:false";
+        return context->main_iDomTools->isItDay() ? "isDay:true" : "isDay:false";
     }
     else if (v[1] == "blink"  and
-             my_data->server_settings->_runThread.SATEL == true) {
-        my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
+             context->server_settings->_runThread.SATEL == true) {
+        context->satelIntegraHandler->getSatelPTR()->outputOn(context->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
         return "done " + std::to_string(counter);
     }
     else if (v[1] == "doorbell") {
-        // my_data->main_iDomTools->sendViberPicture("DZWONEK do bramy!",
+        // context->main_iDomTools->sendViberPicture("DZWONEK do bramy!",
         //                                           "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
-        //                                           my_data->server_settings->_fb_viber.viberReceiver.at(0),
-        //                                           my_data->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
+        //                                           context->server_settings->_fb_viber.viberReceiver.at(0),
+        //                                           context->server_settings->_fb_viber.viberSender);   // inform  door bell has been pressed
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "Dzwonek do bramy"<< std::endl;
         log_file_mutex.mutex_unlock();
         //TODO add doorbell actions if needed
-        my_data->main_house_room_handler->turnOnAllInRoom("dzwonek");
-        if(my_data->satelIntegraHandler != std::nullptr_t()){
-            my_data->satelIntegraHandler->getSatelPTR()->outputOn(my_data->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren in case of gate doorbell
+        context->main_house_room_handler->turnOnAllInRoom("dzwonek");
+        if(context->satelIntegraHandler != std::nullptr_t()){
+            context->satelIntegraHandler->getSatelPTR()->outputOn(context->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren in case of gate doorbell
         }
         else{
             log_file_mutex.mutex_lock();
@@ -204,50 +204,50 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
             return "not enough parameters";
         }
         if (v[2] == "OFF"){
-            my_data->alarmTime.state = STATE::DEACTIVE;
-            my_data->main_Rs232->print("LED_CLOCK:0;");
-            my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
-            my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
-            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/alarm",
+            context->alarmTime.state = STATE::DEACTIVE;
+            context->main_Rs232->print("LED_CLOCK:0;");
+            context->main_iDomStatus->setObjectState("alarm", context->alarmTime.state);
+            context->main_iDomTools->saveState_iDom(context->serverStarted);
+            context->mqttHandler->publish(context->server_settings->_mqtt_broker.topicPublish + "/alarm",
                                           stateToString(STATE::DEACTIVE));
             return "alarm clock has been deactivated";
         }
         else if (v[2] == "GET"){
-            return my_data->alarmTime.time.getString();
+            return context->alarmTime.time.getString();
         }
         else if (v[2] == "SET" && v.size() == 5){
             if (v[3] == "from")
             {
-                my_data->alarmTime.fromVolume = std::stoi(v[4]);
+                context->alarmTime.fromVolume = std::stoi(v[4]);
             }
             else if (v[3] == "to")
             {
-                my_data->alarmTime.toVolume = std::stoi(v[4]);
+                context->alarmTime.toVolume = std::stoi(v[4]);
             }
             else if (v[3] == "radio")
             {
-                my_data->alarmTime.radioID = std::stoi(v[4]);
+                context->alarmTime.radioID = std::stoi(v[4]);
             }
             else if (v[3] == "command")
             {
-                my_data->alarmTime.commands.push_back("light room pokoj_N on");
-                my_data->alarmTime.commands.push_back("light room korytarz on");
+                context->alarmTime.commands.push_back("light room pokoj_N on");
+                context->alarmTime.commands.push_back("light room korytarz on");
             }
             std::stringstream ret;
             ret << "The values has beedn set:" << std::endl;
-            ret << "From Value: " << my_data->alarmTime.fromVolume << std::endl;
-            ret << "To Value: " << my_data->alarmTime.toVolume << std::endl;
-            ret << "Radio ID: " << my_data->alarmTime.radioID << std::endl;
-            my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
+            ret << "From Value: " << context->alarmTime.fromVolume << std::endl;
+            ret << "To Value: " << context->alarmTime.toVolume << std::endl;
+            ret << "Radio ID: " << context->alarmTime.radioID << std::endl;
+            context->main_iDomTools->saveState_iDom(context->serverStarted);
             return ret.str();
         }
         else if (v[2] == "ON" && v.size() > 3){
-            my_data->alarmTime.time = Clock(v[3]);
-            my_data->alarmTime.state = STATE::ACTIVE;
-            my_data->main_Rs232->print("LED_CLOCK:1;");
-            my_data->main_iDomStatus->setObjectState("alarm", my_data->alarmTime.state);
-            my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
-            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/alarm",
+            context->alarmTime.time = Clock(v[3]);
+            context->alarmTime.state = STATE::ACTIVE;
+            context->main_Rs232->print("LED_CLOCK:1;");
+            context->main_iDomStatus->setObjectState("alarm", context->alarmTime.state);
+            context->main_iDomTools->saveState_iDom(context->serverStarted);
+            context->mqttHandler->publish(context->server_settings->_mqtt_broker.topicPublish + "/alarm",
                                           stateToString(STATE::ACTIVE));
             return "alarm clock has been activated";
         }
@@ -257,21 +257,21 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *my_d
     else if (v[1] == "key" && v[2] == "add")
     {
         if(v[3] == "tmp")
-            my_data->m_keyHandler->addKEY(v[4],"null", std::stoul(v[5]),true);
+            context->m_keyHandler->addKEY(v[4],"null", std::stoul(v[5]),true);
         else {
-            my_data->m_keyHandler->addKEY(v[3],"null", std::stoul(v[4]),false);
+            context->m_keyHandler->addKEY(v[3],"null", std::stoul(v[4]),false);
         }
-        return my_data->m_keyHandler->listKEY();
+        return context->m_keyHandler->listKEY();
     }
     else if (v[1] == "key" && v[2] == "remove" && v.size() == 4)
     {
-        my_data->m_keyHandler->removeKEY(v[3]);
+        context->m_keyHandler->removeKEY(v[3]);
         return v[3] + " removed";
     }
     else if(v[1] == "link" && v.size() > 2)
     {
         v.erase(v.begin(), v.begin() + 2);
-        return my_data->main_iDomTools->getLink(v);
+        return context->main_iDomTools->getLink(v);
     }
     // ADD more
     return "iDom - unknown parameter: "+ v[1];

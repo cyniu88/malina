@@ -3,24 +3,24 @@
 #include "commandClass/command_gateway.h"
 #include "../iDomTools/idomtools_interface.h"
 
-commandHandlerGATEWAY::commandHandlerGATEWAY(thread_data *my_data) : commandHandler(my_data)
+commandHandlerGATEWAY::commandHandlerGATEWAY(thread_data *context) : commandHandler(context)
 {
     std::unique_ptr<command> gateway(new command_gateway("gateway"));
     commandMap.insert(std::make_pair(gateway->getCommandName(), std::move(gateway)));
 }
 
-std::string commandHandlerGATEWAY::run(std::vector<std::string> &v, thread_data *my_data)
+std::string commandHandlerGATEWAY::run(std::vector<std::string> &v, thread_data *context)
 {
     if (v.size() < 3)
     {
         return "not enough parameters";
     }
 
-    my_data->main_iDomTools->sendViberMsg("iDom gateway run command",
-                                          my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                          my_data->server_settings->_fb_viber.viberSender + "GATEWAY");
+    context->main_iDomTools->sendViberMsg("iDom gateway run command",
+                                          context->server_settings->_fb_viber.viberReceiver.at(0),
+                                          context->server_settings->_fb_viber.viberSender + "GATEWAY");
 
-    if (my_data->m_keyHandler->useKEY(v.front(), v[1]) == false)
+    if (context->m_keyHandler->useKEY(v.front(), v[1]) == false)
     {
         return EMOJI::emoji(E_emoji::WARNING_SIGN) + " wrong key! ";
     }
@@ -37,6 +37,6 @@ std::string commandHandlerGATEWAY::run(std::vector<std::string> &v, thread_data 
     }
     else
     {
-        return commandMap[v.front()]->execute(v, my_data);
+        return commandMap[v.front()]->execute(v, context);
     }
 }

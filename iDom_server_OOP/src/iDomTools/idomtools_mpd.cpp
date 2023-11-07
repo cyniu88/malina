@@ -2,17 +2,17 @@
 #include "../blockQueue/blockqueue.h"
 #include "../iDom_server_OOP.h"
 
-void iDomTOOLS::MPD_play(thread_data *my_data)
+void iDomTOOLS::MPD_play(thread_data *context)
 {
-    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
+    if (context->idom_all_state.houseState == STATE::UNLOCK)
     {
         blockQueue _q;
         _q._add(MPD_COMMAND::PLAY);
     }
     else
     {
-        my_data->myEventHandler.run("MPD")->addEvent("MPD can not start due to home state: " +
-                                                     stateToString(my_data->idom_all_state.houseState));
+        context->myEventHandler.run("MPD")->addEvent("MPD can not start due to home state: " +
+                                                     stateToString(context->idom_all_state.houseState));
     }
 }
 
@@ -52,29 +52,29 @@ void iDomTOOLS::MPD_volumeDown()
     _q._add(MPD_COMMAND::VOLDOWN);
 }
 
-void iDomTOOLS::MPD_volumeSet(thread_data *my_data, int vol)
+void iDomTOOLS::MPD_volumeSet(thread_data *context, int vol)
 {
-    my_data->ptr_MPD_info->volume = vol;
+    context->ptr_MPD_info->volume = vol;
     blockQueue _q;
     _q._add(MPD_COMMAND::VOLSET);
 }
 
-void iDomTOOLS::MPD_play(thread_data *my_data, int id)
+void iDomTOOLS::MPD_play(thread_data *context, int id)
 {
-    if (my_data->idom_all_state.houseState == STATE::UNLOCK)
+    if (context->idom_all_state.houseState == STATE::UNLOCK)
     {
-        my_data->ptr_MPD_info->currentSongID = id;
+        context->ptr_MPD_info->currentSongID = id;
         blockQueue _q;
         _q._add(MPD_COMMAND::PLAY_ID);
     }
     else
     {
-        my_data->myEventHandler.run("MPD")->addEvent("MPD can not start due to home state: " +
-                                                     stateToString(my_data->idom_all_state.houseState));
+        context->myEventHandler.run("MPD")->addEvent("MPD can not start due to home state: " +
+                                                     stateToString(context->idom_all_state.houseState));
     }
 }
 
-int iDomTOOLS::MPD_getVolume(thread_data *my_data)
+int iDomTOOLS::MPD_getVolume(thread_data *context)
 {
-    return my_data->ptr_MPD_info->volume;
+    return context->ptr_MPD_info->volume;
 }

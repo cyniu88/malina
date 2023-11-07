@@ -7,10 +7,10 @@
 
 std::string house_room_handler::m_mqttPublishTopic = "swiatlo/output/";
 
-house_room_handler::house_room_handler(thread_data *my_data)
+house_room_handler::house_room_handler(thread_data *context)
 {
     m_className.insert(0, typeid(this).name());
-    this->my_data = my_data;
+    this->context = context;
     iDom_API::addToMap(m_className, this);
 }
 
@@ -171,7 +171,7 @@ void house_room_handler::turnChangeBulb(const int bulbID)
 
 void house_room_handler::lockAllRoom()
 {
-    //  my_data->mqttHandler->publish("lkoko","kokok");
+    //  context->mqttHandler->publish("lkoko","kokok");
 }
 
 void house_room_handler::unlockAllRoom()
@@ -267,17 +267,17 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
         // DingDong  dzownek
         if (bulbID == 88 and bulbState == 1)
         {
-            my_data->main_iDomTools->doorbellDingDong();
+            context->main_iDomTools->doorbellDingDong();
             useful_F_libs::httpPost("http://cyniu88.no-ip.pl/cgi-bin/dzwonek.sh");
-            // my_data->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
+            // context->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
             //                                           "https://cyniu88.no-ip.pl/dzwonek/wejscie.jpg",
-            //                                           my_data->server_settings->_fb_viber.viberReceiver.at(0),
-            //                                           my_data->server_settings->_fb_viber.viberSender); // inform  door bell has been pressed
+            //                                           context->server_settings->_fb_viber.viberReceiver.at(0),
+            //                                           context->server_settings->_fb_viber.viberSender); // inform  door bell has been pressed
 
-            // my_data->main_iDomTools->sendViberPicture("wjazd",
+            // context->main_iDomTools->sendViberPicture("wjazd",
             //                                           "https://cyniu88.no-ip.pl/dzwonek/wjazd.jpg",
-            //                                           my_data->server_settings->_fb_viber.viberReceiver.at(0),
-            //                                           my_data->server_settings->_fb_viber.viberSender); // inform  door bell has been pressed
+            //                                           context->server_settings->_fb_viber.viberReceiver.at(0),
+            //                                           context->server_settings->_fb_viber.viberSender); // inform  door bell has been pressed
         }
         if (vv.at(0) == "state")
         {
@@ -298,11 +298,11 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
             std::string name = m_lightingBulbMap.at(bulbID)->getRoomName();
             name.append("_");
             name.append(m_lightingBulbMap.at(bulbID)->getBulbName());
-            my_data->main_iDomStatus->setObjectState(name, state);
+            context->main_iDomStatus->setObjectState(name, state);
 
             // TODO temporary added viber notifiction
             auto time = Clock::getUnixTime() - m_lastNotifyUnixTime;
-            if (my_data->idom_all_state.alarmSatelState == STATE::ARMED or
+            if (context->idom_all_state.alarmSatelState == STATE::ARMED or
                 time > 600)
             {
                 m_lastNotifyUnixTime += time;
@@ -312,8 +312,8 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
                         << " na " << state
                         << " przyciskiem: " << vv.at(2)
                         << " czas trwania: " << m_lightingBulbMap.at(bulbID)->howLongBulbOn().getString();
-                my_data->main_iDomTools->sendViberMsg(str_buf.str(), my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                                      my_data->server_settings->_fb_viber.viberSender + "-light");
+                context->main_iDomTools->sendViberMsg(str_buf.str(), context->server_settings->_fb_viber.viberReceiver.at(0),
+                                                      context->server_settings->_fb_viber.viberSender + "-light");
             }
         }
     }
@@ -321,7 +321,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
     {
         std::stringstream ret;
         ret << "bład odbioru mqtt light: " << msg;
-        my_data->iDomAlarm.raiseAlarm(122333, ret.str());
+        context->iDomAlarm.raiseAlarm(122333, ret.str());
 
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << ret.str() << std::endl;
@@ -346,7 +346,7 @@ void house_room_handler::executeButtonComand(const unsigned int buttonID,
     for (const auto &element : m_buttonConfig.at(buttonID).find(action)->second)
     {
         auto v = useful_F::split(element, ' ');
-        commandMQTTptr->run(v, my_data);
+        commandMQTTptr->run(v, context);
     }
 }
 
@@ -362,10 +362,10 @@ void house_room_handler::satelSensorActive(int sensorID)
         log_file_cout << WARNING << "unsupported  satel sensor " << sensorID << std::endl;
         log_file_cout << WARNING << "restart satel connections " << std::endl;
         log_file_mutex.mutex_unlock();
-        my_data->main_iDomTools->sendViberMsg("restart polaczenia satel",
-                                              my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                              my_data->server_settings->_fb_viber.viberSender + "SATEL");
-        my_data->satelIntegraHandler->getSatelPTR()->reconnectIntegra();
+        context->main_iDomTools->sendViberMsg("restart polaczenia satel",
+                                              context->server_settings->_fb_viber.viberReceiver.at(0),
+                                              context->server_settings->_fb_viber.viberSender + "SATEL");
+        context->satelIntegraHandler->getSatelPTR()->reconnectIntegra();
 
         return;
     }

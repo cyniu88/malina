@@ -5,7 +5,7 @@ command_big::command_big(const std::string &name):command(name)
 
 }
 
-std::string command_big::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_big::execute(std::vector<std::string> &v, thread_data *context)
 {
     std::string str_buf = "command big - wrong paramiter:\n "+ help();
     if (v.size() > 1){

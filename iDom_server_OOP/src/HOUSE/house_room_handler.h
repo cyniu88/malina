@@ -15,7 +15,7 @@ struct thread_data;
 
 class house_room_handler : public iDom_API
 {
-    thread_data *my_data;
+    thread_data *context;
     unsigned int m_lastNotifyUnixTime = 0;
 
     Circular_buffer m_circBuffSatelSensorId;
@@ -28,7 +28,7 @@ public:
     std::map<std::string, std::shared_ptr<ROOM>> m_roomMap;
     std::map<int, std::shared_ptr<ROOM>> m_satelIdMap;
 
-    explicit house_room_handler(thread_data *my_data);
+    explicit house_room_handler(thread_data *context);
     ~house_room_handler();
 
     void loadConfig(const std::string &configPath);

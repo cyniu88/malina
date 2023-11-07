@@ -8,24 +8,24 @@ using namespace std::chrono_literals;
 
 std::string iDOM_THREAD::start_thread(const std::string &name,
                                       std::function<void(thread_data *, const std::string &threadName)> functionToThread, // void(fn)(thread_data),
-                                      thread_data *my_data,
+                                      thread_data *context,
                                       unsigned int thread_socket)
 {
-    int freeSlotID = iDOM_THREAD::findFreeThreadSlot(my_data->main_THREAD_arr);
+    int freeSlotID = iDOM_THREAD::findFreeThreadSlot(context->main_THREAD_arr);
 
     if (freeSlotID not_eq -1)
     {
         std::size_t it = static_cast<std::size_t>(freeSlotID);
-        my_data->main_THREAD_arr->at(it).thread = std::thread(functionToThread, my_data, name);
+        context->main_THREAD_arr->at(it).thread = std::thread(functionToThread, context, name);
 
-        my_data->main_THREAD_arr->at(it).thread_name = name;
-        my_data->main_THREAD_arr->at(it).thread_ID = my_data->main_THREAD_arr->at(it).thread.get_id();
-        my_data->main_THREAD_arr->at(it).thread_socket = thread_socket;
-        my_data->main_THREAD_arr->at(it).thread.detach();
+        context->main_THREAD_arr->at(it).thread_name = name;
+        context->main_THREAD_arr->at(it).thread_ID = context->main_THREAD_arr->at(it).thread.get_id();
+        context->main_THREAD_arr->at(it).thread_socket = thread_socket;
+        context->main_THREAD_arr->at(it).thread.detach();
 
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "watek " << name << " wystartowal "
-                      << my_data->main_THREAD_arr->at(it).thread_ID << std::endl;
+                      << context->main_THREAD_arr->at(it).thread_ID << std::endl;
         log_file_mutex.mutex_unlock();
 
         return "DONE - " + name + " STARTED";
@@ -34,17 +34,17 @@ std::string iDOM_THREAD::start_thread(const std::string &name,
 }
 
 void iDOM_THREAD::stop_thread(const std::string &name,
-                              thread_data *my_data)
+                              thread_data *context)
 {
     try
     {
         for (std::size_t i = 0; i < iDomConst::MAX_CONNECTION; ++i)
         {
-            if (my_data->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
+            if (context->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
             {
-                my_data->main_THREAD_arr->at(i).thread_name = "  -empty-  ";
-                my_data->main_THREAD_arr->at(i).thread_ID = std::thread::id();
-                my_data->main_THREAD_arr->at(i).thread_socket = 0;
+                context->main_THREAD_arr->at(i).thread_name = "  -empty-  ";
+                context->main_THREAD_arr->at(i).thread_ID = std::thread::id();
+                context->main_THREAD_arr->at(i).thread_socket = 0;
                 break;
             }
         }
@@ -61,7 +61,7 @@ void iDOM_THREAD::stop_thread(const std::string &name,
     log_file_mutex.mutex_unlock();
 }
 
-void iDOM_THREAD::waitUntilAllThreadEnd(thread_data *my_data)
+void iDOM_THREAD::waitUntilAllThreadEnd(thread_data *context)
 {
     int threadCounter = 0;
     int counter = 20;
@@ -74,7 +74,7 @@ void iDOM_THREAD::waitUntilAllThreadEnd(thread_data *my_data)
         }
         std::this_thread::sleep_for(1.5s);
         threadCounter = 0;
-        for (auto i = my_data->main_THREAD_arr->begin(); i < my_data->main_THREAD_arr->end(); ++i)
+        for (auto i = context->main_THREAD_arr->begin(); i < context->main_THREAD_arr->end(); ++i)
         {
             threadCounter += i->thread_socket;
             if (i->thread_socket not_eq 0)

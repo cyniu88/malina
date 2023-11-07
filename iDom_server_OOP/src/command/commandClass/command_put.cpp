@@ -5,20 +5,20 @@ command_put::command_put(const std::string &name):command(name)
 {
 }
 
-std::string command_put::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_put::execute(std::vector<std::string> &v, thread_data *context)
 {
     std::string str_buf = "command put - wrong paramiter: ";
     if (v.size() > 1){
         if (v[1] == "temperature")
         {
             str_buf.erase();
-            my_data->main_iDomTools->send_data_to_thingSpeak();
+            context->main_iDomTools->send_data_to_thingSpeak();
             str_buf = "DONE";
         }
         else         if (v[1] == "influx")
         {
             str_buf.erase();
-            my_data->main_iDomTools->send_data_to_influxdb();
+            context->main_iDomTools->send_data_to_influxdb();
             str_buf = "DONE";
         }
     }

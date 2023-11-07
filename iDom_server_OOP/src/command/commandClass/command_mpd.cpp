@@ -6,7 +6,7 @@ command_mpd::command_mpd(const std::string &name) :command(name)
 {
 }
 
-std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_mpd::execute(std::vector<std::string> &v, thread_data *context)
 {
     std::string str_buf;
 
@@ -17,77 +17,77 @@ std::string command_mpd::execute(std::vector<std::string> &v, thread_data *my_da
             int id = std::stoi(v[2]);
             if (id > 0)
             {
-                my_data->main_iDomTools->MPD_play(my_data,id);
+                context->main_iDomTools->MPD_play(context,id);
                 useful_F::sleep(1s);
-                str_buf = my_data->ptr_MPD_info->songList[id-1];
+                str_buf = context->ptr_MPD_info->songList[id-1];
             }
         }
         else
         {
-            my_data->main_iDomTools->MPD_play(my_data);
+            context->main_iDomTools->MPD_play(context);
             useful_F::sleep(1s);
-            str_buf = my_data->ptr_MPD_info->title;
+            str_buf = context->ptr_MPD_info->title;
         }
-        my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
+        context->main_iDomTools->saveState_iDom(context->serverStarted);
     }
     else if (v[1] == "stop")
     {
-        my_data->main_iDomTools->MPD_stop();
+        context->main_iDomTools->MPD_stop();
         str_buf = "stoped!";
-        my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
+        context->main_iDomTools->saveState_iDom(context->serverStarted);
     }
     else if (v[1] == "next")
     {
-        my_data->main_iDomTools->MPD_next();
+        context->main_iDomTools->MPD_next();
         useful_F::sleep(1s);
-        str_buf = my_data->ptr_MPD_info->radio + " : "+ my_data->ptr_MPD_info->title;
+        str_buf = context->ptr_MPD_info->radio + " : "+ context->ptr_MPD_info->title;
     }
     else if (v[1] == "prev")
     {
-        my_data->main_iDomTools->MPD_prev();
+        context->main_iDomTools->MPD_prev();
         useful_F::sleep(1s);
-        str_buf = my_data->ptr_MPD_info->radio+ " : "+ my_data->ptr_MPD_info->title;
+        str_buf = context->ptr_MPD_info->radio+ " : "+ context->ptr_MPD_info->title;
     }
     else if (v[1] == "pause")
     {
-        my_data->main_iDomTools->MPD_pause();
+        context->main_iDomTools->MPD_pause();
         str_buf = "paused!";
     }
     else if (v[1] == "volume")
     {
         if (v[2] == "up")
         {
-            my_data->main_iDomTools->MPD_volumeUp();
+            context->main_iDomTools->MPD_volumeUp();
         }
         else if (v[2] == "down")
         {
-            my_data->main_iDomTools->MPD_volumeDown();
+            context->main_iDomTools->MPD_volumeDown();
         }
         else
         {
             int vol = std::stoi(v[2]);
             if (vol >0 && vol <100)
             {
-                my_data->main_iDomTools->MPD_volumeSet(my_data,vol);
+                context->main_iDomTools->MPD_volumeSet(context,vol);
             }
         }
         //sleep(1);
-        str_buf = std::to_string(my_data->ptr_MPD_info->volume);
+        str_buf = std::to_string(context->ptr_MPD_info->volume);
     }
     else if (v[1] == "get")
     {
         if(v[2] == "volume")
         {
-            str_buf = std::to_string(my_data->ptr_MPD_info->volume);
+            str_buf = std::to_string(context->ptr_MPD_info->volume);
         }
         else if (v[2] == "info")
         {
-            str_buf = my_data->ptr_MPD_info->radio + " : " + my_data->ptr_MPD_info->title;
+            str_buf = context->ptr_MPD_info->radio + " : " + context->ptr_MPD_info->title;
         }
     }
     else if (v[1] == "list")
     {
-        for (const auto& i : my_data->ptr_MPD_info->songList)
+        for (const auto& i : context->ptr_MPD_info->songList)
             str_buf.append(i + "\n");
     }
     else

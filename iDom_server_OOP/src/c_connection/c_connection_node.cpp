@@ -40,7 +40,7 @@ void C_connection::onStartConnection()
 
 void C_connection::onStopConnection()
 {
-    // my_data->main_iDomTools->cameraLedOFF(my_data->server_settings->_camera.cameraLedOFF);
+    // context->main_iDomTools->cameraLedOFF(context->server_settings->_camera.cameraLedOFF);
 }
 
 void C_connection::cryptoLog(std::string &toEncrypt)
@@ -110,15 +110,15 @@ void C_connection::handleHTTP(const std::string &msg)
     {
         auto query = Http::getQuery(msg);
 
-        auto command = my_data->m_keyHandler->getCommand(query["name"]);
+        auto command = context->m_keyHandler->getCommand(query["name"]);
 
         std::string data;
         std::string color = "#00ff00";
-        if (my_data->m_keyHandler->useKEY(query["name"], query["key"]))
+        if (context->m_keyHandler->useKEY(query["name"], query["key"]))
         {
-            auto topic = my_data->server_settings->_mqtt_broker.topicSubscribe;
+            auto topic = context->server_settings->_mqtt_broker.topicSubscribe;
             topic.pop_back();
-            my_data->mqttHandler->publish(topic + "command", command);
+            context->mqttHandler->publish(topic + "command", command);
             data = " wyslano komende!";
         }
         else

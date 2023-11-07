@@ -19,7 +19,7 @@ class iDomTOOLS : public iDomTOOLS_INTERFACE, iDom_API
 protected:
     THERMOMETER_CONTAINER m_allThermometer;
     THERMOMETER_CONTAINER m_allThermometerUpdate;
-    thread_data *my_data;
+    thread_data *context;
     int m_timezone;
     SunRiseSet m_sun;
     std::string m_key;
@@ -125,16 +125,16 @@ public:
     //////////////////// ALERT //////////////////////////
     void checkAlarm() override;
     //////////////////// MPD part //////////////////////////
-    void MPD_play(thread_data *my_data) override;
+    void MPD_play(thread_data *context) override;
     void MPD_stop() override;
     void MPD_next() override;
     void MPD_prev() override;
     void MPD_pause() override;
     void MPD_volumeUp() override;
     void MPD_volumeDown() override;
-    void MPD_volumeSet(thread_data *my_data, int vol) override;
-    void MPD_play(thread_data *my_data, int id) override;
-    int MPD_getVolume(thread_data *my_data) override;
+    void MPD_volumeSet(thread_data *context, int vol) override;
+    void MPD_play(thread_data *context, int id) override;
+    int MPD_getVolume(thread_data *context) override;
 
     /////////////////////// SAVE STATE iDOM ////////////////
     void saveState_iDom(const bool &started) override;

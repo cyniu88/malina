@@ -38,9 +38,9 @@ std::vector<std::string> useful_F::split(const std::string &s, char separator)
 
 thread_data *useful_F::myStaticData = std::nullptr_t();
 
-void useful_F::setStaticData(thread_data *my_dataPtr)
+void useful_F::setStaticData(thread_data *contextPtr)
 {
-    myStaticData = my_dataPtr;
+    myStaticData = contextPtr;
 }
 
 void useful_F::tokenizer(std::vector<std::string> &command,
@@ -77,29 +77,29 @@ void useful_F::tokenizer(std::vector<std::string> &command,
 }
 
 ////// watek sleeper
-void useful_F::sleeper_mpd(thread_data *my_data, const std::string &threadName)
+void useful_F::sleeper_mpd(thread_data *context, const std::string &threadName)
 {
-    my_data->main_Rs232->print("LED_CLOCK:1;");
-    unsigned int t = 60 / my_data->sleeper;
+    context->main_Rs232->print("LED_CLOCK:1;");
+    unsigned int t = 60 / context->sleeper;
     unsigned int k = 0;
 
-    for (; my_data->sleeper > 0; my_data->sleeper--)
+    for (; context->sleeper > 0; context->sleeper--)
     {
         useful_F::sleep(60s);
         k += t;
-        my_data->main_iDomTools->ledClear(0, k);
+        context->main_iDomTools->ledClear(0, k);
     }
-    my_data->main_iDomTools->ledOFF();
-    my_data->main_iDomTools->MPD_stop();
-    my_data->main_iDomTools->turnOff433MHzSwitch("listwa");
+    context->main_iDomTools->ledOFF();
+    context->main_iDomTools->MPD_stop();
+    context->main_iDomTools->turnOff433MHzSwitch("listwa");
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "zaczynam procedure konca watku " << threadName << std::endl;
     log_file_mutex.mutex_unlock();
 
-    my_data->main_Rs232->print("LED_CLOCK:0;");
+    context->main_Rs232->print("LED_CLOCK:0;");
 
-    iDOM_THREAD::stop_thread(threadName, my_data);
+    iDOM_THREAD::stop_thread(threadName, context);
 
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "koniec watku SLEEP_MPD" << std::endl;
@@ -107,25 +107,25 @@ void useful_F::sleeper_mpd(thread_data *my_data, const std::string &threadName)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////// watek kodi
-void useful_F::kodi(thread_data *my_data, const std::string &threadName)
+void useful_F::kodi(thread_data *context, const std::string &threadName)
 {
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "start wątku " << threadName << std::endl;
     log_file_mutex.mutex_unlock();
 
-    // my_data->mainLCD->set_print_song_state(100);
-    // my_data->mainLCD->printString(false,2,1,"  KODI");
+    // context->mainLCD->set_print_song_state(100);
+    // context->mainLCD->printString(false,2,1,"  KODI");
 
-    my_data->main_iDomStatus->setObjectState("KODI", STATE::ACTIVE);
+    context->main_iDomStatus->setObjectState("KODI", STATE::ACTIVE);
     // status mpd
-    STATE musicState = my_data->main_iDomStatus->getObjectState("music");
+    STATE musicState = context->main_iDomStatus->getObjectState("music");
     // status glosnikow
-    STATE speakersState = my_data->main_iDomStatus->getObjectState("speakers");
+    STATE speakersState = context->main_iDomStatus->getObjectState("speakers");
 
     if (musicState not_eq STATE::STOP)
-        my_data->main_iDomTools->MPD_pause();
+        context->main_iDomTools->MPD_pause();
     if (speakersState not_eq STATE::ON)
-        my_data->main_iDomTools->turnOnSpeakers();
+        context->main_iDomTools->turnOnSpeakers();
     // system
 
     int ret = useful_F::runLinuxCommand("runuser -u pi kodi");
@@ -139,13 +139,13 @@ void useful_F::kodi(thread_data *my_data, const std::string &threadName)
     // przywracanie danych
 
     if (musicState == STATE::PLAY)
-        my_data->main_iDomTools->MPD_play(my_data);
+        context->main_iDomTools->MPD_play(context);
     else
-        my_data->main_iDomTools->turnOffSpeakers();
+        context->main_iDomTools->turnOffSpeakers();
     // koniec
-    my_data->main_key_menu_handler->timeout();
-    my_data->main_iDomStatus->setObjectState("KODI", STATE::DEACTIVE);
-    iDOM_THREAD::stop_thread("kodi smartTV", my_data);
+    context->main_key_menu_handler->timeout();
+    context->main_iDomStatus->setObjectState("KODI", STATE::DEACTIVE);
+    iDOM_THREAD::stop_thread("kodi smartTV", context);
 }
 
 std::string useful_F::RSHash(const std::string &data, unsigned int b, unsigned int a)
@@ -264,21 +264,21 @@ std::string useful_F::l_send_file(const std::string &path, const std::string &fi
 }
 
 ///////////////////// watek polaczenia TCP /////////////////////////////////////
-void useful_F::Server_connectivity_thread(thread_data *my_data, const std::string &threadName)
+void useful_F::Server_connectivity_thread(thread_data *context, const std::string &threadName)
 {
-    auto client = std::make_unique<C_connection>(my_data);
+    auto client = std::make_unique<C_connection>(context);
     static unsigned int connectionCounter = 0;
     bool key_ok = false;
-    std::string tm = inet_ntoa(my_data->from.sin_addr);
+    std::string tm = inet_ntoa(context->from.sin_addr);
 
     if (tm.find("192.168.13.18") != std::string::npos)
     {
         if (++connectionCounter > 9)
         {
             connectionCounter = 0;
-            my_data->main_iDomTools->sendViberMsg("ktoś kombinuje z polaczeniem do serwera!",
-                                                  my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                                  my_data->server_settings->_fb_viber.viberSender + "_ALERT!");
+            context->main_iDomTools->sendViberMsg("ktoś kombinuje z polaczeniem do serwera!",
+                                                  context->server_settings->_fb_viber.viberReceiver.at(0),
+                                                  context->server_settings->_fb_viber.viberSender + "_ALERT!");
         }
         client->setEncrypted(false);
     }
@@ -290,19 +290,19 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << threadName << ": polaczenie z adresu " << tm << std::endl;
     log_file_mutex.mutex_unlock();
-    my_data->myEventHandler.run("connections")->addEvent(tm);
-    my_data->main_Rs232->print("LED_AT:1;");
+    context->myEventHandler.run("connections")->addEvent(tm);
+    context->main_Rs232->print("LED_AT:1;");
 
     int recvSize_tm = client->c_recv(0);
 
     if (recvSize_tm == -1)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "CLOSE, AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) << std::endl;
+        log_file_cout << CRITICAL << "CLOSE, AUTHENTICATION FAILED! " << inet_ntoa(context->from.sin_addr) << std::endl;
         log_file_mutex.mutex_unlock();
 
-        my_data->main_Rs232->print("LED_AT:0;");
-        iDOM_THREAD::stop_thread(threadName, my_data);
+        context->main_Rs232->print("LED_AT:0;");
+        iDOM_THREAD::stop_thread(threadName, context);
         return;
     }
     std::string KEY_OWN = useful_F::RSHash();
@@ -327,14 +327,14 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         {
             client->handleHTTP(KEY_rec2);
 
-            my_data->main_Rs232->print("LED_AT:0;");
-            iDOM_THREAD::stop_thread(threadName, my_data);
+            context->main_Rs232->print("LED_AT:0;");
+            iDOM_THREAD::stop_thread(threadName, context);
             return;
         }
 
         key_ok = false;
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << inet_ntoa(my_data->from.sin_addr) << std::endl;
+        log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << inet_ntoa(context->from.sin_addr) << std::endl;
         log_file_cout << CRITICAL << "KEY RECIVED: " << KEY_rec << " KEY SERVER: " << KEY_OWN << std::endl;
         client->cryptoLog(KEY_rec); // setEncriptionKey(KEY_rec);
         log_file_cout << CRITICAL << "KEY UNCRIPTED RECIVED\n\n " << KEY_rec << "\n\n"
@@ -342,15 +342,15 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         log_file_mutex.mutex_unlock();
 
         std::string msg = "podano zły klucz autentykacji - sprawdz logi ";
-        msg.append(inet_ntoa(my_data->from.sin_addr));
-        my_data->main_iDomTools->sendViberMsg(msg,
-                                              my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                              my_data->server_settings->_fb_viber.viberSender + "_ALERT!");
+        msg.append(inet_ntoa(context->from.sin_addr));
+        context->main_iDomTools->sendViberMsg(msg,
+                                              context->server_settings->_fb_viber.viberReceiver.at(0),
+                                              context->server_settings->_fb_viber.viberSender + "_ALERT!");
 
         if (client->c_send("\nFAIL\n") == -1)
         {
-            my_data->main_Rs232->print("LED_AT:0;");
-            iDOM_THREAD::stop_thread(threadName, my_data);
+            context->main_Rs232->print("LED_AT:0;");
+            iDOM_THREAD::stop_thread(threadName, context);
             return;
         }
     }
@@ -359,8 +359,8 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         int recvSize_tm_n = client->c_recv(0);
         if (recvSize_tm_n == -1)
         {
-            my_data->main_Rs232->print("LED_AT:0;");
-            iDOM_THREAD::stop_thread(threadName, my_data);
+            context->main_Rs232->print("LED_AT:0;");
+            iDOM_THREAD::stop_thread(threadName, context);
             return;
         }
 
@@ -369,15 +369,15 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
 
         if (userLevel == "ROOT")
         {
-            client->m_mainCommandHandler = std::make_unique<commandHandlerRoot>(my_data);
+            client->m_mainCommandHandler = std::make_unique<commandHandlerRoot>(context);
         }
         else if (userLevel == "GATEWAY")
         {
-            client->m_mainCommandHandler = std::make_unique<commandHandlerGATEWAY>(my_data);
+            client->m_mainCommandHandler = std::make_unique<commandHandlerGATEWAY>(context);
         }
         else
         {
-            client->m_mainCommandHandler = std::make_unique<commandHandler>(my_data);
+            client->m_mainCommandHandler = std::make_unique<commandHandler>(context);
         }
     }
     while (useful_F::go_while && key_ok)
@@ -415,12 +415,12 @@ void useful_F::Server_connectivity_thread(thread_data *my_data, const std::strin
         }
     }
     client->onStopConnection();
-    my_data->main_Rs232->print("LED_AT:0;");
+    context->main_Rs232->print("LED_AT:0;");
 #ifdef BT_TEST
     puts("zamykamy server" );
     useful_F::workServer = false; // wylacz nasluchwianie servera
 #endif
-    iDOM_THREAD::stop_thread(threadName, my_data);
+    iDOM_THREAD::stop_thread(threadName, context);
 }
 
 // przerobka adresu na ip . //////////////////////////////////
@@ -451,25 +451,25 @@ std::string useful_F::conv_dns(const std::string &temp)
     return s_ip;
 }
 
-void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
+void useful_F::startServer(thread_data *context, TASKER *my_tasker)
 {
     struct sockaddr_in server;
     memset(&server, 0, sizeof(server));
     int v_socket;
-    int SERVER_PORT = my_data->server_settings->_server.PORT;
+    int SERVER_PORT = context->server_settings->_server.PORT;
     server.sin_family = AF_INET;
     server.sin_port = htons(SERVER_PORT);
 
-    if (my_data->server_settings->_server.SERVER_IP == "auto")
+    if (context->server_settings->_server.SERVER_IP == "auto")
     {
         server.sin_addr.s_addr = INADDR_ANY;
     }
     else
     {
 
-        my_data->server_settings->_server.SERVER_IP =
-            useful_F::conv_dns(my_data->server_settings->_server.SERVER_IP);
-        const char *SERVER_IP = my_data->server_settings->_server.SERVER_IP.c_str();
+        context->server_settings->_server.SERVER_IP =
+            useful_F::conv_dns(context->server_settings->_server.SERVER_IP);
+        const char *SERVER_IP = context->server_settings->_server.SERVER_IP.c_str();
 
         if (inet_pton(AF_INET, SERVER_IP, &server.sin_addr) <= 0)
         {
@@ -515,7 +515,7 @@ void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
         exit(-1);
     }
     struct sockaddr_in from;
-    my_data->main_Rs232->print("LED_POWER:1;");
+    context->main_Rs232->print("LED_POWER:1;");
     while (1)
     {
         int v_sock_ind = 0;
@@ -537,15 +537,15 @@ void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
 
         //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscu ////////////////////
 
-        int freeSlotID = iDOM_THREAD::findFreeThreadSlot(my_data->main_THREAD_arr);
+        int freeSlotID = iDOM_THREAD::findFreeThreadSlot(context->main_THREAD_arr);
 
         if (freeSlotID not_eq -1)
         {
-            my_data->s_client_sock = v_sock_ind;
-            my_data->from = from;
-            iDOM_THREAD::start_thread(inet_ntoa(my_data->from.sin_addr),
+            context->s_client_sock = v_sock_ind;
+            context->from = from;
+            iDOM_THREAD::start_thread(inet_ntoa(context->from.sin_addr),
                                       useful_F::Server_connectivity_thread,
-                                      my_data,
+                                      context,
                                       v_sock_ind);
         }
         else
@@ -564,7 +564,7 @@ void useful_F::startServer(thread_data *my_data, TASKER *my_tasker)
     } // while
     close(v_socket);
 
-    my_data->main_Rs232->print("LED_POWER:0;");
+    context->main_Rs232->print("LED_POWER:0;");
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "zamykanie gniazda wartosc " << shutdown(v_socket, SHUT_RDWR) << std::endl;
     log_file_cout << ERROR << "gniazdo ind " << strerror(errno) << std::endl;

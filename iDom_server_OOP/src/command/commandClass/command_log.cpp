@@ -4,7 +4,7 @@ command_log::command_log(const std::string &name):command(name)
 {
 }
 
-std::string command_log::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_log::execute(std::vector<std::string> &v, thread_data *context)
 {
     std::string msg;
     for (unsigned int i = 2; i < v.size(); ++i)

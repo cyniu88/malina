@@ -17,10 +17,10 @@ class C_connection : public iDom_API
     friend class c_connection_fixture;
 #endif
 public:
-    explicit C_connection(thread_data *my_data);
+    explicit C_connection(thread_data *context);
     ~C_connection();
 
-    thread_data *my_data;
+    thread_data *context;
     int c_socket = 0;
     sockaddr_in c_from;
 

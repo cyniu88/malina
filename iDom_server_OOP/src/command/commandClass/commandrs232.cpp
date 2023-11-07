@@ -4,14 +4,14 @@ commandRS232::commandRS232(const std::string &name):command(name)
 {
 }
 
-std::string commandRS232::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string commandRS232::execute(std::vector<std::string> &v, thread_data *context)
 {
     std::string str_buf = "default";
 
 
     if (v[1] == "send")
     {
-        my_data->main_Rs232->print(v[2]);
+        context->main_Rs232->print(v[2]);
         str_buf = "done";
     }
     else if (v[1] == "error")

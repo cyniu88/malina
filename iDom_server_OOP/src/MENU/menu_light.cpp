@@ -2,7 +2,7 @@
 #include "menu_main.h"
 #include "menu_root.h"
 
-MENU_LIGHT::MENU_LIGHT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(my_data, lcdPTR, msm, lcdLED)
+MENU_LIGHT::MENU_LIGHT(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(context, lcdPTR, msm, lcdLED)
 {
     // std::cout << "MENU_LIGHT::MENU_LIGHT()" << std::endl;
 }
@@ -21,7 +21,7 @@ MENU_LIGHT &MENU_LIGHT::operator=(const MENU_LIGHT &base)
 {
     if (&base not_eq this)
     {
-        my_dataPTR = base.my_dataPTR;
+        contextPTR = base.contextPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
     }
@@ -32,7 +32,7 @@ MENU_LIGHT &MENU_LIGHT::operator=(MENU_LIGHT &&base)
 {
     if (&base not_eq this)
     {
-        my_dataPTR = base.my_dataPTR;
+        contextPTR = base.contextPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
         m_lightDatabase = std::move(base.m_lightDatabase);
@@ -43,7 +43,7 @@ MENU_LIGHT &MENU_LIGHT::operator=(MENU_LIGHT &&base)
 void MENU_LIGHT::entry()
 {
     // std::cout << "MENU_LIGHT::entry()" << std::endl;
-    auto jj = my_dataPTR->main_house_room_handler->getAllInfoJSON();
+    auto jj = contextPTR->main_house_room_handler->getAllInfoJSON();
     // std::cout << jj.dump(4) << std::endl;
     for (const auto &data : jj)
     {
@@ -84,7 +84,7 @@ void MENU_LIGHT::keyPadUp()
     m_lightDatabase.up();
     auto p = m_lightDatabase.getCurrent();
     print(p->first, p->second.getCurrent().name.name);
-    my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
+    contextPTR->main_Rs232->print("TIMEOUT:30000;");
 }
 
 void MENU_LIGHT::keyPadDown()
@@ -92,7 +92,7 @@ void MENU_LIGHT::keyPadDown()
     m_lightDatabase.down();
     auto p = m_lightDatabase.getCurrent();
     print(p->first, p->second.getCurrent().name.name);
-    my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
+    contextPTR->main_Rs232->print("TIMEOUT:30000;");
 }
 
 void MENU_LIGHT::keyPadLeft()
@@ -100,7 +100,7 @@ void MENU_LIGHT::keyPadLeft()
     auto p = m_lightDatabase.getCurrent();
     p->second.down();
     print(p->first, p->second.getCurrent().name.name);
-    my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
+    contextPTR->main_Rs232->print("TIMEOUT:30000;");
 }
 
 void MENU_LIGHT::keyPadRight()
@@ -108,7 +108,7 @@ void MENU_LIGHT::keyPadRight()
     auto p = m_lightDatabase.getCurrent();
     p->second.up();
     print(p->first, p->second.getCurrent().name.name);
-    my_dataPTR->main_Rs232->print("TIMEOUT:30000;");
+    contextPTR->main_Rs232->print("TIMEOUT:30000;");
 }
 
 void MENU_LIGHT::keyPadOk()
@@ -117,15 +117,15 @@ void MENU_LIGHT::keyPadOk()
     int id = p->second.getCurrent().name.id;
     if (p->first == "all")
     {
-        my_dataPTR->main_house_room_handler->turnOnAllBulb();
+        contextPTR->main_house_room_handler->turnOnAllBulb();
         return;
     }
     else if (id == 0)
     {
-        my_dataPTR->main_house_room_handler->turnOnAllInRoom(p->first);
+        contextPTR->main_house_room_handler->turnOnAllInRoom(p->first);
         return;
     }
-    my_dataPTR->main_house_room_handler->turnOnBulb(id);
+    contextPTR->main_house_room_handler->turnOnBulb(id);
 }
 
 void MENU_LIGHT::keyPadPower()
@@ -134,15 +134,15 @@ void MENU_LIGHT::keyPadPower()
     int id = p->second.getCurrent().name.id;
     if (p->first == "all")
     {
-        my_dataPTR->main_house_room_handler->turnOffAllBulb();
+        contextPTR->main_house_room_handler->turnOffAllBulb();
         return;
     }
     else if (id == 0)
     {
-        my_dataPTR->main_house_room_handler->turnOffAllInRoom(p->first);
+        contextPTR->main_house_room_handler->turnOffAllInRoom(p->first);
         return;
     }
-    my_dataPTR->main_house_room_handler->turnOffBulb(id);
+    contextPTR->main_house_room_handler->turnOffBulb(id);
 }
 
 void MENU_LIGHT::timeout(std::function<void()> function)

@@ -6,7 +6,7 @@ command_shed::command_shed(const std::string &name):command(name)
 
 }
 
-std::string command_shed::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_shed::execute(std::vector<std::string> &v, thread_data *context)
 {
     std::stringstream str_buf;
     str_buf << "command shed - wrong paramiter";
@@ -15,37 +15,37 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_data *my_d
         {
             str_buf.str("");
             try {
-                my_data->lusina.shedJson = nlohmann::json::parse(v[2]);
+                context->lusina.shedJson = nlohmann::json::parse(v[2]);
             } catch (...) {
                 log_file_mutex.mutex_lock();
                 log_file_cout << CRITICAL << " błąd odebranego json z shed " << v[2] << std::endl;
                 log_file_mutex.mutex_unlock();
                 return "error 222";
             }
-            my_data->lusina.shedBat.push_back(my_data->lusina.shedJson["bateria"].get<float>());
-            my_data->lusina.shedHum.push_back(my_data->lusina.shedJson["wilgotność"].get<int>());
-            my_data->lusina.shedPres.push_back(my_data->lusina.shedJson["ciśnienie"].get<float>());
-            my_data->lusina.shedTemp.push_back(my_data->lusina.shedJson["temperatura"].get<float>());
+            context->lusina.shedBat.push_back(context->lusina.shedJson["bateria"].get<float>());
+            context->lusina.shedHum.push_back(context->lusina.shedJson["wilgotność"].get<int>());
+            context->lusina.shedPres.push_back(context->lusina.shedJson["ciśnienie"].get<float>());
+            context->lusina.shedTemp.push_back(context->lusina.shedJson["temperatura"].get<float>());
             str_buf << "DONE";
             nlohmann::json returnJson;
-            returnJson["isDay"] = my_data->main_iDomTools->isItDay();
-            returnJson["deepSleep"] = my_data->lusina.shedConfJson["deepSleep"].get<bool>();
-            returnJson["howLongDeepSleep"] = my_data->lusina.shedConfJson["howLongDeepSleep"].get<int>();
-            returnJson["fanON"] = my_data->lusina.shedConfJson["fanON"].get<bool>();
-            my_data->mqttHandler->publish("iDom-domek/data", returnJson.dump());
+            returnJson["isDay"] = context->main_iDomTools->isItDay();
+            returnJson["deepSleep"] = context->lusina.shedConfJson["deepSleep"].get<bool>();
+            returnJson["howLongDeepSleep"] = context->lusina.shedConfJson["howLongDeepSleep"].get<int>();
+            returnJson["fanON"] = context->lusina.shedConfJson["fanON"].get<bool>();
+            context->mqttHandler->publish("iDom-domek/data", returnJson.dump());
         }
         else if(v[1] == "show")
         {
             str_buf.str("");
-            str_buf << my_data->lusina.shedJson.dump(4);
+            str_buf << context->lusina.shedJson.dump(4);
         }
         else if(v[1] == "set" and v[2] == "deepSleep")
         {
             str_buf.str("");
-            my_data->lusina.shedConfJson["deepSleep"] = (v[3] == "true" ? true : false);
-            my_data->lusina.shedConfJson["howLongDeepSleep"] = std::stoi(v[4]);
-            str_buf << "ustawiono deep sleep "  << std::boolalpha << my_data->lusina.shedConfJson["deepSleep"].get<bool>() <<
-                       " na " << my_data->lusina.shedConfJson["howLongDeepSleep"].get<int>()
+            context->lusina.shedConfJson["deepSleep"] = (v[3] == "true" ? true : false);
+            context->lusina.shedConfJson["howLongDeepSleep"] = std::stoi(v[4]);
+            str_buf << "ustawiono deep sleep "  << std::boolalpha << context->lusina.shedConfJson["deepSleep"].get<bool>() <<
+                       " na " << context->lusina.shedConfJson["howLongDeepSleep"].get<int>()
                     << " sekund." << std::endl;
         }
     }

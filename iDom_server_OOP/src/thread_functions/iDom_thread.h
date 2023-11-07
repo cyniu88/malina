@@ -13,13 +13,13 @@ private:
 public:
     static std::string start_thread(const std::string &name,
                                     std::function<void(thread_data *, const std::string &)> functionToThread,
-                                    thread_data *my_data,
+                                    thread_data *context,
                                     unsigned int thread_socket = 1);
 
     static void stop_thread(const std::string &name,
-                            thread_data *my_data);
+                            thread_data *context);
 
-    static void waitUntilAllThreadEnd(thread_data *my_data);
+    static void waitUntilAllThreadEnd(thread_data *context);
 
     static int findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array);
 };

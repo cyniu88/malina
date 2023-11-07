@@ -14,7 +14,7 @@
 #include "commandClass/commandexit.h"
 #include "commandClass/commandtest.h"
 
-commandHandler::commandHandler(thread_data * my_data)
+commandHandler::commandHandler(thread_data * context)
 {
     std::unique_ptr <command> test(new commandTEST("test") );
     commandMap.insert( std::make_pair(test->getCommandName(),std::move( test )) );
@@ -55,10 +55,10 @@ commandHandler::commandHandler(thread_data * my_data)
     std::unique_ptr <command> shed(new command_shed("shed"));
     commandMap.insert(std::make_pair(shed->getCommandName(), std::move(shed)));
 
-    this->my_data = my_data;
+    this->context = context;
 }
 
-std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_data)
+std::string commandHandler::run(std::vector<std::string> &v, thread_data *context)
 {
     if (commandMap.find(v.front()) == commandMap.end()){
         std::fstream log;
@@ -68,6 +68,6 @@ std::string commandHandler::run(std::vector<std::string> &v, thread_data *my_dat
         return EMOJI::emoji(E_emoji::WARNING_SIGN) + " unknown command: "+ v.front();
     }
     else{
-        return commandMap[v.front()]->execute(v, my_data);
+        return commandMap[v.front()]->execute(v, context);
     }
 }

@@ -7,7 +7,7 @@
 
 class SATEL_INTEGRA_HANDLER : public SATEL_INTEGRA_HANDLER_INTERFACE
 {
-    thread_data *my_data;
+    thread_data *context;
     public:
     SATEL_INTEGRA m_integra32;
 

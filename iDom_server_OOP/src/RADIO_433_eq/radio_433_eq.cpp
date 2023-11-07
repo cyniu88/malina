@@ -4,11 +4,11 @@
 
 #include "radio_433_eq.h"
 
-RADIO_SWITCH::RADIO_SWITCH(thread_data *my_data,
+RADIO_SWITCH::RADIO_SWITCH(thread_data *context,
                            const RADIO_EQ_CONFIG &cfg,
-                           RADIO_EQ_TYPE type) : main433MHz(my_data)
+                           RADIO_EQ_TYPE type) : main433MHz(context)
 {
-    RADIO_EQ::m_my_data = my_data;
+    RADIO_EQ::m_context = context;
     RADIO_EQ::m_type = type;
     RADIO_EQ::m_config = cfg;
 }
@@ -19,7 +19,7 @@ void RADIO_SWITCH::on()
     {
         main433MHz.sendCode(RADIO_EQ::m_config.onCode);
         m_state = STATE::ON;
-        RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::ON);
+        RADIO_EQ::m_context->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::ON);
     }
     else
     {
@@ -35,7 +35,7 @@ void RADIO_SWITCH::off()
     {
         main433MHz.sendCode(RADIO_EQ::m_config.offCode);
         m_state = STATE::OFF;
-        RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::OFF);
+        RADIO_EQ::m_context->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::OFF);
     }
     else
     {
@@ -51,14 +51,14 @@ void RADIO_SWITCH::on_Off()
     {
         main433MHz.sendCode(RADIO_EQ::m_config.offCode);
         m_state = STATE::OFF;
-        RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::OFF);
+        RADIO_EQ::m_context->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::OFF);
         return;
     }
     if (m_state not_eq STATE::ON)
     {
         main433MHz.sendCode(RADIO_EQ::m_config.onCode);
         m_state = STATE::ON;
-        RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::ON);
+        RADIO_EQ::m_context->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::ON);
         return;
     }
 }
@@ -69,7 +69,7 @@ void RADIO_SWITCH::onFor15sec()
     {
         main433MHz.sendCode(RADIO_EQ::m_config.on15sec);
         m_state = STATE::TEMPORARY;
-        RADIO_EQ::m_my_data->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::TEMPORARY);
+        RADIO_EQ::m_context->main_iDomStatus->setObjectState(RADIO_EQ::m_config.name, STATE::TEMPORARY);
     }
     else
     {
@@ -103,9 +103,9 @@ void RADIO_SWITCH::setCode(RADIO_EQ_CONFIG cfg)
     RADIO_EQ::m_config.name = cfg.name;
 }
 
-RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_data *m_my_data)
+RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_data *m_context)
 {
-    this->my_data = m_my_data;
+    this->context = m_context;
 }
 
 RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()
@@ -121,14 +121,14 @@ void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
     switch (type)
     {
     case RADIO_EQ_TYPE::SWITCH:
-        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_SWITCH(my_data, cfg, RADIO_EQ_TYPE::SWITCH)));
+        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_SWITCH(context, cfg, RADIO_EQ_TYPE::SWITCH)));
         break;
     case RADIO_EQ_TYPE::BUTTON:
-        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_BUTTON(my_data, cfg, RADIO_EQ_TYPE::BUTTON)));
+        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_BUTTON(context, cfg, RADIO_EQ_TYPE::BUTTON)));
         break;
     case RADIO_EQ_TYPE::WEATHER_S:
         m_radioEqMap.insert(std::make_pair(cfg.name,
-                                           new RADIO_WEATHER_STATION(my_data, cfg, RADIO_EQ_TYPE::WEATHER_S)));
+                                           new RADIO_WEATHER_STATION(context, cfg, RADIO_EQ_TYPE::WEATHER_S)));
         break;
     default:
         break;
@@ -164,7 +164,7 @@ void RADIO_EQ_CONTAINER::deleteRadioEq(const std::string &name)
 {
     delete m_radioEqMap[name];
     m_radioEqMap.erase(name);
-    saveConfig(my_data->server_settings->_server.radio433MHzConfigFile);
+    saveConfig(context->server_settings->_server.radio433MHzConfigFile);
 }
 
 RADIO_EQ *RADIO_EQ_CONTAINER::getEqPointer(std::string name)
@@ -378,7 +378,7 @@ std::string RADIO_EQ_CONTAINER::showConfig(const std::string &filePath)
 
 RADIO_EQ::RADIO_EQ() : m_type(RADIO_EQ_TYPE::NONE)
 {
-    this->m_my_data = std::nullptr_t();
+    this->m_context = std::nullptr_t();
 }
 
 RADIO_EQ_TYPE RADIO_EQ::getType() const
@@ -386,9 +386,9 @@ RADIO_EQ_TYPE RADIO_EQ::getType() const
     return m_type;
 }
 
-RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type)
+RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *context, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type)
 {
-    RADIO_EQ::m_my_data = my_data;
+    RADIO_EQ::m_context = context;
     RADIO_EQ::m_type = type;
     RADIO_EQ::m_config = cfg;
 }

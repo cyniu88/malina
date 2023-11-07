@@ -5,13 +5,13 @@ command_clock::command_clock(const std::string &name):command(name)
 
 }
 
-std::string command_clock::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_clock::execute(std::vector<std::string> &v, thread_data *context)
 {
     if(v.size()<2)
         return "can not set clock";
     std::stringstream ss;
     ss << "TEXT:" << v.at(1) << ";" ;
-    my_data->main_Rs232->print(ss.str());
+    context->main_Rs232->print(ss.str());
     return "done";
 }
 

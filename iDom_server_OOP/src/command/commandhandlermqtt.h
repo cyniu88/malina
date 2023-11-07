@@ -13,7 +13,7 @@ class CommandHandlerMQTT
 public:
     CommandHandlerMQTT();
     ~CommandHandlerMQTT() = default;
-    std::string run(std::vector<std::string> &v, thread_data *my_data);
+    std::string run(std::vector<std::string> &v, thread_data *context);
 };
 
 #endif // COMMANDHANDLERMQTT_H

@@ -7,7 +7,7 @@ class command_big : public command
 {
 public:
     explicit command_big(const std::string& name);
-    std::string execute(std::vector <std::string> &v,thread_data * my_data) override;
+    std::string execute(std::vector <std::string> &v,thread_data * context) override;
     std::string help() const override;
 };
 

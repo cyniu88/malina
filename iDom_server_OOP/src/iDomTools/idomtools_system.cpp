@@ -42,19 +42,19 @@ void iDomTOOLS::healthCheck()
 {
     int alarm_433MHz = 2131;
 
-    if (my_data->mqttHandler->_connected == false)
+    if (context->mqttHandler->_connected == false)
     {
         puts("brak polaczenia z serverm MQTT");
     }
-    if (my_data->mqttHandler->_subscribed == false)
+    if (context->mqttHandler->_subscribed == false)
     {
         puts("brak subskrybcji do servera mqtt");
     }
 
     ////////////// RFLink ///////////
-    auto t = Clock::getUnixTime() - my_data->main_RFLink->m_pingTime;
+    auto t = Clock::getUnixTime() - context->main_RFLink->m_pingTime;
 
-    if (t > 310 and my_data->mqttHandler->_subscribed == true and my_data->server_settings->_runThread.RFLink == true)
+    if (t > 310 and context->mqttHandler->_subscribed == true and context->server_settings->_runThread.RFLink == true)
     {
         m_restartAlarmRFLink++;
         if (m_restartAlarmRFLink == 2)
@@ -62,24 +62,24 @@ void iDomTOOLS::healthCheck()
             log_file_mutex.mutex_lock();
             log_file_cout << WARNING << "restart servera z powodu braku polaczenia z RFLinkiem" << std::endl;
             log_file_mutex.mutex_unlock();
-            my_data->main_iDomTools->reloadHard_iDomServer();
+            context->main_iDomTools->reloadHard_iDomServer();
         }
         // else if(m_restartAlarmRFLink == 2){
-        my_data->main_RFLink = std::make_shared<RFLinkHandler>(my_data);
+        context->main_RFLink = std::make_shared<RFLinkHandler>(context);
         useful_F::sleep(1s);
-        my_data->main_RFLink->init();
+        context->main_RFLink->init();
 
-        // my_data->main_RFLink->sendCommand("10;REBOOT;");
+        // context->main_RFLink->sendCommand("10;REBOOT;");
         // }
         std::string m("brak połaczenia RS232 z RFLink'iem");
         std::cout << "brak pingu RFLinka 433MHz t: " << Clock::unixTimeToString(t) << std::endl;
-        my_data->iDomAlarm.raiseAlarm(alarm_433MHz, m);
-        my_data->main_iDomTools->sendViberMsg(m, my_data->server_settings->_fb_viber.viberReceiver.at(0),
-                                              my_data->server_settings->_fb_viber.viberSender + "health");
+        context->iDomAlarm.raiseAlarm(alarm_433MHz, m);
+        context->main_iDomTools->sendViberMsg(m, context->server_settings->_fb_viber.viberReceiver.at(0),
+                                              context->server_settings->_fb_viber.viberSender + "health");
     }
     else
     {
-        my_data->iDomAlarm.clearAlarm(alarm_433MHz);
+        context->iDomAlarm.clearAlarm(alarm_433MHz);
         m_restartAlarmRFLink = 0;
     }
 }
@@ -100,11 +100,11 @@ std::string iDomTOOLS::getLink(std::vector<std::string> v)
     generator gg;
     std::string tempName = gg.random_string(20);
     auto command = std::accumulate(std::begin(v), std::end(v), std::string(), [](std::string lhs, const std::string &rhs) { return lhs.empty() ? rhs : lhs + ' ' + rhs; });
-    my_data->m_keyHandler->addTempKEY(tempName, command, my_data->server_settings->_gateway.keySize);
-    std::string key = my_data->m_keyHandler->getKEY(tempName);
+    context->m_keyHandler->addTempKEY(tempName, command, context->server_settings->_gateway.keySize);
+    std::string key = context->m_keyHandler->getKEY(tempName);
     std::stringstream ret;
 
-    ret << my_data->server_settings->_gateway.url << "?name=" << tempName << "&key=" << key;
+    ret << context->server_settings->_gateway.url << "?name=" << tempName << "&key=" << key;
 
     for (const auto &s : v)
     {
@@ -116,30 +116,30 @@ std::string iDomTOOLS::getLink(std::vector<std::string> v)
 
 void iDomTOOLS::reloadSoft_iDomServer()
 {
-    my_data->iDomProgramState = iDomStateEnum::RELOAD;
-    my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
+    context->iDomProgramState = iDomStateEnum::RELOAD;
+    context->main_iDomTools->saveState_iDom(context->serverStarted);
     useful_F::workServer = false;
 }
 
 void iDomTOOLS::reloadHard_iDomServer()
 {
-    my_data->iDomProgramState = iDomStateEnum::HARD_RELOAD;
-    my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
+    context->iDomProgramState = iDomStateEnum::HARD_RELOAD;
+    context->main_iDomTools->saveState_iDom(context->serverStarted);
     useful_F::workServer = false;
 }
 
 void iDomTOOLS::raspberryReboot()
 {
     iDomTOOLS::MPD_stop();
-    my_data->iDomProgramState = iDomStateEnum::RASPBERRY_RELOAD;
-    my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
+    context->iDomProgramState = iDomStateEnum::RASPBERRY_RELOAD;
+    context->main_iDomTools->saveState_iDom(context->serverStarted);
     useful_F::workServer = false;
 }
 
 void iDomTOOLS::close_iDomServer()
 {
     iDomTOOLS::MPD_stop();
-    my_data->iDomProgramState = iDomStateEnum::CLOSE;
-    my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
+    context->iDomProgramState = iDomStateEnum::CLOSE;
+    context->main_iDomTools->saveState_iDom(context->serverStarted);
     useful_F::workServer = false;
 }

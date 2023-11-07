@@ -10,7 +10,7 @@ class MENU_MAINTENANCE : public MENU_STATE_BASE
     int counter = 48;
 
 public:
-    MENU_MAINTENANCE(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED);
+    MENU_MAINTENANCE(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED);
     ~MENU_MAINTENANCE() = default;
     void entry() override;
     void exit() override;

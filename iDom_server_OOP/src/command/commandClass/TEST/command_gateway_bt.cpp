@@ -10,13 +10,13 @@ public:
     command_gateway_Class_fixture():test_command_gateway(std::make_unique <command_gateway>("gateway")),
         main_iDomTools(std::make_shared<iDomToolsMock>())
     {
-        test_my_data.main_iDomTools = main_iDomTools;
+        test_context.main_iDomTools = main_iDomTools;
     }
 
 protected:
     std::unique_ptr<command_gateway> test_command_gateway;
     std::vector<std::string> test_v;
-    thread_data test_my_data;
+    thread_data test_context;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
 };
 
@@ -24,7 +24,7 @@ TEST_F(command_gateway_Class_fixture, unknownParam)
 {
     test_v.push_back("gateway");
     test_v.push_back("fake");
-    auto ret = test_command_gateway->execute(test_v,&test_my_data);
+    auto ret = test_command_gateway->execute(test_v,&test_context);
     EXPECT_THAT(ret,testing::HasSubstr("unknown"));
 }
 
@@ -33,6 +33,6 @@ TEST_F(command_gateway_Class_fixture, fan)
     EXPECT_CALL(*main_iDomTools.get(), turnOn433MHzSwitch("fan"));
     test_v.push_back("gateway");
     test_v.push_back("fan");
-    auto ret = test_command_gateway->execute(test_v,&test_my_data);
+    auto ret = test_command_gateway->execute(test_v,&test_context);
     EXPECT_THAT(ret,testing::HasSubstr("fan on"));
 }

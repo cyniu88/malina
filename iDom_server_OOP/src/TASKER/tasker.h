@@ -10,12 +10,12 @@ class TASKER
     std::string topic;
 
 public:
-    explicit TASKER(thread_data *my_data);
+    explicit TASKER(thread_data *context);
 
     int runTasker();
 
 private:
-    thread_data *my_data;
+    thread_data *context;
 };
 
 #endif // TASKER_H

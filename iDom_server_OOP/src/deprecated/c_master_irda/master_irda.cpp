@@ -37,7 +37,7 @@ KEY_VOLUMEUP        +
 #include "../c_irda_logic/c_irda_logic.h"
 #include "../functions/functions.h"
 
-master_irda::master_irda(thread_data *my_data):buttonTimer(millis()), buttonMENU(0), my_data2(my_data)
+master_irda::master_irda(thread_data *context):buttonTimer(millis()), buttonMENU(0), context2(context)
 {
     if(lirc_init(const_cast< char*>("lirc"),1) != -1)
     {
@@ -47,7 +47,7 @@ master_irda::master_irda(thread_data *my_data):buttonTimer(millis()), buttonMENU
 
 void master_irda::run()
 {
-    c_irda_logic irda_queue(my_data2);
+    c_irda_logic irda_queue(context2);
     //Read the default LIRC config at /etc/lirc/lircd.conf This is the config for your remote.
     if(lirc_readconfig(NULL,&config,NULL)==0)
     {
@@ -85,8 +85,8 @@ void master_irda::run()
                     CodeString.erase(0,(CodeString.find("KEY")));
                     CodeString.erase( CodeString.find(" "), CodeString.size());
 
-                    my_data2->myEventHandler.run("pilot")->addEvent("press: "+CodeString);
-                    irda_queue._add( my_data2->key_map[CodeString]->getValue() );
+                    context2->myEventHandler.run("pilot")->addEvent("press: "+CodeString);
+                    irda_queue._add( context2->key_map[CodeString]->getValue() );
                     buttonTimer = millis();
 
                     if(strstr (code,"KEY_EPG")){

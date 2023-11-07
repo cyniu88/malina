@@ -4,7 +4,7 @@ command_state::command_state(const std::string &name):command(name)
 {
 }
 
-std::string command_state::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_state::execute(std::vector<std::string> &v, thread_data *context)
 {
     std::string ret = "need parameter!\n" + help();
     if (v.size() > 1)
@@ -12,11 +12,11 @@ std::string command_state::execute(std::vector<std::string> &v, thread_data *my_
 
         if (v[1] == "all")
         {
-            return my_data->main_iDomStatus->getAllObjectsStateString();
+            return context->main_iDomStatus->getAllObjectsStateString();
         }
         if (v[1] not_eq "all")
         {
-            return my_data->main_iDomStatus->getObjectStateString(v[1]);
+            return context->main_iDomStatus->getObjectStateString(v[1]);
         }
 
     }

@@ -7,7 +7,7 @@ command_voice::command_voice(const std::string &name): command(name)
 
 }
 
-std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_voice::execute(std::vector<std::string> &v, thread_data *context)
 {
     for(auto &vv : v){
         useful_F_libs::toLower(vv);
@@ -15,48 +15,48 @@ std::string command_voice::execute(std::vector<std::string> &v, thread_data *my_
 
     if(vectorContain(v,"włą") or vectorContain(v, "zaś")){
         if(vectorContain(v,"rad")){
-            my_data->main_iDomTools->MPD_play(my_data);
+            context->main_iDomTools->MPD_play(context);
             return "done";
         }
         else if(vectorContain(v, "świat")){
-            for(auto &j : my_data->main_house_room_handler->m_roomMap){
+            for(auto &j : context->main_house_room_handler->m_roomMap){
                 if(vectorContain(v, j.first.substr(0,5))){
-                    my_data->main_house_room_handler->turnOnAllInRoom(j.first);
+                    context->main_house_room_handler->turnOnAllInRoom(j.first);
                 }
             }
             return "done";
         }
         else if(vectorContain(v, "led")){
-           (void) my_data->main_iDomTools->ledOn();
+           (void) context->main_iDomTools->ledOn();
         }
         else if(vectorContain(v, "kodi")){
-            my_data->main_iDomTools->startKodi_Thread();
+            context->main_iDomTools->startKodi_Thread();
             return "kodi run";
         }
     }
     else if(vectorContain(v, "wyłą") or vectorContain(v, "zgaś")){
         if(vectorContain(v, "radi")){
-            my_data->main_iDomTools->MPD_stop();
+            context->main_iDomTools->MPD_stop();
             return "done";
         }
         else if(vectorContain(v, "świat")){
             if(vectorContain(v, "wsz") or vectorContain(v, "dom")){
-                my_data->main_house_room_handler->turnOffAllBulb();
+                context->main_house_room_handler->turnOffAllBulb();
                 return "done";
             }
-            for(auto &j : my_data->main_house_room_handler->m_roomMap){
+            for(auto &j : context->main_house_room_handler->m_roomMap){
                 if(vectorContain(v, j.first.substr(0,5))){
-                    my_data->main_house_room_handler->turnOffAllInRoom(j.first);
+                    context->main_house_room_handler->turnOffAllInRoom(j.first);
                 }
             }
             return "done";
         }
         else if(vectorContain(v, "led")){
-            (void) my_data->main_iDomTools->ledOFF();
+            (void) context->main_iDomTools->ledOFF();
         }
     }
     else if(vectorContain(v, "pomru")){
-       // my_data->main_iDomTools
+       // context->main_iDomTools
         return "done";
     }
     std::fstream log;

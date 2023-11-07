@@ -9,11 +9,11 @@ protected:
 functions_fixture():
     main_iDomTools(std::make_shared<iDomToolsMock>())
 {
-    useful_F::myStaticData = &test_my_data;
-    test_my_data.main_iDomTools  = main_iDomTools;
-    test_my_data.server_settings = &test_server_set;
+    useful_F::myStaticData = &test_context;
+    test_context.main_iDomTools  = main_iDomTools;
+    test_context.server_settings = &test_server_set;
 }
-    thread_data test_my_data;
+    thread_data test_context;
     CONFIG_JSON test_server_set;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
 };
@@ -91,13 +91,13 @@ TEST(functions_, RSHash)
 
 TEST_F(functions_fixture, setStaticData)
 {
-    test_my_data.sleeper = 99;
+    test_context.sleeper = 99;
     EXPECT_EQ( useful_F::myStaticData->sleeper, 99 );
-    thread_data test_my_data2;
-    test_my_data2.sleeper = 88;
-    EXPECT_EQ( test_my_data2.sleeper, 88 );
+    thread_data test_context2;
+    test_context2.sleeper = 88;
+    EXPECT_EQ( test_context2.sleeper, 88 );
     EXPECT_EQ( useful_F::myStaticData->sleeper, 99 );
-    useful_F::setStaticData(&test_my_data2);
+    useful_F::setStaticData(&test_context2);
     EXPECT_EQ( useful_F::myStaticData->sleeper, 88 );
 }
 
@@ -108,21 +108,21 @@ TEST_F(functions_fixture, sleepThread)
     EXPECT_CALL(*main_iDomTools.get(), MPD_stop());
     EXPECT_CALL(*main_iDomTools.get(), turnOff433MHzSwitch("listwa"));
     std::array <Thread_array_struc,10> test_THRARRSTR;
-    test_my_data.main_THREAD_arr = &test_THRARRSTR;
+    test_context.main_THREAD_arr = &test_THRARRSTR;
 
-    test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
-    test_my_data.ptr_MPD_info->volume = 3;
+    test_context.ptr_MPD_info = std::make_unique<MPD_info>();
+    test_context.ptr_MPD_info->volume = 3;
 
-   // RADIO_EQ_CONTAINER_STUB test_rec(&test_my_data);
-    std::shared_ptr<RADIO_EQ_CONTAINER> test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
+   // RADIO_EQ_CONTAINER_STUB test_rec(&test_context);
+    std::shared_ptr<RADIO_EQ_CONTAINER> test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_context);
     test_rec->loadConfig(test_server_set._server.radio433MHzConfigFile);
-    test_my_data.main_REC = (test_rec);
-    test_my_data.alarmTime.time = Clock::getTime();
-    test_my_data.alarmTime.state = STATE::ACTIVE;
+    test_context.main_REC = (test_rec);
+    test_context.alarmTime.time = Clock::getTime();
+    test_context.alarmTime.state = STATE::ACTIVE;
 
-    test_my_data.sleeper = 10;
+    test_context.sleeper = 10;
 
-    useful_F::sleeper_mpd(&test_my_data,"test sleep");
+    useful_F::sleeper_mpd(&test_context,"test sleep");
 }
 
 TEST_F(functions_fixture, json_config)

@@ -2,9 +2,9 @@
 #include "../functions/functions.h"
 #include "../iDomTools/idomtools_interface.h"
 
-CRON::CRON(thread_data *my_data)
+CRON::CRON(thread_data *context)
 {
-    this->my_data = my_data;
+    this->context = context;
     this->check_temperature = true;
 }
 
@@ -60,17 +60,17 @@ void CRON::runEveryone_1min(struct tm *act_date)
     std::string msg = "CLOCK:";
     msg.append(buffer2);
     msg.append(";");
-    my_data->main_Rs232->print(msg);
-    my_data->main_iDomTools->checkAlarm();
-    my_data->main_iDomTools->updateTemperatureStats();
-    my_data->ptr_buderus->circlePompToRun();
+    context->main_Rs232->print(msg);
+    context->main_iDomTools->checkAlarm();
+    context->main_iDomTools->updateTemperatureStats();
+    context->ptr_buderus->circlePompToRun();
 
     auto now = Clock::getTime();
-    if (now == my_data->main_iDomTools->getSunsetClock())
+    if (now == context->main_iDomTools->getSunsetClock())
     {
         runOnSunset();
     }
-    if (now == my_data->main_iDomTools->getSunriseClock())
+    if (now == context->main_iDomTools->getSunriseClock())
     {
         runOnSunrise();
     }
@@ -78,13 +78,13 @@ void CRON::runEveryone_1min(struct tm *act_date)
 
 void CRON::runEveryone_5min()
 {
-    auto topic = my_data->server_settings->_mqtt_broker.topicSubscribe;
+    auto topic = context->server_settings->_mqtt_broker.topicSubscribe;
     topic.pop_back();
-    my_data->mqttHandler->publish(topic + "command", "433MHz send 10;PING;");
+    context->mqttHandler->publish(topic + "command", "433MHz send 10;PING;");
 
     try
     {
-        my_data->main_iDomTools->checkLightning();
+        context->main_iDomTools->checkLightning();
     }
     catch (...)
     {
@@ -93,15 +93,15 @@ void CRON::runEveryone_5min()
         log_file_mutex.mutex_unlock();
     }
 
-    my_data->main_iDomTools->healthCheck();
-    my_data->main_house_room_handler->turnOffUnexpectedBulb();
+    context->main_iDomTools->healthCheck();
+    context->main_house_room_handler->turnOffUnexpectedBulb();
     
-    my_data->main_iDomTools->send_data_to_influxdb();
+    context->main_iDomTools->send_data_to_influxdb();
 }
 
 void CRON::runEveryone_15min()
 {
-    my_data->main_iDomTools->send_data_to_thingSpeak();
+    context->main_iDomTools->send_data_to_thingSpeak();
 }
 
 void CRON::runEveryone_30min()
@@ -111,7 +111,7 @@ void CRON::runEveryone_30min()
 
 void CRON::runEveryone_1h()
 {
-    my_data->myEventHandler.clearOld(8000, 1000, [](const std::string &name)
+    context->myEventHandler.clearOld(8000, 1000, [](const std::string &name)
                                      {
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "skasowano nadmiarowe eventy w: "<< name << std::endl;
@@ -124,7 +124,7 @@ void CRON::runOnSunset()
     log_file_cout << DEBUG << "zachod slonca " << std::endl;
     log_file_mutex.mutex_unlock();
 
-    my_data->main_iDomTools->runOnSunset();
+    context->main_iDomTools->runOnSunset();
 }
 
 void CRON::runOnSunrise()
@@ -132,5 +132,5 @@ void CRON::runOnSunrise()
     log_file_mutex.mutex_lock();
     log_file_cout << DEBUG << "wschod slonca" << std::endl;
     log_file_mutex.mutex_unlock();
-    my_data->main_iDomTools->runOnSunrise();
+    context->main_iDomTools->runOnSunrise();
 }

@@ -6,7 +6,7 @@ commandTEST::commandTEST(const std::string &name):command(name)
 {
 }
 
-std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string commandTEST::execute(std::vector<std::string> &v, thread_data *context)
 {
 
     if (v[1] == "test")
@@ -24,7 +24,7 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *my_da
     }
 	else if (v[1] == "reboot")
 	{
-		my_data->main_iDomTools->raspberryReboot();
+		context->main_iDomTools->raspberryReboot();
 	}
     return help();
 }

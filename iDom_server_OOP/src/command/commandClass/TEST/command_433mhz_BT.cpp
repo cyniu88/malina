@@ -11,23 +11,23 @@ class command_433MHz_Class_fixture : public testing::Test
 public:
     command_433MHz_Class_fixture():main_iDomTools(std::make_shared<iDomToolsMock>()),
         test_v({"433MHz"}),
-        test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data)),
+        test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_context)),
         test_command_433MHz(std::make_unique<command_433MHz>("433MHz"))
     {
         test_q._clearAll();
-        test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
+        test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_server_settings._server.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
         test_rec->loadConfig(test_server_settings._server.radio433MHzConfigFile);
-        test_my_data.main_REC = test_rec;
+        test_context.main_REC = test_rec;
         test_server_settings._rflink.RFLinkPort = "test port";
-        test_my_data.server_settings = &test_server_settings;
-        test_my_data.main_RFLink = std::make_shared<RFLinkHandler>(&test_my_data);
-        test_my_data.serverStarted = false;
-        test_my_data.main_iDomTools = main_iDomTools;
+        test_context.server_settings = &test_server_settings;
+        test_context.main_RFLink = std::make_shared<RFLinkHandler>(&test_context);
+        test_context.serverStarted = false;
+        test_context.main_iDomTools = main_iDomTools;
     }
 
 protected:
-    thread_data test_my_data;
+    thread_data test_context;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
     std::vector<std::string> test_v;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
@@ -47,7 +47,7 @@ protected:
         test_v.push_back("onCode_A");
         test_v.push_back("ofCode_A");
         test_v.push_back("on15sec_A");
-        std::cout << test_command_433MHz->execute(test_v,&test_my_data) << std::endl;
+        std::cout << test_command_433MHz->execute(test_v,&test_context) << std::endl;
     }
     void deleteSwitch(const std::string& name)
     {
@@ -55,7 +55,7 @@ protected:
         test_v.push_back("433MHz");
         test_v.push_back("delete");
         test_v.push_back(name);
-        std::cout << test_command_433MHz->execute(test_v,&test_my_data) << std::endl;
+        std::cout << test_command_433MHz->execute(test_v,&test_context) << std::endl;
     }
 };
 TEST_F(command_433MHz_Class_fixture, getCommandName)
@@ -67,7 +67,7 @@ TEST_F(command_433MHz_Class_fixture, show_config)
 {
     test_v.push_back("show");
     test_v.push_back("config");
-    auto retStr = test_command_433MHz->execute(test_v,&test_my_data);
+    auto retStr = test_command_433MHz->execute(test_v,&test_context);
     EXPECT_GT(retStr.size(), 2210);
 }
 
@@ -75,7 +75,7 @@ TEST_F(command_433MHz_Class_fixture, show_switch)
 {
     test_v.push_back("show");
     test_v.push_back("all");
-    std::cout << test_command_433MHz->execute(test_v,&test_my_data) << std::endl;
+    std::cout << test_command_433MHz->execute(test_v,&test_context) << std::endl;
     auto v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(), 5);
     test_v.clear();
@@ -83,7 +83,7 @@ TEST_F(command_433MHz_Class_fixture, show_switch)
     test_v.push_back("show");
     test_v.push_back("switch");
 
-    std::string result = test_command_433MHz->execute(test_v,&test_my_data);
+    std::string result = test_command_433MHz->execute(test_v,&test_context);
     std::cout << "wynik testu: " << result << std::endl;
     EXPECT_THAT(result, testing::HasSubstr("UNDEFINE"));
     v = test_rec->getSwitchPointerVector();
@@ -92,18 +92,18 @@ TEST_F(command_433MHz_Class_fixture, show_switch)
     test_v.push_back("433MHz");
     test_v.push_back("show");
     test_v.push_back("all");
-    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    std::cout << test_command_433MHz->execute(test_v,&test_context) <<std::endl;
 }
 
 TEST_F(command_433MHz_Class_fixture, show_aether)
 {
-    test_my_data.main_RFLink->m_rflinkMAP["kk"].msg = "astro";
-    test_my_data.main_RFLink->m_rflinkMAP["kk"].m_counter = 99;
-    test_my_data.main_RFLink->m_rflinkMAP["jj"].msg = "lock";
-    test_my_data.main_RFLink->m_rflinkMAP["jj"].m_counter = 155;
+    test_context.main_RFLink->m_rflinkMAP["kk"].msg = "astro";
+    test_context.main_RFLink->m_rflinkMAP["kk"].m_counter = 99;
+    test_context.main_RFLink->m_rflinkMAP["jj"].msg = "lock";
+    test_context.main_RFLink->m_rflinkMAP["jj"].m_counter = 155;
     test_v.push_back("show");
     test_v.push_back("all");
-    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    std::cout << test_command_433MHz->execute(test_v,&test_context) <<std::endl;
     auto v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(), 5);
     test_v.clear();
@@ -111,7 +111,7 @@ TEST_F(command_433MHz_Class_fixture, show_aether)
     test_v.push_back("show");
     test_v.push_back("aether");
 
-    std::string result = test_command_433MHz->execute(test_v,&test_my_data);
+    std::string result = test_command_433MHz->execute(test_v,&test_context);
     std::cout << "wynik testu: " << result << std::endl;
     EXPECT_THAT(result, testing::HasSubstr("astro"));
     EXPECT_THAT(result, testing::HasSubstr("lock"));
@@ -126,7 +126,7 @@ TEST_F(command_433MHz_Class_fixture, switchRF433)
 {
     test_v.push_back("show");
     test_v.push_back("all");
-    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    std::cout << test_command_433MHz->execute(test_v,&test_context) <<std::endl;
     auto v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
 
@@ -137,48 +137,48 @@ TEST_F(command_433MHz_Class_fixture, switchRF433)
     test_v.push_back("switch");
     test_v.push_back("B");
     test_v.push_back("ON");
-    test_command_433MHz->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
+    test_command_433MHz->execute(test_v,&test_context);
+    EXPECT_EQ(test_context.main_REC->getEqPointer("B")->getState(), STATE::ON);
     ////////////////////////////// OFF
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("switch");
     test_v.push_back("B");
     test_v.push_back("OFF");
-    test_command_433MHz->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
+    test_command_433MHz->execute(test_v,&test_context);
+    EXPECT_EQ(test_context.main_REC->getEqPointer("B")->getState(), STATE::OFF);
     ////////////////////////////// change (ON)
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("switch");
     test_v.push_back("B");
     test_v.push_back("change");
-    test_command_433MHz->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::ON);
+    test_command_433MHz->execute(test_v,&test_context);
+    EXPECT_EQ(test_context.main_REC->getEqPointer("B")->getState(), STATE::ON);
     ////////////////////////////// change (OFF)
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("switch");
     test_v.push_back("B");
     test_v.push_back("change");
-    test_command_433MHz->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::OFF);
+    test_command_433MHz->execute(test_v,&test_context);
+    EXPECT_EQ(test_context.main_REC->getEqPointer("B")->getState(), STATE::OFF);
     ////////////////////////////// 15s
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("switch");
     test_v.push_back("B");
     test_v.push_back("15s");
-    test_command_433MHz->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::TEMPORARY);
+    test_command_433MHz->execute(test_v,&test_context);
+    EXPECT_EQ(test_context.main_REC->getEqPointer("B")->getState(), STATE::TEMPORARY);
     ////////////////////////////// unknown paramiter
     test_v.clear();
     test_v.push_back("433MHz");
     test_v.push_back("switch");
     test_v.push_back("B");
     test_v.push_back("fake");
-    std::string result = test_command_433MHz->execute(test_v,&test_my_data);
-    EXPECT_EQ(test_my_data.main_REC->getEqPointer("B")->getState(), STATE::TEMPORARY);
+    std::string result = test_command_433MHz->execute(test_v,&test_context);
+    EXPECT_EQ(test_context.main_REC->getEqPointer("B")->getState(), STATE::TEMPORARY);
     EXPECT_THAT(result, testing::HasSubstr("fake"));
     ///////////////////////////// fake switch
     test_v.clear();
@@ -187,7 +187,7 @@ TEST_F(command_433MHz_Class_fixture, switchRF433)
     test_v.push_back("B_fake");
     test_v.push_back("fake");
 
-    result = test_command_433MHz->execute(test_v,&test_my_data);
+    result = test_command_433MHz->execute(test_v,&test_context);
     EXPECT_THAT(result, testing::HasSubstr("not found"));
     v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
@@ -199,7 +199,7 @@ TEST_F(command_433MHz_Class_fixture, sendRF433)
 {
     test_v.push_back("show");
     test_v.push_back("all");
-    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    std::cout << test_command_433MHz->execute(test_v,&test_context) <<std::endl;
     auto v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
     test_v.clear();
@@ -207,7 +207,7 @@ TEST_F(command_433MHz_Class_fixture, sendRF433)
     test_v.push_back("send");
     test_v.push_back("fake");
 
-    std::string retStr = test_command_433MHz->execute(test_v,&test_my_data);
+    std::string retStr = test_command_433MHz->execute(test_v,&test_context);
     EXPECT_THAT(retStr, testing::HasSubstr("sended"));
 }
 
@@ -215,7 +215,7 @@ TEST_F(command_433MHz_Class_fixture, fakeSwitchON)
 {
     test_v.push_back("show");
     test_v.push_back("all");
-    std::cout << test_command_433MHz->execute(test_v,&test_my_data) <<std::endl;
+    std::cout << test_command_433MHz->execute(test_v,&test_context) <<std::endl;
     auto v = test_rec->getSwitchPointerVector();
     EXPECT_EQ(v.size(),5);
     test_v.clear();
@@ -224,6 +224,6 @@ TEST_F(command_433MHz_Class_fixture, fakeSwitchON)
     test_v.push_back("ALARM-fake");
     test_v.push_back("ON");
     EXPECT_CALL(*main_iDomTools.get(),saveState_iDom(false));
-    std::string retStr = test_command_433MHz->execute(test_v, &test_my_data);
+    std::string retStr = test_command_433MHz->execute(test_v, &test_context);
     EXPECT_THAT(retStr, testing::HasSubstr(" not found ALARM-fake"));
 }

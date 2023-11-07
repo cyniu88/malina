@@ -62,7 +62,7 @@ std::string MENU_KODI::sendCommandToKodi(const std::string &command, const std::
     return readBuffer;
 }
 
-MENU_KODI::MENU_KODI(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(my_data, lcdPTR, msm, lcdLED)
+MENU_KODI::MENU_KODI(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(context, lcdPTR, msm, lcdLED)
 {
     std::cout << "MENU_KODI::MENU_KODI()" << std::endl;
 }
@@ -82,7 +82,7 @@ MENU_KODI &MENU_KODI::operator=(const MENU_KODI &base)
     //  std::cout << "MENU_KODI::operator = kopiujacy" << std::endl;
     if (&base not_eq this)
     {
-        my_dataPTR = base.my_dataPTR;
+        contextPTR = base.contextPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
         kodiVolume = base.kodiVolume;
@@ -95,7 +95,7 @@ MENU_KODI &MENU_KODI::operator=(MENU_KODI &&base)
     //  std::cout << "MENU_KODI::operator = przenoszacy" << std::endl;
     if (&base not_eq this)
     {
-        my_dataPTR = base.my_dataPTR;
+        contextPTR = base.contextPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
         kodiVolume = base.kodiVolume;
@@ -105,9 +105,9 @@ MENU_KODI &MENU_KODI::operator=(MENU_KODI &&base)
 
 void MENU_KODI::entry()
 {
-    my_dataPTR->main_iDomTools->startKodi_Thread();
+    contextPTR->main_iDomTools->startKodi_Thread();
 
-    my_dataPTR->main_Rs232->print("TIMEOUT:0;");
+    contextPTR->main_Rs232->print("TIMEOUT:0;");
 }
 
 void MENU_KODI::exit()

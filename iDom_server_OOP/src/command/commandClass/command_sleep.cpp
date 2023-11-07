@@ -6,10 +6,10 @@ command_sleep::command_sleep(const std::string &name):command(name)
 {
 }
 
-std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_sleep::execute(std::vector<std::string> &v, thread_data *context)
 {   if (v.size() == 1)
     {
-        return "sleep set to: "+ std::to_string(my_data->sleeper);
+        return "sleep set to: "+ std::to_string(context->sleeper);
     }
     else if (v.size() == 3 ){
         if (v[1] == "set"){
@@ -21,9 +21,9 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_data *my_
                 return "system need intiger > 0 not: " + v[2];
             }
 
-            my_data->sleeper = sleep;
+            context->sleeper = sleep;
 
-            return iDOM_THREAD::start_thread("Sleep MPD",useful_F::sleeper_mpd, my_data);
+            return iDOM_THREAD::start_thread("Sleep MPD",useful_F::sleeper_mpd, context);
         }
         else {
             return "wrong parametr " + v[1];

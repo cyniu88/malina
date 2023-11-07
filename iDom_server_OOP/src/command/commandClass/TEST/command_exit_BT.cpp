@@ -5,7 +5,7 @@
 class command_exit_Class_fixture : public testing::Test
 {
 public:
-    command_exit_Class_fixture():test_command_exit(std::make_unique <commandEXIT>("exit")), test_my_data()
+    command_exit_Class_fixture():test_command_exit(std::make_unique <commandEXIT>("exit")), test_context()
     {
     }
 
@@ -13,12 +13,12 @@ public:
 protected:
     std::unique_ptr<commandEXIT> test_command_exit;
     std::vector<std::string> test_v;
-    thread_data test_my_data;
+    thread_data test_context;
 };
 
 TEST_F(command_exit_Class_fixture, main)
 {
     test_v.push_back("exit");
-    auto ret = test_command_exit->execute(test_v,&test_my_data);
+    auto ret = test_command_exit->execute(test_v,&test_context);
     EXPECT_STREQ(ret.c_str(),"\nEND.\n");
 }

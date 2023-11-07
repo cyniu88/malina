@@ -6,7 +6,7 @@
 class RFLinkHandler_Class_fixture : public ::testing::Test
 {
 public:
-    thread_data test_my_data;
+    thread_data test_context;
     CONFIG_JSON test_server_set;
     std::unique_ptr<RFLinkHandler> test_RFLink;
 
@@ -15,10 +15,10 @@ public:
         test_server_set._server.TS_KEY = "key test";
         test_server_set._rflink.RFLinkBaudRate = 57600;
         test_server_set._rflink.RFLinkPort = "/dev/fakePortRS232";
-        test_my_data.server_settings = &test_server_set;
-        test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
+        test_context.server_settings = &test_server_set;
+        test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
 
-        test_RFLink = std::make_unique<RFLinkHandler>(&test_my_data);
+        test_RFLink = std::make_unique<RFLinkHandler>(&test_context);
     }
 };
 

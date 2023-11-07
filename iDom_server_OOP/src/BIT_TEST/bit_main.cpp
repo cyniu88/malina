@@ -23,32 +23,32 @@ protected:
     std::string send_receive(int socket, std::string msg, std::string key, bool crypt = true);
 
     bit_fixture() : v_socket(0),
-                    bit_Tasker(std::make_unique<TASKER>(&test_my_data))
+                    bit_Tasker(std::make_unique<TASKER>(&test_context))
 
     {
-        test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu-BIT");
-        test_my_data.ptr_buderus = std::make_unique<BUDERUS>();
+        test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu-BIT");
+        test_context.ptr_buderus = std::make_unique<BUDERUS>();
         for (size_t i = 0; i < thread_array.size(); ++i)
         {
             thread_array[i].thread_name = "  -empty-  ";
             thread_array[i].thread_socket = 0;
         }
-        test_my_data.ptr_MPD_info = std::make_unique<MPD_info>();
-        test_my_data.main_THREAD_arr = &thread_array;
-        test_my_data.server_settings = &testCS;
-        test_my_data.server_settings->_server.encrypted = true;
-        test_my_data.server_settings->_camera = testCamera;
-        test_my_data.server_settings->_camera.cameraLedOFF = " not set";
-        test_my_data.server_settings->_fb_viber.viberReceiver = {"test1", "test2};"};
-        test_my_data.server_settings->_fb_viber.viberSender = "testViberSender";
+        test_context.ptr_MPD_info = std::make_unique<MPD_info>();
+        test_context.main_THREAD_arr = &thread_array;
+        test_context.server_settings = &testCS;
+        test_context.server_settings->_server.encrypted = true;
+        test_context.server_settings->_camera = testCamera;
+        test_context.server_settings->_camera.cameraLedOFF = " not set";
+        test_context.server_settings->_fb_viber.viberReceiver = {"test1", "test2};"};
+        test_context.server_settings->_fb_viber.viberSender = "testViberSender";
 
-        test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
-        test_my_data.main_REC = std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data);
-        test_my_data.main_iDomTools = std::make_shared<iDomTOOLS>(&test_my_data);
-        test_my_data.server_settings->_server.PORT = 8833;
-        test_my_data.server_settings->_server.SERVER_IP = "127.0.0.1";
-        test_my_data.server_settings->_runThread.SATEL = true;
-        test_my_data.server_settings->_command = nlohmann::json::parse(R"({
+        test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
+        test_context.main_REC = std::make_shared<RADIO_EQ_CONTAINER>(&test_context);
+        test_context.main_iDomTools = std::make_shared<iDomTOOLS>(&test_context);
+        test_context.server_settings->_server.PORT = 8833;
+        test_context.server_settings->_server.SERVER_IP = "127.0.0.1";
+        test_context.server_settings->_runThread.SATEL = true;
+        test_context.server_settings->_command = nlohmann::json::parse(R"({
         "lock":["jedna komenda", "druga komenda"],
         "unlock":["jedna komenda unlock", "druga komenda unlock"],
         "sunrise":{
@@ -84,7 +84,7 @@ void bit_fixture::start_iDomServer()
 {
     useful_F::workServer = true; // włącz nasluchwianie servera
     useful_F::go_while = true;
-    auto t = std::thread(&useful_F::startServer, &test_my_data, bit_Tasker.get());
+    auto t = std::thread(&useful_F::startServer, &test_context, bit_Tasker.get());
     t.detach();
     std::cout << "EXIT bit_fixture::start_iDomServer()" << std::endl;
 }
@@ -164,9 +164,9 @@ TEST_F(bit_fixture, socket_heandle_command)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
 
-    toCheck = test_my_data.iDomAlarm.showAlarm();
+    toCheck = test_context.iDomAlarm.showAlarm();
     EXPECT_STREQ(toCheck.c_str(), "88756: 433MHz equipment not found first\n");
 }
 
@@ -205,9 +205,9 @@ TEST_F(bit_fixture, socket_heandle_command_lock)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
 
-    toCheck = test_my_data.iDomAlarm.showAlarm();
+    toCheck = test_context.iDomAlarm.showAlarm();
     EXPECT_STREQ(toCheck.c_str(), "88756: 433MHz equipment not found first\n");
 }
 
@@ -247,9 +247,9 @@ TEST_F(bit_fixture, socket_close_server_command)
 
     close(s);
     shutdown(s, SHUT_RDWR);
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
     EXPECT_FALSE(useful_F::workServer);
-    EXPECT_EQ(test_my_data.iDomProgramState, iDomStateEnum::CLOSE);
+    EXPECT_EQ(test_context.iDomProgramState, iDomStateEnum::CLOSE);
 }
 
 TEST_F(bit_fixture, socket_reload_server_command)
@@ -288,9 +288,9 @@ TEST_F(bit_fixture, socket_reload_server_command)
 
     close(s);
     shutdown(s, SHUT_RDWR);
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
     EXPECT_FALSE(useful_F::workServer);
-    EXPECT_EQ(test_my_data.iDomProgramState, iDomStateEnum::HARD_RELOAD);
+    EXPECT_EQ(test_context.iDomProgramState, iDomStateEnum::HARD_RELOAD);
 }
 
 TEST_F(bit_fixture, socket_reboot_rasp_command)
@@ -329,7 +329,7 @@ TEST_F(bit_fixture, socket_reboot_rasp_command)
 
     close(s);
     shutdown(s, SHUT_RDWR);
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
     EXPECT_FALSE(useful_F::workServer);
 }
 
@@ -369,13 +369,13 @@ TEST_F(bit_fixture, socket_wrong_key_after_while)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
 }
 
 TEST_F(bit_fixture, socket_no_space_left_on_server)
 {
 
-    for (auto &i : *test_my_data.main_THREAD_arr)
+    for (auto &i : *test_context.main_THREAD_arr)
     {
         i.thread_socket = 1;
     }
@@ -400,7 +400,7 @@ TEST_F(bit_fixture, socket_no_space_left_on_server)
 
     EXPECT_ANY_THROW(send_receive(s, key, key));
     ////////////////////////////////////////////////// one free slot
-    test_my_data.main_THREAD_arr->at(3).thread_socket = 0;
+    test_context.main_THREAD_arr->at(3).thread_socket = 0;
     const int s2 = socket(serwer.sin_family, SOCK_STREAM, 0);
     connectStatus = connect(s2, (struct sockaddr *)&serwer, sizeof(serwer));
     ASSERT_EQ(connectStatus, 0);
@@ -424,11 +424,11 @@ TEST_F(bit_fixture, socket_no_space_left_on_server)
     close(s2);
     shutdown(s, SHUT_RDWR);
     shutdown(s2, SHUT_RDWR);
-    for (auto &i : *test_my_data.main_THREAD_arr)
+    for (auto &i : *test_context.main_THREAD_arr)
     {
         i.thread_socket = 0;
     }
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
 }
 
 TEST_F(bit_fixture, socket_send_key_fast_disconnect)
@@ -459,7 +459,7 @@ TEST_F(bit_fixture, socket_send_key_fast_disconnect)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
     EXPECT_EQ(r, key.size());
 }
 
@@ -489,7 +489,7 @@ TEST_F(bit_fixture, socket_connection_wrong_key_fast_disconnect)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
 }
 
 TEST_F(bit_fixture, socket_connection_wrong_key)
@@ -521,7 +521,7 @@ TEST_F(bit_fixture, socket_connection_wrong_key)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
 }
 
 TEST_F(bit_fixture, socket_connection_http)
@@ -574,53 +574,53 @@ Content-Length: 43
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_my_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
 }
 
 TEST_F(bit_fixture, buderus_mqtt_command_from_boiler)
 {
 
-    EXPECT_FALSE(test_my_data.ptr_buderus->isHeatingActiv());
+    EXPECT_FALSE(test_context.ptr_buderus->isHeatingActiv());
 
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/heating_active", "1");
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/heating_active", "1");
     bit_Tasker->runTasker();
-    EXPECT_TRUE(test_my_data.ptr_buderus->isHeatingActiv());
+    EXPECT_TRUE(test_context.ptr_buderus->isHeatingActiv());
 
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/heating_active", "0");
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/heating_active", "0");
     bit_Tasker->runTasker();
-    EXPECT_FALSE(test_my_data.ptr_buderus->isHeatingActiv());
+    EXPECT_FALSE(test_context.ptr_buderus->isHeatingActiv());
 
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/heating_active", "1");
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/heating_active", "1");
     bit_Tasker->runTasker();
-    EXPECT_TRUE(test_my_data.ptr_buderus->isHeatingActiv());
+    EXPECT_TRUE(test_context.ptr_buderus->isHeatingActiv());
 
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/heating_active", "offline");
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/heating_active", "offline");
     bit_Tasker->runTasker();
-    EXPECT_FALSE(test_my_data.ptr_buderus->isHeatingActiv());
+    EXPECT_FALSE(test_context.ptr_buderus->isHeatingActiv());
     /////////////////////////////////  boiler data //////////////////////////////////////////////////////
      std::string test_boilerData = R"({"heatingActive":"off","tapwaterActive":"off","selFlowTemp":5,"selBurnPow":0,"curBurnPow":0,"heatingPumpMod":0,"outdoorTemp":11.9,"curFlowTemp":23.5,"burnGas":"off","flameCurr":0,"heatingPump":"off","fanWork":"off","ignWork":"off","heatingActivated":"on","heatingTemp":35,"pumpModMax":100,"pumpModMin":10,"pumpDelay":3,"burnMinPeriod":10,"burnMinPower":0,"burnMaxPower":71,"boilHystOn":-6,"boilHystOff":6,"burnStarts":3721,"burnWorkMin":372217,"heatWorkMin":337732,"UBAuptime":1683134,"serviceCode":"0H","serviceCodeNumber":203,"lastCode":"6L(229) 23.12.2021 20:24","maintenanceMessage":"-","maintenance":"off"})";
 
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data", test_boilerData);
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data", test_boilerData);
     bit_Tasker->runTasker();
-    auto ret = test_my_data.ptr_buderus->getDump();
+    auto ret = test_context.ptr_buderus->getDump();
     std::cout << ret << std::endl;
-    EXPECT_EQ(test_my_data.ptr_buderus->getOutdoorTemp(), 11.9);
+    EXPECT_EQ(test_context.ptr_buderus->getOutdoorTemp(), 11.9);
     EXPECT_THAT(ret, ::testing::HasSubstr("1683134"));
 
 
     /////////////////////////////////  boiler data ww //////////////////////////////////////////////////////
     std::string test_boilerData_ww = R"({"wWComfort":"Eco","wWSelTemp":60,"wWSetTemp":10,"wWDisinfectionTemp":70,"wWType":"buffer","wWChargeType":"3-way valve","wWCircPump":"on","wWCircPumpMode":"continuous","wWCirc":"off","wWCurTemp":64,"wWCurTemp2":64,"wWCurFlow":0,"wWStorageTemp2":64,"wWActivated":"on","wWOneTime":"off","wWDisinfecting":"off","wWCharging":"off","wWRecharging":"off","wWTempOK":"on","wWActive":"off","wWHeat":"off","wWStarts":1762,"wWMaxPower":100,"wWWorkM":34502})";
 
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data_ww", test_boilerData_ww);
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data_ww", test_boilerData_ww);
     bit_Tasker->runTasker();
-    ret = test_my_data.ptr_buderus->getDump();
+    ret = test_context.ptr_buderus->getDump();
     std::cout << ret << std::endl;
-    EXPECT_EQ(test_my_data.ptr_buderus->getBoilerTemp(), 64);
+    EXPECT_EQ(test_context.ptr_buderus->getBoilerTemp(), 64);
 
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/thermostat_data",
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/thermostat_data",
                                                 R"({"some":"data"})");
     bit_Tasker->runTasker();
-    ret = test_my_data.ptr_buderus->getDump();
+    ret = test_context.ptr_buderus->getDump();
     std::cout << ret << std::endl;
     EXPECT_THAT(ret, ::testing::HasSubstr(R"(some":)"));
 }
@@ -629,35 +629,35 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler_wrong_json_format)
 {
     /////////////////////////////////  boiler data //////////////////////////////////////////////////////
     std::string test_boilerData = "not json";
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data", test_boilerData);
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/buderus/ems-esp/boiler_data", test_boilerData);
     bit_Tasker->runTasker();
-    auto ret = test_my_data.ptr_buderus->getDump();
+    auto ret = test_context.ptr_buderus->getDump();
     std::cout << ret << std::endl;
-    ret = test_my_data.iDomAlarm.showAlarm();
+    ret = test_context.iDomAlarm.showAlarm();
     EXPECT_THAT(ret, ::testing::HasSubstr("buderus boile_data - wrong JSON format!"));
 }
 
 TEST_F(bit_fixture, tasker_lusina)
 {
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/t", "11");
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/t", "11");
     bit_Tasker->runTasker();
-    EXPECT_STREQ(test_my_data.lusina.temperatureDS20.c_str(), "11");
+    EXPECT_STREQ(test_context.lusina.temperatureDS20.c_str(), "11");
 
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/t", "112");
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/t", "112");
     bit_Tasker->runTasker();
-    EXPECT_STREQ(test_my_data.lusina.temperatureDS20.c_str(), "112");
+    EXPECT_STREQ(test_context.lusina.temperatureDS20.c_str(), "112");
 
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h", "wilgotnosc 22 temepratura 33");
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h", "wilgotnosc 22 temepratura 33");
     bit_Tasker->runTasker();
-    EXPECT_STREQ(test_my_data.lusina.humidityDTH.c_str(), "22");
+    EXPECT_STREQ(test_context.lusina.humidityDTH.c_str(), "22");
 
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h", "wilgotnosc 33 temepratura 33");
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h", "wilgotnosc 33 temepratura 33");
     bit_Tasker->runTasker();
-    EXPECT_STREQ(test_my_data.lusina.humidityDTH.c_str(), "33");
+    EXPECT_STREQ(test_context.lusina.humidityDTH.c_str(), "33");
     //////////////////////// now fake data
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h", "wilgotnosc brak temepratura 33");
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h", "wilgotnosc brak temepratura 33");
     bit_Tasker->runTasker();
-    EXPECT_EQ(test_my_data.lusina.statHumi.min(), -1);
+    EXPECT_EQ(test_context.lusina.statHumi.min(), -1);
 }
 
 TEST_F(bit_fixture, tasker_no_action)
@@ -669,7 +669,7 @@ TEST_F(bit_fixture, mqtt_command)
 {
     blockQueue testMPD_Q;
     testMPD_Q._clearAll();
-    test_my_data.mqttHandler->putToReceiveQueue("iDom-client/command", "MPD volume up");
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/command", "MPD volume up");
     bit_Tasker->runTasker();
     EXPECT_EQ(1, testMPD_Q._size());
     EXPECT_EQ(testMPD_Q._get(), MPD_COMMAND::VOLUP);
@@ -677,23 +677,23 @@ TEST_F(bit_fixture, mqtt_command)
 
 TEST_F(bit_fixture, mqtt_command_shed)
 {
-    test_my_data.lusina.shedConfJson = nlohmann::json::parse(R"({
+    test_context.lusina.shedConfJson = nlohmann::json::parse(R"({
     "deepSleep":true,
     "howLongDeepSleep":177,
     "fanON":false})");
-    test_my_data.mqttHandler->putToReceiveQueue("shed/put", "MPD volume up");
+    test_context.mqttHandler->putToReceiveQueue("shed/put", "MPD volume up");
     bit_Tasker->runTasker();
-    test_my_data.mqttHandler->putToReceiveQueue("shed/put", R"({"temperatura":20.85000038,"ciśnienie":971.899231,"wilgotność":53.17382813,"millis":15273,"bateria":3.896484375,"log":"Found BME280 sensor! Couldn't find PCF8574","fanON":false})");
+    test_context.mqttHandler->putToReceiveQueue("shed/put", R"({"temperatura":20.85000038,"ciśnienie":971.899231,"wilgotność":53.17382813,"millis":15273,"bateria":3.896484375,"log":"Found BME280 sensor! Couldn't find PCF8574","fanON":false})");
     bit_Tasker->runTasker();
 }
 
 TEST_F(bit_fixture, start_iDom_unlock_lock)
 {
-    EXPECT_FALSE(test_my_data.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
-    test_my_data.main_iDomTools->unlockHome();
-    EXPECT_FALSE(test_my_data.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
-    test_my_data.main_iDomTools->lockHome();
-    EXPECT_TRUE(test_my_data.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
-    test_my_data.main_iDomTools->unlockHome();
-    EXPECT_FALSE(test_my_data.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
+    EXPECT_FALSE(test_context.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
+    test_context.main_iDomTools->unlockHome();
+    EXPECT_FALSE(test_context.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
+    test_context.main_iDomTools->lockHome();
+    EXPECT_TRUE(test_context.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
+    test_context.main_iDomTools->unlockHome();
+    EXPECT_FALSE(test_context.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
 }

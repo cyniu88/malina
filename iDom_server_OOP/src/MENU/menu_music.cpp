@@ -2,7 +2,7 @@
 #include "menu_root.h"
 #include "../iDomTools/idomtools_interface.h"
 
-MENU_MUSIC::MENU_MUSIC(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(my_data, lcdPTR, msm, lcdLED)
+MENU_MUSIC::MENU_MUSIC(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(context, lcdPTR, msm, lcdLED)
 {
     // std::cout << "MENU_MUSIC::MENU_MUSIC()" << std::endl;
 }
@@ -22,7 +22,7 @@ MENU_MUSIC &MENU_MUSIC::operator=(const MENU_MUSIC &base)
     //  std::cout << "MENU_MUSIC::operator = kopiujacy" << std::endl;
     if (&base not_eq this)
     {
-        my_dataPTR = base.my_dataPTR;
+        contextPTR = base.contextPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
     }
@@ -34,7 +34,7 @@ MENU_MUSIC &MENU_MUSIC::operator=(MENU_MUSIC &&base)
     //  std::cout << "MENU_MUSIC::operator = przenoszacy" << std::endl;
     if (&base not_eq this)
     {
-        my_dataPTR = base.my_dataPTR;
+        contextPTR = base.contextPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
     }
@@ -43,7 +43,7 @@ MENU_MUSIC &MENU_MUSIC::operator=(MENU_MUSIC &&base)
 
 void MENU_MUSIC::entry()
 {
-    my_dataPTR->main_iDomTools->MPD_play(my_dataPTR);
+    contextPTR->main_iDomTools->MPD_play(contextPTR);
     print("Gram muzyczke");
 }
 
@@ -53,28 +53,28 @@ void MENU_MUSIC::exit()
 
 void MENU_MUSIC::keyPadPower()
 {
-    my_dataPTR->main_iDomTools->MPD_stop();
+    contextPTR->main_iDomTools->MPD_stop();
     changeStateTo<MENU_ROOT>();
 }
 
 void MENU_MUSIC::keyPadUp()
 {
-    my_dataPTR->main_iDomTools->MPD_volumeUp();
+    contextPTR->main_iDomTools->MPD_volumeUp();
 }
 
 void MENU_MUSIC::keyPadDown()
 {
-    my_dataPTR->main_iDomTools->MPD_volumeDown();
+    contextPTR->main_iDomTools->MPD_volumeDown();
 }
 
 void MENU_MUSIC::keyPadLeft()
 {
-    my_dataPTR->main_iDomTools->MPD_prev();
+    contextPTR->main_iDomTools->MPD_prev();
 }
 
 void MENU_MUSIC::keyPadRight()
 {
-    my_dataPTR->main_iDomTools->MPD_next();
+    contextPTR->main_iDomTools->MPD_next();
 }
 
 std::string MENU_MUSIC::getStateName() const

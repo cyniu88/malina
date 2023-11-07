@@ -1,14 +1,14 @@
 #include "menu_base.h"
 
-MENU_STATE_BASE::MENU_STATE_BASE(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : lcdLED(lcdLED)
+MENU_STATE_BASE::MENU_STATE_BASE(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : lcdLED(lcdLED)
 {
-    this->my_dataPTR = my_data;
+    this->contextPTR = context;
     this->lcdPTR = lcdPTR;
     this->stateMachinePTR = msm;
     // std::cout << "MENU_STATE_BASE::MENU_STATE_BASE()" << std::endl;
 }
 
-MENU_STATE_BASE::MENU_STATE_BASE(const MENU_STATE_BASE &base) : my_dataPTR(base.my_dataPTR), lcdPTR(base.lcdPTR), stateMachinePTR(base.stateMachinePTR)
+MENU_STATE_BASE::MENU_STATE_BASE(const MENU_STATE_BASE &base) : contextPTR(base.contextPTR), lcdPTR(base.lcdPTR), stateMachinePTR(base.stateMachinePTR)
 {
     // std::cout << "MENU_STATE_BASE::MENU_STATE_BASE() kopiujacy" << std::endl;
 }
@@ -16,7 +16,7 @@ MENU_STATE_BASE::MENU_STATE_BASE(const MENU_STATE_BASE &base) : my_dataPTR(base.
 MENU_STATE_BASE::MENU_STATE_BASE(const MENU_STATE_BASE &&base)
 {
     // std::cout << "MENU_STATE_BASE::MENU_STATE_BASE() przenoszacy" << std::endl;
-    my_dataPTR = std::move(base.my_dataPTR);
+    contextPTR = std::move(base.contextPTR);
     lcdPTR = std::move(base.lcdPTR);
     stateMachinePTR = std::move(base.stateMachinePTR);
 }
@@ -26,7 +26,7 @@ MENU_STATE_BASE &MENU_STATE_BASE::operator=(const MENU_STATE_BASE &base)
     // std::cout << "MENU_STATE_BASE::operator = kopiujacy" << std::endl;
     if (&base not_eq this)
     {
-        my_dataPTR = base.my_dataPTR;
+        contextPTR = base.contextPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
     }
@@ -43,7 +43,7 @@ MENU_STATE_BASE &MENU_STATE_BASE::operator=(MENU_STATE_BASE &&base)
     // std::cout << "MENU_STATE_BASE::operator = przenoszacy" << std::endl;
     if (&base not_eq this)
     {
-        my_dataPTR = std::move(base.my_dataPTR);
+        contextPTR = std::move(base.contextPTR);
         lcdPTR = std::move(base.lcdPTR);
         stateMachinePTR = std::move(base.stateMachinePTR);
     }

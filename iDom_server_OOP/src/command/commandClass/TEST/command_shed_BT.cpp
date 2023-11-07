@@ -10,9 +10,9 @@ public:
     command_shed_Class_fixture():test_command_shed(std::make_unique <command_shed>("shed")),
         main_iDomTools(std::make_shared<iDomToolsMock>())
     {
-        test_my_data.m_keyHandler = std::make_unique<iDomKEY_ACCESS>("");
-        test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER test");
-        test_my_data.main_iDomTools = main_iDomTools;
+        test_context.m_keyHandler = std::make_unique<iDomKEY_ACCESS>("");
+        test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER test");
+        test_context.main_iDomTools = main_iDomTools;
     }
 
 protected:
@@ -20,20 +20,20 @@ protected:
 
     std::vector<std::string> test_v;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
-    thread_data test_my_data;
+    thread_data test_context;
 };
 
 TEST_F(command_shed_Class_fixture, wrongParameter)
 {
     test_v.push_back("shed");
     test_v.push_back("t");
-    auto ret = test_command_shed->execute(test_v,&test_my_data);
+    auto ret = test_command_shed->execute(test_v,&test_context);
     EXPECT_STREQ(ret.c_str(), "command shed - wrong paramiter");
 }
 
 TEST_F(command_shed_Class_fixture, put_get_json)
 {
-    test_my_data.lusina.shedConfJson = nlohmann::json::parse(R"({
+    test_context.lusina.shedConfJson = nlohmann::json::parse(R"({
        "deepSleep":true,
        "howLongDeepSleep":177,
        "fanON":false
@@ -43,12 +43,12 @@ TEST_F(command_shed_Class_fixture, put_get_json)
     test_v.push_back("shed");
     test_v.push_back("put");
     test_v.push_back(msg);
-    auto ret = test_command_shed->execute(test_v, &test_my_data);
+    auto ret = test_command_shed->execute(test_v, &test_context);
     EXPECT_STREQ(ret.c_str(), "DONE");
 
     test_v.clear();
     test_v.push_back("shed");
     test_v.push_back("show");
-    ret = test_command_shed->execute(test_v, &test_my_data);
+    ret = test_command_shed->execute(test_v, &test_context);
     std::cout << ret << std::endl;
 }

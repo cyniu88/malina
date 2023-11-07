@@ -2,11 +2,11 @@
 #include "c_connection.h"
 #include "../functions/functions.h"
 
-C_connection::C_connection(thread_data *my_data) : c_socket(my_data->s_client_sock),
-                                                   c_from(my_data->from), m_recv_size(0)
+C_connection::C_connection(thread_data *context) : c_socket(context->s_client_sock),
+                                                   c_from(context->from), m_recv_size(0)
 {
-    this->my_data = my_data;
-    this->m_encrypted = my_data->server_settings->_server.encrypted;
+    this->context = context;
+    this->m_encrypted = context->server_settings->_server.encrypted;
     std::fill(std::begin(c_buffer), std::end(c_buffer), ',');
     onStartConnection();
     m_className.insert(0, std::to_string(c_socket));
@@ -107,7 +107,7 @@ void C_connection::c_analyse(int recvSize)
     std::string buf;
 
     buf = c_read_buf(recvSize);
-    my_data->myEventHandler.run("command")->addEvent(buf);
+    context->myEventHandler.run("command")->addEvent(buf);
     std::vector<std::string> command;
 
     try
@@ -134,7 +134,7 @@ void C_connection::c_analyse(int recvSize)
         m_str_buf.push_back(' ');
     }
 #endif
-    m_str_buf = m_mainCommandHandler->run(command, my_data);
+    m_str_buf = m_mainCommandHandler->run(command, context);
 }
 
 std::string C_connection::dump() const

@@ -9,7 +9,7 @@ class command_UPTIME : public command
 {
 public:
     explicit command_UPTIME(const std::string& name);
-    std::string execute(std::vector <std::string> &v,thread_data * my_data) override;
+    std::string execute(std::vector <std::string> &v,thread_data * context) override;
     std::string help() const override;
 };
 

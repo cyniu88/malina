@@ -264,13 +264,13 @@ class satel_integra_fixture:public ::testing::Test
 public:
     satel_integra_fixture():main_iDomTools(std::make_shared<iDomToolsMock>())
     {
-        test_my_data.server_settings = &test_server_settings;
-        test_my_data.server_settings->_satel_integra.host = "127.0.0.1";
-        test_my_data.server_settings->_satel_integra.port = 7094;
-        test_my_data.server_settings->_satel_integra.pin = "1134";
-        test_my_data.server_settings->_fb_viber.viberSender = "test sender";
-        test_my_data.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
-        test_my_data.main_iDomTools = main_iDomTools;
+        test_context.server_settings = &test_server_settings;
+        test_context.server_settings->_satel_integra.host = "127.0.0.1";
+        test_context.server_settings->_satel_integra.port = 7094;
+        test_context.server_settings->_satel_integra.pin = "1134";
+        test_context.server_settings->_fb_viber.viberSender = "test sender";
+        test_context.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
+        test_context.main_iDomTools = main_iDomTools;
     };
     ~satel_integra_fixture(){
         workStubSatel = false;
@@ -284,7 +284,7 @@ public:
     }
 
 protected:
-    thread_data test_my_data;
+    thread_data test_context;
     CONFIG_JSON test_server_settings;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
 
@@ -299,7 +299,7 @@ TEST_F(satel_integra_fixture, checkIntegraOut)
 
     std::this_thread::sleep_for(1s);
 
-    SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
+    SATEL_INTEGRA_HANDLER testIntegra(&test_context);
     testIntegra.checkSatel();
     dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->getIntegraInfo();
     EXPECT_FALSE(testIntegra.getSatelPTR()->isAlarmArmed());
@@ -307,7 +307,7 @@ TEST_F(satel_integra_fixture, checkIntegraOut)
 
 TEST_F(satel_integra_fixture, server_not_working)
 {
-    SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
+    SATEL_INTEGRA_HANDLER testIntegra(&test_context);
     testIntegra.getSatelPTR()->armAlarm(1);
 
     startSatelServer();
@@ -324,7 +324,7 @@ TEST_F(satel_integra_fixture, turnOnOffOutput)
     EXPECT_CALL(*main_iDomTools.get(), sendViberPicture("alarm deaktywowany",testing::_,testing::_,testing::_,testing::_,testing::_));
 
     std::this_thread::sleep_for(1s);
-    SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
+    SATEL_INTEGRA_HANDLER testIntegra(&test_context);
 
     testIntegra.getSatelPTR()->outputOn(3);
     testIntegra.checkSatel();
@@ -340,7 +340,7 @@ TEST_F(satel_integra_fixture, isArmed)
     EXPECT_CALL(*main_iDomTools.get(), sendViberPicture("alarm deaktywowany",testing::_,testing::_,testing::_,testing::_,testing::_));
 
     std::this_thread::sleep_for(1s);
-    SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
+    SATEL_INTEGRA_HANDLER testIntegra(&test_context);
 
     EXPECT_FALSE(testIntegra.getSatelPTR()->isAlarmArmed());
 }
@@ -354,7 +354,7 @@ TEST_F(satel_integra_fixture, armAndDisarm)
     EXPECT_CALL(*main_iDomTools.get(), unlockHome());
     EXPECT_CALL(*main_iDomTools.get(), sendViberPicture(testing::_,testing::_,testing::_,testing::_,testing::_,testing::_));
 
-    SATEL_INTEGRA_HANDLER testIntegra(&test_my_data);
+    SATEL_INTEGRA_HANDLER testIntegra(&test_context);
     testIntegra.getSatelPTR()->armAlarm(partitionID);
 
     EXPECT_EQ(dynamic_cast<SATEL_INTEGRA*>(testIntegra.getSatelPTR())->m_message[0], INTEGRA_ENUM::HEADER_MSG);

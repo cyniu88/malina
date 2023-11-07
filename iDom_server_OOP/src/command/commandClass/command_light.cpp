@@ -4,27 +4,27 @@ command_light::command_light(const std::string &name):command(name)
 {
 }
 
-std::string command_light::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_light::execute(std::vector<std::string> &v, thread_data *context)
 {
     std::string str_buf = "command light - wrong paramiter:\n "+ help();
     if(v.size()<2)
         return str_buf;
     if (v.at(1) == "info" && v.size() < 3){
-        str_buf = my_data->main_house_room_handler->getAllInfoJSON().dump(4);
+        str_buf = context->main_house_room_handler->getAllInfoJSON().dump(4);
     }
     else if (v.at(1) == "info" && v.at(2) == "on"){
-        str_buf = my_data->main_house_room_handler->getInfoJSON_allON().dump(4);
+        str_buf = context->main_house_room_handler->getInfoJSON_allON().dump(4);
     }
     else if(v.at(1) == "bulb"){
         int bulbID = std::stoi(v.at(3));
         if(v.at(2) == "on"){
-            my_data->main_house_room_handler->turnOnBulb(bulbID);
+            context->main_house_room_handler->turnOnBulb(bulbID);
         }
         else if(v.at(2) == "off"){
-            my_data->main_house_room_handler->turnOffBulb(bulbID);
+            context->main_house_room_handler->turnOffBulb(bulbID);
         }
         else if(v.at(2) == "change"){
-            my_data->main_house_room_handler->turnChangeBulb(bulbID);
+            context->main_house_room_handler->turnChangeBulb(bulbID);
         }
 
         return "done " + std::to_string(++counter);
@@ -33,19 +33,19 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
 
         if(v.size() == 3 && v.at(2) == "stats"){
             std::stringstream msg;
-            for(auto &j : my_data->main_house_room_handler->m_roomMap){
+            for(auto &j : context->main_house_room_handler->m_roomMap){
                 msg << j.second->getStatsJSON().dump(4) << std::endl;
             }
             return msg.str();
         }
         if(v.at(3) == "on"){
-            my_data->main_house_room_handler->turnOnAllInRoom(v.at(2));
+            context->main_house_room_handler->turnOnAllInRoom(v.at(2));
         }
         else if(v.at(3) == "off"){
-            my_data->main_house_room_handler->turnOffAllInRoom(v.at(2));
+            context->main_house_room_handler->turnOffAllInRoom(v.at(2));
         }
         else if(v.at(3) == "change"){
-            my_data->main_house_room_handler->changeAllInRoom(v.at(2));
+            context->main_house_room_handler->changeAllInRoom(v.at(2));
         }
         //TODO dodac rozpoznawanie nazwy pokoju  z wiecej niz jednym wyrazem
 
@@ -54,10 +54,10 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
     }
     else if(v.at(1) == "all"){
         if(v.at(2) == "on"){
-            my_data->main_house_room_handler->turnOnAllBulb();
+            context->main_house_room_handler->turnOnAllBulb();
         }
         else if(v.at(2) == "off"){
-            my_data->main_house_room_handler->turnOffAllBulb();
+            context->main_house_room_handler->turnOffAllBulb();
         }
 
         return "done " + std::to_string(++counter);
@@ -66,7 +66,7 @@ std::string command_light::execute(std::vector<std::string> &v, thread_data *my_
         str_buf.erase();
         str_buf.append(v.at(1));
         std::replace( str_buf.begin(), str_buf.end(), '\n', ';');
-        my_data->main_house_room_handler->executeCommandFromMQTT(str_buf);
+        context->main_house_room_handler->executeCommandFromMQTT(str_buf);
     }
     return str_buf;
 }

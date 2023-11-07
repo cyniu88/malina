@@ -1,7 +1,7 @@
 #include <iostream>
 #include "menu_volume.h"
 
-MENU_VOLUME::MENU_VOLUME(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(my_data, lcdPTR, msm, lcdLED)
+MENU_VOLUME::MENU_VOLUME(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(context, lcdPTR, msm, lcdLED)
 {
     // std::cout << "MENU_VOLUME::MENU_VOLUME()" << std::endl;
 }
@@ -21,7 +21,7 @@ MENU_VOLUME &MENU_VOLUME::operator=(const MENU_VOLUME &base)
     //  std::cout << "MENU_VOLUME::operator = kopiujacy" << std::endl;
     if (&base not_eq this)
     {
-        my_dataPTR = base.my_dataPTR;
+        contextPTR = base.contextPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
     }
@@ -33,7 +33,7 @@ MENU_VOLUME &MENU_VOLUME::operator=(MENU_VOLUME &&base)
     //  std::cout << "MENU_VOLUME::operator = przenoszacy" << std::endl;
     if (&base not_eq this)
     {
-        my_dataPTR = base.my_dataPTR;
+        contextPTR = base.contextPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
     }

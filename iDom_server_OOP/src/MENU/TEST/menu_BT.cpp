@@ -16,10 +16,10 @@ protected:
     menu_state_machine_fixture(): main_iDomTools(std::make_shared<iDomToolsMock>()),
                                     buderusMock(std::make_shared<BUDERUS_MOCK>())
     {
-        test_my_data.main_iDomTools = main_iDomTools;
-        test_my_data.ptr_buderus = buderusMock;
+        test_context.main_iDomTools = main_iDomTools;
+        test_context.ptr_buderus = buderusMock;
     }
-    thread_data test_my_data;
+    thread_data test_context;
     std::shared_ptr<iDomToolsMock>main_iDomTools;
     std::shared_ptr<BUDERUS_MOCK> buderusMock;
 };
@@ -76,11 +76,11 @@ TEST_F(menu_state_machine_fixture, containerMenuMapSignle)
 
 TEST_F(menu_state_machine_fixture, main)
 {
-    test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
-    test_my_data.main_iDomStatus->addObject("music", STATE::STOP);
+    test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
+    test_context.main_iDomStatus->addObject("music", STATE::STOP);
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
-    auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, &lcd, &stateMechine);
+    auto ptr = std::make_unique<MENU_ROOT>(&test_context, &lcd, &stateMechine);
     stateMechine.setStateMachine(std::move(ptr));
     auto main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
 
@@ -108,16 +108,16 @@ TEST_F(menu_state_machine_fixture, main)
 }
 
 TEST_F(menu_state_machine_fixture, MENU_LIGHT){
-    test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("test");
-    useful_F::myStaticData = &test_my_data;
+    test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("test");
+    useful_F::myStaticData = &test_context;
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
     //////// bulb config
     std::string cfg("../config/bulb_config.json");
-    test_my_data.main_house_room_handler = std::make_shared<house_room_handler>(&test_my_data);
-    test_my_data.main_house_room_handler->loadConfig(cfg);
+    test_context.main_house_room_handler = std::make_shared<house_room_handler>(&test_context);
+    test_context.main_house_room_handler->loadConfig(cfg);
 
-    auto ptr = std::make_unique<MENU_LIGHT>(&test_my_data, &lcd, &stateMechine);
+    auto ptr = std::make_unique<MENU_LIGHT>(&test_context, &lcd, &stateMechine);
     ptr->entry();
     ptr->keyPadDown();
     ptr->keyPadLeft();
@@ -129,12 +129,12 @@ TEST_F(menu_state_machine_fixture, MENU_LIGHT){
 
 TEST_F(menu_state_machine_fixture, MENU_BUDERUS)
 {
-    test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("test");
-    test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
-    test_my_data.main_iDomStatus->addObject("music", STATE::STOP);
+    test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("test");
+    test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
+    test_context.main_iDomStatus->addObject("music", STATE::STOP);
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
-    auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, &lcd, &stateMechine);
+    auto ptr = std::make_unique<MENU_ROOT>(&test_context, &lcd, &stateMechine);
     stateMechine.setStateMachine(std::move(ptr));
     auto main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
 
@@ -158,11 +158,11 @@ TEST_F(menu_state_machine_fixture, MENU_BUDERUS)
 
 TEST_F(menu_state_machine_fixture, MENU_KODI)
 {
-    test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
-    test_my_data.main_iDomStatus->addObject("music", STATE::STOP);
+    test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
+    test_context.main_iDomStatus->addObject("music", STATE::STOP);
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
-    auto ptr = std::make_unique<MENU_ROOT>(&test_my_data, &lcd, &stateMechine);
+    auto ptr = std::make_unique<MENU_ROOT>(&test_context, &lcd, &stateMechine);
     stateMechine.setStateMachine(std::move(ptr));
     auto main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
 

@@ -17,7 +17,7 @@ public:
 class MENU_STATE_BASE
 {
 protected:
-    thread_data *my_dataPTR;
+    thread_data *contextPTR;
     LCD_c *lcdPTR;
     MENU_STATE_MACHINE *stateMachinePTR;
     const std::string arrow = std::string(1, (char)8) + "              " + std::string(1, (char)9);
@@ -28,7 +28,7 @@ protected:
     std::string _row2;
 
 public:
-    MENU_STATE_BASE(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
+    MENU_STATE_BASE(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
     MENU_STATE_BASE(const MENU_STATE_BASE &base);
     MENU_STATE_BASE(const MENU_STATE_BASE &&base);
     MENU_STATE_BASE &operator=(const MENU_STATE_BASE &base);
@@ -61,7 +61,7 @@ public:
     void changeStateTo(STATE lcdLED = STATE::OFF)
     {
         this->stateMachinePTR->currentState->exit();
-        auto ptr = std::make_unique<State>(my_dataPTR, lcdPTR, stateMachinePTR, lcdLED);
+        auto ptr = std::make_unique<State>(contextPTR, lcdPTR, stateMachinePTR, lcdLED);
         this->stateMachinePTR->setStateMachine(std::move(ptr));
     }
 };

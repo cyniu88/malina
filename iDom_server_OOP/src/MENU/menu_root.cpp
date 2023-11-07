@@ -4,7 +4,7 @@
 #include "../RADIO_433_eq/radio_433_eq.h"
 #include "../iDomTools/idomtools_interface.h"
 
-MENU_ROOT::MENU_ROOT(thread_data *my_data, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(my_data, lcdPTR, msm, lcdLED),
+MENU_ROOT::MENU_ROOT(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(context, lcdPTR, msm, lcdLED),
                                                                                                    tempCounter(0)
 {
 }
@@ -23,7 +23,7 @@ MENU_ROOT &MENU_ROOT::operator=(const MENU_ROOT &base)
 {
     if (&base not_eq this)
     {
-        my_dataPTR = base.my_dataPTR;
+        contextPTR = base.contextPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
         tempCounter = base.tempCounter;
@@ -35,7 +35,7 @@ MENU_ROOT &MENU_ROOT::operator=(MENU_ROOT &&base)
 {
     if (&base not_eq this)
     {
-        my_dataPTR = base.my_dataPTR;
+        contextPTR = base.contextPTR;
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
         tempCounter = base.tempCounter;
@@ -45,13 +45,13 @@ MENU_ROOT &MENU_ROOT::operator=(MENU_ROOT &&base)
 
 void MENU_ROOT::entry()
 {
-    if (my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::STOP)
+    if (contextPTR->main_iDomStatus->getObjectState("music") == STATE::STOP)
     {
         lcdPTR->noBacklight();
     }
     else
     {
-        quickPrint(my_dataPTR->ptr_MPD_info->artist, my_dataPTR->ptr_MPD_info->radio);
+        quickPrint(contextPTR->ptr_MPD_info->artist, contextPTR->ptr_MPD_info->radio);
     }
     tempCounter = 0;
 }
@@ -100,36 +100,36 @@ void MENU_ROOT::keyPadEpg()
     std::stringstream ss;
     if (tempCounter == 0)
     {
-        ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getInsideTemp()
-           << (char)223 << "c   " << my_dataPTR->ptr_buderus->getOutdoorTemp() << ((char)223) << "c";
+        ss << std::setprecision(4) << contextPTR->ptr_buderus->getInsideTemp()
+           << (char)223 << "c   " << contextPTR->ptr_buderus->getOutdoorTemp() << ((char)223) << "c";
         quickPrint("Temp: in    out", ss.str());
     }
     else if (tempCounter == 1)
     {
-        RADIO_WEATHER_STATION *st = static_cast<RADIO_WEATHER_STATION *>(my_dataPTR->main_REC->getEqPointer("first"));
+        RADIO_WEATHER_STATION *st = static_cast<RADIO_WEATHER_STATION *>(contextPTR->main_REC->getEqPointer("first"));
         auto temp = st->data.getTemperature();
-        ss << std::setprecision(4) << temp << celsiusDegrees << "    " << my_dataPTR->lusina.shedTemp.average() << celsiusDegrees;
+        ss << std::setprecision(4) << temp << celsiusDegrees << "    " << contextPTR->lusina.shedTemp.average() << celsiusDegrees;
         quickPrint("domek ogrodnika", ss.str());
     }
     else if (tempCounter == 2)
     {
-        ss << std::setprecision(4) << my_dataPTR->lusina.shedHum.average() << "%   " << my_dataPTR->lusina.shedPres.average() << "hPa";
+        ss << std::setprecision(4) << contextPTR->lusina.shedHum.average() << "%   " << contextPTR->lusina.shedPres.average() << "hPa";
         quickPrint("Wilgoc  Cis", ss.str());
     }
     else if (tempCounter == 3)
     {
-        ss << std::setprecision(4) << my_dataPTR->lusina.shedBat.average() << "V";
+        ss << std::setprecision(4) << contextPTR->lusina.shedBat.average() << "V";
         quickPrint("Bateria", ss.str());
     }
     else
     {
-        ss << std::setprecision(4) << my_dataPTR->ptr_buderus->getBoilerTemp()
-           << celsiusDegrees << "    " << my_dataPTR->ptr_buderus->getCurFlowTemp() << celsiusDegrees;
+        ss << std::setprecision(4) << contextPTR->ptr_buderus->getBoilerTemp()
+           << celsiusDegrees << "    " << contextPTR->ptr_buderus->getCurFlowTemp() << celsiusDegrees;
         quickPrint("boiler   curFlow", ss.str());
         tempCounter = -1;
     }
     tempCounter++;
-    my_dataPTR->main_Rs232->print("TIMEOUT:9000;");
+    contextPTR->main_Rs232->print("TIMEOUT:9000;");
 }
 
 void MENU_ROOT::keyPadRes()
@@ -139,7 +139,7 @@ void MENU_ROOT::keyPadRes()
 
 void MENU_ROOT::reboot()
 {
-    my_dataPTR->main_iDomTools->reloadHard_iDomServer();
+    contextPTR->main_iDomTools->reloadHard_iDomServer();
 }
 
 void MENU_ROOT::timeout(std::function<void()> function)
@@ -164,25 +164,25 @@ void MENU_ROOT::quickPrint(const std::string &row1, const std::string &row2)
 
 void MENU_ROOT::volumeUp()
 {
-    my_dataPTR->main_iDomTools->MPD_volumeUp();
-    my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
+    contextPTR->main_iDomTools->MPD_volumeUp();
+    contextPTR->main_Rs232->print("TIMEOUT:3000;");
 }
 
 void MENU_ROOT::volumeDown()
 {
-    my_dataPTR->main_iDomTools->MPD_volumeDown();
-    my_dataPTR->main_Rs232->print("TIMEOUT:3000;");
+    contextPTR->main_iDomTools->MPD_volumeDown();
+    contextPTR->main_Rs232->print("TIMEOUT:3000;");
 }
 
 void MENU_ROOT::mpdStartStop()
 {
-    if (my_dataPTR->main_iDomStatus->getObjectState("music") == STATE::STOP)
+    if (contextPTR->main_iDomStatus->getObjectState("music") == STATE::STOP)
     {
-        my_dataPTR->main_iDomTools->MPD_play(my_dataPTR);
+        contextPTR->main_iDomTools->MPD_play(contextPTR);
     }
     else
     {
-        my_dataPTR->main_iDomTools->MPD_stop();
+        contextPTR->main_iDomTools->MPD_stop();
         lcdPTR->clear();
         lcdPTR->noBacklight();
     }
@@ -190,12 +190,12 @@ void MENU_ROOT::mpdStartStop()
 
 void MENU_ROOT::mpdNext()
 {
-    my_dataPTR->main_iDomTools->MPD_next();
+    contextPTR->main_iDomTools->MPD_next();
 }
 
 void MENU_ROOT::mpdPrev()
 {
-    my_dataPTR->main_iDomTools->MPD_prev();
+    contextPTR->main_iDomTools->MPD_prev();
 }
 
 void MENU_ROOT::scrollText()

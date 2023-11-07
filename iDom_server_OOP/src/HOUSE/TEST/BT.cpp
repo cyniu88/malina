@@ -10,26 +10,26 @@
 class house_fixture : public testing::Test
 {
 public:
-    house_fixture():testRoomHandler(std::make_unique<house_room_handler>(&test_my_data)),
-        test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_my_data)),
+    house_fixture():testRoomHandler(std::make_unique<house_room_handler>(&test_context)),
+        test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_context)),
         main_iDomTools(std::make_shared<iDomToolsMock>())
 
     {
         std::string cfg("../config/bulb_config.json");
         testRoomHandler->loadConfig(cfg);
 
-        test_my_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER test");
-        test_my_data.mqttHandler->_subscribed = true;
-        useful_F::setStaticData(&test_my_data);
-        test_my_data.main_iDomTools  = main_iDomTools;
-        test_my_data.main_REC = test_rec;
-        test_my_data.server_settings = &test_server_settings;
-        test_my_data.server_settings->_fb_viber.viberSender = "test sender";
-        test_my_data.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
-        test_my_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
+        test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER test");
+        test_context.mqttHandler->_subscribed = true;
+        useful_F::setStaticData(&test_context);
+        test_context.main_iDomTools  = main_iDomTools;
+        test_context.main_REC = test_rec;
+        test_context.server_settings = &test_server_settings;
+        test_context.server_settings->_fb_viber.viberSender = "test sender";
+        test_context.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
+        test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
     }
     std::unique_ptr<house_room_handler> testRoomHandler;
-    thread_data test_my_data;
+    thread_data test_context;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
     CONFIG_JSON test_server_settings;
@@ -164,7 +164,7 @@ TEST_F(house_fixture, getStats)
 TEST_F(house_fixture, load_config_button)
 {
     std::string cfg("../config/button_config.json");
-    auto testRoomHandler = std::make_unique<house_room_handler>(&test_my_data);
+    auto testRoomHandler = std::make_unique<house_room_handler>(&test_context);
     testRoomHandler->loadButtonConfig(cfg);
     CommandHandlerMQTT testCmdHandler;
     testRoomHandler->executeButtonComand(2, "long", &testCmdHandler);
@@ -175,7 +175,7 @@ TEST_F(house_fixture, satelSensorActive)
     testRoomHandler->turnOffAllInRoom("lazienka");
     EXPECT_EQ(testRoomHandler->m_lightingBulbMap.at(127)->getStatus(), STATE::DEACTIVE);
 
-    test_my_data.idom_all_state.houseState = STATE::LOCK;
+    test_context.idom_all_state.houseState = STATE::LOCK;
     EXPECT_CALL(*main_iDomTools.get(), isItDay()).WillOnce(testing::Return(false));
     EXPECT_CALL(*main_iDomTools.get(), sendViberMsg("alarm w pokoju lazienka",
                                                     "R1",

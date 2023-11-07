@@ -13,7 +13,7 @@
 #include "commandClass/command_buderus.h"
 #include "commandClass/command_light.h"
 
-commandHandlerRoot::commandHandlerRoot(thread_data *my_data) : commandHandler(my_data)
+commandHandlerRoot::commandHandlerRoot(thread_data *context) : commandHandler(context)
 {
     std::unique_ptr<command> gateway(new command_gateway("gateway"));
     commandMap.insert(std::make_pair(gateway->getCommandName(), std::move(gateway)));
@@ -42,7 +42,7 @@ commandHandlerRoot::commandHandlerRoot(thread_data *my_data) : commandHandler(my
     std::unique_ptr<command> state(new command_state("state"));
     commandMap.insert(std::make_pair(state->getCommandName(), std::move(state)));
 
-    std::unique_ptr<command> ardu(new command_ardu("ardu", my_data));
+    std::unique_ptr<command> ardu(new command_ardu("ardu", context));
     commandMap.insert(std::make_pair(ardu->getCommandName(), std::move(ardu)));
 
     std::unique_ptr<command> sleep(new command_sleep("sleep"));

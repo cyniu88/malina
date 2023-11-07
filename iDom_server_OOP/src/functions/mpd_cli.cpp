@@ -18,7 +18,7 @@ void error_callback(MpdObj *mi, int errorid, char *msg, void *userdata)
            errorid, msg);
 }
 
-void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
+void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *context)
 {
     if (what & MPD_CST_SONGID)
     {
@@ -33,7 +33,7 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
                 std::stringstream msg;
                 msg << " ";
                 msg << (song->title);
-                my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/songID", msg.str());
+                context->mqttHandler->publish(context->server_settings->_mqtt_broker.topicPublish + "/mpd/songID", msg.str());
             }
             catch (...)
             {
@@ -62,10 +62,10 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
 
         try
         {
-            my_data->ptr_MPD_info->volume = mpd_status_get_volume(mi);
-            my_data->main_key_menu_handler->quickPrint("Volume:", std::to_string(my_data->ptr_MPD_info->volume)+" %");
-            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/volume",
-                                          std::to_string(my_data->ptr_MPD_info->volume));
+            context->ptr_MPD_info->volume = mpd_status_get_volume(mi);
+            context->main_key_menu_handler->quickPrint("Volume:", std::to_string(context->ptr_MPD_info->volume)+" %");
+            context->mqttHandler->publish(context->server_settings->_mqtt_broker.topicPublish + "/mpd/volume",
+                                          std::to_string(context->ptr_MPD_info->volume));
         }
         catch (...)
         {
@@ -110,25 +110,25 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             std::stringstream msg;
             msg << " ";
             msg << song->title;
-            my_data->mqttHandler->publish(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/songID", msg.str());
+            context->mqttHandler->publish(context->server_settings->_mqtt_broker.topicPublish + "/mpd/songID", msg.str());
 
-            my_data->ptr_MPD_info->title = msg.str();
+            context->ptr_MPD_info->title = msg.str();
 
             msg.clear();
 
             msg << " ";
             msg << song->artist;
-            my_data->ptr_MPD_info->artist = msg.str();
+            context->ptr_MPD_info->artist = msg.str();
 
             if (song->name != NULL)
             {
                 _msg = song->name;
 
-                my_data->ptr_MPD_info->radio = _msg;
+                context->ptr_MPD_info->radio = _msg;
 
-                my_data->main_key_menu_handler->quickPrint("Radio:", _msg);
+                context->main_key_menu_handler->quickPrint("Radio:", _msg);
 
-                updatePlayList(mi, my_data);
+                updatePlayList(mi, context);
             }
 
             if (song->title != NULL)
@@ -148,8 +148,8 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
             {
                 _msg += " -brak nazwy";
             }
-            my_data->ptr_MPD_info->title = _msg;
-            my_data->main_key_menu_handler->quickPrint(_msg, "");
+            context->ptr_MPD_info->title = _msg;
+            context->main_key_menu_handler->quickPrint(_msg, "");
         }
     }
     if (what & MPD_CST_STATE)
@@ -159,41 +159,41 @@ void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *my_data)
         {
         case MPD_PLAYER_PLAY:
             printf("Playing\n");
-            my_data->mqttHandler->publishRetained(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/status", "PLAY");
+            context->mqttHandler->publishRetained(context->server_settings->_mqtt_broker.topicPublish + "/mpd/status", "PLAY");
             check_title_song_to = true;
             // digitalWrite(iDomConst::GPIO_SPIK, LOW);
-            my_data->main_iDomTools->turnOnSpeakers();
-            updatePlayList(mi, my_data);
-            my_data->myEventHandler.run("mpd")->addEvent("MPD playing");
-            my_data->main_iDomStatus->setObjectState("music", STATE::PLAY);
-            my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
+            context->main_iDomTools->turnOnSpeakers();
+            updatePlayList(mi, context);
+            context->myEventHandler.run("mpd")->addEvent("MPD playing");
+            context->main_iDomStatus->setObjectState("music", STATE::PLAY);
+            context->main_iDomTools->saveState_iDom(context->serverStarted);
             break;
         case MPD_PLAYER_PAUSE:
             printf("Paused\n");
-            my_data->mqttHandler->publishRetained(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/status", "PAUSE");
-            my_data->main_key_menu_handler->quickPrint("MPD", "PAUZA");
-            my_data->myEventHandler.run("mpd")->addEvent("MPD pause");
-            my_data->main_iDomStatus->setObjectState("music", STATE::PAUSE);
-            my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
+            context->mqttHandler->publishRetained(context->server_settings->_mqtt_broker.topicPublish + "/mpd/status", "PAUSE");
+            context->main_key_menu_handler->quickPrint("MPD", "PAUZA");
+            context->myEventHandler.run("mpd")->addEvent("MPD pause");
+            context->main_iDomStatus->setObjectState("music", STATE::PAUSE);
+            context->main_iDomTools->saveState_iDom(context->serverStarted);
             break;
         case MPD_PLAYER_STOP:
             printf("Stopped\n");
-            my_data->mqttHandler->publishRetained(my_data->server_settings->_mqtt_broker.topicPublish + "/mpd/status", "STOP");
+            context->mqttHandler->publishRetained(context->server_settings->_mqtt_broker.topicPublish + "/mpd/status", "STOP");
 
-            if (my_data->ptr_MPD_info->isPlay == true)
+            if (context->ptr_MPD_info->isPlay == true)
             {
-                my_data->main_iDomTools->ledClear();
+                context->main_iDomTools->ledClear();
             }
             check_title_song_to = false;
-            my_data->ptr_MPD_info->isPlay = false;
-            my_data->ptr_MPD_info->title = "* * * *";
-            my_data->main_iDomTools->turnOffSpeakers();
+            context->ptr_MPD_info->isPlay = false;
+            context->ptr_MPD_info->title = "* * * *";
+            context->main_iDomTools->turnOffSpeakers();
             // digitalWrite(iDomConst::GPIO_SPIK,HIGH);
-            my_data->main_key_menu_handler->recKeyEvent(KEY_PAD::OFF_LCD);
+            context->main_key_menu_handler->recKeyEvent(KEY_PAD::OFF_LCD);
             sleep(1);
-            my_data->myEventHandler.run("mpd")->addEvent("MPD stopped");
-            my_data->main_iDomStatus->setObjectState("music", STATE::STOP);
-            my_data->main_iDomTools->saveState_iDom(my_data->serverStarted);
+            context->myEventHandler.run("mpd")->addEvent("MPD stopped");
+            context->main_iDomStatus->setObjectState("music", STATE::STOP);
+            context->main_iDomTools->saveState_iDom(context->serverStarted);
             break;
         default:
             break;
@@ -225,7 +225,7 @@ mpd_status_get_elapsed_song_time(mi)%60);
         }
 }
 
-void main_mpd_cli(thread_data *my_data, const std::string &threadName)
+void main_mpd_cli(thread_data *context, const std::string &threadName)
 {
         blockQueue mpdQueue; // kolejka polecen
 
@@ -239,8 +239,8 @@ void main_mpd_cli(thread_data *my_data, const std::string &threadName)
         // std::cout << " adres hosta to " << hostname << std::endl;
         if (hostname == NULL)
         {
-            // std::cout << " ip mpd to " << my_data->server_settings->MPD_IP << " ! \n";
-            hostname = my_data->server_settings->_server.MPD_IP.data();
+            // std::cout << " ip mpd to " << context->server_settings->MPD_IP << " ! \n";
+            hostname = context->server_settings->_server.MPD_IP.data();
         }
         if (port)
         {
@@ -250,7 +250,7 @@ void main_mpd_cli(thread_data *my_data, const std::string &threadName)
         obj = mpd_new(hostname, iport, password);
         /* Connect signals */
         mpd_signal_connect_error(obj, (ErrorCallback)error_callback, NULL);
-        mpd_signal_connect_status_changed(obj, (StatusChangedCallback)status_changed, my_data);
+        mpd_signal_connect_status_changed(obj, (StatusChangedCallback)status_changed, context);
         /* Set timeout */
         mpd_set_connection_timeout(obj, 10);
 
@@ -269,7 +269,7 @@ void main_mpd_cli(thread_data *my_data, const std::string &threadName)
             log_file_cout << INFO << "restart MPD " << std::endl;
             log_file_cout << INFO << "nawiazuje nowe polaczenie z MPD " << std::endl;
             log_file_mutex.mutex_unlock();
-            my_data->myEventHandler.run("mpd")->addEvent("restart MPD");
+            context->myEventHandler.run("mpd")->addEvent("restart MPD");
             work = mpd_connect(obj);
         }
 
@@ -315,7 +315,7 @@ void main_mpd_cli(thread_data *my_data, const std::string &threadName)
                         mpd_status_set_volume(obj, mpd_status_get_volume(obj) - 1);
                         break;
                     case MPD_COMMAND::VOLSET:
-                        mpd_status_set_volume(obj, my_data->ptr_MPD_info->volume);
+                        mpd_status_set_volume(obj, context->ptr_MPD_info->volume);
                         break;
                     case MPD_COMMAND::DEBUG:
                         debug_level = (debug_level > 0) ? 0 : 3;
@@ -324,7 +324,7 @@ void main_mpd_cli(thread_data *my_data, const std::string &threadName)
                                (debug_level > 0) ? "Enabled" : "Disabled");
                         break;
                     case MPD_COMMAND::PLAY_ID:
-                        mpd_player_play_id(obj, my_data->ptr_MPD_info->currentSongID);
+                        mpd_player_play_id(obj, context->ptr_MPD_info->currentSongID);
                         break;
                     default:
                         printf("buffer: %c\n", buffer_tmp);
@@ -345,7 +345,7 @@ void main_mpd_cli(thread_data *my_data, const std::string &threadName)
 
                 std::this_thread::sleep_for(0.5s);
 
-                my_data->main_key_menu_handler->scrollText();
+                context->main_key_menu_handler->scrollText();
             } while (useful_F::go_while);
 
             // mpd_player_stop(obj); //wylaczanie mpd na koniec
@@ -355,22 +355,22 @@ void main_mpd_cli(thread_data *my_data, const std::string &threadName)
             std::cout << " NIE UDALO SIE POłączyć " << std::endl;
         }
         mpd_free(obj);
-        iDOM_THREAD::stop_thread(threadName, my_data);
+        iDOM_THREAD::stop_thread(threadName, context);
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << " koniec " << threadName << std::endl;
         log_file_mutex.mutex_unlock();
 }
 
-void updatePlayList(MpdObj *mi, thread_data *my_data)
+void updatePlayList(MpdObj *mi, thread_data *context)
 {
         {
             MpdData *data = mpd_playlist_get_changes(mi, -1);
-            // my_data->ptr_MPD_info->songList ="";
+            // context->ptr_MPD_info->songList ="";
             if (data)
             {
                 // printf("Playlist:""\n");
                 std::string buffor;
-                my_data->ptr_MPD_info->songList.erase(my_data->ptr_MPD_info->songList.begin(), my_data->ptr_MPD_info->songList.end());
+                context->ptr_MPD_info->songList.erase(context->ptr_MPD_info->songList.begin(), context->ptr_MPD_info->songList.end());
                 do
                 {
                     if (data->type == MPD_DATA_TYPE_SONG)
@@ -387,7 +387,7 @@ void updatePlayList(MpdObj *mi, thread_data *my_data)
                         //                    if  ( data->song->title != NULL ){
                         //                        buffor +=std::string(data->song->title)+" ";
                         //                    }
-                        my_data->ptr_MPD_info->songList.push_back(buffor);
+                        context->ptr_MPD_info->songList.push_back(buffor);
                     }
                     data = mpd_data_get_next(data);
                 } while (data);

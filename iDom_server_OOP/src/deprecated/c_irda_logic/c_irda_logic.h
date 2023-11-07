@@ -26,7 +26,7 @@ public:
 #endif
     blockQueue mpd_queue;
     PILOT_STATE who;
-    thread_data *my_data;
+    thread_data *context;
     void irdaMPD(PILOT_KEY X);
     void sleeperLogic(PILOT_KEY X);
     void projectorLogic(PILOT_KEY X);
@@ -35,7 +35,7 @@ public:
     void mainPilotHandler(PILOT_KEY X);
 
 public:
-    explicit c_irda_logic(thread_data *my_data);
+    explicit c_irda_logic(thread_data *context);
     ~c_irda_logic() override;
     void _add(PILOT_KEY X);
 

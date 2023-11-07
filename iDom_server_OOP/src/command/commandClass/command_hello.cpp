@@ -3,7 +3,7 @@
 command_hello::command_hello(const std::string &name):command(name)
 {}
 
-std::string command_hello::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_hello::execute(std::vector<std::string> &v, thread_data *context)
 {
     return "\nHI You User!\n";
 }

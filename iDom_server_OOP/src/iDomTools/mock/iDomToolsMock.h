@@ -99,16 +99,16 @@ public:
     //////////////////// ALERT //////////////////////////
     MOCK_METHOD0(checkAlarm, void());
     //////////////////// MPD part //////////////////////////
-    MOCK_METHOD1(MPD_play, void(thread_data *my_data));
+    MOCK_METHOD1(MPD_play, void(thread_data *context));
     MOCK_METHOD0(MPD_stop, void());
     MOCK_METHOD0(MPD_next, void());
     MOCK_METHOD0(MPD_prev, void());
     MOCK_METHOD0(MPD_pause, void());
     MOCK_METHOD0(MPD_volumeUp, void());
     MOCK_METHOD0(MPD_volumeDown, void());
-    MOCK_METHOD2(MPD_volumeSet, void(thread_data *my_data, int vol));
-    MOCK_METHOD2(MPD_play, void(thread_data *my_data, int id));
-    MOCK_METHOD1(MPD_getVolume, int(thread_data *my_data));
+    MOCK_METHOD2(MPD_volumeSet, void(thread_data *context, int vol));
+    MOCK_METHOD2(MPD_play, void(thread_data *context, int id));
+    MOCK_METHOD1(MPD_getVolume, int(thread_data *context));
 
     /////////////////////// SAVE STATE iDOM ////////////////
     MOCK_METHOD1(saveState_iDom, void(const bool &started));

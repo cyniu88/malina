@@ -40,16 +40,16 @@ void binary(int val)
 }
 */
 
-// void useful_F::clearThreadArray(thread_data* my_data)
+// void useful_F::clearThreadArray(thread_data* context)
 //{
 //     for (int i = 0; i< iDomConst::MAX_CONNECTION;++i)
 //     {
-//         if (my_data->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
+//         if (context->main_THREAD_arr->at(i).thread_ID == std::this_thread::get_id())
 //         {
-//             //my_data->main_THREAD_arr[i].thread.detach();
-//             my_data->main_THREAD_arr->at(i).thread_name   = "  -empty-  ";
-//             my_data->main_THREAD_arr->at(i).thread_socket = 0;
-//             my_data->main_THREAD_arr->at(i).thread_ID     = std::thread::id();
+//             //context->main_THREAD_arr[i].thread.detach();
+//             context->main_THREAD_arr->at(i).thread_name   = "  -empty-  ";
+//             context->main_THREAD_arr->at(i).thread_socket = 0;
+//             context->main_THREAD_arr->at(i).thread_ID     = std::thread::id();
 //             break;
 //         }
 //     }

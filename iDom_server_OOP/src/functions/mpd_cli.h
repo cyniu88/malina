@@ -7,8 +7,8 @@
 
 #include "../iDom_server_OOP.h"
 
-void main_mpd_cli(thread_data *my_data, const std::string &threadName);
-void updatePlayList(MpdObj *mi, thread_data *my_data);
+void main_mpd_cli(thread_data *context, const std::string &threadName);
+void updatePlayList(MpdObj *mi, thread_data *context);
 /////////////// LCD
 
 static std::string _msg = "null";

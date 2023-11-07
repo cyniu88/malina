@@ -7,7 +7,7 @@ command_show::command_show(const std::string &name):command(name)
 
 }
 
-std::string command_show::execute(std::vector<std::string> &v, thread_data *my_data)
+std::string command_show::execute(std::vector<std::string> &v, thread_data *context)
 {
     std::string str_buf = "show what?";
     if (v.size() > 1){
@@ -34,12 +34,12 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
             else {
                 if (v [2] not_eq"all"){
                     std::stringstream ss;
-                    ss << my_data->main_THREAD_arr->at(std::stoi(v[2])).thread_ID;
-                    str_buf = my_data->main_THREAD_arr->at(std::stoi(v[2])).thread_name;
+                    ss << context->main_THREAD_arr->at(std::stoi(v[2])).thread_ID;
+                    str_buf = context->main_THREAD_arr->at(std::stoi(v[2])).thread_name;
                     str_buf.append("ID: ");
                     str_buf.append(ss.str());
                     str_buf.append(" socket: ");
-                    str_buf.append(std::to_string(my_data->main_THREAD_arr->at(std::stoi(v[2])).thread_socket));
+                    str_buf.append(std::to_string(context->main_THREAD_arr->at(std::stoi(v[2])).thread_socket));
                     return str_buf;
                 }
                 else{
@@ -50,15 +50,15 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
                         ss.clear();
                         ss = std::stringstream();
                         str_buf.append(std::to_string(i) + " ");
-                        str_buf.append(my_data->main_THREAD_arr->at(i).thread_name);
+                        str_buf.append(context->main_THREAD_arr->at(i).thread_name);
                         str_buf.append("\t ID: ");
-                        ss << my_data->main_THREAD_arr->at(i).thread_ID;
+                        ss << context->main_THREAD_arr->at(i).thread_ID;
                         str_buf.append(ss.str());
-                        unsigned int idSocket = my_data->main_THREAD_arr->at(i).thread_socket;
+                        unsigned int idSocket = context->main_THREAD_arr->at(i).thread_socket;
 
                         if (idSocket not_eq 0 && idSocket not_eq 1){
                             str_buf.append(" socket: ");
-                            str_buf.append(std::to_string(my_data->main_THREAD_arr->at(i).thread_socket));
+                            str_buf.append(std::to_string(context->main_THREAD_arr->at(i).thread_socket));
                         }
                         str_buf.push_back('\n');
                     }
@@ -68,7 +68,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_data *my_d
         }
         else if (v[1] == "iDom" && v[2] == "key")
         {
-            return my_data->m_keyHandler->listKEY();
+            return context->m_keyHandler->listKEY();
         }
         else {
             return "wrong parameter: " + v[1];

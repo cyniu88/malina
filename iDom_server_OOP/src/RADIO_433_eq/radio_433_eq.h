@@ -138,7 +138,7 @@ public:
     virtual RADIO_EQ_TYPE getType() const;
 
 protected:
-    thread_data *m_my_data;
+    thread_data *m_context;
     RADIO_EQ_TYPE m_type;
 
 public:
@@ -149,7 +149,7 @@ class RADIO_WEATHER_STATION : public RADIO_EQ
     STATE m_state = STATE::UNDEFINE;
 
 public:
-    RADIO_WEATHER_STATION(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type);
+    RADIO_WEATHER_STATION(thread_data *context, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type);
     ~RADIO_WEATHER_STATION() = default;
     STATE getState() const override;
     std::string getName() const override;
@@ -165,7 +165,7 @@ class RADIO_BUTTON : public RADIO_EQ
     STATE m_state = STATE::UNDEFINE;
 
 public:
-    RADIO_BUTTON(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type);
+    RADIO_BUTTON(thread_data *context, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type);
     ~RADIO_BUTTON() = default;
     STATE getState() const override;
     void setState(STATE s);
@@ -186,7 +186,7 @@ public:
     STATE m_state = STATE::UNDEFINE;
 
 public:
-    RADIO_SWITCH(thread_data *my_data, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type);
+    RADIO_SWITCH(thread_data *context, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type);
     ~RADIO_SWITCH() = default;
     void on();
     void off();
@@ -206,12 +206,12 @@ private:
 class RADIO_EQ_CONTAINER
 {
     std::map<std::string, RADIO_EQ *> m_radioEqMap;
-    thread_data *my_data;
+    thread_data *context;
     nlohmann::json m_configJson;
     RADIO_EQ_CONTAINER();
 
 public:
-    explicit RADIO_EQ_CONTAINER(thread_data *my_data);
+    explicit RADIO_EQ_CONTAINER(thread_data *context);
     virtual ~RADIO_EQ_CONTAINER();
     void addRadioEq(RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type);
     void addRadioEq(RADIO_EQ_CONFIG cfg, const std::string &type);
