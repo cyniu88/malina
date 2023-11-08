@@ -602,8 +602,6 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     {
         cj._fb_viber.viberReceiver.push_back(k.get<std::string>());
     }
-    ////////////////////// facebook
-    cj._fb_viber.facebookAccessToken = jj["facebook_settings"].at("FB_ACCESS_TOKEN").get<std::string>();
     /////////////////////// thread settings
     cj._runThread.MPD = jj["THREAD"].at("MPD").at("run").get<bool>();
     cj._runThread.RFLink = jj["THREAD"].at("RFLink").at("run").get<bool>();
@@ -612,10 +610,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._runThread.DUMMY = jj["THREAD"].at("DUMMY").at("run").get<bool>();
     cj._runThread.MQTT = jj["THREAD"].at("MQTT").at("run").get<bool>();
     cj._runThread.SATEL = jj["THREAD"].at("SATEL").at("run").get<bool>();
-    /////////////////////// camera
-    cj._camera.cameraLedOFF = jj["camera_settings"].at("CAMERA_LED_OFF").get<std::string>();
-    cj._camera.cameraLedON = jj["camera_settings"].at("CAMERA_LED_ON").get<std::string>();
-    cj._camera.cameraURL = jj["camera_settings"].at("CAMERA_SNAPSHOT").get<std::string>();
+ 
     /////////////////////// mqtt broker
     cj._mqtt_broker.qos = jj["mqtt_broker_settings"].at("qos").get<int>();
     cj._mqtt_broker.port = jj["mqtt_broker_settings"].at("port").get<int>();

@@ -40,7 +40,7 @@ void C_connection::onStartConnection()
 
 void C_connection::onStopConnection()
 {
-    // context->main_iDomTools->cameraLedOFF(context->server_settings->_camera.cameraLedOFF);
+    
 }
 
 void C_connection::cryptoLog(std::string &toEncrypt)

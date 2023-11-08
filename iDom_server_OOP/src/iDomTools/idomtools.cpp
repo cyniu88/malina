@@ -19,7 +19,6 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : m_key(myData->server_settings->_serv
     m_allThermometerUpdate.add("outside");
     /////////////////////////////////////////////////////////////////
 
-    context->main_iDomStatus->addObject("cameraLED", STATE::UNKNOWN);
     context->main_iDomStatus->addObject("printer", STATE::OFF);
     context->main_iDomStatus->addObject("speakers", STATE::OFF);
     context->main_iDomStatus->addObject("alarm", STATE::DEACTIVE);
@@ -31,9 +30,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : m_key(myData->server_settings->_serv
     m_viber.setAvatar(context->server_settings->_fb_viber.viberAvatar);
     m_viber.setAccessToken(context->server_settings->_fb_viber.viberToken);
     m_viber.setURL("https://chatapi.viber.com/pa/send_message");
-    ///////// setup faceboook api
-    m_facebook.setAccessToken(context->server_settings->_fb_viber.facebookAccessToken);
-
+ 
     //////// button 433MHz
     m_buttonPointerVector = context->main_REC->getButtonPointerVector();
     m_lastButton433MHzLockUnlockTime = Clock::getTime() + Clock(23, 58);
@@ -116,7 +113,6 @@ void iDomTOOLS::sendSMSifTempChanged(const std::string &thermomethernName, int r
             sendViberPicture(m, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEU-fCklbx_ZFKaVhdGCymAg8NTldnva1GvnAEl63XfigJa2VV&s",
                              context->server_settings->_fb_viber.viberReceiver.at(1),
                              context->server_settings->_fb_viber.viberSender);
-            postOnFacebook(m, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEU-fCklbx_ZFKaVhdGCymAg8NTldnva1GvnAEl63XfigJa2VV&s");
         }
         else
         {
@@ -766,33 +762,6 @@ std::string iDomTOOLS::getFloorTemp()
     return context->lusina.temperatureDS20;
 }
 
-void iDomTOOLS::cameraLedON(const std::string &link)
-{
-    Clock t = Clock::getTime();
-    SunRiseSet sun;
-    Clock sunRise, sunSet;
-    sunRise = sun.getSunRise();
-    sunSet = sun.getSunSet();
-    sunSet += Clock(23, 30); // +23:30 == -00:30
-    if (t <= sunRise or t >= sunSet)
-    {
-        std::string s = useful_F_libs::httpPost(link, 10);
-        if (s == "ok.\n")
-        {
-            context->main_iDomStatus->setObjectState("cameraLED", STATE::ON);
-        }
-    }
-}
-
-void iDomTOOLS::cameraLedOFF(const std::string &link)
-{
-    std::string s = useful_F_libs::httpPost(link, 10);
-    if (s == "ok.\n")
-    {
-        context->main_iDomStatus->setObjectState("cameraLED", STATE::OFF);
-    }
-}
-
 nlohmann::json iDomTOOLS::sendViberMsg(const std::string &msg,
                                        const std::string &receiver,
                                        const std::string &senderName,
@@ -908,17 +877,6 @@ STATE iDomTOOLS::sendViberPictureBool(const std::string &msg,
         log_file_mutex.mutex_unlock();
     }
     return ret;
-}
-
-std::string iDomTOOLS::postOnFacebook(const std::string &msg, const std::string &image)
-{
-    std::lock_guard<std::mutex> lock(m_msgMutex);
-    if (image not_eq "NULL")
-    {
-        return m_facebook.postPhotoOnWall(image, msg);
-    }
-
-    return m_facebook.postTxtOnWall(msg);
 }
 
 std::string iDomTOOLS::ledOFF()

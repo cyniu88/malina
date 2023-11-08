@@ -7,7 +7,6 @@
 #include <memory>
 
 #include "idomtools_interface.h"
-#include "../libs/facebookAPI/facebookAPI.h"
 #include "../libs/sunrise-sunset/sunriseset.h"
 #include "../libs/viberAPI/viber_api.h"
 
@@ -26,7 +25,6 @@ protected:
     std::string m_key2;
     viber_API m_viber;
     bool m_viber_notif = true;
-    FACEBOOK_API m_facebook;
     std::mutex m_msgMutex;
     std::vector<RADIO_BUTTON *> m_buttonPointerVector;
     Clock m_lastButton433MHzLockUnlockTime;
@@ -82,9 +80,6 @@ public:
     void send_data_to_influxdb() override;
     std::string getFloorTemp() override;
 
-    //////////////////// camera part ///////////////////////
-    void cameraLedON(const std::string &link) override;
-    void cameraLedOFF(const std::string &link) override;
     //////////////////// viber msg /////////////////////////
     nlohmann::json sendViberMsg(const std::string &msg,
                                 const std::string &receiver,
@@ -114,8 +109,6 @@ public:
                                const std::string &senderName,
                                const std::string &accessToken = "NULL",
                                const std::string &url = "NULL") override;
-    //////////////////// facebook //////////////////////////
-    std::string postOnFacebook(const std::string &msg, const std::string &image = "NULL") override;
 
     //////////////////// LED part //////////////////////////
     std::string ledOFF() override;

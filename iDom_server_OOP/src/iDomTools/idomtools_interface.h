@@ -61,9 +61,6 @@ public:
     virtual void send_data_to_influxdb() = 0;
     virtual std::string getFloorTemp() = 0;
 
-    //////////////////// camera part ///////////////////////
-    virtual void cameraLedON(const std::string &link) = 0;
-    virtual void cameraLedOFF(const std::string &link) = 0;
     //////////////////// viber msg /////////////////////////
     virtual nlohmann::json sendViberMsg(const std::string &msg,
                                         const std::string &receiver,
@@ -93,8 +90,6 @@ public:
                                        const std::string &senderName,
                                        const std::string &accessToken = "NULL",
                                        const std::string &url = "NULL") = 0;
-    //////////////////// facebook //////////////////////////
-    virtual std::string postOnFacebook(const std::string &msg, const std::string &image = "NULL") = 0;
 
     //////////////////// LED part //////////////////////////
     virtual std::string ledOFF() = 0;

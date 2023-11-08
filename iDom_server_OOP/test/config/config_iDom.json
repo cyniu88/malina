@@ -22,11 +22,6 @@
 		"url": "http://cyniu88.no-ip.pl",
 		"key_size": 128
 	},
-	"camera_settings": {
-		"CAMERA_LED_OFF": "http://wp",
-		"CAMERA_LED_ON": "http://wp",
-		"CAMERA_SNAPSHOT": "http://wp"
-	},
 	"433MHz_settings": {
 		"433MHz_config": "/etc/config/iDom_SERVER/433_eq_conf.json"
 	},

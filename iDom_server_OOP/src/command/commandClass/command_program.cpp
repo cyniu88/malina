@@ -62,16 +62,8 @@ std::string command_program::execute(std::vector<std::string> &v, thread_data *c
         r << std::endl;
         r << "context->server_settings->_rs232.BaudRate \t"
           << context->server_settings->_rs232.BaudRate << std::endl;
-        r << "context->server_settings->_camera.cameraLedOFF \t"
-          << context->server_settings->_camera.cameraLedOFF << std::endl;
-        r << "context->server_settings->_camera.cameraLedON \t"
-          << context->server_settings->_camera.cameraLedON << std::endl;
-        r << "context->server_settings->_camera.cameraURL \t"
-          << context->server_settings->_camera.cameraURL << std::endl;
         r << "context->server_settings->_server.encrypted \t"
           << context->server_settings->_server.encrypted << std::endl;
-        r << "context->server_settings->_fb_viber.facebookAccessToken \t"
-          << context->server_settings->_fb_viber.facebookAccessToken << std::endl;
         r << "context->server_settings->_server.ftpServer.URL \t"
           << context->server_settings->_server.ftpServer.URL << std::endl;
         r << "context->server_settings->_server.ftpServer.user \t"

@@ -13,7 +13,6 @@ protected:
     struct sockaddr_in server;
     int v_socket;
     CONFIG_JSON testCS;
-    CAMERA_CFG testCamera;
     const char *ipAddress = "127.0.0.1";
     void start_iDomServer();
     void crypto(std::string &toEncrypt, std::string &key, bool encrypted);
@@ -37,8 +36,6 @@ protected:
         test_context.main_THREAD_arr = &thread_array;
         test_context.server_settings = &testCS;
         test_context.server_settings->_server.encrypted = true;
-        test_context.server_settings->_camera = testCamera;
-        test_context.server_settings->_camera.cameraLedOFF = " not set";
         test_context.server_settings->_fb_viber.viberReceiver = {"test1", "test2};"};
         test_context.server_settings->_fb_viber.viberSender = "testViberSender";
 

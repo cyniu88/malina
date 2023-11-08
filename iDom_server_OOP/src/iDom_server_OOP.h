@@ -162,13 +162,6 @@ struct RunThread_CFG
     bool SATEL = false;
 };
 
-struct CAMERA_CFG
-{
-    std::string cameraLedON = "";
-    std::string cameraLedOFF = "";
-    std::string cameraURL = "";
-};
-
 struct RFLink_CFG
 {
     std::string RFLinkPort;
@@ -183,7 +176,6 @@ struct RS232_CFG
 
 struct FB_AND_VIBER_CFG
 {
-    std::string facebookAccessToken = "";
     std::string viberToken = "NULL";
     std::string viberAvatar;
     std::vector<std::string> viberReceiver;
@@ -229,7 +221,6 @@ struct SATEL_INTEGRA_CFG
 struct CONFIG_JSON
 {
     RunThread_CFG _runThread;
-    CAMERA_CFG _camera;
     FB_AND_VIBER_CFG _fb_viber;
     CONFIG_SERVER _server;
     RS232_CFG _rs232;

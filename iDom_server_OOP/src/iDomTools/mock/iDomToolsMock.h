@@ -56,9 +56,6 @@ public:
     MOCK_METHOD0(send_data_to_influxdb, void());
     MOCK_METHOD0(getFloorTemp, std::string());
 
-    //////////////////// camera part ///////////////////////
-    MOCK_METHOD1(cameraLedON, void(const std::string &link));
-    MOCK_METHOD1(cameraLedOFF, void(const std::string &link));
     //////////////////// viber msg /////////////////////////
     MOCK_METHOD5(sendViberMsg, nlohmann::json(const std::string &msg,
                                               const std::string &receiver,
@@ -88,8 +85,6 @@ public:
                                              const std::string &senderName,
                                              const std::string &accessToken,
                                              const std::string &url));
-    //////////////////// facebook //////////////////////////
-    MOCK_METHOD2(postOnFacebook, std::string(const std::string &msg, const std::string &image));
 
     //////////////////// LED part //////////////////////////
     MOCK_METHOD0(ledOFF, std::string());

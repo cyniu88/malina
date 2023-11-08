@@ -522,23 +522,6 @@ TEST_F(iDomTOOLS_ClassTest, getTemperatureString)
   EXPECT_STREQ(test_context.main_iDomTools->getTemperatureString().c_str(), "{\"boiler\":62.2,\"currentFlow\":35.2,\"floor\":21.8,\"inside\":-0.3,\"outdoor\":1.1}");
 }
 
-TEST_F(iDomTOOLS_ClassTest, cameraLED)
-{
-  TEST_DATA::return_httpPost = "ok.\n";
-  test_context.main_iDomTools->cameraLedOFF("test_link");
-
-  ///////////////////////////////at day
-  Clock::setTime_forBT_usage(12,12);
-  test_context.main_iDomTools->cameraLedON("test_link");
-
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("cameraLED"), STATE::OFF);
-  ////////////////////////////////////// at night
-  Clock::setTime_forBT_usage(2,2);
-  test_context.main_iDomTools->cameraLedON("test_link");
-
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("cameraLED"), STATE::ON);
-}
-
 TEST_F(iDomTOOLS_ClassTest, textToSpeach)
 {
   test_context.ptr_MPD_info->isPlay = true;

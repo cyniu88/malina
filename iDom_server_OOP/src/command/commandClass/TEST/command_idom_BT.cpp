@@ -33,7 +33,7 @@ TEST_F(commandiDom_Class_fixture, help)
   std::string helpStr = test_command_iDom->help();
   EXPECT_THAT(helpStr,testing::HasSubstr("iDom"));
   std::cout << "test " << helpStr.size() << std::endl;
-  EXPECT_EQ(helpStr.size(), 1380);
+  EXPECT_EQ(helpStr.size(), 1297);
 }
 
 TEST_F(commandiDom_Class_fixture, less_param)
@@ -213,45 +213,6 @@ TEST_F(commandiDom_Class_fixture, wifi)
   std::string retStr = test_command_iDom->execute(test_v, &test_context);
   std::cout << "retString: " << retStr << std::endl;
   EXPECT_THAT(retStr,testing::HasSubstr("ok"));
-}
-
-TEST_F(commandiDom_Class_fixture, camera)
-{
-  test_context.server_settings->_camera.cameraLedOFF = "cameraOFF";
-  test_context.server_settings->_camera.cameraLedON = "cameraON";
-
-  Clock::setTime_forBT_usage(23,23);
-  test_v.clear();
-  test_v.push_back("iDom");
-  test_v.push_back("camera");
-  std::string retStr = test_command_iDom->execute(test_v, &test_context);
-  std::cout << "retString: " << retStr << std::endl;
-  EXPECT_STREQ(retStr.c_str(),"not enough parameters");
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("cameraLED"),STATE::UNKNOWN);
-  ////////////////////////////////////////// ON
-  TEST_DATA::return_httpPost = "ok.\n";
-  test_v.clear();
-  test_v.push_back("iDom");
-  test_v.push_back("camera");
-  test_v.push_back("LED");
-
-  test_v.push_back("ON");
-  retStr = test_command_iDom->execute(test_v, &test_context);
-  std::cout << "retString: " << retStr << std::endl;
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("cameraLED"),STATE::ON);
-  EXPECT_STREQ(retStr.c_str(),"led DONE");
-  ////////////////////////////////////////// OFF
-  TEST_DATA::return_httpPost = "ok.\n";
-  test_v.clear();
-  test_v.push_back("iDom");
-  test_v.push_back("camera");
-  test_v.push_back("LED");
-
-  test_v.push_back("OFF");
-  retStr = test_command_iDom->execute(test_v, &test_context);
-  std::cout << "retString: " << retStr << std::endl;
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("cameraLED"),STATE::OFF);
-  EXPECT_STREQ(retStr.c_str(),"led DONE");
 }
 
 TEST_F(commandiDom_Class_fixture, kodi)

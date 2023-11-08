@@ -120,14 +120,6 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *cont
             return "done!";
         }
     }
-    else if (v[1] == "facebook"){
-        std::string msg;
-        for (unsigned int i = 2; i < v.size(); ++i){
-            msg.push_back(' ');
-            msg.append(v[i]);
-        }
-        return context->main_iDomTools->postOnFacebook(msg);
-    }
     else if (v[1] == "viber"){
         std::string msg;
         for (unsigned int i = 2; i < v.size(); ++i){
@@ -142,19 +134,6 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *cont
         else{
             return "blad wysylania wiadomosci - sprawdz logi";
         }
-    }
-    else if (v[1] == "camera"){
-
-        if (v.size() < 4){
-            return "not enough parameters";
-        }
-        if (v[2] == "LED" && v[3] == "ON"){
-            context->main_iDomTools->cameraLedON(context->server_settings->_camera.cameraLedON);
-        }
-        else if (v[2] == "LED" && v[3] == "OFF"){
-            context->main_iDomTools->cameraLedOFF(context->server_settings->_camera.cameraLedOFF);
-        }
-        return "led DONE";
     }
     else if (v[1] == "weather"){
 
@@ -294,8 +273,6 @@ std::string command_iDom::help() const
     help << "iDom temperature stats <name> - get temperature stats from termomether <name>" << std::endl;
     help << "iDom smog       - get current SMOG level (KRAKOW)" << std::endl;
     help << "iDom kill thread <ID>  - kill thread but denger!" << std::endl;
-    help << "iDom camera LED ON/OFF - LED camera work" << std::endl;
-    help << "iDom facebook ... - post on facebook wall" << std::endl;
     help << "iDom viber ...   - send viber msg" << std::endl;
     help << "iDom weather <city> <radius> - get weather alert" << std::endl;
     help << "iDom alarm ON/OFF hh:mm - set alarm clock" << std::endl;
