@@ -26,10 +26,6 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 {
   std::cout << "##################################### 0" <<std::endl;
 
-  test_context.lusina.statHumi.push_back(12);
-  test_context.lusina.statTemp.push_back(1.133333);
-  test_context.lusina.statTemp.push_back(1.443553);
-  test_context.lusina.statTemp.push_back(1.34435);
 
   EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(-7.7));
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(-1.0));
@@ -128,8 +124,6 @@ TEST_F(iDomTOOLS_ClassTest, send_data_to_thingSpeak)
   EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(12));
   TEST_DATA::return_send_to_arduino = "-2.3:-2";
   TEST_DATA::return_httpPost_expect = "NULL";
-  test_context.lusina.statHumi.push_back(12);
-  test_context.lusina.statTemp.push_back(1.13);
   EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(),"NULL");
   test_context.main_iDomTools->send_data_to_thingSpeak();
   std::cout << "DATA: "<< TEST_DATA::return_httpPost_expect <<std::endl;
@@ -518,8 +512,9 @@ TEST_F(iDomTOOLS_ClassTest, getTemperatureString)
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(-0.3));
   EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(62.2));
   EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(35.2));
+  test_context.lusina.shedFloor.push_back(21);
 
-  EXPECT_STREQ(test_context.main_iDomTools->getTemperatureString().c_str(), "{\"boiler\":62.2,\"currentFlow\":35.2,\"floor\":21.8,\"inside\":-0.3,\"outdoor\":1.1}");
+  EXPECT_STREQ(test_context.main_iDomTools->getTemperatureString().c_str(), "{\"boiler\":62.2,\"currentFlow\":35.2,\"floor\":21.0,\"inside\":-0.3,\"outdoor\":1.1}");
 }
 
 TEST_F(iDomTOOLS_ClassTest, textToSpeach)

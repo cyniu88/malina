@@ -4,7 +4,6 @@
 TASKER::TASKER(thread_data *context) : topic("iDom-client/command"),
                                        context(context)
 {
-    context->lusina.statHumi.resize(270);
 }
 
 int TASKER::runTasker()
@@ -61,33 +60,6 @@ int TASKER::runTasker()
                 auto ret = commandMQTT.run(v, context);
                 context->mqttHandler->publish(context->server_settings->_mqtt_broker.topicPublish + "/command",
                                               ret);
-            }
-        }
-        // TODO temporary added
-        else if (kk.first == topic + "/lusina/h")
-        {
-            context->myEventHandler.run("lusina")->addEvent(kk.second);
-            try
-            {
-                auto v = useful_F::split(kk.second, ' ');
-
-                context->lusina.humidityDTH = v[1];
-                context->lusina.statHumi.push_back(std::stoi(v[1]));
-                context->lusina.temperatureDTH = v[3];
-            }
-            catch (...)
-            {
-                context->lusina.statHumi.push_back(-1);
-            }
-        }
-        else if (kk.first == topic + "/lusina/t")
-        {
-            context->myEventHandler.run("lusina")->addEvent(kk.second);
-            auto v = useful_F::split(kk.second, ' ');
-            if (v.size() == 1 && std::stof(v.front()) not_eq -127)
-            {
-                context->lusina.temperatureDS20 = v.front();
-                context->lusina.statTemp.push_back(std::stof(v.front()));
             }
         }
 

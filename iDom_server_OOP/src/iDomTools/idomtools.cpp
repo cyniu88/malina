@@ -634,8 +634,6 @@ void iDomTOOLS::send_data_to_thingSpeak()
     addres << m_key;
     addres << "&field1=" << _temperature.at(1);
     addres << "&field2=" << _temperature.at(0);
-    addres << "&field3=" << to_string_with_precision(context->lusina.statTemp.average());
-    addres << "&field4=" << context->lusina.statHumi.average();
     addres << "&field5=" << getSmog();
     addres << "&field6=" << to_string_with_precision(context->ptr_buderus->getBoilerTemp());
     addres << "&field7=" << context->ptr_buderus->isHeatingActiv();
@@ -652,7 +650,7 @@ void iDomTOOLS::send_data_to_thingSpeak()
         addres.str("");
         addres << "api.thingspeak.com/update?key=";
         addres << m_key2;
-        addres << "&field1=" << context->lusina.shedBat.average();
+        addres << "&field1=" << context->lusina.shedFloor.average();
         addres << "&field2=" << context->lusina.shedPres.average();
         addres << "&field3=" << context->lusina.shedHum.average();
         addres << "&field4=" << context->lusina.shedTemp.average();
@@ -702,7 +700,7 @@ void iDomTOOLS::send_data_to_influxdb()
                     {},
                     {{"outdoor", std::stof(_temperature.at(1))},
                      {"inside", std::stof(_temperature.at(0))},
-                     {"floor", context->lusina.statTemp.average()},
+                     {"floor", context->lusina.shedFloor.average()},
                      {"bojler", context->ptr_buderus->getBoilerTemp()},
                      {"domek", temp},
                      {"flow", context->ptr_buderus->getCurFlowTemp()},
@@ -713,12 +711,6 @@ void iDomTOOLS::send_data_to_influxdb()
                     "wilgoc",
                     {},
                     {{"humi", context->lusina.shedHum.average()}},
-                    0,
-                },
-                {
-                    "bateria",
-                    {},
-                    {{"volt", context->lusina.shedBat.average()}},
                     0,
                 },
                 {
@@ -759,7 +751,7 @@ void iDomTOOLS::send_data_to_influxdb()
 
 std::string iDomTOOLS::getFloorTemp()
 {
-    return context->lusina.temperatureDS20;
+    return std::to_string(context->lusina.shedFloor.average());
 }
 
 nlohmann::json iDomTOOLS::sendViberMsg(const std::string &msg,

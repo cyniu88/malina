@@ -22,7 +22,7 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_data *cont
                 log_file_mutex.mutex_unlock();
                 return "error 222";
             }
-            context->lusina.shedBat.push_back(context->lusina.shedJson["bateria"].get<float>());
+            context->lusina.shedFloor.push_back(context->lusina.shedJson["bateria"].get<float>());
             context->lusina.shedHum.push_back(context->lusina.shedJson["wilgotność"].get<int>());
             context->lusina.shedPres.push_back(context->lusina.shedJson["ciśnienie"].get<float>());
             context->lusina.shedTemp.push_back(context->lusina.shedJson["temperatura"].get<float>());

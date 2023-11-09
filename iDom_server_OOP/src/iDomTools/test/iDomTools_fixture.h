@@ -63,7 +63,6 @@ public:
         test_context.alarmTime = test_alarmTime;
         test_context.ptr_MPD_info = std::make_unique<MPD_info>();
 
-        test_context.lusina.temperatureDS20 =  "21.8";
         test_context.main_iDomStatus->addObject("house");
 
         /////////// create

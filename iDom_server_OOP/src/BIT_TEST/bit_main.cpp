@@ -634,29 +634,6 @@ TEST_F(bit_fixture, buderus_mqtt_command_from_boiler_wrong_json_format)
     EXPECT_THAT(ret, ::testing::HasSubstr("buderus boile_data - wrong JSON format!"));
 }
 
-TEST_F(bit_fixture, tasker_lusina)
-{
-    test_context.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/t", "11");
-    bit_Tasker->runTasker();
-    EXPECT_STREQ(test_context.lusina.temperatureDS20.c_str(), "11");
-
-    test_context.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/t", "112");
-    bit_Tasker->runTasker();
-    EXPECT_STREQ(test_context.lusina.temperatureDS20.c_str(), "112");
-
-    test_context.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h", "wilgotnosc 22 temepratura 33");
-    bit_Tasker->runTasker();
-    EXPECT_STREQ(test_context.lusina.humidityDTH.c_str(), "22");
-
-    test_context.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h", "wilgotnosc 33 temepratura 33");
-    bit_Tasker->runTasker();
-    EXPECT_STREQ(test_context.lusina.humidityDTH.c_str(), "33");
-    //////////////////////// now fake data
-    test_context.mqttHandler->putToReceiveQueue("iDom-client/command/lusina/h", "wilgotnosc brak temepratura 33");
-    bit_Tasker->runTasker();
-    EXPECT_EQ(test_context.lusina.statHumi.min(), -1);
-}
-
 TEST_F(bit_fixture, tasker_no_action)
 {
     EXPECT_EQ(256, bit_Tasker->runTasker());

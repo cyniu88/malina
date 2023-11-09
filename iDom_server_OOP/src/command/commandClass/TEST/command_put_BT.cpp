@@ -24,8 +24,6 @@ protected:
 TEST_F(command_put_Class_fixture, main)
 {
     TEST_DATA::return_send_to_arduino = "-2:3";
-    test_context.lusina.statHumi.push_back(12);
-    test_context.lusina.statTemp.push_back(1.13);
     test_v.push_back("put");
     test_v.push_back("temperature");
     EXPECT_CALL(*main_iDomTools.get(), send_data_to_thingSpeak());

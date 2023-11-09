@@ -46,13 +46,6 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *cont
     else if (v[1] == "sysinfo"){
         return context->main_iDomTools->getSystemInfo();
     }
-    else if (v[1] == "lusina") //TODO temorary
-    {
-        std::stringstream ret;
-        ret << context->lusina.statHumi.stats() <<std::endl;
-        ret << context->lusina.statTemp.stats();
-        return ret.str();
-    }
     else if (v[1] == "temperature"){
         if(v.size() < 3){
             return context->main_iDomTools->getTemperatureString();

@@ -308,14 +308,9 @@ struct LUSINA
     nlohmann::json shedConfJson;
     STATISTIC<float> shedTemp;
     STATISTIC<int> shedHum;
-    STATISTIC<float> shedBat;
+    STATISTIC<float> shedFloor;
     STATISTIC<float> shedPres;
-    std::string temperatureDS20;
-    std::string temperatureDTH;
-    std::string humidityDTH;
-    STATISTIC<int> statHumi;
-    STATISTIC<float> statTemp;
-    LUSINA() : shedTemp(18), shedHum(18), shedBat(18), shedPres(18), statHumi(270), statTemp(270) {}
+    LUSINA() : shedTemp(18), shedHum(18), shedFloor(18), shedPres(18) {}
 };
 
 struct thread_data

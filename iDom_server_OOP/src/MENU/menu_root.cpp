@@ -118,8 +118,8 @@ void MENU_ROOT::keyPadEpg()
     }
     else if (tempCounter == 3)
     {
-        ss << std::setprecision(4) << contextPTR->lusina.shedBat.average() << "V";
-        quickPrint("Bateria", ss.str());
+        ss << std::setprecision(4) << contextPTR->lusina.shedFloor.average() << "V";
+        quickPrint("Podloga", ss.str());
     }
     else
     {
