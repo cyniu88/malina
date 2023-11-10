@@ -307,7 +307,7 @@ struct LUSINA
     nlohmann::json shedJson;
     nlohmann::json shedConfJson;
     STATISTIC<float> shedTemp;
-    STATISTIC<int> shedHum;
+    STATISTIC<float> shedHum;
     STATISTIC<float> shedFloor;
     STATISTIC<float> shedPres;
     LUSINA() : shedTemp(18), shedHum(18), shedFloor(18), shedPres(18) {}
