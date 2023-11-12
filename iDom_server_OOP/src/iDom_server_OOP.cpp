@@ -19,6 +19,7 @@
 #include "iDomTools/idomtools.h"
 #include "iDomSaveState/idom_save_state.h"
 #include "../libs/backTrace/backTrace.h"
+#include "dbClient/db-client-factory.hpp"
 
 using namespace std::chrono_literals;
 
@@ -27,26 +28,26 @@ std::string buffer;
 Logger log_file_mutex(_logfile);
 
 //////////////// watek RFLink //////////////////////////////////
-void RFLinkHandlerRUN(thread_data *my_data, const std::string &threadName)
+void RFLinkHandlerRUN(thread_data *context, const std::string &threadName)
 {
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "watek " << threadName << " wystartowal " << std::this_thread::get_id() << std::endl;
     log_file_mutex.mutex_unlock();
     std::string msgFromRFLink;
-    RC_433MHz rc433(my_data);
+    RC_433MHz rc433(context);
 
-    my_data->main_RFLink->flush();
+    context->main_RFLink->flush();
     std::vector<std::string> v;
     v.push_back("ardu");
     v.push_back("433MHz");
     v.push_back("");
 
     std::this_thread::sleep_for(15s);
-    command_ardu workerRFLink("ardu", my_data);
+    command_ardu workerRFLink("ardu", context);
 
-    my_data->main_RFLink->sendCommand("10;PING;");
-    my_data->main_RFLink->sendCommand("10;PING;");
-    my_data->main_RFLink->sendCommand("10;PING;");
+    context->main_RFLink->sendCommand("10;PING;");
+    context->main_RFLink->sendCommand("10;PING;");
+    context->main_RFLink->sendCommand("10;PING;");
 
     while (useful_F::go_while)
     {
@@ -57,29 +58,29 @@ void RFLinkHandlerRUN(thread_data *my_data, const std::string &threadName)
         if (msgFromRFLink.size() > 0)
         {
             v[2] = msgFromRFLink;
-            workerRFLink.execute(v, my_data);
+            workerRFLink.execute(v, context);
         }
     }
-    iDOM_THREAD::stop_thread(threadName, my_data);
+    iDOM_THREAD::stop_thread(threadName, context);
 }
 
 //////////// watek do obslugi polaczeni miedzy nodami //////////////
-void f_serv_con_node(thread_data *my_data, const std::string &threadName)
+void f_serv_con_node(thread_data *context, const std::string &threadName)
 {
-    my_data->myEventHandler.run("node")->addEvent("start and stop node");
-    // useful_F::clearThreadArray(my_data);
+    context->myEventHandler.run("node")->addEvent("start and stop node");
+    // useful_F::clearThreadArray(context);
 
-    iDOM_THREAD::stop_thread(threadName, my_data);
+    iDOM_THREAD::stop_thread(threadName, context);
 } // koniec f_serv_con_node
 
 ///////////////////// watek MQTT subscriber
-void f_master_mqtt(thread_data *my_data, const std::string &threadName)
+void f_master_mqtt(thread_data *context, const std::string &threadName)
 {
     bool ex = false;
     try
     {
-        my_data->mqttHandler->connect(my_data->server_settings->_mqtt_broker.topicSubscribe,
-                                      my_data->server_settings->_mqtt_broker.host);
+        context->mqttHandler->connect(context->server_settings->_mqtt_broker.topicSubscribe,
+                                      context->server_settings->_mqtt_broker.host);
     }
     catch (const std::string &e)
     {
@@ -89,19 +90,19 @@ void f_master_mqtt(thread_data *my_data, const std::string &threadName)
         log_file_mutex.mutex_unlock();
     }
     if (ex == false)
-        my_data->mqttHandler->subscribeHandlerRunInThread(my_data->mqttHandler.get());
+        context->mqttHandler->subscribeHandlerRunInThread(context->mqttHandler.get());
 
-    iDOM_THREAD::stop_thread(threadName, my_data);
+    iDOM_THREAD::stop_thread(threadName, context);
 } // koniec master_mqtt
 
 ///////////////////// watek CRON //////////////////////////////
-void f_master_CRON(thread_data *my_data, const std::string &threadName)
+void f_master_CRON(thread_data *context, const std::string &threadName)
 {
     while (useful_F::go_while)
     {
         try
         {
-            CRON my_CRON(my_data);
+            CRON my_CRON(context);
             my_CRON.run();
         }
         catch (const std::exception &e)
@@ -112,17 +113,56 @@ void f_master_CRON(thread_data *my_data, const std::string &threadName)
         }
     }
 
-    iDOM_THREAD::stop_thread(threadName, my_data);
+    iDOM_THREAD::stop_thread(threadName, context);
 } // koniec CRON
 
+///////////////////// watek influx //////////////////////////////
+void f_master_influx(thread_data *context, const std::string &threadName)
+{
+
+    while (useful_F::go_while)
+    {
+        try
+        {
+            if (context->main_house_room_handler->m_bulbStatus.Empty())
+            {
+                // sleep
+                std::this_thread::sleep_for(1s);
+                continue;
+            }
+            auto data = context->main_house_room_handler->m_bulbStatus.Take();
+
+            dbClientFactory dbFactory;
+            auto db = dbFactory.createDbClient();
+            auto returnCode = db->uploadBulbData(data.name, data.state);
+
+            if (returnCode != 204)
+            {
+                log_file_mutex.mutex_lock();
+                log_file_cout << CRITICAL << " błąd wysyłania stanu żarówek do influxdb " << returnCode << std::endl;
+                log_file_mutex.mutex_unlock();
+                throw 55;
+            }
+        }
+        catch (const std::exception &e)
+        {
+            log_file_mutex.mutex_lock();
+            log_file_cout << CRITICAL << "THROW in  " << __PRETTY_FUNCTION__ << e.what() << std::endl;
+            log_file_mutex.mutex_unlock();
+        }
+    }
+
+    iDOM_THREAD::stop_thread(threadName, context);
+} // koniec influx
+
 ///////////////////// watek Satel Integra32 //////////////////////////
-void f_satelIntegra32(thread_data *my_data, const std::string &threadName)
+void f_satelIntegra32(thread_data *context, const std::string &threadName)
 {
     while (useful_F::go_while)
     {
         try
         {
-            SATEL_INTEGRA_HANDLER my_integra32(my_data);
+            SATEL_INTEGRA_HANDLER my_integra32(context);
             my_integra32.run();
         }
         catch (const std::exception &e)
@@ -133,7 +173,7 @@ void f_satelIntegra32(thread_data *my_data, const std::string &threadName)
         }
     }
 
-    iDOM_THREAD::stop_thread(threadName, my_data);
+    iDOM_THREAD::stop_thread(threadName, context);
 } // koniec Satel Integra32
 
 void my_sig_handler(int s)
@@ -268,7 +308,6 @@ iDomStateEnum iDom_main()
         exit(1);
     }
 
-
     ///////////////////////////////// tworzenie pliku mkfifo dla sterowania omx playerem
     /*
     int temp = mkfifo("/mnt/ramdisk/cmd",0666);
@@ -292,7 +331,6 @@ iDomStateEnum iDom_main()
     /////////////////////////////////////////////////////////
 
     node_data.sleeper = 0;
-
 
     /////////////////////////////////////// MQTT ////////////////////////////
     node_data.mqttHandler = std::make_unique<MQTT_mosquitto>("iDomSERVER");
@@ -335,7 +373,6 @@ iDomStateEnum iDom_main()
         log_file_mutex.mutex_unlock();
     }
 
-
     /////////////////////////////// MPD info /////////////////////////
     node_data.ptr_MPD_info = std::make_unique<MPD_info>();
     /////////////////////////////// iDom Status //////////////////////
@@ -357,8 +394,6 @@ iDomStateEnum iDom_main()
     node_data.main_house_room_handler->loadButtonConfig("/etc/config/iDom_SERVER/button_config.json");
     //////////////////////////////// SETTINGS //////////////////////////////
     node_data.main_iDomStatus->addObject("house", node_data.idom_all_state.houseState);
-
-
 
     //////////////////////////////////////// start watku MQTT
     if (server_settings._runThread.MQTT == true)
@@ -391,6 +426,18 @@ iDomStateEnum iDom_main()
     {
         log_file_mutex.mutex_lock();
         log_file_cout << DEBUG << "nie wystartowalem wątku MPD" << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+    ///////////////////////////////////////// start watku zarowek do influx
+    // TODO  dodać config
+    if (true)
+    {
+        iDOM_THREAD::start_thread("influx thread", f_master_influx, &node_data);
+    }
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG << "nie wystartowalem wątku do uploudu na influxdb" << std::endl;
         log_file_mutex.mutex_unlock();
     }
     ///////////////////////////////////////// start watku CRONa
@@ -429,7 +476,6 @@ iDomStateEnum iDom_main()
     ///////////////////////////////////////////////////// start server ////////////////////////////////////////////////////
 
     useful_F::startServer(&node_data, &mainTasker);
-
 
     //////////////////////////////////////////////////// close part ///////////////////////////////////////////////////////
     if (node_data.iDomProgramState == iDomStateEnum::CLOSE or node_data.iDomProgramState == iDomStateEnum::RASPBERRY_RELOAD)

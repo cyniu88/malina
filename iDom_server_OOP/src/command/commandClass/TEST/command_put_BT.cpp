@@ -30,3 +30,14 @@ TEST_F(command_put_Class_fixture, main)
     auto ret = test_command_put->execute(test_v,&test_context);
     EXPECT_STREQ(ret.c_str(), "DONE");
 }
+
+
+TEST_F(command_put_Class_fixture, influx)
+{
+    TEST_DATA::return_send_to_arduino = "-2:3";
+    test_v.push_back("put");
+    test_v.push_back("influx");
+    EXPECT_CALL(*main_iDomTools.get(), send_data_to_influxdb());
+    auto ret = test_command_put->execute(test_v,&test_context);
+    EXPECT_STREQ(ret.c_str(), "DONE");
+}

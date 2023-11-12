@@ -101,24 +101,24 @@ void MENU_ROOT::keyPadEpg()
     if (tempCounter == 0)
     {
         ss << std::setprecision(4) << contextPTR->ptr_buderus->getInsideTemp()
-           << (char)223 << "c   " << contextPTR->ptr_buderus->getOutdoorTemp() << ((char)223) << "c";
-        quickPrint("Temp: in    out", ss.str());
+           << (char)223 << "c  " << contextPTR->lusina.shedTemp.average() << ((char)223) << "c";
+        quickPrint("T: salon  biuro", ss.str());
     }
     else if (tempCounter == 1)
     {
         RADIO_WEATHER_STATION *st = static_cast<RADIO_WEATHER_STATION *>(contextPTR->main_REC->getEqPointer("first"));
         auto temp = st->data.getTemperature();
-        ss << std::setprecision(4) << temp << celsiusDegrees << "    " << contextPTR->lusina.shedTemp.average() << celsiusDegrees;
-        quickPrint("domek ogrodnika", ss.str());
+        ss << std::setprecision(4) << temp << celsiusDegrees << " " << contextPTR->ptr_buderus->getOutdoorTemp() << celsiusDegrees;
+        quickPrint("T: domek   pole", ss.str());
     }
     else if (tempCounter == 2)
     {
         ss << std::setprecision(4) << contextPTR->lusina.shedHum.average() << "%   " << contextPTR->lusina.shedPres.average() << "hPa";
-        quickPrint("Wilgoc  Cis", ss.str());
+        quickPrint("Wilgoc   Cis", ss.str());
     }
     else if (tempCounter == 3)
     {
-        ss << std::setprecision(4) << contextPTR->lusina.shedFloor.average() << "V";
+        ss << std::setprecision(4) << contextPTR->lusina.shedFloor.average() << celsiusDegrees;
         quickPrint("Podloga", ss.str());
     }
     else

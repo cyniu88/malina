@@ -268,7 +268,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
         if (bulbID == 88 and bulbState == 1)
         {
             context->main_iDomTools->doorbellDingDong();
-            useful_F_libs::httpPost("http://cyniu88.no-ip.pl/cgi-bin/dzwonek.sh");
+            useful_F_libs::httpPost("http://cyniu88.no-ip.pl/cgi-bin/dzwonek.sh", 10);
             // context->main_iDomTools->sendViberPicture("DZWONEK do drzwi!",
             //                                           "https://cyniu88.no-ip.pl/dzwonek/wejscie.jpg",
             //                                           context->server_settings->_fb_viber.viberReceiver.at(0),
@@ -287,17 +287,28 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
             }
 
             STATE state;
+            bool bState;
 
             if (bulbState == 1)
+            {
                 state = STATE::ON;
+                bState = true;
+            }
             else
+            {
                 state = STATE::OFF;
+                bState = false;
+            }
 
             m_lightingBulbMap.at(bulbID)->setStatus(state);
             // set state
             std::string name = m_lightingBulbMap.at(bulbID)->getRoomName();
             name.append("_");
             name.append(m_lightingBulbMap.at(bulbID)->getBulbName());
+
+            // put info about bulb
+            m_bulbStatus.Put({name, bState});
+std::cout << std::boolalpha << "symulacja put: name "  << name << " status " << bState << std::endl;
             context->main_iDomStatus->setObjectState(name, state);
 
             // TODO temporary added viber notifiction

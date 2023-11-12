@@ -1,10 +1,10 @@
 #include "../../libs/emoji/emoji.h"
-#include "../../libs/influxm/client.h"
 #include "../functions/functions.h"
 #include "../RADIO_433_eq/radio_433_eq.h"
 #include "../thread_functions/iDom_thread.h"
 #include "idomtools.h"
 #include "../iDomSaveState/idom_save_state.h"
+#include "../dbClient/db-client-factory.hpp"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData) : m_key(myData->server_settings->_server.TS_KEY),
                                             m_key2(myData->server_settings->_server.TS_KEY2)
@@ -30,7 +30,7 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : m_key(myData->server_settings->_serv
     m_viber.setAvatar(context->server_settings->_fb_viber.viberAvatar);
     m_viber.setAccessToken(context->server_settings->_fb_viber.viberToken);
     m_viber.setURL("https://chatapi.viber.com/pa/send_message");
- 
+
     //////// button 433MHz
     m_buttonPointerVector = context->main_REC->getButtonPointerVector();
     m_lastButton433MHzLockUnlockTime = Clock::getTime() + Clock(23, 58);
@@ -677,66 +677,34 @@ void iDomTOOLS::send_data_to_influxdb()
 {
     try
     {
-        char points[4096];
-        int pointsSize = 4096, offset = 0;
-
-        influx_client::flux::Client client(
-            "10.9.0.34", /* port */ 8086, /* token */
-            " "
-            "-aaaapov11112lj2-ovr5bbbbso6q==",
-            "organization", "iDom");
-
-        /* do something with client */
-        // get temperature in gardener house
         RADIO_WEATHER_STATION *st = static_cast<RADIO_WEATHER_STATION *>(context->main_REC->getEqPointer("first"));
         auto temp = st->data.getTemperature();
 
         std::vector<std::string> _temperature = getTemperature();
 
-        auto code = client.writes(
-            {
-                {
-                    "temperatura",
-                    {},
-                    {{"outdoor", std::stof(_temperature.at(1))},
-                     {"inside", std::stof(_temperature.at(0))},
-                     {"floor", context->lusina.shedFloor.average()},
-                     {"bojler", context->ptr_buderus->getBoilerTemp()},
-                     {"domek", temp},
-                     {"flow", context->ptr_buderus->getCurFlowTemp()},
-                     {"shedTemp", context->lusina.shedTemp.average()}},
-                    0,
-                },
-                {
-                    "wilgoc",
-                    {},
-                    {{"humi", context->lusina.shedHum.average()}},
-                    0,
-                },
-                {
-                    "smog",
-                    {},
-                    {{"smog", std::stof(getSmog())}},
-                    0,
-                },
-                {
-                    "cisnienie",
-                    {},
-                    {{"dom", context->lusina.shedPres.average()}},
-                    0,
-                },
-                {
-                    "piec",
-                    {},
-                    {{"praca", context->ptr_buderus->isHeatingActiv()}},
-                    0,
-                },
-            },
-            points, pointsSize);
-        if (code != 204)
+        std::unordered_map<std::string, std::unordered_map<std::string, std::any>> iDomData;
+
+        iDomData["temperatura"]["outdoor"] = std::stof(_temperature.at(1));
+        iDomData["temperatura"]["inside"] = std::stof(_temperature.at(0));
+        iDomData["temperatura"]["floor"] = context->lusina.shedFloor.average();
+        iDomData["temperatura"]["bojler"] = context->ptr_buderus->getBoilerTemp();
+        iDomData["temperatura"]["domek"] = temp;
+        iDomData["temperatura"]["flow"] = context->ptr_buderus->getCurFlowTemp();
+        iDomData["temperatura"]["shedTemp"] = context->lusina.shedTemp.average();
+
+        iDomData["wilgoc"]["humi"] = context->lusina.shedHum.average();
+        iDomData["smog"]["smog"] = std::stof(getSmog());
+        iDomData["cisnienie"]["dom"] = context->lusina.shedPres.average();
+        iDomData["piec"]["praca"] = context->ptr_buderus->isHeatingActiv();
+
+        dbClientFactory dbFactory;
+        auto db = dbFactory.createDbClient();
+        auto returnCode = db->upload_iDomData(iDomData);
+
+        if (returnCode != 204)
         {
             log_file_mutex.mutex_lock();
-            log_file_cout << CRITICAL << " błąd wysyłania temperatury do influxdb " << code << std::endl;
+            log_file_cout << CRITICAL << " błąd wysyłania danych iDom do influxdb " << returnCode << std::endl;
             log_file_mutex.mutex_unlock();
             throw 55;
         }

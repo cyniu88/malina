@@ -9,9 +9,17 @@
 #include "light_bulb.h"
 #include "room.h"
 #include "../libs/circular_buffer/circular_buffer.h"
+#include "../libs/blocking_queue/blocking_queue.h"
 
 class CommandHandlerMQTT;
 struct thread_data;
+
+struct BULB_STATUS
+{
+    BULB_STATUS(const std::string& _name, bool _state):name(_name), state(_state){};
+    bool state = 0;
+    std::string name;
+};
 
 class house_room_handler : public iDom_API
 {
@@ -21,6 +29,8 @@ class house_room_handler : public iDom_API
     Circular_buffer m_circBuffSatelSensorId;
 
 public:
+    BlockingQueue<BULB_STATUS> m_bulbStatus;
+
     std::map<int, std::map<std::string, std::vector<std::string>>> m_buttonConfig;
     static std::string m_mqttPublishTopic;
 

@@ -107,14 +107,6 @@ std::string viber_API::sendViberUrl(const std::string& msg,
   return R"({"message_status":"ok"})";
 }
 
-FACEBOOK_API::FACEBOOK_API(){}
-std::string FACEBOOK_API::postTxtOnWall(const std::string& msg,
-                                        const std::string& accessToken ){return "";}
-std::string FACEBOOK_API::postPhotoOnWall(const std::string& url,
-                                          const std::string& msg ,
-                                          const std::string& accessToken ){return "";}
-void FACEBOOK_API::setAccessToken(const std::string& token){}
-
 std::string useful_F_libs::httpPost(const std::string& url, int timeoutSeconds){
 
   std::cout << "url: "<< url << " return "<< TEST_DATA::return_httpPost << "|"<< std::endl;
