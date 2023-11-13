@@ -4,7 +4,6 @@
 #include <iostream>
 #include <test_data.h>
 
-#include "../libs/facebookAPI/facebookAPI.h"
 #include "../libs/useful/useful.h"
 #include "../libs/viberAPI/viber_api.h"
 #include "../libs/backTrace/backTrace.h"

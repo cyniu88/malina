@@ -2,7 +2,7 @@
 #include "../../libs/influxm/client.h"
 #include <iostream>
 
-int dbClient::upload_iDomData(std::unordered_map<std::string, std::unordered_map<std::string, std::any>> &iDomData)
+HttpStatus::Code dbClient::upload_iDomData(std::unordered_map<std::string, std::unordered_map<std::string, std::any>> &iDomData)
 {
     char points[4096];
     int pointsSize = 4096;
@@ -56,10 +56,10 @@ int dbClient::upload_iDomData(std::unordered_map<std::string, std::unordered_map
             },
         },
         points, pointsSize);
-    return code;
+    return HttpStatus::Code(code);
 }
 
-int dbClient::uploadBulbData(const std::string &name, bool state)
+HttpStatus::Code dbClient::uploadBulbData(const std::string &name, bool state)
 {
     influx_client::flux::Client client(
         "10.9.0.34", /* port */ 8086, /* token */
@@ -75,8 +75,8 @@ int dbClient::uploadBulbData(const std::string &name, bool state)
         {{name, state}});
    // int code = 204;
 
-    std::cout << std::boolalpha << "zarowka bulb : " <<  name << " satus: " << state << std::endl;
-    return code;
+    //std::cout << std::boolalpha << "zarowka bulb : " <<  name << " satus: " << state << std::endl;
+    return HttpStatus::Code(code);
 }
 
 // int dbClient::uploadBulbData(const std::string &name, bool state){

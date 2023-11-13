@@ -22,7 +22,6 @@ set(LIBS_SRC
     "../libs/event_counters/event/new_connect_event.cpp"
     "../libs/event_counters/event_counters.cpp"
     "../libs/event_counters/event_counters_handler.cpp"
-    "../libs/facebookAPI/facebookAPI.cpp"
     "../libs/generator/generator.cpp"
     "../libs/sunrise-sunset/sunriseset.cpp"
     "../libs/useful/usefull.cpp"

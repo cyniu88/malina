@@ -308,7 +308,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
 
             // put info about bulb
             m_bulbStatus.Put({name, bState});
-std::cout << std::boolalpha << "symulacja put: name "  << name << " status " << bState << std::endl;
+            
             context->main_iDomStatus->setObjectState(name, state);
 
             // TODO temporary added viber notifiction

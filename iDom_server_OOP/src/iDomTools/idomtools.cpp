@@ -704,7 +704,7 @@ void iDomTOOLS::send_data_to_influxdb()
         if (returnCode != 204)
         {
             log_file_mutex.mutex_lock();
-            log_file_cout << CRITICAL << " błąd wysyłania danych iDom do influxdb " << returnCode << std::endl;
+            log_file_cout << CRITICAL << " błąd wysyłania danych iDom do influxdb " << returnCode << " " << reasonPhrase(returnCode) << std::endl;
             log_file_mutex.mutex_unlock();
             throw 55;
         }
