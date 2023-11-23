@@ -696,6 +696,7 @@ void iDomTOOLS::send_data_to_influxdb()
         iDomData["smog"]["smog"] = std::stof(getSmog());
         iDomData["cisnienie"]["dom"] = context->lusina.shedPres.average();
         iDomData["piec"]["praca"] = context->ptr_buderus->isHeatingActiv();
+        iDomData["acdc"]["acdc"] = context->lusina.acdc.average();
 
         dbClientFactory dbFactory;
         auto db = dbFactory.createDbClient();

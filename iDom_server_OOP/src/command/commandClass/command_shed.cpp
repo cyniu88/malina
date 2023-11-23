@@ -30,6 +30,7 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_data *cont
             context->lusina.shedHum.push_back(context->lusina.shedJson["wilgotność"].get<float>());
             context->lusina.shedPres.push_back(context->lusina.shedJson["ciśnienie"].get<float>());
             context->lusina.shedTemp.push_back(context->lusina.shedJson["temperatura"].get<float>());
+            context->lusina.acdc.push_back(context->lusina.shedJson["acdc"].get<float>());
             str_buf << "DONE";
             nlohmann::json returnJson;
             returnJson["isDay"] = context->main_iDomTools->isItDay();

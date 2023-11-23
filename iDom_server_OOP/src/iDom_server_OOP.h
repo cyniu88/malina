@@ -310,7 +310,8 @@ struct LUSINA
     STATISTIC<float> shedHum;
     STATISTIC<float> shedFloor;
     STATISTIC<float> shedPres;
-    LUSINA() : shedTemp(18), shedHum(18), shedFloor(18), shedPres(18) {}
+    STATISTIC<float> acdc;
+    LUSINA() : shedTemp(18), shedHum(18), shedFloor(18), shedPres(18), acdc(18) {}
 };
 
 struct thread_data

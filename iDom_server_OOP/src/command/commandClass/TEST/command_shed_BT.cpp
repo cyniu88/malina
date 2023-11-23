@@ -40,7 +40,7 @@ TEST_F(command_shed_Class_fixture, put_get_json)
        "fanON":false
    })");
     EXPECT_CALL(*main_iDomTools.get(), isItDay()).WillOnce(testing::Return(true));
-    std::string msg = R"({"temperatura":21.37999916,"ciśnienie":992.303772,"wilgotność":51.86914063,"millis":119626,"bateria":3.900585938, "podłoga": 22.6})";
+    std::string msg = R"({"acdc":2,"temperatura":21.37999916,"ciśnienie":992.303772,"wilgotność":51.86914063,"millis":119626,"bateria":3.900585938, "podłoga": 22.6})";
     test_v.push_back("shed");
     test_v.push_back("put");
     test_v.push_back(msg);

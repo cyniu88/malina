@@ -54,6 +54,12 @@ HttpStatus::Code dbClient::upload_iDomData(std::unordered_map<std::string, std::
                 {{"praca", std::any_cast<bool>(iDomData.at("piec").at("praca"))}},
                 0,
             },
+            {
+                "acdc",
+                {},
+                {{"acdc", std::any_cast<float>(iDomData.at("acdc").at("acdc"))}},
+                0,
+            },
         },
         points, pointsSize);
     return HttpStatus::Code(code);
