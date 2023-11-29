@@ -1,5 +1,4 @@
-#ifndef RADIO_SWITCH_H
-#define RADIO_SWITCH_H
+#pragma once
 
 #include <map>
 
@@ -227,4 +226,3 @@ public:
     std::string showConfig(const std::string &filePath);
 };
 
-#endif // RADIO_SWITCH_H

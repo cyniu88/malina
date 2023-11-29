@@ -1,5 +1,4 @@
-#ifndef BLOCKQUEUE_H
-#define BLOCKQUEUE_H
+#pragma once
 
 #include <stdlib.h>
 #include <queue>
@@ -119,4 +118,4 @@ bool SharedQueue<T>::empty() const
     std::unique_lock<std::mutex> mlock(mutex_);
     return queue_.empty();
 }
-#endif // BLOCQUEUE_H
+

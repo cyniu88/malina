@@ -1,5 +1,5 @@
-#ifndef CRON_HPP
-#define CRON_HPP
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <time.h>
@@ -24,4 +24,3 @@ private:
     void runOnSunrise();
 };
 
-#endif // CRON_HPP

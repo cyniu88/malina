@@ -1,5 +1,4 @@
-#ifndef COMMAND_UPTIME_H
-#define COMMAND_UPTIME_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -13,4 +12,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMAND_UPTIME_H

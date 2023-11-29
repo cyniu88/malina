@@ -1,5 +1,4 @@
-#ifndef COMMANDHANDLERGATEWAY_H
-#define COMMANDHANDLERGATEWAY_H
+#pragma once
 
 #include "commandhandler.h"
 
@@ -12,4 +11,3 @@ public:
     std::string run(std::vector<std::string> &v, thread_data *context) override;
 };
 
-#endif // COMMANDHANDLERGATEWAY_H

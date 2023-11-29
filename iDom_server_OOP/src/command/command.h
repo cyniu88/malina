@@ -1,5 +1,4 @@
-#ifndef COMMAND_H
-#define COMMAND_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -18,5 +17,3 @@ public:
     virtual std::string getCommandName() const;
     int counter = 0;
 };
-
-#endif // COMMAND_H

@@ -1,5 +1,4 @@
-#ifndef COMMAND_WIFI_H
-#define COMMAND_WIFI_H
+#pragma once
 
 #include "../command.h"
 
@@ -11,4 +10,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMAND_WIFI_H

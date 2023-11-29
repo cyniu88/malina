@@ -1,5 +1,5 @@
-#ifndef THERMOMETER_CONTAINER_H
-#define THERMOMETER_CONTAINER_H
+#pragma once
+
 #include <map>
 #include <vector>
 
@@ -86,4 +86,3 @@ public:
   void showAll() const;
 };
 
-#endif // THERMOMETER_CONTAINER_H

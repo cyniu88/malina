@@ -1,5 +1,4 @@
-#ifndef MENU_MAINTENANCE_H
-#define MENU_MAINTENANCE_H
+#pragma once
 
 #include "menu_base.h"
 #include "libs/container_menu.h"
@@ -24,4 +23,3 @@ public:
     void timeout(std::function<void()> function = std::nullptr_t()) override;
 };
 
-#endif // MENU_MAINTENANCE_H

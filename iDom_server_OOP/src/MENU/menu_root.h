@@ -1,5 +1,4 @@
-#ifndef MENU_ROOT_H
-#define MENU_ROOT_H
+#pragma once
 
 #include "menu_base.h"
 
@@ -42,4 +41,3 @@ private:
     unsigned int time = 0;
 };
 
-#endif // MENU_ROOT_H

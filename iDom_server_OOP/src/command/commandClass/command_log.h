@@ -1,5 +1,4 @@
-#ifndef COMMAND_LOG_H
-#define COMMAND_LOG_H
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -16,4 +15,3 @@ private:
    logger_level logLevel(const std::string& level);
 };
 
-#endif // COMMAND_LOG_H

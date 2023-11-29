@@ -1,5 +1,4 @@
-#ifndef IDOMTOOLS_H
-#define IDOMTOOLS_H
+#pragma once
 
 #include <map>
 #include <string>
@@ -164,4 +163,3 @@ private:
     void runCommandFromJson(const std::vector<std::string> &jj);
 };
 
-#endif // IDOMTOOLS_H

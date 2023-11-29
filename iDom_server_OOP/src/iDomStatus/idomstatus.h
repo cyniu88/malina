@@ -1,5 +1,4 @@
-#ifndef IDOMSTATUS_H
-#define IDOMSTATUS_H
+#pragma once
 
 #include <iostream>
 #include <map>
@@ -23,4 +22,3 @@ public:
     std::string getAllObjectsStateString() const;
 };
 
-#endif // IDOMSTATUS_H

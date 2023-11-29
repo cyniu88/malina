@@ -1,5 +1,5 @@
-#ifndef TASKER_H
-#define TASKER_H
+#pragma once
+
 #include "../command/commandhandlermqtt.h"
 
 // TODO dodac do iDom API
@@ -18,4 +18,3 @@ private:
     thread_data *context;
 };
 
-#endif // TASKER_H

@@ -1,5 +1,4 @@
-#ifndef IDOMKEY_ACCESS_H
-#define IDOMKEY_ACCESS_H
+#pragma once
 
 #include "../idom_api.h"
 #include "json.hpp"
@@ -27,5 +26,3 @@ public:
     void removeExpiredKeys(unsigned int hours);
     std::string dump() const override;
 };
-
-#endif // IDOMKEY_ACCESS_H

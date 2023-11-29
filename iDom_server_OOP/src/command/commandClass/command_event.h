@@ -1,5 +1,5 @@
-#ifndef COMMAND_EVENT_H
-#define COMMAND_EVENT_H
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -13,4 +13,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMAND_EVENT_H

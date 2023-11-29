@@ -1,5 +1,4 @@
-#ifndef IDOMTOOLS_INTERFACE_H
-#define IDOMTOOLS_INTERFACE_H
+#pragma once
 
 #include "idomtools_useful.h"
 #include "json.hpp"
@@ -140,4 +139,3 @@ public:
     //////////////////  doorbell  ////////////////////////
     virtual void doorbellDingDong() = 0;
 };
-#endif // IDOMTOOLS_INTERFACE_H

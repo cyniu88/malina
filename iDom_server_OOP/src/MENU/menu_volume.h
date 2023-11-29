@@ -1,5 +1,5 @@
-#ifndef MENU_VOLUME_H
-#define MENU_VOLUME_H
+#pragma once
+
 #include "menu_base.h"
 
 class MENU_VOLUME : public MENU_STATE_BASE
@@ -16,4 +16,3 @@ public:
     std::string getStateName() const override;
 };
 
-#endif // MENU_VOLUME_H

@@ -1,5 +1,4 @@
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#pragma once
 
 #include <iostream>
 #include <fstream>
@@ -349,4 +348,3 @@ struct thread_data
 
 iDomStateEnum iDom_main();
 
-#endif // GLOBAL_H

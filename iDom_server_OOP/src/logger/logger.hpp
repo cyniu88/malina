@@ -44,8 +44,7 @@
  * THE SOFTWARE.
  *
  */
-#ifndef __LOGGER__
-#define __LOGGER__
+#pragma once
 
 #include <fstream>
 #include <cassert>
@@ -114,4 +113,3 @@ namespace std
     }
 } // end namespace std
 
-#endif

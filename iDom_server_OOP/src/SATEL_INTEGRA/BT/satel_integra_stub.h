@@ -1,5 +1,4 @@
-#ifndef SATEL_INTEGRA_STUB_H
-#define SATEL_INTEGRA_STUB_H
+#pragma once
 
 #include <list>
 
@@ -47,4 +46,3 @@ public:
     SATEL_INTEGRA_INTERFACE *getSatelPTR() override;
 };
 
-#endif // SATEL_INTEGRA_STUB_H

@@ -1,5 +1,4 @@
-#ifndef MENU_INFO_H
-#define MENU_INFO_H
+#pragma once
 
 #include <vector>
 
@@ -29,4 +28,3 @@ private:
     std::vector<nlohmann::json> m_lightData;
 };
 
-#endif // MENU_INFO_H

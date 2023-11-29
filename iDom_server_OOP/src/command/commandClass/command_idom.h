@@ -1,5 +1,5 @@
-#ifndef COMMAND_IDOM_H
-#define COMMAND_IDOM_H
+#pragma once
+
 #include <string>
 #include <vector>
 
@@ -13,4 +13,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMAND_IDOM_H

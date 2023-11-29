@@ -1,5 +1,4 @@
-#ifndef HOUSE_LIGHTING_HANDLER_H
-#define HOUSE_LIGHTING_HANDLER_H
+#pragma once
 
 #include <map>
 #include <memory>
@@ -71,4 +70,3 @@ public:
     std::string dump() const override;
 };
 
-#endif // HOUSE_LIGHTING_HANDLER_H

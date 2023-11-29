@@ -1,5 +1,5 @@
-#ifndef MENU_KODI_H
-#define MENU_KODI_H
+#pragma once
+
 #include "menu_base.h"
 
 class MENU_KODI : public MENU_STATE_BASE
@@ -31,4 +31,3 @@ public:
     void timeout(std::function<void()> function = std::nullptr_t()) override;
 };
 
-#endif // MENU_KODI_H

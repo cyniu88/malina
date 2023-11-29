@@ -1,5 +1,4 @@
-#ifndef SATEL_INTEGRA_H
-#define SATEL_INTEGRA_H
+#pragma once
 
 #include <sys/socket.h> //socket
 #include <arpa/inet.h>  //inet_addr
@@ -53,4 +52,3 @@ private:
     std::string getFullFrame(const unsigned char *pCmd, const unsigned int cmdLength);
 };
 
-#endif // SATEL_INTEGRA_H

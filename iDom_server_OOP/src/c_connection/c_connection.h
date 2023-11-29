@@ -1,5 +1,4 @@
-#ifndef C_CONNECTION_H
-#define C_CONNECTION_H
+#pragma once
 
 #include <mutex>
 #include <unistd.h>
@@ -57,5 +56,3 @@ private:
     void crypto(std::string &toEncrypt, std::string key, bool encrypted);
     C_connection();
 };
-
-#endif // C_CONNECTION1_H

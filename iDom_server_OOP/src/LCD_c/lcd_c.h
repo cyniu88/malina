@@ -1,5 +1,4 @@
-#ifndef LCD_C_H
-#define LCD_C_H
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -51,5 +50,3 @@ private:
 
 
 };
-
-#endif // LCD_C_H

@@ -1,5 +1,4 @@
-#ifndef SATEL_INTEGRA_HANDLER_H
-#define SATEL_INTEGRA_HANDLER_H
+#pragma once
 
 #include "../iDom_server_OOP.h"
 #include "satel_integra_interface.h"
@@ -23,4 +22,3 @@ public:
     SATEL_INTEGRA_INTERFACE *getSatelPTR() override;
 };
 
-#endif // SATEL_INTEGRA_HANDLER_H

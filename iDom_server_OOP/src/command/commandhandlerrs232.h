@@ -1,5 +1,4 @@
-#ifndef COMMANDHANDLERRS232_H
-#define COMMANDHANDLERRS232_H
+#pragma once
 
 #include "commandhandlerroot.h"
 
@@ -10,4 +9,3 @@ public:
     virtual ~commandHandlerRS232() = default;
 };
 
-#endif // COMANDHANDLERRS232_H

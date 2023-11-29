@@ -1,5 +1,4 @@
-#ifndef COMMANDHANDLERROOT_H
-#define COMMANDHANDLERROOT_H
+#pragma once
 
 #include "commandhandler.h"
 
@@ -10,4 +9,3 @@ public:
     virtual ~commandHandlerRoot() = default;
 };
 
-#endif // COMMANDHANDLERROOT_H

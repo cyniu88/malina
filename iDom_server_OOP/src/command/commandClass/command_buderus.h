@@ -1,5 +1,4 @@
-#ifndef COMMAND_BUDERUS_H
-#define COMMAND_BUDERUS_H
+#pragma once
 
 #include "../command.h"
 
@@ -10,5 +9,3 @@ public:
     std::string execute(std::vector <std::string> &v,thread_data * context) override;
     std::string help() const override;
 };
-
-#endif // COMMAND_BUDERUS_H

@@ -1,5 +1,4 @@
-#ifndef LIGHT_BULB_H
-#define LIGHT_BULB_H
+#pragma once
 
 #include <mutex>
 #include <functional>
@@ -62,5 +61,3 @@ public:
     STATE m_satelAlarm = STATE::UNDEFINE;
     int m_satelAlarmHowLong = -1;
 };
-
-#endif // LIGHT_BULB_H

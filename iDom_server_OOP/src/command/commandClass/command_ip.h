@@ -1,5 +1,4 @@
-#ifndef COMMAND_IP_H
-#define COMMAND_IP_H
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -13,5 +12,3 @@ public:
     std::string execute(std::vector <std::string> &v,thread_data * context) override;
     std::string help() const override;
 };
-
-#endif // COMMAND_IP_H

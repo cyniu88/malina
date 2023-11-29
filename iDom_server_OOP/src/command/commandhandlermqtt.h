@@ -1,5 +1,4 @@
-#ifndef COMMANDHANDLERMQTT_H
-#define COMMANDHANDLERMQTT_H
+#pragma once
 
 #include <string>
 
@@ -16,4 +15,3 @@ public:
     std::string run(std::vector<std::string> &v, thread_data *context);
 };
 
-#endif // COMMANDHANDLERMQTT_H

@@ -1,5 +1,5 @@
-#ifndef IDOMTOOLS_USEFULL_H
-#define IDOMTOOLS_USEFULL_H
+#pragma once
+
 #include <string>
 
 enum class PIN_STATE
@@ -32,5 +32,3 @@ struct WEATHER_DATABASE
     WEATHER_ALER Thunderstorms;
     WEATHER_ALER Tornados;
 };
-
-#endif // IDOMTOOLS_USEFULL_H

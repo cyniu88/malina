@@ -1,5 +1,4 @@
-#ifndef MENU_MAIN_H
-#define MENU_MAIN_H
+#pragma once
 
 #include <vector>
 #include <string>
@@ -27,4 +26,3 @@ public:
     void timeout(std::function<void()> function = std::nullptr_t()) override;
 };
 
-#endif // MENU_MAIN_H

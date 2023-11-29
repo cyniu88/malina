@@ -1,5 +1,4 @@
-#ifndef COMMANDTEST_H
-#define COMMANDTEST_H
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -14,4 +13,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMANDTEST_H

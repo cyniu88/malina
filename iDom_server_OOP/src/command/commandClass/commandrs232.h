@@ -1,5 +1,4 @@
-#ifndef COMMANDRS232_H
-#define COMMANDRS232_H
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -14,4 +13,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMANDRS232_H

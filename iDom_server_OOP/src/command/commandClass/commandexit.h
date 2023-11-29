@@ -1,5 +1,4 @@
-#ifndef COMMANDEXIT_H
-#define COMMANDEXIT_H
+#pragma once
 
 #include "../command.h"
 
@@ -11,4 +10,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMANDEXIT_H

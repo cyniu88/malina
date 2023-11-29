@@ -1,5 +1,4 @@
-#ifndef BUDERUS_H
-#define BUDERUS_H
+#pragma once
 
 #include <mutex>
 
@@ -58,4 +57,3 @@ public:
     std::string dump() const override;
 };
 
-#endif // BUDERUS_H

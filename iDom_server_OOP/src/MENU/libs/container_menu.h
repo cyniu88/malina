@@ -1,5 +1,5 @@
-#ifndef UNORDERED_MAP_H
-#define UNORDERED_MAP_H
+#pragma once
+
 #include <vector>
 #include <string>
 #include <functional>
@@ -84,4 +84,3 @@ namespace cyniu
     };
 
 } // end namespace cyniu
-#endif // UNORDERED_MAP_H

@@ -1,5 +1,4 @@
-#ifndef IDOM_THREAD_H
-#define IDOM_THREAD_H
+#pragma once
 
 #include "../iDom_server_OOP.h"
 
@@ -24,4 +23,3 @@ public:
     static int findFreeThreadSlot(std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> *array);
 };
 
-#endif

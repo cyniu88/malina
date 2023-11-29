@@ -1,5 +1,4 @@
-#ifndef COMMND_ARDU_H
-#define COMMND_ARDU_H
+#pragma once
 
 #include "../../RADIO_433_eq/radio_433_eq.h"
 #include "../../command/command.h"
@@ -22,4 +21,3 @@ public:
     void pingAndOkRecv(thread_data *context, const std::string &s);
 };
 
-#endif // COMMND_ARDU_H

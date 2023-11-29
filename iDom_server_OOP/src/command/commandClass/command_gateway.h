@@ -1,5 +1,5 @@
-#ifndef COMMAND_GATEWAY_H
-#define COMMAND_GATEWAY_H
+#pragma once
+
 #include "../command.h"
 
 class command_gateway : public command
@@ -10,4 +10,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMAND_GATEWAY_H

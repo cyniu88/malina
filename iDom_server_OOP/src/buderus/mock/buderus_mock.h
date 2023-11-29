@@ -1,5 +1,5 @@
-#ifndef BUDERUS_MOCK_H
-#define BUDERUS_MOCK_H
+#pragma once
+
 #include <gmock/gmock.h>
 
 #include "../buderus.h"
@@ -38,4 +38,3 @@ public:
     MOCK_METHOD0(getDump, std::string());
 };
 
-#endif // BUDERUS_MOCK_H

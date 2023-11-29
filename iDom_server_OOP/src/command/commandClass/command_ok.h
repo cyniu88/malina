@@ -1,5 +1,4 @@
-#ifndef COMMAND_OK_H
-#define COMMAND_OK_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -13,4 +12,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMAND_OK_H

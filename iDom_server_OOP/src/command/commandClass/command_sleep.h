@@ -1,5 +1,4 @@
-#ifndef COMMAND_SLEEP_H
-#define COMMAND_SLEEP_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -13,4 +12,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMAND_SLEEP_H

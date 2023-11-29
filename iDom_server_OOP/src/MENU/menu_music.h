@@ -1,5 +1,5 @@
-#ifndef MENU_MUSIC_H
-#define MENU_MUSIC_H
+#pragma once
+
 #include "menu_base.h"
 
 class MENU_MUSIC : public MENU_STATE_BASE
@@ -21,4 +21,3 @@ public:
     std::string getStateName() const override;
 };
 
-#endif // MENU_MUSIC_H

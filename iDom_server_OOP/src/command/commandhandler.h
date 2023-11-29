@@ -1,5 +1,4 @@
-#ifndef COMMANDHANDLE_H
-#define COMMANDHANDLE_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -19,4 +18,3 @@ public:
     virtual std::string run(std::vector<std::string> &v, thread_data *context);
 };
 
-#endif // COMMANDHANDLE_H

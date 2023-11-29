@@ -1,5 +1,4 @@
-#ifndef MENU_H
-#define MENU_H
+#pragma once
 
 #include "../LCD_c/lcd_c.h"
 #include "../iDom_server_OOP.h"
@@ -82,4 +81,3 @@ public:
     void quickPrint(const std::string &row1, const std::string &row2) override;
     void scrollText() override;
 };
-#endif // MENU_H

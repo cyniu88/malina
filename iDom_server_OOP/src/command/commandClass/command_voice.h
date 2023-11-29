@@ -1,5 +1,4 @@
-#ifndef COMMAND_VOICE_H
-#define COMMAND_VOICE_H
+#pragma once
 
 #include "../command.h"
 
@@ -13,4 +12,3 @@ public:
     bool vectorContain(const std::vector<std::string>& vector, const std::string& str);
 };
 
-#endif // COMMAND_VOICE_H

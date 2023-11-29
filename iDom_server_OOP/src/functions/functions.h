@@ -1,5 +1,4 @@
-#ifndef FUNCTIONS_H
-#define FUNCTIONS_H
+#pragma once
 
 #include <chrono>
 #include <string>
@@ -41,4 +40,3 @@ public:
     static void Server_connectivity_thread(thread_data *context, const std::string &threadName);
     static void startServer(thread_data *context, TASKER *my_tasker);
 };
-#endif // FUNCTIONS_H

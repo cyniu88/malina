@@ -1,5 +1,4 @@
-#ifndef SATEL_INTEGRA_INTERFACE_H
-#define SATEL_INTEGRA_INTERFACE_H
+#pragma once
 
 #include "../libs/useful/useful.h"
 
@@ -33,4 +32,3 @@ public:
     virtual SATEL_INTEGRA_INTERFACE *getSatelPTR() = 0;
 };
 
-#endif // SATEL_INTEGRA_INTERFACE_H

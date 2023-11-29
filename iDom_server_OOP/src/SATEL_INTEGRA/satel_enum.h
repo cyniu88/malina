@@ -1,5 +1,4 @@
-#ifndef SATEL_ENUM_H
-#define SATEL_ENUM_H
+#pragma once
 
 enum INTEGRA_ENUM : unsigned char
 {
@@ -63,4 +62,3 @@ inline std::ostream &operator<<(std::ostream &os, const INTEGRA_ENUM &v)
     return os;
 };
 
-#endif // SATEL_ENUM_H

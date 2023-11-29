@@ -1,5 +1,4 @@
-#ifndef _HTTP_h_
-#define _HTTP_h_
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -35,5 +34,3 @@ public:
     static std::string getUrl(const std::string &msg);
     static std::unordered_map<std::string, std::string> getQuery(const std::string &msg);
 };
-
-#endif // _HTTP_h_

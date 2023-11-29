@@ -1,5 +1,4 @@
-#ifndef MENU_BUDERUS_H
-#define MENU_BUDERUS_H
+#pragma once
 
 #include "menu_base.h"
 #include "libs/container_menu.h"
@@ -24,4 +23,3 @@ public:
     std::string getStateName() const override;
 };
 
-#endif // MENU_BUDERUS_H

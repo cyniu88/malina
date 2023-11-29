@@ -1,5 +1,4 @@
-#ifndef COMMAND_CLOCK_H
-#define COMMAND_CLOCK_H
+#pragma once
 
 #include "../command.h"
 
@@ -11,4 +10,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMAND_CLOCK_H

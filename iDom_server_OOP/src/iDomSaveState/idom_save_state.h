@@ -1,5 +1,4 @@
-#ifndef IDOM_SAVE_STATE_H
-#define IDOM_SAVE_STATE_H
+#pragma once
 
 #include <mutex>
 #include "json.hpp"
@@ -18,4 +17,3 @@ private:
     std::string m_path = "NULL";
 };
 
-#endif // IDOM_SAVE_STATE_H

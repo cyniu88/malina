@@ -1,5 +1,4 @@
-#ifndef COMMAND_433MHZ_H
-#define COMMAND_433MHZ_H
+#pragma once
 
 #include "../command.h"
 
@@ -12,4 +11,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMAND_433MHZ_H

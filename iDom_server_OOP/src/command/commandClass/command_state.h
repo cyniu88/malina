@@ -1,5 +1,5 @@
-#ifndef COMMAND_STATE_H
-#define COMMAND_STATE_H
+#pragma once
+
 #include "../command.h"
 
 class command_state : public command
@@ -10,4 +10,3 @@ public:
     std::string help() const override;
 };
 
-#endif // COMMAND_STATE_H

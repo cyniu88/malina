@@ -1,5 +1,5 @@
-#ifndef RC_433MHZ_H
-#define RC_433MHZ_H
+#pragma once
+
 #include "../functions/functions.h"
 
 class RC_433MHz
@@ -11,5 +11,3 @@ public:
     void sendCode(const std::string &code);
     std::string receiveCode();
 };
-
-#endif // RC_433MHZ_H

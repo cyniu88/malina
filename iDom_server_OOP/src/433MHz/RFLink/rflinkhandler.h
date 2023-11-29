@@ -1,5 +1,5 @@
-#ifndef RFLINKHANDLER_H
-#define RFLINKHANDLER_H
+#pragma once
+
 
 #include <map>
 #include <exception>
@@ -58,4 +58,3 @@ public:
     static std::string getArgumentValueFromRFLinkMSG(const std::string &msg, const std::string &var);
 };
 
-#endif // RFLINKHANDLER_H

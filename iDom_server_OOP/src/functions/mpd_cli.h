@@ -1,5 +1,4 @@
-#ifndef MPD_CLI_H
-#define MPD_CLI_H
+#pragma once
 
 #include <iostream>
 #include <libmpd-1.0/libmpd/debug_printf.h>
@@ -13,6 +12,4 @@ void updatePlayList(MpdObj *mi, thread_data *context);
 
 static std::string _msg = "null";
 
-///////////////////////////////////////////
 
-#endif // MPD_CLI_H

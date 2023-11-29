@@ -1,5 +1,5 @@
-#ifndef ROOM_H
-#define ROOM_H
+#pragma once
+
 #include <iostream>
 #include <map>
 
@@ -19,5 +19,3 @@ public:
     void satelSensorActive();
     nlohmann::json getStatsJSON();
 };
-
-#endif // ROOM_H

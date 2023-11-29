@@ -1,5 +1,4 @@
-#ifndef IDOM_API_H
-#define IDOM_API_H
+#pragma once
 
 #include <map>
 #include <mutex>
@@ -27,5 +26,3 @@ public:
     static std::string getDump();
 };
 
-
-#endif // IDOM_API_H

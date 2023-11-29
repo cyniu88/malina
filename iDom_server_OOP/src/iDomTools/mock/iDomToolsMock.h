@@ -1,5 +1,5 @@
-#ifndef IDOMTOOLSMOCK_H
-#define IDOMTOOLSMOCK_H
+#pragma once
+
 #include <gmock/gmock.h>
 
 #include "../idomtools_interface.h"
@@ -136,4 +136,3 @@ public:
     MOCK_METHOD0(doorbellDingDong, void());
 };
 
-#endif // IDOMTOOLSMOCK_H

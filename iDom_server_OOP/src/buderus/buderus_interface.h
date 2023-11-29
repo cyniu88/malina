@@ -1,5 +1,4 @@
-#ifndef BUDERUS_INTERFACE_H
-#define BUDERUS_INTERFACE_H
+#pragma once
 
 #include "../json2/json.hpp"
 #include "../libs/useful/useful.h"
@@ -38,4 +37,3 @@ public:
     virtual std::string getDump() = 0;
 };
 
-#endif // BUDERUS_INTERFACE_H
