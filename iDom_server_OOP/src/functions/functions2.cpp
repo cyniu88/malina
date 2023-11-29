@@ -417,7 +417,7 @@ void useful_F::Server_connectivity_thread(thread_data *context, const std::strin
     client->onStopConnection();
     context->main_Rs232->print("LED_AT:0;");
 #ifdef BT_TEST
-    puts("zamykamy server" );
+    puts("zamykamy server");
     useful_F::workServer = false; // wylacz nasluchwianie servera
 #endif
     iDOM_THREAD::stop_thread(threadName, context);
@@ -586,9 +586,6 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._server.SERVER_IP = jj["Server_settings"].at("SERVER_IP").get<std::string>();
     cj._server.saveFilePath = jj["Server_settings"].at("saveFilePath").get<std::string>();
     cj._server.radio433MHzConfigFile = jj["433MHz_settings"].at("433MHz_config").get<std::string>();
-    cj._server.ftpServer.URL = jj["FTP_settings"].at("FTP_URL").get<std::string>();
-    cj._server.ftpServer.user = jj["FTP_settings"].at("FTP_LOGIN").get<std::string>();
-    cj._server.ftpServer.pass = jj["FTP_settings"].at("FTP_PASS").get<std::string>();
     cj._server.TS_KEY = jj["THINGSPEAK_settings"].at("TS_KEY").get<std::string>();
     cj._server.TS_KEY2 = jj["THINGSPEAK_settings"].at("TS_KEY2").get<std::string>();
     cj._server.lightningApiURL = jj["lightning_settings"].at("LIGHTNING_API_URL").get<std::string>();
@@ -610,7 +607,8 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._runThread.DUMMY = jj["THREAD"].at("DUMMY").at("run").get<bool>();
     cj._runThread.MQTT = jj["THREAD"].at("MQTT").at("run").get<bool>();
     cj._runThread.SATEL = jj["THREAD"].at("SATEL").at("run").get<bool>();
- 
+    cj._runThread.INFLUX = jj["THREAD"].at("INFLUX").at("run").get<bool>();
+
     /////////////////////// mqtt broker
     cj._mqtt_broker.qos = jj["mqtt_broker_settings"].at("qos").get<int>();
     cj._mqtt_broker.port = jj["mqtt_broker_settings"].at("port").get<int>();

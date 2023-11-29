@@ -232,10 +232,20 @@ iDomStateEnum iDom_main()
 
     pthread_mutex_init(&Logger::mutex_log, NULL);
     // read a JSON file
-    std::ifstream i_config("/etc/config/iDom_SERVER/iDom_serverConfig.json");
-    nlohmann::json j;
-    i_config >> j;
-    CONFIG_JSON server_settings = useful_F::configJsonFileToStruct(j);
+
+    CONFIG_JSON server_settings;
+    try
+    {
+        std::ifstream i_config("/etc/config/iDom_SERVER/iDom_serverConfig.json");
+        nlohmann::json j;
+        i_config >> j;
+
+        server_settings = useful_F::configJsonFileToStruct(j);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << "\n config file error";
+    }
 
     thread_data node_data; // przekazywanie do watku
     node_data.lusina.shedConfJson = server_settings._shedConf;
@@ -429,8 +439,8 @@ iDomStateEnum iDom_main()
         log_file_mutex.mutex_unlock();
     }
     ///////////////////////////////////////// start watku zarowek do influx
-    // TODO  dodać config
-    if (true)
+   
+    if (server_settings._runThread.INFLUX == true)
     {
         iDOM_THREAD::start_thread("influx thread", f_master_influx, &node_data);
     }

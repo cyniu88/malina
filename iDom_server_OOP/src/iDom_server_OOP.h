@@ -160,6 +160,7 @@ struct RunThread_CFG
     bool DUMMY = false;
     bool MQTT = false;
     bool SATEL = false;
+    bool INFLUX = false;
 };
 
 struct RFLink_CFG
