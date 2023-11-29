@@ -145,5 +145,6 @@ TEST_F(functions_fixture, json_config)
     EXPECT_TRUE(ret._runThread.CRON);
     EXPECT_TRUE(ret._runThread.RFLink);
     EXPECT_TRUE(ret._runThread.RS232);
+    EXPECT_TRUE(ret._runThread.INFLUX);
     EXPECT_FALSE(ret._runThread.MQTT);
 }

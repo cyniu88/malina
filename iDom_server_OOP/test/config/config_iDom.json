@@ -25,17 +25,6 @@
 	"433MHz_settings": {
 		"433MHz_config": "/etc/config/iDom_SERVER/433_eq_conf.json"
 	},
-	"omxplayer_settings": {
-		"omxplayerFile": "/mnt/ramdisk/cmd"
-	},
-	"FTP_settings": {
-		"FTP_URL": "192.168.1.1:21",
-		"FTP_LOGIN": "user",
-		"FTP_PASS": "password"
-	},
-	"facebook_settings": {
-		"FB_ACCESS_TOKEN": "eOOemF2x"
-	},
 	"viber_settings": {
 		"VIBER_TOKEN": "123133",
 		"VIBER_AVATAR": "www.avatar.pl/avatar.jpg",
@@ -115,6 +104,9 @@
 			"run": false
 		},
 		"SATEL": {
+			"run": true
+		},
+		"INFLUX": {
 			"run": true
 		},
 		"DUMMY": {
