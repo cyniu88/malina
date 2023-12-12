@@ -346,5 +346,5 @@ struct thread_data
     ~thread_data() = default;
 };
 
-iDomStateEnum iDom_main();
+iDomStateEnum iDom_main(char *argv[]);
 
