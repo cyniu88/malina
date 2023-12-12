@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
         {
             try
             {
-                iDomStateProgram = iDom_main(argv);
+                iDomStateProgram = iDom_main();
                 std::cout << "1 zamykam program z : " << iDomStateProgram << std::endl;
             }
             catch (const std::exception &e)

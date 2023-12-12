@@ -216,7 +216,7 @@ void catchSigInt()
     signal(SIGSEGV, cyniu::BACKTRACE::handleCrash);
 }
 
-iDomStateEnum iDom_main(char *argv[])
+iDomStateEnum iDom_main()
 {
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "\n\n------------------------ START PROGRAMU -----------------------" << std::endl;
@@ -343,8 +343,14 @@ iDomStateEnum iDom_main(char *argv[])
     node_data.sleeper = 0;
 
     /////////////////////////////////////// MQTT ////////////////////////////
-     printf("Running: %s\n", argv[0]);
-    node_data.mqttHandler = std::make_unique<MQTT_mosquitto>(argv[0]);
+    std::string login{"iDom-server-"};
+    login.append(std::to_string(Clock::getUnixTime()));
+    printf("Running: %s\n", login.c_str());
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "mqtt login  "<< login<< std::endl;
+    log_file_mutex.mutex_unlock();
+
+    node_data.mqttHandler = std::make_unique<MQTT_mosquitto>(login);
     node_data.mqttHandler->turnOffDebugeMode();
 
     ////////////////////////////////thread starting part //////////////////////////////////////////////
