@@ -113,9 +113,6 @@ void useful_F::kodi(thread_data *context, const std::string &threadName)
     log_file_cout << INFO << "start wątku " << threadName << std::endl;
     log_file_mutex.mutex_unlock();
 
-    // context->mainLCD->set_print_song_state(100);
-    // context->mainLCD->printString(false,2,1,"  KODI");
-
     context->main_iDomStatus->setObjectState("KODI", STATE::ACTIVE);
     // status mpd
     STATE musicState = context->main_iDomStatus->getObjectState("music");
@@ -387,7 +384,7 @@ void useful_F::Server_connectivity_thread(thread_data *context, const std::strin
         {
             break;
         }
-        // ########################### analia wiadomoscu ####################################//
+        // ########################### analiza wiadomosci ####################################//
         try
         {
             client->c_analyse(recvSize_tm_n);
