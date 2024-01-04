@@ -1,0 +1,17 @@
+FROM ubuntu:latest
+
+RUN apt-get update && \
+    apt-get install -yq tzdata && \
+    ln -fs /usr/share/zoneinfo/Europe/Warsaw /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
+    
+ENV TZ="Europe/Warsaw"
+
+COPY . /app
+WORKDIR /app
+RUN apt-get update -y && apt-get install -y musl-dev libwiringpi-dev libmpd-dev 
+RUN apt install -y curl libcurl4-openssl-dev libmpdclient-dev  libmosquitto-dev libi2c-dev
+
+EXPOSE 48833/udp
+EXPOSE 48833/tcp
+ENTRYPOINT [ "/app/start.sh"]

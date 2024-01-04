@@ -136,7 +136,7 @@ bool SATEL_INTEGRA::isAlarmArmed()
     case 1:
         return true; // all armed
     default:
-        std::cout << "blad sprawdzania uzborjenia" << std::endl;
+        std::cout << "blad sprawdzania uzborjenia " << (int)m_message[3] << std::endl;
     }
 
     return false;

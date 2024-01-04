@@ -693,7 +693,10 @@ void iDomTOOLS::send_data_to_influxdb()
         iDomData["temperatura"]["shedTemp"] = context->lusina.shedTemp.average();
 
         iDomData["wilgoc"]["humi"] = context->lusina.shedHum.average();
-        iDomData["smog"]["smog"] = std::stof(getSmog());
+        auto smog = getSmog();
+        if(smog == "null")
+            smog = "-1";
+        iDomData["smog"]["smog"] = std::stof((smog));
         iDomData["cisnienie"]["dom"] = context->lusina.shedPres.average();
         iDomData["piec"]["praca"] = context->ptr_buderus->isHeatingActiv();
         iDomData["acdc"]["acdc"] = context->lusina.acdc.average();
