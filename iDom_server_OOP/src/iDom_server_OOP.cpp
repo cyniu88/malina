@@ -1,6 +1,5 @@
 #include "iDom_server_OOP.h"
 #include "functions/functions.h"
-#include <wiringPi.h>
 #include <stdio.h>
 #include <fstream>
 #include <iostream>
@@ -309,14 +308,14 @@ iDomStateEnum iDom_main()
 
     /////////////////////////////////////////////// koniec logowania do poliku ///////////////////////////////////////////////////
 
-    /////////////////////////////////////////////// start wiringPi //////////////////////////////////////////////
-    if (wiringPiSetup() == -1)
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "problem z wiringPiSetup()" << std::endl;
-        log_file_mutex.mutex_unlock();
-        exit(1);
-    }
+    // /////////////////////////////////////////////// start wiringPi //////////////////////////////////////////////
+    // if (wiringPiSetup() == -1)
+    // {
+    //     log_file_mutex.mutex_lock();
+    //     log_file_cout << CRITICAL << "problem z wiringPiSetup()" << std::endl;
+    //     log_file_mutex.mutex_unlock();
+    //     exit(1);
+    // }
 
     ///////////////////////////////// tworzenie pliku mkfifo dla sterowania omx playerem
     /*

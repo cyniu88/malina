@@ -97,6 +97,7 @@ set(SOURCE_FILES
     "src/SATEL_INTEGRA/satel_integra.cpp"
     "src/SATEL_INTEGRA/satel_integra_handler.cpp"
     "src/SerialPi/serialpi.cpp"
+    "src/SerialPi/wiringSerial.c"
     "src/TASKER/tasker.cpp"
     "src/THERMOMETER_CONTAINER/thermometer_container.cpp"
     "src/thread_functions/iDom_thread.cpp"
@@ -132,4 +133,4 @@ file(GLOB SOURCE_FILES2 "src/command/*.*"
     "src/command/commandClass/*.*"
     "src/MENU/*.*")
 add_executable(${PROJECT_NAME} ${LIBS_SRC} ${SOURCE_FILES} ${SOURCE_FILES2})
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  wiringPiDev wiringPi rt pthread curl mpd mosquitto i2c )
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  rt pthread curl mpd mosquitto i2c )

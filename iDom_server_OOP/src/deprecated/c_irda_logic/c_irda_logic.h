@@ -4,7 +4,6 @@
 #include <pthread.h>
 #include <queue>
 #include <iostream>
-#include <wiringPi.h>
 #include <string.h>
 #include "../blockQueue/blockqueue.h" // brak
 #include "../iDom_server_OOP.h"

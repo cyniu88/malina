@@ -9,7 +9,7 @@ ENV TZ="Europe/Warsaw"
 
 COPY . /app
 WORKDIR /app
-RUN apt-get update -y && apt-get install -y musl-dev libwiringpi-dev libmpd-dev 
+RUN apt-get update -y && apt-get install -y  libmpd-dev 
 RUN apt install -y curl libcurl4-openssl-dev libmpdclient-dev  libmosquitto-dev libi2c-dev
 
 EXPOSE 48833/udp

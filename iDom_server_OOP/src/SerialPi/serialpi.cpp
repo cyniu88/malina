@@ -1,6 +1,6 @@
 #include "serialpi.h"
 #include <stdio.h>
-#include <wiringSerial.h>
+#include "wiringSerial.h"
 
 SerialPi::SerialPi(const std::string &address) : m_address(address), m_serial_port(0)
 {
