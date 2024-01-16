@@ -393,6 +393,7 @@ iDomStateEnum iDom_main()
     node_data.ptr_MPD_info = std::make_unique<MPD_info>();
     /////////////////////////////// iDom Status //////////////////////
     node_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
+    node_data.main_iDomStatus->setObjectState("music", STATE::STOP);
     /////////////////////////////// MENU LCD //////////////////////////////
     LCD_c lcd(0x27, 16, 2);
     MENU_STATE_MACHINE stateMechine;

@@ -1,3 +1,5 @@
+#include <optional>
+
 #include "../../libs/emoji/emoji.h"
 #include "../functions/functions.h"
 #include "../RADIO_433_eq/radio_433_eq.h"
@@ -637,7 +639,8 @@ void iDomTOOLS::send_data_to_thingSpeak()
     addres << "&field5=" << getSmog();
     addres << "&field6=" << to_string_with_precision(context->ptr_buderus->getBoilerTemp());
     addres << "&field7=" << context->ptr_buderus->isHeatingActiv();
-    addres << "&field8=" << temp;
+    if (temp.has_value())
+        addres << "&field8=" << temp.value();
     //////////////////////////////// pozyskanie temperatury
     m_allThermometer.updateAll(&_temperature);
     sendSMSifTempChanged("outside", 0);
@@ -682,21 +685,20 @@ void iDomTOOLS::send_data_to_influxdb()
 
         std::vector<std::string> _temperature = getTemperature();
 
-        std::unordered_map<std::string, std::unordered_map<std::string, std::any>> iDomData;
+        std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> iDomData;
 
         iDomData["temperatura"]["outdoor"] = std::stof(_temperature.at(1));
         iDomData["temperatura"]["inside"] = std::stof(_temperature.at(0));
         iDomData["temperatura"]["floor"] = context->lusina.shedFloor.average();
         iDomData["temperatura"]["bojler"] = context->ptr_buderus->getBoilerTemp();
-        iDomData["temperatura"]["domek"] = temp;
+        iDomData["temperatura"]["domek"] = temp.value();
         iDomData["temperatura"]["flow"] = context->ptr_buderus->getCurFlowTemp();
         iDomData["temperatura"]["shedTemp"] = context->lusina.shedTemp.average();
 
         iDomData["wilgoc"]["humi"] = context->lusina.shedHum.average();
         auto smog = getSmog();
-        if(smog == "null")
-            smog = "-1";
-        iDomData["smog"]["smog"] = std::stof((smog));
+        if (smog != "null")
+            iDomData["smog"]["smog"] = std::stof((smog));
         iDomData["cisnienie"]["dom"] = context->lusina.shedPres.average();
         iDomData["piec"]["praca"] = context->ptr_buderus->isHeatingActiv();
         iDomData["acdc"]["acdc"] = context->lusina.acdc.average();

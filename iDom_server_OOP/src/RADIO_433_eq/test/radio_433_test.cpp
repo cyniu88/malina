@@ -56,15 +56,15 @@ TEST_F(Switch_Class_fixture, switch_alarm_on)
 TEST_F(Switch_Class_fixture, weatherStruct)
 {
     WEATHER_STRUCT test_WS;
-    EXPECT_DOUBLE_EQ(0.0, test_WS.getTemperature()) << "Tempertura zla";
+    EXPECT_FALSE(test_WS.getTemperature().has_value()) << "Tempertura zla";
 
     test_WS.putData("20;03;LaCrosse;ID=0506;TEMP=0137;");
-    EXPECT_DOUBLE_EQ(31.1, test_WS.getTemperature()) << "Tempertura zla";
+    EXPECT_DOUBLE_EQ(31.1, test_WS.getTemperature().value()) << "Tempertura zla";
 
     test_WS.putData("20;03;LaCrosse;ID=0506;TEMP=8130;BARO=999;");
-    EXPECT_DOUBLE_EQ(-30.4, test_WS.getTemperature()) << "Tempertura zla";
+    EXPECT_DOUBLE_EQ(-30.4, test_WS.getTemperature().value()) << "Tempertura zla";
 
-    EXPECT_EQ(999, test_WS.getBarometricPressure()) << "zle cisneinie";
+    EXPECT_EQ(999, test_WS.getBarometricPressure().value()) << "zle cisneinie";
 
     std::string retString = test_WS.getDataString();
     EXPECT_THAT(retString, testing::HasSubstr("Pressure= 999kPa"));

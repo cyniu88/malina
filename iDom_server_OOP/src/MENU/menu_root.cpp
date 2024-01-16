@@ -108,7 +108,7 @@ void MENU_ROOT::keyPadEpg()
     {
         RADIO_WEATHER_STATION *st = static_cast<RADIO_WEATHER_STATION *>(contextPTR->main_REC->getEqPointer("first"));
         auto temp = st->data.getTemperature();
-        ss << std::setprecision(4) << temp << celsiusDegrees << " " << contextPTR->ptr_buderus->getOutdoorTemp() << celsiusDegrees;
+        ss << std::setprecision(4) << temp.value_or(-999) << celsiusDegrees << " " << contextPTR->ptr_buderus->getOutdoorTemp() << celsiusDegrees;
         quickPrint("T: domek   pole", ss.str());
     }
     else if (tempCounter == 2)

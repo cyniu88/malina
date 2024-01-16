@@ -413,9 +413,9 @@ std::string WEATHER_STRUCT::dump() const
     std::stringstream ret;
 
     ret << "m_counter: " << this->m_counter << std::endl;
-    ret << "m_humidity: " << this->m_humidity << std::endl;
-    ret << "m_temperature: " << this->m_temperature << std::endl;
-    ret << "m_barometricPressure: " << this->m_barometricPressure << std::endl;
+    ret << "m_humidity: " << this->m_humidity.value_or(-999) << std::endl;
+    ret << "m_temperature: " << this->m_temperature.value_or(-999) << std::endl;
+    ret << "m_barometricPressure: " << this->m_barometricPressure.value_or(-999) << std::endl;
     ret << "m_map_iDom_API.size() : " << this->m_map_iDom_API.size() << std::endl;
 
     return ret.str();

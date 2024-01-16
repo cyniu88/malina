@@ -42,14 +42,14 @@ TEST_F(commandArdu_Class_fixture, weatherStationTemp)
     test_v.push_back("20;2A;LaCrosse;ID=0704;TEMP=8043;");
     test_ardu->execute(test_v, &test_context);
     RADIO_WEATHER_STATION* st = static_cast<RADIO_WEATHER_STATION*>(test_context.main_REC->getEqPointer("first"));
-    EXPECT_DOUBLE_EQ(-6.7, st->data.getTemperature() );
-    EXPECT_DOUBLE_EQ(0, st->data.getHumidity() );
+    EXPECT_DOUBLE_EQ(-6.7, st->data.getTemperature().value() );
+    EXPECT_DOUBLE_EQ(0, st->data.getHumidity().value() );
     test_v[2] = "20;35;LaCrosse;ID=0704;HUM=42;";
     test_ardu->execute(test_v, &test_context);
-    EXPECT_DOUBLE_EQ(42, st->data.getHumidity() );
+    EXPECT_DOUBLE_EQ(42, st->data.getHumidity().value() );
     test_v[2] = "20;2A;LaCrosse;ID=0704;TEMP=0000;";
     test_ardu->execute(test_v, &test_context);
-    EXPECT_DOUBLE_EQ(0, st->data.getTemperature() );
+    EXPECT_DOUBLE_EQ(0, st->data.getTemperature().value() );
 }
 
 TEST_F(commandArdu_Class_fixture, button)

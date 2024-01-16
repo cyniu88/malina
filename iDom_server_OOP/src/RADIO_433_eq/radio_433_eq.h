@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <optional>
 
 #include "../433MHz/RFLink/rflinkhandler.h"
 #include "../433MHz/rc_433mhz.h"
@@ -12,9 +13,9 @@ private:
     unsigned long int m_counter = 0;
 
 protected:
-    unsigned int m_humidity = 0;
-    double m_temperature = 0.0;
-    unsigned int m_barometricPressure = 0;
+    std::optional<unsigned int> m_humidity;
+    std::optional<double> m_temperature;
+    std::optional<unsigned int> m_barometricPressure;
 
 public:
     WEATHER_STRUCT()
@@ -27,14 +28,14 @@ public:
         removeFromMap(m_className);
     }
 
-    unsigned int getHumidity() { return m_humidity; }
-    double getTemperature() { return m_temperature; }
-    unsigned int getBarometricPressure() { return m_barometricPressure; }
+    std::optional<unsigned int> getHumidity() { return m_humidity; }
+    std::optional<double> getTemperature() { return m_temperature; }
+    std::optional<unsigned int> getBarometricPressure() { return m_barometricPressure; }
     std::string getDataString()
     {
-        return "data: " + std::to_string(m_counter) + "\n" + "Humidity=" + std::to_string(getHumidity()) + "%\n" +
-               "temperature= " + to_string_with_precision(getTemperature()) + "c\n" +
-               "Pressure= " + std::to_string(getBarometricPressure()) + "kPa\n";
+        return "data: " + std::to_string(m_counter) + "\n" + "Humidity=" + std::to_string(getHumidity().value_or(-1)) + "%\n" +
+               "temperature= " + to_string_with_precision(getTemperature().value_or(0)) + "c\n" +
+               "Pressure= " + std::to_string(getBarometricPressure().value_or(0)) + "kPa\n";
     }
 
     void putData(std::string data)
@@ -65,7 +66,7 @@ public:
             m_temperature = t / 10.0;
             if (tempStr.at(0) == '8')
             {
-                m_temperature *= -1.0;
+                m_temperature = m_temperature.value() * -1.0;
             }
         }
         catch (...)
@@ -225,4 +226,3 @@ public:
     void saveConfig(const std::string &filePath);
     std::string showConfig(const std::string &filePath);
 };
-
