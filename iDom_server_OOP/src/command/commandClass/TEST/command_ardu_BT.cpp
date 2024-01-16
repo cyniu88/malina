@@ -43,7 +43,7 @@ TEST_F(commandArdu_Class_fixture, weatherStationTemp)
     test_ardu->execute(test_v, &test_context);
     RADIO_WEATHER_STATION* st = static_cast<RADIO_WEATHER_STATION*>(test_context.main_REC->getEqPointer("first"));
     EXPECT_DOUBLE_EQ(-6.7, st->data.getTemperature().value() );
-    EXPECT_DOUBLE_EQ(0, st->data.getHumidity().value() );
+    EXPECT_FALSE(st->data.getHumidity().has_value() );
     test_v[2] = "20;35;LaCrosse;ID=0704;HUM=42;";
     test_ardu->execute(test_v, &test_context);
     EXPECT_DOUBLE_EQ(42, st->data.getHumidity().value() );
