@@ -681,7 +681,7 @@ void iDomTOOLS::send_data_to_influxdb()
     try
     {
         RADIO_WEATHER_STATION *st = static_cast<RADIO_WEATHER_STATION *>(context->main_REC->getEqPointer("first"));
-        auto temp = st->data.getTemperature();
+        std::optional<double> temp = st->data.getTemperature();
 
         std::vector<std::string> _temperature = getTemperature();
 
@@ -697,8 +697,10 @@ void iDomTOOLS::send_data_to_influxdb()
 
         iDomData["wilgoc"]["humi"] = context->lusina.shedHum.average();
         auto smog = getSmog();
-        if (smog != "null")
+        if (smog != "null" and smog != "-1")
             iDomData["smog"]["smog"] = std::stof((smog));
+        else
+            iDomData["smog"]["smog"] = std::nullopt;
         iDomData["cisnienie"]["dom"] = context->lusina.shedPres.average();
         iDomData["piec"]["praca"] = context->ptr_buderus->isHeatingActiv();
         iDomData["acdc"]["acdc"] = context->lusina.acdc.average();
@@ -715,10 +717,10 @@ void iDomTOOLS::send_data_to_influxdb()
             throw 55;
         }
     }
-    catch (...)
+    catch (std::exception& e)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << " błąd (wyjatek) wysyłania temperatury do influxdb " << std::endl;
+        log_file_cout << CRITICAL << " błąd (wyjatek) wysyłania temperatury do influxdb " << e.what() << std::endl;
         log_file_mutex.mutex_unlock();
     }
 }
