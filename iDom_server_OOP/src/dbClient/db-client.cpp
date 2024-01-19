@@ -105,22 +105,9 @@ HttpStatus::Code dbClient::uploadBulbData(const std::string &name, bool state)
         "-aaaapov11112lj2-ovr5bbbbso6q==",
         "organization", "iDom");
 
-    /* do something with client */
-    // get temperature in gardener house
     auto code = client.write(
         "bulb",
         {},
         {{name, state}});
-    // int code = 204;
-
-    // std::cout << std::boolalpha << "zarowka bulb : " <<  name << " satus: " << state << std::endl;
     return HttpStatus::Code(code);
 }
-
-// int dbClient::uploadBulbData(const std::string &name, bool state){
-//     puts("dupa jas");
-// }
-
-// int dbClient::upload_iDomData(std::unordered_map<std::string, std::unordered_map<std::string, std::any>> &iDomData){
-//     puts("dupa jas 2 ");
-// }
