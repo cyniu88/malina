@@ -53,6 +53,6 @@ private:
     int m_counter = 0;
     std::string m_encriptionKey;
     bool m_encrypted;
-    void crypto(std::string &toEncrypt, std::string key, bool encrypted);
+    void crypto(std::string &toEncrypt, const std::string& key, bool encrypted);
     C_connection();
 };

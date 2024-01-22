@@ -544,7 +544,7 @@ std::string iDomTOOLS::getTextToSpeach()
 {
     std::vector<std::string> dayL = useful_F::split(getDayLenght(), ':');
     std::stringstream text;
-    std::string smogText = getSmog();
+    std::string smogText = getSmog().value_or("0");
     int smogInt = std::stoi(smogText);
     text << "Godzina: " << Clock::getTime().getString();
     text << ". \nWschód słońca: " << getSunrise();
@@ -595,10 +595,11 @@ std::string iDomTOOLS::getTemperatureString()
     return jj.dump();
 }
 
-std::string iDomTOOLS::getSmog()
+std::optional<std::string> iDomTOOLS::getSmog()
 {
     std::string addres = "https://api.gios.gov.pl/pjp-api/rest/data/getData/20320";
     std::string readBuffer = useful_F_libs::httpPost(addres, 20);
+    std::optional<std::string> ret;
     try
     {
         auto jj = nlohmann::json::parse(readBuffer);
@@ -606,8 +607,10 @@ std::string iDomTOOLS::getSmog()
         while (true)
         {
             readBuffer = jj["values"][i]["value"].dump();
-            if (readBuffer != "null" or i == 10)
+            if (readBuffer != "null" or i == 4)
+            {
                 break;
+            }
             ++i;
         }
     }
@@ -617,11 +620,12 @@ std::string iDomTOOLS::getSmog()
         log_file_cout << CRITICAL << "wyjatek substr() e getSmog() !!!!!!" << std::endl;
         log_file_cout << CRITICAL << "getSmog() return: " << readBuffer << std::endl;
         log_file_mutex.mutex_unlock();
-        return "-1";
+        return std::nullopt;
     }
-
+    if (readBuffer != "null")
+        ret = readBuffer;
     context->mqttHandler->publish(context->server_settings->_mqtt_broker.topicPublish + "/smog", readBuffer);
-    return readBuffer;
+    return ret;
 }
 
 void iDomTOOLS::send_data_to_thingSpeak()
@@ -636,7 +640,9 @@ void iDomTOOLS::send_data_to_thingSpeak()
     addres << m_key;
     addres << "&field1=" << _temperature.at(1);
     addres << "&field2=" << _temperature.at(0);
-    addres << "&field5=" << getSmog();
+    auto smog = getSmog();
+    if (smog.has_value())
+        addres << "&field5=" << getSmog().value();
     addres << "&field6=" << to_string_with_precision(context->ptr_buderus->getBoilerTemp());
     addres << "&field7=" << context->ptr_buderus->isHeatingActiv();
     if (temp.has_value())
@@ -697,8 +703,8 @@ void iDomTOOLS::send_data_to_influxdb()
 
         iDomData["wilgoc"]["humi"] = context->lusina.shedHum.average();
         auto smog = getSmog();
-        if (smog != "null" and smog != "-1")
-            iDomData["smog"]["smog"] = std::stof((smog));
+        if (smog.has_value())
+            iDomData["smog"]["smog"] = std::stof(smog.value());
         else
             iDomData["smog"]["smog"] = std::nullopt;
         iDomData["cisnienie"]["dom"] = context->lusina.shedPres.average();
@@ -717,7 +723,7 @@ void iDomTOOLS::send_data_to_influxdb()
             throw 55;
         }
     }
-    catch (std::exception& e)
+    catch (std::exception &e)
     {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " błąd (wyjatek) wysyłania temperatury do influxdb " << e.what() << std::endl;

@@ -14,7 +14,7 @@ void C_connection::setEncrypted(bool flag)
     m_encrypted = flag;
 }
 
-void C_connection::crypto(std::string &toEncrypt, std::string key, bool encrypted)
+void C_connection::crypto(std::string &toEncrypt, const std::string& key, bool encrypted)
 {
     if (!encrypted)
     {

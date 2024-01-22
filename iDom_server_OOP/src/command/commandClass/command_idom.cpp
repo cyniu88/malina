@@ -82,7 +82,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_data *cont
         }
     }
     else if (v[1] == "smog"){
-        return context->main_iDomTools->getSmog() + " mg/m^3";
+        return context->main_iDomTools->getSmog().value_or("null") + " mg/m^3";
     }
     else if (v[1] == "230V"){
         if (v.size() > 2 && v[2] == "ON"){

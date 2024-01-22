@@ -98,6 +98,7 @@ set(SOURCE_FILES  "main.cpp" "test_data.h"
     "../../src/HTTP/http.cpp"
     "../../src/dbClient/db-client.cpp"
     "../../src/dbClient/db-client-factory.cpp"
+    "../../src/dbClient/test/bt.cpp"
     )
 # Get the current working branch
 execute_process(

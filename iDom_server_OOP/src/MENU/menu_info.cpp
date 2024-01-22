@@ -40,7 +40,7 @@ MENU_INFO &MENU_INFO::operator=(MENU_INFO &&base)
 
 void MENU_INFO::entry()
 {
-    m_infoDatabase.insert(std::pair<std::string, std::string>("smog", contextPTR->main_iDomTools->getSmog()));
+    m_infoDatabase.insert(std::pair<std::string, std::string>("smog", contextPTR->main_iDomTools->getSmog().value_or("null")));
     m_infoDatabase.insert(std::pair<std::string, std::string>("temperatura na piecu",
                                                               to_string_with_precision(contextPTR->ptr_buderus->getCurFlowTemp()) + celsiusDegrees));
     m_infoDatabase.insert(std::pair<std::string, std::string>("dlugosc dnia", contextPTR->main_iDomTools->getDayLenght()));

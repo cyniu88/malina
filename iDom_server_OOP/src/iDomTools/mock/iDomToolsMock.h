@@ -51,7 +51,7 @@ public:
 
     MOCK_METHOD0(getTemperature, std::vector<std::string>());
     MOCK_METHOD0(getTemperatureString, std::string());
-    MOCK_METHOD0(getSmog, std::string());
+    MOCK_METHOD0(getSmog, std::optional<std::string>());
     MOCK_METHOD0(send_data_to_thingSpeak, void());
     MOCK_METHOD0(send_data_to_influxdb, void());
     MOCK_METHOD0(getFloorTemp, std::string());
