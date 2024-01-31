@@ -8,7 +8,6 @@
 HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &iDomData)
 {
     char points[4096];
-    int pointsSize = 4096;
     int code2 = 204;
 
     influx_client::flux::Client client(
@@ -32,7 +31,6 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
         log_file_mutex.mutex_unlock();
     }
     {
-        std::vector<influx_client::kv_t> tags;
         std::vector<influx_client::kv_t> fields;
         if (iDomData.at("temperatura").at("outdoor").has_value())
         {
@@ -65,6 +63,7 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
 
         if (fields.size() > 0)
         {
+            std::vector<influx_client::kv_t> tags;
             auto code = client.write("temperatura", tags, fields);
             if (code2 == 204)
                 code2 = code;

@@ -13,7 +13,6 @@ public:
 
 private:
     CRON();
-    bool check_temperature;
     thread_data *context;
     void runEveryone_1min(tm *act_date);
     void runEveryone_5min();

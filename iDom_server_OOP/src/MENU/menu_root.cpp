@@ -27,6 +27,7 @@ MENU_ROOT &MENU_ROOT::operator=(const MENU_ROOT &base)
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
         tempCounter = base.tempCounter;
+        offset = base.offset;
     }
     return *this;
 }
@@ -39,6 +40,7 @@ MENU_ROOT &MENU_ROOT::operator=(MENU_ROOT &&base)
         lcdPTR = base.lcdPTR;
         stateMachinePTR = base.stateMachinePTR;
         tempCounter = base.tempCounter;
+        offset = base.offset;
     }
     return *this;
 }
