@@ -607,7 +607,7 @@ std::optional<std::string> iDomTOOLS::getSmog()
         while (true)
         {
             readBuffer = jj["values"][i]["value"].dump();
-            if (readBuffer != "null" or i == 4)
+            if (readBuffer != "null" or i == 2)
             {
                 break;
             }
@@ -617,8 +617,7 @@ std::optional<std::string> iDomTOOLS::getSmog()
     catch (...)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "wyjatek substr() e getSmog() !!!!!!" << std::endl;
-        log_file_cout << CRITICAL << "getSmog() return: " << readBuffer << std::endl;
+        log_file_cout << CRITICAL << "wyjatek substr() e getSmog()  return: " << readBuffer << std::endl;
         log_file_mutex.mutex_unlock();
         return std::nullopt;
     }

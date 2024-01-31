@@ -7,25 +7,133 @@
 #include "test_data.h"
 #include "../src/blockQueue/blockqueue.h"
 #include "../src/iDomSaveState/idom_save_state.h"
-//#include
+// #include
 
 TEST_F(iDomTOOLS_ClassTest, smog)
 {
-  TEST_DATA::return_httpPost = R"({"key":"PM10","values":[{"date":"2022-09-18 21:00:00","value":null},{"date":"2022-09-18 20:00:00","value":9.39816},{"date":"2022-09-18 19:00:00","value":12.0452},{"date":"2022-09-18 18:00:00","value":7.71783},{"date":"2022-09-18 17:00:00","value":5.58138},{"date":"2022-09-18 16:00:00","value":5.96127},{"date":"2022-09-18 15:00:00","value":3.52143},{"date":"2022-09-18 14:00:00","value":3.23153},{"date":"2022-09-18 13:00:00","value":3.79682},{"date":"2022-09-18 12:00:00","value":3.81874},{"date":"2022-09-18 11:00:00","value":7.35033},{"date":"2022-09-18 10:00:00","value":9.24619},{"date":"2022-09-18 09:00:00","value":14.3077},{"date":"2022-09-18 08:00:00","value":12.4325},{"date":"2022-09-18 07:00:00","value":16.6621},{"date":"2022-09-18 06:00:00","value":10.9937},{"date":"2022-09-18 05:00:00","value":14.2917},{"date":"2022-09-18 04:00:00","value":6.98446},{"date":"2022-09-18 03:00:00","value":7.39819},{"date":"2022-09-18 02:00:00","value":null},{"date":"2022-09-18 01:00:00","value":null},{"date":"2022-09-18 00:00:00","value":14.3364},{"date":"2022-09-17 23:00:00","value":19.8663},{"date":"2022-09-17 22:00:00","value":14.5161},{"date":"2022-09-17 21:00:00","value":18.4722},{"date":"2022-09-17 20:00:00","value":15.3854},{"date":"2022-09-17 19:00:00","value":13.9772},{"date":"2022-09-17 18:00:00","value":7.60115},{"date":"2022-09-17 17:00:00","value":8.61767},{"date":"2022-09-17 16:00:00","value":11.1545},{"date":"2022-09-17 15:00:00","value":10.7922},{"date":"2022-09-17 14:00:00","value":10.7604},{"date":"2022-09-17 13:00:00","value":10.7005},{"date":"2022-09-17 12:00:00","value":11.8406},{"date":"2022-09-17 11:00:00","value":8.45462},{"date":"2022-09-17 10:00:00","value":15.2733},{"date":"2022-09-17 09:00:00","value":7.76904},{"date":"2022-09-17 08:00:00","value":11.4458},{"date":"2022-09-17 07:00:00","value":14.2888},{"date":"2022-09-17 06:00:00","value":10.4557},{"date":"2022-09-17 05:00:00","value":10.6562},{"date":"2022-09-17 04:00:00","value":10.123},{"date":"2022-09-17 03:00:00","value":11.2047},{"date":"2022-09-17 02:00:00","value":12.4495},{"date":"2022-09-17 01:00:00","value":12.4994},{"date":"2022-09-17 00:00:00","value":12.4703},{"date":"2022-09-16 23:00:00","value":14.535},{"date":"2022-09-16 22:00:00","value":11.3169},{"date":"2022-09-16 21:00:00","value":15.4572},{"date":"2022-09-16 20:00:00","value":13.6611},{"date":"2022-09-16 19:00:00","value":11.8847},{"date":"2022-09-16 18:00:00","value":14.3912},{"date":"2022-09-16 17:00:00","value":11.7449},{"date":"2022-09-16 16:00:00","value":6.38429},{"date":"2022-09-16 15:00:00","value":8.89824},{"date":"2022-09-16 14:00:00","value":9.68496},{"date":"2022-09-16 13:00:00","value":13.1708},{"date":"2022-09-16 12:00:00","value":17.1235},{"date":"2022-09-16 11:00:00","value":11.2962},{"date":"2022-09-16 10:00:00","value":10.5516},{"date":"2022-09-16 09:00:00","value":16.6316},{"date":"2022-09-16 08:00:00","value":15.0429},{"date":"2022-09-16 07:00:00","value":13.9154},{"date":"2022-09-16 06:00:00","value":15.1331},{"date":"2022-09-16 05:00:00","value":11.9056},{"date":"2022-09-16 04:00:00","value":18.5934},{"date":"2022-09-16 03:00:00","value":14.2742},{"date":"2022-09-16 02:00:00","value":14.8644},{"date":"2022-09-16 01:00:00","value":null}]})";
+  TEST_DATA::return_httpPost = R"({"key":"PM10","values":[{"date":"2022-09-18 21:00:00","value":null},
+                                                          {"date":"2022-09-18 20:00:00","value":9.39816},
+                                                          {"date":"2022-09-18 19:00:00","value":12.0452},
+                                                          {"date":"2022-09-18 18:00:00","value":7.71783},
+                                                          {"date":"2022-09-18 17:00:00","value":5.58138},
+                                                          {"date":"2022-09-18 16:00:00","value":5.96127},
+                                                          {"date":"2022-09-18 15:00:00","value":3.52143},
+                                                          {"date":"2022-09-18 14:00:00","value":3.23153},
+                                                          {"date":"2022-09-18 13:00:00","value":3.79682},
+                                                          {"date":"2022-09-18 12:00:00","value":3.81874},
+                                                          {"date":"2022-09-18 11:00:00","value":7.35033},
+                                                          {"date":"2022-09-18 10:00:00","value":9.24619},
+                                                          {"date":"2022-09-18 09:00:00","value":14.3077},
+                                                          {"date":"2022-09-18 08:00:00","value":12.4325},
+                                                          {"date":"2022-09-18 07:00:00","value":16.6621},
+                                                          {"date":"2022-09-18 06:00:00","value":10.9937},
+                                                          {"date":"2022-09-18 05:00:00","value":14.2917},
+                                                          {"date":"2022-09-18 04:00:00","value":6.98446},
+                                                          {"date":"2022-09-18 03:00:00","value":7.39819},
+                                                          {"date":"2022-09-18 02:00:00","value":null},
+                                                          {"date":"2022-09-18 01:00:00","value":null},
+                                                          {"date":"2022-09-18 00:00:00","value":14.3364},
+                                                          {"date":"2022-09-17 23:00:00","value":19.8663},
+                                                          {"date":"2022-09-17 22:00:00","value":14.5161},
+                                                          {"date":"2022-09-17 21:00:00","value":18.4722},
+                                                          {"date":"2022-09-17 20:00:00","value":15.3854},
+                                                          {"date":"2022-09-17 19:00:00","value":13.9772},
+                                                          {"date":"2022-09-17 18:00:00","value":7.60115},
+                                                          {"date":"2022-09-17 17:00:00","value":8.61767},
+                                                          {"date":"2022-09-17 16:00:00","value":11.1545},
+                                                          {"date":"2022-09-17 15:00:00","value":10.7922},
+                                                          {"date":"2022-09-17 14:00:00","value":10.7604},
+                                                          {"date":"2022-09-17 13:00:00","value":10.7005},
+                                                          {"date":"2022-09-17 12:00:00","value":11.8406},
+                                                          {"date":"2022-09-17 11:00:00","value":8.45462},
+                                                          {"date":"2022-09-17 10:00:00","value":15.2733},
+                                                          {"date":"2022-09-17 09:00:00","value":7.76904},
+                                                          {"date":"2022-09-17 08:00:00","value":11.4458},
+                                                          {"date":"2022-09-17 07:00:00","value":14.2888},
+                                                          {"date":"2022-09-17 06:00:00","value":10.4557},
+                                                          {"date":"2022-09-17 05:00:00","value":10.6562},
+                                                          {"date":"2022-09-17 04:00:00","value":10.123},
+                                                          {"date":"2022-09-17 03:00:00","value":11.2047},
+                                                          {"date":"2022-09-17 02:00:00","value":12.4495},
+                                                          {"date":"2022-09-17 01:00:00","value":12.4994},
+                                                          {"date":"2022-09-17 00:00:00","value":12.4703},
+                                                          {"date":"2022-09-16 23:00:00","value":14.535},
+                                                          {"date":"2022-09-16 22:00:00","value":11.3169},
+                                                          {"date":"2022-09-16 21:00:00","value":15.4572},
+                                                          {"date":"2022-09-16 20:00:00","value":13.6611},
+                                                          {"date":"2022-09-16 19:00:00","value":11.8847},
+                                                          {"date":"2022-09-16 18:00:00","value":14.3912},
+                                                          {"date":"2022-09-16 17:00:00","value":11.7449},
+                                                          {"date":"2022-09-16 16:00:00","value":6.38429},
+                                                          {"date":"2022-09-16 15:00:00","value":8.89824},
+                                                          {"date":"2022-09-16 14:00:00","value":9.68496},
+                                                          {"date":"2022-09-16 13:00:00","value":13.1708},
+                                                          {"date":"2022-09-16 12:00:00","value":17.1235},
+                                                          {"date":"2022-09-16 11:00:00","value":11.2962},
+                                                          {"date":"2022-09-16 10:00:00","value":10.5516},
+                                                          {"date":"2022-09-16 09:00:00","value":16.6316},
+                                                          {"date":"2022-09-16 08:00:00","value":15.0429},
+                                                          {"date":"2022-09-16 07:00:00","value":13.9154},
+                                                          {"date":"2022-09-16 06:00:00","value":15.1331},
+                                                          {"date":"2022-09-16 05:00:00","value":11.9056},
+                                                          {"date":"2022-09-16 04:00:00","value":18.5934},
+                                                          {"date":"2022-09-16 03:00:00","value":14.2742},
+                                                          {"date":"2022-09-16 02:00:00","value":14.8644},
+                                                          {"date":"2022-09-16 01:00:00","value":null}]})";
   std::string smog = test_context.main_iDomTools->getSmog().value();
   puts(smog.c_str());
   puts(" smog");
-  ASSERT_GE(smog.size(),1);
+  ASSERT_GE(smog.size(), 1);
 
   unsigned int smog_int = std::stoi(smog);
-  ASSERT_GT(smog_int,1);
-  ASSERT_LT(smog_int,1000);
+  ASSERT_GT(smog_int, 1);
+  ASSERT_LT(smog_int, 1000);
+}
+
+TEST_F(iDomTOOLS_ClassTest, smog_null)
+{
+  TEST_DATA::return_httpPost = R"({"key":"PM10","values":[{"date":"2022-09-18 21:00:00","value":null},
+                                                          {"date":"2022-09-18 14:00:00","value":null},
+                                                          {"date":"2022-09-18 13:00:00","value":null},
+                                                          {"date":"2022-09-18 12:00:00","value":null},
+                                                          {"date":"2022-09-18 11:00:00","value":null},
+                                                          {"date":"2022-09-18 10:00:00","value":null},
+                                                          {"date":"2022-09-18 09:00:00","value":null},
+                                                          {"date":"2022-09-18 08:00:00","value":null},
+                                                          {"date":"2022-09-18 07:00:00","value":null},
+                                                          {"date":"2022-09-18 06:00:00","value":null},
+                                                          {"date":"2022-09-18 05:00:00","value":null},
+                                                          {"date":"2022-09-18 04:00:00","value":null},
+                                                          {"date":"2022-09-18 03:00:00","value":null},
+                                                          {"date":"2022-09-18 02:00:00","value":null},
+                                                          {"date":"2022-09-18 01:00:00","value":null},
+                                                          {"date":"2022-09-18 00:00:00","value":null},
+                                                          {"date":"2022-09-17 23:00:00","value":null},
+                                                          {"date":"2022-09-17 22:00:00","value":null},
+                                                          {"date":"2022-09-17 21:00:00","value":null},
+                                                          {"date":"2022-09-17 20:00:00","value":null},
+                                                          {"date":"2022-09-17 19:00:00","value":null},
+                                                          {"date":"2022-09-17 18:00:00","value":null},
+                                                          {"date":"2022-09-17 17:00:00","value":null},
+                                                          {"date":"2022-09-17 16:00:00","value":null},
+                                                          {"date":"2022-09-17 15:00:00","value":null},
+                                                          {"date":"2022-09-17 14:00:00","value":null},
+                                                          {"date":"2022-09-17 13:00:00","value":null},
+                                                          {"date":"2022-09-17 12:00:00","value":null},
+                                                          {"date":"2022-09-17 11:00:00","value":null},
+                                                          {"date":"2022-09-16 02:00:00","value":null},
+                                                          {"date":"2022-09-16 01:00:00","value":null}]})";
+  EXPECT_FALSE(test_context.main_iDomTools->getSmog().has_value());
+}
+
+TEST_F(iDomTOOLS_ClassTest, smog_no_data)
+{
+  EXPECT_FALSE(test_context.main_iDomTools->getSmog().has_value());
 }
 
 TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
 {
-  std::cout << "##################################### 0" <<std::endl;
-
+  std::cout << "##################################### 0" << std::endl;
 
   EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(-7.7));
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(-1.0));
@@ -34,9 +142,9 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
   EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
   test_context.main_iDomTools->send_data_to_thingSpeak();
 
-  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::Under);
-  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"),TEMPERATURE_STATE::NoChanges);
-  std::cout << "##################################### 1" <<std::endl;
+  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"), TEMPERATURE_STATE::Under);
+  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"), TEMPERATURE_STATE::NoChanges);
+  std::cout << "##################################### 1" << std::endl;
 
   EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(-7.7));
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(27.7));
@@ -45,10 +153,10 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
   EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
   test_context.main_iDomTools->send_data_to_thingSpeak();
 
-  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::NoChanges);
-  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"),TEMPERATURE_STATE::Over);
+  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"), TEMPERATURE_STATE::NoChanges);
+  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"), TEMPERATURE_STATE::Over);
 
-  std::cout << "##################################### 2" <<std::endl;
+  std::cout << "##################################### 2" << std::endl;
 
   EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(1.1));
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(20.3));
@@ -56,21 +164,10 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
   EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(60));
   EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
   test_context.main_iDomTools->send_data_to_thingSpeak();
-  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::Over);
-  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"),TEMPERATURE_STATE::Under);
+  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"), TEMPERATURE_STATE::Over);
+  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"), TEMPERATURE_STATE::Under);
 
-  std::cout << "##################################### 3" <<std::endl;
-
-  EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(1.1));
-  EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(-0.3));
-  EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(60));
-  EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(60));
-  EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
-  test_context.main_iDomTools->send_data_to_thingSpeak();
-  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::NoChanges);
-  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"),TEMPERATURE_STATE::NoChanges);
-
-  std::cout << "##################################### 4" <<std::endl;
+  std::cout << "##################################### 3" << std::endl;
 
   EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(1.1));
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(-0.3));
@@ -78,10 +175,21 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
   EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(60));
   EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
   test_context.main_iDomTools->send_data_to_thingSpeak();
-  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::NoChanges);
-  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"),TEMPERATURE_STATE::NoChanges);
+  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"), TEMPERATURE_STATE::NoChanges);
+  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"), TEMPERATURE_STATE::NoChanges);
 
-  std::cout << "##################################### 5" <<std::endl;
+  std::cout << "##################################### 4" << std::endl;
+
+  EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(1.1));
+  EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(-0.3));
+  EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(60));
+  EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(60));
+  EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
+  test_context.main_iDomTools->send_data_to_thingSpeak();
+  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"), TEMPERATURE_STATE::NoChanges);
+  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"), TEMPERATURE_STATE::NoChanges);
+
+  std::cout << "##################################### 5" << std::endl;
 
   EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(1.1));
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(30.3));
@@ -89,13 +197,13 @@ TEST_F(iDomTOOLS_ClassTest, hasTemperatureChange)
   EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(60));
   EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
   test_context.main_iDomTools->send_data_to_thingSpeak();
-  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"),TEMPERATURE_STATE::NoChanges);
-  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"),TEMPERATURE_STATE::Over);
-  std::cout << "##################################### 6" <<std::endl;
+  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("outside"), TEMPERATURE_STATE::NoChanges);
+  EXPECT_EQ(test_context.main_iDomTools->getTHERMOMETER_CONTAINERlastState("inside"), TEMPERATURE_STATE::Over);
+  std::cout << "##################################### 6" << std::endl;
 
   ////// getThermoStats
 
-  std::cout << "WYNIK: " << test_context.main_iDomTools->getThermoStats("inside") <<std::endl;
+  std::cout << "WYNIK: " << test_context.main_iDomTools->getThermoStats("inside") << std::endl;
 }
 
 TEST_F(iDomTOOLS_ClassTest, weatherAlert)
@@ -113,21 +221,23 @@ TEST_F(iDomTOOLS_ClassTest, weatherAlert)
 */
   WEATHER_DATABASE test_WA;
   test_WA = test_context.main_iDomTools->getAlert();
-  std::cout << std::endl << test_WA.lightning.alert<< std::endl;
+  std::cout << std::endl
+            << test_WA.lightning.alert << std::endl;
 }
 
 TEST_F(iDomTOOLS_ClassTest, send_data_to_thingSpeak)
 {
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(-0.3));
   EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(true));
-  EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(62.2));    EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(12));
+  EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(62.2));
+  EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(12));
   EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(12));
   TEST_DATA::return_send_to_arduino = "-2.3:-2";
   TEST_DATA::return_httpPost_expect = "NULL";
-  EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(),"NULL");
+  EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(), "NULL");
   test_context.main_iDomTools->send_data_to_thingSpeak();
-  std::cout << "DATA: "<< TEST_DATA::return_httpPost_expect <<std::endl;
-  EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(),"httpPost");
+  std::cout << "DATA: " << TEST_DATA::return_httpPost_expect << std::endl;
+  EXPECT_STREQ(TEST_DATA::return_httpPost_expect.c_str(), "httpPost");
 }
 
 TEST_F(iDomTOOLS_ClassTest, checkAlarm)
@@ -137,12 +247,12 @@ TEST_F(iDomTOOLS_ClassTest, checkAlarm)
   unsigned int toVol = 57;
 
   ///////////////////////////////////// to save
-  test_context.main_iDomStatus->setObjectState("house",STATE::UNLOCK);
+  test_context.main_iDomStatus->setObjectState("house", STATE::UNLOCK);
   test_context.main_iDomStatus->setObjectState("music", STATE::PLAY);
   test_context.main_iDomStatus->setObjectState("speakers", STATE::ON);
   test_context.idom_all_state.houseState = STATE::LOCK;
 
-  test_context.main_iDomStatus->setObjectState("listwa",STATE::ON);
+  test_context.main_iDomStatus->setObjectState("listwa", STATE::ON);
 
   test_alarmTime.time = Clock::getTime();
   test_alarmTime.state = STATE::ACTIVE;
@@ -163,31 +273,30 @@ TEST_F(iDomTOOLS_ClassTest, checkAlarm)
 
   EXPECT_EQ(test_context.alarmTime.state, STATE::ACTIVE);
 
-  for(unsigned int i = fromVol; i<toVol; ++i)
-    {
-      test_context.main_iDomTools->checkAlarm();
-      test_q._get();
-      EXPECT_EQ(test_context.alarmTime.state, STATE::WORKING)<< "zły stan w for " << i<< " "<< toVol;
-      EXPECT_EQ(test_context.ptr_MPD_info->volume, i + 1) << "zły poziom glosnosci w for";
-    }
+  for (unsigned int i = fromVol; i < toVol; ++i)
+  {
+    test_context.main_iDomTools->checkAlarm();
+    test_q._get();
+    EXPECT_EQ(test_context.alarmTime.state, STATE::WORKING) << "zły stan w for " << i << " " << toVol;
+    EXPECT_EQ(test_context.ptr_MPD_info->volume, i + 1) << "zły poziom glosnosci w for";
+  }
 
   test_context.main_iDomTools->checkAlarm();
 
   EXPECT_EQ(test_context.alarmTime.state, STATE::DEACTIVE) << "nie jest STATE::DEACTIVE";
-  EXPECT_EQ(test_context.ptr_MPD_info->volume, toVol)<< "nie inkrementowane?";
-
+  EXPECT_EQ(test_context.ptr_MPD_info->volume, toVol) << "nie inkrementowane?";
 }
 
 TEST_F(iDomTOOLS_ClassTest, homeLockPlayStopMusic)
 {
   EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(false));
   ///////////////////////////////////// to save
-  test_context.main_iDomStatus->setObjectState("house",STATE::UNDEFINE);
+  test_context.main_iDomStatus->setObjectState("house", STATE::UNDEFINE);
   test_context.main_iDomStatus->setObjectState("music", STATE::PLAY);
   test_context.main_iDomStatus->setObjectState("speakers", STATE::ON);
   test_context.idom_all_state.houseState = STATE::UNDEFINE;
 
-  test_context.main_iDomStatus->setObjectState("listwa",STATE::ON);
+  test_context.main_iDomStatus->setObjectState("listwa", STATE::ON);
 
   test_alarmTime.time = Clock::getTime();
   test_alarmTime.state = STATE::ACTIVE;
@@ -195,45 +304,45 @@ TEST_F(iDomTOOLS_ClassTest, homeLockPlayStopMusic)
 
   blockQueue test_q;
   test_q._clearAll();
-  EXPECT_EQ(test_q._size(),0);
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("house"),STATE::UNDEFINE);
+  EXPECT_EQ(test_q._size(), 0);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("house"), STATE::UNDEFINE);
   test_context.main_iDomTools->lockHome();
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("house"),STATE::LOCK);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("house"), STATE::LOCK);
   test_context.main_iDomTools->MPD_play(&test_context);
-  EXPECT_EQ(test_q._size(),0);
+  EXPECT_EQ(test_q._size(), 0);
   test_context.main_iDomTools->unlockHome();
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("house"),STATE::UNLOCK);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("house"), STATE::UNLOCK);
   test_context.main_iDomTools->MPD_play(&test_context);
-  EXPECT_EQ(test_q._size(),1);
+  EXPECT_EQ(test_q._size(), 1);
   EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
-  EXPECT_EQ(test_q._size(),0);
+  EXPECT_EQ(test_q._size(), 0);
   test_context.main_iDomTools->lockHome();
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("house"),STATE::LOCK);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("house"), STATE::LOCK);
   test_context.main_iDomTools->MPD_stop();
-  EXPECT_EQ(test_q._size(),1);
+  EXPECT_EQ(test_q._size(), 1);
   EXPECT_EQ(test_q._get(), MPD_COMMAND::STOP);
-  EXPECT_EQ(test_q._size(),0);
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("house"),STATE::LOCK);
+  EXPECT_EQ(test_q._size(), 0);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("house"), STATE::LOCK);
   std::string returnedString = test_context.main_iDomStatus->getAllObjectsStateString();
   EXPECT_THAT(returnedString, testing::HasSubstr("LOCK"));
 }
 
 TEST_F(iDomTOOLS_ClassTest, testCPU_Load)
 {
-  std::cout <<"TEST LOAD" << std::endl;
+  std::cout << "TEST LOAD" << std::endl;
   std::cout << test_context.main_iDomTools->getSystemInfo() << std::endl;
 }
 
 TEST_F(iDomTOOLS_ClassTest, saveState_readState)
 {
   test_context.server_settings->_server.saveFilePath = "/mnt/ramdisk/iDomStateTest3.save";
-  test_context.main_iDomStatus->setObjectState("house",STATE::UNLOCK);
+  test_context.main_iDomStatus->setObjectState("house", STATE::UNLOCK);
   //////////////////// mpd
   test_context.main_iDomStatus->setObjectState("music", STATE::PLAY);
   test_context.main_iDomStatus->setObjectState("speakers", STATE::ON);
   test_context.idom_all_state.houseState = STATE::LOCK;
 
-  test_context.main_iDomStatus->setObjectState("listwa",STATE::ON);
+  test_context.main_iDomStatus->setObjectState("listwa", STATE::ON);
   test_alarmTime.time = Clock::getTime();
   test_alarmTime.state = STATE::ACTIVE;
   test_alarmTime.fromVolume = 0;
@@ -251,15 +360,15 @@ TEST_F(iDomTOOLS_ClassTest, saveState_readState)
   std::ifstream i(test_server_set._server.saveFilePath);
   i >> testJson;
   EXPECT_STREQ(test_context.main_iDomStatus->getObjectStateString("music").c_str(),
-               testJson.at("MPD").at("music").get<std::string>().c_str() );
+               testJson.at("MPD").at("music").get<std::string>().c_str());
   EXPECT_STREQ((test_context.main_iDomStatus->getObjectStateString("alarm")).c_str(),
-               testJson.at("ALARM").at("alarm").get<std::string>().c_str() );
+               testJson.at("ALARM").at("alarm").get<std::string>().c_str());
   EXPECT_EQ(test_alarmTime.radioID,
-            testJson.at("ALARM").at("radioID").get<int>() );
+            testJson.at("ALARM").at("radioID").get<int>());
   EXPECT_EQ(test_alarmTime.fromVolume,
-            testJson.at("ALARM").at("fromVolume").get<int>() );
+            testJson.at("ALARM").at("fromVolume").get<int>());
   EXPECT_EQ(test_alarmTime.toVolume,
-            testJson.at("ALARM").at("toVolume").get<int>() );
+            testJson.at("ALARM").at("toVolume").get<int>());
 
   ////////////////////////////////// read
   test_context.alarmTime.state = STATE::UNDEFINE;
@@ -269,7 +378,7 @@ TEST_F(iDomTOOLS_ClassTest, saveState_readState)
   test_context.main_iDomTools->readState_iDom(inf);
   EXPECT_EQ(test_context.alarmTime.state, STATE::ACTIVE);
 
-  EXPECT_STREQ(test_context.alarmTime.commands.at(0).c_str() , "command 1");
+  EXPECT_STREQ(test_context.alarmTime.commands.at(0).c_str(), "command 1");
   test_context.server_settings->_server.saveFilePath = "null";
   EXPECT_NO_THROW(test_context.main_iDomTools->readState_iDom(info.read()));
 }
@@ -295,32 +404,32 @@ TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(12));
 
   test_context.main_iDomTools->updateTemperatureStats();
-  EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("temperatura maleje"));
-  EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("mieszkaniu"));
+  EXPECT_THAT(TEST_DATA::return_viber_msg, testing::HasSubstr("temperatura maleje"));
+  EXPECT_THAT(TEST_DATA::return_viber_msg, testing::HasSubstr("mieszkaniu"));
 
   ////////////// maleje na polu
   EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(12));
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(12));
 
   test_context.main_iDomTools->updateTemperatureStats();
-  EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("temperatura maleje"));
-  EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("polu"));
+  EXPECT_THAT(TEST_DATA::return_viber_msg, testing::HasSubstr("temperatura maleje"));
+  EXPECT_THAT(TEST_DATA::return_viber_msg, testing::HasSubstr("polu"));
 
   ////////////// rośnie na mieskzaniu
   EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(12));
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(17));
 
   test_context.main_iDomTools->updateTemperatureStats();
-  EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("temperatura rośnie"));
-  EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("mieszkaniu"));
+  EXPECT_THAT(TEST_DATA::return_viber_msg, testing::HasSubstr("temperatura rośnie"));
+  EXPECT_THAT(TEST_DATA::return_viber_msg, testing::HasSubstr("mieszkaniu"));
 
   ////////////// rośnie na polu
   EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(17));
   EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(17));
 
   test_context.main_iDomTools->updateTemperatureStats();
-  EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("temperatura rośnie"));
-  EXPECT_THAT(TEST_DATA::return_viber_msg,testing::HasSubstr("polu"));
+  EXPECT_THAT(TEST_DATA::return_viber_msg, testing::HasSubstr("temperatura rośnie"));
+  EXPECT_THAT(TEST_DATA::return_viber_msg, testing::HasSubstr("polu"));
 }
 
 TEST_F(iDomTOOLS_ClassTest, speakersON_OFF)
@@ -346,11 +455,11 @@ TEST_F(iDomTOOLS_ClassTest, onOff230vOutdoor)
 TEST_F(iDomTOOLS_ClassTest, turn_On_Off_433MHzSwitch)
 {
   useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"),STATE::UNKNOWN);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"), STATE::UNKNOWN);
   test_context.main_iDomTools->turnOn433MHzSwitch("B");
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"),STATE::ON);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"), STATE::ON);
   test_context.main_iDomTools->turnOff433MHzSwitch("B");
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"),STATE::OFF);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"), STATE::OFF);
 }
 
 TEST_F(iDomTOOLS_ClassTest, turn_On_Off_fake_433MHzSwitch)
@@ -363,14 +472,13 @@ TEST_F(iDomTOOLS_ClassTest, turn_On_Off_fake_433MHzSwitch)
 TEST_F(iDomTOOLS_ClassTest, turnOnOff433MHzSwitch)
 {
   useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"),STATE::UNKNOWN);
-  test_context.main_iDomStatus->setObjectState("B",STATE::ON);
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"),STATE::ON);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"), STATE::UNKNOWN);
+  test_context.main_iDomStatus->setObjectState("B", STATE::ON);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"), STATE::ON);
   test_context.main_iDomTools->turnOnOff433MHzSwitch("B");
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"),STATE::OFF);
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"), STATE::OFF);
   test_context.main_iDomTools->turnOnOff433MHzSwitch("B");
-  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"),STATE::ON);
-
+  EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"), STATE::ON);
 }
 
 TEST_F(iDomTOOLS_ClassTest, runOnSunset)
@@ -430,7 +538,8 @@ TEST_F(iDomTOOLS_ClassTest, getTextToSpeach)
   TEST_DATA::return_send_to_arduino = "22:23";
   std::string ret = test_context.main_iDomTools->getTextToSpeach();
   EXPECT_THAT(ret, testing::HasSubstr("Smog:"));
-  std::cout << "TEXT :"<< std::endl << ret << std::endl;
+  std::cout << "TEXT :" << std::endl
+            << ret << std::endl;
 }
 
 TEST_F(iDomTOOLS_ClassTest, mpd)
@@ -454,13 +563,13 @@ TEST_F(iDomTOOLS_ClassTest, mpd)
   useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
 
   useful_F::myStaticData->myEventHandler.run("MPD")->clearEvent();
-  test_context.main_iDomTools->MPD_play(&test_context,2);
+  test_context.main_iDomTools->MPD_play(&test_context, 2);
   retStr = useful_F::myStaticData->myEventHandler.run("MPD")->getEvent();
   EXPECT_THAT(retStr, testing::HasSubstr("MPD can not start due to home state: LOCK"));
   EXPECT_EQ(test_q._size(), 0);
 
   useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
-  test_context.main_iDomTools->MPD_play(&test_context,2);
+  test_context.main_iDomTools->MPD_play(&test_context, 2);
   EXPECT_EQ(test_q._size(), 1);
   EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY_ID);
   EXPECT_EQ(test_q._size(), 0);
@@ -483,27 +592,26 @@ TEST_F(iDomTOOLS_ClassTest, mpd)
 
   test_context.main_iDomTools->MPD_pause();
   EXPECT_EQ(test_q._size(), 1);
-  EXPECT_EQ(test_q._get(), MPD_COMMAND::PAUSE );
+  EXPECT_EQ(test_q._get(), MPD_COMMAND::PAUSE);
   EXPECT_EQ(test_q._size(), 0);
 
   test_context.main_iDomTools->MPD_volumeUp();
   EXPECT_EQ(test_q._size(), 1);
-  EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLUP );
+  EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLUP);
   EXPECT_EQ(test_q._size(), 0);
 
   test_context.main_iDomTools->MPD_volumeDown();
   EXPECT_EQ(test_q._size(), 1);
-  EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLDOWN );
+  EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLDOWN);
   EXPECT_EQ(test_q._size(), 0);
 
   test_context.main_iDomTools->MPD_volumeSet(&test_context, 99);
   EXPECT_EQ(test_q._size(), 1);
-  EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLSET );
+  EXPECT_EQ(test_q._get(), MPD_COMMAND::VOLSET);
   EXPECT_EQ(test_q._size(), 0);
   EXPECT_EQ(test_context.ptr_MPD_info->volume, 99);
 
-  EXPECT_EQ(test_context.main_iDomTools->MPD_getVolume(&test_context),99);
-
+  EXPECT_EQ(test_context.main_iDomTools->MPD_getVolume(&test_context), 99);
 }
 
 TEST_F(iDomTOOLS_ClassTest, getTemperatureString)
@@ -524,10 +632,10 @@ TEST_F(iDomTOOLS_ClassTest, textToSpeach)
 
   EXPECT_EQ(test_context.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
   std::vector<std::string> test_v;
-  test_context.main_iDomTools->textToSpeach(&test_v); //empty
+  test_context.main_iDomTools->textToSpeach(&test_v); // empty
   EXPECT_EQ(test_context.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
 
-  test_v = {"test","msg","clock"};
+  test_v = {"test", "msg", "clock"};
   test_context.ptr_MPD_info->isPlay = true;
   test_context.main_iDomTools->textToSpeach(&test_v);
   EXPECT_EQ(test_context.main_iDomStatus->getObjectState("speakers"), STATE::UNDEFINE);
@@ -539,15 +647,15 @@ TEST_F(iDomTOOLS_ClassTest, textToSpeach)
 TEST_F(iDomTOOLS_ClassTest, getWeatherEvent)
 {
   TEST_DATA::return_httpPost = "httpPost";
-  std::string retStr = test_context.main_iDomTools->getWeatherEvent("test",10);
-  EXPECT_STREQ(retStr.c_str(),"httpPost");
+  std::string retStr = test_context.main_iDomTools->getWeatherEvent("test", 10);
+  EXPECT_STREQ(retStr.c_str(), "httpPost");
 }
 
 TEST_F(iDomTOOLS_ClassTest, isItDay)
 {
-  Clock::setTime_forBT_usage(12,12);
+  Clock::setTime_forBT_usage(12, 12);
   EXPECT_TRUE(test_context.main_iDomTools->isItDay());
-  Clock::setTime_forBT_usage(2,12);
+  Clock::setTime_forBT_usage(2, 12);
   EXPECT_FALSE(test_context.main_iDomTools->isItDay());
 }
 
@@ -555,7 +663,7 @@ TEST_F(iDomTOOLS_ClassTest, ledClear)
 {
   TEST_DATA::return_send_to_arduino = "done";
   std::string retStr = test_context.main_iDomTools->ledClear();
-  EXPECT_STREQ(retStr.c_str(),"done");
+  EXPECT_STREQ(retStr.c_str(), "done");
 }
 
 TEST_F(iDomTOOLS_ClassTest, getAllDataSunriseSunset)

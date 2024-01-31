@@ -1,6 +1,12 @@
 FROM ubuntu:latest
+RUN apt-get update && \
+    apt-get install -yq tzdata && \
+    ln -fs /usr/share/zoneinfo/Europe/Warsaw /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
+    
+ENV TZ="Europe/Warsaw"
 RUN apt-get update && apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev libi2c-dev clang llvm make
-RUN mkdir /dev/tty0
+RUN touch /dev/tty0
 RUN mkdir /mnt/ramdisk
 RUN apt-get update && apt-get install -y openssh-server
 # Configure SSH

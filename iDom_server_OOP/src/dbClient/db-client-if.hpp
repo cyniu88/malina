@@ -11,7 +11,7 @@
 class dbClientIf
 {
 public:
-	virtual HttpStatus::Code upload_iDomData(std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &) = 0;
+	virtual HttpStatus::Code upload_iDomData(const std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &) = 0;
 	virtual HttpStatus::Code uploadBulbData(const std::string &, bool) = 0;
 
 	virtual ~dbClientIf() = default;

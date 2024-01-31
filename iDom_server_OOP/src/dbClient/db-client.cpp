@@ -5,7 +5,7 @@
 #include <iostream>
 #include <experimental/source_location>
 
-HttpStatus::Code dbClient::upload_iDomData(std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &iDomData)
+HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &iDomData)
 {
     char points[4096];
     int pointsSize = 4096;

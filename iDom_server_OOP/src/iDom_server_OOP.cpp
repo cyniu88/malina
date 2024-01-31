@@ -140,7 +140,7 @@ void f_master_influx(thread_data *context, const std::string &threadName)
                 log_file_mutex.mutex_lock();
                 log_file_cout << CRITICAL << " błąd wysyłania stanu żarówek do influxdb " << returnCode << " " << reasonPhrase(returnCode) << std::endl;
                 log_file_mutex.mutex_unlock();
-                throw 55;
+                throw std::exception();
             }
         }
         catch (const std::exception &e)
