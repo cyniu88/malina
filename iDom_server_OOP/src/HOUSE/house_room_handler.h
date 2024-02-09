@@ -2,6 +2,7 @@
 
 #include <map>
 #include <memory>
+#include <optional>
 
 #include "../idom_api.h"
 #include "json.hpp"
@@ -15,9 +16,11 @@ struct thread_data;
 
 struct BULB_STATUS
 {
-    BULB_STATUS(const std::string& _name, bool _state):name(_name), state(_state){};
+    BULB_STATUS(const std::string& _name, bool _state, std::optional<uint64_t> _timestamp = std::nullopt):name(_name), state(_state), timestamp(_timestamp){};
     bool state = 0;
     std::string name;
+    std::optional<uint64_t> timestamp;
+    int ttl = 100;
 };
 
 class house_room_handler : public iDom_API

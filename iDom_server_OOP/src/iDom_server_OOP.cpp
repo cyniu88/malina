@@ -118,7 +118,6 @@ void f_master_CRON(thread_data *context, const std::string &threadName)
 ///////////////////// watek influx //////////////////////////////
 void f_master_influx(thread_data *context, const std::string &threadName)
 {
-
     while (useful_F::go_while)
     {
         try
@@ -133,10 +132,27 @@ void f_master_influx(thread_data *context, const std::string &threadName)
 
             dbClientFactory dbFactory;
             auto db = dbFactory.createDbClient();
-            auto returnCode = db->uploadBulbData(data.name, data.state);
+            auto returnCode = db->uploadBulbData(data.name, data.state, data.timestamp.value());
 
+            if (returnCode < HttpStatus::Continue)
+            {
+                if (data.ttl > 0)
+                {
+                    data.ttl--;
+                    context->main_house_room_handler->m_bulbStatus.Put(data); // put  to queue  to send again
+                }
+                log_file_mutex.mutex_lock();
+                log_file_cout << CRITICAL << " błąd wysyłania stanu żarówek do influxdb - brak połaczenia internetowego" << std::endl;
+                log_file_mutex.mutex_unlock();
+                returnCode = HttpStatus::NoContent; // don't throw exception below
+            }
             if (returnCode != 204)
             {
+                if (data.ttl > 0)
+                {
+                    data.ttl--;
+                    context->main_house_room_handler->m_bulbStatus.Put(data); // put  to queue  to send again
+                }
                 log_file_mutex.mutex_lock();
                 log_file_cout << CRITICAL << " błąd wysyłania stanu żarówek do influxdb " << returnCode << " " << reasonPhrase(returnCode) << std::endl;
                 log_file_mutex.mutex_unlock();
@@ -346,7 +362,7 @@ iDomStateEnum iDom_main()
     login.append(std::to_string(Clock::getUnixTime()));
     printf("Running: %s\n", login.c_str());
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << "mqtt login  "<< login<< std::endl;
+    log_file_cout << INFO << "mqtt login  " << login << std::endl;
     log_file_mutex.mutex_unlock();
 
     node_data.mqttHandler = std::make_unique<MQTT_mosquitto>(login);
@@ -446,7 +462,7 @@ iDomStateEnum iDom_main()
         log_file_mutex.mutex_unlock();
     }
     ///////////////////////////////////////// start watku zarowek do influx
-   
+
     if (server_settings._runThread.INFLUX == true)
     {
         iDOM_THREAD::start_thread("influx thread", f_master_influx, &node_data);

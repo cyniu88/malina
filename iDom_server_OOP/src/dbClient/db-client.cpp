@@ -142,7 +142,7 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
     return HttpStatus::Code(code2);
 }
 
-HttpStatus::Code dbClient::uploadBulbData(const std::string &name, bool state)
+HttpStatus::Code dbClient::uploadBulbData(const std::string &name, bool state, std::optional<uint64_t> timestamp)
 {
     influx_client::flux::Client client(
         "10.9.0.34", /* port */ 8086, /* token */
@@ -150,6 +150,15 @@ HttpStatus::Code dbClient::uploadBulbData(const std::string &name, bool state)
         "-aaaapov11112lj2-ovr5bbbbso6q==",
         "organization", "iDom");
 
+    if (timestamp.has_value())
+    {
+        auto code = client.write(
+            "bulb",
+            {},
+            {{name, state}},
+            timestamp.value());
+        return HttpStatus::Code(code);
+    }
     auto code = client.write(
         "bulb",
         {},

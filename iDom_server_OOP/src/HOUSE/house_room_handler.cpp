@@ -9,6 +9,7 @@ std::string house_room_handler::m_mqttPublishTopic = "swiatlo/output/";
 
 house_room_handler::house_room_handler(thread_data *context)
 {
+    m_bulbStatus.SetCapacity(100);
     m_className.insert(0, typeid(this).name());
     this->context = context;
     iDom_API::addToMap(m_className, this);
@@ -307,7 +308,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
             name.append(m_lightingBulbMap.at(bulbID)->getBulbName());
 
             // put info about bulb
-            m_bulbStatus.Put({name, bState});
+            m_bulbStatus.Put({name, bState, Clock::getTimestamp()});
             
             context->main_iDomStatus->setObjectState(name, state);
 
