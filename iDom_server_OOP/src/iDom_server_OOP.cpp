@@ -32,6 +32,7 @@ void RFLinkHandlerRUN(thread_data *context, const std::string &threadName)
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "watek " << threadName << " wystartowal " << std::this_thread::get_id() << std::endl;
     log_file_mutex.mutex_unlock();
+
     std::string msgFromRFLink;
     RC_433MHz rc433(context);
 
@@ -60,6 +61,7 @@ void RFLinkHandlerRUN(thread_data *context, const std::string &threadName)
             workerRFLink.execute(v, context);
         }
     }
+    
     iDOM_THREAD::stop_thread(threadName, context);
 }
 
@@ -142,19 +144,20 @@ void f_master_influx(thread_data *context, const std::string &threadName)
                     context->main_house_room_handler->m_bulbStatus.Put(data); // put  to queue  to send again
                 }
                 log_file_mutex.mutex_lock();
-                log_file_cout << CRITICAL << " błąd wysyłania stanu żarówek do influxdb - brak połaczenia internetowego" << std::endl;
+                log_file_cout << CRITICAL << "błąd wysyłania stanu żarówek do influxdb - brak połaczenia internetowego, idę spać na minutę" << std::endl;
                 log_file_mutex.mutex_unlock();
                 returnCode = HttpStatus::NoContent; // don't throw exception below
+                std::this_thread::sleep_for(1min);  //  if there is no internet connection, put the thread to sleep for a minute
             }
-            if (returnCode != 204)
+            if (returnCode != HttpStatus::NoContent)
             {
-                if (data.ttl > 0)
+                if (data.ttl > 0 and returnCode != HttpStatus::BadRequest) // If a bad request has been received, there is no point in resending the message
                 {
                     data.ttl--;
                     context->main_house_room_handler->m_bulbStatus.Put(data); // put  to queue  to send again
                 }
                 log_file_mutex.mutex_lock();
-                log_file_cout << CRITICAL << " błąd wysyłania stanu żarówek do influxdb " << returnCode << " " << reasonPhrase(returnCode) << std::endl;
+                log_file_cout << CRITICAL << "błąd wysyłania stanu żarówek do influxdb " << returnCode << " " << reasonPhrase(returnCode) << std::endl;
                 log_file_mutex.mutex_unlock();
                 throw std::exception();
             }

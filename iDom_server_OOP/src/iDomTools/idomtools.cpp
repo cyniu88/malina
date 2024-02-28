@@ -12,7 +12,6 @@ iDomTOOLS::iDomTOOLS(thread_data *myData) : m_key(myData->server_settings->_serv
                                             m_key2(myData->server_settings->_server.TS_KEY2)
 {
     context = myData;
-
     context->m_keyHandler = std::make_unique<iDomKEY_ACCESS>(iDomKEY_ACCESS(myData->server_settings->_server.keyDatabasePath));
     //////////////////////////////////// temeprature /////////////////
     m_allThermometer.add("inside");
