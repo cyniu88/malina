@@ -33,6 +33,16 @@ void RFLinkHandlerRUN(thread_data *context, const std::string &threadName)
     log_file_cout << INFO << "watek " << threadName << " wystartowal " << std::this_thread::get_id() << std::endl;
     log_file_mutex.mutex_unlock();
 
+    
+    context->main_REC = std::make_unique<RADIO_EQ_CONTAINER>(context);
+    context->main_REC->loadConfig(context->server_settings->_server.radio433MHzConfigFile);
+    context->main_RFLink = std::make_shared<RFLinkHandler>(context);
+    while (context->main_RFLink->init() == false)
+    {
+        std::cout << "nie udał się context.main_RFLink->init()"  << std::endl;
+        std::this_thread::sleep_for(10s);
+    }
+
     std::string msgFromRFLink;
     RC_433MHz rc433(context);
 
@@ -374,11 +384,7 @@ iDomStateEnum iDom_main()
     ////////////////////////////////thread starting part //////////////////////////////////////////////
     /////////////////////////////// RC 433MHz ////////////////////
 
-    node_data.main_REC = std::make_unique<RADIO_EQ_CONTAINER>(&node_data);
-    node_data.main_REC->loadConfig(server_settings._server.radio433MHzConfigFile);
-    node_data.main_RFLink = std::make_shared<RFLinkHandler>(&node_data);
-
-    if (server_settings._runThread.RFLink == true and node_data.main_RFLink->init())
+    if (server_settings._runThread.RFLink == true)
     {
         // start watku czytania RFLinka
         iDOM_THREAD::start_thread("RFLink thread",

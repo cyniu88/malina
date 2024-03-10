@@ -616,7 +616,7 @@ std::optional<std::string> iDomTOOLS::getSmog()
     catch (...)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "wyjatek substr() e getSmog()  return: " << readBuffer << std::endl;
+        log_file_cout << CRITICAL << "wyjatek substr() e getSmog()  return: " << useful_F_libs::stringToHex(readBuffer) << std::endl;
         log_file_mutex.mutex_unlock();
         return std::nullopt;
     }
