@@ -7,6 +7,7 @@
 #include "idomtools.h"
 #include "../iDomSaveState/idom_save_state.h"
 #include "../dbClient/db-client-factory.hpp"
+#include "../dbClient/DB_DATA.hpp"
 
 iDomTOOLS::iDomTOOLS(thread_data *myData) : m_key(myData->server_settings->_server.TS_KEY),
                                             m_key2(myData->server_settings->_server.TS_KEY2)
@@ -616,7 +617,7 @@ std::optional<std::string> iDomTOOLS::getSmog()
     catch (...)
     {
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "wyjatek substr() e getSmog()  return: " << useful_F_libs::stringToHex(readBuffer) << std::endl;
+        log_file_cout << CRITICAL << "wyjatek substr() e getSmog()  return: " << useful_F_libs::stringToHex(readBuffer) << " size: " << readBuffer.size() << std::endl;
         log_file_mutex.mutex_unlock();
         return std::nullopt;
     }
@@ -682,36 +683,44 @@ void iDomTOOLS::send_data_to_thingSpeak()
 
 void iDomTOOLS::send_data_to_influxdb()
 {
+
+    std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> iDomData;
+    uint64_t timestamp = Clock::getTimestamp();
     try
     {
         RADIO_WEATHER_STATION *st = static_cast<RADIO_WEATHER_STATION *>(context->main_REC->getEqPointer("first"));
-        std::optional<double> temp = st->data.getTemperature();
 
         std::vector<std::string> _temperature = getTemperature();
-
-        std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> iDomData;
 
         iDomData["temperatura"]["outdoor"] = std::stof(_temperature.at(1));
         iDomData["temperatura"]["inside"] = std::stof(_temperature.at(0));
         iDomData["temperatura"]["floor"] = context->lusina.shedFloor.average();
         iDomData["temperatura"]["bojler"] = context->ptr_buderus->getBoilerTemp();
-        iDomData["temperatura"]["domek"] = temp.value();
+
+        std::optional<double> temp = st->data.getTemperature();
+        if (temp.has_value())
+            iDomData["temperatura"]["domek"] = temp.value();
+        else
+            iDomData["temperatura"]["domek"] = std::nullopt;
+
         iDomData["temperatura"]["flow"] = context->ptr_buderus->getCurFlowTemp();
         iDomData["temperatura"]["shedTemp"] = context->lusina.shedTemp.average();
 
         iDomData["wilgoc"]["humi"] = context->lusina.shedHum.average();
+
         auto smog = getSmog();
         if (smog.has_value())
             iDomData["smog"]["smog"] = std::stof(smog.value());
         else
             iDomData["smog"]["smog"] = std::nullopt;
+
         iDomData["cisnienie"]["dom"] = context->lusina.shedPres.average();
         iDomData["piec"]["praca"] = context->ptr_buderus->isHeatingActiv();
         iDomData["acdc"]["acdc"] = context->lusina.acdc.average();
 
         dbClientFactory dbFactory;
         auto db = dbFactory.createDbClient();
-        auto returnCode = db->upload_iDomData(iDomData);
+        auto returnCode = db->upload_iDomData(iDomData, timestamp);
 
         if (returnCode != 204)
         {
@@ -723,6 +732,7 @@ void iDomTOOLS::send_data_to_influxdb()
     }
     catch (std::exception &e)
     {
+        context->dbDataQueue.Put(DB_DATA(timestamp, iDomData)); // put data to queue, send later
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " błąd (wyjatek) wysyłania temperatury do influxdb " << e.what() << std::endl;
         log_file_mutex.mutex_unlock();

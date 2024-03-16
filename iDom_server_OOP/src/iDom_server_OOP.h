@@ -331,6 +331,7 @@ struct thread_data
     alarm_C iDomAlarm;
     bool serverStarted = false;
     LUSINA lusina;
+    BlockingQueue<std::any> dbDataQueue;
     SATEL_INTEGRA_HANDLER_INTERFACE *satelIntegraHandler = std::nullptr_t();
     std::unique_ptr<KEY_HANDLER_BASE> main_key_menu_handler = std::nullptr_t();
     std::shared_ptr<iDomTOOLS_INTERFACE> main_iDomTools = std::nullptr_t();

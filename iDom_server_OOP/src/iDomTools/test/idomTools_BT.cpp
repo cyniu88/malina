@@ -128,6 +128,7 @@ TEST_F(iDomTOOLS_ClassTest, smog_null)
 
 TEST_F(iDomTOOLS_ClassTest, smog_no_data)
 {
+  TEST_DATA::return_httpPost = "";
   EXPECT_FALSE(test_context.main_iDomTools->getSmog().has_value());
 }
 

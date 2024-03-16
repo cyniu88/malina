@@ -57,20 +57,24 @@ void iDomTOOLS::healthCheck()
     if (t > 310 and context->mqttHandler->_subscribed == true and context->server_settings->_runThread.RFLink == true)
     {
         m_restartAlarmRFLink++;
-        if (m_restartAlarmRFLink == 2)
+        if (m_restartAlarmRFLink == 4)
         {
             log_file_mutex.mutex_lock();
             log_file_cout << WARNING << "restart servera z powodu braku polaczenia z RFLinkiem" << std::endl;
             log_file_mutex.mutex_unlock();
             context->main_iDomTools->reloadHard_iDomServer();
         }
-        // else if(m_restartAlarmRFLink == 2){
-        context->main_RFLink = std::make_shared<RFLinkHandler>(context);
-        useful_F::sleep(1s);
-        context->main_RFLink->init();
+        else if (m_restartAlarmRFLink == 3)
+        {
+            context->main_RFLink = std::make_shared<RFLinkHandler>(context);
+            useful_F::sleep(1s);
+            context->main_RFLink->init();
 
-        // context->main_RFLink->sendCommand("10;REBOOT;");
-        // }
+            // context->main_RFLink->sendCommand("10;REBOOT;");
+        }
+        context->main_RFLink->sendCommand("10;PING;");
+        context->main_RFLink->sendCommand("10;PING;");
+        context->main_RFLink->sendCommand("10;PING;");
         std::string m("brak połaczenia RS232 z RFLink'iem");
         std::cout << "brak pingu RFLinka 433MHz t: " << Clock::unixTimeToString(t) << std::endl;
         context->iDomAlarm.raiseAlarm(alarm_433MHz, m);
@@ -91,7 +95,7 @@ std::string iDomTOOLS::dump() const
     ret << "m_viber_notif: " << m_viber_notif << std::endl;
     ret << " m_restartAlarmRFLink: " << this->m_restartAlarmRFLink << std::endl;
     ret << " key: " << this->m_key << std::endl;
-    ret << " lastButton433MHzLockUnlockTime: " <<   this->m_lastButton433MHzLockUnlockTime << std::endl;
+    ret << " lastButton433MHzLockUnlockTime: " << this->m_lastButton433MHzLockUnlockTime << std::endl;
     return ret.str();
 }
 
@@ -99,7 +103,8 @@ std::string iDomTOOLS::getLink(std::vector<std::string> v)
 {
     generator gg;
     std::string tempName = gg.random_string(20);
-    auto command = std::accumulate(std::begin(v), std::end(v), std::string(), [](const std::string& lhs, const std::string &rhs) { return lhs.empty() ? rhs : lhs + ' ' + rhs; });
+    auto command = std::accumulate(std::begin(v), std::end(v), std::string(), [](const std::string &lhs, const std::string &rhs)
+                                   { return lhs.empty() ? rhs : lhs + ' ' + rhs; });
     context->m_keyHandler->addTempKEY(tempName, command, context->server_settings->_gateway.keySize);
     std::string key = context->m_keyHandler->getKEY(tempName);
     std::stringstream ret;
