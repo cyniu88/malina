@@ -31,6 +31,6 @@ TEST_F(db_client_fixture, main_TC)
 
 
     dbClient clinet;
-    EXPECT_NO_THROW(clinet.upload_iDomData(iDomData););
-    
+    EXPECT_NO_THROW(clinet.upload_iDomData(iDomData, 9));
+
 }
