@@ -32,7 +32,8 @@ set(LIBS_SRC
     "../../libs/alarm/TEST/alarm_BT.cpp"
     "../../libs/circular_buffer/circular_buffer.h"
     "../../libs/circular_buffer/circular_buffer.cpp"
-    "../../libs/circular_buffer/test/BT.cpp" )
+    "../../libs/circular_buffer/test/BT.cpp"
+    "../../libs/TEST/testif.cpp" )
 
 set(SOURCE_FILES  "main.cpp" "test_data.h"
     "../../src/RADIO_433_eq/test/radio_433_test.cpp"
