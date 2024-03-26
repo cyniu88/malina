@@ -21,7 +21,7 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
         std::vector<influx_client::kv_t> tags;
         std::vector<influx_client::kv_t> fields;
         fields.emplace_back("smog", std::any_cast<float>(iDomData.at("smog").at("smog").value()));
-        auto code = client.write("smog", tags, fields, timestamp);
+        auto code = client.write("smog", tags, fields);
         code2 = code;
     }
     else
@@ -64,7 +64,7 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
         if (fields.size() > 0)
         {
             std::vector<influx_client::kv_t> tags;
-            auto code = client.write("temperatura", tags, fields, timestamp);
+            auto code = client.write("temperatura", tags, fields);
             if (code2 == 204)
                 code2 = code;
         }
@@ -81,7 +81,7 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
         std::vector<influx_client::kv_t> tags;
         std::vector<influx_client::kv_t> fields;
         fields.emplace_back("humi", std::any_cast<float>(iDomData.at("wilgoc").at("humi").value()));
-        auto code = client.write("wilgoc", tags, fields, timestamp);
+        auto code = client.write("wilgoc", tags, fields);
         if (code2 == 204)
             code2 = code;
     }
@@ -97,7 +97,7 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
         std::vector<influx_client::kv_t> tags;
         std::vector<influx_client::kv_t> fields;
         fields.emplace_back("dom", std::any_cast<float>(iDomData.at("cisnienie").at("dom").value()));
-        auto code = client.write("cisnienie", tags, fields, timestamp);
+        auto code = client.write("cisnienie", tags, fields);
         if (code2 == 204)
             code2 = code;
     }
@@ -112,7 +112,7 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
         std::vector<influx_client::kv_t> tags;
         std::vector<influx_client::kv_t> fields;
         fields.emplace_back("acdc", std::any_cast<float>(iDomData.at("acdc").at("acdc").value()));
-        auto code = client.write("acdc", tags, fields, timestamp);
+        auto code = client.write("acdc", tags, fields);
         if (code2 == 204)
             code2 = code;
     }
@@ -128,7 +128,7 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
         std::vector<influx_client::kv_t> tags;
         std::vector<influx_client::kv_t> fields;
         fields.emplace_back("praca", std::any_cast<bool>(iDomData.at("piec").at("praca").value()));
-        auto code = client.write("piec", tags, fields, timestamp);
+        auto code = client.write("piec", tags, fields);
         if (code2 == 204)
             code2 = code;
     }
