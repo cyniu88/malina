@@ -60,6 +60,7 @@ public:
     virtual std::optional<std::string> getSmog() = 0;
     virtual void send_data_to_thingSpeak() = 0;
     virtual void send_data_to_influxdb() = 0;
+    virtual void send_cached_data_to_influxdb() = 0;
     virtual std::string getFloorTemp() = 0;
 
     //////////////////// viber msg /////////////////////////

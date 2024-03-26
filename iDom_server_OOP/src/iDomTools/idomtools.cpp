@@ -722,6 +722,9 @@ void iDomTOOLS::send_data_to_influxdb()
         auto db = dbFactory.createDbClient();
         auto returnCode = db->upload_iDomData(iDomData, timestamp);
 
+        if (returnCode == -3)
+            context->dbDataQueue.Put(DB_DATA(timestamp, iDomData)); // put data to queue, send later
+
         if (returnCode != 204)
         {
             log_file_mutex.mutex_lock();
@@ -732,11 +735,14 @@ void iDomTOOLS::send_data_to_influxdb()
     }
     catch (std::exception &e)
     {
-        context->dbDataQueue.Put(DB_DATA(timestamp, iDomData)); // put data to queue, send later
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " błąd (wyjatek) wysyłania temperatury do influxdb " << e.what() << std::endl;
         log_file_mutex.mutex_unlock();
     }
+}
+
+void iDomTOOLS::send_cached_data_to_influxdb()
+{
 }
 
 std::string iDomTOOLS::getFloorTemp()

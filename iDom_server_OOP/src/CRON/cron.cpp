@@ -2,7 +2,7 @@
 #include "../functions/functions.h"
 #include "../iDomTools/idomtools_interface.h"
 
-CRON::CRON(thread_data *context): context(context)
+CRON::CRON(thread_data *context) : context(context)
 {
 }
 
@@ -93,7 +93,7 @@ void CRON::runEveryone_5min()
 
     context->main_iDomTools->healthCheck();
     context->main_house_room_handler->turnOffUnexpectedBulb();
-    
+
     context->main_iDomTools->send_data_to_influxdb();
 }
 
@@ -114,6 +114,7 @@ void CRON::runEveryone_1h()
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "skasowano nadmiarowe eventy w: "<< name << std::endl;
         log_file_mutex.mutex_unlock(); });
+    context->main_iDomTools->send_cached_data_to_influxdb();
 }
 
 void CRON::runOnSunset()

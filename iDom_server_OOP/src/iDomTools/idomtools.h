@@ -77,6 +77,7 @@ public:
     std::optional<std::string> getSmog() override;
     void send_data_to_thingSpeak() override;
     void send_data_to_influxdb() override;
+    void send_cached_data_to_influxdb() override;
     std::string getFloorTemp() override;
 
     //////////////////// viber msg /////////////////////////
