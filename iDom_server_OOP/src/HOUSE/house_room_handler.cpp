@@ -43,7 +43,7 @@ void house_room_handler::loadConfig(const std::string &configPath)
             {
                 lightingBulbMap.at(bulbID)->addBulbPin(kk.get<int>());
             }
-            if (m_lightingBulbMap.find(bulbID) == m_lightingBulbMap.end())
+            if (not m_lightingBulbMap.contains(bulbID))
             {
                 m_lightingBulbMap[bulbID] = lightingBulbMap[bulbID];
             }
@@ -90,7 +90,7 @@ void house_room_handler::loadButtonConfig(const std::string &configPath)
 
 void house_room_handler::turnOnAllInRoom(const std::string &roomName)
 {
-    if (m_roomMap.find(roomName) == m_roomMap.end())
+    if (not m_roomMap.contains(roomName))
     {
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "sprawdz konfig zarowek! Pokój \"" << roomName << "\" nie istnieje" << std::endl;
@@ -106,7 +106,7 @@ void house_room_handler::turnOnAllInRoom(const std::string &roomName)
 
 void house_room_handler::turnOffAllInRoom(const std::string &roomName)
 {
-    if (m_roomMap.find(roomName) == m_roomMap.end())
+    if (not m_roomMap.contains(roomName))
     {
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "sprawdz konfig zarowek! Pokój \"" << roomName << "\" nie istnieje" << std::endl;
@@ -122,7 +122,7 @@ void house_room_handler::turnOffAllInRoom(const std::string &roomName)
 
 void house_room_handler::changeAllInRoom(const std::string &roomName)
 {
-    if (m_roomMap.find(roomName) == m_roomMap.end())
+    if (not m_roomMap.contains(roomName))
     {
         log_file_mutex.mutex_lock();
         log_file_cout << ERROR << "sprawdz konfig zarowek! Pokój \"" << roomName << "\" nie istnieje" << std::endl;
@@ -282,7 +282,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
         }
         if (vv.at(0) == "state")
         {
-            if (m_lightingBulbMap.find(bulbID) == m_lightingBulbMap.end())
+            if (not m_lightingBulbMap.contains(bulbID))
             {
                 m_lightingBulbMap.emplace(bulbID, std::make_shared<light_bulb>("roomName", "bulbName", bulbID));
             }
@@ -345,7 +345,7 @@ void house_room_handler::executeButtonComand(const unsigned int buttonID,
                                              const std::string &action,
                                              CommandHandlerMQTT *commandMQTTptr)
 {
-    if (m_buttonConfig.find(buttonID) == m_buttonConfig.end())
+    if (not m_buttonConfig.contains(buttonID))
     {
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << "unconfgured button: " << buttonID
@@ -353,7 +353,7 @@ void house_room_handler::executeButtonComand(const unsigned int buttonID,
         log_file_mutex.mutex_unlock();
         return; // button not used
     }
-    if (m_buttonConfig.at(buttonID).find(action) == m_buttonConfig.at(buttonID).end())
+    if (not m_buttonConfig.at(buttonID).contains(action))
         return; // action not used
     for (const auto &element : m_buttonConfig.at(buttonID).find(action)->second)
     {

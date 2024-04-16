@@ -2,7 +2,7 @@
 #include "../functions/functions.h"
 #include "../iDomTools/idomtools_interface.h"
 
-CRON::CRON(thread_data *context): context(context)
+CRON::CRON(thread_data *context) : context(context)
 {
 }
 
@@ -79,7 +79,6 @@ void CRON::runEveryone_5min()
     auto topic = context->server_settings->_mqtt_broker.topicSubscribe;
     topic.pop_back();
     context->mqttHandler->publish(topic + "command", "433MHz send 10;PING;");
-
     try
     {
         context->main_iDomTools->checkLightning();
@@ -93,7 +92,7 @@ void CRON::runEveryone_5min()
 
     context->main_iDomTools->healthCheck();
     context->main_house_room_handler->turnOffUnexpectedBulb();
-    
+
     context->main_iDomTools->send_data_to_influxdb();
 }
 
