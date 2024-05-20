@@ -11,6 +11,12 @@ using namespace std::chrono_literals;
 
 int main(int argc, char *argv[])
 {
+    iDom_main();
+    return 0;
+}
+/*
+int main(int argc, char *argv[])
+{
     std::string filePath{"/mnt/ramdisk/cmd2"};
 
     auto write_to_file = [](const std::string &path, const std::string &msg)
@@ -142,3 +148,4 @@ int main(int argc, char *argv[])
     }
     return 0;
 }
+*/

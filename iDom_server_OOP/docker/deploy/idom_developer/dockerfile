@@ -5,7 +5,7 @@ RUN apt-get update && \
     dpkg-reconfigure -f noninteractive tzdata
     
 ENV TZ="Europe/Warsaw"
-RUN apt-get update && apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev libi2c-dev clang llvm make
+RUN apt-get update && apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev libi2c-dev clang llvm make valgrind
 RUN touch /dev/tty0
 RUN mkdir /mnt/ramdisk
 RUN apt-get update && apt-get install -y openssh-server

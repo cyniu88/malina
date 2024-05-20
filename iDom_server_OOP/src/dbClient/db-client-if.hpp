@@ -5,6 +5,7 @@
 #include <any>
 #include <utility>
 #include <optional>
+#include <stdint.h>
 
 #include "../../libs/httpStatusCode/httpStatusCode.hpp"
 

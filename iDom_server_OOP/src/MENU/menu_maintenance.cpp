@@ -11,10 +11,10 @@ MENU_MAINTENANCE::MENU_MAINTENANCE(thread_data *context, LCD_c *lcdPTR, MENU_STA
 
 void MENU_MAINTENANCE::entry()
 {
-    menuDatabase.pushBack({"  HARD RELOAD", [=]()
+    menuDatabase.pushBack({"  HARD RELOAD", [=, this]()
                            {print("iDom RELOAD",""); 
 													  contextPTR->main_iDomTools->reloadHard_iDomServer(); }});
-    menuDatabase.pushBack({"RASPBERRY RELOAD", [=]()
+    menuDatabase.pushBack({"RASPBERRY RELOAD", [=, this]()
                            {print("Raspberry", "RELOAD");
                                                       contextPTR->main_iDomTools->raspberryReboot(); }});
     print(menuDatabase.getCurrent().name, arrow);

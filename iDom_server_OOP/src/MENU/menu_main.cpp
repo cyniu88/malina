@@ -51,20 +51,20 @@ MENU_MAIN &MENU_MAIN::operator=(MENU_MAIN &&base)
 void MENU_MAIN::entry()
 {
     //  std::cout << "MENU_MAIN::entry()" << std::endl;
-    menuDatabase.pushBack({"   MUSIC", [=]()
+    menuDatabase.pushBack({"   MUSIC", [=, this]()
                            { contextPTR->main_iDomTools->MPD_play(contextPTR);
                                                 changeStateTo<MENU_ROOT>(); }});
-    menuDatabase.pushBack({"   LIGHT", [=]()
+    menuDatabase.pushBack({"   LIGHT", [=, this]()
                            { changeStateTo<MENU_LIGHT>(); }});
-    menuDatabase.pushBack({"   KODI", [=]()
+    menuDatabase.pushBack({"   KODI", [=, this]()
                            { changeStateTo<MENU_KODI>(); }});
-    menuDatabase.pushBack({"   INFO", [=]()
+    menuDatabase.pushBack({"   INFO", [=, this]()
                            { changeStateTo<MENU_INFO>(); }});
-    menuDatabase.pushBack({"   BUDERUS", [=]()
+    menuDatabase.pushBack({"   BUDERUS", [=, this]()
                            { changeStateTo<MENU_BUDERUS>(); }});
-    menuDatabase.pushBack({" MAINTENANCE", [=]()
+    menuDatabase.pushBack({" MAINTENANCE", [=, this]()
                            { changeStateTo<MENU_MAINTENANCE>(); }});
-    menuDatabase.pushBack({"   EXIT", [=]()
+    menuDatabase.pushBack({"   EXIT", [=, this]()
                            { changeStateTo<MENU_ROOT>(); }});
     print(menuDatabase.getCurrent().name, arrow);
     contextPTR->main_Rs232->print("TIMEOUT:30000;");

@@ -54,9 +54,9 @@ void MENU_LIGHT::entry()
     }
     m_lightDatabase.databaseMap["all"].pushBack({BULB("all", 0), 0});
 
-    for (auto &mm : m_lightDatabase.databaseMap)
+    for (auto & [key, value] : m_lightDatabase.databaseMap)
     {
-        mm.second.pushBack({BULB("all", 0), 0});
+        value.pushBack({BULB("all", 0), 0});
     }
 
     m_lightDatabase.begin();

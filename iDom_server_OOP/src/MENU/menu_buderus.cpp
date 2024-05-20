@@ -38,13 +38,13 @@ MENU_BUDERUS &MENU_BUDERUS::operator=(MENU_BUDERUS &&base)
 
 void MENU_BUDERUS::entry()
 {
-    menuDatabase.pushBack({"RUN CIRCLE PUMP", [=]()
+    menuDatabase.pushBack({"RUN CIRCLE PUMP", [=, this]()
                            {contextPTR->ptr_buderus->runCirclePompForWhile();  changeStateTo<MENU_ROOT>(); return "done"; }});
-    menuDatabase.pushBack({"TEMP INSIDE", [=]()
+    menuDatabase.pushBack({"TEMP INSIDE", [=, this]()
                            { return to_string_with_precision(contextPTR->ptr_buderus->getInsideTemp()) + celsiusDegrees; }});
-    menuDatabase.pushBack({"TEMP OUTDOOR", [=]()
+    menuDatabase.pushBack({"TEMP OUTDOOR", [=, this]()
                            { return to_string_with_precision(contextPTR->ptr_buderus->getOutdoorTemp()) + celsiusDegrees; }});
-    menuDatabase.pushBack({"   EXIT", [=]()
+    menuDatabase.pushBack({"   EXIT", [=, this]()
                            { changeStateTo<MENU_ROOT>(); return "done"; }});
     print(menuDatabase.getCurrent().name, arrow);
 }
