@@ -1,8 +1,9 @@
 #include "commandtest.h"
 #include "../../iDomTools/idomtools_interface.h"
 #include <signal.h>
+#include "../../functions/functions.h"
 
-commandTEST::commandTEST(const std::string &name):command(name)
+commandTEST::commandTEST(const std::string &name) : command(name)
 {
 }
 
@@ -22,10 +23,43 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *conte
         puts("podnosimy SEGV");
         raise(SIGSEGV);
     }
-	else if (v[1] == "reboot")
-	{
-		context->main_iDomTools->raspberryReboot();
-	}
+    else if (v[1] == "reboot")
+    {
+        context->main_iDomTools->raspberryReboot();
+    }
+    else if (v[1] == "memory")
+    {
+        {
+            std::vector<int> vv;
+            int count = std::stoi(v[2]);
+
+            for (int i = 0; i < count; ++i)
+            {
+                vv.push_back(i);
+            }
+            useful_F::sleep(3s);
+        }
+
+
+        return "done";
+    }
+        else if (v[1] == "memory2")
+    {
+        {
+            std::vector<int> vv2;
+            int count = std::stoi(v[2]);
+
+            for (int i = 0; i < count; ++i)
+            {
+                vv2.push_back(i);
+            }
+            useful_F::sleep(3s);
+            vv2.shrink_to_fit();
+        }
+
+
+        return "done";
+    }
     return help();
 }
 std::string commandTEST::help() const
