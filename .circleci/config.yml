@@ -6,7 +6,7 @@ aliases:
       apt-get update -qq
       apt-get install -qq software-properties-common
       add-apt-repository -y ppa:ubuntu-toolchain-r/test
-      apt-get update -qq
+      #apt-get update -qq
 jobs:
   build:
     docker:
