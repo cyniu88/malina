@@ -16,6 +16,9 @@ jobs:
     steps:
       - run: *install_common
       - run: |
+          apt-get install -yq tzdata && \
+          ln -fs /usr/share/zoneinfo/Europe/Warsaw /etc/localtime && \
+          dpkg-reconfigure -f noninteractive tzdata
           apt-get install -qq clang llvm sudo
       - checkout
       - run: |
