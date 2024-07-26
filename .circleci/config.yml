@@ -4,6 +4,9 @@ aliases:
   - &docker_image ubuntu:latest
   - &install_common |
       apt-get update -qq
+      apt-get install -yq tzdata && \
+      ln -fs /usr/share/zoneinfo/Europe/Warsaw /etc/localtime && \
+      dpkg-reconfigure -f noninteractive tzdata
       apt-get install -qq software-properties-common
       add-apt-repository -y ppa:ubuntu-toolchain-r/test
       #apt-get update -qq
@@ -16,9 +19,6 @@ jobs:
     steps:
       - run: *install_common
       - run: |
-          apt-get install -yq tzdata && \
-          ln -fs /usr/share/zoneinfo/Europe/Warsaw /etc/localtime && \
-          dpkg-reconfigure -f noninteractive tzdata
           apt-get install -qq clang llvm sudo
       - checkout
       - run: |
