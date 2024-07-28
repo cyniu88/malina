@@ -7,7 +7,7 @@ jobs:
     docker:
       - image: *docker_image
         environment:
-             TZ: ""Europe/Warsaw""
+             TZ: "Europe/Warsaw"
     steps:
       - run: |
           apt-get install -qq clang llvm sudo
