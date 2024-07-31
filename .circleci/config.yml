@@ -17,8 +17,9 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
+            export DEBIAN_FRONTEND=noninteractive && \
             apt-get update && \
-            apt-get install -yq clang llvm sudo cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev libi2c-dev
+            apt-get install -y tzdata clang llvm sudo cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev libi2c-dev
 
       # Konfiguracja i budowa Google Test oraz Google Mock
       - run:
