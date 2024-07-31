@@ -34,11 +34,11 @@ jobs:
       run: cmake ./iDom_server_OOP
     - name: make iDom app
       run: make -j4
-    - name: clean cmake
-      run: cmake -U *
     - name: cmake iDom test
-      run: cmake ./iDom_server_OOP/test/iDom_TESTs-CMAKE
+      run: cmake .
+      working-directory: ./iDom_server_OOP/test/iDom_TESTs-CMAKE
     - name: make iDom test
       run: make -j4
+      working-directory: ./iDom_server_OOP/test/iDom_TESTs-CMAKE
     - name: run test
       run: ./iDom_server_OOP/test/iDom_TESTs-CMAKE/.iDom*
