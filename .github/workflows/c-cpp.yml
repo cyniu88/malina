@@ -40,5 +40,9 @@ jobs:
     - name: make iDom test
       run: make -j4
       working-directory: ./iDom_server_OOP/test/iDom_TESTs-CMAKE
+    - name: make iDom test ls
+      run: ls -lah
+      working-directory: ./iDom_server_OOP/test/iDom_TESTs-CMAKE
     - name: run test
-      run: ./iDom_server_OOP/test/iDom_TESTs-CMAKE/.iDom*
+      run: .iDom*
+      working-directory: ./iDom_server_OOP/test/iDom_TESTs-CMAKE
