@@ -19,7 +19,11 @@ jobs:
     - uses: actions/checkout@v3
       with:
         submodules: true        # Pobieranie submodułów
-        fetch-depth: 0  
+        fetch-depth: 0 
+    - name: add ramdisk and  tty
+      run: 'sudo mkdir -p /mnt/ramdisk && touch /dev/tty0'
+    - name: chmod ramdisk and  tty
+      run: 'sudo chmod 777 /mnt/ramdisk'
     - name: Install CMAKE GIT and libs
       run: 'sudo apt-get update && sudo apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev libi2c-dev'
     - name: pwd
@@ -43,8 +47,6 @@ jobs:
     - name: make iDom test ls
       run: ls -lah
       working-directory: ./iDom_server_OOP/test/iDom_TESTs-CMAKE
-    - name: add ramdisk and  tty
-      run: 'mkdir -p /mnt/ramdisk && touch /dev/tty0'
     - name: run test
       run: ./iDom_TESTs-CMAKE
       working-directory: ./iDom_server_OOP/test/iDom_TESTs-CMAKE
