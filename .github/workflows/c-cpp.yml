@@ -32,8 +32,8 @@ jobs:
       run: pwd
     - name: cmake iDom app
       run: cmake ./iDom_server_OOP
-    - name: make iDom app
-      run: make -j4
+   # - name: make iDom app
+  #    run: make -j4
     - name: cmake iDom test
       run: cmake .
       working-directory: ./iDom_server_OOP/test/iDom_TESTs-CMAKE
@@ -43,6 +43,10 @@ jobs:
     - name: make iDom test ls
       run: ls -lah
       working-directory: ./iDom_server_OOP/test/iDom_TESTs-CMAKE
+    - name: add ramdisk and  tty
+      run: 'mkdir -p /mnt/ramdisk && touch /dev/tty0'
     - name: run test
       run: ./iDom_TESTs-CMAKE
       working-directory: ./iDom_server_OOP/test/iDom_TESTs-CMAKE
+    - name: show logs
+      run: cat /mnt/ramdisk/iDom_log_BT.log
