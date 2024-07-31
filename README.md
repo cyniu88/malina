@@ -3,5 +3,6 @@
 
 CircleCI
 [![CircleCI](https://circleci.com/gh/cyniu88/malina.svg?style=svg)](https://circleci.com/gh/cyniu88/malina)
+
 Github Actions
 ![example workflow](https://github.com/cyniu88/malina/actions/workflows/c-cpp.yml/badge.svg)
