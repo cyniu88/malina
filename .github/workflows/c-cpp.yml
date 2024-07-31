@@ -56,3 +56,4 @@ jobs:
       run: cat /mnt/ramdisk/iDom_log_BT.log
     - name: generate report
       run: "llvm-profdata  merge -o test.profdata default.profraw && llvm-cov report ./iDom_TESTs-CMAKE -instr-profile=test.profdata -use-color"
+      working-directory: ./iDom_server_OOP/test/iDom_TESTs-CMAKE
