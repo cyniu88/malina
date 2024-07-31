@@ -21,7 +21,7 @@ jobs:
     - name: pwd
       run: pwd
     - name: ls
-      run: ls -lah
+      run: 'cd / && ls -lah'
     - name: cd iDom_server_OOP
       run: cd iDom_server_OOP
     - name: cmake
