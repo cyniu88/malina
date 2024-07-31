@@ -56,7 +56,7 @@ jobs:
 
       - run:
           name: Build Release
-          command: make -j2 ./iDom_server_OOP
+          command: make -j2 -C ./iDom_server_OOP
 
       - run:
           name: Create Build Files Test
@@ -64,7 +64,7 @@ jobs:
 
       - run:
           name: Build Test
-          command: make -j2 ./iDom_server_OOP/test/iDom_TESTs-CMAKE/
+          command: make -j2 -C ./iDom_server_OOP/test/iDom_TESTs-CMAKE/
 
       - run:
           name: Set Test Permissions
