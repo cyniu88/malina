@@ -25,7 +25,9 @@ jobs:
       run: ls
     - name: cd iDom_server_OOP
       run: cd iDom_server_OOP
+    - name: pwd
+      run: pwd
     - name: cmake
-      run: cmake .
+      run: cmake ./iDom_server_OOP
     - name: make 
       run: make -j4
