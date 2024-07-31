@@ -16,12 +16,12 @@ jobs:
       attestations: write
       id-token: write
     steps:
-    - name: Install CMAKE GIT and libs
-      run: 'sudo apt-get update && sudo apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev libi2c-dev'
+  #  - name: Install CMAKE GIT and libs
+   #   run: 'sudo apt-get update && sudo apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev libi2c-dev'
     - name: pwd
       run: pwd
     - name: ls
-      run: ls
+      run: ls -lah
     - name: cd iDom_server_OOP
       run: cd iDom_server_OOP
     - name: cmake
