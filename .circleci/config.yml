@@ -51,11 +51,11 @@ jobs:
       # Budowa i uruchamianie aplikacji
       - run:
           name: Create Build Files
-          command: cmake -B koko/ -H koko/
+          command: cmake ./koko
 
       - run:
           name: Build Application
-          command: make -C koko/
+          command: make ./koko
 
       - run:
           name: Set Permissions
@@ -67,19 +67,19 @@ jobs:
 
       - run:
           name: Create Build Files Release
-          command: cmake -B iDom_server_OOP/ -H iDom_server_OOP/
+          command: cmake ./iDom_server_OOP
 
       - run:
           name: Build Release
-          command: make -j2 -C iDom_server_OOP/
+          command: make -j2 ./iDom_server_OOP
 
       - run:
           name: Create Build Files Test
-          command: cmake -B iDom_server_OOP/test/iDom_TESTs-CMAKE/ -H iDom_server_OOP/test/iDom_TESTs-CMAKE/
+          command: cmake ./iDom_server_OOP/test/iDom_TESTs-CMAKE
 
       - run:
           name: Build Test
-          command: make -j2 -C iDom_server_OOP/test/iDom_TESTs-CMAKE/
+          command: make -j2 ./iDom_server_OOP/test/iDom_TESTs-CMAKE
 
       - run:
           name: Set Test Permissions
