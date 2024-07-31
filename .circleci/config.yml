@@ -49,21 +49,6 @@ jobs:
             touch /dev/tty0
 
       # Budowa i uruchamianie aplikacji
-      - run:
-          name: Create Build Files
-          command: cmake ./koko
-
-      - run:
-          name: Build Application
-          command: make ./koko/
-
-      - run:
-          name: Set Permissions
-          command: sudo chmod +x koko/koko
-
-      - run:
-          name: Run Application
-          command: ./koko/koko
 
       - run:
           name: Create Build Files Release
