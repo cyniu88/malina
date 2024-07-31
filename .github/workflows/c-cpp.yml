@@ -24,6 +24,8 @@ jobs:
       run: 'sudo mkdir -p /mnt/ramdisk && sudo touch /dev/tty0'
     - name: chmod ramdisk and  tty
       run: 'sudo chmod 777 /mnt/ramdisk && sudo chmod 777 /dev/tty0'
+    - name: Install clang llvm
+      run: 'sudo apt-get update && sudo apt-get install -y clang llvm'
     - name: Install CMAKE GIT and libs
       run: 'sudo apt-get update && sudo apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev libi2c-dev'
     - name: pwd
