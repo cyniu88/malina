@@ -1,102 +1,110 @@
-version: 2
+version: 2.1
 
-aliases:
-  - &docker_image ubuntu:latest
+executors:
+  docker-executor:
+    docker:
+      - image: ubuntu:latest
+    environment:
+      TZ: "Europe/Warsaw"
+
 jobs:
   build:
-    docker:
-      - image: *docker_image
-        environment:
-             TZ: "Europe/Warsaw"
+    executor: docker-executor
     steps:
-      - run: |
-          apt-get install -qq clang llvm sudo
       - checkout
-      - run: |
-          ls /usr/bin
-          clang --version
-         
+
+      # Instalacja wymaganych narzędzi
       - run:
-          name: Install CMAKE GIT and libs
-          command: 'apt-get update && sudo apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev libi2c-dev'
-      - run:
-          name: google test init
+          name: Install Dependencies
           command: |
-                   cd /usr/src/gtest
-                   sudo cmake CMakeLists.txt
-                   sudo make
-                   sudo cp lib/*.a /usr/lib
-                   cd /usr/src/gmock
-                   sudo cmake CMakeLists.txt
-                   sudo make    
-                   sudo cp lib/*.a /usr/lib
+            apt-get update && \
+            apt-get install -yq clang llvm sudo cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev libi2c-dev
+
+      # Konfiguracja i budowa Google Test oraz Google Mock
       - run:
-          name: submodule init && update
+          name: Google Test and Mock Setup
           command: |
-                   git submodule init
-                   git submodule update --recursive --remote
+            cd /usr/src/gtest && \
+            sudo cmake CMakeLists.txt && \
+            sudo make && \
+            sudo cp lib/*.a /usr/lib && \
+            cd /usr/src/gmock && \
+            sudo cmake CMakeLists.txt && \
+            sudo make && \
+            sudo cp lib/*.a /usr/lib
+
+      # Inicjalizacja i aktualizacja submodułów
       - run:
-          name: ramdisk
-          command: 'mkdir -p /mnt/ramdisk && touch /dev/tty0'
-      - run:
-          name: go to koko
-          command: 'cd koko/'
-      - run:
-          name: ls
-          command: 'ls -R iDom_server_OOP/test/config'
-      - run:
-          name: Creating Build Files
-          command: 'cmake -Bkoko/ -Hkoko/'
-      - run:
-          name: ls
-          command: 'ls'
-      - run:
-          name: Creating Binary Files
-          command: 'make -C koko/'
-      - run:
-          name: ls
-          command: 'ls koko/'
-      - run:
-          name: permision
-          command: 'sudo chmod +x koko/koko'
-      - run:
-          name: runt
-          command: './koko/koko'
-      - run:
-          name: Create Build Files RELEASE
-          command: 'cmake -BiDom_server_OOP/ -HiDom_server_OOP/'
-      - run:
-          name: Creating Binary Files Release
-          command: 'make -j2 -C iDom_server_OOP/'
-      - run:
-          name: Creating Build Files TEST
-          command: 'cmake -BiDom_server_OOP/test/iDom_TESTs-CMAKE/ -HiDom_server_OOP/test/iDom_TESTs-CMAKE/'
-      - run:
-          name: ls
-          command: 'ls iDom_server_OOP/test/iDom_TESTs-CMAKE/'
-      - run:
-          name: Creating Binary Files Test
-          command: 'make -j2 -C iDom_server_OOP/test/iDom_TESTs-CMAKE/'
-      - run:
-          name: ls
-          command: 'ls iDom_server_OOP/test/iDom_TESTs-CMAKE/'
-      - run:
-          name: permision
-          command: 'sudo chmod +x iDom_server_OOP/test/iDom_TESTs-CMAKE/iDom_TESTs-CMAKE'
-      - run:
-          name: run program
+          name: Initialize and Update Submodules
           command: |
-                 cd iDom_server_OOP/test/iDom_TESTs-CMAKE/
-                 ./iDom_TESTs-CMAKE
+            git submodule init && \
+            git submodule update --recursive --remote
+
+      # Tworzenie ramdisk i konfiguracja uprawnień
       - run:
-          name: show logs
+          name: Create Ramdisk
           command: |
-                 cat /mnt/ramdisk/iDom_log_BT.log
+            mkdir -p /mnt/ramdisk && \
+            touch /dev/tty0
+
+      # Budowa i uruchamianie aplikacji
       - run:
-          name: generate raport
+          name: Create Build Files
+          command: cmake -B koko/ -H koko/
+
+      - run:
+          name: Build Application
+          command: make -C koko/
+
+      - run:
+          name: Set Permissions
+          command: sudo chmod +x koko/koko
+
+      - run:
+          name: Run Application
+          command: ./koko/koko
+
+      - run:
+          name: Create Build Files Release
+          command: cmake -B iDom_server_OOP/ -H iDom_server_OOP/
+
+      - run:
+          name: Build Release
+          command: make -j2 -C iDom_server_OOP/
+
+      - run:
+          name: Create Build Files Test
+          command: cmake -B iDom_server_OOP/test/iDom_TESTs-CMAKE/ -H iDom_server_OOP/test/iDom_TESTs-CMAKE/
+
+      - run:
+          name: Build Test
+          command: make -j2 -C iDom_server_OOP/test/iDom_TESTs-CMAKE/
+
+      - run:
+          name: Set Test Permissions
+          command: sudo chmod +x iDom_server_OOP/test/iDom_TESTs-CMAKE/iDom_TESTs-CMAKE
+
+      - run:
+          name: Run Tests
           command: |
-                 cd iDom_server_OOP/test/iDom_TESTs-CMAKE/
-                 pwd
-                 ls
-                 llvm-profdata  merge -o test.profdata default.profraw
-                 llvm-cov report ./iDom_TESTs-CMAKE -instr-profile=test.profdata -use-color
+            cd iDom_server_OOP/test/iDom_TESTs-CMAKE/ && \
+            ./iDom_TESTs-CMAKE
+
+      - run:
+          name: Show Logs
+          command: cat /mnt/ramdisk/iDom_log_BT.log
+
+      - run:
+          name: Generate Report
+          command: |
+            cd iDom_server_OOP/test/iDom_TESTs-CMAKE/ && \
+            pwd && \
+            ls && \
+            llvm-profdata merge -o test.profdata default.profraw && \
+            llvm-cov report ./iDom_TESTs-CMAKE -instr-profile=test.profdata -use-color
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
