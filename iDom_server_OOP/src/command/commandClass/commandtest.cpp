@@ -2,6 +2,7 @@
 #include "../../iDomTools/idomtools_interface.h"
 #include <signal.h>
 #include "../../functions/functions.h"
+#include <malloc.h>
 
 commandTEST::commandTEST(const std::string &name) : command(name)
 {
@@ -38,6 +39,7 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *conte
                 vv.push_back(i);
             }
             useful_F::sleep(3s);
+            std::cout << "mallocTrim: " << malloc_trim(0) << std::endl;
         }
 
 
@@ -46,15 +48,15 @@ std::string commandTEST::execute(std::vector<std::string> &v, thread_data *conte
         else if (v[1] == "memory2")
     {
         {
-            std::vector<int> vv2;
+            std::map<int, int> vv2;
             int count = std::stoi(v[2]);
 
             for (int i = 0; i < count; ++i)
             {
-                vv2.push_back(i);
+                vv2.insert({i,i});
             }
             useful_F::sleep(3s);
-            vv2.shrink_to_fit();
+            std::cout << "mallocTrim: " << malloc_trim(0) << std::endl;
         }
 
 
