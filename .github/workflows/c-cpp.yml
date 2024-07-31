@@ -17,6 +17,8 @@ jobs:
       id-token: write
     steps:
     - uses: actions/checkout@v3
+    - name: Checkout submodules
+      run: git submodule update --init --recursive
     - name: Install CMAKE GIT and libs
       run: 'sudo apt-get update && sudo apt-get install -y cmake git libmpd-dev curl libcurl4-openssl-dev libmpdclient-dev libgtest-dev google-mock libgmock-dev libmosquitto-dev libi2c-dev'
     - name: pwd
