@@ -52,7 +52,7 @@ jobs:
 
       - run:
           name: Create Build Files Release
-          command: cmake ./iDom_server_OOP
+          command: cmake ./iDom_server_OOP -B ./iDom_server_OOP
 
       - run:
           name: Build Release
@@ -60,7 +60,7 @@ jobs:
 
       - run:
           name: Create Build Files Test
-          command: cmake ./iDom_server_OOP/test/iDom_TESTs-CMAKE
+          command: cmake ./iDom_server_OOP/test/iDom_TESTs-CMAKE -B ./iDom_server_OOP/test/iDom_TESTs-CMAKE
 
       - run:
           name: Build Test
