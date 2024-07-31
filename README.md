@@ -3,5 +3,5 @@
 
 CircleCI
 [![CircleCI](https://circleci.com/gh/cyniu88/malina.svg?style=svg)](https://circleci.com/gh/cyniu88/malina)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/cyniu88/malina.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cyniu88/malina/alerts/)
+Github Actions
 ![example workflow](https://github.com/cyniu88/malina/actions/workflows/c-cpp.yml/badge.svg)
