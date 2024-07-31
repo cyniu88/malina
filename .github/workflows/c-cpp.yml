@@ -30,7 +30,13 @@ jobs:
       run: cd iDom_server_OOP
     - name: pwd
       run: pwd
-    - name: cmake
+    - name: cmake iDom app
       run: cmake ./iDom_server_OOP
-    - name: make 
+    - name: make iDom app
       run: make -j4
+    - name: cmake iDom test
+      run: cmake ./iDom_server_OOP/test/iDom_TESTs-CMAKE
+    - name: make iDom test
+      run: make -j4
+    - name: run test
+      run: ./iDom_server_OOP/test/iDom_TESTs-CMAKE/.iDom*
