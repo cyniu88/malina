@@ -36,11 +36,11 @@ std::vector<std::string> useful_F::split(const std::string &s, char separator)
     return output;
 }
 
-thread_data *useful_F::myStaticData = std::nullptr_t();
+thread_context *useful_F::myStaticCtx = std::nullptr_t();
 
-void useful_F::setStaticData(thread_data *contextPtr)
+void useful_F::setStaticData(thread_context *contextPtr)
 {
-    myStaticData = contextPtr;
+    myStaticCtx = contextPtr;
 }
 
 void useful_F::tokenizer(std::vector<std::string> &command,
@@ -77,7 +77,7 @@ void useful_F::tokenizer(std::vector<std::string> &command,
 }
 
 ////// watek sleeper
-void useful_F::sleeper_mpd(thread_data *context, const std::string &threadName)
+void useful_F::sleeper_mpd(thread_context *context, const std::string &threadName)
 {
     context->main_Rs232->print("LED_CLOCK:1;");
     unsigned int t = 60 / context->sleeper;
@@ -107,7 +107,7 @@ void useful_F::sleeper_mpd(thread_data *context, const std::string &threadName)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////// watek kodi
-void useful_F::kodi(thread_data *context, const std::string &threadName)
+void useful_F::kodi(thread_context *context, const std::string &threadName)
 {
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "start wątku " << threadName << std::endl;
@@ -261,7 +261,7 @@ std::string useful_F::l_send_file(const std::string &path, const std::string &fi
 }
 
 ///////////////////// watek polaczenia TCP /////////////////////////////////////
-void useful_F::Server_connectivity_thread(thread_data *context, const std::string &threadName)
+void useful_F::Server_connectivity_thread(thread_context *context, const std::string &threadName)
 {
     auto client = std::make_unique<C_connection>(context);
     static unsigned int connectionCounter = 0;
@@ -448,7 +448,7 @@ std::string useful_F::conv_dns(const std::string &temp)
     return s_ip;
 }
 
-void useful_F::startServer(thread_data *context, TASKER *my_tasker)
+void useful_F::startServer(thread_context *context, TASKER *my_tasker)
 {
     struct sockaddr_in server;
     memset(&server, 0, sizeof(server));
@@ -630,6 +630,12 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._shedConf = jj["shed"];
     ///////////////////////// COMMAND ////////////////////////////////////////////////////
     cj._command = jj["command"];
+    ///////////////////////// DATABASE //////////////////////////////////////////////////
+    cj._database.bucket = jj["Database"].at("bucket").get<std::string>();
+    cj._database.ip     = jj["Database"].at("IP").get<std::string>();
+    cj._database.port   = jj["Database"].at("port").get<int>();
+    cj._database.token  = jj["Database"].at("token").get<std::string>();
+    cj._database.org    = jj["Database"].at("org").get<std::string>();
 
     return cj;
 }

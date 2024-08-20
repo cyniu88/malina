@@ -2,7 +2,7 @@
 #include "../blockQueue/blockqueue.h"
 #include "../iDom_server_OOP.h"
 
-void iDomTOOLS::MPD_play(thread_data *context)
+void iDomTOOLS::MPD_play(thread_context *context)
 {
     if (context->idom_all_state.houseState == STATE::UNLOCK)
     {
@@ -52,14 +52,14 @@ void iDomTOOLS::MPD_volumeDown()
     _q._add(MPD_COMMAND::VOLDOWN);
 }
 
-void iDomTOOLS::MPD_volumeSet(thread_data *context, int vol)
+void iDomTOOLS::MPD_volumeSet(thread_context *context, int vol)
 {
     context->ptr_MPD_info->volume = vol;
     blockQueue _q;
     _q._add(MPD_COMMAND::VOLSET);
 }
 
-void iDomTOOLS::MPD_play(thread_data *context, int id)
+void iDomTOOLS::MPD_play(thread_context *context, int id)
 {
     if (context->idom_all_state.houseState == STATE::UNLOCK)
     {
@@ -74,7 +74,7 @@ void iDomTOOLS::MPD_play(thread_data *context, int id)
     }
 }
 
-int iDomTOOLS::MPD_getVolume(thread_data *context)
+int iDomTOOLS::MPD_getVolume(thread_context *context)
 {
     return context->ptr_MPD_info->volume;
 }

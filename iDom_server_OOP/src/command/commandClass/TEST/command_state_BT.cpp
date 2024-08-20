@@ -13,13 +13,13 @@ public:
     {
         test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_context.ptr_buderus = buderusMock;
-        useful_F::myStaticData = &test_context;
+        useful_F::myStaticCtx = &test_context;
     }
 
 protected:
     std::unique_ptr<command_state> test_command_state;
     std::vector<std::string> test_v;
-    thread_data test_context;
+    thread_context test_context;
     std::shared_ptr<BUDERUS_MOCK> buderusMock;
 };
 

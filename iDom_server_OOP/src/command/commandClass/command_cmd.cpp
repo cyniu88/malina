@@ -6,7 +6,7 @@ command_cmd::command_cmd(const std::string &name):command(name)
 
 }
 
-std::string command_cmd::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_cmd::execute(std::vector<std::string> &v, thread_context *context)
 {
     //TODO  cleanup
    // if (v.size() == 1){

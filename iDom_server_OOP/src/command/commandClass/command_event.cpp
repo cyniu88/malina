@@ -5,7 +5,7 @@ command_event::command_event(const std::string &name) :command(name)
 
 }
 
-std::string command_event::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_event::execute(std::vector<std::string> &v, thread_context *context)
 {
     if (v.size() == 1){
         return context->myEventHandler.getListPossibleEvents();

@@ -23,12 +23,12 @@ public:
         test_context.server_settings = &test_server_set;
         test_context.server_settings->_fb_viber.viberSender = "test sender";
         test_context.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
-        useful_F::myStaticData = &test_context;
+        useful_F::myStaticCtx = &test_context;
     }
 
 protected:
     std::unique_ptr<command_buderus> test_command_buderus;
-    thread_data test_context;
+    thread_context test_context;
     std::vector<std::string> test_v;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
     CONFIG_JSON test_server_set;

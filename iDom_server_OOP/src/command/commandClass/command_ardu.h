@@ -11,13 +11,13 @@ class command_ardu : public command
     RADIO_WEATHER_STATION* m_mainWeatherStation;
 public:
     explicit command_ardu(const std::string& name);
-    command_ardu(const std::string& name, thread_data* context );
+    command_ardu(const std::string& name, thread_context* context );
     ~command_ardu() = default;
-    std::string execute(std::vector <std::string> &v,thread_data* context) override;
+    std::string execute(std::vector <std::string> &v,thread_context* context) override;
     std::string help() const override;
 #ifndef BT_TEST
     private:
 #endif
-    void pingAndOkRecv(thread_data *context, const std::string &s);
+    void pingAndOkRecv(thread_context *context, const std::string &s);
 };
 

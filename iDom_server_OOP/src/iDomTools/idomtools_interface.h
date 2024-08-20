@@ -9,7 +9,7 @@
 #include "../THERMOMETER_CONTAINER/thermometer_container.h"
 #include "../../libs/useful/useful.h"
 
-struct thread_data;
+struct thread_context;
 
 class iDomTOOLS_INTERFACE
 {
@@ -100,16 +100,16 @@ public:
     //////////////////// ALERT //////////////////////////
     virtual void checkAlarm() = 0;
     //////////////////// MPD part //////////////////////////
-    virtual void MPD_play(thread_data *context) = 0;
+    virtual void MPD_play(thread_context *context) = 0;
     virtual void MPD_stop() = 0;
     virtual void MPD_next() = 0;
     virtual void MPD_prev() = 0;
     virtual void MPD_pause() = 0;
     virtual void MPD_volumeUp() = 0;
     virtual void MPD_volumeDown() = 0;
-    virtual void MPD_volumeSet(thread_data *context, int vol) = 0;
-    virtual void MPD_play(thread_data *context, int id) = 0;
-    virtual int MPD_getVolume(thread_data *context) = 0;
+    virtual void MPD_volumeSet(thread_context *context, int vol) = 0;
+    virtual void MPD_play(thread_context *context, int id) = 0;
+    virtual int MPD_getVolume(thread_context *context) = 0;
 
     /////////////////////// SAVE STATE iDOM ////////////////
     virtual void saveState_iDom(const bool &started) = 0;

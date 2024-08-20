@@ -16,7 +16,7 @@ public:
 class MENU_STATE_BASE
 {
 protected:
-    thread_data *contextPTR;
+    thread_context *contextPTR;
     LCD_c *lcdPTR;
     MENU_STATE_MACHINE *stateMachinePTR;
     const std::string arrow = std::string(1, (char)8) + "              " + std::string(1, (char)9);
@@ -27,7 +27,7 @@ protected:
     std::string _row2;
 
 public:
-    MENU_STATE_BASE(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
+    MENU_STATE_BASE(thread_context *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
     MENU_STATE_BASE(const MENU_STATE_BASE &base);
     MENU_STATE_BASE(const MENU_STATE_BASE &&base);
     MENU_STATE_BASE &operator=(const MENU_STATE_BASE &base);

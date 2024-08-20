@@ -217,6 +217,14 @@ struct SATEL_INTEGRA_CFG
     unsigned int outdoor_siren_lights_id = 0;
     unsigned int partitionID = 1;
 };
+struct DATABASE
+{
+    std::string ip = "127.0.0.1";
+    int port = 8086;
+    std::string token = "NULL";
+    std::string org = "";
+    std::string bucket = "";
+};
 
 struct CONFIG_JSON
 {
@@ -230,6 +238,7 @@ struct CONFIG_JSON
     SATEL_INTEGRA_CFG _satel_integra;
     nlohmann::json _shedConf;
     nlohmann::json _command;
+    DATABASE _database;
 };
 
 //class command; // for struc thread_data req
@@ -314,7 +323,7 @@ struct LUSINA
     LUSINA() : shedTemp(18), shedHum(18), shedFloor(18), shedPres(18), acdc(18) {}
 };
 
-struct thread_data
+struct thread_context
 {
     int s_client_sock;
     struct sockaddr_in from;
@@ -344,7 +353,7 @@ struct thread_data
     std::shared_ptr<RADIO_EQ_CONTAINER> main_REC = std::nullptr_t();
     std::unique_ptr<iDomSTATUS> main_iDomStatus = std::nullptr_t();
     std::unique_ptr<iDomKEY_ACCESS> m_keyHandler = std::nullptr_t();
-    ~thread_data() = default;
+    ~thread_context() = default;
 };
 
 iDomStateEnum iDom_main();

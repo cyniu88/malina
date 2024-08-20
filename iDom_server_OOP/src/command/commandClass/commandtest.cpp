@@ -8,7 +8,7 @@ commandTEST::commandTEST(const std::string &name) : command(name)
 {
 }
 
-std::string commandTEST::execute(std::vector<std::string> &v, thread_data *context)
+std::string commandTEST::execute(std::vector<std::string> &v, thread_context *context)
 {
 
     if (v[1] == "test")

@@ -4,7 +4,7 @@ command_state::command_state(const std::string &name):command(name)
 {
 }
 
-std::string command_state::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_state::execute(std::vector<std::string> &v, thread_context *context)
 {
     std::string ret = "need parameter!\n" + help();
     if (v.size() > 1)

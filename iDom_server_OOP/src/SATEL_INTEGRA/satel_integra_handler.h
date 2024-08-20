@@ -6,13 +6,13 @@
 
 class SATEL_INTEGRA_HANDLER : public SATEL_INTEGRA_HANDLER_INTERFACE
 {
-    thread_data *context;
+    thread_context *context;
     public:
     SATEL_INTEGRA m_integra32;
 
 public:
     SATEL_INTEGRA_HANDLER() = default;
-    explicit SATEL_INTEGRA_HANDLER(thread_data *myData);
+    explicit SATEL_INTEGRA_HANDLER(thread_context *myData);
     ~SATEL_INTEGRA_HANDLER();
 
     void checkSatel() override;

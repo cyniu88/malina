@@ -20,7 +20,7 @@ protected:
 
     std::vector<std::string> test_v;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
-    thread_data test_context;
+    thread_context test_context;
 };
 
 TEST_F(command_shed_Class_fixture, wrongParameter)

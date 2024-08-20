@@ -7,7 +7,7 @@
 
 std::string house_room_handler::m_mqttPublishTopic = "swiatlo/output/";
 
-house_room_handler::house_room_handler(thread_data *context)
+house_room_handler::house_room_handler(thread_context *context)
 {
     m_bulbStatus.SetCapacity(100);
     m_className.insert(0, typeid(this).name());
@@ -100,7 +100,7 @@ void house_room_handler::turnOnAllInRoom(const std::string &roomName)
     for (auto &a : m_roomMap[roomName]->m_lightingBulbMap)
     {
         a.second->on([](const std::string &name)
-                     { useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic, name); });
+                     { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
     }
 }
 
@@ -116,7 +116,7 @@ void house_room_handler::turnOffAllInRoom(const std::string &roomName)
     for (auto &a : m_roomMap[roomName]->m_lightingBulbMap)
     {
         a.second->off([](const std::string &name)
-                      { useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic, name); });
+                      { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
     }
 }
 
@@ -132,7 +132,7 @@ void house_room_handler::changeAllInRoom(const std::string &roomName)
     for (auto &a : m_roomMap[roomName]->m_lightingBulbMap)
     {
         a.second->change([](const std::string &name)
-                         { useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic, name); });
+                         { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
     }
 }
 
@@ -155,19 +155,19 @@ void house_room_handler::turnOffAllBulb()
 void house_room_handler::turnOnBulb(const int bulbID)
 {
     m_lightingBulbMap.at(bulbID)->on([](const std::string &name)
-                                     { useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic, name); });
+                                     { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
 }
 
 void house_room_handler::turnOffBulb(const int bulbID)
 {
     m_lightingBulbMap.at(bulbID)->off([](const std::string &name)
-                                      { useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic, name); });
+                                      { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
 }
 
 void house_room_handler::turnChangeBulb(const int bulbID)
 {
     m_lightingBulbMap.at(bulbID)->change([](const std::string &name)
-                                         { useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic, name); });
+                                         { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
 }
 
 void house_room_handler::lockAllRoom()
@@ -399,7 +399,7 @@ void house_room_handler::turnOffUnexpectedBulb()
             if (actualTime > expectTime)
             {
                 jj.second->off([](const std::string &name)
-                               { useful_F::myStaticData->mqttHandler->publish(m_mqttPublishTopic, name); });
+                               { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
             }
         }
     }

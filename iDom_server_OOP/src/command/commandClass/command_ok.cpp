@@ -4,7 +4,7 @@ command_ok::command_ok(const std::string &name):command(name)
 {
 }
 
-std::string command_ok::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_ok::execute(std::vector<std::string> &v, thread_context *context)
 {
     return "\nEND\n";
 }

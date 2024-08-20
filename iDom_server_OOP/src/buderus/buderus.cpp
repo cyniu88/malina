@@ -51,10 +51,10 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
             {
                 if (m_circlePump not_eq STATE::ON)
                 {
-                    useful_F::myStaticData->main_iDomTools->sendViberMsg("uruchamiam pompe obiegową CWU",
-                                                                         useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
-                                                                         useful_F::myStaticData->server_settings->_fb_viber.viberSender + "BUDERUS");
-                    useful_F::myStaticData->main_Rs232->print("LED_ALARM:1");
+                    useful_F::myStaticCtx->main_iDomTools->sendViberMsg("uruchamiam pompe obiegową CWU",
+                                                                         useful_F::myStaticCtx->server_settings->_fb_viber.viberReceiver.at(0),
+                                                                         useful_F::myStaticCtx->server_settings->_fb_viber.viberSender + "BUDERUS");
+                    useful_F::myStaticCtx->main_Rs232->print("LED_ALARM:1");
                     m_circlePump = STATE::ON;
                 }
             }
@@ -62,10 +62,10 @@ void BUDERUS::updateBoilerDataFromMQTT(nlohmann::json jj)
             {
                 if (m_circlePump == STATE::ON)
                 {
-                    useful_F::myStaticData->main_iDomTools->sendViberMsg("zakończono precę pompy obiegowej CWU",
-                                                                         useful_F::myStaticData->server_settings->_fb_viber.viberReceiver.at(0),
-                                                                         useful_F::myStaticData->server_settings->_fb_viber.viberSender + "BUDERUS");
-                    useful_F::myStaticData->main_Rs232->print("LED_ALARM:0");
+                    useful_F::myStaticCtx->main_iDomTools->sendViberMsg("zakończono precę pompy obiegowej CWU",
+                                                                         useful_F::myStaticCtx->server_settings->_fb_viber.viberReceiver.at(0),
+                                                                         useful_F::myStaticCtx->server_settings->_fb_viber.viberSender + "BUDERUS");
+                    useful_F::myStaticCtx->main_Rs232->print("LED_ALARM:0");
                     m_circlePump = STATE::OFF;
                 }
             }
@@ -175,7 +175,7 @@ void BUDERUS::circlePompToRun()
 
 void BUDERUS::runCirclePompForWhile()
 {
-    useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler",
+    useful_F::myStaticCtx->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler",
                                                  R"({"cmd":"wwcirculation","data":"on"})");
 }
 
@@ -186,7 +186,7 @@ STATE BUDERUS::getCirclePumpState() const
 
 void BUDERUS::boilerHeatOneTime()
 {
-    useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler",
+    useful_F::myStaticCtx->mqttHandler->publish("iDom-client/buderus/ems-esp/boiler",
                                                  R"({"cmd":"wwonetime","data":"on"})");
 }
 
@@ -196,7 +196,7 @@ void BUDERUS::setTempInsideBuilding(const std::string &t)
     tt << R"({"cmd":"temp","data":)";
     tt << t;
     tt << R"(,"id":1})";
-    useful_F::myStaticData->mqttHandler->publish("iDom-client/buderus/ems-esp/thermostat", tt.str());
+    useful_F::myStaticCtx->mqttHandler->publish("iDom-client/buderus/ems-esp/thermostat", tt.str());
 }
 
 unsigned int BUDERUS::getHeatingStartTime() const

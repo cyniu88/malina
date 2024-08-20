@@ -13,7 +13,7 @@ public:
 protected:
     std::unique_ptr<commandRS232> test_command_put;
     std::vector<std::string> test_v;
-    thread_data test_context;
+    thread_context test_context;
 };
 
 TEST_F(command_RS232_Class_fixture, wrongParameter)

@@ -3,17 +3,17 @@
 #include <iostream>
 #include <string>
 #include <time.h>
-struct thread_data;
+struct thread_context;
 
 class CRON
 {
 public:
-    explicit CRON(thread_data *context);
+    explicit CRON(thread_context *context);
     void run();
 
 private:
     CRON();
-    thread_data *context;
+    thread_context *context;
     void runEveryone_1min(tm *act_date);
     void runEveryone_5min();
     void runEveryone_15min();

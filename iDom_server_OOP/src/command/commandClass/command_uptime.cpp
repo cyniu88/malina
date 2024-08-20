@@ -6,7 +6,7 @@ command_UPTIME::command_UPTIME(const std::string &name):command(name)
 
 }
 
-std::string command_UPTIME::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_UPTIME::execute(std::vector<std::string> &v, thread_context *context)
 {
     std::string str_buf;
     time(&context->now_time);

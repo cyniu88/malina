@@ -12,7 +12,7 @@
 #include "../libs/blocking_queue/blocking_queue.h"
 
 class CommandHandlerMQTT;
-struct thread_data;
+struct thread_context;
 
 struct BULB_STATUS
 {
@@ -25,7 +25,7 @@ struct BULB_STATUS
 
 class house_room_handler : public iDom_API
 {
-    thread_data *context;
+    thread_context *context;
     unsigned int m_lastNotifyUnixTime = 0;
 
     Circular_buffer m_circBuffSatelSensorId;
@@ -40,7 +40,7 @@ public:
     std::map<std::string, std::shared_ptr<ROOM>> m_roomMap;
     std::map<int, std::shared_ptr<ROOM>> m_satelIdMap;
 
-    explicit house_room_handler(thread_data *context);
+    explicit house_room_handler(thread_context *context);
     ~house_room_handler();
 
     void loadConfig(const std::string &configPath);

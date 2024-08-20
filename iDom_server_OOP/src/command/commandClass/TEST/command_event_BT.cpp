@@ -13,7 +13,7 @@ public:
 protected:
     std::unique_ptr<command_event> test_command_event;
     std::vector<std::string> test_v;
-    thread_data test_context;
+    thread_context test_context;
 };
 
 TEST_F(command_event_Class_fixture, eventList)

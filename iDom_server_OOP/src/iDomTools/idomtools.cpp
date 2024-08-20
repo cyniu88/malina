@@ -9,7 +9,7 @@
 #include "../dbClient/db-client-factory.hpp"
 #include "../dbClient/DB_DATA.hpp"
 
-iDomTOOLS::iDomTOOLS(thread_data *myData) : m_key(myData->server_settings->_server.TS_KEY),
+iDomTOOLS::iDomTOOLS(thread_context *myData) : m_key(myData->server_settings->_server.TS_KEY),
                                             m_key2(myData->server_settings->_server.TS_KEY2)
 {
     context = myData;

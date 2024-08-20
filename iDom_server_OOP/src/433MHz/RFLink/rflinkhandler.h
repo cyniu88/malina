@@ -26,7 +26,7 @@ struct RFLink_DEV{
 
 class RFLinkHandler : public iDom_API
 {
-    thread_data *context;
+    thread_context *context;
     SerialPi m_serial_RFLink;
 
 public:
@@ -39,7 +39,7 @@ public:
     ////// temporarnie //////
     std::unordered_map<std::string, RFLink_DEV> m_rflinkMAP;
     /////////////////////////////
-    explicit RFLinkHandler(thread_data *context);
+    explicit RFLinkHandler(thread_context *context);
     ~RFLinkHandler();
     bool init();
     // void run();

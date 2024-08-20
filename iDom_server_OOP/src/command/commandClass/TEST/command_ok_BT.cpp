@@ -12,7 +12,7 @@ public:
 protected:
     std::unique_ptr<command_ok> test_command_ok;
     std::vector<std::string> test_v;
-    thread_data test_context;
+    thread_context test_context;
 };
 
 TEST_F(command_ok_Class_fixture, main)

@@ -15,7 +15,7 @@ public:
 
 protected:
     std::vector<std::string> test_v;
-    thread_data test_context;
+    thread_context test_context;
 };
 
 TEST_F(command_help_Class_fixture, all)

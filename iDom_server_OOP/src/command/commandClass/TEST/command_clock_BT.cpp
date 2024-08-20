@@ -11,7 +11,7 @@ public:
 
 protected:
     std::unique_ptr<command_clock> test_command_clock;
-    thread_data test_context;
+    thread_context test_context;
     std::vector<std::string> test_v;
 
 };

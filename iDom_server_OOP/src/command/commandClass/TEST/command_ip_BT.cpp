@@ -13,7 +13,7 @@ public:
 protected:
     std::unique_ptr<command_ip> test_command_ip;
     std::vector<std::string> test_v;
-    thread_data test_context;
+    thread_context test_context;
     CONFIG_JSON server_settings;
 };
 

@@ -13,7 +13,7 @@
 #include "commandClass/command_buderus.h"
 #include "commandClass/command_light.h"
 
-commandHandlerRoot::commandHandlerRoot(thread_data *context) : commandHandler(context)
+commandHandlerRoot::commandHandlerRoot(thread_context *context) : commandHandler(context)
 {
     std::unique_ptr<command> gateway(new command_gateway("gateway"));
     commandMap.insert(std::make_pair(gateway->getCommandName(), std::move(gateway)));

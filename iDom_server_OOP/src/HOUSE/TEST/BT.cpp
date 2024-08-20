@@ -29,7 +29,7 @@ public:
         test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
     }
     std::unique_ptr<house_room_handler> testRoomHandler;
-    thread_data test_context;
+    thread_context test_context;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
     CONFIG_JSON test_server_settings;

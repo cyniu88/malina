@@ -1,6 +1,6 @@
 #include "menu_base.h"
 
-MENU_STATE_BASE::MENU_STATE_BASE(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : lcdLED(lcdLED)
+MENU_STATE_BASE::MENU_STATE_BASE(thread_context *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : lcdLED(lcdLED)
 {
     this->contextPTR = context;
     this->lcdPTR = lcdPTR;

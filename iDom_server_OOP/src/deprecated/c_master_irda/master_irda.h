@@ -19,12 +19,12 @@ public:
     int buttonTimer;
     int buttonMENU;
     char *code = NULL;
-    explicit master_irda(thread_data *context);
+    explicit master_irda(thread_context *context);
     void run();
 
 private:
     std::string CodeString;
-    thread_data *context2;
+    thread_context *context2;
 };
 
 #endif // MASTER_IRDA_H

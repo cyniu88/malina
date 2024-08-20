@@ -10,7 +10,7 @@ class MENU_KODI : public MENU_STATE_BASE
     std::string sendCommandToKodi(const std::string &command, const std::string &param);
 
 public:
-    MENU_KODI(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
+    MENU_KODI(thread_context *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
     MENU_KODI(const MENU_KODI &base);
     MENU_KODI(MENU_KODI &&base);
     MENU_KODI &operator=(const MENU_KODI &base);

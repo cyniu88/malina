@@ -2,7 +2,7 @@
 #include <gmock/gmock.h>
 #include "../radio_433_eq.h"
 
-RC_433MHz::RC_433MHz(thread_data *test_context)
+RC_433MHz::RC_433MHz(thread_context *test_context)
 {
     this->m_context = test_context;
 }
@@ -23,7 +23,7 @@ protected:
         test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
     }
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
-    thread_data test_context;
+    thread_context test_context;
     CONFIG_JSON test_server_set;
 };
 TEST_F(Switch_Class_fixture, getSwitchPointerVector)
@@ -112,7 +112,7 @@ TEST_F(Switch_Class_fixture, add_and_erase_switch)
 
 TEST_F(Switch_Class_fixture, loadConfig)
 {
-    thread_data test_context2;
+    thread_context test_context2;
     auto  test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_context2);
     test_rec->loadConfig("/mnt/ramdisk/433_eq_conf_fake.json");
     test_context2.main_REC = test_rec;

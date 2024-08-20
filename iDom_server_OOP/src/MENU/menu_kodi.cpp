@@ -62,7 +62,7 @@ std::string MENU_KODI::sendCommandToKodi(const std::string &command, const std::
     return readBuffer;
 }
 
-MENU_KODI::MENU_KODI(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(context, lcdPTR, msm, lcdLED)
+MENU_KODI::MENU_KODI(thread_context *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(context, lcdPTR, msm, lcdLED)
 {
     std::cout << "MENU_KODI::MENU_KODI()" << std::endl;
 }

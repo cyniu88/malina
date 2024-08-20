@@ -4,7 +4,7 @@ class house_room_handler_stub : public house_room_handler
 
 {
 public:
-    explicit house_room_handler_stub(thread_data *k)
+    explicit house_room_handler_stub(thread_context *k)
         : house_room_handler(k){};
     void onLock(){};
     void onUnlock(){};

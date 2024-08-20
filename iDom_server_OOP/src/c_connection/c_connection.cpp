@@ -2,7 +2,7 @@
 #include "c_connection.h"
 #include "../functions/functions.h"
 
-C_connection::C_connection(thread_data *context) : c_socket(context->s_client_sock),
+C_connection::C_connection(thread_context *context) : c_socket(context->s_client_sock),
                                                    c_from(context->from), m_recv_size(0)
 {
     this->context = context;

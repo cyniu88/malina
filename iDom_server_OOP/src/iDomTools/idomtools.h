@@ -9,7 +9,7 @@
 #include "../libs/sunrise-sunset/sunriseset.h"
 #include "../libs/viberAPI/viber_api.h"
 
-struct thread_data;
+struct thread_context;
 class RADIO_BUTTON;
 
 class iDomTOOLS : public iDomTOOLS_INTERFACE, iDom_API
@@ -17,7 +17,7 @@ class iDomTOOLS : public iDomTOOLS_INTERFACE, iDom_API
 protected:
     THERMOMETER_CONTAINER m_allThermometer;
     THERMOMETER_CONTAINER m_allThermometerUpdate;
-    thread_data *context;
+    thread_context *context;
     int m_timezone;
     SunRiseSet m_sun;
     std::string m_key;
@@ -31,7 +31,7 @@ protected:
     std::vector<std::string> textToSpeachVector;
 
 public:
-    explicit iDomTOOLS(thread_data *myData);
+    explicit iDomTOOLS(thread_context *myData);
     ~iDomTOOLS();
 
     TEMPERATURE_STATE getTHERMOMETER_CONTAINERlastState(const std::string &name) override;
@@ -117,16 +117,16 @@ public:
     //////////////////// ALERT //////////////////////////
     void checkAlarm() override;
     //////////////////// MPD part //////////////////////////
-    void MPD_play(thread_data *context) override;
+    void MPD_play(thread_context *context) override;
     void MPD_stop() override;
     void MPD_next() override;
     void MPD_prev() override;
     void MPD_pause() override;
     void MPD_volumeUp() override;
     void MPD_volumeDown() override;
-    void MPD_volumeSet(thread_data *context, int vol) override;
-    void MPD_play(thread_data *context, int id) override;
-    int MPD_getVolume(thread_data *context) override;
+    void MPD_volumeSet(thread_context *context, int vol) override;
+    void MPD_play(thread_context *context, int id) override;
+    int MPD_getVolume(thread_context *context) override;
 
     /////////////////////// SAVE STATE iDOM ////////////////
     void saveState_iDom(const bool &started) override;

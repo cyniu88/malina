@@ -12,7 +12,7 @@ public:
 protected:
     std::unique_ptr<command_hello> test_command_hello;
     std::vector<std::string> test_v;
-    thread_data test_context;
+    thread_context test_context;
 };
 
 TEST_F(command_hello_Class_fixture, main)

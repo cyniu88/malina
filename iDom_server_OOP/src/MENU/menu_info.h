@@ -10,7 +10,7 @@ class MENU_INFO : public MENU_STATE_BASE
     cyniu::ContainerMenuMap<std::string, std::string> m_infoDatabase;
 
 public:
-    MENU_INFO(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
+    MENU_INFO(thread_context *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
     MENU_INFO(const MENU_INFO &base);
     MENU_INFO(MENU_INFO &&base);
     MENU_INFO &operator=(const MENU_INFO &base);

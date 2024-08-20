@@ -265,7 +265,7 @@ TEST_F(iDomTOOLS_ClassTest, checkAlarm)
 
   test_context.main_iDomStatus->setObjectState("alarm", test_alarmTime.state);
   test_context.alarmTime = test_alarmTime;
-  useful_F::myStaticData = &test_context;
+  useful_F::myStaticCtx = &test_context;
 
   //////////////////////////////////////////////////////////////
 
@@ -436,15 +436,15 @@ TEST_F(iDomTOOLS_ClassTest, updateTemperatureStats)
 TEST_F(iDomTOOLS_ClassTest, speakersON_OFF)
 {
   EXPECT_EQ(test_context.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
-  useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+  useful_F::myStaticCtx->idom_all_state.houseState = STATE::UNLOCK;
   test_context.main_iDomTools->turnOnSpeakers();
   EXPECT_EQ(test_context.main_iDomStatus->getObjectState("speakers"), STATE::ON);
   test_context.main_iDomTools->turnOffSpeakers();
   EXPECT_EQ(test_context.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
-  useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+  useful_F::myStaticCtx->idom_all_state.houseState = STATE::LOCK;
   test_context.main_iDomTools->turnOnSpeakers();
   EXPECT_EQ(test_context.main_iDomStatus->getObjectState("speakers"), STATE::OFF);
-  std::string retStr = useful_F::myStaticData->myEventHandler.run("speakers")->getEvent();
+  std::string retStr = useful_F::myStaticCtx->myEventHandler.run("speakers")->getEvent();
   EXPECT_THAT(retStr, testing::HasSubstr("speakers can not start due to home state: LOCK"));
 }
 
@@ -455,7 +455,7 @@ TEST_F(iDomTOOLS_ClassTest, onOff230vOutdoor)
 
 TEST_F(iDomTOOLS_ClassTest, turn_On_Off_433MHzSwitch)
 {
-  useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+  useful_F::myStaticCtx->idom_all_state.houseState = STATE::UNLOCK;
   EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"), STATE::UNKNOWN);
   test_context.main_iDomTools->turnOn433MHzSwitch("B");
   EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"), STATE::ON);
@@ -472,7 +472,7 @@ TEST_F(iDomTOOLS_ClassTest, turn_On_Off_fake_433MHzSwitch)
 
 TEST_F(iDomTOOLS_ClassTest, turnOnOff433MHzSwitch)
 {
-  useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+  useful_F::myStaticCtx->idom_all_state.houseState = STATE::UNLOCK;
   EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"), STATE::UNKNOWN);
   test_context.main_iDomStatus->setObjectState("B", STATE::ON);
   EXPECT_EQ(test_context.main_iDomStatus->getObjectState("B"), STATE::ON);
@@ -549,27 +549,27 @@ TEST_F(iDomTOOLS_ClassTest, mpd)
   test_context.ptr_MPD_info->volume = 3;
   blockQueue test_q;
   test_q._clearAll();
-  useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+  useful_F::myStaticCtx->idom_all_state.houseState = STATE::LOCK;
   test_context.main_iDomTools->MPD_play(&test_context);
-  std::string retStr = useful_F::myStaticData->myEventHandler.run("MPD")->getEvent();
+  std::string retStr = useful_F::myStaticCtx->myEventHandler.run("MPD")->getEvent();
   EXPECT_THAT(retStr, testing::HasSubstr("MPD can not start due to home state: LOCK"));
   EXPECT_EQ(test_q._size(), 0);
 
-  useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+  useful_F::myStaticCtx->idom_all_state.houseState = STATE::UNLOCK;
   test_context.main_iDomTools->MPD_play(&test_context);
   EXPECT_EQ(test_q._size(), 1);
   EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY);
   EXPECT_EQ(test_q._size(), 0);
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  useful_F::myStaticData->idom_all_state.houseState = STATE::LOCK;
+  useful_F::myStaticCtx->idom_all_state.houseState = STATE::LOCK;
 
-  useful_F::myStaticData->myEventHandler.run("MPD")->clearEvent();
+  useful_F::myStaticCtx->myEventHandler.run("MPD")->clearEvent();
   test_context.main_iDomTools->MPD_play(&test_context, 2);
-  retStr = useful_F::myStaticData->myEventHandler.run("MPD")->getEvent();
+  retStr = useful_F::myStaticCtx->myEventHandler.run("MPD")->getEvent();
   EXPECT_THAT(retStr, testing::HasSubstr("MPD can not start due to home state: LOCK"));
   EXPECT_EQ(test_q._size(), 0);
 
-  useful_F::myStaticData->idom_all_state.houseState = STATE::UNLOCK;
+  useful_F::myStaticCtx->idom_all_state.houseState = STATE::UNLOCK;
   test_context.main_iDomTools->MPD_play(&test_context, 2);
   EXPECT_EQ(test_q._size(), 1);
   EXPECT_EQ(test_q._get(), MPD_COMMAND::PLAY_ID);

@@ -5,7 +5,7 @@ command_put::command_put(const std::string &name):command(name)
 {
 }
 
-std::string command_put::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_put::execute(std::vector<std::string> &v, thread_context *context)
 {
     std::string str_buf = "command put - wrong paramiter: ";
     if (v.size() > 1){

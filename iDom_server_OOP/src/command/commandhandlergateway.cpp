@@ -3,13 +3,13 @@
 #include "commandClass/command_gateway.h"
 #include "../iDomTools/idomtools_interface.h"
 
-commandHandlerGATEWAY::commandHandlerGATEWAY(thread_data *context) : commandHandler(context)
+commandHandlerGATEWAY::commandHandlerGATEWAY(thread_context *context) : commandHandler(context)
 {
     std::unique_ptr<command> gateway(new command_gateway("gateway"));
     commandMap.insert(std::make_pair(gateway->getCommandName(), std::move(gateway)));
 }
 
-std::string commandHandlerGATEWAY::run(std::vector<std::string> &v, thread_data *context)
+std::string commandHandlerGATEWAY::run(std::vector<std::string> &v, thread_context *context)
 {
     if (v.size() < 3)
     {

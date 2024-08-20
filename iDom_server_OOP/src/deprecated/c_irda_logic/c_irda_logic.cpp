@@ -370,7 +370,7 @@ void c_irda_logic::mainPilotHandler(PILOT_KEY X)
     }
 }
 
-c_irda_logic::c_irda_logic(thread_data *context):context(context)
+c_irda_logic::c_irda_logic(thread_context *context):context(context)
 {
     m_className.append(typeid(this).name());
     who = PILOT_STATE::MPD;

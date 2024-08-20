@@ -7,7 +7,7 @@ command_ardu::command_ardu(const std::string &name):command(name)
 }
 
 command_ardu::command_ardu(const std::string& name,
-                           thread_data *context):command(name),
+                           thread_context *context):command(name),
     m_button433MHzVector(context->main_REC->getButtonPointerVector()),
     m_mainRadioButton( std::nullptr_t()),
     m_weatherStVe(context->main_REC->getWeather_StationPtrVector())
@@ -21,7 +21,7 @@ command_ardu::command_ardu(const std::string& name,
     }
 }
 
-std::string command_ardu::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_ardu::execute(std::vector<std::string> &v, thread_context *context)
 {
     std::string str_buf = " only for internal usage!";
     if (v.size() > 1){
@@ -72,7 +72,7 @@ std::string command_ardu::help() const
     return " only for internal usege\n";
 }
 
-void command_ardu::pingAndOkRecv(thread_data *context, const std::string& s)
+void command_ardu::pingAndOkRecv(thread_context *context, const std::string& s)
 {
     if (s.find("OK;") not_eq std::string::npos)
         context->main_RFLink->m_okTime = Clock::getUnixTime();

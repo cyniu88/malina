@@ -17,7 +17,7 @@ public:
 protected:
     std::unique_ptr<command_put> test_command_put;
     std::vector<std::string> test_v;
-    thread_data test_context;
+    thread_context test_context;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
 };
 

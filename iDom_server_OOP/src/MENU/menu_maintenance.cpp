@@ -5,7 +5,7 @@
 #include "menu_root.h"
 #include "../iDomTools/idomtools_interface.h"
 
-MENU_MAINTENANCE::MENU_MAINTENANCE(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(context, lcdPTR, msm, lcdLED)
+MENU_MAINTENANCE::MENU_MAINTENANCE(thread_context *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(context, lcdPTR, msm, lcdLED)
 {
 }
 

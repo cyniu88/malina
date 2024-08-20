@@ -4,7 +4,7 @@
 
 #include "radio_433_eq.h"
 
-RADIO_SWITCH::RADIO_SWITCH(thread_data *context,
+RADIO_SWITCH::RADIO_SWITCH(thread_context *context,
                            const RADIO_EQ_CONFIG &cfg,
                            RADIO_EQ_TYPE type) : main433MHz(context)
 {
@@ -103,7 +103,7 @@ void RADIO_SWITCH::setCode(RADIO_EQ_CONFIG cfg)
     RADIO_EQ::m_config.name = cfg.name;
 }
 
-RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_data *m_context)
+RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_context *m_context)
 {
     this->context = m_context;
 }
@@ -386,7 +386,7 @@ RADIO_EQ_TYPE RADIO_EQ::getType() const
     return m_type;
 }
 
-RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_data *context, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type)
+RADIO_WEATHER_STATION::RADIO_WEATHER_STATION(thread_context *context, const RADIO_EQ_CONFIG &cfg, RADIO_EQ_TYPE type)
 {
     RADIO_EQ::m_context = context;
     RADIO_EQ::m_type = type;

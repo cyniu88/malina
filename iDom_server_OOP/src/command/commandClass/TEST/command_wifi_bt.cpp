@@ -12,7 +12,7 @@ public:
 protected:
     std::unique_ptr<command_wifi> test_command_wifi;
     std::vector<std::string> test_v;
-    thread_data test_context;
+    thread_context test_context;
 };
 
 TEST_F(command_wifi_Class_fixture, main)

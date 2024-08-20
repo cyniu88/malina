@@ -6,7 +6,7 @@ command_help::command_help(const std::string &name,std::map <std::string, std::u
 {
 }
 
-std::string command_help::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_help::execute(std::vector<std::string> &v, thread_context *context)
 {
     std::string result = "";
     if (v.size() == 2){

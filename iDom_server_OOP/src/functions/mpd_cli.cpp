@@ -18,7 +18,7 @@ void error_callback(MpdObj *mi, int errorid, char *msg, void *userdata)
            errorid, msg);
 }
 
-void status_changed(MpdObj *mi, ChangedStatusType what, thread_data *context)
+void status_changed(MpdObj *mi, ChangedStatusType what, thread_context *context)
 {
     if (what & MPD_CST_SONGID)
     {
@@ -225,7 +225,7 @@ mpd_status_get_elapsed_song_time(mi)%60);
         }
 }
 
-void main_mpd_cli(thread_data *context, const std::string &threadName)
+void main_mpd_cli(thread_context *context, const std::string &threadName)
 {
         blockQueue mpdQueue; // kolejka polecen
 
@@ -361,7 +361,7 @@ void main_mpd_cli(thread_data *context, const std::string &threadName)
         log_file_mutex.mutex_unlock();
 }
 
-void updatePlayList(MpdObj *mi, thread_data *context)
+void updatePlayList(MpdObj *mi, thread_context *context)
 {
         {
             MpdData *data = mpd_playlist_get_changes(mi, -1);

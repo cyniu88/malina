@@ -15,7 +15,7 @@ public:
         std::string cfg("../config/bulb_config.json");;
         test_context.main_house_room_handler = std::make_shared<house_room_handler>(&test_context);
         test_context.main_house_room_handler->loadConfig(cfg);
-        useful_F::myStaticData = &test_context;
+        useful_F::myStaticCtx = &test_context;
         test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_context.main_iDomTools = main_iDomTools;
         test_context.server_settings = &test_server_settings;
@@ -26,7 +26,7 @@ public:
 protected:
     std::unique_ptr<command_light> test_command_light;
     std::vector<std::string> test_v;
-    thread_data test_context;
+    thread_context test_context;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
     CONFIG_JSON test_server_settings;
 };

@@ -5,7 +5,7 @@
 class MENU_ROOT : public MENU_STATE_BASE
 {
 public:
-    MENU_ROOT(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
+    MENU_ROOT(thread_context *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED = STATE::OFF);
     MENU_ROOT(const MENU_ROOT &base);
     MENU_ROOT(MENU_ROOT &&base);
     MENU_ROOT &operator=(const MENU_ROOT &base);

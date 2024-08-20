@@ -19,7 +19,7 @@ protected:
         test_context.main_iDomTools = main_iDomTools;
         test_context.ptr_buderus = buderusMock;
     }
-    thread_data test_context;
+    thread_context test_context;
     std::shared_ptr<iDomToolsMock>main_iDomTools;
     std::shared_ptr<BUDERUS_MOCK> buderusMock;
 };
@@ -109,7 +109,7 @@ TEST_F(menu_state_machine_fixture, main)
 
 TEST_F(menu_state_machine_fixture, MENU_LIGHT){
     test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("test");
-    useful_F::myStaticData = &test_context;
+    useful_F::myStaticCtx = &test_context;
     LCD_c lcd(0x27,16,2);
     MENU_STATE_MACHINE stateMechine;
     //////// bulb config

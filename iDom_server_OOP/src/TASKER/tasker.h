@@ -10,11 +10,11 @@ class TASKER
     std::string topic;
 
 public:
-    explicit TASKER(thread_data *context);
+    explicit TASKER(thread_context *context);
 
     int runTasker();
 
 private:
-    thread_data *context;
+    thread_context *context;
 };
 

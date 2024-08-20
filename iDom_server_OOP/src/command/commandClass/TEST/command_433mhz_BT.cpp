@@ -27,7 +27,7 @@ public:
     }
 
 protected:
-    thread_data test_context;
+    thread_context test_context;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
     std::vector<std::string> test_v;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;

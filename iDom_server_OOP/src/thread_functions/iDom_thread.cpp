@@ -7,8 +7,8 @@
 using namespace std::chrono_literals;
 
 std::string iDOM_THREAD::start_thread(const std::string &name,
-                                      std::function<void(thread_data *, const std::string &threadName)> functionToThread, // void(fn)(thread_data),
-                                      thread_data *context,
+                                      std::function<void(thread_context *, const std::string &threadName)> functionToThread, // void(fn)(thread_data),
+                                      thread_context *context,
                                       unsigned int thread_socket)
 {
     int freeSlotID = iDOM_THREAD::findFreeThreadSlot(context->main_THREAD_arr);
@@ -34,7 +34,7 @@ std::string iDOM_THREAD::start_thread(const std::string &name,
 }
 
 void iDOM_THREAD::stop_thread(const std::string &name,
-                              thread_data *context)
+                              thread_context *context)
 {
     try
     {
@@ -61,7 +61,7 @@ void iDOM_THREAD::stop_thread(const std::string &name,
     log_file_mutex.mutex_unlock();
 }
 
-void iDOM_THREAD::waitUntilAllThreadEnd(thread_data *context)
+void iDOM_THREAD::waitUntilAllThreadEnd(thread_context *context)
 {
     int threadCounter = 0;
     int counter = 20;

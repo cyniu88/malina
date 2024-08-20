@@ -4,7 +4,7 @@ command_ip::command_ip(const std::string &name):command(name)
 {
 }
 
-std::string command_ip::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_ip::execute(std::vector<std::string> &v, thread_context *context)
 {
     return "iDom server IP: " + context->server_settings->_server.SERVER_IP;
 }

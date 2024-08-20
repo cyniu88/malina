@@ -2,7 +2,7 @@
 #include "../functions/functions.h"
 #include "../iDomTools/idomtools_interface.h"
 
-CRON::CRON(thread_data *context) : context(context)
+CRON::CRON(thread_context *context) : context(context)
 {
 }
 

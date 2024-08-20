@@ -5,7 +5,7 @@ command_buderus::command_buderus(const std::string &name):command(name)
 
 }
 
-std::string command_buderus::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_buderus::execute(std::vector<std::string> &v, thread_context *context)
 {
     std::string str_buf = "command buderus - wrong paramiter:\n "+ help();
 

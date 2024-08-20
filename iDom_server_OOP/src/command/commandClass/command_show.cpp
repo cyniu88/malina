@@ -7,7 +7,7 @@ command_show::command_show(const std::string &name):command(name)
 
 }
 
-std::string command_show::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_show::execute(std::vector<std::string> &v, thread_context *context)
 {
     std::string str_buf = "show what?";
     if (v.size() > 1){

@@ -5,7 +5,7 @@
 std::mutex RFLinkHandler::sm_RFLink_MUTEX;
 std::string RFLinkHandler::sm_RFLink_BUFOR;
 
-RFLinkHandler::RFLinkHandler(thread_data *context):
+RFLinkHandler::RFLinkHandler(thread_context *context):
     m_serial_RFLink(context->server_settings->_rflink.RFLinkPort)
 {
     this->context = context;

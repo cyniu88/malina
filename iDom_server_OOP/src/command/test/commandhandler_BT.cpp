@@ -24,9 +24,9 @@ public:
         test_context.main_iDomTools = main_iDomTools;
         testRoomHandler->loadConfig("../config/bulb_config.json");
         test_context.main_house_room_handler = testRoomHandler;
-        useful_F::myStaticData = &test_context;
+        useful_F::myStaticCtx = &test_context;
     }
-    thread_data test_context;
+    thread_context test_context;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     CONFIG_JSON test_server_settings;
     std::vector<std::string> test_v;

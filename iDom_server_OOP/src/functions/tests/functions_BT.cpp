@@ -8,11 +8,11 @@ class functions_fixture : public testing::Test
 protected:
     functions_fixture() : main_iDomTools(std::make_shared<iDomToolsMock>())
     {
-        useful_F::myStaticData = &test_context;
+        useful_F::myStaticCtx = &test_context;
         test_context.main_iDomTools = main_iDomTools;
         test_context.server_settings = &test_server_set;
     }
-    thread_data test_context;
+    thread_context test_context;
     CONFIG_JSON test_server_set;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
 };
@@ -99,13 +99,13 @@ TEST(functions_, RSHash)
 TEST_F(functions_fixture, setStaticData)
 {
     test_context.sleeper = 99;
-    EXPECT_EQ(useful_F::myStaticData->sleeper, 99);
-    thread_data test_context2;
+    EXPECT_EQ(useful_F::myStaticCtx->sleeper, 99);
+    thread_context test_context2;
     test_context2.sleeper = 88;
     EXPECT_EQ(test_context2.sleeper, 88);
-    EXPECT_EQ(useful_F::myStaticData->sleeper, 99);
+    EXPECT_EQ(useful_F::myStaticCtx->sleeper, 99);
     useful_F::setStaticData(&test_context2);
-    EXPECT_EQ(useful_F::myStaticData->sleeper, 88);
+    EXPECT_EQ(useful_F::myStaticCtx->sleeper, 88);
 }
 
 TEST_F(functions_fixture, sleepThread)

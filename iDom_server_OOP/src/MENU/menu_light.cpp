@@ -2,7 +2,7 @@
 #include "menu_main.h"
 #include "menu_root.h"
 
-MENU_LIGHT::MENU_LIGHT(thread_data *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(context, lcdPTR, msm, lcdLED)
+MENU_LIGHT::MENU_LIGHT(thread_context *context, LCD_c *lcdPTR, MENU_STATE_MACHINE *msm, STATE lcdLED) : MENU_STATE_BASE(context, lcdPTR, msm, lcdLED)
 {
     // std::cout << "MENU_LIGHT::MENU_LIGHT()" << std::endl;
 }

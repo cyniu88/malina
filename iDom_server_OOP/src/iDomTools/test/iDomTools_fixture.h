@@ -12,7 +12,7 @@ class iDomTOOLS_ClassTest : public testing::Test
 {
 public:
     TEST_JSON test_Json;
-    thread_data test_context;
+    thread_context test_context;
     CONFIG_JSON test_server_set;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     ALERT test_alarmTime;
@@ -74,6 +74,6 @@ public:
         test_context.server_settings->_satel_integra.partitionID = 1;
         test_context.server_settings->_satel_integra.pin = "1122";
         test_context.satelIntegraHandler = &test_satel;
-        useful_F::myStaticData = &test_context;
+        useful_F::myStaticCtx = &test_context;
     }
 };

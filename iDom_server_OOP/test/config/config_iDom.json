@@ -52,6 +52,13 @@
 		"TS_KEY": "4O",
 		"TS_KEY2": "4O"
 	},
+	"Database":{
+		"IP": "10.9.0.34",
+		"org": "cynixowo",
+		"token": "",
+		"bucket": "iDom",
+		"port": 8086
+	},
 	"MPD_settings": {
 		"MPD_IP": "127.0.0.1"
 	},

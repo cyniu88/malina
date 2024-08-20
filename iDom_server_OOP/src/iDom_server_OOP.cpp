@@ -27,7 +27,7 @@ std::string buffer;
 Logger log_file_mutex(_logfile);
 
 //////////////// watek RFLink //////////////////////////////////
-void RFLinkHandlerRUN(thread_data *context, const std::string &threadName)
+void RFLinkHandlerRUN(thread_context *context, const std::string &threadName)
 {
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "watek " << threadName << " wystartowal " << std::this_thread::get_id() << std::endl;
@@ -76,7 +76,7 @@ void RFLinkHandlerRUN(thread_data *context, const std::string &threadName)
 }
 
 //////////// watek do obslugi polaczeni miedzy nodami //////////////
-void f_serv_con_node(thread_data *context, const std::string &threadName)
+void f_serv_con_node(thread_context *context, const std::string &threadName)
 {
     context->myEventHandler.run("node")->addEvent("start and stop node");
     // useful_F::clearThreadArray(context);
@@ -85,7 +85,7 @@ void f_serv_con_node(thread_data *context, const std::string &threadName)
 } // koniec f_serv_con_node
 
 ///////////////////// watek MQTT subscriber
-void f_master_mqtt(thread_data *context, const std::string &threadName)
+void f_master_mqtt(thread_context *context, const std::string &threadName)
 {
     bool ex = false;
     try
@@ -107,7 +107,7 @@ void f_master_mqtt(thread_data *context, const std::string &threadName)
 } // koniec master_mqtt
 
 ///////////////////// watek CRON //////////////////////////////
-void f_master_CRON(thread_data *context, const std::string &threadName)
+void f_master_CRON(thread_context *context, const std::string &threadName)
 {
     while (useful_F::go_while)
     {
@@ -128,7 +128,7 @@ void f_master_CRON(thread_data *context, const std::string &threadName)
 } // koniec CRON
 
 ///////////////////// watek influx //////////////////////////////
-void f_master_influx(thread_data *context, const std::string &threadName)
+void f_master_influx(thread_context *context, const std::string &threadName)
 {
     while (useful_F::go_while)
     {
@@ -184,7 +184,7 @@ void f_master_influx(thread_data *context, const std::string &threadName)
 } // koniec influx
 
 ///////////////////// watek Satel Integra32 //////////////////////////
-void f_satelIntegra32(thread_data *context, const std::string &threadName)
+void f_satelIntegra32(thread_context *context, const std::string &threadName)
 {
     while (useful_F::go_while)
     {
@@ -208,27 +208,13 @@ void my_sig_handler(int s)
 {
     printf("\nCaught signal %d\n", s);
 
-    std::cout << "MENU:" << std::endl
-              << "0 - STOP" << std::endl
-              << "1 - RELOAD" << std::endl;
-    int k;
-    std::cin >> k;
-    std::cout << "podałeś: " << k << std::endl;
-    if (useful_F::myStaticData->main_iDomTools != std::nullptr_t())
+    if (useful_F::myStaticCtx->main_iDomTools != std::nullptr_t())
     {
-        if (k == 0)
-        {
+        
             std::cout << "zamykam" << std::endl;
-            useful_F::myStaticData->main_iDomTools->close_iDomServer();
-        }
-        else if (k == 1)
-        {
-            std::cout << "jeszce nie przeladowywuje :(" << std::endl;
-            useful_F::myStaticData->main_iDomTools->reloadHard_iDomServer();
-        }
-        else
-            std::cout << "co ty podales?" << std::endl;
+            useful_F::myStaticCtx->main_iDomTools->close_iDomServer();
     }
+
 }
 
 void catchSigInt()
@@ -239,7 +225,8 @@ void catchSigInt()
     sigemptyset(&sigIntHandler.sa_mask);
     sigIntHandler.sa_flags = 0;
 
-    sigaction(SIGINT, &sigIntHandler, NULL);
+    sigaction(SIGTERM, &sigIntHandler, NULL);
+   // sigaction(SIGTERM, &sigIntHandler, NULL);
     signal(SIGABRT, cyniu::BACKTRACE::handleCrash);
     signal(SIGSEGV, cyniu::BACKTRACE::handleCrash);
 }
@@ -275,7 +262,7 @@ iDomStateEnum iDom_main()
         std::cerr << e.what() << "\n config file error";
     }
 
-    thread_data node_data; // przekazywanie do watku
+    thread_context node_data; // przekazywanie do watku
     node_data.lusina.shedConfJson = server_settings._shedConf;
     node_data.server_settings = &server_settings;
     time(&node_data.start);

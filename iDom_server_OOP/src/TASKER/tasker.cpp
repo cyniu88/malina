@@ -1,7 +1,7 @@
 #include "tasker.h"
 #include "../functions/functions.h"
 
-TASKER::TASKER(thread_data *context) : topic("iDom-client/command"),
+TASKER::TASKER(thread_context *context) : topic("iDom-client/command"),
                                        context(context)
 {
 }

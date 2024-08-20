@@ -1,7 +1,7 @@
 #include "rc_433mhz.h"
 #include "RFLink/rflinkhandler.h"
 
-RC_433MHz::RC_433MHz(thread_data *context)
+RC_433MHz::RC_433MHz(thread_context *context)
 {
     this->m_context = context;
 }

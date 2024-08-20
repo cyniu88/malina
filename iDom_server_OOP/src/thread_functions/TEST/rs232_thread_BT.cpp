@@ -28,7 +28,7 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_RS232)
 
 TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_FREE)
 {
-    EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 0);
+    EXPECT_EQ(useful_F::myStaticCtx->myEventHandler.run("RS232")->howManyEvent(), 0);
     useful_F::go_while = true;
     thread_data_rs232 test_data_rs232;
     test_data_rs232.BaudRate = 9600;
@@ -44,6 +44,6 @@ TEST_F(rs232_thread_fixture, send_Recieve_rs232_thread_FREE)
 
     EXPECT_STREQ(TEST_DATA::serial_b.c_str(),"");
     EXPECT_EQ(test_who[1], iDomConst::FREE);
-    EXPECT_EQ(useful_F::myStaticData->myEventHandler.run("RS232")->howManyEvent(), 1);
+    EXPECT_EQ(useful_F::myStaticCtx->myEventHandler.run("RS232")->howManyEvent(), 1);
 }
 */

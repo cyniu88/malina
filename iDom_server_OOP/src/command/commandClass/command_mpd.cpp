@@ -6,7 +6,7 @@ command_mpd::command_mpd(const std::string &name) :command(name)
 {
 }
 
-std::string command_mpd::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_mpd::execute(std::vector<std::string> &v, thread_context *context)
 {
     std::string str_buf;
 

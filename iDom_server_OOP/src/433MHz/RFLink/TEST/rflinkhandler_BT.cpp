@@ -6,7 +6,7 @@
 class RFLinkHandler_Class_fixture : public ::testing::Test
 {
 public:
-    thread_data test_context;
+    thread_context test_context;
     CONFIG_JSON test_server_set;
     std::unique_ptr<RFLinkHandler> test_RFLink;
 

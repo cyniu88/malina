@@ -9,12 +9,12 @@
 
 class commandHandler
 {
-    thread_data *context;
+    thread_context *context;
 
 public:
     std::map<std::string, std::unique_ptr<command>> commandMap;
-    explicit commandHandler(thread_data *context);
+    explicit commandHandler(thread_context *context);
     virtual ~commandHandler() = default;
-    virtual std::string run(std::vector<std::string> &v, thread_data *context);
+    virtual std::string run(std::vector<std::string> &v, thread_context *context);
 };
 

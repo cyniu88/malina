@@ -284,7 +284,7 @@ public:
     }
 
 protected:
-    thread_data test_context;
+    thread_context test_context;
     CONFIG_JSON test_server_settings;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
 

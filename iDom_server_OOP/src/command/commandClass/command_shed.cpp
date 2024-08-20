@@ -5,7 +5,7 @@ command_shed::command_shed(const std::string &name) : command(name)
 {
 }
 
-std::string command_shed::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_shed::execute(std::vector<std::string> &v, thread_context *context)
 {
     std::stringstream str_buf;
     str_buf << "command shed - wrong paramiter";

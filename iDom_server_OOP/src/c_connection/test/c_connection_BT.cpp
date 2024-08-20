@@ -26,7 +26,7 @@ public:
     }
 
 protected:
-    thread_data test_context;
+    thread_context test_context;
     CONFIG_JSON test_server_set;
     std::shared_ptr<iDomToolsMock> main_iDomTools;
     std::unique_ptr<C_connection> test_connection;

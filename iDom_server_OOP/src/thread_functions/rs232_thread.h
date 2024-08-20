@@ -8,7 +8,7 @@
 using namespace std::chrono_literals;
 
 //////////// watek wysylajacy/obdbierajacy dane z portu RS232 ////////
-void Send_Recieve_rs232_thread(thread_data *context, const std::string &threadName)
+void Send_Recieve_rs232_thread(thread_context *context, const std::string &threadName)
 {
     context->main_Rs232 = std::make_unique<SerialPi>(context->server_settings->_rs232.portRS232);
     context->main_Rs232->begin(context->server_settings->_rs232.BaudRate);

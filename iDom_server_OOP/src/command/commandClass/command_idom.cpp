@@ -5,7 +5,7 @@ command_iDom::command_iDom(const std::string &name):command(name)
 {
 }
 
-std::string command_iDom::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_iDom::execute(std::vector<std::string> &v, thread_context *context)
 {
     if (v.size()<2){
         return "need parameter!\n" + help();

@@ -57,12 +57,12 @@ std::string iDomSTATUS::getAllObjectsStateString() const
     }
     // shortcut solution for buderus
     st << "burnGas=";
-    auto heating = useful_F::myStaticData->ptr_buderus->isHeatingActiv();
+    auto heating = useful_F::myStaticCtx->ptr_buderus->isHeatingActiv();
     if (heating == true)
     {
         st << STATE::ACTIVE;
         st << " burnGasStartTime="
-           << useful_F::myStaticData->ptr_buderus->getHeatingStartTime() << ' ';
+           << useful_F::myStaticCtx->ptr_buderus->getHeatingStartTime() << ' ';
     }
     else
         st << STATE::DEACTIVE << ' ';

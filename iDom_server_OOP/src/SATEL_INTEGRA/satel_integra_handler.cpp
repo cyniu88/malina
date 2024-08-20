@@ -9,7 +9,7 @@
 
 using namespace std::chrono_literals;
 
-SATEL_INTEGRA_HANDLER::SATEL_INTEGRA_HANDLER(thread_data *myData) : m_integra32(myData->server_settings->_satel_integra.host,
+SATEL_INTEGRA_HANDLER::SATEL_INTEGRA_HANDLER(thread_context *myData) : m_integra32(myData->server_settings->_satel_integra.host,
                                                                                 myData->server_settings->_satel_integra.port)
 {
     context = myData;

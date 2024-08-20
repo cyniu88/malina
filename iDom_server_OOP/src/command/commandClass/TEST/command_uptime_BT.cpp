@@ -12,7 +12,7 @@ public:
 protected:
     std::unique_ptr<command_UPTIME> test_command_uptime;
     std::vector<std::string> test_v;
-    thread_data test_context;
+    thread_context test_context;
 };
 
 TEST_F(command_uptime_Class_fixture, main)

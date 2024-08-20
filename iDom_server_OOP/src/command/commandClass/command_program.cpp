@@ -5,7 +5,7 @@
 
 command_program::command_program(const std::string &name):command(name){}
 
-std::string command_program::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_program::execute(std::vector<std::string> &v, thread_context *context)
 {
     std::string ret = help();
     if (v.size() <2 )

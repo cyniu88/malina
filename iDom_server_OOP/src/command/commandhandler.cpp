@@ -14,7 +14,7 @@
 #include "commandClass/commandexit.h"
 #include "commandClass/commandtest.h"
 
-commandHandler::commandHandler(thread_data * context)
+commandHandler::commandHandler(thread_context * context)
 {
     std::unique_ptr <command> test(new commandTEST("test") );
     commandMap.insert( std::make_pair(test->getCommandName(),std::move( test )) );
@@ -58,7 +58,7 @@ commandHandler::commandHandler(thread_data * context)
     this->context = context;
 }
 
-std::string commandHandler::run(std::vector<std::string> &v, thread_data *context)
+std::string commandHandler::run(std::vector<std::string> &v, thread_context *context)
 {
     if (commandMap.find(v.front()) == commandMap.end()){
         std::fstream log;

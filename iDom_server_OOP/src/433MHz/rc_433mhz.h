@@ -4,10 +4,10 @@
 
 class RC_433MHz
 {
-    thread_data *m_context;
+    thread_context *m_context;
 
 public:
-    explicit RC_433MHz(thread_data *context);
+    explicit RC_433MHz(thread_context *context);
     void sendCode(const std::string &code);
     std::string receiveCode();
 };

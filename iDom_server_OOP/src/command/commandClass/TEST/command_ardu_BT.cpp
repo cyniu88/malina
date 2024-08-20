@@ -26,7 +26,7 @@ protected:
     std::vector<std::string> test_v= {"ardu"};
     blockQueue test_q;
     std::unique_ptr<command_ardu> test_ardu;
-    thread_data test_context;
+    thread_context test_context;
     std::shared_ptr<RADIO_EQ_CONTAINER> test_rec;
     CONFIG_JSON test_server_settings;
 };

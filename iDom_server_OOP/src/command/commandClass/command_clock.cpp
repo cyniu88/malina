@@ -5,7 +5,7 @@ command_clock::command_clock(const std::string &name):command(name)
 
 }
 
-std::string command_clock::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_clock::execute(std::vector<std::string> &v, thread_context *context)
 {
     if(v.size()<2)
         return "can not set clock";

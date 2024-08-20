@@ -6,7 +6,7 @@ command_gateway::command_gateway(const std::string &name):command(name)
 
 }
 
-std::string command_gateway::execute(std::vector<std::string> &v, thread_data *context)
+std::string command_gateway::execute(std::vector<std::string> &v, thread_context *context)
 {
     if(v[1] == "fan")
     {

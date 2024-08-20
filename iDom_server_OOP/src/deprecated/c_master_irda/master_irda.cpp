@@ -37,7 +37,7 @@ KEY_VOLUMEUP        +
 #include "../c_irda_logic/c_irda_logic.h"
 #include "../functions/functions.h"
 
-master_irda::master_irda(thread_data *context):buttonTimer(millis()), buttonMENU(0), context2(context)
+master_irda::master_irda(thread_context *context):buttonTimer(millis()), buttonMENU(0), context2(context)
 {
     if(lirc_init(const_cast< char*>("lirc"),1) != -1)
     {

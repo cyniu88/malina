@@ -47,7 +47,7 @@ CommandHandlerMQTT::CommandHandlerMQTT()
     commandMap.insert(std::make_pair(shed->getCommandName(), std::move(shed)));
 }
 
-std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_data *context)
+std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_context *context)
 {
     if (commandMap.find(v.front()) == commandMap.end())
     {

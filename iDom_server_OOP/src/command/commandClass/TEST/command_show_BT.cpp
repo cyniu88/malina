@@ -15,7 +15,7 @@ protected:
     std::unique_ptr<command_show> test_command_show;
 
     std::vector<std::string> test_v;
-    thread_data test_context;
+    thread_context test_context;
 };
 
 TEST_F(command_show_Class_fixture, wrongParameter)
