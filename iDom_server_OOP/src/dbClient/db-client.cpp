@@ -1,7 +1,7 @@
 #include "db-client.hpp"
 #include "../../libs/influxm/client.h"
 #include "../../src/iDom_server_OOP.h"
-#include "../../functions.h"
+#include "../../src/functions/functions.h"
 
 #include <iostream>
 #include <experimental/source_location>
@@ -12,11 +12,11 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
     int code2 = 204;
 
     influx_client::flux::Client client(
-        useful_F::myStaticCtx->_database.ip,
-        useful_F::myStaticCtx->_database.port,
-        useful_F::myStaticCtx->_database.token,
-        useful_F::myStaticCtx->_database.org,
-        useful_F::myStaticCtx->_database.bucket);
+        useful_F::myStaticCtx->server_settings->_database.ip,
+        useful_F::myStaticCtx->server_settings->_database.port,
+        useful_F::myStaticCtx->server_settings->_database.token,
+        useful_F::myStaticCtx->server_settings->_database.org,
+        useful_F::myStaticCtx->server_settings->_database.bucket);
 
     if (iDomData.at("smog").at("smog").has_value())
     {
