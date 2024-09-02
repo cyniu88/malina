@@ -140,4 +140,6 @@ public:
 
     //////////////////  doorbell  ////////////////////////
     virtual void doorbellDingDong() = 0;
+
+    virtual void runCommandFromJson(const std::vector<std::string> &jj) = 0;
 };

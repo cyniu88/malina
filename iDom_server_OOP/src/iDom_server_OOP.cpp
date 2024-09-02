@@ -210,7 +210,6 @@ void my_sig_handler(int s)
 
     if (useful_F::myStaticCtx->main_iDomTools != std::nullptr_t())
     {
-        
             std::cout << "zamykam" << std::endl;
             useful_F::myStaticCtx->main_iDomTools->close_iDomServer();
     }
@@ -262,13 +261,13 @@ iDomStateEnum iDom_main()
         std::cerr << e.what() << "\n config file error";
     }
 
-    thread_context node_data; // przekazywanie do watku
-    node_data.lusina.shedConfJson = server_settings._shedConf;
-    node_data.server_settings = &server_settings;
-    time(&node_data.start);
+    thread_context context; // przekazywanie do watku
+    context.lusina.shedConfJson = server_settings._shedConf;
+    context.server_settings = &server_settings;
+    time(&context.start);
 
     //////////////////////////////////// load json SaveState
-    iDom_SAVE_STATE info(node_data.server_settings->_server.saveFilePath);
+    iDom_SAVE_STATE info(context.server_settings->_server.saveFilePath);
     nlohmann::json jj;
     try
     {
@@ -288,7 +287,7 @@ iDomStateEnum iDom_main()
         thread_array[i].thread_socket = 0;
     }
 
-    node_data.main_THREAD_arr = &thread_array;
+    context.main_THREAD_arr = &thread_array;
 
     /////////////////////////////////////////// zaczynam wpisy do logu ////////////////////////////////////////////////////////////
     log_file_mutex.mutex_lock();
@@ -352,10 +351,10 @@ iDomStateEnum iDom_main()
 */
     //////////////////////////////////////////////////////////////////////
 
-    useful_F::setStaticData(&node_data);
+    useful_F::setStaticData(&context);
     /////////////////////////////////////////////////////////
 
-    node_data.sleeper = 0;
+    context.sleeper = 0;
 
     /////////////////////////////////////// MQTT ////////////////////////////
     std::string login{"iDom-server-"};
@@ -365,8 +364,8 @@ iDomStateEnum iDom_main()
     log_file_cout << INFO << "mqtt login  " << login << std::endl;
     log_file_mutex.mutex_unlock();
 
-    node_data.mqttHandler = std::make_unique<MQTT_mosquitto>(login);
-    node_data.mqttHandler->turnOffDebugeMode();
+    context.mqttHandler = std::make_unique<MQTT_mosquitto>(login);
+    context.mqttHandler->turnOffDebugeMode();
 
     ////////////////////////////////thread starting part //////////////////////////////////////////////
     /////////////////////////////// RC 433MHz ////////////////////
@@ -376,7 +375,7 @@ iDomStateEnum iDom_main()
         // start watku czytania RFLinka
         iDOM_THREAD::start_thread("RFLink thread",
                                   RFLinkHandlerRUN,
-                                  &node_data);
+                                  &context);
     }
     else
     {
@@ -391,7 +390,7 @@ iDomStateEnum iDom_main()
     {
         iDOM_THREAD::start_thread("RS232 thread",
                                   Send_Recieve_rs232_thread,
-                                  &node_data,
+                                  &context,
                                   1);
     }
     else
@@ -402,32 +401,32 @@ iDomStateEnum iDom_main()
     }
 
     /////////////////////////////// MPD info /////////////////////////
-    node_data.ptr_MPD_info = std::make_unique<MPD_info>();
+    context.ptr_MPD_info = std::make_unique<MPD_info>();
     /////////////////////////////// iDom Status //////////////////////
-    node_data.main_iDomStatus = std::make_unique<iDomSTATUS>();
-    node_data.main_iDomStatus->setObjectState("music", STATE::STOP);
+    context.main_iDomStatus = std::make_unique<iDomSTATUS>();
+    context.main_iDomStatus->setObjectState("music", STATE::STOP);
     /////////////////////////////// MENU LCD //////////////////////////////
     LCD_c lcd(0x27, 16, 2);
     MENU_STATE_MACHINE stateMechine;
-    auto ptr = std::make_unique<MENU_ROOT>(&node_data, &lcd, &stateMechine);
+    auto ptr = std::make_unique<MENU_ROOT>(&context, &lcd, &stateMechine);
     stateMechine.setStateMachine(std::move(ptr));
-    node_data.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
+    context.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
     /////////////////////////////// iDom Tools ///////////////////////
-    node_data.main_iDomTools = std::make_shared<iDomTOOLS>(&node_data);
+    context.main_iDomTools = std::make_shared<iDomTOOLS>(&context);
     ///////////////////////////////// BUDERUS //////////////////////////////
-    node_data.ptr_buderus = std::make_shared<BUDERUS>();
+    context.ptr_buderus = std::make_shared<BUDERUS>();
     //////////////////////////////// LIGHT  ///////////////////////////////////
-    node_data.main_house_room_handler = std::make_shared<house_room_handler>(&node_data);
+    context.main_house_room_handler = std::make_shared<house_room_handler>(&context);
     // std::string cf();
-    node_data.main_house_room_handler->loadConfig("/etc/config/iDom_SERVER/bulb_config.json");
-    node_data.main_house_room_handler->loadButtonConfig("/etc/config/iDom_SERVER/button_config.json");
+    context.main_house_room_handler->loadConfig("/etc/config/iDom_SERVER/bulb_config.json");
+    context.main_house_room_handler->loadButtonConfig("/etc/config/iDom_SERVER/button_config.json");
     //////////////////////////////// SETTINGS //////////////////////////////
-    node_data.main_iDomStatus->addObject("house", node_data.idom_all_state.houseState);
+    context.main_iDomStatus->addObject("house", context.idom_all_state.houseState);
 
     //////////////////////////////////////// start watku MQTT
     if (server_settings._runThread.MQTT == true)
     {
-        iDOM_THREAD::start_thread("MQTT thread", f_master_mqtt, &node_data);
+        iDOM_THREAD::start_thread("MQTT thread", f_master_mqtt, &context);
     }
     else
     {
@@ -438,7 +437,7 @@ iDomStateEnum iDom_main()
     //////////////////////////////////////// start watku SATEL INTEGRA32
     if (server_settings._runThread.SATEL == true)
     {
-        iDOM_THREAD::start_thread("Satel INTEGRA32 thread", f_satelIntegra32, &node_data);
+        iDOM_THREAD::start_thread("Satel INTEGRA32 thread", f_satelIntegra32, &context);
     }
     else
     {
@@ -449,7 +448,7 @@ iDomStateEnum iDom_main()
     //////////////////////////////////////// start watku mpd_cli
     if (server_settings._runThread.MPD == true)
     {
-        iDOM_THREAD::start_thread("MPD  thread", main_mpd_cli, &node_data);
+        iDOM_THREAD::start_thread("MPD  thread", main_mpd_cli, &context);
     }
     else
     {
@@ -461,7 +460,7 @@ iDomStateEnum iDom_main()
 
     if (server_settings._runThread.INFLUX == true)
     {
-        iDOM_THREAD::start_thread("influx thread", f_master_influx, &node_data);
+        iDOM_THREAD::start_thread("influx thread", f_master_influx, &context);
     }
     else
     {
@@ -472,7 +471,7 @@ iDomStateEnum iDom_main()
     ///////////////////////////////////////// start watku CRONa
     if (server_settings._runThread.CRON == true)
     {
-        iDOM_THREAD::start_thread("Cron thread", f_master_CRON, &node_data);
+        iDOM_THREAD::start_thread("Cron thread", f_master_CRON, &context);
     }
     else
     {
@@ -482,7 +481,7 @@ iDomStateEnum iDom_main()
     }
     if (server_settings._runThread.DUMMY == true)
     {
-        iDOM_THREAD::start_thread("node thread", f_serv_con_node, &node_data);
+        iDOM_THREAD::start_thread("node thread", f_serv_con_node, &context);
     }
     else
     {
@@ -492,36 +491,36 @@ iDomStateEnum iDom_main()
     }
 
     ///////////////////////////////////////////////////// INFO PART ////////////////////////////////////////////////
-    node_data.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings._fb_viber.viberReceiver.at(0),
+    context.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings._fb_viber.viberReceiver.at(0),
                                            server_settings._fb_viber.viberSender);
     /////////////////////////////////////////////////// RESTORE PART ///////////////////////////////////////////////
-    node_data.main_iDomTools->readState_iDom(jj);
+    context.main_iDomTools->readState_iDom(jj);
     ///////////////////////////////////////////////////// TASKER PART ////////////////////////
-    TASKER mainTasker(&node_data);
+    TASKER mainTasker(&context);
     ///////////////////////////////////////////////////// STARTED //////////////////////////////////////////////////
-    node_data.serverStarted = true;
+    context.serverStarted = true;
     //////// get light state
-    node_data.mqttHandler->publish(house_room_handler::m_mqttPublishTopic, "777;1;0;0");
+    context.mqttHandler->publish(house_room_handler::m_mqttPublishTopic, "777;1;0;0");
     ///////////////////////////////////////////////////// start server ////////////////////////////////////////////////////
 
-    useful_F::startServer(&node_data, &mainTasker);
+    useful_F::startServer(&context, &mainTasker);
 
     //////////////////////////////////////////////////// close part ///////////////////////////////////////////////////////
-    if (node_data.iDomProgramState == iDomStateEnum::CLOSE or node_data.iDomProgramState == iDomStateEnum::RASPBERRY_RELOAD)
+    if (context.iDomProgramState == iDomStateEnum::CLOSE or context.iDomProgramState == iDomStateEnum::RASPBERRY_RELOAD)
     {
-        node_data.main_iDomTools->MPD_stop();
-        node_data.main_iDomTools->turnOffSpeakers();
+        context.main_iDomTools->MPD_stop();
+        context.main_iDomTools->turnOffSpeakers();
     }
 
-    node_data.mqttHandler->disconnect();
+    context.mqttHandler->disconnect();
 
     std::this_thread::sleep_for(100ms);
 
     pthread_mutex_destroy(&Logger::mutex_log);
-    iDomStateProgram = node_data.iDomProgramState;
+    iDomStateProgram = context.iDomProgramState;
 
     useful_F::go_while = false;
-    iDOM_THREAD::waitUntilAllThreadEnd(&node_data);
+    iDOM_THREAD::waitUntilAllThreadEnd(&context);
 
     return iDomStateProgram;
 }

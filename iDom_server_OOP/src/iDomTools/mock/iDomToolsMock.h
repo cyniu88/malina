@@ -134,5 +134,7 @@ public:
 
     //////////////////  doorbell  ////////////////////////
     MOCK_METHOD0(doorbellDingDong, void());
+    
+    MOCK_METHOD1(runCommandFromJson, void(const std::vector<std::string> &jj));
 };
 

@@ -147,10 +147,11 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
 HttpStatus::Code dbClient::uploadBulbData(const std::string &name, bool state, std::optional<uint64_t> timestamp)
 {
     influx_client::flux::Client client(
-        "10.9.0.34", /* port */ 8086, /* token */
-        " "
-        "-aaaapov11112lj2-ovr5bbbbso6q==",
-        "organization", "iDom");
+        useful_F::myStaticCtx->server_settings->_database.ip,
+        useful_F::myStaticCtx->server_settings->_database.port,
+        useful_F::myStaticCtx->server_settings->_database.token,
+        useful_F::myStaticCtx->server_settings->_database.org,
+        useful_F::myStaticCtx->server_settings->_database.bucket);
 
     if (timestamp.has_value())
     {

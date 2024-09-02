@@ -159,7 +159,6 @@ public:
     //////////////////  doorbell  ////////////////////////
     void doorbellDingDong() override;
 
-private:
-    void runCommandFromJson(const std::vector<std::string> &jj);
+    void runCommandFromJson(const std::vector<std::string> &jj) override;
 };
 
