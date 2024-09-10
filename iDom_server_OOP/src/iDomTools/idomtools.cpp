@@ -720,7 +720,7 @@ void iDomTOOLS::send_data_to_influxdb()
 
         dbClientFactory dbFactory;
         auto db = dbFactory.createDbClient();
-        auto returnCode = db->upload_iDomData(iDomData, timestamp);
+        auto returnCode = db->upload_iDomData(iDomData, timestamp, &context->server_settings->_database);
 
         if (returnCode != 204)
         {

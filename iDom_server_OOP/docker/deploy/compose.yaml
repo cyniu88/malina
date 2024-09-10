@@ -1,25 +1,26 @@
-version: '2'
+version: '3.8'  # Uaktualniono wersję do 3.8, która jest najnowszą stabilną wersją
+
 services:
   idom_server:
     container_name: idom_server
     build: 
       context: ./idom_server
-      dockerfile: dockerfile
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
+      dockerfile: Dockerfile # Poprawiono nazwę pliku na standardową konwencję
+    stdin_open: true
+    tty: true
     ports:
-    - "48833:48833"
+      - "48833:48833"
     volumes:
-    - /etc/config:/etc/config
-    - /mnt/ramdisk:/mnt/ramdisk
+      - /etc/config:/etc/config
+      - /mnt/ramdisk:/mnt/ramdisk
     devices:
-    - /dev/mem:/dev/mem
-    - /dev/gpiomem:/dev/gpiomem
-    - /dev/ttyUSB1:/dev/ttyUSB1
-    - /dev/ttyUSB0:/dev/ttyUSB0
-    - /dev/i2c-1:/dev/i2c-1
-    - /dev/i2c-20:/dev/i2c-20
-    - /dev/i2c-21:/dev/i2c-21
+      - /dev/mem:/dev/mem
+      - /dev/gpiomem:/dev/gpiomem
+      - /dev/ttyUSB1:/dev/ttyUSB1
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/i2c-1:/dev/i2c-1
+      - /dev/i2c-20:/dev/i2c-20
+      - /dev/i2c-21:/dev/i2c-21
     restart: unless-stopped
     privileged: true
     network_mode: bridge

@@ -3,12 +3,14 @@
 #include <memory>
 
 #include "../db-client.hpp"
+#include "../../../src/iDom_server_OOP.h"
 
 class db_client_fixture : public testing::Test
 {
 public:
-    db_client_fixture(){};
-
+    db_client_fixture() {};
+    
+    DATABASE config;
 protected:
 };
 
@@ -29,8 +31,11 @@ TEST_F(db_client_fixture, main_TC)
     iDomData["piec"]["praca"] = std::nullopt;
     iDomData["acdc"]["acdc"] = std::nullopt;
 
-
+    config.ip = "127.0.0.1";
+    config.port = 1223;
+    config.token = "asdasdasda";
+    config.org = "testogr";
+    config.bucket = "test";
     dbClient clinet;
-    EXPECT_NO_THROW(clinet.upload_iDomData(iDomData, 111));
-    
+    EXPECT_NO_THROW(clinet.upload_iDomData(iDomData, 111, &config));
 }

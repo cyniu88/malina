@@ -6,17 +6,17 @@
 #include <iostream>
 #include <experimental/source_location>
 
-HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &iDomData, uint64_t timestamp)
+HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &iDomData, uint64_t timestamp, DATABASE *config)
 {
     char points[4096];
     int code2 = 204;
 
     influx_client::flux::Client client(
-        useful_F::myStaticCtx->server_settings->_database.ip,
-        useful_F::myStaticCtx->server_settings->_database.port,
-        useful_F::myStaticCtx->server_settings->_database.token,
-        useful_F::myStaticCtx->server_settings->_database.org,
-        useful_F::myStaticCtx->server_settings->_database.bucket);
+        config->ip,
+        config->port,
+        config->token,
+        config->org,
+        config->bucket);
 
     if (iDomData.at("smog").at("smog").has_value())
     {
@@ -144,14 +144,14 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
     return HttpStatus::Code(code2);
 }
 
-HttpStatus::Code dbClient::uploadBulbData(const std::string &name, bool state, std::optional<uint64_t> timestamp)
+HttpStatus::Code dbClient::uploadBulbData(const std::string &name, bool state, std::optional<uint64_t> timestamp, DATABASE *config)
 {
     influx_client::flux::Client client(
-        useful_F::myStaticCtx->server_settings->_database.ip,
-        useful_F::myStaticCtx->server_settings->_database.port,
-        useful_F::myStaticCtx->server_settings->_database.token,
-        useful_F::myStaticCtx->server_settings->_database.org,
-        useful_F::myStaticCtx->server_settings->_database.bucket);
+        config->ip,
+        config->port,
+        config->token,
+        config->org,
+        config->bucket);
 
     if (timestamp.has_value())
     {
