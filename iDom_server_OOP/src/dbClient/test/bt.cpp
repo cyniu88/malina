@@ -38,4 +38,5 @@ TEST_F(db_client_fixture, main_TC)
     config.bucket = "test";
     dbClient clinet;
     EXPECT_NO_THROW(clinet.upload_iDomData(iDomData, 111, &config));
+
 }
