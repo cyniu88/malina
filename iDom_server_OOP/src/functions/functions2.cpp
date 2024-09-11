@@ -11,6 +11,7 @@
 #include "../command/commandhandlerroot.h"
 #include "../c_connection/c_connection.h"
 #include "../iDomTools/idomtools_interface.h"
+#include <cstddef>
 
 std::vector<std::string> useful_F::split(const std::string &s, char separator)
 {

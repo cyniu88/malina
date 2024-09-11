@@ -15,7 +15,7 @@
 #include <iostream>
 
 void log(const std::string_view message,
-         const std::experimental::fundamentals_v2::source_location location = 
+         const std::experimental::fundamentals_v2::source_location location =
                std::experimental::fundamentals_v2::source_location::current())
 {
     std::cout << "file: "
@@ -25,7 +25,7 @@ void log(const std::string_view message,
               << location.function_name() << "`: "
               << message << '\n';
 }
- 
+
 template <typename T> void fun(T x)
 {
     log(x);
@@ -51,106 +51,64 @@ int main(int, char *[])
 }
 
 */
-#include <arpa/inet.h>
-#include <cerrno>
-#include <ifaddrs.h>
+
 #include <iostream>
-#include <net/if.h>
-#include <string>
-#include <string.h>
-#include <sysexits.h>
-#include <sys/socket.h>
-#include <sys/types.h>
+#include <signal.h>
+#include <atomic>
 
-int main(void)
+static std::atomic<bool> my_work = true;
+void my_sig_handler(int s)
 {
-    struct ifaddrs* ptr_ifaddrs = nullptr;
+    printf("\nCaught signal %d\n", s);
 
-    auto result = getifaddrs(&ptr_ifaddrs);
-    if( result != 0 ){
-        std::cout << "`getifaddrs()` failed: " << strerror(errno) << std::endl;
+    std::cout << std::boolalpha << "zamykam po sygnale " << my_work << std::endl;
+    if (my_work == true)
+        my_work = false;
+    else
+        my_work = true;
+}
 
-        return EX_OSERR;
-    }
+void catchSigInt()
+{
+    struct sigaction sigIntHandler;
 
-    for(
-        struct ifaddrs* ptr_entry = ptr_ifaddrs;
-        ptr_entry != nullptr;
-        ptr_entry = ptr_entry->ifa_next
-    ){
-        std::string ipaddress_human_readable_form;
-        std::string netmask_human_readable_form;
+    sigIntHandler.sa_handler = my_sig_handler;
+    sigemptyset(&sigIntHandler.sa_mask);
+    sigIntHandler.sa_flags = 0;
 
-        std::string interface_name = std::string(ptr_entry->ifa_name);
-        sa_family_t address_family = ptr_entry->ifa_addr->sa_family;
-        if( address_family == AF_INET ){
-            // IPv4
+    sigaction(SIGTERM, &sigIntHandler, NULL);
+    sigaction(SIGINT, &sigIntHandler, NULL);
+}
 
-            // Be aware that the `ifa_addr`, `ifa_netmask` and `ifa_data` fields might contain nullptr.
-            // Dereferencing nullptr causes "Undefined behavior" problems.
-            // So it is need to check these fields before dereferencing.
-            if( ptr_entry->ifa_addr != nullptr ){
-                char buffer[INET_ADDRSTRLEN] = {0, };
-                inet_ntop(
-                    address_family,
-                    &((struct sockaddr_in*)(ptr_entry->ifa_addr))->sin_addr,
-                    buffer,
-                    INET_ADDRSTRLEN
-                );
+// int main(void)
+// {
+//     catchSigInt();
+//     std::cout << "start" << std::endl;
+//     while (true)
+//     {
+//         if (my_work == false)
+//         {
+//             std::cout << "wychodzę " << std::endl;
+//             break;
+//         }
+//     }
+//     std::cout << "stop" << std::endl;
+// }
 
-                ipaddress_human_readable_form = std::string(buffer);
-            }
+#include <iostream>
+#include <numeric>
+#include <string>
+#include <vector>
 
-            if( ptr_entry->ifa_netmask != nullptr ){
-                char buffer[INET_ADDRSTRLEN] = {0, };
-                inet_ntop(
-                    address_family,
-                    &((struct sockaddr_in*)(ptr_entry->ifa_netmask))->sin_addr,
-                    buffer,
-                    INET_ADDRSTRLEN
-                );
+int main()
+{
+    std::vector<std::string> command;
+    command.push_back("jedne");
+    command.push_back("dwa");
 
-                netmask_human_readable_form = std::string(buffer);
-            }
+    std::string str = std::accumulate(command.begin(), command.end(), std::string(), [](const std::string &a, const std::string &b)
+                                      { return a.empty() ? b : a + " " + b; });
 
-            std::cout << interface_name << ": IP address = " << ipaddress_human_readable_form << ", netmask = " << netmask_human_readable_form << std::endl;
-        }
-        else if( address_family == AF_INET6 ){
-            // IPv6
-            uint32_t scope_id = 0;
-            if( ptr_entry->ifa_addr != nullptr ){
-                char buffer[INET6_ADDRSTRLEN] = {0, };
-                inet_ntop(
-                    address_family,
-                    &((struct sockaddr_in6*)(ptr_entry->ifa_addr))->sin6_addr,
-                    buffer,
-                    INET6_ADDRSTRLEN
-                );
-
-                ipaddress_human_readable_form = std::string(buffer);
-                scope_id = ((struct sockaddr_in6*)(ptr_entry->ifa_addr))->sin6_scope_id;
-            }
-
-            if( ptr_entry->ifa_netmask != nullptr ){
-                char buffer[INET6_ADDRSTRLEN] = {0, };
-                inet_ntop(
-                    address_family,
-                    &((struct sockaddr_in6*)(ptr_entry->ifa_netmask))->sin6_addr,
-                    buffer,
-                    INET6_ADDRSTRLEN
-                );
-
-                netmask_human_readable_form = std::string(buffer);
-            }
-
-            std::cout << interface_name << ": IP address = " << ipaddress_human_readable_form << ", netmask = " << netmask_human_readable_form << ", Scope-ID = " << scope_id << std::endl;
-        }
-        else {
-            // AF_UNIX, AF_UNSPEC, AF_PACKET etc.
-            // If ignored, delete this section.
-        }
-    }
-
-    freeifaddrs(ptr_ifaddrs);
-    return EX_OK;
+    std::cout << "|" << str << "|" << std::endl;
+    return 0;
 }

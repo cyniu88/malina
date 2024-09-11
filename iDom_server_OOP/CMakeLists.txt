@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)  # Use a more recent version of CMake
 
 # Set the project name and version
-project(iDom_server_CMAKE VERSION 1.0)
+project(iDom_server-CMAKE VERSION 1.0)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20)
@@ -10,6 +10,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Specify the include directories
 include_directories(json2/)
+
+#check cores
+if(CMAKE_GENERATOR STREQUAL "Unix Makefiles" OR CMAKE_GENERATOR STREQUAL "Ninja")
+    execute_process(COMMAND nproc OUTPUT_VARIABLE NUM_CORES)
+    string(STRIP ${NUM_CORES} NUM_CORES)
+    set(EXTRA_MAKE_OPTIONS "-j${NUM_CORES}")
+endif()
 
 # Add link directories
 link_directories(/usr/local/lib)
@@ -148,4 +155,4 @@ file(GLOB SOURCE_FILES2 "src/command/*.*"
 add_executable(${PROJECT_NAME} ${LIBS_SRC} ${SOURCE_FILES} ${SOURCE_FILES2})
 
 # Link the libraries
-target_link_libraries(${PROJECT_NAME} rt pthread curl mpd mosquitto i2c)
+target_link_libraries(${PROJECT_NAME}  rt pthread curl mpd mosquitto i2c)
