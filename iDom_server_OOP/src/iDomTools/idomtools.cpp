@@ -10,7 +10,7 @@
 #include "../dbClient/DB_DATA.hpp"
 
 iDomTOOLS::iDomTOOLS(thread_context *myData) : m_key(myData->server_settings->_server.TS_KEY),
-                                            m_key2(myData->server_settings->_server.TS_KEY2)
+                                               m_key2(myData->server_settings->_server.TS_KEY2)
 {
     context = myData;
     context->m_keyHandler = std::make_unique<iDomKEY_ACCESS>(iDomKEY_ACCESS(myData->server_settings->_server.keyDatabasePath));
@@ -706,7 +706,10 @@ void iDomTOOLS::send_data_to_influxdb()
         iDomData["temperatura"]["flow"] = context->ptr_buderus->getCurFlowTemp();
         iDomData["temperatura"]["shedTemp"] = context->lusina.shedTemp.average();
 
-        iDomData["wilgoc"]["humi"] = context->lusina.shedHum.average();
+        if (context->lusina.shedHum.getSize() > 1)
+            iDomData["wilgoc"]["humi"] = context->lusina.shedHum.average();
+        else
+            iDomData["wilgoc"]["humi"] = std::nullopt;
 
         auto smog = getSmog();
         if (smog.has_value())
@@ -714,9 +717,16 @@ void iDomTOOLS::send_data_to_influxdb()
         else
             iDomData["smog"]["smog"] = std::nullopt;
 
-        iDomData["cisnienie"]["dom"] = context->lusina.shedPres.average();
+        if (context->lusina.shedPres.getSize() > 1)
+            iDomData["cisnienie"]["dom"] = context->lusina.shedPres.average();
+        else
+            iDomData["cisnienie"]["dom"] = std::nullopt;
+        if (context->lusina.acdc.getSize() > 1)
+            iDomData["acdc"]["acdc"] = context->lusina.acdc.average();
+        else
+            iDomData["acdc"]["acdc"] = std::nullopt;
+
         iDomData["piec"]["praca"] = context->ptr_buderus->isHeatingActiv();
-        iDomData["acdc"]["acdc"] = context->lusina.acdc.average();
 
         dbClientFactory dbFactory;
         auto db = dbFactory.createDbClient();

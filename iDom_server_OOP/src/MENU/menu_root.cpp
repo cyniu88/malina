@@ -120,7 +120,7 @@ void MENU_ROOT::keyPadEpg()
     }
     else if (tempCounter == 3)
     {
-        ss << std::setprecision(4) << contextPTR->lusina.shedFloor.average() << celsiusDegrees;
+        ss << std::setprecision(4) << contextPTR->lusina.shedFloor.average()<< celsiusDegrees;
         quickPrint("Podloga", ss.str());
     }
     else

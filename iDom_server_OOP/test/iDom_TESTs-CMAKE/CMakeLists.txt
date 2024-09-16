@@ -3,7 +3,10 @@ LINK_DIRECTORIES(/usr/local/lib )
 
 project(iDom_TESTs-CMAKE)
 
-set(INCLUDE_DIRECTORIES "../../json2/" #"../../json/single_include/nlohmann/"
+# Enable testing
+enable_testing()
+
+set(INCLUDE_DIRECTORIES "../../json2/"
     "../../test/iDom_TESTs-CMAKE/"
     "../../test/libs_test/wiringPi")
 set(CMAKE_CXX_STANDARD 20)
@@ -35,7 +38,7 @@ set(LIBS_SRC
     "../../libs/circular_buffer/test/BT.cpp"
     "../../libs/TEST/testif.cpp" )
 
-set(SOURCE_FILES  "main.cpp" "test_data.h"
+    set(SOURCE_FILES  "main.cpp" "test_data.h"
     "../../src/RADIO_433_eq/test/radio_433_test.cpp"
     "../../src/RADIO_433_eq/radio_button.cpp"
     "../../src/RADIO_433_eq/radio_433_eq.cpp"
@@ -101,6 +104,13 @@ set(SOURCE_FILES  "main.cpp" "test_data.h"
     "../../src/dbClient/db-client-factory.cpp"
     "../../src/dbClient/test/bt.cpp"
     )
+file(GLOB SOURCE_FILES2 "../../src/command/*.*"
+    "../../src/command/commandClass/TEST/*.*"
+    "../../src/command/commandClass/*.*"
+    "../../src/command/test/*.*"
+    "../../src/MENU/*.*"
+    "../../src/MENU/*/*")
+
 # Get the current working branch
 execute_process(
   COMMAND git rev-parse --abbrev-ref HEAD
@@ -108,6 +118,7 @@ execute_process(
   OUTPUT_VARIABLE GIT_BRANCH
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
+
 # Get the latest abbreviated commit hash of the working branch
 execute_process(
   COMMAND git rev-parse HEAD
@@ -123,14 +134,15 @@ message(${GIT_COMMIT_HASH})
 
 add_link_options(-rdynamic)
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a  -DBT_TEST -DNOSSL -O1   -fprofile-instr-generate -fcoverage-mapping")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a  -DBT_TEST -DNOSSL -fsanitize=address  -g -O1 -fprofile-instr-generate -fcoverage-mapping")
+# Set compiler flags
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a -DBT_TEST -DNOSSL -fsanitize=address,leak -gdwarf-4 -g -O -fprofile-instr-generate -fcoverage-mapping")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
-file(GLOB SOURCE_FILES2 "../../src/command/*.*"
-    "../../src/command/commandClass/TEST/*.*"
-    "../../src/command/commandClass/*.*"
-    "../../src/command/test/*.*"
-    "../../src/MENU/*.*"
-    "../../src/MENU/*/*")
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${SOURCE_FILES2} ${LIBS_SRC} )
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME}  pthread gtest gmock curl rt pthread )
+
+# Add executable
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${SOURCE_FILES2} ${LIBS_SRC})
+
+# Link libraries
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} pthread gtest gmock curl rt pthread)
+
+# Add tests
+add_test(NAME iDom_TESTs-CMAKE COMMAND ${PROJECT_NAME})
