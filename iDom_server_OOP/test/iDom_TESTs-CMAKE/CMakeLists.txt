@@ -102,7 +102,7 @@ set(LIBS_SRC
     "../../src/HTTP/http.cpp"
     "../../src/dbClient/db-client.cpp"
     "../../src/dbClient/db-client-factory.cpp"
-    "../../src/dbClient/test/bt.cpp"
+    "../../src/dbClient/test/bt.cpp" 
     )
 file(GLOB SOURCE_FILES2 "../../src/command/*.*"
     "../../src/command/commandClass/TEST/*.*"
@@ -135,7 +135,7 @@ message(${GIT_COMMIT_HASH})
 add_link_options(-rdynamic)
 
 # Set compiler flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a -DBT_TEST -DNOSSL -fsanitize=address,leak -gdwarf-4 -g -O -fprofile-instr-generate -fcoverage-mapping")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a -DBT_TEST -DNOSSL -fsanitize=address,leak,unreachable,undefined  -fsanitize-undefined-trap-on-error -fno-sanitize-recover=all -gdwarf-4 -g -O -fprofile-instr-generate -fcoverage-mapping")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 
 # Add executable

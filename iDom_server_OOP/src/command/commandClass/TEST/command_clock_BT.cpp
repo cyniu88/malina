@@ -7,6 +7,7 @@ class command_clock_Class_fixture : public testing::Test
 public:
     command_clock_Class_fixture():test_command_clock(std::make_unique<command_clock>("clock")), test_context()
     {
+        test_context.main_Rs232 = std::make_unique<SerialPi>("cyniu");
     }
 
 protected:

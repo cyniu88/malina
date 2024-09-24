@@ -18,6 +18,8 @@ protected:
     {
         test_context.main_iDomTools = main_iDomTools;
         test_context.ptr_buderus = buderusMock;
+        test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu");
+        test_context.main_Rs232 = std::make_unique<SerialPi>("cyniu");
     }
     thread_context test_context;
     std::shared_ptr<iDomToolsMock>main_iDomTools;

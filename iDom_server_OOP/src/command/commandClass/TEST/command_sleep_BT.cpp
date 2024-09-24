@@ -73,6 +73,7 @@ TEST_F(command_sleep_Class_fixture, sleepSet)
     threadArray[2].thread_socket = 2;
 
     test_context.main_THREAD_arr = &threadArray;
+    test_context.main_Rs232 = std::make_unique<SerialPi>("cyniu");
 
     test_v.push_back("sleep");
     test_v.push_back("set");

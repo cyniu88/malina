@@ -19,10 +19,12 @@ public:
         main_iDomTools(std::make_shared<iDomToolsMock>())
     {
         test_context.ptr_buderus = std::make_shared<BUDERUS>();
+        test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu");
         test_context.main_iDomTools = main_iDomTools;
         test_context.server_settings = &test_server_set;
         test_context.server_settings->_fb_viber.viberSender = "test sender";
         test_context.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
+        test_context.main_Rs232 = std::make_unique<SerialPi>("cyniu");
         useful_F::myStaticCtx = &test_context;
     }
 

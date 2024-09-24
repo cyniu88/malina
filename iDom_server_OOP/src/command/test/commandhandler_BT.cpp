@@ -1,4 +1,4 @@
-#include<gtest/gtest.h>
+#include <gtest/gtest.h>
 
 #include "../commandhandlerrs232.h"
 #include "../commandhandlermqtt.h"
@@ -12,10 +12,9 @@
 class command_handler_main : public testing::Test
 {
 public:
-    command_handler_main():
-        test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_context)),
-        main_iDomTools(std::make_shared<iDomToolsMock>()),
-        testRoomHandler(std::make_shared<house_room_handler>(&test_context))
+    command_handler_main() : test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_context)),
+                             main_iDomTools(std::make_shared<iDomToolsMock>()),
+                             testRoomHandler(std::make_shared<house_room_handler>(&test_context))
     {
         test_server_settings._server.radio433MHzConfigFile = "/mnt/ramdisk/433_eq_conf.json";
         test_context.server_settings = &test_server_settings;
@@ -37,7 +36,7 @@ public:
 class command_handler_rs232_fixture : public command_handler_main
 {
 public:
-    command_handler_rs232_fixture():test_chRS232(std::make_unique<commandHandlerRS232>(&test_context))
+    command_handler_rs232_fixture() : test_chRS232(std::make_unique<commandHandlerRS232>(&test_context))
     {
     }
 
@@ -56,7 +55,7 @@ TEST_F(command_handler_rs232_fixture, main)
 class command_handler_mqtt_fixture : public command_handler_main
 {
 public:
-    command_handler_mqtt_fixture():test_chMQTT(std::make_unique<CommandHandlerMQTT>())
+    command_handler_mqtt_fixture() : test_chMQTT(std::make_unique<CommandHandlerMQTT>())
     {
     }
 
@@ -78,19 +77,20 @@ TEST_F(command_handler_mqtt_fixture, unknown_command)
     test_v.push_back("fake");
     auto ret = test_chMQTT->run(test_v, &test_context);
     std::cout << "DATA: " << ret << std::endl;
-    EXPECT_THAT(ret, testing::HasSubstr("unknown") );
+    EXPECT_THAT(ret, testing::HasSubstr("unknown"));
 }
 
 TEST_F(command_handler_mqtt_fixture, voice_mqtt)
 {
     time(&test_context.start);
+    test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu");
     test_v.clear();
     test_v.push_back("radIo");
     test_v.push_back("włąCz");
     EXPECT_CALL(*main_iDomTools.get(), MPD_play(testing::_));
     auto ret = test_chMQTT->run(test_v, &test_context);
     std::cout << "DATA: " << ret << std::endl;
-    EXPECT_THAT(ret, testing::HasSubstr("done") );
+    EXPECT_THAT(ret, testing::HasSubstr("done"));
 
     test_v.clear();
     test_v.push_back("światła");
@@ -103,7 +103,7 @@ TEST_F(command_handler_mqtt_fixture, voice_mqtt)
 class command_handler_gateway_fixture : public command_handler_main
 {
 public:
-    command_handler_gateway_fixture():test_chGATEWAY(std::make_unique<commandHandlerGATEWAY>(&test_context))
+    command_handler_gateway_fixture() : test_chGATEWAY(std::make_unique<commandHandlerGATEWAY>(&test_context))
     {
     }
 
@@ -118,5 +118,5 @@ TEST_F(command_handler_gateway_fixture, not_enough_parameters)
     test_v.push_back("fake");
     auto ret = test_chGATEWAY->run(test_v, &test_context);
     std::cout << "DATA: " << ret << std::endl;
-    EXPECT_THAT(ret, testing::HasSubstr("not enough parameters") );
+    EXPECT_THAT(ret, testing::HasSubstr("not enough parameters"));
 }

@@ -16,6 +16,7 @@ public:
         test_v.push_back("433MHz");
         test_context.main_REC = test_rec;
         test_context.main_RFLink = std::make_shared<RFLinkHandler>(&test_context);
+        test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu");
         test_rec = std::make_shared<RADIO_EQ_CONTAINER>(&test_context);
         test_rec->loadConfig(test_server_settings._server.radio433MHzConfigFile);
         test_context.main_REC = test_rec;

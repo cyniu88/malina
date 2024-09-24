@@ -21,6 +21,7 @@ public:
         test_context.server_settings = &test_server_settings;
         test_context.server_settings->_fb_viber.viberSender = "test sender";
         test_context.server_settings->_fb_viber.viberReceiver = {"R1","R2"};
+        test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu");
     }
 
 protected:

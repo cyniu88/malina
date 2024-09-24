@@ -18,7 +18,6 @@ public:
     ALERT test_alarmTime;
     SATEL_INTEGRA_HANDLER_STUB test_satel;
     std::shared_ptr<BUDERUS_MOCK> testBuderusMock;
-
     /////// method
     iDomTOOLS_ClassTest():test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_context)),
                             testBuderusMock(std::make_shared<BUDERUS_MOCK>())
@@ -74,6 +73,8 @@ public:
         test_context.server_settings->_satel_integra.partitionID = 1;
         test_context.server_settings->_satel_integra.pin = "1122";
         test_context.satelIntegraHandler = &test_satel;
+        test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu");
+        test_context.main_Rs232 = std::make_unique<SerialPi>("test");
         useful_F::myStaticCtx = &test_context;
     }
 };

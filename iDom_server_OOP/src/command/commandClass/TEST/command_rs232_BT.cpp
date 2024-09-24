@@ -8,6 +8,7 @@ class command_RS232_Class_fixture : public testing::Test
 public:
     command_RS232_Class_fixture():test_command_put(std::make_unique <commandRS232> ("RS232")), test_context()
     {
+        test_context.main_Rs232 = std::make_unique<SerialPi>("addr");
     }
 
 protected:

@@ -140,7 +140,7 @@ public:
     @discussion LiquidCrystal class abstract constructor needed to create
     the base abstract class.
     */
-   LCD ( );
+   LCD ( ) = default;
 
    /*!
     @function

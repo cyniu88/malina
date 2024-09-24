@@ -218,7 +218,8 @@ TEST_F(commandiDom_Class_fixture, wifi)
 TEST_F(commandiDom_Class_fixture, kodi)
 {
   MENU_STATE_MACHINE stateMechine;
-  auto ptr = std::make_unique<MENU_ROOT>(&test_context, nullptr, &stateMechine);
+  LCD_c lcdStub(1,1,1);
+  auto ptr = std::make_unique<MENU_ROOT>(&test_context, &lcdStub, &stateMechine);
   stateMechine.setStateMachine(std::move(ptr));
   test_context.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
   test_context.main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);

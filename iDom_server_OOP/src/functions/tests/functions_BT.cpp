@@ -11,6 +11,8 @@ protected:
         useful_F::myStaticCtx = &test_context;
         test_context.main_iDomTools = main_iDomTools;
         test_context.server_settings = &test_server_set;
+        test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu");
+        test_context.main_Rs232 = std::make_unique<SerialPi>("cyniu");
     }
     thread_context test_context;
     CONFIG_JSON test_server_set;
