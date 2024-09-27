@@ -146,6 +146,7 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
 
 HttpStatus::Code dbClient::uploadBulbData(const std::string &name, bool state, std::optional<uint64_t> timestamp, DATABASE *config)
 {
+    //TODO   sprawdzaj czy config nie jest null PTR
     influx_client::flux::Client client(
         config->ip,
         config->port,

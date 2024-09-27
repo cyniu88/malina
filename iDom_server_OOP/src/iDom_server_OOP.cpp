@@ -144,7 +144,7 @@ void f_master_influx(thread_context *context, const std::string &threadName)
 
             dbClientFactory dbFactory;
             auto db = dbFactory.createDbClient();
-            auto returnCode = db->uploadBulbData(data.name, data.state, data.timestamp.value());
+            auto returnCode = db->uploadBulbData(data.name, data.state, data.timestamp.value(), &context->server_settings->_database);
 
             if (returnCode < HttpStatus::Continue)
             {
