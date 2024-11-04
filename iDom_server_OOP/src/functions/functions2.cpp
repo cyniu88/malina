@@ -331,8 +331,14 @@ void useful_F::Server_connectivity_thread(thread_context *context, const std::st
         }
 
         key_ok = false;
+        std::string ip = inet_ntoa(context->from.sin_addr);
+        nlohmann::json jj = nlohmann::json::parse(useful_F_libs::httpPost("http://ip-api.com/json/"+ip));
+        std::string country = "NULL";
+
+        if(jj.contains("country"))
+            country = jj["country"];
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << inet_ntoa(context->from.sin_addr) << std::endl;
+        log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << ip << "  "  << jj.dump(4) << std::endl;
         log_file_cout << CRITICAL << "KEY RECIVED: " << KEY_rec << " KEY SERVER: " << KEY_OWN << std::endl;
         client->cryptoLog(KEY_rec); // setEncriptionKey(KEY_rec);
         log_file_cout << CRITICAL << "KEY UNCRIPTED RECIVED\n\n " << KEY_rec << "\n\n"
@@ -340,7 +346,9 @@ void useful_F::Server_connectivity_thread(thread_context *context, const std::st
         log_file_mutex.mutex_unlock();
 
         std::string msg = "podano zły klucz autentykacji - sprawdz logi ";
-        msg.append(inet_ntoa(context->from.sin_addr));
+        msg.append(ip);
+        msg.append(" kraj: ");
+        msg.append(country);
         context->main_iDomTools->sendViberMsg(msg,
                                               context->server_settings->_fb_viber.viberReceiver.at(0),
                                               context->server_settings->_fb_viber.viberSender + "_ALERT!");
