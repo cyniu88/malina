@@ -146,7 +146,13 @@ HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string,
 
 HttpStatus::Code dbClient::uploadBulbData(const std::string &name, bool state, std::optional<uint64_t> timestamp, DATABASE *config)
 {
-    //TODO   sprawdzaj czy config nie jest null PTR
+    if (config == std::nullptr_t())
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << "DATABASE *config null ptr " << std::experimental::fundamentals_v2::source_location::current().function_name() << std::endl;
+        log_file_mutex.mutex_unlock();
+        return HttpStatus::Code::FailedDependency;
+    }
     influx_client::flux::Client client(
         config->ip,
         config->port,

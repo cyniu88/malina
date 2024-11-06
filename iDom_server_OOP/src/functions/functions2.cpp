@@ -286,7 +286,7 @@ void useful_F::Server_connectivity_thread(thread_context *context, const std::st
     }
 
     log_file_mutex.mutex_lock();
-    log_file_cout << INFO << threadName << ": polaczenie z adresu " << tm << std::endl;
+    log_file_cout << INFO << threadName << ": polaczenie z adresu " << tm << " kraju: " << useful_F_libs::ipCountry(tm).value_or("unknown") << std::endl;
     log_file_mutex.mutex_unlock();
     context->myEventHandler.run("connections")->addEvent(tm);
     context->main_Rs232->print("LED_AT:1;");
@@ -333,10 +333,8 @@ void useful_F::Server_connectivity_thread(thread_context *context, const std::st
         key_ok = false;
         std::string ip = inet_ntoa(context->from.sin_addr);
         nlohmann::json jj = nlohmann::json::parse(useful_F_libs::httpPost("http://ip-api.com/json/"+ip));
-        std::string country = "NULL";
+        std::string country = useful_F_libs::ipCountry(ip).value_or("unknown");
 
-        if(jj.contains("country"))
-            country = jj["country"];
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << ip << "  "  << jj.dump(4) << std::endl;
         log_file_cout << CRITICAL << "KEY RECIVED: " << KEY_rec << " KEY SERVER: " << KEY_OWN << std::endl;
