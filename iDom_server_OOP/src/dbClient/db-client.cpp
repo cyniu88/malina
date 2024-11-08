@@ -190,8 +190,8 @@ HttpStatus::Code dbClient::upload_systemData(const std::unordered_map<std::strin
     {
         std::vector<influx_client::kv_t> tags;
         std::vector<influx_client::kv_t> fields;
-        fields.emplace_back("system", std::any_cast<long>(iDomData.at("system").at("RAM").value()));
-        fields.emplace_back("system", std::any_cast<double>(iDomData.at("system").at("CPU").value()));
+        fields.emplace_back("RAM", std::any_cast<long>(iDomData.at("system").at("RAM").value()));
+        fields.emplace_back("CPU", std::any_cast<double>(iDomData.at("system").at("CPU").value()));
         auto code = client.write("system", tags, fields);
         code2 = code;
     }
