@@ -94,6 +94,7 @@ void CRON::runEveryone_5min()
     context->main_house_room_handler->turnOffUnexpectedBulb();
 
     context->main_iDomTools->send_data_to_influxdb();
+    context->main_iDomTools->uploadRamCpuUsage();
 }
 
 void CRON::runEveryone_15min()

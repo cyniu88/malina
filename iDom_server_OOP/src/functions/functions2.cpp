@@ -643,6 +643,12 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._database.port   = jj["Database"].at("port").get<int>();
     cj._database.token  = jj["Database"].at("token").get<std::string>();
     cj._database.org    = jj["Database"].at("org").get<std::string>();
+    ///////////////////////// DATABASE2 //////////////////////////////////////////////////
+    cj._database2.bucket = jj["Database2"].at("bucket").get<std::string>();
+    cj._database2.ip     = jj["Database2"].at("IP").get<std::string>();
+    cj._database2.port   = jj["Database2"].at("port").get<int>();
+    cj._database2.token  = jj["Database2"].at("token").get<std::string>();
+    cj._database2.org    = jj["Database2"].at("org").get<std::string>();
 
     return cj;
 }

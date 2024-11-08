@@ -8,6 +8,8 @@
 #include "idomtools_interface.h"
 #include "../libs/sunrise-sunset/sunriseset.h"
 #include "../libs/viberAPI/viber_api.h"
+#include "../dbClient/db-client-factory.hpp"
+#include "../dbClient/DB_DATA.hpp"
 
 struct thread_context;
 class RADIO_BUTTON;
@@ -149,6 +151,7 @@ public:
     void reloadSoft_iDomServer() override;
     void reloadHard_iDomServer() override;
     void raspberryReboot() override;
+    void uploadRamCpuUsage() override;
 
     //////////////////////// iDom_API /////////////////////
     std::string dump() const override;

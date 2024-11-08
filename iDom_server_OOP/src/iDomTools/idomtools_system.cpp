@@ -144,6 +144,41 @@ void iDomTOOLS::raspberryReboot()
     useful_F::workServer = false;
 }
 
+void iDomTOOLS::uploadRamCpuUsage()
+{
+    auto cpu = useful_F_libs::getCpuUsage();
+    auto memory = useful_F_libs::getMemoryUsageInMB();
+    uint64_t timestamp = Clock::getTimestamp();
+
+    std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> iDomData;
+
+    try
+    {
+        iDomData["system"]["RAM"] = memory;
+        iDomData["system"]["CPU"] = cpu;
+
+        dbClientFactory dbFactory;
+        auto db = dbFactory.createDbClient();
+        auto returnCode = db->upload_iDomData(iDomData, timestamp, &context->server_settings->_database2);
+        if (returnCode != 204)
+        {
+            log_file_mutex.mutex_lock();
+            log_file_cout << CRITICAL << " błąd wysyłania danych iDom do influxdb " << returnCode << " " << reasonPhrase(returnCode) << std::endl;
+            log_file_mutex.mutex_unlock();
+
+            std::exception kk;
+            throw kk;
+        }
+    }
+    catch (std::exception &e)
+    {
+        // context->dbDataQueue.Put(DB_DATA(timestamp, iDomData)); // put data to queue, send later
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << " błąd (wyjatek) wysyłania memory do influxdb " << e.what() << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+}
+
 void iDomTOOLS::close_iDomServer()
 {
     iDomTOOLS::MPD_stop();

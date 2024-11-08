@@ -59,6 +59,13 @@
 		"bucket": "iDom",
 		"port": 8086
 	},
+	"Database2":{
+		"IP": "10.9.0.34",
+		"org": "cynixowo",
+		"token": "",
+		"bucket": "iDom",
+		"port": 8086
+	},
 	"MPD_settings": {
 		"MPD_IP": "127.0.0.1"
 	},

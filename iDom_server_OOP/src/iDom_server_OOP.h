@@ -239,6 +239,7 @@ struct CONFIG_JSON
     nlohmann::json _shedConf;
     nlohmann::json _command;
     DATABASE _database;
+    DATABASE _database2;
 };
 
 //class command; // for struc thread_data req
