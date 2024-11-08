@@ -159,7 +159,7 @@ void iDomTOOLS::uploadRamCpuUsage()
 
         dbClientFactory dbFactory;
         auto db = dbFactory.createDbClient();
-        auto returnCode = db->upload_iDomData(iDomData, timestamp, &context->server_settings->_database2);
+        auto returnCode = db->upload_systemData(iDomData, timestamp, &context->server_settings->_database2);
         if (returnCode != 204)
         {
             log_file_mutex.mutex_lock();

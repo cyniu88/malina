@@ -8,7 +8,6 @@
 
 HttpStatus::Code dbClient::upload_iDomData(const std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &iDomData, uint64_t timestamp, DATABASE *config)
 {
-    char points[4096];
     int code2 = 204;
 
     influx_client::flux::Client client(
@@ -174,4 +173,34 @@ HttpStatus::Code dbClient::uploadBulbData(const std::string &name, bool state, s
         {},
         {{name, state}});
     return HttpStatus::Code(code);
+}
+
+HttpStatus::Code dbClient::upload_systemData(const std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &iDomData, uint64_t, DATABASE *config)
+{
+        int code2 = 204;
+
+    influx_client::flux::Client client(
+        config->ip,
+        config->port,
+        config->token,
+        config->org,
+        config->bucket);
+
+    if (iDomData.at("system").at("RAM").has_value() and iDomData.at("system").at("CPU").has_value())
+    {
+        std::vector<influx_client::kv_t> tags;
+        std::vector<influx_client::kv_t> fields;
+        fields.emplace_back("system", std::any_cast<float>(iDomData.at("system").at("RAM").value()));
+        fields.emplace_back("system", std::any_cast<float>(iDomData.at("system").at("CPU").value()));
+        auto code = client.write("system", tags, fields);
+        code2 = code;
+    }
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << WARNING << "brak pozycji RAM - " << std::experimental::fundamentals_v2::source_location::current().function_name() << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+
+    return HttpStatus::Code(code2);
 }
