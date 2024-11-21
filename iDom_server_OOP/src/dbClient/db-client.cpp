@@ -177,7 +177,7 @@ HttpStatus::Code dbClient::uploadBulbData(const std::string &name, bool state, s
 
 HttpStatus::Code dbClient::upload_systemData(const std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &iDomData, uint64_t, DATABASE *config)
 {
-        int code2 = 204;
+    int code2 = 204;
 
     influx_client::flux::Client client(
         config->ip,
@@ -200,6 +200,84 @@ HttpStatus::Code dbClient::upload_systemData(const std::unordered_map<std::strin
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << "brak pozycji RAM - " << std::experimental::fundamentals_v2::source_location::current().function_name() << std::endl;
         log_file_mutex.mutex_unlock();
+    }
+
+    return HttpStatus::Code(code2);
+}
+
+HttpStatus::Code dbClient::upload_universal(const std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &data, uint64_t timestamp, DATABASE *config, std::string_view bucket)
+{
+    int code2 = 204;
+
+    auto _bucket = config->bucket;
+
+    if (bucket != "null")
+        _bucket = bucket;
+
+    influx_client::flux::Client client(
+        config->ip,
+        config->port,
+        config->token,
+        config->org,
+        _bucket);
+
+    std::vector<influx_client::kv_t> tags;
+    std::vector<influx_client::kv_t> fields;
+
+    for (const auto &outer_pair : data)
+    {
+        //  std::cout << "Outer key: " << outer_pair.first << std::endl;
+
+        // Iterujemy przez wewnętrzną mapę
+        for (const auto &inner_pair : outer_pair.second)
+        {
+            //  std::cout << "  Inner key: " << inner_pair.first << " -> ";
+
+            // Sprawdzamy, czy opcjonalna wartość istnieje
+            if (inner_pair.second)
+            {
+                try
+                {
+                    // Próbujemy przekroczyć typ i wydrukować wartość
+                    if (inner_pair.second->type() == typeid(int))
+                    {
+                        //   std::cout << std::any_cast<int>(*inner_pair.second) << std::endl;
+                        fields.emplace_back(inner_pair.first, std::any_cast<int>(*inner_pair.second));
+                    }
+                    else if (inner_pair.second->type() == typeid(double))
+                    {
+                        //   std::cout << std::any_cast<double>(*inner_pair.second) << std::endl;
+                        fields.emplace_back(inner_pair.first, std::any_cast<double>(*inner_pair.second));
+                    }
+                    else if (inner_pair.second->type() == typeid(std::string))
+                    {
+                        //   std::cout << std::any_cast<std::string>(*inner_pair.second) << std::endl;
+                        fields.emplace_back(inner_pair.first, std::any_cast<std::string>(*inner_pair.second));
+                    }
+                    else if (inner_pair.second->type() == typeid(bool))
+                    {
+                        //   std::cout << std::boolalpha << std::any_cast<bool>(*inner_pair.second) << std::endl;
+                        fields.emplace_back(inner_pair.first, std::any_cast<bool>(*inner_pair.second));
+                    }
+                    else
+                    {
+                           std::cout << "Unsupported type" << std::endl;
+                    }
+                }
+                catch (const std::bad_any_cast &e)
+                {
+                    std::cout << "Error casting: " << e.what() << std::endl;
+                }
+            }
+            else
+            {
+                std::cout << "No value (empty std::optional)" << std::endl;
+            }
+        }
+
+        auto code = client.write(outer_pair.first, tags, fields);
+        if (code2 == 204)
+            code2 = code;
     }
 
     return HttpStatus::Code(code2);

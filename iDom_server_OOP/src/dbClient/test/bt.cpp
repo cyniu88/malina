@@ -9,8 +9,9 @@ class db_client_fixture : public testing::Test
 {
 public:
     db_client_fixture() {};
-    
+
     DATABASE config;
+
 protected:
 };
 
@@ -38,5 +39,30 @@ TEST_F(db_client_fixture, main_TC)
     config.bucket = "test";
     dbClient clinet;
     EXPECT_NO_THROW(clinet.upload_iDomData(iDomData, 111, &config));
+}
 
+TEST_F(db_client_fixture, universal)
+{
+    std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> iDomData;
+    iDomData["temperatura"]["outdoor"] = -22.55;
+    iDomData["temperatura"]["inside"] = 21;
+    iDomData["temperatura"]["floor"] = 21.21;
+    iDomData["temperatura"]["bojler"] = 80.55;
+    iDomData["temperatura"]["domek"] = -0.002;
+    iDomData["temperatura"]["flow"] = 23;
+    iDomData["temperatura"]["shedTemp"] = 212;
+
+    iDomData["wilgoc"]["humi"] = 60;
+    iDomData["smog"]["smog"] = 33;
+    iDomData["cisnienie"]["dom"] = 1024;
+    iDomData["piec"]["praca"] = true;
+    iDomData["acdc"]["acdc"] = 3.16;
+
+    config.ip = "127.0.0.1";
+    config.port = 1223;
+    config.token = "asdasdasda";
+    config.org = "testogr";
+    config.bucket = "test";
+    dbClient clinet;
+    EXPECT_NO_THROW(clinet.upload_universal(iDomData, Clock::getTimestamp(), &config));
 }
