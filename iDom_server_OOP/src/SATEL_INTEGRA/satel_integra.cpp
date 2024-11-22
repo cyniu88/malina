@@ -46,7 +46,7 @@ void SATEL_INTEGRA::connectIntegra(const std::string &host, const int port)
 
     m_server.sin_port = htons(port);
 
-    if (connect(m_sock, (struct sockaddr *)&m_server, sizeof(m_server)) < 0)
+    if (connect(m_sock,  reinterpret_cast<struct sockaddr*>(&m_server), sizeof(m_server)) < 0)
     {
         m_connectState = STATE::DISCONNECTED;
         puts("Nie udało się nawiązać połączenia");
@@ -263,7 +263,8 @@ void SATEL_INTEGRA::outputOff(unsigned int id)
 
 std::string SATEL_INTEGRA::dump() const
 {
-    std::string msg((char *)(m_message));
+   // std::string msg((char *)(m_message));
+   std::string msg(reinterpret_cast<const char*>(m_message));
 
     std::stringstream ss;
     ss << "m_message ";
@@ -324,7 +325,9 @@ int SATEL_INTEGRA::recvIntegra()
     struct timeval tv;
     tv.tv_sec = 10;
     tv.tv_usec = 0;
-    setsockopt(m_sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv, sizeof(struct timeval));
+   // setsockopt(m_sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv, sizeof(struct timeval));
+    setsockopt(m_sock, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<const char*>(&tv), sizeof(struct timeval));
+
 
     int size = recv(m_sock, m_message, 2000, 0);
     if (size < 6)
@@ -398,19 +401,34 @@ const char *SATEL_INTEGRA::satelType(unsigned char t)
     }
 }
 
+// void SATEL_INTEGRA::expandForSpecialValue(std::list<unsigned char> &result)
+// {
+//     const unsigned char specialValue = 0xFE;
+
+//     for (auto it = result.begin(); it != result.end(); ++it)
+//     {
+//         if (*it == specialValue)
+//         {
+//             result.insert(++it, 0xF0);
+//             it--;
+//         }
+//     }
+// }
+
 void SATEL_INTEGRA::expandForSpecialValue(std::list<unsigned char> &result)
 {
     const unsigned char specialValue = 0xFE;
 
-    for (auto it = result.begin(); it != result.end(); ++it)
+    for (auto it = result.begin(); it != result.end(); )
     {
         if (*it == specialValue)
         {
-            result.insert(++it, 0xF0);
-            it--;
+            it = result.insert(std::next(it), 0xF0);
         }
+        ++it;
     }
 }
+
 
 std::string SATEL_INTEGRA::getFullFrame(const unsigned char *pCmd, const unsigned int cmdLength)
 {
