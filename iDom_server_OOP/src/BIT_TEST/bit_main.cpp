@@ -137,7 +137,9 @@ TEST_F(bit_fixture, socket_heandle_command)
     inet_pton(serwer.sin_family, ipAddress, &serwer.sin_addr);
     const int s = socket(serwer.sin_family, SOCK_STREAM, 0);
     sleep(1);
-    int connectStatus = connect(s, (struct sockaddr *)&serwer, sizeof(serwer));
+    //int connectStatus = connect(s, (struct sockaddr *)&serwer, sizeof(serwer));
+    int connectStatus = connect(s, reinterpret_cast<struct sockaddr*>(&serwer), sizeof(serwer));
+
     ASSERT_EQ(connectStatus, 0);
     std::cout << "connect status: " << connectStatus << std::endl;
 
