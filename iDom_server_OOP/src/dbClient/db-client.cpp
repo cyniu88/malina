@@ -205,14 +205,14 @@ HttpStatus::Code dbClient::upload_systemData(const std::unordered_map<std::strin
     return HttpStatus::Code(code2);
 }
 
-HttpStatus::Code dbClient::upload_universal(const std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &data, uint64_t timestamp, DATABASE *config, std::string_view bucket)
+HttpStatus::Code dbClient::upload_universal(const std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> &data, uint64_t timestamp, DATABASE *config, std::optional<std::string_view> bucket)
 {
     int code2 = 204;
 
     auto _bucket = config->bucket;
 
-    if (bucket != "null")
-        _bucket = bucket;
+    if (bucket.has_value())
+        _bucket = bucket.value();
 
     influx_client::flux::Client client(
         config->ip,
