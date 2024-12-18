@@ -263,7 +263,6 @@ void SATEL_INTEGRA::outputOff(unsigned int id)
 
 std::string SATEL_INTEGRA::dump() const
 {
-   // std::string msg((char *)(m_message));
    std::string msg(reinterpret_cast<const char*>(m_message));
 
     std::stringstream ss;
@@ -325,7 +324,7 @@ int SATEL_INTEGRA::recvIntegra()
     struct timeval tv;
     tv.tv_sec = 10;
     tv.tv_usec = 0;
-   // setsockopt(m_sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv, sizeof(struct timeval));
+    
     setsockopt(m_sock, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<const char*>(&tv), sizeof(struct timeval));
 
 
@@ -400,20 +399,6 @@ const char *SATEL_INTEGRA::satelType(unsigned char t)
         return "Nieznany typ";
     }
 }
-
-// void SATEL_INTEGRA::expandForSpecialValue(std::list<unsigned char> &result)
-// {
-//     const unsigned char specialValue = 0xFE;
-
-//     for (auto it = result.begin(); it != result.end(); ++it)
-//     {
-//         if (*it == specialValue)
-//         {
-//             result.insert(++it, 0xF0);
-//             it--;
-//         }
-//     }
-// }
 
 void SATEL_INTEGRA::expandForSpecialValue(std::list<unsigned char> &result)
 {

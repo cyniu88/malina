@@ -94,9 +94,8 @@ bool iDomKEY_ACCESS::useKEY(const std::string &name, const std::string &key)
     }
 
     std::string k = m_data[name].at("key").get<std::string>();
-    bool toDel = m_data[name].at("temporary").get<bool>();
 
-    if (toDel)
+    if (m_data[name].at("temporary").get<bool>())
     {
         m_data.erase(name);
         writeJSON();
@@ -130,14 +129,14 @@ void iDomKEY_ACCESS::removeExpiredKeys(unsigned int hours)
     writeJSON();
 }
 
- std::string iDomKEY_ACCESS::getCommand(const std::string &name) const
- {
-    if(m_data.find(name) == m_data.end())
+std::string iDomKEY_ACCESS::getCommand(const std::string &name) const
+{
+    if (m_data.find(name) == m_data.end())
     {
         return "null";
     }
     return m_data[name].at("command").get<std::string>();
- }
+}
 
 std::string iDomKEY_ACCESS::dump() const
 {
