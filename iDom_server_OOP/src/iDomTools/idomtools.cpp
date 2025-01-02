@@ -692,17 +692,23 @@ void iDomTOOLS::send_data_to_influxdb()
 
         iDomData["temperatura"]["outdoor"] = std::stof(_temperature.at(1));
         iDomData["temperatura"]["inside"] = std::stof(_temperature.at(0));
-        iDomData["temperatura"]["floor"] = context->lusina.shedFloor.average();
         iDomData["temperatura"]["bojler"] = context->ptr_buderus->getBoilerTemp();
+        iDomData["temperatura"]["flow"] = context->ptr_buderus->getCurFlowTemp();
+
+        if (context->lusina.shedFloor.getSize() > 1)
+            iDomData["temperatura"]["floor"] = context->lusina.shedFloor.average();
+        else
+            iDomData["temperatura"]["floor"] = std::nullopt;
+        if (context->lusina.shedTemp.getSize() > 1)
+            iDomData["temperatura"]["shedTemp"] = context->lusina.shedTemp.average();
+        else
+            iDomData["temperatura"]["shedTemp"] = std::nullopt;
 
         std::optional<double> temp = st->data.getTemperature();
         if (temp.has_value())
             iDomData["temperatura"]["domek"] = temp.value();
         else
             iDomData["temperatura"]["domek"] = std::nullopt;
-
-        iDomData["temperatura"]["flow"] = context->ptr_buderus->getCurFlowTemp();
-        iDomData["temperatura"]["shedTemp"] = context->lusina.shedTemp.average();
 
         if (context->lusina.shedHum.getSize() > 1)
             iDomData["wilgoc"]["humi"] = context->lusina.shedHum.average();
