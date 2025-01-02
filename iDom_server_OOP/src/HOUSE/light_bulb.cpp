@@ -96,6 +96,7 @@ void light_bulb::off(std::function<void(std::string s)> onOff)
     ss << "0;" << m_ID << ";1;0;2;" << OFF;
     onOff(ss.str());
     m_status = STATE::DEACTIVE;
+    lighting_priority = false;
 }
 
 void light_bulb::change(std::function<void(std::string)> changeF)

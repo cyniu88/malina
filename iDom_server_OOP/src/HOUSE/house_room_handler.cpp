@@ -309,7 +309,7 @@ void house_room_handler::executeCommandFromMQTT(const std::string &msg)
 
             // put info about bulb
             m_bulbStatus.Put({name, bState, Clock::getTimestamp()});
-            
+
             context->main_iDomStatus->setObjectState(name, state);
 
             // TODO temporary added viber notifiction
@@ -396,7 +396,7 @@ void house_room_handler::turnOffUnexpectedBulb()
         {
             auto actualTime = time - jj.second->getSatelSensorAlarmUnixTime();
             unsigned int expectTime = static_cast<unsigned int>(jj.second->m_satelAlarmHowLong * 60);
-            if (actualTime > expectTime)
+            if (actualTime > expectTime and jj.second->lighting_priority == false)
             {
                 jj.second->off([](const std::string &name)
                                { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });

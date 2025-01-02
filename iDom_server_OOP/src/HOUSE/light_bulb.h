@@ -60,4 +60,5 @@ public:
 
     STATE m_satelAlarm = STATE::UNDEFINE;
     int m_satelAlarmHowLong = -1;
+    bool lighting_priority = false;
 };

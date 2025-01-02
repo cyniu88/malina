@@ -193,6 +193,31 @@ TEST_F(command_light_Class_fixture, change_bulb_command)
               STATE::OFF);
 }
 
+TEST_F(command_light_Class_fixture, on_bulb_priority_command)
+{
+    EXPECT_CALL(*main_iDomTools.get(),
+                sendViberMsg("zmiana statusu lampy wanna w pomieszczeniu: lazienka na ON przyciskiem: 30 czas trwania: 00:00",
+                             testing::_,testing::_,testing::_,testing::_));
+    EXPECT_EQ(test_context.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
+              STATE::UNDEFINE);
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("bulb");
+    test_v.push_back("on");
+    test_v.push_back("126");
+    test_v.push_back("priority");
+
+    (void)test_command_light->execute(test_v,&test_context);
+    EXPECT_TRUE(test_context.main_house_room_handler->m_lightingBulbMap.at(126)->lighting_priority);
+    
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("state;126;30;1\n");
+    (void)test_command_light->execute(test_v,&test_context);
+    EXPECT_EQ(test_context.main_house_room_handler->m_lightingBulbMap.at(126)->getStatus(),
+              STATE::ON);
+}
+
 TEST_F(command_light_Class_fixture, on_off_all_bulbs_in_room_command)
 {
     EXPECT_EQ(test_context.main_house_room_handler->m_lightingBulbMap.at(226)->getStatus(),
