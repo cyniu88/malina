@@ -84,7 +84,7 @@ std::string iDomKEY_ACCESS::listKEY()
 
 bool iDomKEY_ACCESS::useKEY(const std::string &name, const std::string &key)
 {
-    if (m_data.find(name) == m_data.end())
+    if (not m_data.contains(name))
     {
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "proba uzycia nieistniejacego klucza access iDom: "
@@ -131,7 +131,7 @@ void iDomKEY_ACCESS::removeExpiredKeys(unsigned int hours)
 
 std::string iDomKEY_ACCESS::getCommand(const std::string &name) const
 {
-    if (m_data.find(name) == m_data.end())
+    if (not m_data.contains(name))
     {
         return "null";
     }

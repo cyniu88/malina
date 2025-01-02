@@ -97,9 +97,9 @@ void house_room_handler::turnOnAllInRoom(const std::string &roomName)
         log_file_mutex.mutex_unlock();
         return;
     }
-    for (auto &a : m_roomMap[roomName]->m_lightingBulbMap)
+    for (auto &[key, value] : m_roomMap[roomName]->m_lightingBulbMap)
     {
-        a.second->on([](const std::string &name)
+        value->on([](const std::string &name)
                      { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
     }
 }
@@ -113,9 +113,9 @@ void house_room_handler::turnOffAllInRoom(const std::string &roomName)
         log_file_mutex.mutex_unlock();
         return;
     }
-    for (auto &a : m_roomMap[roomName]->m_lightingBulbMap)
+    for (auto &[key, value] : m_roomMap[roomName]->m_lightingBulbMap)
     {
-        a.second->off([](const std::string &name)
+        value->off([](const std::string &name)
                       { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
     }
 }
@@ -129,26 +129,26 @@ void house_room_handler::changeAllInRoom(const std::string &roomName)
         log_file_mutex.mutex_unlock();
         return;
     }
-    for (auto &a : m_roomMap[roomName]->m_lightingBulbMap)
+    for (auto &[key, value] : m_roomMap[roomName]->m_lightingBulbMap)
     {
-        a.second->change([](const std::string &name)
+        value->change([](const std::string &name)
                          { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
     }
 }
 
 void house_room_handler::turnOnAllBulb()
 {
-    for (auto &b : m_roomMap)
+    for (auto &[key, value] : m_roomMap)
     {
-        turnOnAllInRoom(b.second->m_name);
+        turnOnAllInRoom(value->m_name);
     }
 }
 
 void house_room_handler::turnOffAllBulb()
 {
-    for (auto &b : m_roomMap)
+    for (auto &[key, value] : m_roomMap)
     {
-        turnOffAllInRoom(b.second->m_name);
+        turnOffAllInRoom(value->m_name);
     }
 }
 
@@ -178,7 +178,7 @@ void house_room_handler::lockAllRoom()
 void house_room_handler::unlockAllRoom()
 {
     //    for(auto& a : m_roomMap){
-    //        a.second->unlock();
+    //        value->unlock();
     //    }
 }
 
@@ -189,29 +189,29 @@ nlohmann::json house_room_handler::getAllInfoJSON()
     std::cout << "mapa m_lightingBulbMap size: " << m_lightingBulbMap.size() << std::endl;
 #endif
 
-    for (auto &a : m_lightingBulbMap)
+    for (auto &[key, value] : m_lightingBulbMap)
     {
         nlohmann::json roomJJ;
-        roomJJ["STATE"] = stateToString(a.second->getLockState());
-        roomJJ["STATUS"] = stateToString(a.second->getStatus());
-        roomJJ["room"] = a.second->getRoomName();
-        roomJJ["bulb ID"] = a.second->getID();
-        roomJJ["bulb name"] = a.second->getBulbName();
-        roomJJ["bulb counter"] = a.second->getBulbCounter();
-        roomJJ["switch"] = a.second->getBulbPin();
-        roomJJ["last working time"] = a.second->howLongBulbOn().getString();
-        roomJJ["satelAlarm"] = stateToString(a.second->m_satelAlarm);
-        roomJJ["howLong"] = a.second->m_satelAlarmHowLong;
-        roomJJ["satelSensorAlarmUnixTime"] = Clock::unixTimeToString(a.second->getSatelSensorAlarmUnixTime());
+        roomJJ["STATE"] = stateToString(value->getLockState());
+        roomJJ["STATUS"] = stateToString(value->getStatus());
+        roomJJ["room"] = value->getRoomName();
+        roomJJ["bulb ID"] = value->getID();
+        roomJJ["bulb name"] = value->getBulbName();
+        roomJJ["bulb counter"] = value->getBulbCounter();
+        roomJJ["switch"] = value->getBulbPin();
+        roomJJ["last working time"] = value->howLongBulbOn().getString();
+        roomJJ["satelAlarm"] = stateToString(value->m_satelAlarm);
+        roomJJ["howLong"] = value->m_satelAlarmHowLong;
+        roomJJ["satelSensorAlarmUnixTime"] = Clock::unixTimeToString(value->getSatelSensorAlarmUnixTime());
         try
         {
-            roomJJ["satelCounter"] = m_roomMap.at(a.second->getRoomName())->satelSensorCounter;
+            roomJJ["satelCounter"] = m_roomMap.at(value->getRoomName())->satelSensorCounter;
         }
         catch (...)
         {
             roomJJ["satelCounter"] = -1;
             log_file_mutex.mutex_lock();
-            log_file_cout << ERROR << "sprawdz konfig pokojow! " << a.second->getRoomName() << " nie istnieje" << std::endl;
+            log_file_cout << ERROR << "sprawdz konfig pokojow! " << value->getRoomName() << " nie istnieje" << std::endl;
             log_file_mutex.mutex_unlock();
         }
         jj.push_back(roomJJ);
@@ -227,29 +227,29 @@ nlohmann::json house_room_handler::getInfoJSON_allON()
     std::cout << "mapa m_lightingBulbMap size: " << m_lightingBulbMap.size() << std::endl;
 #endif
 
-    for (auto &a : m_lightingBulbMap)
+    for (auto &[key, value] : m_lightingBulbMap)
     {
-        if (a.second->getStatus() == STATE::ON or a.second->getStatus() == STATE::ACTIVE)
+        if (value->getStatus() == STATE::ON or value->getStatus() == STATE::ACTIVE)
         {
             nlohmann::json roomJJ;
-            roomJJ["STATE"] = stateToString(a.second->getLockState());
-            roomJJ["STATUS"] = stateToString(a.second->getStatus());
-            roomJJ["room"] = a.second->getRoomName();
-            roomJJ["bulb ID"] = a.second->getID();
-            roomJJ["bulb name"] = a.second->getBulbName();
-            roomJJ["bulb counter"] = a.second->getBulbCounter();
-            roomJJ["switch"] = a.second->getBulbPin();
-            roomJJ["last working time"] = a.second->howLongBulbOn().getString();
-            roomJJ["satelSensorAlarmUnixTime"] = Clock::unixTimeToString(a.second->getSatelSensorAlarmUnixTime());
+            roomJJ["STATE"] = stateToString(value->getLockState());
+            roomJJ["STATUS"] = stateToString(value->getStatus());
+            roomJJ["room"] = value->getRoomName();
+            roomJJ["bulb ID"] = value->getID();
+            roomJJ["bulb name"] = value->getBulbName();
+            roomJJ["bulb counter"] = value->getBulbCounter();
+            roomJJ["switch"] = value->getBulbPin();
+            roomJJ["last working time"] = value->howLongBulbOn().getString();
+            roomJJ["satelSensorAlarmUnixTime"] = Clock::unixTimeToString(value->getSatelSensorAlarmUnixTime());
             try
             {
-                roomJJ["satelCounter"] = m_roomMap.at(a.second->getRoomName())->satelSensorCounter;
+                roomJJ["satelCounter"] = m_roomMap.at(value->getRoomName())->satelSensorCounter;
             }
             catch (...)
             {
                 roomJJ["satelCounter"] = -1;
                 log_file_mutex.mutex_lock();
-                log_file_cout << ERROR << "sprawdz konfig pokojow! " << a.second->getRoomName() << " nie istnieje" << std::endl;
+                log_file_cout << ERROR << "sprawdz konfig pokojow! " << value->getRoomName() << " nie istnieje" << std::endl;
                 log_file_mutex.mutex_unlock();
             }
             jj.push_back(roomJJ);
@@ -368,7 +368,7 @@ void house_room_handler::satelSensorActive(int sensorID)
     {
         return;
     }
-    if (m_satelIdMap.find(sensorID) == m_satelIdMap.end())
+    if (not m_satelIdMap.contains(sensorID))
     {
         log_file_mutex.mutex_lock();
         log_file_cout << WARNING << "unsupported  satel sensor " << sensorID << std::endl;
@@ -409,8 +409,8 @@ std::string house_room_handler::dump() const
 {
     std::stringstream str;
 
-    for (auto &a : m_lightingBulbMap)
-        str << "light " << a.first << " name " << a.second->getBulbName() << std::endl;
+    for (auto &[key, value] : m_lightingBulbMap)
+        str << "light " << key << " name " << value->getBulbName() << std::endl;
 
     str << "m_mqttPublishTopic: " << m_mqttPublishTopic << std::endl;
     str << "m_lastNotifyUnixTime: " << m_lastNotifyUnixTime << std::endl;
@@ -418,7 +418,7 @@ std::string house_room_handler::dump() const
     str << "m_circBuffSatelSensorId: " << std::endl
         << m_circBuffSatelSensorId.dump<int>() << std::endl;
 
-    for (auto &a : m_satelIdMap)
-        str << "m_satelIdMap " << a.first << " name " << a.second->m_name << std::endl;
+    for (auto &[key, value] : m_satelIdMap)
+        str << "m_satelIdMap " << key << " name " << value->m_name << std::endl;
     return str.str();
 }

@@ -49,7 +49,7 @@ CommandHandlerMQTT::CommandHandlerMQTT()
 
 std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_context *context)
 {
-    if (commandMap.find(v.front()) == commandMap.end())
+    if (not commandMap.contains(v.front()))
     {
         /* std::fstream log;
          log.open( "/mnt/ramdisk/command.txt", std::ios::binary | std::ios::in | std::ios::out|std::ios::app );

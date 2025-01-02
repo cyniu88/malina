@@ -237,7 +237,7 @@ std::string RADIO_EQ_CONTAINER::listAllName()
 bool RADIO_EQ_CONTAINER::nameExist(const std::string &name)
 {
     bool exist = false;
-    if (m_radioEqMap.find(name) not_eq m_radioEqMap.end())
+    if (m_radioEqMap.contains(name))
     {
         exist = true;
     }
