@@ -103,6 +103,7 @@ set(LIBS_SRC
     "../../src/dbClient/db-client.cpp"
     "../../src/dbClient/db-client-factory.cpp"
     "../../src/dbClient/test/bt.cpp" 
+    "../../src/recuperator/recuperator.cpp"
     )
 file(GLOB SOURCE_FILES2 "../../src/command/*.*"
     "../../src/command/commandClass/TEST/*.*"

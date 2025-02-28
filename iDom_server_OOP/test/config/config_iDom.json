@@ -79,6 +79,11 @@
 		"publish topic": "iDom-server",
 		"subscribe topic": "iDom-client/#"
 	},
+	"recuperator":{
+	  "MQTT_SENSOR_TOPIC":  "iDom-client/comfoconnect/sensor",
+	  "MQTT_CONTROL_TOPIC": "iDom-client/comfoconnect/control"
+  
+	},
 	"satel_integra32": {
 		"port": 7094,
 		"host": "192.168.13.156",

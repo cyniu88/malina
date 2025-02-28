@@ -121,6 +121,7 @@ set(SOURCE_FILES
     src/thread_functions/rs232_thread.h
     src/dbClient/db-client.cpp
     src/dbClient/db-client-factory.cpp
+    src/recuperator/recuperator.cpp
 )
 
 # Get the current working branch

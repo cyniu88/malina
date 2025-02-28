@@ -36,6 +36,7 @@
 #include "SerialPi/serialpi.h"
 #include "SATEL_INTEGRA/satel_integra_interface.h"
 #include "iDomKEY_ACCESS/idomkey_access.h"
+#include "recuperator/recuperator_interface.h"
 
 #define log_file_cout f_log // std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
@@ -354,6 +355,7 @@ struct thread_context
     std::shared_ptr<RADIO_EQ_CONTAINER> main_REC = std::nullptr_t();
     std::unique_ptr<iDomSTATUS> main_iDomStatus = std::nullptr_t();
     std::unique_ptr<iDomKEY_ACCESS> m_keyHandler = std::nullptr_t();
+    std::unique_ptr<RecuperatorInterface> m_recuperator = std::nullptr_t();
     ~thread_context() = default;
 };
 

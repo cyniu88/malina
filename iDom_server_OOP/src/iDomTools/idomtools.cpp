@@ -302,16 +302,16 @@ void iDomTOOLS::turnOff433MHzSwitch(std::string name)
 
 void iDomTOOLS::runOnSunset()
 {
+    const auto &sunsetCommand = context->server_settings->_command.find("sunset");
 
-    if (context->server_settings->_command.contains("sunset"))
+    if (sunsetCommand != context->server_settings->_command.end())
     {
-        if (context->idom_all_state.houseState == STATE::LOCK and context->server_settings->_command["sunset"].contains("lock"))
+        const std::string stateKey = (context->idom_all_state.houseState == STATE::LOCK) ? "lock" : "unlock";
+
+        auto stateCommand = sunsetCommand->find(stateKey);
+        if (stateCommand != sunsetCommand->end())
         {
-            runCommandFromJson(context->server_settings->_command["sunset"]["lock"].get<std::vector<std::string>>());
-        }
-        else if (context->idom_all_state.houseState == STATE::UNLOCK and context->server_settings->_command["sunset"].contains("unlock"))
-        {
-            runCommandFromJson(context->server_settings->_command["sunset"]["unlock"].get<std::vector<std::string>>());
+            runCommandFromJson(stateCommand->get<std::vector<std::string>>());
         }
     }
 
@@ -321,17 +321,19 @@ void iDomTOOLS::runOnSunset()
 
 void iDomTOOLS::runOnSunrise()
 {
-    if (context->server_settings->_command.contains("sunrise"))
+    const auto &sunsetCommand = context->server_settings->_command.find("sunrise");
+
+    if (sunsetCommand != context->server_settings->_command.end())
     {
-        if (context->idom_all_state.houseState == STATE::LOCK and context->server_settings->_command["sunrise"].contains("lock"))
+        const std::string stateKey = (context->idom_all_state.houseState == STATE::LOCK) ? "lock" : "unlock";
+
+        auto stateCommand = sunsetCommand->find(stateKey);
+        if (stateCommand != sunsetCommand->end())
         {
-            runCommandFromJson(context->server_settings->_command["sunrise"]["lock"].get<std::vector<std::string>>());
-        }
-        else if (context->idom_all_state.houseState == STATE::UNLOCK and context->server_settings->_command["sunrise"].contains("unlock"))
-        {
-            runCommandFromJson(context->server_settings->_command["sunrise"]["unlock"].get<std::vector<std::string>>());
+            runCommandFromJson(stateCommand->get<std::vector<std::string>>());
         }
     }
+
     context->mqttHandler->publish(context->server_settings->_mqtt_broker.topicPublish + "/sun", "SUNRISE");
 }
 
@@ -619,6 +621,7 @@ std::optional<std::string> iDomTOOLS::getSmog()
         log_file_mutex.mutex_unlock();
         return std::nullopt;
     }
+    
     if (readBuffer != "null")
         ret = readBuffer;
     context->mqttHandler->publish(context->server_settings->_mqtt_broker.topicPublish + "/smog", readBuffer);

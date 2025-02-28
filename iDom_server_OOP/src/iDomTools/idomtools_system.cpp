@@ -174,7 +174,7 @@ void iDomTOOLS::uploadRamCpuUsage()
     {
         // context->dbDataQueue.Put(DB_DATA(timestamp, iDomData)); // put data to queue, send later
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << " błąd (wyjatek) wysyłania memory do influxdb insouth" << e.what() << std::endl;
+        log_file_cout << CRITICAL << " błąd (wyjatek) wysyłania memory do influxdb insouth " << e.what() << std::endl;
         log_file_mutex.mutex_unlock();
     }
 }

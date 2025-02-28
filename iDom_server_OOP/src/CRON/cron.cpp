@@ -95,6 +95,11 @@ void CRON::runEveryone_5min()
 
     context->main_iDomTools->send_data_to_influxdb();
     context->main_iDomTools->uploadRamCpuUsage();
+
+    if (context->server_settings->_command.contains("5min"))
+    {
+        context->main_iDomTools->runCommandFromJson(context->server_settings->_command["sunset"]["lock"].get<std::vector<std::string>>());
+    }
 }
 
 void CRON::runEveryone_15min()
