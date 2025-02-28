@@ -6,6 +6,7 @@
 #include "../TASKER/tasker.h"
 #include "../src/thread_functions/iDom_thread.h"
 #include "../src/blockQueue/blockqueue.h"
+#include "../src/recuperator/recuperator.h"
 
 class bit_fixture : public iDomTOOLS_ClassTest
 {
@@ -42,6 +43,9 @@ protected:
         test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_context.main_REC = std::make_shared<RADIO_EQ_CONTAINER>(&test_context);
         test_context.main_iDomTools = std::make_shared<iDomTOOLS>(&test_context);
+        test_context.server_settings->_recuperation.MQTT_SENSOR_TOPIC = "iDom-client/comfoconnect/sensor";
+        test_context.server_settings->_recuperation.MQTT_CONTROL_TOPIC = "iDom-client/comfoconnect/control";
+        test_context.m_recuperator = std::make_unique<Recuperator>(&test_context);
         test_context.server_settings->_server.PORT = 8833;
         test_context.server_settings->_server.SERVER_IP = "127.0.0.1";
         test_context.server_settings->_runThread.SATEL = true;
@@ -672,4 +676,11 @@ TEST_F(bit_fixture, start_iDom_unlock_lock)
     EXPECT_TRUE(test_context.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
     test_context.main_iDomTools->unlockHome();
     EXPECT_FALSE(test_context.satelIntegraHandler->getSatelPTR()->isAlarmArmed());
+}
+
+TEST_F(bit_fixture, recuperation_base)
+{
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/comfoconnect/sensor/test", "45");
+    bit_Tasker->runTasker();
+    std::cout << "event: " << test_context.myEventHandler.run("recuperation")->getEvent() << std::endl;
 }

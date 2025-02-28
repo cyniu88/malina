@@ -649,6 +649,9 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._database2.port   = jj["Database2"].at("port").get<int>();
     cj._database2.token  = jj["Database2"].at("token").get<std::string>();
     cj._database2.org    = jj["Database2"].at("org").get<std::string>();
+    ///////////////////////// RECUPEARTION //////////////////////////////////////////////////
+    cj._recuperation.MQTT_SENSOR_TOPIC = jj["recuperator"].at("MQTT_SENSOR_TOPIC").get<std::string>();
+    cj._recuperation.MQTT_CONTROL_TOPIC = jj["recuperator"].at("MQTT_CONTROL_TOPIC").get<std::string>();
 
     return cj;
 }

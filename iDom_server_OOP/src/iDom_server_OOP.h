@@ -227,6 +227,12 @@ struct DATABASE
     std::string bucket = "";
 };
 
+struct RECUPERATION
+{
+    std::string MQTT_CONTROL_TOPIC = "fake/topic/send";
+    std::string MQTT_SENSOR_TOPIC = "fake/topic/recive";
+};
+
 struct CONFIG_JSON
 {
     RunThread_CFG _runThread;
@@ -241,6 +247,7 @@ struct CONFIG_JSON
     nlohmann::json _command;
     DATABASE _database;
     DATABASE _database2;
+    RECUPERATION _recuperation;
 };
 
 //class command; // for struc thread_data req

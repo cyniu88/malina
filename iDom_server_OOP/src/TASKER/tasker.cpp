@@ -47,6 +47,11 @@ int TASKER::runTasker()
             context->mqttHandler->publish(context->server_settings->_mqtt_broker.topicPublish + "/command",
                                           ret);
         }
+        /////////// recuperation /////////////////////////////
+        else if (kk.first.find(context->server_settings->_recuperation.MQTT_SENSOR_TOPIC) != std::string::npos)
+        {
+            context->m_recuperator->setDataFromMqtt(kk);
+        }
         else if (kk.first == topic)
         {
             auto v = useful_F::split(kk.second, ' ');
@@ -61,6 +66,10 @@ int TASKER::runTasker()
                 context->mqttHandler->publish(context->server_settings->_mqtt_broker.topicPublish + "/command",
                                               ret);
             }
+        }
+        else
+        {
+            std::cout << "ŹLE else TASKER::runTasker() " << kk.first << " " << kk.second << std::endl;
         }
 
         return 10;
