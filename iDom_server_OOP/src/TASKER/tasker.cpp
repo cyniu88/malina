@@ -67,10 +67,10 @@ int TASKER::runTasker()
                                               ret);
             }
         }
-        else
-        {
-            std::cout << "ŹLE else TASKER::runTasker() " << kk.first << " " << kk.second << std::endl;
-        }
+        // else
+        // {
+        //     std::cout << "ŹLE else TASKER::runTasker() " << kk.first << " " << kk.second << std::endl;
+        // }
 
         return 10;
     }

@@ -19,6 +19,7 @@
 #include "iDomSaveState/idom_save_state.h"
 #include "../libs/backTrace/backTrace.h"
 #include "dbClient/db-client-factory.hpp"
+#include "recuperator/recuperator.h"
 
 using namespace std::chrono_literals;
 
@@ -422,6 +423,8 @@ iDomStateEnum iDom_main()
     context.main_house_room_handler->loadButtonConfig("/etc/config/iDom_SERVER/button_config.json");
     //////////////////////////////// SETTINGS //////////////////////////////
     context.main_iDomStatus->addObject("house", context.idom_all_state.houseState);
+    //////////////////////////////// RECUPERATOR //////////////////////////
+    context.m_recuperator = std::make_unique<Recuperator>(&context);
 
     //////////////////////////////////////// start watku MQTT
     if (server_settings._runThread.MQTT == true)
