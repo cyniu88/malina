@@ -1,6 +1,7 @@
 #include "cron.hpp"
 #include "../functions/functions.h"
 #include "../iDomTools/idomtools_interface.h"
+#include "../dbClient/db-client-factory.hpp"
 
 CRON::CRON(thread_context *context) : context(context)
 {
@@ -101,7 +102,7 @@ void CRON::runEveryone_5min()
     uint64_t timestamp = Clock::getTimestamp();
     auto recuData = context->m_recuperator->getData();
     auto db = dbFactory.createDbClient();
-    auto returnCode = db->upload_universal(iDomData, timestamp, &context->server_settings->_database);
+    auto returnCode = db->upload_universal(recuData, timestamp, &context->server_settings->_database);
  
     if (context->server_settings->_command.contains("5min"))
     {
