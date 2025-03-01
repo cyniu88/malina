@@ -61,6 +61,7 @@ public:
     virtual void send_data_to_thingSpeak() = 0;
     virtual void send_data_to_influxdb() = 0;
     virtual std::string getFloorTemp() = 0;
+    virtual void uploadRecuperatorData() = 0;
 
     //////////////////// viber msg /////////////////////////
     virtual nlohmann::json sendViberMsg(const std::string &msg,

@@ -621,7 +621,7 @@ std::optional<std::string> iDomTOOLS::getSmog()
         log_file_mutex.mutex_unlock();
         return std::nullopt;
     }
-    
+
     if (readBuffer != "null")
         ret = readBuffer;
     context->mqttHandler->publish(context->server_settings->_mqtt_broker.topicPublish + "/smog", readBuffer);
@@ -684,7 +684,6 @@ void iDomTOOLS::send_data_to_thingSpeak()
 
 void iDomTOOLS::send_data_to_influxdb()
 {
-
     std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> iDomData;
     uint64_t timestamp = Clock::getTimestamp();
     try
@@ -761,6 +760,26 @@ void iDomTOOLS::send_data_to_influxdb()
 std::string iDomTOOLS::getFloorTemp()
 {
     return std::to_string(context->lusina.shedFloor.average());
+}
+
+void iDomTOOLS::uploadRecuperatorData()
+{
+    dbClientFactory dbFactory;
+
+    uint64_t timestamp = Clock::getTimestamp();
+    auto recuData = context->m_recuperator->getData();
+    auto db = dbFactory.createDbClient();
+    try
+    {
+        auto returnCode = db->upload_universal(recuData, timestamp, &context->server_settings->_database);
+    }
+    catch (std::exception &e)
+    {
+       // context->dbDataQueue.Put(DB_DATA(timestamp, iDomData)); // put data to queue, send later
+        log_file_mutex.mutex_lock();
+        log_file_cout << CRITICAL << " błąd (wyjatek) wysyłania danych rekuperatora do influxdb " << e.what() << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
 }
 
 nlohmann::json iDomTOOLS::sendViberMsg(const std::string &msg,

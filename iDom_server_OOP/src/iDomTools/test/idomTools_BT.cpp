@@ -686,6 +686,8 @@ TEST_F(iDomTOOLS_ClassTest, health_check)
   test_context.main_RFLink->m_pingTime = Clock::getUnixTime() - 321;
   //  EXPECT_EQ(test_context.iDomProgramState, iDomStateEnum::HARD_RELOAD);
 }
+
+
 /*
 TEST_F(iDomTOOLS_ClassTest, access_KEYGEN)
 {

@@ -54,6 +54,7 @@ public:
     MOCK_METHOD0(getSmog, std::optional<std::string>());
     MOCK_METHOD0(send_data_to_thingSpeak, void());
     MOCK_METHOD0(send_data_to_influxdb, void());
+    MOCK_METHOD0(uploadRecuperatorData, void());
     MOCK_METHOD0(getFloorTemp, std::string());
 
     //////////////////// viber msg /////////////////////////

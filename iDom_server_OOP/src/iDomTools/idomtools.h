@@ -80,6 +80,7 @@ public:
     void send_data_to_thingSpeak() override;
     void send_data_to_influxdb() override;
     std::string getFloorTemp() override;
+    void uploadRecuperatorData() override;
 
     //////////////////// viber msg /////////////////////////
     nlohmann::json sendViberMsg(const std::string &msg,

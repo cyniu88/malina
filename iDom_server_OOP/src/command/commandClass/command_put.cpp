@@ -15,10 +15,16 @@ std::string command_put::execute(std::vector<std::string> &v, thread_context *co
             context->main_iDomTools->send_data_to_thingSpeak();
             str_buf = "DONE";
         }
-        else         if (v[1] == "influx")
+        else if (v[1] == "influx")
         {
             str_buf.erase();
             context->main_iDomTools->send_data_to_influxdb();
+            str_buf = "DONE";
+        }
+        else if (v[1] == "recuperator")
+        {
+            str_buf.erase();
+            context->main_iDomTools->uploadRecuperatorData();
             str_buf = "DONE";
         }
     }
@@ -32,5 +38,6 @@ std::string command_put::help() const
     help << "parameter:" << std::endl;
     help << "\ttemperature - put actual temperature from inside and outside and smog on thingspeak\n" << std::endl;
     help << "\tinflux - put actual temperature from inside and outside and smog and other to influxdb\n" << std::endl;
+    help << "\trecuperator - put recuperator data to influxdb\n" << std::endl;
     return help.str();
 }
