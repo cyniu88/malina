@@ -1,28 +1,34 @@
 #include "recuperator.h"
 #include <iostream>
 
-Recuperator::Recuperator(thread_context *d_context):context(d_context) {
+Recuperator::Recuperator(thread_context *d_context) : context(d_context)
+{
     // Constructor implementation
 }
 
-Recuperator::~Recuperator() {
+Recuperator::~Recuperator()
+{
     // Destructor implementation
 }
 
-std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> Recuperator::getData() {
+std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> Recuperator::getData()
+{
     std::lock_guard<std::mutex> lock(mtx);
     return recuData;
 }
 
-void Recuperator::setDataFromMqtt(const std::pair<std::string, std::string>& data)
+void Recuperator::setDataFromMqtt(const std::pair<std::string, std::string> &data)
 {
     // temporaty event to phase 1
     auto ss = data.first + " " + data.second;
     context->myEventHandler.run("recuperation")->addEvent(ss);
     auto pos = data.first.find_last_of('/');
-    if (pos != std::string::npos) {
+    if (pos != std::string::npos)
+    {
         std::string extracted = data.first.substr(pos + 1);
+#ifdef BT_TEST
         std::cout << "Extracted string: " << extracted << std::endl;
+#endif
     }
 
     {
@@ -31,12 +37,14 @@ void Recuperator::setDataFromMqtt(const std::pair<std::string, std::string>& dat
     }
 }
 
-void Recuperator::stop() {
+void Recuperator::stop()
+{
     // Method to stop the recuperator
     std::cout << "Stopping recuperator" << std::endl;
 }
 
-void Recuperator::setSpeed(const std::string_view speed) {
+void Recuperator::setSpeed(const std::string_view speed)
+{
     // Method to set the speed of the recuperator
     std::cout << "Setting recuperator speed to " << speed << std::endl;
 }
