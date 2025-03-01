@@ -11,13 +11,14 @@ public:
     explicit Recuperator(thread_context *d_context);
     ~Recuperator();
 
-    void getData();
-    void setDataFromMqtt(std::pair<std::string, std::string> data);
+    std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> getData();
+    void setDataFromMqtt(const std::pair<std::string, std::string>& data);
     void stop();
     void setSpeed(const std::string_view speed);
 
 private:
     std::mutex mtx;
-    nlohmann::json dataBases;
+    std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> recuData;
+    //iDomData["temperatura"]["outdoor"] = -22.55;
     thread_context *context;
 };

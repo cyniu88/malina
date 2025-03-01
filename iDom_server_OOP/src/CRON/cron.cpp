@@ -96,6 +96,13 @@ void CRON::runEveryone_5min()
     context->main_iDomTools->send_data_to_influxdb();
     context->main_iDomTools->uploadRamCpuUsage();
 
+    dbClientFactory dbFactory;
+
+    uint64_t timestamp = Clock::getTimestamp();
+    auto recuData = context->m_recuperator->getData();
+    auto db = dbFactory.createDbClient();
+    auto returnCode = db->upload_universal(iDomData, timestamp, &context->server_settings->_database);
+ 
     if (context->server_settings->_command.contains("5min"))
     {
         context->main_iDomTools->runCommandFromJson(context->server_settings->_command["sunset"]["lock"].get<std::vector<std::string>>());

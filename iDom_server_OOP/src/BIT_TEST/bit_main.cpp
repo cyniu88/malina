@@ -680,7 +680,16 @@ TEST_F(bit_fixture, start_iDom_unlock_lock)
 
 TEST_F(bit_fixture, recuperation_base)
 {
-    test_context.mqttHandler->putToReceiveQueue("iDom-client/comfoconnect/sensor/test", "45");
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/comfoconnect/sensor/wilgotnosc", "45");
+    bit_Tasker->runTasker();
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/comfoconnect/sensor/wilgotnosc", "46");
+    bit_Tasker->runTasker();
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/comfoconnect/sensor/wilgotnosc2", "46");
     bit_Tasker->runTasker();
     std::cout << "event: " << test_context.myEventHandler.run("recuperation")->getEvent() << std::endl;
+
+    auto resultData = test_context.m_recuperator->getData();
+    
+    EXPECT_EQ(std::any_cast<float>(resultData["recuperator"]["wilgotnosc"].value()) , 46.0);
+    EXPECT_EQ(resultData["recuperator"].size(), 2);
 }

@@ -9,16 +9,26 @@ Recuperator::~Recuperator() {
     // Destructor implementation
 }
 
-void Recuperator::getData() {
-    // Method to get data
-    std::cout << "Getting data from recuperator" << std::endl;
+std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> Recuperator::getData() {
+    std::lock_guard<std::mutex> lock(mtx);
+    return recuData;
 }
 
-void Recuperator::setDataFromMqtt(std::pair<std::string, std::string> data)
+void Recuperator::setDataFromMqtt(const std::pair<std::string, std::string>& data)
 {
     // temporaty event to phase 1
     auto ss = data.first + " " + data.second;
     context->myEventHandler.run("recuperation")->addEvent(ss);
+    auto pos = data.first.find_last_of('/');
+    if (pos != std::string::npos) {
+        std::string extracted = data.first.substr(pos + 1);
+        std::cout << "Extracted string: " << extracted << std::endl;
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(mtx);
+        recuData["recuperator"][data.first.substr(pos + 1)] = std::stof(data.second);
+    }
 }
 
 void Recuperator::stop() {
