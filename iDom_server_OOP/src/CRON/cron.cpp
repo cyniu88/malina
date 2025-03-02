@@ -96,8 +96,7 @@ void CRON::runEveryone_5min()
 
     context->main_iDomTools->send_data_to_influxdb();
     context->main_iDomTools->uploadRamCpuUsage();
-    //TODO poprawić
-    //context->main_iDomTools->uploadRecuperatorData();
+    context->main_iDomTools->uploadRecuperatorData();
 
     if (context->server_settings->_command.contains("5min"))
     {
