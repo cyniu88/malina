@@ -5,7 +5,6 @@
 #include "idomtools_useful.h"
 #include "json.hpp"
 
-
 #include "../THERMOMETER_CONTAINER/thermometer_container.h"
 #include "../../libs/useful/useful.h"
 

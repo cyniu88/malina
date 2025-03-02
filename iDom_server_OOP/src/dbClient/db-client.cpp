@@ -249,6 +249,11 @@ HttpStatus::Code dbClient::upload_universal(const std::unordered_map<std::string
                         //   std::cout << std::any_cast<double>(*inner_pair.second) << std::endl;
                         fields.emplace_back(inner_pair.first, std::any_cast<double>(*inner_pair.second));
                     }
+                    else if (inner_pair.second->type() == typeid(float))
+                    {
+                        //   std::cout << std::any_cast<float>(*inner_pair.second) << std::endl;
+                        fields.emplace_back(inner_pair.first, std::any_cast<float>(*inner_pair.second));
+                    }
                     else if (inner_pair.second->type() == typeid(std::string))
                     {
                         //   std::cout << std::any_cast<std::string>(*inner_pair.second) << std::endl;
