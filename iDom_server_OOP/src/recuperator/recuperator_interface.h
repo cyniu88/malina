@@ -13,6 +13,9 @@ public:
     virtual void setDataFromMqtt(const std::pair<std::string, std::string>& data) = 0;
     virtual void stop() = 0;
     virtual void setSpeed(const std::string_view speed) = 0;
+    virtual void setAwayModeTime(bool state, int time, std::string_view unit) = 0;
+    virtual void setAwayMode() = 0;
+    virtual void setBoostMode(int time, std::string_view unit = "min", bool state = true) = 0;
 
 };
 

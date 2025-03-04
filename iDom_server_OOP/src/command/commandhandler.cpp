@@ -4,7 +4,7 @@
 #include "commandClass/command_clock.h"
 #include "commandClass/command_hello.h"
 #include "commandClass/command_help.h"
-#include "commandClass/command_ip.h"
+#include "commandClass/command_recuperator.h"
 #include "commandClass/command_log.h"
 #include "commandClass/command_ok.h"
 #include "commandClass/command_put.h"
@@ -34,8 +34,8 @@ commandHandler::commandHandler(thread_context * context)
     std::unique_ptr <command> help (new command_help("help", &commandMap));
     commandMap.insert(std::make_pair(help->getCommandName(), std::move(help)));
 
-    std::unique_ptr <command> ip (new command_ip("ip"));
-    commandMap.insert(std::make_pair(ip->getCommandName(), std::move(ip)));
+    std::unique_ptr <command> recuperator (new command_recuperator("recuperator"));
+    commandMap.insert(std::make_pair(recuperator->getCommandName(), std::move(recuperator)));
 
     std::unique_ptr <command> ok (new command_ok("ok"));
     commandMap.insert(std::make_pair(ok->getCommandName(), std::move(ok)));

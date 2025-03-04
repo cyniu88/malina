@@ -69,7 +69,7 @@ set(SOURCE_FILES
     src/command/commandClass/command_hello.cpp
     src/command/commandClass/command_help.cpp
     src/command/commandClass/command_idom.cpp
-    src/command/commandClass/command_ip.cpp
+    src/command/commandClass/command_recuperator.cpp
     src/command/commandClass/command_light.cpp
     src/command/commandClass/command_log.cpp
     src/command/commandClass/command_mpd.cpp

@@ -1,5 +1,6 @@
 #include "recuperator.h"
 #include <iostream>
+#include <json.hpp>
 
 Recuperator::Recuperator(thread_context *d_context) : context(d_context)
 {
@@ -45,6 +46,76 @@ void Recuperator::stop()
 
 void Recuperator::setSpeed(const std::string_view speed)
 {
-    // Method to set the speed of the recuperator
-    std::cout << "Setting recuperator speed to " << speed << std::endl;
+
+    auto logError = [this, &speed]()
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << WARNING << "błąd ustawiania predkości rekuperacji na " << speed << std::endl;
+        log_file_mutex.mutex_unlock();
+    };
+
+    auto sendTopic = context->server_settings->_recuperation.MQTT_CONTROL_TOPIC;
+
+    if (speed == "away" or speed == "low" or speed == "medium" or speed == "high")
+    {
+        auto ret = context->mqttHandler->publish(sendTopic, std::string(speed));
+        if (ret == 0)
+        {
+            log_file_mutex.mutex_lock();
+            log_file_cout << INFO << "ustawiono prędkość rekuperacji na: " << speed << std::endl;
+            log_file_mutex.mutex_unlock();
+        }
+        else
+        {
+            logError();
+        }
+        return;
+    }
+
+    logError();
+}
+
+void Recuperator::setAwayModeTime(bool state, int time, std::string_view unit)
+{
+    if (time > 0)
+    {
+        nlohmann::json j;
+        j["state"] = state;
+        j["time"] = time;
+        j["unit"] = unit;
+        context->mqttHandler->publish(context->server_settings->_recuperation.MQTT_CONTROL_TOPIC + "/away/set", j.dump());
+    }
+
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "ustawiono tryb nieobecności w  rekuperacji na: " << time << " " << unit << std::endl;
+    log_file_mutex.mutex_unlock();
+}
+
+void Recuperator::setAwayMode()
+{
+    context->mqttHandler->publish(context->server_settings->_recuperation.MQTT_CONTROL_TOPIC + "/away/set", "true");
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "ustawiono tryb nieobecności w  rekuperacji na stałe " << std::endl;
+    log_file_mutex.mutex_unlock();
+}
+
+void Recuperator::setBoostMode(int time, std::string_view unit, bool state)
+{
+    if (time > 0)
+    {
+        nlohmann::json j;
+        j["state"] = state;
+        j["time"] = time;
+        j["unit"] = unit;
+        context->mqttHandler->publish(context->server_settings->_recuperation.MQTT_CONTROL_TOPIC + "/boost/set", j.dump());
+    }
+    else
+    {
+        log_file_mutex.mutex_lock();
+        log_file_cout << ERROR << "Problem z ustawieniem przewietrzania" << time << " " << unit << std::endl;
+        log_file_mutex.mutex_unlock();
+    }
+    log_file_mutex.mutex_lock();
+    log_file_cout << INFO << "ustawiono tryb przewietrzania w  rekuperacji na: " << time << " " << unit << std::endl;
+    log_file_mutex.mutex_unlock();
 }
