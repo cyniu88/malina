@@ -20,7 +20,7 @@ std::unordered_map<std::string, std::unordered_map<std::string, std::optional<st
     for (auto &[name, data] : recuDB)
     {
         recuData["recuperator"][name] = data.average();
-        data.erase();
+        data.keepLatestOnly();
     }
     return recuData;
 }
