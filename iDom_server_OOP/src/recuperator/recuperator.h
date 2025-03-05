@@ -22,6 +22,7 @@ public:
 private:
     std::mutex mtx;
     std::unordered_map<std::string, std::unordered_map<std::string, std::optional<std::any>>> recuData;
+    std::unordered_map<std::string, STATISTIC<float>> recuDB;
     //iDomData["temperatura"]["outdoor"] = -22.55;
     thread_context *context;
 };
