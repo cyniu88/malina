@@ -704,7 +704,7 @@ TEST_F(bit_fixture, recuperation_base)
     EXPECT_EQ(std::any_cast<float>(resultData["recuperator"]["wilgotnosc"].value()) , 50.0);
     EXPECT_EQ(resultData["recuperator"].size(), 2);
 
-    // auto dane = test_context.m_recuperator->getData();
-    // std::cout << "wilgotnosc: " << std::any_cast<float>(dane["recuperator"]["wilgotnosc"].value()) << std::endl;
-    // std::cout << "wilgotnosc2: " << std::any_cast<float>(dane["recuperator"]["wilgotnosc2"].value()) << std::endl;
+    auto dane = test_context.m_recuperator->getData();
+    std::cout << "wilgotnosc: " << std::any_cast<float>(dane["recuperator"]["wilgotnosc"].value()) << std::endl;
+    std::cout << "wilgotnosc2: " << std::any_cast<float>(dane["recuperator"]["wilgotnosc2"].value()) << std::endl;
 }

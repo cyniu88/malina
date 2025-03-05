@@ -17,11 +17,8 @@ std::unordered_map<std::string, std::unordered_map<std::string, std::optional<st
     std::lock_guard<std::mutex> lock(mtx);
     recuData.erase("recuperator");
 
-    std::cout << "recuData size: " << recuData.size() << std::endl;
-
     for (auto &[name, data] : recuDB)
     {
-        std::cout << " dupaaa : " << name << "  wartosc: " << data.average() << std::endl;
         recuData["recuperator"][name] = data.average();
         data.erase();
     }
