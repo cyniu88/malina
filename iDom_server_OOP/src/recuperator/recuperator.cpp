@@ -89,7 +89,7 @@ void Recuperator::setAwayModeTime(bool state, int time, std::string_view unit)
     {
         nlohmann::json j;
         j["state"] = state;
-        j["time"] = time;
+        j["timeout"] = time;
         j["unit"] = unit;
         context->mqttHandler->publish(context->server_settings->_recuperation.MQTT_CONTROL_TOPIC + "/away/set", j.dump());
     }
@@ -113,7 +113,7 @@ void Recuperator::setBoostMode(int time, std::string_view unit, bool state)
     {
         nlohmann::json j;
         j["state"] = state;
-        j["time"] = time;
+        j["timeout"] = time;
         j["unit"] = unit;
         context->mqttHandler->publish(context->server_settings->_recuperation.MQTT_CONTROL_TOPIC + "/boost/set", j.dump());
     }
