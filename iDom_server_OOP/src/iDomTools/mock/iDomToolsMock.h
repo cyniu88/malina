@@ -121,6 +121,9 @@ public:
     /////////////////////// health check //////////////////
     MOCK_METHOD0(healthCheck, void());
 
+    /////////////////////// MQTT ////////////////////////
+    MOCK_METHOD2(mqttPublish, void(const std::string &topic, const std::string &msg));
+
     ////////////////////// system /////////////////////////
     MOCK_METHOD0(close_iDomServer, void());
     MOCK_METHOD0(reloadSoft_iDomServer, void());

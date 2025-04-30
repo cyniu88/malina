@@ -1105,6 +1105,11 @@ void iDomTOOLS::wifiClientDisconnected()
     buttonLockHome();
 }
 
+void iDomTOOLS::mqttPublish(const std::string &topic, const std::string &msg)
+{
+    context->mqttHandler->publish(topic, msg);
+}
+
 void iDomTOOLS::doorbellDingDong()
 {
     try

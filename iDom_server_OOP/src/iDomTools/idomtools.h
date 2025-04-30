@@ -144,6 +144,9 @@ public:
     void wifiClientConnected() override;
     void wifiClientDisconnected() override;
 
+    /////////////////////// MQTT //////////////////////////
+    void mqttPublish(const std::string &topic, const std::string &msg) override;
+
     /////////////////////// health check //////////////////
     void healthCheck() override;
 

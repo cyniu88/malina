@@ -150,6 +150,13 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_context *c
         context->satelIntegraHandler->getSatelPTR()->outputOn(context->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren
         return "done " + std::to_string(counter);
     }
+    else if (v[1] == "mqtt"){
+        if (v.size() < 4){
+            return "not enough parameters";
+        }
+        context->mqttHandler->publish(v[2], v[3]);
+        return "done " + std::to_string(counter);
+    }
     else if (v[1] == "doorbell") {
         // context->main_iDomTools->sendViberPicture("DZWONEK do bramy!",
         //                                           "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-ring-the-doorbell-icon-image_1198163.jpg",
@@ -282,5 +289,6 @@ std::string command_iDom::help() const
     help << "iDom doorbell - on doorbell" << std::endl;
     help << "iDom blink - blink outdoor siren for 5 sek" << std::endl;
     help << "iDom isDay - get information about day"  << std::endl;
+    help << "iDom mqtt <topic> <msg> - publish mqtt message" << std::endl;
     return help.str();
 }

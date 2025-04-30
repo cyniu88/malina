@@ -126,6 +126,9 @@ public:
     /////////////////////// health check //////////////////
     virtual void healthCheck() = 0;
 
+    /////////////////////// MQTT ////////////////////////
+    virtual void mqttPublish(const std::string &topic, const std::string &msg) = 0;
+
     ////////////////////// system /////////////////////////
     virtual void close_iDomServer [[noreturn]] () = 0;
     virtual void reloadSoft_iDomServer [[noreturn]] () = 0;
