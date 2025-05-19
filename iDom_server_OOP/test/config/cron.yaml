@@ -1,0 +1,29 @@
+1min:
+     lock:
+          - "pierwsza komenda"
+          - "druga komenda"
+     unlock:
+          - "trzecia komenda"
+5min:
+     lock:
+          - "czwarta komenda"
+          - "piata komenda"
+     unlock:
+          - "szosta komenda"
+15min:
+     lock:
+          - "siodma komenda"
+          - "ósma komenda"
+     unlock:
+          - "dziewiata komenda"
+30min:
+     lock:
+          - "dziesiata komenda"
+     # unlock:
+     #      - "jedenasta komenda"
+1h:
+     lock:
+          - "dwunasta komenda"
+          - "trzynasta komenda"
+     unlock:
+          - "czternasta komenda" #dupa

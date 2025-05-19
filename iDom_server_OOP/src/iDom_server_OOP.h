@@ -245,6 +245,7 @@ struct CONFIG_JSON
     SATEL_INTEGRA_CFG _satel_integra;
     nlohmann::json _shedConf;
     nlohmann::json _command;
+    std::string _cron;
     DATABASE _database;
     DATABASE _database2;
     RECUPERATION _recuperation;

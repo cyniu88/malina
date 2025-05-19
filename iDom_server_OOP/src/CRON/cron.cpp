@@ -5,6 +5,28 @@
 
 CRON::CRON(thread_context *context) : context(context)
 {
+
+    // try
+    // {
+    //     rootConfig.loadFromFile(context->server_settings->_cron);
+
+    //     for (const auto &[time, commands] : rootConfig.getCommands())
+    //     {
+    //         std::cout << "[" << time << "]\n";
+    //         std::cout << "  Lock:\n";
+    //         for (const auto &cmd : commands.lock)
+    //             std::cout << cmd << "\n";
+    //         std::cout << "  Unlock:\n";
+    //         for (const auto &cmd : commands.unlock)
+    //             std::cout << cmd << "\n";
+    //     }
+
+    //     commandData = rootConfig.getCommands();
+    // }
+    // catch (const std::exception &e)
+    // {
+    //     std::cerr << "Błąd: " << e.what() << std::endl;
+    // }
 }
 
 void CRON::run()
@@ -73,6 +95,7 @@ void CRON::runEveryone_1min(struct tm *act_date)
     {
         runOnSunrise();
     }
+    runCommandCron("1h");
 }
 
 void CRON::runEveryone_5min()
@@ -102,16 +125,19 @@ void CRON::runEveryone_5min()
     {
         context->main_iDomTools->runCommandFromJson(context->server_settings->_command["sunset"]["lock"].get<std::vector<std::string>>());
     }
+    
+    runCommandCron("5min");
 }
 
 void CRON::runEveryone_15min()
 {
     context->main_iDomTools->send_data_to_thingSpeak();
+    runCommandCron("15min");
 }
 
 void CRON::runEveryone_30min()
 {
-    // printf("co 30 minut! \n");
+    runCommandCron("30min");
 }
 
 void CRON::runEveryone_1h()
@@ -138,4 +164,24 @@ void CRON::runOnSunrise()
     log_file_cout << DEBUG << "wschod slonca" << std::endl;
     log_file_mutex.mutex_unlock();
     context->main_iDomTools->runOnSunrise();
+}
+
+void CRON::runCommandCron(const std::string &time)
+{   
+    std::cout << "cyniu runCommandCron start  " << time << std::endl;
+    if (context->idom_all_state.houseState == STATE::LOCK)
+    {
+        auto v = commandData.at(time).lock;
+        for(const auto &cmd : v)
+        {
+            std::cout << cmd << std::endl;
+        }
+            context->main_iDomTools->runCommandFromJson(v);
+    }
+    else if (context->idom_all_state.houseState == STATE::UNLOCK)
+    {
+        auto v = commandData.at(time).unlock;
+    }
+    
+    std::cout << "cyniu runCommandCron stop " << time << std::endl;
 }

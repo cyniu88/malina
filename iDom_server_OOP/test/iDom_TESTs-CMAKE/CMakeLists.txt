@@ -36,7 +36,8 @@ set(LIBS_SRC
     "../../libs/circular_buffer/circular_buffer.h"
     "../../libs/circular_buffer/circular_buffer.cpp"
     "../../libs/circular_buffer/test/BT.cpp"
-    "../../libs/TEST/testif.cpp" )
+    "../../libs/TEST/testif.cpp"
+     )
 
     set(SOURCE_FILES  "main.cpp" "test_data.h"
     "../../src/RADIO_433_eq/test/radio_433_test.cpp"
@@ -104,7 +105,9 @@ set(LIBS_SRC
     "../../src/dbClient/db-client-factory.cpp"
     "../../src/dbClient/test/bt.cpp" 
     "../../src/recuperator/recuperator.cpp"
-    )
+    "../../src/cron/cron.cpp"
+    "../../src/cron/BT/bt.cpp"
+     )
 file(GLOB SOURCE_FILES2 "../../src/command/*.*"
     "../../src/command/commandClass/TEST/*.*"
     "../../src/command/commandClass/*.*"

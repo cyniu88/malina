@@ -637,6 +637,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._shedConf = jj["shed"];
     ///////////////////////// COMMAND ////////////////////////////////////////////////////
     cj._command = jj["command"];
+    cj._cron = jj["cron"].at("cron_path").get<std::string>();
     ///////////////////////// DATABASE //////////////////////////////////////////////////
     cj._database.bucket = jj["Database"].at("bucket").get<std::string>();
     cj._database.ip     = jj["Database"].at("IP").get<std::string>();

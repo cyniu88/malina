@@ -103,6 +103,9 @@
 			"lock": []
 		}
 	},
+	"cron": {
+		"cron_path": "/etc/config/iDom_SERVER/cron.json"
+	},
 	"THREAD": {
 		"RFLink": {
 			"run": true

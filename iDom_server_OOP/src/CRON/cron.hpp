@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include <time.h>
+
+#include "../libs/yaml/yaml.hpp"
 struct thread_context;
 
 class CRON
@@ -21,5 +23,8 @@ private:
     void runEveryone_1h();
     void runOnSunset();
     void runOnSunrise();
+    SimpleYamlCommandParser rootConfig;
+    SimpleYamlCommandParser::CommandMap commandData;
+public:
+    void runCommandCron(const std::string &time);
 };
-
