@@ -53,3 +53,26 @@ TEST_F(command_shed_Class_fixture, put_get_json)
     ret = test_command_shed->execute(test_v, &test_context);
     std::cout << ret << std::endl;
 }
+
+TEST_F(command_shed_Class_fixture, null_in_json)
+{
+
+    test_context.lusina.shedConfJson = nlohmann::json::parse(R"({
+       "deepSleep":true,
+       "howLongDeepSleep":177,
+       "fanON":false
+   })");
+    EXPECT_CALL(*main_iDomTools.get(), isItDay()).WillOnce(testing::Return(true));
+    std::string msg = R"({"acdc":2,"temperatura":null,"ciśnienie":992.303772,"wilgotność":51.86914063,"millis":119626,"bateria":3.900585938, "podłoga": 22.6})";
+    test_v.push_back("shed");
+    test_v.push_back("put");
+    test_v.push_back(msg);
+    auto ret = test_command_shed->execute(test_v, &test_context);
+    EXPECT_STREQ(ret.c_str(), "DONE");
+
+    test_v.clear();
+    test_v.push_back("shed");
+    test_v.push_back("show");
+    ret = test_command_shed->execute(test_v, &test_context);
+    std::cout << ret << std::endl;
+}

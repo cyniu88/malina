@@ -18,7 +18,7 @@ std::atomic<bool> workStubSatel = true;
 
 void satelServer(){
     std::cout << "start" << std::endl;
-    int  MAX_buf = 1024;
+    const int  MAX_buf = 1024;
     char c_buffer[MAX_buf];
     struct sockaddr_in server;
     int v_socket;
