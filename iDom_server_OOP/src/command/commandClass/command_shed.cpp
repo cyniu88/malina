@@ -16,7 +16,6 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_context *c
             str_buf.str("");
             try
             {
-                std::cout << "Odebrano json z shed: " << v[2] << std::endl;
                 context->lusina.shedJson = nlohmann::json::parse(v[2]);
             }
             catch (...)
@@ -27,25 +26,32 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_context *c
 
                 return "error 222";
             }
-            auto getData = [&v](thread_context *context, const std::string &key)
-            {
-                try
-                {
-                    context->lusina.shedFloor.push_back(context->lusina.shedJson[key].get<float>());
-                }
-                catch (const std::exception &e)
-                {
-                    log_file_mutex.mutex_lock();
-                    log_file_cout << CRITICAL << " błąd odebranego json z shed " << v[2] << " klucz: " << key << std::endl;
-                    log_file_mutex.mutex_unlock();
-                }
-            };
-            auto keyList = {"temperatura", "ciśnienie", "wilgotność", "podłoga", "acdc"};
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            context->lusina.shedFloor.push_back(context->lusina.shedJson["podłoga"].get<float>());
+            context->lusina.shedHum.push_back(context->lusina.shedJson["wilgotność"].get<float>());
+            context->lusina.shedPres.push_back(context->lusina.shedJson["ciśnienie"].get<float>());
+            context->lusina.shedTemp.push_back(context->lusina.shedJson["temperatura"].get<float>());
+            context->lusina.acdc.push_back(context->lusina.shedJson["acdc"].get<float>());
 
-            for (const auto &key : keyList)
-            {
-                getData(context, key);
-            }
+            // auto getData = [&v](thread_context *context, const std::string &key)
+            // {
+            //     try
+            //     {
+            //         context->lusina.shedFloor.push_back(context->lusina.shedJson[key].get<float>());
+            //     }
+            //     catch (const std::exception &e)
+            //     {
+            //         log_file_mutex.mutex_lock();
+            //         log_file_cout << CRITICAL << " błąd odebranego json z shed " << v[2] << " klucz: " << key << std::endl;
+            //         log_file_mutex.mutex_unlock();
+            //     }
+            // };
+            // auto keyList = {"temperatura", "ciśnienie", "wilgotność", "podłoga", "acdc"};
+
+            // for (const auto &key : keyList)
+            // {
+            //     getData(context, key);
+            // }
             str_buf << "DONE";
             nlohmann::json returnJson;
             returnJson["isDay"] = context->main_iDomTools->isItDay();
