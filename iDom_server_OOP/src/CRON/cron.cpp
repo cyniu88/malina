@@ -9,7 +9,7 @@ CRON::CRON(thread_context *context) : context(context)
     try
     {
         rootConfig.loadFromFile(context->server_settings->_cron);
-
+#ifdef BT_TEST
         for (const auto &[time, commands] : rootConfig.getCommands())
         {
             std::cout << "[" << time << "]\n";
@@ -20,7 +20,7 @@ CRON::CRON(thread_context *context) : context(context)
             for (const auto &cmd : commands.unlock)
                 std::cout << cmd << "\n";
         }
-
+#endif
         commandData = rootConfig.getCommands();
     }
     catch (const std::exception &e)
@@ -192,7 +192,7 @@ void CRON::runCommandCron(const std::string &time)
 
     if (commandData.empty())
     {
-        std::cout << "cyniu runCommandCron empty " << time << std::endl;
+       // std::cout << "cyniu runCommandCron empty " << time << std::endl;
         return;
     }
 #ifdef BT_TEST
@@ -218,5 +218,5 @@ void CRON::runCommandCron(const std::string &time)
         context->main_iDomTools->runCommandFromJson(v);
     }
 
-    std::cout << "cyniu runCommandCron stop " << time << std::endl;
+  //  std::cout << "cyniu runCommandCron stop " << time << std::endl;
 }

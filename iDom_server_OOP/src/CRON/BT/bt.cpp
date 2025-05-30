@@ -32,6 +32,14 @@ protected:
     std::shared_ptr<BUDERUS_MOCK> buderusMock;
 };
 
+TEST_F(cron_Class_fixture, empty_yaml)
+{
+    test_context.server_settings->_cron = "../config/cron_empty.yaml";
+    std::cout << "Testing empty YAML file... " << test_context.server_settings->_cron  << std::endl;
+    auto test_q2 = std::make_unique<CRON>(&test_context);
+    test_q2->runCommandCron("30min");
+}
+
 TEST_F(cron_Class_fixture, runCommandCron)
 {
     Clock::setTime_forBT_usage(12, 12);
@@ -83,7 +91,7 @@ TEST_F(cron_Class_fixture, run)
         .Times(1)
         .WillOnce([]()
                   { std::cout << "Lightning checked." << std::endl; });
-    EXPECT_CALL(*main_iDomTools.get(), send_data_to_thingSpeak())   
+    EXPECT_CALL(*main_iDomTools.get(), send_data_to_thingSpeak())
         .Times(1)
         .WillOnce([]()
                   { std::cout << "Data sent to ThingSpeak." << std::endl; });
