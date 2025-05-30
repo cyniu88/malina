@@ -105,8 +105,8 @@ set(LIBS_SRC
     "../../src/dbClient/db-client-factory.cpp"
     "../../src/dbClient/test/bt.cpp" 
     "../../src/recuperator/recuperator.cpp"
-    "../../src/cron/cron.cpp"
-    "../../src/cron/BT/bt.cpp"
+    "../../src/CRON/cron.cpp"
+    "../../src/CRON/BT/bt.cpp"
      )
 file(GLOB SOURCE_FILES2 "../../src/command/*.*"
     "../../src/command/commandClass/TEST/*.*"
