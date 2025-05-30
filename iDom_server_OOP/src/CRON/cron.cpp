@@ -188,7 +188,7 @@ void CRON::runOnSunrise()
 
 void CRON::runCommandCron(const std::string &time)
 {
-    std::cout << "cyniu runCommandCron start  " << time << std::endl;
+  //  std::cout << "cyniu runCommandCron start  " << time << std::endl;
 
     if (commandData.empty())
     {

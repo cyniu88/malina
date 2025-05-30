@@ -16,6 +16,7 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_context *c
             str_buf.str("");
             try
             {
+                std::cout << "Odebrano json z shed: " << v[2] << std::endl;
                 context->lusina.shedJson = nlohmann::json::parse(v[2]);
             }
             catch (...)
