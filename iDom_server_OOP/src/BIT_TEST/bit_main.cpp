@@ -664,6 +664,11 @@ TEST_F(bit_fixture, mqtt_command_shed)
     bit_Tasker->runTasker();
     test_context.mqttHandler->putToReceiveQueue("shed/put", R"({"temperatura":20.85000038,"ciśnienie":971.899231,"wilgotność":53.17382813,"millis":15273,"bateria":3.896484375,"log":"Found BME280 sensor! Couldn't find PCF8574","fanON":false})");
     bit_Tasker->runTasker();
+
+    EXPECT_NEAR(test_context.lusina.shedFloor.average(), 20.85000038, 1e-4);
+    EXPECT_NEAR(test_context.lusina.shedPres.average(), 971.899231, 1e-4);
+    EXPECT_NEAR(test_context.lusina.shedHum.average(), 53.17382813, 1e-4);
+    EXPECT_NEAR(test_context.lusina.acdc.average(), 3.896484375, 1e-4);
 }
 
 TEST_F(bit_fixture, start_iDom_unlock_lock)

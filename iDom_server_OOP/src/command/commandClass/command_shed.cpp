@@ -32,7 +32,7 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_context *c
             context->lusina.shedPres.push_back(context->lusina.shedJson["ciśnienie"].get<float>());
             context->lusina.shedTemp.push_back(context->lusina.shedJson["temperatura"].get<float>());
             context->lusina.acdc.push_back(context->lusina.shedJson["acdc"].get<float>());
-
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // auto getData = [&v](thread_context *context, const std::string &key)
             // {
             //     try

@@ -83,12 +83,13 @@ void CRON::run()
 void CRON::runEveryone_1min()
 {
 #ifdef BT_TEST
-        std::cout << "CRON runEveryone_1min() zakończone" << std::endl;
+    std::cout << "CRON runEveryone_1min() zakończone" << std::endl;
 #endif
     auto now = Clock::getTime();
     std::string msg = "CLOCK:";
-    msg.append(now.getString());
+    msg.append(now.getString(""));
     msg.append(";");
+
     context->main_Rs232->print(msg);
     context->main_iDomTools->checkAlarm();
     context->main_iDomTools->updateTemperatureStats();
@@ -108,7 +109,7 @@ void CRON::runEveryone_1min()
 void CRON::runEveryone_5min()
 {
 #ifdef BT_TEST
-        std::cout << "CRON runEveryone_5min() zakończone" << std::endl;
+    std::cout << "CRON runEveryone_5min() zakończone" << std::endl;
 #endif
     auto topic = context->server_settings->_mqtt_broker.topicSubscribe;
     topic.pop_back();
@@ -142,7 +143,7 @@ void CRON::runEveryone_5min()
 void CRON::runEveryone_15min()
 {
 #ifdef BT_TEST
-        std::cout << "CRON runEveryone_15min() zakończone" << std::endl;
+    std::cout << "CRON runEveryone_15min() zakończone" << std::endl;
 #endif
     context->main_iDomTools->send_data_to_thingSpeak();
     runCommandCron("15min");
@@ -151,7 +152,7 @@ void CRON::runEveryone_15min()
 void CRON::runEveryone_30min()
 {
 #ifdef BT_TEST
-        std::cout << "CRON runEveryone_30min() zakończone" << std::endl;
+    std::cout << "CRON runEveryone_30min() zakończone" << std::endl;
 #endif
     runCommandCron("30min");
 }
@@ -159,7 +160,7 @@ void CRON::runEveryone_30min()
 void CRON::runEveryone_1h()
 {
 #ifdef BT_TEST
-        std::cout << "CRON runEveryone_1h() zakończone" << std::endl;
+    std::cout << "CRON runEveryone_1h() zakończone" << std::endl;
 #endif
     context->myEventHandler.clearOld(8000, 1000, [](const std::string &name)
                                      {
@@ -188,11 +189,11 @@ void CRON::runOnSunrise()
 
 void CRON::runCommandCron(const std::string &time)
 {
-  //  std::cout << "cyniu runCommandCron start  " << time << std::endl;
+    //  std::cout << "cyniu runCommandCron start  " << time << std::endl;
 
     if (commandData.empty())
     {
-       // std::cout << "cyniu runCommandCron empty " << time << std::endl;
+        // std::cout << "cyniu runCommandCron empty " << time << std::endl;
         return;
     }
 #ifdef BT_TEST
@@ -218,5 +219,5 @@ void CRON::runCommandCron(const std::string &time)
         context->main_iDomTools->runCommandFromJson(v);
     }
 
-  //  std::cout << "cyniu runCommandCron stop " << time << std::endl;
+    //  std::cout << "cyniu runCommandCron stop " << time << std::endl;
 }
