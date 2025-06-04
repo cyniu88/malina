@@ -27,31 +27,62 @@ std::string command_shed::execute(std::vector<std::string> &v, thread_context *c
                 return "error 222";
             }
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            context->lusina.shedFloor.push_back(context->lusina.shedJson["podłoga"].get<float>());
-            context->lusina.shedHum.push_back(context->lusina.shedJson["wilgotność"].get<float>());
-            context->lusina.shedPres.push_back(context->lusina.shedJson["ciśnienie"].get<float>());
-            context->lusina.shedTemp.push_back(context->lusina.shedJson["temperatura"].get<float>());
-            context->lusina.acdc.push_back(context->lusina.shedJson["acdc"].get<float>());
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // auto getData = [&v](thread_context *context, const std::string &key)
-            // {
-            //     try
-            //     {
-            //         context->lusina.shedFloor.push_back(context->lusina.shedJson[key].get<float>());
-            //     }
-            //     catch (const std::exception &e)
-            //     {
-            //         log_file_mutex.mutex_lock();
-            //         log_file_cout << CRITICAL << " błąd odebranego json z shed " << v[2] << " klucz: " << key << std::endl;
-            //         log_file_mutex.mutex_unlock();
-            //     }
-            // };
-            // auto keyList = {"temperatura", "ciśnienie", "wilgotność", "podłoga", "acdc"};
+            try
+            {
+                context->lusina.shedFloor.push_back(context->lusina.shedJson["podłoga"].get<float>());
+            }
+            catch (const std::exception &e)
+            {
+                log_file_mutex.mutex_lock();
+                log_file_cout << CRITICAL << " błąd odebranego json z shed (podłoga): " << v[2] << " - " << e.what() << std::endl;
+                log_file_mutex.mutex_unlock();
+            }
 
-            // for (const auto &key : keyList)
-            // {
-            //     getData(context, key);
-            // }
+            try
+            {
+                context->lusina.shedHum.push_back(context->lusina.shedJson["wilgotność"].get<float>());
+            }
+            catch (const std::exception &e)
+            {
+                log_file_mutex.mutex_lock();
+                log_file_cout << CRITICAL << " błąd odebranego json z shed (wilgotność): " << v[2] << " - " << e.what() << std::endl;
+                log_file_mutex.mutex_unlock();
+            }
+
+            try
+            {
+                context->lusina.shedPres.push_back(context->lusina.shedJson["ciśnienie"].get<float>());
+            }
+            catch (const std::exception &e)
+            {
+                log_file_mutex.mutex_lock();
+                log_file_cout << CRITICAL << " błąd odebranego json z shed (ciśnienie): " << v[2] << " - " << e.what() << std::endl;
+                log_file_mutex.mutex_unlock();
+            }
+
+            try
+            {
+                context->lusina.shedTemp.push_back(context->lusina.shedJson["temperatura"].get<float>());
+            }
+            catch (const std::exception &e)
+            {
+                log_file_mutex.mutex_lock();
+                log_file_cout << CRITICAL << " błąd odebranego json z shed (temperatura): " << v[2] << " - " << e.what() << std::endl;
+                log_file_mutex.mutex_unlock();
+            }
+
+            try
+            {
+                context->lusina.acdc.push_back(context->lusina.shedJson["acdc"].get<float>());
+            }
+            catch (const std::exception &e)
+            {
+                log_file_mutex.mutex_lock();
+                log_file_cout << CRITICAL << " błąd odebranego json z shed (acdc): " << v[2] << " - " << e.what() << std::endl;
+                log_file_mutex.mutex_unlock();
+            }
+
+
             str_buf << "DONE";
             nlohmann::json returnJson;
             returnJson["isDay"] = context->main_iDomTools->isItDay();

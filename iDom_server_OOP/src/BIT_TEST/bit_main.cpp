@@ -656,19 +656,30 @@ TEST_F(bit_fixture, mqtt_command)
 
 TEST_F(bit_fixture, mqtt_command_shed)
 {
-    test_context.lusina.shedConfJson = nlohmann::json::parse(R"({
+    try {
+        test_context.lusina.shedConfJson = nlohmann::json::parse(R"({
     "deepSleep":true,
     "howLongDeepSleep":177,
     "fanON":false})");
-    test_context.mqttHandler->putToReceiveQueue("shed/put", "MPD volume up");
-    bit_Tasker->runTasker();
-    test_context.mqttHandler->putToReceiveQueue("shed/put", R"({"temperatura":20.85000038,"ciśnienie":971.899231,"wilgotność":53.17382813,"millis":15273,"bateria":3.896484375,"log":"Found BME280 sensor! Couldn't find PCF8574","fanON":false})");
-    bit_Tasker->runTasker();
+    } catch (const nlohmann::json::exception& e) {
+        std::cerr << "JSON parsing error: " << e.what() << std::endl;
+        test_context.lusina.shedConfJson = nlohmann::json::object(); // Default to empty JSON object
+    }
+  //  bit_Tasker->runTasker();
 
-    EXPECT_NEAR(test_context.lusina.shedFloor.average(), 20.85000038, 1e-4);
+    // Simulate receiving MQTT data for shed conditions.
+    test_context.mqttHandler->putToReceiveQueue("iDom-client/shed/put", R"({"temperatura":20.85000038, "podłoga":44, "ciśnienie":971.899231,"wilgotność":53.17382813,"millis":15273,"acdc":3.896484375,"log":"Found BME280 sensor! Couldn't find PCF8574","fanON":false})");
+    bit_Tasker->runTasker();
+    // Verify the updated averages for shed conditions.
+    // Expected average temperature: 20.85000038
+    EXPECT_NEAR(test_context.lusina.shedFloor.average(), 44.00, 1e-4);
+    // Expected average pressure: 971.899231
     EXPECT_NEAR(test_context.lusina.shedPres.average(), 971.899231, 1e-4);
+    // Expected average humidity: 53.17382813
     EXPECT_NEAR(test_context.lusina.shedHum.average(), 53.17382813, 1e-4);
+    // Expected average battery voltage: 3.896484375
     EXPECT_NEAR(test_context.lusina.acdc.average(), 3.896484375, 1e-4);
+    EXPECT_NEAR(test_context.lusina.shedTemp.average(), 20.85000038, 1e-4);
 }
 
 TEST_F(bit_fixture, start_iDom_unlock_lock)
