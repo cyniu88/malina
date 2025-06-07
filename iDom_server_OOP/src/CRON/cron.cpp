@@ -65,6 +65,12 @@ void CRON::run()
                     runEveryone_1h();
                 }
             }
+            catch (const std::exception &e)
+            {
+                log_file_mutex.mutex_lock();
+                log_file_cout << "Złapano wyjątek std::exception w cron run(): " << e.what() << std::endl;
+                log_file_mutex.mutex_unlock();
+            }
             catch (...)
             {
                 log_file_mutex.mutex_lock();
@@ -208,12 +214,12 @@ void CRON::runCommandCron(const std::string &time)
             std::cout << cmd << "\n";
     }
 #endif
-    if (context->idom_all_state.houseState == STATE::LOCK)
+    if (context->idom_all_state.houseState == STATE::LOCK and commandData.contains(time))
     {
         auto v = commandData.at(time).lock;
         context->main_iDomTools->runCommandFromJson(v);
     }
-    else if (context->idom_all_state.houseState == STATE::UNLOCK)
+    else if (context->idom_all_state.houseState == STATE::UNLOCK and commandData.contains(time))
     {
         auto v = commandData.at(time).unlock;
         context->main_iDomTools->runCommandFromJson(v);

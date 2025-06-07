@@ -35,7 +35,7 @@ protected:
 TEST_F(cron_Class_fixture, empty_yaml)
 {
     test_context.server_settings->_cron = "../config/cron_empty.yaml";
-    std::cout << "Testing empty YAML file... " << test_context.server_settings->_cron  << std::endl;
+    std::cout << "Testing empty YAML file... " << test_context.server_settings->_cron << std::endl;
     auto test_q2 = std::make_unique<CRON>(&test_context);
     test_q2->runCommandCron("30min");
 }
@@ -112,4 +112,121 @@ TEST_F(cron_Class_fixture, run)
         .WillOnce([]()
                   { std::cout << "Recuperator data uploaded." << std::endl; });
     test_q->run();
+}
+
+TEST_F(cron_Class_fixture, run_empty)
+{
+    std::cout << "Testing empty YAML file... " << test_context.server_settings->_cron << std::endl;
+    test_context.server_settings->_cron = "../config/cron_empty.yaml";
+    auto test_q2 = std::make_unique<CRON>(&test_context);
+    Clock::setTime_forBT_usage(12, 00);
+    useful_F::go_while = true;
+
+    EXPECT_CALL(*main_iDomTools.get(), checkAlarm())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Alarm checked." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), updateTemperatureStats())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Temperature stats updated." << std::endl; });
+    EXPECT_CALL(*buderusMock.get(), circlePompToRun())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Circle pump activated." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), getSunsetClock())
+        .Times(1)
+        .WillOnce([]()
+                  { return Clock(18, 30); });
+    EXPECT_CALL(*main_iDomTools.get(), getSunriseClock())
+        .Times(1)
+        .WillOnce([]()
+                  { return Clock(6, 30); });
+    EXPECT_CALL(*main_iDomTools.get(), checkLightning())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Lightning checked." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), send_data_to_thingSpeak())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Data sent to ThingSpeak." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), healthCheck())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Health check performed." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), send_data_to_influxdb())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Data sent to InfluxDB." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), uploadRamCpuUsage())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "RAM and CPU usage uploaded." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), uploadRecuperatorData())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Recuperator data uploaded." << std::endl; });
+    test_q2->run();
+}
+
+TEST_F(cron_Class_fixture, run_one_yaml)
+{
+    std::cout << "Testing empty YAML file... " << test_context.server_settings->_cron << std::endl;
+    test_context.server_settings->_cron = "../config/cron_one.yaml";
+    auto test_q2 = std::make_unique<CRON>(&test_context);
+    Clock::setTime_forBT_usage(12, 00);
+    useful_F::go_while = true;
+    EXPECT_CALL(*main_iDomTools.get(), runCommandFromJson(::testing::_))
+        .Times(1)
+        .WillRepeatedly([](const std::vector<std::string> &v)
+                        {
+            for (const auto &cmd : v)
+            {
+                std::cout << "Executed command: " << cmd << std::endl;
+            } });
+    EXPECT_CALL(*main_iDomTools.get(), checkAlarm())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Alarm checked." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), updateTemperatureStats())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Temperature stats updated." << std::endl; });
+    EXPECT_CALL(*buderusMock.get(), circlePompToRun())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Circle pump activated." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), getSunsetClock())
+        .Times(1)
+        .WillOnce([]()
+                  { return Clock(18, 30); });
+    EXPECT_CALL(*main_iDomTools.get(), getSunriseClock())
+        .Times(1)
+        .WillOnce([]()
+                  { return Clock(6, 30); });
+    EXPECT_CALL(*main_iDomTools.get(), checkLightning())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Lightning checked." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), send_data_to_thingSpeak())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Data sent to ThingSpeak." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), healthCheck())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Health check performed." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), send_data_to_influxdb())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Data sent to InfluxDB." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), uploadRamCpuUsage())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "RAM and CPU usage uploaded." << std::endl; });
+    EXPECT_CALL(*main_iDomTools.get(), uploadRecuperatorData())
+        .Times(1)
+        .WillOnce([]()
+                  { std::cout << "Recuperator data uploaded." << std::endl; });
+    test_q2->run();
 }
