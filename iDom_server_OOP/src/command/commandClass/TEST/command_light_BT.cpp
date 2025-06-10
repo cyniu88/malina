@@ -286,7 +286,7 @@ TEST_F(command_light_Class_fixture, wrong_param)
     test_v.push_back("lazienka");
     test_v.push_back("off");
 
-    EXPECT_NO_THROW( test_command_light->execute(test_v,&test_context));
+    EXPECT_NO_THROW(test_command_light->execute(test_v,&test_context));
 }
 
 TEST_F(command_light_Class_fixture, room_stats)
@@ -295,6 +295,15 @@ TEST_F(command_light_Class_fixture, room_stats)
     test_v.push_back("light");
     test_v.push_back("room");
     test_v.push_back("stats");
+
+    std::cout << test_command_light->execute(test_v,&test_context) << std::endl;
+}
+
+TEST_F(command_light_Class_fixture, clean)
+{
+    test_v.clear();
+    test_v.push_back("light");
+    test_v.push_back("clean");
 
     std::cout << test_command_light->execute(test_v,&test_context) << std::endl;
 }

@@ -87,10 +87,6 @@ TEST_F(cron_Class_fixture, run)
         .Times(1)
         .WillOnce([]()
                   { return Clock(6, 30); });
-    EXPECT_CALL(*main_iDomTools.get(), checkLightning())
-        .Times(1)
-        .WillOnce([]()
-                  { std::cout << "Lightning checked." << std::endl; });
     EXPECT_CALL(*main_iDomTools.get(), send_data_to_thingSpeak())
         .Times(1)
         .WillOnce([]()
@@ -142,10 +138,6 @@ TEST_F(cron_Class_fixture, run_empty)
         .Times(1)
         .WillOnce([]()
                   { return Clock(6, 30); });
-    EXPECT_CALL(*main_iDomTools.get(), checkLightning())
-        .Times(1)
-        .WillOnce([]()
-                  { std::cout << "Lightning checked." << std::endl; });
     EXPECT_CALL(*main_iDomTools.get(), send_data_to_thingSpeak())
         .Times(1)
         .WillOnce([]()
@@ -176,7 +168,7 @@ TEST_F(cron_Class_fixture, run_one_yaml)
     auto test_q2 = std::make_unique<CRON>(&test_context);
     Clock::setTime_forBT_usage(12, 00);
     useful_F::go_while = true;
-    EXPECT_CALL(*main_iDomTools.get(), runCommandFromJson(::testing::_))
+    EXPECT_CALL(*main_iDomTools.get(), runCommandFromJson(std::vector<std::string>{"iDom mqtt cyniu/test test"}))
         .Times(1)
         .WillRepeatedly([](const std::vector<std::string> &v)
                         {
@@ -204,10 +196,6 @@ TEST_F(cron_Class_fixture, run_one_yaml)
         .Times(1)
         .WillOnce([]()
                   { return Clock(6, 30); });
-    EXPECT_CALL(*main_iDomTools.get(), checkLightning())
-        .Times(1)
-        .WillOnce([]()
-                  { std::cout << "Lightning checked." << std::endl; });
     EXPECT_CALL(*main_iDomTools.get(), send_data_to_thingSpeak())
         .Times(1)
         .WillOnce([]()

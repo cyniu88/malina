@@ -12,6 +12,11 @@ std::string command_light::execute(std::vector<std::string> &v, thread_context *
     if (v.at(1) == "info" && v.size() < 3)
     {
         str_buf = context->main_house_room_handler->getAllInfoJSON().dump(4);
+     }
+    else if (v.at(1) == "clean" && v.size() < 3)
+    {
+        context->main_house_room_handler->turnOffUnexpectedBulb();
+        str_buf = "done " + std::to_string(++counter);
     }
     else if (v.at(1) == "info" && v.at(2) == "on")
     {
@@ -98,5 +103,6 @@ std::string command_light::help() const
     ret << "light room <room name> on/off/change - turn on / off / change all bulbs in room" << std::endl;
     ret << "light room stats - get all room stats json" << std::endl;
     ret << "light all on/off - turn on/off all bulbs in house" << std::endl;
+    ret << "light clean - turn off unexpected bulbs" << std::endl;
     return ret.str();
 }

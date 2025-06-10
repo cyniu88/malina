@@ -1,4 +1,4 @@
 1min:
      lock:
-          - "iDom log test"
+          - iDom mqtt cyniu/test test
      unlock:

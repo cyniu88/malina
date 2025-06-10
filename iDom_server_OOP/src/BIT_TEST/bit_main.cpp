@@ -722,3 +722,9 @@ TEST_F(bit_fixture, recuperation_base)
     std::cout << "wilgotnosc: " << std::any_cast<float>(dane["recuperator"]["wilgotnosc"].value()) << std::endl;
     std::cout << "wilgotnosc2: " << std::any_cast<float>(dane["recuperator"]["wilgotnosc2"].value()) << std::endl;
 }
+
+
+// TEST_F(bit_fixture, start_iDom_server_when_alamr_armed)
+// {
+   
+// }

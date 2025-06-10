@@ -247,6 +247,11 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_context *c
         context->m_keyHandler->removeKEY(v[3]);
         return v[3] + " removed";
     }
+    else if (v[1] == "health" && v.size() > 2 && v[2] == "check")
+    {
+        context->main_iDomTools->healthCheck();
+        return "iDom server health checked";
+    }
     else if(v[1] == "link" && v.size() > 2)
     {
         v.erase(v.begin(), v.begin() + 2);
@@ -290,5 +295,6 @@ std::string command_iDom::help() const
     help << "iDom blink - blink outdoor siren for 5 sek" << std::endl;
     help << "iDom isDay - get information about day"  << std::endl;
     help << "iDom mqtt <topic> <msg> - publish mqtt message" << std::endl;
+    help << "iDom health check - check iDom server health" << std::endl;
     return help.str();
 }

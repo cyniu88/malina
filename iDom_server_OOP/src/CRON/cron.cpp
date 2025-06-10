@@ -120,28 +120,23 @@ void CRON::runEveryone_5min()
     auto topic = context->server_settings->_mqtt_broker.topicSubscribe;
     topic.pop_back();
     context->mqttHandler->publish(topic + "command", "433MHz send 10;PING;");
-    try
-    {
-        context->main_iDomTools->checkLightning();
-    }
-    catch (...)
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << ERROR << "wyjatek w pobieraniu jsona z piorunami " << std::endl;
-        log_file_mutex.mutex_unlock();
-    }
+    // try
+    // {
+    //     context->main_iDomTools->checkLightning();
+    // }
+    // catch (...)
+    // {
+    //     log_file_mutex.mutex_lock();
+    //     log_file_cout << ERROR << "wyjatek w pobieraniu jsona z piorunami " << std::endl;
+    //     log_file_mutex.mutex_unlock();
+    // }
 
-    context->main_iDomTools->healthCheck();
-    context->main_house_room_handler->turnOffUnexpectedBulb();
+    context->main_iDomTools->healthCheck(); // iDom health check
+    context->main_house_room_handler->turnOffUnexpectedBulb(); //light clean
 
     context->main_iDomTools->send_data_to_influxdb();
     context->main_iDomTools->uploadRamCpuUsage();
     context->main_iDomTools->uploadRecuperatorData();
-
-    if (context->server_settings->_command.contains("5min"))
-    {
-        context->main_iDomTools->runCommandFromJson(context->server_settings->_command["sunset"]["lock"].get<std::vector<std::string>>());
-    }
 
     runCommandCron("5min");
 }
@@ -199,7 +194,9 @@ void CRON::runCommandCron(const std::string &time)
 
     if (commandData.empty())
     {
-        // std::cout << "cyniu runCommandCron empty " << time << std::endl;
+        log_file_mutex.mutex_lock();
+        log_file_cout << DEBUG << "brak koemnd w cron.yaml" << std::endl;
+        log_file_mutex.mutex_unlock();
         return;
     }
 #ifdef BT_TEST
