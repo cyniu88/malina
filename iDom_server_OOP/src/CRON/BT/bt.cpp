@@ -31,55 +31,69 @@ protected:
     std::shared_ptr<iDomToolsMock> main_iDomTools;
     std::shared_ptr<BUDERUS_MOCK> buderusMock;
 
-    void setCommonExpectations(int runCommandTimes = 0, const std::vector<std::string>& commands = {})
+    void setCommonExpectations(int runCommandTimes = 0, const std::vector<std::string> &commands = {})
     {
-        if (runCommandTimes > 0) {
-            if (!commands.empty()) {
+        if (runCommandTimes > 0)
+        {
+            if (!commands.empty())
+            {
                 EXPECT_CALL(*main_iDomTools.get(), runCommandFromJson(commands))
                     .Times(runCommandTimes)
-                    .WillRepeatedly([](const std::vector<std::string> &v) {
+                    .WillRepeatedly([](const std::vector<std::string> &v)
+                                    {
                         for (const auto &cmd : v)
-                            std::cout << "Executed command: " << cmd << std::endl;
-                    });
-            } else {
+                            std::cout << "Executed command: " << cmd << std::endl; });
+            }
+            else
+            {
                 EXPECT_CALL(*main_iDomTools.get(), runCommandFromJson(::testing::_))
                     .Times(runCommandTimes)
-                    .WillRepeatedly([](const std::vector<std::string> &v) {
+                    .WillRepeatedly([](const std::vector<std::string> &v)
+                                    {
                         for (const auto &cmd : v)
-                            std::cout << "Executed command: " << cmd << std::endl;
-                    });
+                            std::cout << "Executed command: " << cmd << std::endl; });
             }
         }
         EXPECT_CALL(*main_iDomTools.get(), checkAlarm())
             .Times(1)
-            .WillOnce([]() { std::cout << "Alarm checked." << std::endl; });
+            .WillOnce([]()
+                      { std::cout << "Alarm checked." << std::endl; });
         EXPECT_CALL(*main_iDomTools.get(), updateTemperatureStats())
             .Times(1)
-            .WillOnce([]() { std::cout << "Temperature stats updated." << std::endl; });
+            .WillOnce([]()
+                      { std::cout << "Temperature stats updated." << std::endl; });
         EXPECT_CALL(*buderusMock.get(), circlePompToRun())
             .Times(1)
-            .WillOnce([]() { std::cout << "Circle pump activated." << std::endl; });
+            .WillOnce([]()
+                      { std::cout << "Circle pump activated." << std::endl; });
         EXPECT_CALL(*main_iDomTools.get(), getSunsetClock())
             .Times(1)
-            .WillOnce([]() { return Clock(18, 30); });
+            .WillOnce([]()
+                      { return Clock(18, 30); });
         EXPECT_CALL(*main_iDomTools.get(), getSunriseClock())
             .Times(1)
-            .WillOnce([]() { return Clock(6, 30); });
+            .WillOnce([]()
+                      { return Clock(6, 30); });
         EXPECT_CALL(*main_iDomTools.get(), send_data_to_thingSpeak())
             .Times(1)
-            .WillOnce([]() { std::cout << "Data sent to ThingSpeak." << std::endl; });
+            .WillOnce([]()
+                      { std::cout << "Data sent to ThingSpeak." << std::endl; });
         EXPECT_CALL(*main_iDomTools.get(), healthCheck())
             .Times(1)
-            .WillOnce([]() { std::cout << "Health check performed." << std::endl; });
+            .WillOnce([]()
+                      { std::cout << "Health check performed." << std::endl; });
         EXPECT_CALL(*main_iDomTools.get(), send_data_to_influxdb())
             .Times(1)
-            .WillOnce([]() { std::cout << "Data sent to InfluxDB." << std::endl; });
+            .WillOnce([]()
+                      { std::cout << "Data sent to InfluxDB." << std::endl; });
         EXPECT_CALL(*main_iDomTools.get(), uploadRamCpuUsage())
             .Times(1)
-            .WillOnce([]() { std::cout << "RAM and CPU usage uploaded." << std::endl; });
+            .WillOnce([]()
+                      { std::cout << "RAM and CPU usage uploaded." << std::endl; });
         EXPECT_CALL(*main_iDomTools.get(), uploadRecuperatorData())
             .Times(1)
-            .WillOnce([]() { std::cout << "Recuperator data uploaded." << std::endl; });
+            .WillOnce([]()
+                      { std::cout << "Recuperator data uploaded." << std::endl; });
     }
 };
 
@@ -91,12 +105,17 @@ TEST_F(cron_Class_fixture, empty_yaml)
     test_q2->runCommandCron("30min");
 }
 
-// TEST_F(cron_Class_fixture, runCommandCron)
-// {
-//     Clock::setTime_forBT_usage(12, 12);
-//     useful_F::go_while = true;
-//    // setCommonExpectations(1);
-//     test_q->runCommandCron("30min");
+TEST_F(cron_Class_fixture, runCommandCron)
+{
+    Clock::setTime_forBT_usage(12, 12);
+    useful_F::go_while = true;
+    EXPECT_CALL(*main_iDomTools.get(), runCommandFromJson(::testing::_))
+        .Times(1)
+        .WillRepeatedly([](const std::vector<std::string> &v)
+                        {
+                        for (const auto &cmd : v)
+                            std::cout << "Executed command: " << cmd << std::endl; });
+    test_q->runCommandCron("30min");
 }
 
 TEST_F(cron_Class_fixture, run)
