@@ -3,7 +3,7 @@
 #include "../functions/functions.h"
 
 C_connection::C_connection(thread_context *context) : c_socket(context->s_client_sock),
-                                                   c_from(context->from), m_recv_size(0)
+                                                      c_from(context->from), m_recv_size(0)
 {
     this->context = context;
     this->m_encrypted = context->server_settings->_server.encrypted;
@@ -110,29 +110,92 @@ void C_connection::c_analyse(int recvSize)
     context->myEventHandler.run("command")->addEvent(buf);
     std::vector<std::string> command;
 
-    try
+    if (buf.size() > 5 and buf.starts_with("JSON"))
     {
-        useful_F::tokenizer(command, " \n,", buf);
+        buf.erase(0, 4); // remove "JSON" prefix
+
+        nlohmann::json j;
+        j = nlohmann::json::parse(buf, nullptr, false);
+
+        if (j.is_discarded())
+        {
+            log_file_mutex.mutex_lock();
+            log_file_cout << ERROR << "nie można parsować JSONa - " << buf << std::endl;
+            log_file_mutex.mutex_unlock();
+            m_str_buf = "error parsing JSON";
+            return;
+        }
+        if (j.contains("command"))
+        {
+            try
+            {
+                useful_F::tokenizer(command, " \n,", j["command"].get<std::string>());
+            }
+            catch (std::string &k)
+            {
+                log_file_mutex.mutex_lock();
+                log_file_cout << DEBUG << "brak komendy - " << k << std::endl;
+                log_file_mutex.mutex_unlock();
+                m_str_buf = "empty command2";
+                return;
+            }
+        }
+        else
+        {
+            log_file_mutex.mutex_lock();
+            log_file_cout << DEBUG << "brak komendy - " << buf << std::endl;
+            log_file_mutex.mutex_unlock();
+            m_str_buf = "empty command3";
+            return;
+        }
+        if (j.contains("context"))
+        {
+            nlohmann::json contextJ = j["context"];
+            command.push_back(contextJ.dump());
+        }
+        else
+        {
+            log_file_mutex.mutex_lock();
+            log_file_cout << DEBUG << "brak kontekstu - " << buf << std::endl;
+            log_file_mutex.mutex_unlock();
+            m_str_buf = "empty context";
+            return;
+        }
     }
-    catch (std::string &k)
+    else
     {
-        log_file_mutex.mutex_lock();
-        log_file_cout << DEBUG << "brak komendy - " << k << std::endl;
-        log_file_mutex.mutex_unlock();
-        m_str_buf = "empty command";
-        return;
-    }
+        try
+        {
+            useful_F::tokenizer(command, " \n,", buf);
+        }
+        catch (std::string &k)
+        {
+            log_file_mutex.mutex_lock();
+            log_file_cout << DEBUG << "brak komendy - " << k << std::endl;
+            log_file_mutex.mutex_unlock();
+            m_str_buf = "empty command";
+            return;
+        }
 
 #ifdef BT_TEST
-    std::cout << "komenda: " << command.at(0) << " command.size() " << command.size() << std::endl;
+        std::cout << "komenda: " << command.at(0) << " command.size() " << command.size() << std::endl;
 
-    m_str_buf = "unknown command\n";
+        m_str_buf = "unknown command\n";
 
+        for (const std::string &t : command)
+        {
+            m_str_buf.append(t);
+            m_str_buf.push_back(' ');
+        }
+#endif
+    }
+#ifdef BT_TEST
     for (const std::string &t : command)
     {
         m_str_buf.append(t);
         m_str_buf.push_back(' ');
     }
+    std::cout << "komenda: " << m_str_buf << " command.size() " << command.size() << std::endl;
 #endif
     m_str_buf = m_mainCommandHandler->run(command, context);
 }

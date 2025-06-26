@@ -33,6 +33,8 @@ TEST(functions_, tokenizer)
     useful_F::tokenizer(test_v, "= ", test_msg);
 
     EXPECT_EQ(test_v.size(), 3);
+    EXPECT_STREQ(test_v.at(0).c_str(), "one");
+    EXPECT_STREQ(test_v.at(1).c_str(), "two");
     EXPECT_STREQ(test_v.at(2).c_str(), "three");
 }
 

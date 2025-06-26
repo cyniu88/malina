@@ -687,8 +687,38 @@ TEST_F(iDomTOOLS_ClassTest, health_check)
   //  EXPECT_EQ(test_context.iDomProgramState, iDomStateEnum::HARD_RELOAD);
 }
 
+TEST_F(iDomTOOLS_ClassTest, getSystemInfo)
+{
+  std::string ret = test_context.main_iDomTools->getSystemInfo();
+  EXPECT_THAT(ret, testing::HasSubstr("uptime"));
+  EXPECT_THAT(ret, testing::HasSubstr("Load"));
+  EXPECT_THAT(ret, testing::HasSubstr("total RAM"));
+  EXPECT_THAT(ret, testing::HasSubstr("free RAM"));
+  std::cout << "SYSTEM INFO: " << ret << std::endl;
+}
 
 /*
+TEST_F(iDomTOOLS_ClassTest, send_data_to_influxdb)
+{
+  test_context.server_settings->_database.ip = "127.0.0.1";
+  test_context.server_settings->_database.port = 12345;
+  test_context.server_settings->_database.bucket = "test_user";
+  test_context.server_settings->_database.token = "test_pass";
+  test_context.server_settings->_database.org = "cynixowo";
+
+  EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).WillOnce(testing::Return(12.0));
+  EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).WillOnce(testing::Return(22.0)); 
+  EXPECT_CALL(*testBuderusMock.get(), getBoilerTemp()).WillOnce(testing::Return(60.0));
+  EXPECT_CALL(*testBuderusMock.get(), getCurFlowTemp()).WillOnce(testing::Return(35.0));
+  EXPECT_CALL(*testBuderusMock.get(), isHeatingActiv()).WillOnce(testing::Return(true));
+
+  test_context.main_iDomTools->send_data_to_influxdb();
+
+  EXPECT_THAT(TEST_DATA::return_httpPost_expect, testing::HasSubstr("http://test.pl"));
+  EXPECT_THAT(TEST_DATA::return_httpPost_expect, testing::HasSubstr("test_db"));
+  EXPECT_THAT(TEST_DATA::return_httpPost_expect, testing::HasSubstr("test_user"));
+}
+
 TEST_F(iDomTOOLS_ClassTest, access_KEYGEN)
 {
     test_context.main_iDomTools->m_keyHandler->addKEY("test",256);
