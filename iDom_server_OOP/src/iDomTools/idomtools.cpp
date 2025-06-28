@@ -689,7 +689,7 @@ void iDomTOOLS::send_data_to_influxdb()
     try
     {
         RADIO_WEATHER_STATION *st = static_cast<RADIO_WEATHER_STATION *>(context->main_REC->getEqPointer("first"));
-        
+
         std::vector<std::string> _temperature = getTemperature();
 
         iDomData["temperatura"]["outdoor"] = std::stof(_temperature.at(1));
@@ -736,9 +736,9 @@ void iDomTOOLS::send_data_to_influxdb()
 
         dbClientFactory dbFactory;
         auto db = dbFactory.createDbClient();
-        std::cout << "cyniu iDomData 2: " << (db == nullptr ? "null" : "nie null") << std::endl;
+
         auto returnCode = db->upload_iDomData(iDomData, timestamp, &context->server_settings->_database);
-std::cout << "cyniu returnCode: " << returnCode << std::endl;
+
         if (returnCode != 204)
         {
             log_file_mutex.mutex_lock();
@@ -776,7 +776,7 @@ void iDomTOOLS::uploadRecuperatorData()
     }
     catch (std::exception &e)
     {
-       // context->dbDataQueue.Put(DB_DATA(timestamp, iDomData)); // put data to queue, send later
+        // context->dbDataQueue.Put(DB_DATA(timestamp, iDomData)); // put data to queue, send later
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " błąd (wyjatek) wysyłania danych rekuperatora do influxdb " << e.what() << std::endl;
         log_file_mutex.mutex_unlock();

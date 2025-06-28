@@ -173,6 +173,49 @@ TEST_F(bit_fixture, socket_heandle_command)
     EXPECT_STREQ(toCheck.c_str(), "88756: 433MHz equipment not found first\n");
 }
 
+TEST_F(bit_fixture, socket_heandle_command_JSON)
+{
+    start_iDomServer();
+    struct sockaddr_in serwer =
+        {
+            .sin_family = AF_INET,
+            .sin_port = htons(8833)};
+
+    inet_pton(serwer.sin_family, ipAddress, &serwer.sin_addr);
+    const int s = socket(serwer.sin_family, SOCK_STREAM, 0);
+    sleep(1);
+
+    int connectStatus = connect(s, reinterpret_cast<struct sockaddr *>(&serwer), sizeof(serwer));
+
+    ASSERT_EQ(connectStatus, 0);
+    std::cout << "connect status: " << connectStatus << std::endl;
+
+    auto key = useful_F::RSHash();
+    std::string toCheck;
+
+    send_receive(s, key, key);
+    toCheck = send_receive(s, "ROOT", key);
+    EXPECT_STREQ(toCheck.c_str(), "OK you are ROOT");
+
+    std::cout << "odebrano4: " << toCheck << std::endl;
+    std::cout << "odebrano5: " << send_receive(s, R"(JSON{"command":"help iDom"})", key) << std::endl;
+
+    toCheck = send_receive(s, "exit", key);
+
+    std::cout << "odebrano8: " << toCheck << std::endl;
+    EXPECT_THAT(toCheck.c_str(), testing::HasSubstr("END"));
+
+    close(s);
+
+    useful_F::workServer = false;
+    shutdown(s, SHUT_RDWR);
+
+    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+
+    toCheck = test_context.iDomAlarm.showAlarm();
+    EXPECT_STREQ(toCheck.c_str(), "88756: 433MHz equipment not found first\n");
+}
+
 TEST_F(bit_fixture, socket_heandle_command_lock)
 {
     start_iDomServer();

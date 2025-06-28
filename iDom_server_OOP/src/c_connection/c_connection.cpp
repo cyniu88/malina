@@ -153,14 +153,6 @@ void C_connection::c_analyse(int recvSize)
             nlohmann::json contextJ = j["context"];
             command.push_back(contextJ.dump());
         }
-        else
-        {
-            log_file_mutex.mutex_lock();
-            log_file_cout << DEBUG << "brak kontekstu - " << buf << std::endl;
-            log_file_mutex.mutex_unlock();
-            m_str_buf = "empty context";
-            return;
-        }
     }
     else
     {

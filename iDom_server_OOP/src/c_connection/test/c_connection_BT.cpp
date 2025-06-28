@@ -99,20 +99,6 @@ TEST_F(c_connection_fixture, c_analyse_JSON_contextCorupted)
     EXPECT_THAT(test_connection->getStr_buf(), testing::HasSubstr("error parsing JSON"));
 }
 
-TEST_F(c_connection_fixture, c_analyse_JSON_noContext)
-{
-    test_connection->m_mainCommandHandler = std::make_unique<commandHandlerRoot>(&test_context);
-    int i = 0;
-    std::string strMsg = R"(JSON{"command": "first command json"})";
-    for(char n : strMsg)
-        test_connection->c_buffer[i++] = n;
-    test_connection->setEncrypted(false);
-    test_connection->c_analyse(static_cast<int>(strMsg.size()));
-    EXPECT_THAT(test_context.myEventHandler.run("command")->getEvent()
-                ,testing::HasSubstr("first command json"));
-    EXPECT_THAT(test_connection->getStr_buf(), testing::HasSubstr("empty context"));
-}
-
 TEST_F(c_connection_fixture, c_analyse_JSON_noCommand)
 {
     test_connection->m_mainCommandHandler = std::make_unique<commandHandlerRoot>(&test_context);
