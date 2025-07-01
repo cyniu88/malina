@@ -597,7 +597,7 @@ std::string iDomTOOLS::getTemperatureString()
 
 std::optional<std::string> iDomTOOLS::getSmog()
 {
-    std::string addres = "https://api.gios.gov.pl/pjp-api/rest/data/getData/20320";
+    std::string addres = "https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/20320";
     std::string readBuffer = useful_F_libs::httpPost(addres, 20);
     std::optional<std::string> ret;
     try
