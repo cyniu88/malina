@@ -11,118 +11,283 @@
 
 TEST_F(iDomTOOLS_ClassTest, smog)
 {
-  TEST_DATA::return_httpPost = R"({"key":"PM10","values":[{"date":"2022-09-18 21:00:00","value":null},
-                                                          {"date":"2022-09-18 20:00:00","value":9.39816},
-                                                          {"date":"2022-09-18 19:00:00","value":12.0452},
-                                                          {"date":"2022-09-18 18:00:00","value":7.71783},
-                                                          {"date":"2022-09-18 17:00:00","value":5.58138},
-                                                          {"date":"2022-09-18 16:00:00","value":5.96127},
-                                                          {"date":"2022-09-18 15:00:00","value":3.52143},
-                                                          {"date":"2022-09-18 14:00:00","value":3.23153},
-                                                          {"date":"2022-09-18 13:00:00","value":3.79682},
-                                                          {"date":"2022-09-18 12:00:00","value":3.81874},
-                                                          {"date":"2022-09-18 11:00:00","value":7.35033},
-                                                          {"date":"2022-09-18 10:00:00","value":9.24619},
-                                                          {"date":"2022-09-18 09:00:00","value":14.3077},
-                                                          {"date":"2022-09-18 08:00:00","value":12.4325},
-                                                          {"date":"2022-09-18 07:00:00","value":16.6621},
-                                                          {"date":"2022-09-18 06:00:00","value":10.9937},
-                                                          {"date":"2022-09-18 05:00:00","value":14.2917},
-                                                          {"date":"2022-09-18 04:00:00","value":6.98446},
-                                                          {"date":"2022-09-18 03:00:00","value":7.39819},
-                                                          {"date":"2022-09-18 02:00:00","value":null},
-                                                          {"date":"2022-09-18 01:00:00","value":null},
-                                                          {"date":"2022-09-18 00:00:00","value":14.3364},
-                                                          {"date":"2022-09-17 23:00:00","value":19.8663},
-                                                          {"date":"2022-09-17 22:00:00","value":14.5161},
-                                                          {"date":"2022-09-17 21:00:00","value":18.4722},
-                                                          {"date":"2022-09-17 20:00:00","value":15.3854},
-                                                          {"date":"2022-09-17 19:00:00","value":13.9772},
-                                                          {"date":"2022-09-17 18:00:00","value":7.60115},
-                                                          {"date":"2022-09-17 17:00:00","value":8.61767},
-                                                          {"date":"2022-09-17 16:00:00","value":11.1545},
-                                                          {"date":"2022-09-17 15:00:00","value":10.7922},
-                                                          {"date":"2022-09-17 14:00:00","value":10.7604},
-                                                          {"date":"2022-09-17 13:00:00","value":10.7005},
-                                                          {"date":"2022-09-17 12:00:00","value":11.8406},
-                                                          {"date":"2022-09-17 11:00:00","value":8.45462},
-                                                          {"date":"2022-09-17 10:00:00","value":15.2733},
-                                                          {"date":"2022-09-17 09:00:00","value":7.76904},
-                                                          {"date":"2022-09-17 08:00:00","value":11.4458},
-                                                          {"date":"2022-09-17 07:00:00","value":14.2888},
-                                                          {"date":"2022-09-17 06:00:00","value":10.4557},
-                                                          {"date":"2022-09-17 05:00:00","value":10.6562},
-                                                          {"date":"2022-09-17 04:00:00","value":10.123},
-                                                          {"date":"2022-09-17 03:00:00","value":11.2047},
-                                                          {"date":"2022-09-17 02:00:00","value":12.4495},
-                                                          {"date":"2022-09-17 01:00:00","value":12.4994},
-                                                          {"date":"2022-09-17 00:00:00","value":12.4703},
-                                                          {"date":"2022-09-16 23:00:00","value":14.535},
-                                                          {"date":"2022-09-16 22:00:00","value":11.3169},
-                                                          {"date":"2022-09-16 21:00:00","value":15.4572},
-                                                          {"date":"2022-09-16 20:00:00","value":13.6611},
-                                                          {"date":"2022-09-16 19:00:00","value":11.8847},
-                                                          {"date":"2022-09-16 18:00:00","value":14.3912},
-                                                          {"date":"2022-09-16 17:00:00","value":11.7449},
-                                                          {"date":"2022-09-16 16:00:00","value":6.38429},
-                                                          {"date":"2022-09-16 15:00:00","value":8.89824},
-                                                          {"date":"2022-09-16 14:00:00","value":9.68496},
-                                                          {"date":"2022-09-16 13:00:00","value":13.1708},
-                                                          {"date":"2022-09-16 12:00:00","value":17.1235},
-                                                          {"date":"2022-09-16 11:00:00","value":11.2962},
-                                                          {"date":"2022-09-16 10:00:00","value":10.5516},
-                                                          {"date":"2022-09-16 09:00:00","value":16.6316},
-                                                          {"date":"2022-09-16 08:00:00","value":15.0429},
-                                                          {"date":"2022-09-16 07:00:00","value":13.9154},
-                                                          {"date":"2022-09-16 06:00:00","value":15.1331},
-                                                          {"date":"2022-09-16 05:00:00","value":11.9056},
-                                                          {"date":"2022-09-16 04:00:00","value":18.5934},
-                                                          {"date":"2022-09-16 03:00:00","value":14.2742},
-                                                          {"date":"2022-09-16 02:00:00","value":14.8644},
-                                                          {"date":"2022-09-16 01:00:00","value":null}]})";
+  TEST_DATA::return_httpPost = R"delim({
+   "@context":{
+      "meta":"https://schema.org/meta",
+      "totalPages":"https://schema.org/totalPages",
+      "links":"https://schema.org/links"
+   },
+   "@context":{
+      "Lista danych pomiarowych":{
+         "@id":"https://api.gios.gov.pl/pjp-api/v1/rest/data/getData"
+      },
+      "links":"https://schema.org/relatedLink",
+      "totalPages":"https://schema.org/numberOfPages"
+   },
+   "Lista danych pomiarowych":[
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 10:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 09:00:00",
+         "Wartość":1.1
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 08:00:00",
+         "Wartość":6.4
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 07:00:00",
+         "Wartość":10.8
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 06:00:00",
+         "Wartość":14.7
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 05:00:00",
+         "Wartość":14.8
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 04:00:00",
+         "Wartość":12.1
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 03:00:00",
+         "Wartość":17.0
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 02:00:00",
+         "Wartość":18.2
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 01:00:00",
+         "Wartość":19.9
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 00:00:00",
+         "Wartość":13.6
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-06-30 23:00:00",
+         "Wartość":13.2
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-06-30 22:00:00",
+         "Wartość":21.9
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-06-30 21:00:00",
+         "Wartość":16.7
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-06-30 20:00:00",
+         "Wartość":16.5
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-06-30 19:00:00",
+         "Wartość":15.2
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-06-30 18:00:00",
+         "Wartość":12.5
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-06-30 17:00:00",
+         "Wartość":12.5
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-06-30 16:00:00",
+         "Wartość":16.0
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-06-30 15:00:00",
+         "Wartość":18.8
+      }
+   ],
+   "meta":{
+      "dc:description":"Usługa sieciowa udostępniająca wyniki jednogodzinnych pomiarów dwutlenku siarki (SO2), dwutlenku azotu (NO2), pyłu PM10, pyłu PM2,5, tlenku węgla (CO), benzenu (C6H6), ozonu (O3), od ostatniego dostępnego wyniku do trzeciej doby wstecz, na podstawie identyfikatora stanowiska pomiarowego. Dane udostępniane są w czasie lokalnym w jednostce μg/m3",
+      "sy:updateFrequency":"1",
+      "dc:language":"pol (ISO 639-2 / ISO 639-3)",
+      "schema:contentType":"application/ld+json",
+      "schema:provider":{
+         "@context":"https://schema.org",
+         "@type":"Organization",
+         "address":{
+            "@type":"PostalAddress",
+            "addressLocality":"Warszawa",
+            "postalCode":"02-362",
+            "streetAddress":"Bitwy Warszawskiej 1920 3"
+         },
+         "email":"api@gios.gov.pl",
+         "name":"Główny Inspektorat Ochrony Środowiska"
+      },
+      "schema:dateModified":"03.11.2022",
+      "dc:title":"Bieżące dane pomiarowe z wybranego stanowiska",
+      "schema:datePublished":"10.04.2017",
+      "schema:keywords":"dane pomiarowe, wyniki pomiarów, powietrze, jakość powietrza, zanieczyszczenie powietrza, stacje pomiarowe, stanowiska pomiarowe, monitoring powietrza, Państwowy Monitoring Środowiska, środowisko, stan środowiska",
+      "sy:updatePeriod":"hourly",
+      "schema:isPartOf":"Państwowy Monitoring Środowiska, Jakość powietrza"
+   },
+   "links":{
+      "next":"https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/20320?page=1&size=20",
+      "last":"https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/20320?page=2&size=20",
+      "prev":"https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/20320?page=0&size=20",
+      "self":"https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/20320?page=0&size=20",
+      "first":"https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/20320?page=0&size=20"
+   },
+   "totalPages":3
+})delim";
   std::string smog = test_context.main_iDomTools->getSmog().value();
   puts(smog.c_str());
   puts(" smog");
   ASSERT_GE(smog.size(), 1);
 
   unsigned int smog_int = std::stoi(smog);
-  ASSERT_GT(smog_int, 1);
-  ASSERT_LT(smog_int, 1000);
+  ASSERT_EQ(smog_int, 1);
 }
 
 TEST_F(iDomTOOLS_ClassTest, smog_null)
 {
-  TEST_DATA::return_httpPost = R"({"key":"PM10","values":[{"date":"2022-09-18 21:00:00","value":null},
-                                                          {"date":"2022-09-18 14:00:00","value":null},
-                                                          {"date":"2022-09-18 13:00:00","value":null},
-                                                          {"date":"2022-09-18 12:00:00","value":null},
-                                                          {"date":"2022-09-18 11:00:00","value":null},
-                                                          {"date":"2022-09-18 10:00:00","value":null},
-                                                          {"date":"2022-09-18 09:00:00","value":null},
-                                                          {"date":"2022-09-18 08:00:00","value":null},
-                                                          {"date":"2022-09-18 07:00:00","value":null},
-                                                          {"date":"2022-09-18 06:00:00","value":null},
-                                                          {"date":"2022-09-18 05:00:00","value":null},
-                                                          {"date":"2022-09-18 04:00:00","value":null},
-                                                          {"date":"2022-09-18 03:00:00","value":null},
-                                                          {"date":"2022-09-18 02:00:00","value":null},
-                                                          {"date":"2022-09-18 01:00:00","value":null},
-                                                          {"date":"2022-09-18 00:00:00","value":null},
-                                                          {"date":"2022-09-17 23:00:00","value":null},
-                                                          {"date":"2022-09-17 22:00:00","value":null},
-                                                          {"date":"2022-09-17 21:00:00","value":null},
-                                                          {"date":"2022-09-17 20:00:00","value":null},
-                                                          {"date":"2022-09-17 19:00:00","value":null},
-                                                          {"date":"2022-09-17 18:00:00","value":null},
-                                                          {"date":"2022-09-17 17:00:00","value":null},
-                                                          {"date":"2022-09-17 16:00:00","value":null},
-                                                          {"date":"2022-09-17 15:00:00","value":null},
-                                                          {"date":"2022-09-17 14:00:00","value":null},
-                                                          {"date":"2022-09-17 13:00:00","value":null},
-                                                          {"date":"2022-09-17 12:00:00","value":null},
-                                                          {"date":"2022-09-17 11:00:00","value":null},
-                                                          {"date":"2022-09-16 02:00:00","value":null},
-                                                          {"date":"2022-09-16 01:00:00","value":null}]})";
+  TEST_DATA::return_httpPost = R"delim({
+   "@context":{
+      "meta":"https://schema.org/meta",
+      "totalPages":"https://schema.org/totalPages",
+      "links":"https://schema.org/links"
+   },
+   "@context":{
+      "Lista danych pomiarowych":{
+         "@id":"https://api.gios.gov.pl/pjp-api/v1/rest/data/getData"
+      },
+      "links":"https://schema.org/relatedLink",
+      "totalPages":"https://schema.org/numberOfPages"
+   },
+   "Lista danych pomiarowych":[
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 10:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 09:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 08:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 07:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 06:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 05:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 04:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 03:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 02:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 01:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-07-01 00:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-06-30 23:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-06-30 22:00:00",
+         "Wartość":null
+      },
+      {
+         "Kod stanowiska":"MpKrakSwoszo-PM10-1g",
+         "Data":"2025-06-30 21:00:00",
+         "Wartość":null
+      }
+   ],
+   "meta":{
+      "dc:description":"Usługa sieciowa udostępniająca wyniki jednogodzinnych pomiarów dwutlenku siarki (SO2), dwutlenku azotu (NO2), pyłu PM10, pyłu PM2,5, tlenku węgla (CO), benzenu (C6H6), ozonu (O3), od ostatniego dostępnego wyniku do trzeciej doby wstecz, na podstawie identyfikatora stanowiska pomiarowego. Dane udostępniane są w czasie lokalnym w jednostce μg/m3",
+      "sy:updateFrequency":"1",
+      "dc:language":"pol (ISO 639-2 / ISO 639-3)",
+      "schema:contentType":"application/ld+json",
+      "schema:provider":{
+         "@context":"https://schema.org",
+         "@type":"Organization",
+         "address":{
+            "@type":"PostalAddress",
+            "addressLocality":"Warszawa",
+            "postalCode":"02-362",
+            "streetAddress":"Bitwy Warszawskiej 1920 3"
+         },
+         "email":"api@gios.gov.pl",
+         "name":"Główny Inspektorat Ochrony Środowiska"
+      },
+      "schema:dateModified":"03.11.2022",
+      "dc:title":"Bieżące dane pomiarowe z wybranego stanowiska",
+      "schema:datePublished":"10.04.2017",
+      "schema:keywords":"dane pomiarowe, wyniki pomiarów, powietrze, jakość powietrza, zanieczyszczenie powietrza, stacje pomiarowe, stanowiska pomiarowe, monitoring powietrza, Państwowy Monitoring Środowiska, środowisko, stan środowiska",
+      "sy:updatePeriod":"hourly",
+      "schema:isPartOf":"Państwowy Monitoring Środowiska, Jakość powietrza"
+   },
+   "links":{
+      "next":"https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/20320?page=1&size=20",
+      "last":"https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/20320?page=2&size=20",
+      "prev":"https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/20320?page=0&size=20",
+      "self":"https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/20320?page=0&size=20",
+      "first":"https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/20320?page=0&size=20"
+   },
+   "totalPages":3
+})delim";
   EXPECT_FALSE(test_context.main_iDomTools->getSmog().has_value());
 }
 

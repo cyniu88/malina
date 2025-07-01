@@ -600,13 +600,18 @@ std::optional<std::string> iDomTOOLS::getSmog()
     std::string addres = "https://api.gios.gov.pl/pjp-api/v1/rest/data/getData/20320";
     std::string readBuffer = useful_F_libs::httpPost(addres, 20);
     std::optional<std::string> ret;
+
+    std::cout  << "cyniu  jasne " << std::endl;
     try
     {
         auto jj = nlohmann::json::parse(readBuffer);
         int i = 1;
+        
+    std::cout  << "cyniu  jasne2 " << std::endl;
         while (true)
         {
-            readBuffer = jj["values"][i]["value"].dump();
+            readBuffer = jj["Lista danych pomiarowych"][i]["Wartość"].dump();
+    std::cout  << "cyniu  jasne 3: " << readBuffer << std::endl;
             if (readBuffer != "null" or i == 2)
             {
                 break;
