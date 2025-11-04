@@ -9,7 +9,7 @@ enable_testing()
 set(INCLUDE_DIRECTORIES "../../json2/"
     "../../test/iDom_TESTs-CMAKE/"
     "../../test/libs_test/wiringPi")
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 

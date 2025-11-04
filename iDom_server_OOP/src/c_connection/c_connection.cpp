@@ -16,6 +16,11 @@ C_connection::C_connection(thread_context *context) : c_socket(context->s_client
 #ifdef BT_TEST
     std::cout << "C_connection::C_connection " << std::endl;
 #endif
+
+    struct timeval tv;
+    tv.tv_sec = 90;
+    tv.tv_usec = 0;
+    setsockopt(c_socket, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv, sizeof(struct timeval));
 }
 
 C_connection::~C_connection()
@@ -81,10 +86,6 @@ int C_connection::c_sendPure(const std::string &command)
 
 int C_connection::c_recv(int para)
 {
-    struct timeval tv;
-    tv.tv_sec = 90;
-    tv.tv_usec = 0;
-    setsockopt(c_socket, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv, sizeof(struct timeval));
 
     m_recv_size = recv(c_socket, c_buffer, MAX_buf, para);
 
