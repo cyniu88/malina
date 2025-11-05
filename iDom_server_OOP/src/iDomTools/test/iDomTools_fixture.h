@@ -61,6 +61,7 @@ public:
         test_context.main_iDomStatus = std::make_unique<iDomSTATUS>();
         test_context.alarmTime = test_alarmTime;
         test_context.ptr_MPD_info = std::make_unique<MPD_info>();
+        test_context.m_threadPool = std::make_unique<ThreadPool>(14, 20, ThreadPool::EnqueueMode::Blocking);
 
         test_context.main_iDomStatus->addObject("house");
 

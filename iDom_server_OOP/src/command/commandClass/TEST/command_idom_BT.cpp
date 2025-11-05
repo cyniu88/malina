@@ -223,6 +223,7 @@ TEST_F(commandiDom_Class_fixture, kodi)
   stateMechine.setStateMachine(std::move(ptr));
   test_context.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
   test_context.main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);
+  test_context.m_threadPool = std::make_unique<ThreadPool>(14,20, ThreadPool::EnqueueMode::Blocking);
   test_v.clear();
   test_v.push_back("iDom");
   test_v.push_back("KODI");

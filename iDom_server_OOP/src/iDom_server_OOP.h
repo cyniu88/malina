@@ -37,6 +37,7 @@
 #include "SATEL_INTEGRA/satel_integra_interface.h"
 #include "iDomKEY_ACCESS/idomkey_access.h"
 #include "recuperator/recuperator_interface.h"
+#include "../libs/ThreadPool/ThreadPool.h"
 
 #define log_file_cout f_log // std::cout zmien f_log na std::cout i bedzie wypisywac na ekran
 #define log_file_mutex f_log
@@ -364,6 +365,7 @@ struct thread_context
     std::unique_ptr<iDomSTATUS> main_iDomStatus = std::nullptr_t();
     std::unique_ptr<iDomKEY_ACCESS> m_keyHandler = std::nullptr_t();
     std::unique_ptr<RecuperatorInterface> m_recuperator = std::nullptr_t();
+    std::unique_ptr<ThreadPool> m_threadPool = std::nullptr_t();
     ~thread_context() = default;
 };
 

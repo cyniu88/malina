@@ -27,6 +27,7 @@ protected:
 
     {
         test_context.mqttHandler = std::make_unique<MQTT_mosquitto>("cyniu-BIT");
+        test_context.m_threadPool = std::make_unique<ThreadPool>(14, 20, ThreadPool::EnqueueMode::Blocking);
         test_context.ptr_buderus = std::make_unique<BUDERUS>();
         for (size_t i = 0; i < thread_array.size(); ++i)
         {

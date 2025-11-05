@@ -332,11 +332,11 @@ void useful_F::Server_connectivity_thread(thread_context *context, const std::st
 
         key_ok = false;
         std::string ip = inet_ntoa(context->from.sin_addr);
-        nlohmann::json jj = nlohmann::json::parse(useful_F_libs::httpPost("http://ip-api.com/json/"+ip));
+        nlohmann::json jj = nlohmann::json::parse(useful_F_libs::httpPost("http://ip-api.com/json/" + ip));
         std::string country = useful_F_libs::ipCountry(ip).value_or("unknown");
 
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << ip << "  "  << jj.dump(4) << std::endl;
+        log_file_cout << CRITICAL << "AUTHENTICATION FAILED! " << ip << "  " << jj.dump(4) << std::endl;
         log_file_cout << CRITICAL << "KEY RECIVED: " << KEY_rec << " KEY SERVER: " << KEY_OWN << std::endl;
         client->cryptoLog(KEY_rec); // setEncriptionKey(KEY_rec);
         log_file_cout << CRITICAL << "KEY UNCRIPTED RECIVED\n\n " << KEY_rec << "\n\n"
@@ -547,10 +547,15 @@ void useful_F::startServer(thread_context *context, TASKER *my_tasker)
         {
             context->s_client_sock = v_sock_ind;
             context->from = from;
-            iDOM_THREAD::start_thread(inet_ntoa(context->from.sin_addr),
-                                      useful_F::Server_connectivity_thread,
-                                      context,
-                                      v_sock_ind);
+            // iDOM_THREAD::start_thread(inet_ntoa(context->from.sin_addr),
+            //                           useful_F::Server_connectivity_thread,
+            //                           context,
+            //                           v_sock_ind);
+            context->m_threadPool->enqueue([context, v_sock_ind]()
+            {
+                useful_F::Server_connectivity_thread(context, inet_ntoa(context->from.sin_addr));
+            });
+
         }
         else
         {
@@ -640,16 +645,16 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._cron = jj["cron"].at("cron_path").get<std::string>();
     ///////////////////////// DATABASE //////////////////////////////////////////////////
     cj._database.bucket = jj["Database"].at("bucket").get<std::string>();
-    cj._database.ip     = jj["Database"].at("IP").get<std::string>();
-    cj._database.port   = jj["Database"].at("port").get<int>();
-    cj._database.token  = jj["Database"].at("token").get<std::string>();
-    cj._database.org    = jj["Database"].at("org").get<std::string>();
+    cj._database.ip = jj["Database"].at("IP").get<std::string>();
+    cj._database.port = jj["Database"].at("port").get<int>();
+    cj._database.token = jj["Database"].at("token").get<std::string>();
+    cj._database.org = jj["Database"].at("org").get<std::string>();
     ///////////////////////// DATABASE2 //////////////////////////////////////////////////
     cj._database2.bucket = jj["Database2"].at("bucket").get<std::string>();
-    cj._database2.ip     = jj["Database2"].at("IP").get<std::string>();
-    cj._database2.port   = jj["Database2"].at("port").get<int>();
-    cj._database2.token  = jj["Database2"].at("token").get<std::string>();
-    cj._database2.org    = jj["Database2"].at("org").get<std::string>();
+    cj._database2.ip = jj["Database2"].at("IP").get<std::string>();
+    cj._database2.port = jj["Database2"].at("port").get<int>();
+    cj._database2.token = jj["Database2"].at("token").get<std::string>();
+    cj._database2.org = jj["Database2"].at("org").get<std::string>();
     ///////////////////////// RECUPEARTION //////////////////////////////////////////////////
     cj._recuperation.MQTT_SENSOR_TOPIC = jj["recuperator"].at("MQTT_SENSOR_TOPIC").get<std::string>();
     cj._recuperation.MQTT_CONTROL_TOPIC = jj["recuperator"].at("MQTT_CONTROL_TOPIC").get<std::string>();

@@ -1095,10 +1095,11 @@ void iDomTOOLS::readState_iDom(nlohmann::json jj)
 
 std::string iDomTOOLS::startKodi_Thread()
 {
-    STATE kodiState = context->main_iDomStatus->getObjectState("KODI");
-    if (kodiState == STATE::ACTIVE)
-        return "kodi already run";
-    return iDOM_THREAD::start_thread("kodi smartTV", useful_F::kodi, context);
+    // STATE kodiState = context->main_iDomStatus->getObjectState("KODI");
+    // if (kodiState == STATE::ACTIVE)
+    //     return "kodi already run";
+    // return iDOM_THREAD::start_thread("kodi smartTV", useful_F::kodi, context);
+    return "kodi not implemented";
 }
 
 void iDomTOOLS::wifiClientConnected()
