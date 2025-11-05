@@ -37,7 +37,11 @@ set(LIBS_SRC
     "../../libs/circular_buffer/circular_buffer.cpp"
     "../../libs/circular_buffer/test/BT.cpp"
     "../../libs/TEST/testif.cpp"
+<<<<<<< HEAD
     "../../libs/ThreadPool/ThreadPool.cpp"
+=======
+    "../../libs/ThreadPool/threadpool.cpp"
+>>>>>>> 2344ccf6 (pula watkow)
     "../../libs/ThreadPool/test/threadpool_BT.cpp"
      )
 
