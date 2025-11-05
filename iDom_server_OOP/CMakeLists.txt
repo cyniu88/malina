@@ -42,6 +42,7 @@ set(LIBS_SRC
     libs/sunrise-sunset/sunriseset.cpp
     libs/useful/usefull.cpp
     libs/viberAPI/viber_api.cpp
+    libs/ThreadPool/ThreadPool.cpp
 )
 
 # Add the source files
