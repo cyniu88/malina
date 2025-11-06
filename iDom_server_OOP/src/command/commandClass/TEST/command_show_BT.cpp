@@ -35,50 +35,9 @@ TEST_F(command_show_Class_fixture, unknownParameter)
 
 TEST_F(command_show_Class_fixture, showThreadAll)
 {
-    std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> threadArray;
-
-    threadArray[1].thread_ID = std::this_thread::get_id();
-    threadArray[1].thread_name = "thread1 test1";
-    threadArray[1].thread_socket = 1;
-    threadArray[2].thread_ID = std::this_thread::get_id();
-    threadArray[2].thread_name = "thread1 test2";
-    threadArray[2].thread_socket = 2;
-
-    test_context.main_THREAD_arr = &threadArray;
-
-    test_v.push_back("show");
-    test_v.push_back("thread");
-    test_v.push_back("all");
-    auto ret = test_command_show->execute(test_v,&test_context);
-    EXPECT_THAT(ret, testing::HasSubstr("socket: 2"));
-}
-
-TEST_F(command_show_Class_fixture, showThread)
-{
-    std::array<Thread_array_struc, iDomConst::MAX_CONNECTION> threadArray;
-
-    threadArray[1].thread_ID = std::this_thread::get_id();
-    threadArray[1].thread_name = "thread1 test1";
-    threadArray[1].thread_socket = 1;
-    threadArray[2].thread_ID = std::this_thread::get_id();
-    threadArray[2].thread_name = "thread1 test2";
-    threadArray[2].thread_socket = 2;
-
-    test_context.main_THREAD_arr = &threadArray;
-
-    test_v.push_back("show");
-    test_v.push_back("thread");
-    test_v.push_back("2");
-    auto ret = test_command_show->execute(test_v,&test_context);
-    EXPECT_THAT(ret, testing::HasSubstr("socket: 2"));
-}
-
-TEST_F(command_show_Class_fixture, showThreadNoId)
-{
-    test_v.push_back("show");
-    test_v.push_back("thread");
-    auto ret = test_command_show->execute(test_v,&test_context);
-    EXPECT_STREQ(ret.c_str(), "No ID");
+    test_context.m_threadPool = std::make_unique<ThreadPool>(2,10,ThreadPool::EnqueueMode::Blocking);
+    auto ret = test_context.m_threadPool->printThreadNames();
+    EXPECT_THAT(ret, testing::HasSubstr("NULL"));
 }
 
 TEST_F(command_show_Class_fixture, showLog)

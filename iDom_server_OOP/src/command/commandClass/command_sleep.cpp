@@ -22,8 +22,11 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_context *
             }
 
             context->sleeper = sleep;
-
-            return R"(iDOM_THREAD::start_thread("Sleep MPD",useful_F::sleeper_mpd, context);)";
+            context->m_threadPool->enqueue("Sleep MPD", [context]()
+            {
+                useful_F::sleeper_mpd(context, "Sleep MPD");
+            });
+            return R"(DONE - Sleep MPD STARTED)";
         }
         else {
             return "wrong parametr " + v[1];

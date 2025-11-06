@@ -551,7 +551,7 @@ void useful_F::startServer(thread_context *context, TASKER *my_tasker)
             //                           useful_F::Server_connectivity_thread,
             //                           context,
             //                           v_sock_ind);
-            context->m_threadPool->enqueue([context, v_sock_ind]()
+            context->m_threadPool->enqueue(inet_ntoa(context->from.sin_addr), [context, v_sock_ind]()
             {
                 useful_F::Server_connectivity_thread(context, inet_ntoa(context->from.sin_addr));
             });

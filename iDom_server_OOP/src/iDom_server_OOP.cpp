@@ -378,7 +378,7 @@ iDomStateEnum iDom_main()
         // iDOM_THREAD::start_thread("RFLink thread",
         //                           RFLinkHandlerRUN,
         //                           &context);
-        context.m_threadPool->enqueue([&context]()
+        context.m_threadPool->enqueue("RFLink thread", [&context]()
         {
             RFLinkHandlerRUN(&context, "RFLink thread");
         });
@@ -398,7 +398,7 @@ iDomStateEnum iDom_main()
         //                           Send_Recieve_rs232_thread,
         //                           &context,
         //                           1);
-        context.m_threadPool->enqueue([&context]()
+        context.m_threadPool->enqueue("RS232 thread",[&context]()
         {
             Send_Recieve_rs232_thread(&context, "RS232 thread");
         });
@@ -439,7 +439,7 @@ iDomStateEnum iDom_main()
     if (server_settings._runThread.MQTT == true)
     {
        // iDOM_THREAD::start_thread("MQTT thread", f_master_mqtt, &context);
-       context.m_threadPool->enqueue([&context]()
+       context.m_threadPool->enqueue("MQTT thread", [&context]()
        {
            f_master_mqtt(&context, "MQTT thread");
        });
@@ -454,7 +454,7 @@ iDomStateEnum iDom_main()
     if (server_settings._runThread.SATEL == true)
     {
         // iDOM_THREAD::start_thread("Satel INTEGRA32 thread", f_satelIntegra32, &context);
-        context.m_threadPool->enqueue([&context]()
+        context.m_threadPool->enqueue("Satel INTEGRA32 thread", [&context]()
         {
             f_satelIntegra32(&context, "Satel INTEGRA32 thread");
         });
@@ -469,7 +469,7 @@ iDomStateEnum iDom_main()
     if (server_settings._runThread.MPD == true)
     {
         // iDOM_THREAD::start_thread("MPD  thread", main_mpd_cli, &context);
-        context.m_threadPool->enqueue([&context]()
+        context.m_threadPool->enqueue("MPD  thread", [&context]()
         {
             main_mpd_cli(&context, "MPD  thread");
         });
@@ -485,7 +485,7 @@ iDomStateEnum iDom_main()
     if (server_settings._runThread.INFLUX == true)
     {
         // iDOM_THREAD::start_thread("influx thread", f_master_influx, &context);
-        context.m_threadPool->enqueue([&context]()
+        context.m_threadPool->enqueue("influx thread", [&context]()
         {
             f_master_influx(&context, "influx thread");
         });
@@ -500,7 +500,7 @@ iDomStateEnum iDom_main()
     if (server_settings._runThread.CRON == true)
     {
         // iDOM_THREAD::start_thread("Cron thread", f_master_CRON, &context);
-        context.m_threadPool->enqueue([&context]()
+        context.m_threadPool->enqueue("Cron thread", [&context]()
         {
             f_master_CRON(&context, "Cron thread");
         });

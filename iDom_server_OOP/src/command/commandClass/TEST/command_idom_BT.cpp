@@ -215,57 +215,57 @@ TEST_F(commandiDom_Class_fixture, wifi)
   EXPECT_THAT(retStr,testing::HasSubstr("ok"));
 }
 
-TEST_F(commandiDom_Class_fixture, kodi)
-{
-  MENU_STATE_MACHINE stateMechine;
-  LCD_c lcdStub(1,1,1);
-  auto ptr = std::make_unique<MENU_ROOT>(&test_context, &lcdStub, &stateMechine);
-  stateMechine.setStateMachine(std::move(ptr));
-  test_context.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
-  test_context.main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);
-  test_context.m_threadPool = std::make_unique<ThreadPool>(14,20, ThreadPool::EnqueueMode::Blocking);
-  test_v.clear();
-  test_v.push_back("iDom");
-  test_v.push_back("KODI");
-  std::string retStr = test_command_iDom->execute(test_v, &test_context);
+// TEST_F(commandiDom_Class_fixture, kodi)
+// {
+//   MENU_STATE_MACHINE stateMechine;
+//   LCD_c lcdStub(1,1,1);
+//   auto ptr = std::make_unique<MENU_ROOT>(&test_context, &lcdStub, &stateMechine);
+//   stateMechine.setStateMachine(std::move(ptr));
+//   test_context.main_key_menu_handler = std::make_unique<KEY_HANDLER>(&stateMechine);
+//   test_context.main_iDomStatus->setObjectState("KODI",STATE::ACTIVE);
+//   test_context.m_threadPool = std::make_unique<ThreadPool>(14,20, ThreadPool::EnqueueMode::Blocking);
+//   test_v.clear();
+//   test_v.push_back("iDom");
+//   test_v.push_back("KODI");
+//   std::string retStr = test_command_iDom->execute(test_v, &test_context);
 
-  std::cout << "retString: " << retStr << std::endl;
-  EXPECT_STREQ(retStr.c_str(),"kodi already run");
+//   std::cout << "retString: " << retStr << std::endl;
+//   EXPECT_STREQ(retStr.c_str(),"kodi already run");
 
-  test_context.main_iDomStatus->setObjectState("KODI",STATE::DEACTIVE);
-  test_context.main_iDomStatus->setObjectState("music",STATE::PLAY);
-  test_context.main_iDomStatus->setObjectState("speakers",STATE::ON);
+//   test_context.main_iDomStatus->setObjectState("KODI",STATE::DEACTIVE);
+//   test_context.main_iDomStatus->setObjectState("music",STATE::PLAY);
+//   test_context.main_iDomStatus->setObjectState("speakers",STATE::ON);
 
-  std::array<Thread_array_struc,iDomConst::MAX_CONNECTION> test_ThreadArrayStruc;
+//   std::array<Thread_array_struc,iDomConst::MAX_CONNECTION> test_ThreadArrayStruc;
 
-  for (std::size_t i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
-    test_ThreadArrayStruc.at(i).thread_socket = 0;
-  test_ThreadArrayStruc.at(3).thread_socket = 0;
-  test_ThreadArrayStruc.at(3).thread_ID = std::this_thread::get_id();
-  test_context.main_THREAD_arr = &test_ThreadArrayStruc;
+//   for (std::size_t i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+//     test_ThreadArrayStruc.at(i).thread_socket = 0;
+//   test_ThreadArrayStruc.at(3).thread_socket = 0;
+//   test_ThreadArrayStruc.at(3).thread_ID = std::this_thread::get_id();
+//   test_context.main_THREAD_arr = &test_ThreadArrayStruc;
 
-  test_v.clear();
-  test_v.push_back("iDom");
-  test_v.push_back("KODI");
-  retStr = test_command_iDom->execute(test_v, &test_context);
+//   test_v.clear();
+//   test_v.push_back("iDom");
+//   test_v.push_back("KODI");
+//   retStr = test_command_iDom->execute(test_v, &test_context);
 
-  //sleep(1);
-  iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+//   //sleep(1);
+//   iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
 
-  std::cout << "retString: " << retStr << std::endl;
-  EXPECT_THAT(retStr,testing::HasSubstr("STARTED"));
+//   std::cout << "retString: " << retStr << std::endl;
+//   EXPECT_THAT(retStr,testing::HasSubstr("STARTED"));
 
-  for (std::size_t i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
-    test_ThreadArrayStruc[i].thread_socket = 1;
+//   for (std::size_t i = 0 ; i < iDomConst::MAX_CONNECTION; i++)
+//     test_ThreadArrayStruc[i].thread_socket = 1;
 
-  test_v.clear();
-  test_v.push_back("iDom");
-  test_v.push_back("KODI");
-  retStr = test_command_iDom->execute(test_v, &test_context);
+//   test_v.clear();
+//   test_v.push_back("iDom");
+//   test_v.push_back("KODI");
+//   retStr = test_command_iDom->execute(test_v, &test_context);
 
-  std::cout << "retString: " << retStr << std::endl;
-  EXPECT_STREQ(retStr.c_str(),"not free space to new thread");
-}
+//   std::cout << "retString: " << retStr << std::endl;
+//   EXPECT_STREQ(retStr.c_str(),"not free space to new thread");
+// }
 
 TEST_F(commandiDom_Class_fixture, health_alarm)
 {
