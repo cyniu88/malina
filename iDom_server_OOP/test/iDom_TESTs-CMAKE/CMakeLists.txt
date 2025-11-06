@@ -37,7 +37,7 @@ set(LIBS_SRC
     "../../libs/circular_buffer/circular_buffer.cpp"
     "../../libs/circular_buffer/test/BT.cpp"
     "../../libs/TEST/testif.cpp"
-    "../../libs/ThreadPool/threadpool.cpp"
+    "../../libs/ThreadPool/ThreadPool.cpp"
     "../../libs/ThreadPool/test/threadpool_BT.cpp"
      )
 
