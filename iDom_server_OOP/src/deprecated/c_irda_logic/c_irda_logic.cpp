@@ -1,5 +1,4 @@
 #include "c_irda_logic.h"
-#include "../thread_functions/iDom_thread.h"
 #include "../functions/functions.h"
 
 void c_irda_logic::irdaMPD(PILOT_KEY X)
@@ -73,7 +72,6 @@ void c_irda_logic::sleeperLogic(PILOT_KEY X)
     }
     case PILOT_KEY::KEY_OK:
     {
-        iDOM_THREAD::start_thread("Sleeper MPD",useful_F::sleeper_mpd,context);
         context->mainLCD->printString(true,1,0,"SLEEPer START");
         context->mainLCD->set_print_song_state(0);
         who = PILOT_STATE::MPD;

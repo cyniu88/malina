@@ -11,7 +11,6 @@
 #include "thread_functions/rs232_thread.h"
 #include "433MHz/RFLink/rflinkhandler.h"
 #include "command/commandClass/command_ardu.h"
-#include "thread_functions/iDom_thread.h"
 #include "MENU/menu_root.h"
 #include "SATEL_INTEGRA/satel_integra_handler.h"
 #include "buderus/buderus.h"
@@ -73,7 +72,6 @@ void RFLinkHandlerRUN(thread_context *context, const std::string &threadName)
         }
     }
     
-    iDOM_THREAD::stop_thread(threadName, context);
 }
 
 //////////// watek do obslugi polaczeni miedzy nodami //////////////
@@ -82,7 +80,6 @@ void f_serv_con_node(thread_context *context, const std::string &threadName)
     context->myEventHandler.run("node")->addEvent("start and stop node");
     // useful_F::clearThreadArray(context);
 
-    iDOM_THREAD::stop_thread(threadName, context);
 } // koniec f_serv_con_node
 
 ///////////////////// watek MQTT subscriber
@@ -103,8 +100,6 @@ void f_master_mqtt(thread_context *context, const std::string &threadName)
     }
     if (ex == false)
         context->mqttHandler->subscribeHandlerRunInThread(context->mqttHandler.get());
-
-    iDOM_THREAD::stop_thread(threadName, context);
 } // koniec master_mqtt
 
 ///////////////////// watek CRON //////////////////////////////
@@ -124,8 +119,6 @@ void f_master_CRON(thread_context *context, const std::string &threadName)
             log_file_mutex.mutex_unlock();
         }
     }
-
-    iDOM_THREAD::stop_thread(threadName, context);
 } // koniec CRON
 
 ///////////////////// watek influx //////////////////////////////
@@ -180,8 +173,6 @@ void f_master_influx(thread_context *context, const std::string &threadName)
             log_file_mutex.mutex_unlock();
         }
     }
-
-    iDOM_THREAD::stop_thread(threadName, context);
 } // koniec influx
 
 ///////////////////// watek Satel Integra32 //////////////////////////
@@ -201,8 +192,6 @@ void f_satelIntegra32(thread_context *context, const std::string &threadName)
             log_file_mutex.mutex_unlock();
         }
     }
-
-    iDOM_THREAD::stop_thread(threadName, context);
 } // koniec Satel Integra32
 
 void my_sig_handler(int s)
@@ -374,10 +363,6 @@ iDomStateEnum iDom_main()
 
     if (server_settings._runThread.RFLink == true)
     {
-        // start watku czytania RFLinka
-        // iDOM_THREAD::start_thread("RFLink thread",
-        //                           RFLinkHandlerRUN,
-        //                           &context);
         context.m_threadPool->enqueue("RFLink thread", [&context]()
         {
             RFLinkHandlerRUN(&context, "RFLink thread");
@@ -394,10 +379,6 @@ iDomStateEnum iDom_main()
 
     if (server_settings._runThread.RS232 == true)
     {
-        // iDOM_THREAD::start_thread("RS232 thread",
-        //                           Send_Recieve_rs232_thread,
-        //                           &context,
-        //                           1);
         context.m_threadPool->enqueue("RS232 thread",[&context]()
         {
             Send_Recieve_rs232_thread(&context, "RS232 thread");
@@ -438,7 +419,6 @@ iDomStateEnum iDom_main()
     //////////////////////////////////////// start watku MQTT
     if (server_settings._runThread.MQTT == true)
     {
-       // iDOM_THREAD::start_thread("MQTT thread", f_master_mqtt, &context);
        context.m_threadPool->enqueue("MQTT thread", [&context]()
        {
            f_master_mqtt(&context, "MQTT thread");
@@ -453,7 +433,6 @@ iDomStateEnum iDom_main()
     //////////////////////////////////////// start watku SATEL INTEGRA32
     if (server_settings._runThread.SATEL == true)
     {
-        // iDOM_THREAD::start_thread("Satel INTEGRA32 thread", f_satelIntegra32, &context);
         context.m_threadPool->enqueue("Satel INTEGRA32 thread", [&context]()
         {
             f_satelIntegra32(&context, "Satel INTEGRA32 thread");
@@ -468,7 +447,6 @@ iDomStateEnum iDom_main()
     //////////////////////////////////////// start watku mpd_cli
     if (server_settings._runThread.MPD == true)
     {
-        // iDOM_THREAD::start_thread("MPD  thread", main_mpd_cli, &context);
         context.m_threadPool->enqueue("MPD  thread", [&context]()
         {
             main_mpd_cli(&context, "MPD  thread");
@@ -484,7 +462,6 @@ iDomStateEnum iDom_main()
 
     if (server_settings._runThread.INFLUX == true)
     {
-        // iDOM_THREAD::start_thread("influx thread", f_master_influx, &context);
         context.m_threadPool->enqueue("influx thread", [&context]()
         {
             f_master_influx(&context, "influx thread");
@@ -499,7 +476,6 @@ iDomStateEnum iDom_main()
     ///////////////////////////////////////// start watku CRONa
     if (server_settings._runThread.CRON == true)
     {
-        // iDOM_THREAD::start_thread("Cron thread", f_master_CRON, &context);
         context.m_threadPool->enqueue("Cron thread", [&context]()
         {
             f_master_CRON(&context, "Cron thread");
@@ -513,7 +489,6 @@ iDomStateEnum iDom_main()
     }
     if (server_settings._runThread.DUMMY == true)
     {
-        // iDOM_THREAD::start_thread("node thread", f_serv_con_node, &context);
         context.m_threadPool->enqueue([&context]()
         {
             f_serv_con_node(&context, "node thread");
@@ -556,7 +531,7 @@ iDomStateEnum iDom_main()
     iDomStateProgram = context.iDomProgramState;
 
     useful_F::go_while = false;
-    iDOM_THREAD::waitUntilAllThreadEnd(&context);
+    std::this_thread::sleep_for(1.5s);
 
     return iDomStateProgram;
 }

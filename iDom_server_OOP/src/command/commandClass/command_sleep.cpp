@@ -1,6 +1,5 @@
 #include "command_sleep.h"
 #include "../../functions/functions.h"
-#include "../../thread_functions/iDom_thread.h"
 
 command_sleep::command_sleep(const std::string &name):command(name)
 {

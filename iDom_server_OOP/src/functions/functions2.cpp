@@ -6,7 +6,6 @@
 #include <experimental/source_location>
 
 #include "functions.h"
-#include "../thread_functions/iDom_thread.h"
 #include "../command/commandhandlergateway.h"
 #include "../command/commandhandlerroot.h"
 #include "../c_connection/c_connection.h"
@@ -100,8 +99,6 @@ void useful_F::sleeper_mpd(thread_context *context, const std::string &threadNam
 
     context->main_Rs232->print("LED_CLOCK:0;");
 
-    iDOM_THREAD::stop_thread(threadName, context);
-
     log_file_mutex.mutex_lock();
     log_file_cout << INFO << "koniec watku SLEEP_MPD" << std::endl;
     log_file_mutex.mutex_unlock();
@@ -143,7 +140,6 @@ void useful_F::kodi(thread_context *context, const std::string &threadName)
     // koniec
     context->main_key_menu_handler->timeout();
     context->main_iDomStatus->setObjectState("KODI", STATE::DEACTIVE);
-    iDOM_THREAD::stop_thread("kodi smartTV", context);
 }
 
 std::string useful_F::RSHash(const std::string &data, unsigned int b, unsigned int a)
@@ -300,7 +296,6 @@ void useful_F::Server_connectivity_thread(thread_context *context, const std::st
         log_file_mutex.mutex_unlock();
 
         context->main_Rs232->print("LED_AT:0;");
-        iDOM_THREAD::stop_thread(threadName, context);
         return;
     }
     std::string KEY_OWN = useful_F::RSHash();
@@ -326,7 +321,6 @@ void useful_F::Server_connectivity_thread(thread_context *context, const std::st
             client->handleHTTP(KEY_rec2);
 
             context->main_Rs232->print("LED_AT:0;");
-            iDOM_THREAD::stop_thread(threadName, context);
             return;
         }
 
@@ -354,7 +348,6 @@ void useful_F::Server_connectivity_thread(thread_context *context, const std::st
         if (client->c_send("\nFAIL\n") == -1)
         {
             context->main_Rs232->print("LED_AT:0;");
-            iDOM_THREAD::stop_thread(threadName, context);
             return;
         }
     }
@@ -364,7 +357,6 @@ void useful_F::Server_connectivity_thread(thread_context *context, const std::st
         if (recvSize_tm_n == -1)
         {
             context->main_Rs232->print("LED_AT:0;");
-            iDOM_THREAD::stop_thread(threadName, context);
             return;
         }
 
@@ -424,7 +416,6 @@ void useful_F::Server_connectivity_thread(thread_context *context, const std::st
     puts("zamykamy server");
     useful_F::workServer = false; // wylacz nasluchwianie servera
 #endif
-    iDOM_THREAD::stop_thread(threadName, context);
 }
 
 // przerobka adresu na ip . //////////////////////////////////
@@ -540,35 +531,15 @@ void useful_F::startServer(thread_context *context, TASKER *my_tasker)
         }
 
         //////////////////////// jest połacznie wiec wstawiamy je do nowego watku i umieszczamy id watku w tablicy w pierwszym wolnym miejscu ////////////////////
-
-        int freeSlotID = iDOM_THREAD::findFreeThreadSlot(context->main_THREAD_arr);
-
-        if (freeSlotID not_eq -1)
+ 
         {
             context->s_client_sock = v_sock_ind;
             context->from = from;
-            // iDOM_THREAD::start_thread(inet_ntoa(context->from.sin_addr),
-            //                           useful_F::Server_connectivity_thread,
-            //                           context,
-            //                           v_sock_ind);
             context->m_threadPool->enqueue(inet_ntoa(context->from.sin_addr), [context, v_sock_ind]()
             {
                 useful_F::Server_connectivity_thread(context, inet_ntoa(context->from.sin_addr));
             });
 
-        }
-        else
-        {
-            log_file_mutex.mutex_lock();
-            log_file_cout << INFO << "za duzo klientow " << std::endl;
-            log_file_mutex.mutex_unlock();
-
-            if ((send(v_sock_ind, "za duzo kientow \nEND.\n", 22, MSG_DONTWAIT)) <= 0)
-            {
-                perror("send() ERROR");
-                break;
-            }
-            continue;
         }
     } // while
     close(v_socket);

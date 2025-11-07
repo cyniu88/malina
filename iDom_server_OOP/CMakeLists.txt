@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.10)  # Use a more recent version of CMake
 project(iDom_server-CMAKE VERSION 1.0)
 
 # Set C++ standard
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -118,7 +118,6 @@ set(SOURCE_FILES
     src/SerialPi/wiringSerial.c
     src/TASKER/tasker.cpp
     src/THERMOMETER_CONTAINER/thermometer_container.cpp
-    src/thread_functions/iDom_thread.cpp
     src/thread_functions/rs232_thread.h
     src/dbClient/db-client.cpp
     src/dbClient/db-client-factory.cpp

@@ -3,7 +3,6 @@
 #include "../../libs/emoji/emoji.h"
 #include "../functions/functions.h"
 #include "../RADIO_433_eq/radio_433_eq.h"
-#include "../thread_functions/iDom_thread.h"
 #include "idomtools.h"
 #include "../iDomSaveState/idom_save_state.h"
 
@@ -1092,10 +1091,6 @@ void iDomTOOLS::readState_iDom(nlohmann::json jj)
 
 std::string iDomTOOLS::startKodi_Thread()
 {
-    // STATE kodiState = context->main_iDomStatus->getObjectState("KODI");
-    // if (kodiState == STATE::ACTIVE)
-    //     return "kodi already run";
-    // return iDOM_THREAD::start_thread("kodi smartTV", useful_F::kodi, context);
     return "kodi not implemented";
 }
 

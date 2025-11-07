@@ -2,7 +2,6 @@
 #define RS232_THREAD_H
 
 #include "../SerialPi/serialpi.h"
-#include "../thread_functions/iDom_thread.h"
 #include "../functions/functions.h"
 
 using namespace std::chrono_literals;
@@ -51,6 +50,5 @@ void Send_Recieve_rs232_thread(thread_context *context, const std::string &threa
     }
     std::this_thread::sleep_for(1.5s);
     context->main_Rs232->flush();
-    iDOM_THREAD::stop_thread(threadName, context);
 }
 #endif // RS232_THREAD_H

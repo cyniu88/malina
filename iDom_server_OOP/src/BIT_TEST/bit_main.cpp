@@ -4,7 +4,6 @@
 
 #include "../iDomTools/test/iDomTools_fixture.h"
 #include "../TASKER/tasker.h"
-#include "../src/thread_functions/iDom_thread.h"
 #include "../src/blockQueue/blockqueue.h"
 #include "../src/recuperator/recuperator.h"
 
@@ -157,9 +156,9 @@ TEST_F(bit_fixture, socket_heandle_command)
 
     std::cout << "odebrano4: " << toCheck << std::endl;
     std::cout << "odebrano5: " << send_receive(s, "help", key) << std::endl;
-
+std::cout << " CYNIIIIIIIIII start nowy test "<< std::endl <<  test_context.m_threadPool->printThreadNames() << std::endl;
     toCheck = send_receive(s, "exit", key);
-
+std::cout << " CYNIIIIIIIIII start nowy test "<< std::endl <<  test_context.m_threadPool->printThreadNames() << std::endl;
     std::cout << "odebrano8: " << toCheck << std::endl;
     EXPECT_THAT(toCheck.c_str(), testing::HasSubstr("END"));
 
@@ -168,7 +167,7 @@ TEST_F(bit_fixture, socket_heandle_command)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+    std::this_thread::sleep_for(1.5s);
 
     toCheck = test_context.iDomAlarm.showAlarm();
     EXPECT_STREQ(toCheck.c_str(), "88756: 433MHz equipment not found first\n");
@@ -176,6 +175,7 @@ TEST_F(bit_fixture, socket_heandle_command)
 
 TEST_F(bit_fixture, socket_heandle_command_JSON)
 {
+std::cout << " CYNIIIIIIIIII start nowy test "<< std::endl <<  test_context.m_threadPool->printThreadNames() << std::endl;
     start_iDomServer();
     struct sockaddr_in serwer =
         {
@@ -211,7 +211,7 @@ TEST_F(bit_fixture, socket_heandle_command_JSON)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+    std::this_thread::sleep_for(1.5s);
 
     toCheck = test_context.iDomAlarm.showAlarm();
     EXPECT_STREQ(toCheck.c_str(), "88756: 433MHz equipment not found first\n");
@@ -252,7 +252,7 @@ TEST_F(bit_fixture, socket_heandle_command_lock)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+    std::this_thread::sleep_for(1.5s);
 
     toCheck = test_context.iDomAlarm.showAlarm();
     EXPECT_STREQ(toCheck.c_str(), "88756: 433MHz equipment not found first\n");
@@ -294,7 +294,7 @@ TEST_F(bit_fixture, socket_close_server_command)
 
     close(s);
     shutdown(s, SHUT_RDWR);
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+    std::this_thread::sleep_for(1.5s);
     EXPECT_FALSE(useful_F::workServer);
     EXPECT_EQ(test_context.iDomProgramState, iDomStateEnum::CLOSE);
 }
@@ -335,7 +335,7 @@ TEST_F(bit_fixture, socket_reload_server_command)
 
     close(s);
     shutdown(s, SHUT_RDWR);
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+    std::this_thread::sleep_for(1.5s);
     EXPECT_FALSE(useful_F::workServer);
     EXPECT_EQ(test_context.iDomProgramState, iDomStateEnum::HARD_RELOAD);
 }
@@ -376,7 +376,7 @@ TEST_F(bit_fixture, socket_reboot_rasp_command)
 
     close(s);
     shutdown(s, SHUT_RDWR);
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+    std::this_thread::sleep_for(1.5s);
     EXPECT_FALSE(useful_F::workServer);
 }
 
@@ -416,66 +416,7 @@ TEST_F(bit_fixture, socket_wrong_key_after_while)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
-}
-
-TEST_F(bit_fixture, socket_no_space_left_on_server)
-{
-
-    for (auto &i : *test_context.main_THREAD_arr)
-    {
-        i.thread_socket = 1;
-    }
-    start_iDomServer();
-
-    struct sockaddr_in serwer =
-        {
-            .sin_family = AF_INET,
-            .sin_port = htons(8833)};
-
-    inet_pton(serwer.sin_family, ipAddress, &serwer.sin_addr);
-
-    const int s = socket(serwer.sin_family, SOCK_STREAM, 0);
-
-    sleep(1);
-    int connectStatus = connect(s, (struct sockaddr *)&serwer, sizeof(serwer));
-    ASSERT_EQ(connectStatus, 0);
-    std::cout << "connect status: " << connectStatus << std::endl;
-
-    auto key = useful_F::RSHash();
-    std::string toCheck;
-
-    EXPECT_ANY_THROW(send_receive(s, key, key));
-    ////////////////////////////////////////////////// one free slot
-    test_context.main_THREAD_arr->at(3).thread_socket = 0;
-    const int s2 = socket(serwer.sin_family, SOCK_STREAM, 0);
-    connectStatus = connect(s2, (struct sockaddr *)&serwer, sizeof(serwer));
-    ASSERT_EQ(connectStatus, 0);
-    std::cout << "connect status: " << connectStatus << std::endl;
-
-    EXPECT_NO_THROW(send_receive(s2, key, key));
-
-    toCheck = send_receive(s2, "ROOT", key);
-    EXPECT_STREQ(toCheck.c_str(), "OK you are ROOT");
-
-    std::cout << "odebrano4: " << toCheck << std::endl;
-    std::cout << "odebrano5: " << send_receive(s2, "help", key) << std::endl;
-
-    toCheck = send_receive(s2, "exit", key);
-
-    std::cout << "odebrano8: " << toCheck << std::endl;
-    EXPECT_THAT(toCheck.c_str(), testing::HasSubstr("END"));
-
-    useful_F::workServer = false;
-    close(s);
-    close(s2);
-    shutdown(s, SHUT_RDWR);
-    shutdown(s2, SHUT_RDWR);
-    for (auto &i : *test_context.main_THREAD_arr)
-    {
-        i.thread_socket = 0;
-    }
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+    std::this_thread::sleep_for(1.5s);
 }
 
 TEST_F(bit_fixture, socket_send_key_fast_disconnect)
@@ -506,7 +447,7 @@ TEST_F(bit_fixture, socket_send_key_fast_disconnect)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+    std::this_thread::sleep_for(1.5s);
     EXPECT_EQ(r, key.size());
 }
 
@@ -536,7 +477,7 @@ TEST_F(bit_fixture, socket_connection_wrong_key_fast_disconnect)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+    std::this_thread::sleep_for(1.5s);
 }
 
 TEST_F(bit_fixture, socket_connection_wrong_key)
@@ -568,7 +509,7 @@ TEST_F(bit_fixture, socket_connection_wrong_key)
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+    std::this_thread::sleep_for(1.5s);
 }
 
 TEST_F(bit_fixture, socket_connection_http)
@@ -621,7 +562,7 @@ Content-Length: 43
     useful_F::workServer = false;
     shutdown(s, SHUT_RDWR);
 
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
+    std::this_thread::sleep_for(1.5s);
 }
 
 TEST_F(bit_fixture, buderus_mqtt_command_from_boiler)
