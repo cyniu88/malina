@@ -28,43 +28,7 @@ std::string command_show::execute(std::vector<std::string> &v, thread_context *c
         }
         if (v[1] == "thread")
         {
-            if (v.size() < 3){
-                return "No ID";
-            }
-            else {
-                if (v [2] not_eq"all"){
-                    std::stringstream ss;
-                    ss << context->main_THREAD_arr->at(std::stoi(v[2])).thread_ID;
-                    str_buf = context->main_THREAD_arr->at(std::stoi(v[2])).thread_name;
-                    str_buf.append("ID: ");
-                    str_buf.append(ss.str());
-                    str_buf.append(" socket: ");
-                    str_buf.append(std::to_string(context->main_THREAD_arr->at(std::stoi(v[2])).thread_socket));
-                    return str_buf;
-                }
-                else{
-                    str_buf.erase();
-                    std::stringstream ss;
-                    for (unsigned int i = 0; i < iDomConst::MAX_CONNECTION;++i)
-                    {
-                        ss.clear();
-                        ss = std::stringstream();
-                        str_buf.append(std::to_string(i) + " ");
-                        str_buf.append(context->main_THREAD_arr->at(i).thread_name);
-                        str_buf.append("\t ID: ");
-                        ss << context->main_THREAD_arr->at(i).thread_ID;
-                        str_buf.append(ss.str());
-                        unsigned int idSocket = context->main_THREAD_arr->at(i).thread_socket;
-
-                        if (idSocket not_eq 0 && idSocket not_eq 1){
-                            str_buf.append(" socket: ");
-                            str_buf.append(std::to_string(context->main_THREAD_arr->at(i).thread_socket));
-                        }
-                        str_buf.push_back('\n');
-                    }
-                    return str_buf;
-                }
-            }
+            return context->m_threadPool->printThreadNames();
         }
         else if (v[1] == "iDom" && v[2] == "key")
         {
@@ -85,8 +49,7 @@ std::string command_show::help() const
     help << "\tlog             - show all server log" << std::endl;
     help << "\tlog <string>    - show all server log lines which contain <string>" << std::endl;
     help << "\tlog no <string> - show all server log lines which NO contain <string>" << std::endl;
-    help << "\tthread all      - show all server thread pid " << std::endl;
-    help << "\tthread <number> - show server <number> thread pid " << std::endl;
+    help << "\tthread          - show all server thread pid " << std::endl;
     help << "\tiDom key        - show all access key" << std::endl;
 
     return help.str();

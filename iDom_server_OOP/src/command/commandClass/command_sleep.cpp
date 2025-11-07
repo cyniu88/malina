@@ -1,6 +1,5 @@
 #include "command_sleep.h"
 #include "../../functions/functions.h"
-#include "../../thread_functions/iDom_thread.h"
 
 command_sleep::command_sleep(const std::string &name):command(name)
 {
@@ -22,8 +21,11 @@ std::string command_sleep::execute(std::vector<std::string> &v, thread_context *
             }
 
             context->sleeper = sleep;
-
-            return iDOM_THREAD::start_thread("Sleep MPD",useful_F::sleeper_mpd, context);
+            context->m_threadPool->enqueue("Sleep MPD", [context]()
+            {
+                useful_F::sleeper_mpd(context, "Sleep MPD");
+            });
+            return R"(DONE - Sleep MPD STARTED)";
         }
         else {
             return "wrong parametr " + v[1];

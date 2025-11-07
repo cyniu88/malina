@@ -99,7 +99,6 @@ set(SOURCE_FILES
     "serialpi.cpp"
     "../src/TASKER/tasker.cpp"
     "../src/THERMOMETER_CONTAINER/thermometer_container.cpp"
-    "../src/thread_functions/iDom_thread.cpp"
     "../src/thread_functions/rs232_thread.h"
     "../src/dbClient/db-client.cpp"
     "../src/dbClient/db-client-factory.cpp"

@@ -2,7 +2,6 @@
 #include "../blockQueue/blockqueue.h"
 #include "../functions/functions.h"
 #include "../iDomTools/idomtools_interface.h"
-#include "../thread_functions/iDom_thread.h"
 
 using namespace std::chrono_literals;
 
@@ -355,7 +354,6 @@ void main_mpd_cli(thread_context *context, const std::string &threadName)
             std::cout << " NIE UDALO SIE POłączyć " << std::endl;
         }
         mpd_free(obj);
-        iDOM_THREAD::stop_thread(threadName, context);
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << " koniec " << threadName << std::endl;
         log_file_mutex.mutex_unlock();

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.22)
 LINK_DIRECTORIES(/usr/local/lib )
 
 project(iDom_TESTs-CMAKE)
@@ -9,7 +9,7 @@ enable_testing()
 set(INCLUDE_DIRECTORIES "../../json2/"
     "../../test/iDom_TESTs-CMAKE/"
     "../../test/libs_test/wiringPi")
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -37,6 +37,8 @@ set(LIBS_SRC
     "../../libs/circular_buffer/circular_buffer.cpp"
     "../../libs/circular_buffer/test/BT.cpp"
     "../../libs/TEST/testif.cpp"
+    "../../libs/ThreadPool/ThreadPool.cpp"
+    "../../libs/ThreadPool/test/threadpool_BT.cpp"
      )
 
     set(SOURCE_FILES  "main.cpp" "test_data.h"
@@ -62,8 +64,6 @@ set(LIBS_SRC
     "../../src/iDomTools/test/iDomTools_fixture.h"
     "../../src/thread_functions/rs232_thread.h"
     "../../src/thread_functions/TEST/rs232_thread_BT.cpp"
-    "../../src/thread_functions/iDom_thread.h"
-    "../../src/thread_functions/iDom_thread.cpp"
     "../../src/433MHz/RFLink/TEST/rflinkhandler_BT.cpp"
     "../../src/433MHz/RFLink/rflinkhandler.cpp"
     "../../src/command/command.cpp"

@@ -3,7 +3,6 @@
 #include "test_data.h"
 #include "../../../iDom_server_OOP/src/iDomTools/test/iDomTools_fixture.h"
 #include "../c_irda_logic.h"
-#include "../../thread_functions/iDom_thread.h"
 
 class c_irda_logic_fixture : public iDomTOOLS_ClassTest
 {
@@ -46,7 +45,6 @@ TEST_F(c_irda_logic_fixture, kodi)
     test_context.main_iDomStatus->setObjectState("music",STATE::PAUSE);
     test_context.main_iDomStatus->setObjectState("speakers",STATE::OFF);
     test_irda->_add(PILOT_KEY::KEY_REFRESH);
-    iDOM_THREAD::waitUntilAllThreadEnd(&test_context);
 }
 
 TEST_F(c_irda_logic_fixture, turnOnOffListwa)
