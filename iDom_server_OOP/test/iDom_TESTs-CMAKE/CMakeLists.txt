@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.22)  # Use a more recent version of CMake
 LINK_DIRECTORIES(/usr/local/lib )
 
 project(iDom_TESTs-CMAKE)
@@ -143,7 +143,7 @@ message(${GIT_COMMIT_HASH})
 add_link_options(-rdynamic)
 
 # Set compiler flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a -DBT_TEST -DNOSSL -fsanitize=address,leak,unreachable,undefined  -fsanitize-undefined-trap-on-error -fno-sanitize-recover=all -gdwarf-4 -g -O -fprofile-instr-generate -fcoverage-mapping")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2b -DBT_TEST -DNOSSL -fsanitize=address,leak,unreachable,undefined  -fsanitize-undefined-trap-on-error -fno-sanitize-recover=all -gdwarf-4 -g -O -fprofile-instr-generate -fcoverage-mapping")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 
 # Add executable

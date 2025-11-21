@@ -1,0 +1,11 @@
+version: '2.2'
+
+services:
+  rpi-crosscompile:
+    build: .
+    container_name: rpi-cross-compiler
+    volumes:
+      - /mnt/e/inne/PROGRAMOWANIE/malina/iDom_server_OOP:/workspace:cached
+    working_dir: /workspace
+    tty: true
+    stdin_open: true

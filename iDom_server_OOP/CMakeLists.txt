@@ -22,7 +22,7 @@ endif()
 link_directories(/usr/local/lib)
 
 # Set compiler options
-set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+#set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNOSSL")
 
 # Add the library source files
