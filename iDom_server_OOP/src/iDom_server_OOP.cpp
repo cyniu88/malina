@@ -252,7 +252,7 @@ iDomStateEnum iDom_main()
     }
 
     thread_context context; // przekazywanie do watku
-    context.m_threadPool = std::make_unique<ThreadPool>(14,20, ThreadPool::EnqueueMode::Blocking);
+    context.m_threadPool = std::make_unique<ThreadPool>(server_settings._runThread.threadPoolSize,20, ThreadPool::EnqueueMode::Blocking);
     context.lusina.shedConfJson = server_settings._shedConf;
     context.server_settings = &server_settings;
     time(&context.start);

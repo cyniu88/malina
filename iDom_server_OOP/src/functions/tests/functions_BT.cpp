@@ -159,4 +159,5 @@ TEST_F(functions_fixture, json_config)
     EXPECT_TRUE(ret._runThread.INFLUX);
     EXPECT_FALSE(ret._runThread.MQTT);
     EXPECT_STREQ(ret._cron.c_str(), "/etc/config/iDom_SERVER/cron.json");
+    EXPECT_EQ(ret._runThread.threadPoolSize, 13);
 }

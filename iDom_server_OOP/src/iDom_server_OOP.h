@@ -162,6 +162,7 @@ struct RunThread_CFG
     bool MQTT = false;
     bool SATEL = false;
     bool INFLUX = false;
+    int threadPoolSize = 14;
 };
 
 struct RFLink_CFG

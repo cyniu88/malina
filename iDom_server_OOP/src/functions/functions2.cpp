@@ -588,6 +588,7 @@ CONFIG_JSON useful_F::configJsonFileToStruct(nlohmann::json jj)
     cj._runThread.MQTT = jj["THREAD"].at("MQTT").at("run").get<bool>();
     cj._runThread.SATEL = jj["THREAD"].at("SATEL").at("run").get<bool>();
     cj._runThread.INFLUX = jj["THREAD"].at("INFLUX").at("run").get<bool>();
+    cj._runThread.threadPoolSize = jj["THREAD"].at("threadPoolSize").get<unsigned int>();
 
     /////////////////////// mqtt broker
     cj._mqtt_broker.qos = jj["mqtt_broker_settings"].at("qos").get<int>();
