@@ -66,7 +66,7 @@ void Recuperator::setSpeed(const std::string_view speed)
 
     if (speed == "away" or speed == "low" or speed == "medium" or speed == "high")
     {
-        auto ret = context->mqttHandler->publish(sendTopic, std::string(speed));
+        auto ret = context->mqttHandler->publish(sendTopic + "/speed/set", std::string(speed));
         if (ret == 0)
         {
             log_file_mutex.mutex_lock();

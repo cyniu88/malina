@@ -42,3 +42,26 @@ TEST_F(command_recuperator_Class_fixture, set_away_time)
     auto ret = test_command_recuperator->execute(test_v, &test_context);
     std::cout << "wynik testu: " << ret << std::endl;
 }
+
+TEST_F(command_recuperator_Class_fixture, set_speed)
+{
+    test_v.push_back("recuperator");
+    test_v.push_back("set");
+    test_v.push_back("speed");
+    test_v.push_back("low");
+    EXPECT_CALL(*mockRecuperator, setSpeed("low"));
+    auto ret = test_command_recuperator->execute(test_v, &test_context);
+    std::cout << "wynik testu: " << ret << std::endl;
+    EXPECT_STREQ(ret.c_str(), "set speed to: low");
+}
+
+TEST_F(command_recuperator_Class_fixture, set_speed_invalid)
+{
+    test_v.push_back("recuperator");
+    test_v.push_back("set");
+    test_v.push_back("speed");
+    test_v.push_back("koko");
+    auto ret = test_command_recuperator->execute(test_v, &test_context);
+    std::cout << "wynik testu: " << ret << std::endl;
+    EXPECT_STREQ(ret.c_str(), "error: speed must be away, low, medium, or high");
+}
