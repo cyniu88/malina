@@ -10,6 +10,7 @@
 #include "commandClass/command_idom.h"
 #include "commandClass/command_voice.h"
 #include "commandClass/command_shed.h"
+#include "commandClass/command_recuperator.h"
 
 CommandHandlerMQTT::CommandHandlerMQTT()
 {
@@ -45,6 +46,9 @@ CommandHandlerMQTT::CommandHandlerMQTT()
 
     std::unique_ptr<command> shed(new command_shed("shed"));
     commandMap.insert(std::make_pair(shed->getCommandName(), std::move(shed)));
+    
+    std::unique_ptr<command> recuperator(new command_recuperator("recuperator"));
+    commandMap.insert(std::make_pair(recuperator->getCommandName(), std::move(recuperator)));
 }
 
 std::string CommandHandlerMQTT::run(std::vector<std::string> &v, thread_context *context)
