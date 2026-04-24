@@ -52,7 +52,7 @@ void SATEL_INTEGRA_HANDLER::checkSatel()
             {
 #ifndef BT_TEST
 
-                if ( m_satelIdMap.contains(sensorID))
+                if (context->main_house_room_handler->m_satelIdMap.contains(sensorID))
                 {
                     context->main_house_room_handler->satelSensorActive(sensorID);
                 }
