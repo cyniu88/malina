@@ -58,7 +58,7 @@ void SATEL_INTEGRA_HANDLER::checkSatel()
                 }
                 else
                 {
-                    context->myEventHandler.run("satelUnknownSensorActive")->addEvent(std::to_string(sensorID)  );
+                    context->myEventHandler.run("satel")->addEvent("UnknownSensorActive: " + std::to_string(sensorID));
                 }
 #endif
             }
