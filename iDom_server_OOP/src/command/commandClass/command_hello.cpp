@@ -10,5 +10,5 @@ std::string command_hello::execute(std::vector<std::string> &v, thread_context *
 
 std::string command_hello::help() const
 {
-    return R"(hello - send test message to server if connection is ok, the server response: "HI!")";
+    return R"(hello - send test message to server if connection is ok, the server response: "HI!"\n)";
 }

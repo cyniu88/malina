@@ -100,7 +100,7 @@ void house_room_handler::turnOnAllInRoom(const std::string &roomName)
     for (auto &[key, value] : m_roomMap[roomName]->m_lightingBulbMap)
     {
         value->on([](const std::string &name)
-                     { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
+                  { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
     }
 }
 
@@ -116,7 +116,7 @@ void house_room_handler::turnOffAllInRoom(const std::string &roomName)
     for (auto &[key, value] : m_roomMap[roomName]->m_lightingBulbMap)
     {
         value->off([](const std::string &name)
-                      { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
+                   { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
     }
 }
 
@@ -132,7 +132,7 @@ void house_room_handler::changeAllInRoom(const std::string &roomName)
     for (auto &[key, value] : m_roomMap[roomName]->m_lightingBulbMap)
     {
         value->change([](const std::string &name)
-                         { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
+                      { useful_F::myStaticCtx->mqttHandler->publish(m_mqttPublishTopic, name); });
     }
 }
 
@@ -364,24 +364,6 @@ void house_room_handler::executeButtonComand(const unsigned int buttonID,
 
 void house_room_handler::satelSensorActive(int sensorID)
 {
-    if (sensorID == 1 or sensorID == 10 or sensorID == 3 or sensorID == 2)
-    {
-        return;
-    }
-    if (not m_satelIdMap.contains(sensorID))
-    {
-        log_file_mutex.mutex_lock();
-        log_file_cout << WARNING << "unsupported  satel sensor " << sensorID << std::endl;
-        log_file_cout << WARNING << "restart satel connections " << std::endl;
-        log_file_mutex.mutex_unlock();
-        context->main_iDomTools->sendViberMsg("restart polaczenia satel",
-                                              context->server_settings->_fb_viber.viberReceiver.at(0),
-                                              context->server_settings->_fb_viber.viberSender + "SATEL");
-        context->satelIntegraHandler->getSatelPTR()->reconnectIntegra();
-
-        return;
-    }
-
     m_satelIdMap.at(sensorID)->satelSensorActive();
     m_circBuffSatelSensorId.put(sensorID);
 }
@@ -403,6 +385,23 @@ void house_room_handler::turnOffUnexpectedBulb()
             }
         }
     }
+}
+
+bool house_room_handler::isAnyoneInHouse(int minutes)
+{
+    auto time = Clock::getUnixTime();
+
+    for (const auto &jj : m_lightingBulbMap)
+    {
+        auto actualTime = time - jj.second->getSatelSensorAlarmUnixTime();
+        std::cout << "Bulb ID: " << jj.second->getID() << " actualTime: " << actualTime << " minutes: " << minutes * 60 << std::endl;
+        std::cout << "time: " << time << " jj.second->getSatelSensorAlarmUnixTime(): " << jj.second->getSatelSensorAlarmUnixTime() << std::endl;
+        if (actualTime < static_cast<unsigned int>(minutes * 60))
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::string house_room_handler::dump() const

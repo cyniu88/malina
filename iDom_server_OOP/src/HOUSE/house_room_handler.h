@@ -70,6 +70,8 @@ public:
 
     void turnOffUnexpectedBulb();
 
+    bool isAnyoneInHouse(int minutes);
+
     std::string dump() const override;
 };
 

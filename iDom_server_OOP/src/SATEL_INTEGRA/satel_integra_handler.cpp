@@ -10,7 +10,7 @@
 using namespace std::chrono_literals;
 
 SATEL_INTEGRA_HANDLER::SATEL_INTEGRA_HANDLER(thread_context *myData) : m_integra32(myData->server_settings->_satel_integra.host,
-                                                                                myData->server_settings->_satel_integra.port)
+                                                                                   myData->server_settings->_satel_integra.port)
 {
     context = myData;
     m_integra32.connectIntegra(context->server_settings->_satel_integra.host,
@@ -39,7 +39,7 @@ void SATEL_INTEGRA_HANDLER::checkSatel()
         log_file_mutex.mutex_unlock();
         return;
     }
-    int counter = 1;
+    int sensorID = 1;
     for (const auto &d : dataOut)
     {
         auto bs = std::bitset<8>(d);
@@ -51,10 +51,18 @@ void SATEL_INTEGRA_HANDLER::checkSatel()
             if (bs[i] == true)
             {
 #ifndef BT_TEST
-                context->main_house_room_handler->satelSensorActive(counter);
+
+                if ( m_satelIdMap.contains(sensorID))
+                {
+                    context->main_house_room_handler->satelSensorActive(sensorID);
+                }
+                else
+                {
+                    context->myEventHandler.run("satelUnknownSensorActive")->addEvent(std::to_string(sensorID)  );
+                }
 #endif
             }
-            ++counter;
+            ++sensorID;
         }
     }
 }

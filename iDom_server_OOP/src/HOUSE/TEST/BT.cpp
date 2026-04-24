@@ -185,3 +185,12 @@ TEST_F(house_fixture, satelSensorActive)
     testRoomHandler->m_roomMap.at("lazienka")->satelSensorActive();
     EXPECT_EQ(testRoomHandler->m_lightingBulbMap.at(127)->getStatus(), STATE::ACTIVE);
 }
+
+TEST_F(house_fixture, isAnyoneInHouse)
+{
+    testRoomHandler->turnOnBulb(127);
+    testRoomHandler->m_lightingBulbMap.at(127)->satelSensorAlarm();
+    EXPECT_EQ(testRoomHandler->m_lightingBulbMap.at(127)->getStatus(), STATE::ACTIVE);
+//sleep(std::chrono::seconds(120).count());
+    EXPECT_TRUE( testRoomHandler->isAnyoneInHouse(1));
+}
