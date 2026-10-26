@@ -49,7 +49,7 @@ TEST(functions_, tokenizerEmpty)
     std::vector<std::string> test_v;
 
     EXPECT_EQ(test_v.size(), 0);
-    EXPECT_THROW(useful_F::tokenizer(test_v, "= ", test_msg), std::string);
+    EXPECT_THROW(useful_F::tokenizer(test_v, "= ", test_msg), std::runtime_error);
 }
 
 TEST(functions_, removeHtmlTag)

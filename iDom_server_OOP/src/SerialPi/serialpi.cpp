@@ -1,5 +1,6 @@
 #include "serialpi.h"
 #include <stdio.h>
+#include <stdexcept>
 #include "wiringSerial.h"
 
 SerialPi::SerialPi(const std::string &address) : m_address(address), m_serial_port(0)
@@ -15,7 +16,7 @@ void SerialPi::begin(int budrate)
 {
     if ((m_serial_port = serialOpen(m_address.c_str(), budrate)) < 0) /* open serial port */
     {
-        throw "cannot open serial port"; // todo add exceptions
+        throw std::runtime_error("cannot open serial port");
     }
 }
 

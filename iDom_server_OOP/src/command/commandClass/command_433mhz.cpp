@@ -65,8 +65,8 @@ std::string command_433MHz::execute(std::vector<std::string> &v, thread_context 
                     str_buf.append(v[3]);
                 }
             }
-            catch (std::string& error){
-                str_buf = error;
+            catch (const std::exception& error){
+                str_buf = error.what();
             }
             context->main_iDomTools->saveState_iDom(context->serverStarted);
         }

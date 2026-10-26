@@ -32,6 +32,6 @@ public:
     void keyPadRight() override;
     void keyPadOk() override;
     void keyPadPower() override;
-    void timeout(std::function<void()> function = std::nullptr_t()) override;
+    void timeout(std::function<void()> function = nullptr) override;
 };
 

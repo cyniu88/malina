@@ -122,7 +122,7 @@ TEST_F(Switch_Class_fixture, loadConfig)
 
 TEST_F(Switch_Class_fixture, getUnexistPtr)
 {
-    EXPECT_THROW(test_context.main_REC->getEqPointer("kokos"),std::string);
+    EXPECT_THROW(test_context.main_REC->getEqPointer("kokos"), std::runtime_error);
 }
 
 

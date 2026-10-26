@@ -28,6 +28,6 @@ public:
     void keyPadPower() override;
     void keyPadMenu() override;
     std::string getStateName() const override;
-    void timeout(std::function<void()> function = std::nullptr_t()) override;
+    void timeout(std::function<void()> function = nullptr) override;
 };
 

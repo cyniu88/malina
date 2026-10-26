@@ -23,7 +23,7 @@ public:
     void keyPadEpg() override;
     void keyPadRes() override;
     void reboot() override;
-    void timeout(std::function<void()> function = std::nullptr_t()) override;
+    void timeout(std::function<void()> function = nullptr) override;
     void offLcd() override;
     void quickPrint(const std::string &row1, const std::string &row2) override;
 

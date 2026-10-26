@@ -13,6 +13,10 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Suppress false-positive deprecation warnings from libstdc++13 internals
+# triggered by std::bind inside std::packaged_task (result_of used by STL headers)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
+
 include_directories(${INCLUDE_DIRECTORIES})
 
 set(LIBS_SRC

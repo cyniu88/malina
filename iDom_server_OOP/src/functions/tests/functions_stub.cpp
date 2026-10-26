@@ -6,5 +6,4 @@ int useful_F::runLinuxCommand(const std::string& cmd){
     return TEST_DATA::runLinuxCommandReturn;
 }
 
-bool useful_F::go_while = true;
-bool useful_F::workServer = true;
+// go_while and workServer are defined as inline static std::atomic<bool> in functions.h

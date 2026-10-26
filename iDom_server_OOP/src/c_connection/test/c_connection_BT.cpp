@@ -10,7 +10,7 @@ class c_connection_fixture : public testing::Test
 {
 public:
     c_connection_fixture():main_iDomTools(std::make_shared<iDomToolsMock>()),
-                           test_connection(std::nullptr_t()),
+                           test_connection(nullptr),
                            test_rec(std::make_shared<RADIO_EQ_CONTAINER>(&test_context))
     {
         test_server_set._server.encrypted = true;

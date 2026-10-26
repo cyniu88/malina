@@ -23,6 +23,6 @@ public:
     void keyPadRes() override;
     void keyPadUp() override;
     void keyPadDown() override;
-    void timeout(std::function<void()> function = std::nullptr_t()) override;
+    void timeout(std::function<void()> function = nullptr) override;
 };
 

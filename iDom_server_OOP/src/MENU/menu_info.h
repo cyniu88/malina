@@ -22,7 +22,7 @@ public:
     void keyPadUp() override;
     void keyPadDown() override;
     void keyPadRes() override;
-    void timeout(std::function<void()> function = std::nullptr_t()) override;
+    void timeout(std::function<void()> function = nullptr) override;
 
 private:
     std::vector<nlohmann::json> m_lightData;

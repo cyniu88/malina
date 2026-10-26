@@ -91,11 +91,11 @@ void f_master_mqtt(thread_context *context, const std::string &threadName)
         context->mqttHandler->connect(context->server_settings->_mqtt_broker.topicSubscribe,
                                       context->server_settings->_mqtt_broker.host);
     }
-    catch (const std::string &e)
+    catch (const std::exception &e)
     {
         ex = true;
         log_file_mutex.mutex_lock();
-        log_file_cout << CRITICAL << "MQTT: " << e << std::endl;
+        log_file_cout << CRITICAL << "MQTT: " << e.what() << std::endl;
         log_file_mutex.mutex_unlock();
     }
     if (ex == false)
@@ -198,7 +198,7 @@ void my_sig_handler(int s)
 {
     printf("\nCaught signal %d\n", s);
 
-    if (useful_F::myStaticCtx->main_iDomTools != std::nullptr_t())
+    if (useful_F::myStaticCtx->main_iDomTools != nullptr)
     {
             std::cout << "zamykam" << std::endl;
             useful_F::myStaticCtx->main_iDomTools->close_iDomServer();
@@ -231,8 +231,16 @@ iDomStateEnum iDom_main()
     useful_F::go_while = true;
     std::ofstream pidFile;
     pidFile.open("/mnt/ramdisk/pid-iDom.txt");
-    pidFile << getpid();
-    pidFile.close();
+    if (!pidFile)
+    {
+        std::cerr << "WARNING: nie można otworzyć pliku PID /mnt/ramdisk/pid-iDom.txt"
+                  << " — ramdisk może nie być zamontowany" << std::endl;
+    }
+    else
+    {
+        pidFile << getpid();
+        pidFile.close();
+    }
 
     pthread_mutex_init(&Logger::mutex_log, NULL);
     // read a JSON file

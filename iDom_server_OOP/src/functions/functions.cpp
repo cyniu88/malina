@@ -1,8 +1,7 @@
 
 #include "functions.h"
 
-bool useful_F::go_while = true;
-bool useful_F::workServer = true;
+// go_while and workServer are defined as inline static std::atomic<bool> in functions.h
 
 using namespace std::chrono_literals;
 

@@ -56,8 +56,8 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_context *c
                 try{
                     ret = context->main_iDomTools->getThermoStats(v[3]);
                 }
-                catch (std::string& obj){
-                    ret = obj + " " + v[3];
+                catch (const std::exception& obj){
+                    ret = std::string(obj.what()) + " " + v[3];
                 }
                 return ret;
             }
@@ -167,7 +167,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_context *c
         log_file_mutex.mutex_unlock();
         //TODO add doorbell actions if needed
         context->main_house_room_handler->turnOnAllInRoom("dzwonek");
-        if(context->satelIntegraHandler != std::nullptr_t()){
+        if(context->satelIntegraHandler != nullptr){
             context->satelIntegraHandler->getSatelPTR()->outputOn(context->server_settings->_satel_integra.outdoor_siren_lights_id); //turn on satel output to blink outdoor siren in case of gate doorbell
         }
         else{

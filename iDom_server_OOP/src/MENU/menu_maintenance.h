@@ -20,6 +20,6 @@ public:
     void keyPadDown() override;
     void keyPadLeft() override;
     void keyPadRight() override;
-    void timeout(std::function<void()> function = std::nullptr_t()) override;
+    void timeout(std::function<void()> function = nullptr) override;
 };
 

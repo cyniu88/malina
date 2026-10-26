@@ -36,7 +36,7 @@ std::vector<std::string> useful_F::split(const std::string &s, char separator)
     return output;
 }
 
-thread_context *useful_F::myStaticCtx = std::nullptr_t();
+thread_context *useful_F::myStaticCtx = nullptr;
 
 void useful_F::setStaticData(thread_context *contextPtr)
 {
@@ -72,7 +72,7 @@ void useful_F::tokenizer(std::vector<std::string> &command,
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "throw useful_F::tokenizer()" << std::endl;
         log_file_mutex.mutex_unlock();
-        throw std::string("command empty");
+        throw std::runtime_error("command empty");
     }
 }
 
@@ -388,18 +388,23 @@ void useful_F::Server_connectivity_thread(thread_context *context, const std::st
         {
             client->c_analyse(recvSize_tm_n);
         }
-        catch (std::string &s)
-        {
-            puts("close server - throw");
-            useful_F::workServer = false;
-            client->c_send("CLOSE");
-            break;
-        }
         catch (const std::exception &e)
         {
             log_file_mutex.mutex_lock();
             log_file_cout << CRITICAL << "złapano wyjatek: " << e.what() << " w " << std::experimental::fundamentals_v2::source_location::current().function_name() << std::endl;
             log_file_mutex.mutex_unlock();
+            puts("close server - throw");
+            useful_F::workServer = false;
+            client->c_send("CLOSE");
+            break;
+        }
+        catch (...)
+        {
+            log_file_mutex.mutex_lock();
+            log_file_cout << CRITICAL << "złapano nieznany wyjątek w " << std::experimental::fundamentals_v2::source_location::current().function_name() << std::endl;
+            log_file_mutex.mutex_unlock();
+            useful_F::workServer = false;
+            client->c_send("CLOSE");
             break;
         }
 

@@ -2,6 +2,7 @@
 
 #include <bitset>
 #include <sstream>
+#include <stdexcept>
 
 #include "../functions/functions.h"
 #include "satel_enum.h"
@@ -167,7 +168,7 @@ void SATEL_INTEGRA::armAlarm(unsigned int partitionID)
 
     if (sendIntegra(cmd, 13) == 0)
     {
-        throw "SATEL BAD RECV";
+        throw std::runtime_error("SATEL BAD RECV: armAlarm failed");
     }
 }
 
@@ -196,7 +197,7 @@ void SATEL_INTEGRA::disarmAlarm(unsigned int partitionID)
 
     if (sendIntegra(cmd, 13) == 0)
     {
-        throw "SATEL BAD RECV";
+        throw std::runtime_error("SATEL BAD RECV: disarmAlarm failed");
     }
 }
 
@@ -226,7 +227,7 @@ void SATEL_INTEGRA::outputOn(unsigned int id)
 
     if (sendIntegra(cmd, 41) == 0)
     {
-        throw "SATEL BAD RECV";
+        throw std::runtime_error("SATEL BAD RECV: outputOn failed");
     }
 }
 
@@ -257,7 +258,7 @@ void SATEL_INTEGRA::outputOff(unsigned int id)
 
     if (sendIntegra(cmd, 41) == 0)
     {
-        throw "SATEL BAD RECV";
+        throw std::runtime_error("SATEL BAD RECV: outputOff failed");
     }
 }
 

@@ -52,7 +52,7 @@ TEST_F(RFLinkHandler_Class_fixture, getValue)
     std::string m = "20;90;Alecto V4;ID=557a;TEMP=0057;HUM=25;";
     EXPECT_STREQ(test_RFLink->getArgumentValueFromRFLinkMSG(m,"ID").c_str(),"557a");
     EXPECT_STREQ(test_RFLink->getArgumentValueFromRFLinkMSG(m,"TEMP").c_str(),"0057");
-    EXPECT_THROW(test_RFLink->getArgumentValueFromRFLinkMSG(m,"test"),std::string);
+    EXPECT_THROW(test_RFLink->getArgumentValueFromRFLinkMSG(m,"test"), std::runtime_error);
 }
 
 TEST_F(RFLinkHandler_Class_fixture, readAndFlush)

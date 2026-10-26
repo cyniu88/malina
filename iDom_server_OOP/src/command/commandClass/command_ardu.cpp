@@ -2,22 +2,22 @@
 
 command_ardu::command_ardu(const std::string &name):command(name)
 {
-    this->m_mainRadioButton = std::nullptr_t();
-    this->m_mainWeatherStation = std::nullptr_t();
+    this->m_mainRadioButton = nullptr;
+    this->m_mainWeatherStation = nullptr;
 }
 
 command_ardu::command_ardu(const std::string& name,
                            thread_context *context):command(name),
     m_button433MHzVector(context->main_REC->getButtonPointerVector()),
-    m_mainRadioButton( std::nullptr_t()),
+    m_mainRadioButton(nullptr),
     m_weatherStVe(context->main_REC->getWeather_StationPtrVector())
 {
     try{
             m_mainWeatherStation = static_cast<RADIO_WEATHER_STATION*>(context->main_REC->getEqPointer("first"));
     }
-    catch(std::string &e)
+    catch(const std::exception &e)
     {
-        context->iDomAlarm.raiseAlarm(88756, e);
+        context->iDomAlarm.raiseAlarm(88756, e.what());
     }
 }
 
@@ -39,8 +39,11 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_context *c
                     m_rflinkMAP[context->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],
                                                                                     "ID")].msg = v[2];
             }
-            catch(const std::string& e){
-                //std::cout << "wyjatek w szukaniu: " << e <<std::endl;
+            catch(const WRONG_FORMAT&){
+                throw; // re-rzucamy dalej — złapie wywołujący (test lub handler wyżej)
+            }
+            catch(const std::exception& e){
+                //std::cout << "wyjatek w szukaniu: " << e.what() <<std::endl;
                 pingAndOkRecv( context, v[2]);
             }
             //TODO add command
@@ -53,7 +56,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_context *c
                     }
                 }
             }
-            catch (const std::string& e){ }
+            catch (const std::exception& e){ }
             try {
                 if (m_mainWeatherStation->getID() ==
                         context->main_RFLink->getArgumentValueFromRFLinkMSG(v[2],"ID") )
@@ -61,7 +64,7 @@ std::string command_ardu::execute(std::vector<std::string> &v, thread_context *c
                     m_mainWeatherStation->data.putData(v[2]);
                 }
             }
-            catch (std::string& e){ }
+            catch (const std::exception& e){ }
         }
     }
     return str_buf;

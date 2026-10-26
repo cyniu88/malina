@@ -117,7 +117,7 @@ void files_tree::get_list(std::string path) {
     {
         sciezka = opendir(path.c_str());
 
-        if(sciezka == std::nullptr_t()){
+        if(sciezka == nullptr){
             std::cout << path << " nie istnieje :( " << std::endl;
             temp.path = "NULL";
             movie_database_vector.push_back(temp);

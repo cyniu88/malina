@@ -53,7 +53,7 @@ public:
         lcdPTR->clear();
         lcdPTR->printString(row1, row2);
     };
-    virtual void timeout(std::function<void()> function = std::nullptr_t()){};
+    virtual void timeout(std::function<void()> function = nullptr){};
     virtual void quickPrint(const std::string &row1, const std::string &row2){};
 
     template <class State>

@@ -231,11 +231,11 @@ void iDomTOOLS::turnOnOff433MHzSwitch(const std::string &name)
     {
         m_switch = dynamic_cast<RADIO_SWITCH *>(context->main_REC->getEqPointer(name));
     }
-    catch (const std::string &e)
+    catch (const std::exception &e)
     {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "void iDomTOOLS::turnOnOff433MHzSwitch(const std::string& name)"
-                      << e << std::endl;
+                      << e.what() << std::endl;
         log_file_mutex.mutex_unlock();
         return;
     }
@@ -268,11 +268,11 @@ void iDomTOOLS::turnOn433MHzSwitch(std::string name)
             }
         }
     }
-    catch (const std::string &e)
+    catch (const std::exception &e)
     {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "void iDomTOOLS::turnOn433MHzSwitch(std::string name)"
-                      << e << std::endl;
+                      << e.what() << std::endl;
         log_file_mutex.mutex_unlock();
     }
 }
@@ -290,11 +290,11 @@ void iDomTOOLS::turnOff433MHzSwitch(std::string name)
             }
         }
     }
-    catch (const std::string &e)
+    catch (const std::exception &e)
     {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "void iDomTOOLS::turnOff433MHzSwitch(std::string name)"
-                      << e << std::endl;
+                      << e.what() << std::endl;
         log_file_mutex.mutex_unlock();
     }
 }

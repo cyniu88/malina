@@ -132,10 +132,10 @@ void C_connection::c_analyse(int recvSize)
             {
                 useful_F::tokenizer(command, " \n,", j["command"].get<std::string>());
             }
-            catch (std::string &k)
+            catch (const std::exception &k)
             {
                 log_file_mutex.mutex_lock();
-                log_file_cout << DEBUG << "brak komendy - " << k << std::endl;
+                log_file_cout << DEBUG << "brak komendy - " << k.what() << std::endl;
                 log_file_mutex.mutex_unlock();
                 m_str_buf = "empty command2";
                 return;
@@ -161,10 +161,10 @@ void C_connection::c_analyse(int recvSize)
         {
             useful_F::tokenizer(command, " \n,", buf);
         }
-        catch (std::string &k)
+        catch (const std::exception &k)
         {
             log_file_mutex.mutex_lock();
-            log_file_cout << DEBUG << "brak komendy - " << k << std::endl;
+            log_file_cout << DEBUG << "brak komendy - " << k.what() << std::endl;
             log_file_mutex.mutex_unlock();
             m_str_buf = "empty command";
             return;

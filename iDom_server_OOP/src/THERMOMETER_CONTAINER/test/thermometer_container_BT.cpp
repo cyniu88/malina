@@ -26,7 +26,7 @@ public:
 };
 TEST_F(Thermometer_container_fixture, returnUnexistPTR)
 {
-    EXPECT_THROW(testThermo.returnThermometerPtr("fake"),std::string);
+    EXPECT_THROW(testThermo.returnThermometerPtr("fake"), std::runtime_error);
 }
 
 TEST_F(Thermometer_container_fixture, getStatsByName)

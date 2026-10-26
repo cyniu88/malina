@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <stdexcept>
 
 #include "rflinkhandler.h"
 
@@ -102,7 +103,7 @@ std::string RFLinkHandler::getArgumentValueFromRFLinkMSG(const std::string& msg,
     std::string id;
     int pos = msg.find(var + "=");
     if (pos == -1 ){
-        throw R"(argument ")" + var + R"(" not found)";
+        throw std::runtime_error(R"(argument ")" + var + R"(" not found)");
     }
     if (msg.at(0) not_eq '2' or msg.at(1) not_eq '0'){
         log_file_mutex.mutex_lock();

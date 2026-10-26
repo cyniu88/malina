@@ -110,10 +110,7 @@ RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_context *m_context)
 
 RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()
 {
-    for (auto it = m_radioEqMap.begin(); it not_eq m_radioEqMap.end(); ++it)
-    {
-        delete it->second;
-    }
+    // unique_ptr w mapie zwalnia pamięć automatycznie
 }
 
 void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
@@ -121,14 +118,14 @@ void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, RADIO_EQ_TYPE type)
     switch (type)
     {
     case RADIO_EQ_TYPE::SWITCH:
-        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_SWITCH(context, cfg, RADIO_EQ_TYPE::SWITCH)));
+        m_radioEqMap.insert(std::make_pair(cfg.name, std::make_unique<RADIO_SWITCH>(context, cfg, RADIO_EQ_TYPE::SWITCH)));
         break;
     case RADIO_EQ_TYPE::BUTTON:
-        m_radioEqMap.insert(std::make_pair(cfg.name, new RADIO_BUTTON(context, cfg, RADIO_EQ_TYPE::BUTTON)));
+        m_radioEqMap.insert(std::make_pair(cfg.name, std::make_unique<RADIO_BUTTON>(context, cfg, RADIO_EQ_TYPE::BUTTON)));
         break;
     case RADIO_EQ_TYPE::WEATHER_S:
         m_radioEqMap.insert(std::make_pair(cfg.name,
-                                           new RADIO_WEATHER_STATION(context, cfg, RADIO_EQ_TYPE::WEATHER_S)));
+                                           std::make_unique<RADIO_WEATHER_STATION>(context, cfg, RADIO_EQ_TYPE::WEATHER_S)));
         break;
     default:
         break;
@@ -162,8 +159,7 @@ void RADIO_EQ_CONTAINER::addRadioEq(RADIO_EQ_CONFIG cfg, const std::string &type
 
 void RADIO_EQ_CONTAINER::deleteRadioEq(const std::string &name)
 {
-    delete m_radioEqMap[name];
-    m_radioEqMap.erase(name);
+    m_radioEqMap.erase(name); // unique_ptr zwalnia pamięć automatycznie przy erase
     saveConfig(context->server_settings->_server.radio433MHzConfigFile);
 }
 
@@ -172,14 +168,14 @@ RADIO_EQ *RADIO_EQ_CONTAINER::getEqPointer(std::string name)
     auto m = m_radioEqMap.find(name);
     if (m not_eq m_radioEqMap.end())
     {
-        return (m->second);
+        return m->second.get();
     }
     else
     {
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " throw RADIO_EQ_CONTAINER::getEqPointer()" << std::endl;
         log_file_mutex.mutex_unlock();
-        throw std::string("433MHz equipment not found " + name);
+        throw std::runtime_error("433MHz equipment not found " + name);
     }
 }
 
@@ -190,7 +186,7 @@ std::vector<RADIO_SWITCH *> RADIO_EQ_CONTAINER::getSwitchPointerVector()
     {
         if (it.second->getType() == RADIO_EQ_TYPE::SWITCH)
         {
-            switchVector.push_back(static_cast<RADIO_SWITCH *>(it.second));
+            switchVector.push_back(static_cast<RADIO_SWITCH *>(it.second.get()));
         }
     }
     return switchVector;
@@ -203,7 +199,7 @@ std::vector<RADIO_BUTTON *> RADIO_EQ_CONTAINER::getButtonPointerVector()
     {
         if (it.second->getType() == RADIO_EQ_TYPE::BUTTON)
         {
-            buttonVector.push_back(static_cast<RADIO_BUTTON *>(it.second));
+            buttonVector.push_back(static_cast<RADIO_BUTTON *>(it.second.get()));
         }
     }
     return buttonVector;
@@ -216,7 +212,7 @@ std::vector<RADIO_WEATHER_STATION *> RADIO_EQ_CONTAINER::getWeather_StationPtrVe
     {
         if (it.second->getType() == RADIO_EQ_TYPE::WEATHER_S)
         {
-            weatherStVe.push_back(static_cast<RADIO_WEATHER_STATION *>(it.second));
+            weatherStVe.push_back(static_cast<RADIO_WEATHER_STATION *>(it.second.get()));
         }
     }
     return weatherStVe;
@@ -378,7 +374,7 @@ std::string RADIO_EQ_CONTAINER::showConfig(const std::string &filePath)
 
 RADIO_EQ::RADIO_EQ() : m_type(RADIO_EQ_TYPE::NONE)
 {
-    this->m_context = std::nullptr_t();
+    this->m_context = nullptr;
 }
 
 RADIO_EQ_TYPE RADIO_EQ::getType() const

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <memory>
 #include <optional>
 
 #include "../433MHz/RFLink/rflinkhandler.h"
@@ -205,7 +206,7 @@ private:
 
 class RADIO_EQ_CONTAINER
 {
-    std::map<std::string, RADIO_EQ *> m_radioEqMap;
+    std::map<std::string, std::unique_ptr<RADIO_EQ>> m_radioEqMap;
     thread_context *context;
     nlohmann::json m_configJson;
     RADIO_EQ_CONTAINER();
