@@ -6,6 +6,7 @@
 
 #include "../functions/functions.h"
 #include "satel_enum.h"
+#include "../idom_exceptions.h"
 
 SATEL_INTEGRA::SATEL_INTEGRA()
 {
@@ -168,7 +169,7 @@ void SATEL_INTEGRA::armAlarm(unsigned int partitionID)
 
     if (sendIntegra(cmd, 13) == 0)
     {
-        throw std::runtime_error("SATEL BAD RECV: armAlarm failed");
+        throw SATEL_RECV_ERROR("SATEL BAD RECV: armAlarm failed");
     }
 }
 
@@ -197,7 +198,7 @@ void SATEL_INTEGRA::disarmAlarm(unsigned int partitionID)
 
     if (sendIntegra(cmd, 13) == 0)
     {
-        throw std::runtime_error("SATEL BAD RECV: disarmAlarm failed");
+        throw SATEL_RECV_ERROR("SATEL BAD RECV: disarmAlarm failed");
     }
 }
 
@@ -227,7 +228,7 @@ void SATEL_INTEGRA::outputOn(unsigned int id)
 
     if (sendIntegra(cmd, 41) == 0)
     {
-        throw std::runtime_error("SATEL BAD RECV: outputOn failed");
+        throw SATEL_RECV_ERROR("SATEL BAD RECV: outputOn failed");
     }
 }
 
@@ -258,7 +259,7 @@ void SATEL_INTEGRA::outputOff(unsigned int id)
 
     if (sendIntegra(cmd, 41) == 0)
     {
-        throw std::runtime_error("SATEL BAD RECV: outputOff failed");
+        throw SATEL_RECV_ERROR("SATEL BAD RECV: outputOff failed");
     }
 }
 

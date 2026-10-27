@@ -19,5 +19,6 @@ public:
     private:
 #endif
     void pingAndOkRecv(thread_context *context, const std::string &s);
+    void handle433MHzData(thread_context *context, const std::string &msg);
 };
 

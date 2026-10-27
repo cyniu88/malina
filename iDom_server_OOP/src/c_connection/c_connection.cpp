@@ -1,6 +1,7 @@
 #include <iostream>
 #include "c_connection.h"
 #include "../functions/functions.h"
+#include "../idom_exceptions.h"
 
 C_connection::C_connection(thread_context *context) : c_socket(context->s_client_sock),
                                                       c_from(context->from), m_recv_size(0)
@@ -132,7 +133,7 @@ void C_connection::c_analyse(int recvSize)
             {
                 useful_F::tokenizer(command, " \n,", j["command"].get<std::string>());
             }
-            catch (const std::exception &k)
+            catch (const EMPTY_COMMAND_ERROR &k)
             {
                 log_file_mutex.mutex_lock();
                 log_file_cout << DEBUG << "brak komendy - " << k.what() << std::endl;
@@ -161,7 +162,7 @@ void C_connection::c_analyse(int recvSize)
         {
             useful_F::tokenizer(command, " \n,", buf);
         }
-        catch (const std::exception &k)
+        catch (const EMPTY_COMMAND_ERROR &k)
         {
             log_file_mutex.mutex_lock();
             log_file_cout << DEBUG << "brak komendy - " << k.what() << std::endl;

@@ -29,8 +29,8 @@ public:
     static std::string RSHash(const std::string &data = "", unsigned int b = 378551, unsigned int a = 63689);
     static std::string l_send_file(const std::string &path, const std::string &find, bool reverse = false);
     static std::vector<std::string> split(const std::string &s, char separator);
-    inline static std::atomic<bool> go_while{true};
-    inline static std::atomic<bool> workServer{true};
+    inline static std::atomic go_while{true};
+    inline static std::atomic workServer{true};
     static thread_context *myStaticCtx;
     static void setStaticData(thread_context *contextPtr);
     // S static void clearThreadArray(thread_data *context);

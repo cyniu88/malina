@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdexcept>
 #include "wiringSerial.h"
+#include "../idom_exceptions.h"
 
 SerialPi::SerialPi(const std::string &address) : m_address(address), m_serial_port(0)
 {
@@ -16,7 +17,7 @@ void SerialPi::begin(int budrate)
 {
     if ((m_serial_port = serialOpen(m_address.c_str(), budrate)) < 0) /* open serial port */
     {
-        throw std::runtime_error("cannot open serial port");
+        throw SERIAL_PORT_ERROR("cannot open serial port: " + m_address);
     }
 }
 

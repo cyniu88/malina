@@ -1,5 +1,6 @@
 #include "thermometer_container.h"
 #include "../iDom_server_OOP.h"
+#include "../idom_exceptions.h"
 
 THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string &name)
 {
@@ -11,7 +12,7 @@ THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string &name
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " THERMOMETER_CONTAINER::returnThermometerPtr()" << std::endl;
         log_file_mutex.mutex_unlock();
-        throw std::runtime_error("thermometer not found!");
+        throw THERMOMETER_NOT_FOUND("thermometer not found: " + name);
     }
 }
 

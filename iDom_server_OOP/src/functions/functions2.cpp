@@ -10,6 +10,7 @@
 #include "../command/commandhandlerroot.h"
 #include "../c_connection/c_connection.h"
 #include "../iDomTools/idomtools_interface.h"
+#include "../idom_exceptions.h"
 #include <cstddef>
 
 std::vector<std::string> useful_F::split(const std::string &s, char separator)
@@ -72,7 +73,7 @@ void useful_F::tokenizer(std::vector<std::string> &command,
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << "throw useful_F::tokenizer()" << std::endl;
         log_file_mutex.mutex_unlock();
-        throw std::runtime_error("command empty");
+        throw EMPTY_COMMAND_ERROR("command empty");
     }
 }
 

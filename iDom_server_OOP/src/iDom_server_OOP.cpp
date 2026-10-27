@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <iostream>
+#include "idom_exceptions.h"
 #include "CRON/cron.hpp"
 #include "functions/functions.h"
 #include "functions/mpd_cli.h"
@@ -91,7 +92,7 @@ void f_master_mqtt(thread_context *context, const std::string &threadName)
         context->mqttHandler->connect(context->server_settings->_mqtt_broker.topicSubscribe,
                                       context->server_settings->_mqtt_broker.host);
     }
-    catch (const std::exception &e)
+    catch (const std::runtime_error &e)
     {
         ex = true;
         log_file_mutex.mutex_lock();

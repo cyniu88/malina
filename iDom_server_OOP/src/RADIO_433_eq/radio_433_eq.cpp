@@ -103,9 +103,8 @@ void RADIO_SWITCH::setCode(RADIO_EQ_CONFIG cfg)
     RADIO_EQ::m_config.name = cfg.name;
 }
 
-RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_context *m_context)
+RADIO_EQ_CONTAINER::RADIO_EQ_CONTAINER(thread_context *m_context) : context(m_context)
 {
-    this->context = m_context;
 }
 
 RADIO_EQ_CONTAINER::~RADIO_EQ_CONTAINER()
@@ -175,7 +174,7 @@ RADIO_EQ *RADIO_EQ_CONTAINER::getEqPointer(std::string name)
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " throw RADIO_EQ_CONTAINER::getEqPointer()" << std::endl;
         log_file_mutex.mutex_unlock();
-        throw std::runtime_error("433MHz equipment not found " + name);
+        throw NOT_FOUND_ERROR("433MHz equipment not found: " + name);
     }
 }
 

@@ -1,5 +1,6 @@
 #include "command_idom.h"
 #include "../../iDomTools/idomtools_interface.h"
+#include "../../idom_exceptions.h"
 
 command_iDom::command_iDom(const std::string &name):command(name)
 {
@@ -56,7 +57,7 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_context *c
                 try{
                     ret = context->main_iDomTools->getThermoStats(v[3]);
                 }
-                catch (const std::exception& obj){
+                catch (const THERMOMETER_NOT_FOUND &obj){
                     ret = std::string(obj.what()) + " " + v[3];
                 }
                 return ret;

@@ -5,10 +5,7 @@
 #include <exception>
 #include "../../SerialPi/serialpi.h"
 #include "../../iDom_server_OOP.h"
-
-class WRONG_FORMAT : public std::exception{
-
-};
+#include "../../idom_exceptions.h"
 
 struct RFLink_DEV{
     int m_counter = 0;
