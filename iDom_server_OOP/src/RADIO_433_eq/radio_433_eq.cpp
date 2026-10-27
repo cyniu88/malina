@@ -174,7 +174,7 @@ RADIO_EQ *RADIO_EQ_CONTAINER::getEqPointer(std::string name)
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " throw RADIO_EQ_CONTAINER::getEqPointer()" << std::endl;
         log_file_mutex.mutex_unlock();
-        throw NOT_FOUND_ERROR("433MHz equipment not found: " + name);
+        throw NOT_FOUND_ERROR("433MHz equipment not found " + name);
     }
 }
 

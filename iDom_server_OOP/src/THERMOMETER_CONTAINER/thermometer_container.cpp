@@ -12,7 +12,7 @@ THERMOMETER *THERMOMETER_CONTAINER::returnThermometerPtr(const std::string &name
         log_file_mutex.mutex_lock();
         log_file_cout << CRITICAL << " THERMOMETER_CONTAINER::returnThermometerPtr()" << std::endl;
         log_file_mutex.mutex_unlock();
-        throw THERMOMETER_NOT_FOUND("thermometer not found: " + name);
+        throw THERMOMETER_NOT_FOUND("thermometer not found!");
     }
 }
 
