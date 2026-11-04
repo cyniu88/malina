@@ -217,6 +217,146 @@ std::cout << " CYNIIIIIIIIII start nowy test "<< std::endl <<  test_context.m_th
     EXPECT_STREQ(toCheck.c_str(), "88756: 433MHz equipment not found first\n");
 }
 
+TEST_F(bit_fixture, socket_handle_corrupted_json_command)
+{
+    start_iDomServer();
+    struct sockaddr_in serwer =
+        {
+            .sin_family = AF_INET,
+            .sin_port = htons(8833)};
+
+    inet_pton(serwer.sin_family, ipAddress, &serwer.sin_addr);
+    const int s = socket(serwer.sin_family, SOCK_STREAM, 0);
+    sleep(1);
+
+    const int connectStatus = connect(s, reinterpret_cast<struct sockaddr *>(&serwer), sizeof(serwer));
+    ASSERT_EQ(connectStatus, 0);
+
+    auto key = useful_F::RSHash();
+    std::string toCheck;
+
+    send_receive(s, key, key);
+    toCheck = send_receive(s, "ROOT", key);
+    ASSERT_STREQ(toCheck.c_str(), "OK you are ROOT");
+
+    toCheck = send_receive(s, R"(JSON{"command":"help iDom","context":{"test":)", key);
+    EXPECT_EQ(toCheck, "error parsing JSON");
+
+    toCheck = send_receive(s, "exit", key);
+    EXPECT_THAT(toCheck, testing::HasSubstr("END"));
+
+    close(s);
+    shutdown(s, SHUT_RDWR);
+    useful_F::workServer = false;
+
+    std::this_thread::sleep_for(1.5s);
+}
+
+TEST_F(bit_fixture, socket_handle_empty_json_command)
+{
+    start_iDomServer();
+    struct sockaddr_in serwer =
+        {
+            .sin_family = AF_INET,
+            .sin_port = htons(8833)};
+
+    inet_pton(serwer.sin_family, ipAddress, &serwer.sin_addr);
+    const int s = socket(serwer.sin_family, SOCK_STREAM, 0);
+    sleep(1);
+
+    const int connectStatus = connect(s, reinterpret_cast<struct sockaddr *>(&serwer), sizeof(serwer));
+    ASSERT_EQ(connectStatus, 0);
+
+    auto key = useful_F::RSHash();
+    std::string toCheck;
+
+    send_receive(s, key, key);
+    toCheck = send_receive(s, "ROOT", key);
+    ASSERT_STREQ(toCheck.c_str(), "OK you are ROOT");
+
+    toCheck = send_receive(s, "JSON{}", key);
+    EXPECT_EQ(toCheck, "empty command3");
+
+    toCheck = send_receive(s, "exit", key);
+    EXPECT_THAT(toCheck, testing::HasSubstr("END"));
+
+    close(s);
+    shutdown(s, SHUT_RDWR);
+    useful_F::workServer = false;
+
+    std::this_thread::sleep_for(1.5s);
+}
+
+TEST_F(bit_fixture, socket_handle_short_plain_command)
+{
+    start_iDomServer();
+    struct sockaddr_in serwer =
+        {
+            .sin_family = AF_INET,
+            .sin_port = htons(8833)};
+
+    inet_pton(serwer.sin_family, ipAddress, &serwer.sin_addr);
+    const int s = socket(serwer.sin_family, SOCK_STREAM, 0);
+    sleep(1);
+
+    const int connectStatus = connect(s, reinterpret_cast<struct sockaddr *>(&serwer), sizeof(serwer));
+    ASSERT_EQ(connectStatus, 0);
+
+    auto key = useful_F::RSHash();
+    std::string toCheck;
+
+    send_receive(s, key, key);
+    toCheck = send_receive(s, "ROOT", key);
+    ASSERT_STREQ(toCheck.c_str(), "OK you are ROOT");
+
+    toCheck = send_receive(s, "x", key);
+    EXPECT_THAT(toCheck, testing::HasSubstr("unknown command: x"));
+
+    toCheck = send_receive(s, "exit", key);
+    EXPECT_THAT(toCheck, testing::HasSubstr("END"));
+
+    close(s);
+    shutdown(s, SHUT_RDWR);
+    useful_F::workServer = false;
+
+    std::this_thread::sleep_for(1.5s);
+}
+
+TEST_F(bit_fixture, socket_handle_command_missing_arguments)
+{
+    start_iDomServer();
+    struct sockaddr_in serwer =
+        {
+            .sin_family = AF_INET,
+            .sin_port = htons(8833)};
+
+    inet_pton(serwer.sin_family, ipAddress, &serwer.sin_addr);
+    const int s = socket(serwer.sin_family, SOCK_STREAM, 0);
+    sleep(1);
+
+    const int connectStatus = connect(s, reinterpret_cast<struct sockaddr *>(&serwer), sizeof(serwer));
+    ASSERT_EQ(connectStatus, 0);
+
+    auto key = useful_F::RSHash();
+    std::string toCheck;
+
+    send_receive(s, key, key);
+    toCheck = send_receive(s, "ROOT", key);
+    ASSERT_STREQ(toCheck.c_str(), "OK you are ROOT");
+
+    toCheck = send_receive(s, "recuperator set", key);
+    EXPECT_THAT(toCheck, testing::HasSubstr("not enough arguments"));
+
+    toCheck = send_receive(s, "exit", key);
+    EXPECT_THAT(toCheck, testing::HasSubstr("END"));
+
+    close(s);
+    shutdown(s, SHUT_RDWR);
+    useful_F::workServer = false;
+
+    std::this_thread::sleep_for(1.5s);
+}
+
 TEST_F(bit_fixture, socket_heandle_command_lock)
 {
     start_iDomServer();
