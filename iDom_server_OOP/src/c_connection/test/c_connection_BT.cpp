@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <algorithm>
+#include <stdexcept>
 
 #include "../../RADIO_433_eq/radio_433_eq.h"
 #include "../../command/commandhandlerroot.h"
@@ -115,6 +117,17 @@ TEST_F(c_connection_fixture, c_analyse_JSON_contextCorupted)
     EXPECT_THAT(test_connection->getStr_buf(), testing::HasSubstr("error parsing JSON"));
 }
 
+TEST_F(c_connection_fixture, c_analyse_JSON_command_wrong_type)
+{
+    test_connection->m_mainCommandHandler = std::make_unique<commandHandlerRoot>(&test_context);
+    const std::string strMsg = R"(JSON{"command":42})";
+    std::copy(strMsg.begin(), strMsg.end(), test_connection->c_buffer);
+    test_connection->setEncrypted(false);
+
+    EXPECT_THROW(test_connection->c_analyse(static_cast<int>(strMsg.size())),
+                 nlohmann::json::type_error);
+}
+
 TEST_F(c_connection_fixture, c_analyse_JSON_noCommand)
 {
     test_connection->m_mainCommandHandler = std::make_unique<commandHandlerRoot>(&test_context);
@@ -183,4 +196,3 @@ TEST_F(c_connection_fixture, emptyCommand)
     test_connection->c_analyse(static_cast<int>(strMsg.size()));
     EXPECT_STREQ(test_connection->getStr_buf().c_str(), "empty command");
 }
-
