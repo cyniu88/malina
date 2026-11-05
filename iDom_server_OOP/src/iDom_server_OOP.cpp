@@ -511,8 +511,11 @@ iDomStateEnum iDom_main()
     }
 
     ///////////////////////////////////////////////////// INFO PART ////////////////////////////////////////////////
-    context.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings._fb_viber.viberReceiver.at(0),
-                                           server_settings._fb_viber.viberSender);
+    if (!server_settings._fb_viber.viberReceiver.empty())
+    {
+        context.main_iDomTools->sendViberMsg("iDom server wystartował", server_settings._fb_viber.viberReceiver.at(0),
+                                               server_settings._fb_viber.viberSender);
+    }
     /////////////////////////////////////////////////// RESTORE PART ///////////////////////////////////////////////
     context.main_iDomTools->readState_iDom(jj);
     ///////////////////////////////////////////////////// TASKER PART ////////////////////////
