@@ -341,8 +341,6 @@ TEST_F(menu_state_machine_fixture, MENU_BUDERUS_lifecycle)
 
     assigned = original;
     assigned = std::move(moved);
-    original = original;
-    original = std::move(original);
     original.exit();
 
     EXPECT_THAT(original.getStateName(), ::testing::HasSubstr("MENU_BUDERUS"));
