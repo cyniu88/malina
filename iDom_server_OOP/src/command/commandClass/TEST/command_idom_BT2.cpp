@@ -262,11 +262,18 @@ TEST_F(commandiDom_fixture2, doorbell_no_satel)
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
-// health check – "health" + "check" → healthCheck(), NIE showAlarm()
+// health – bez "check" → showAlarm()
+// health check – z "check" → healthCheck()
 // ──────────────────────────────────────────────────────────────────────────────
+TEST_F(commandiDom_fixture2, health_returns_alarm_status)
+{
+    test_v = {"iDom", "health"};
+    auto ret = test_command_iDom->execute(test_v, &test_context);
+    EXPECT_THAT(ret, testing::HasSubstr("alarm"));
+}
+
 TEST_F(commandiDom_fixture2, health_check)
 {
-    // używamy mocka żeby uniknąć zależności od prawdziwego iDomTOOLS
     auto mockTools = std::make_shared<iDomToolsMock>();
     EXPECT_CALL(*mockTools.get(), healthCheck());
     test_context.main_iDomTools = mockTools;

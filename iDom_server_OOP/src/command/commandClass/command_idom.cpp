@@ -141,6 +141,11 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_context *c
         return context->main_iDomTools->startKodi_Thread();
     }
     else if (v[1] == "health") {
+        if (v.size() > 2 && v[2] == "check")
+        {
+            context->main_iDomTools->healthCheck();
+            return "iDom server health checked";
+        }
         return context->iDomAlarm.showAlarm();
     }
     else if (v[1] == "isDay"){
@@ -247,11 +252,6 @@ std::string command_iDom::execute(std::vector<std::string> &v, thread_context *c
     {
         context->m_keyHandler->removeKEY(v[3]);
         return v[3] + " removed";
-    }
-    else if (v[1] == "health" && v.size() > 2 && v[2] == "check")
-    {
-        context->main_iDomTools->healthCheck();
-        return "iDom server health checked";
     }
     else if(v[1] == "link" && v.size() > 2)
     {
