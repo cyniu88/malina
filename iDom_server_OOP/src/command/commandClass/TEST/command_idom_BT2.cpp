@@ -3,6 +3,7 @@
 
 #include "../command_idom.h"
 #include "../../../iDomTools/test/iDomTools_fixture.h"
+#include "../../../iDomTools/mock/iDomToolsMock.h"
 #include "../../../blockQueue/blockqueue.h"
 #include "test_data.h"
 
@@ -141,7 +142,7 @@ TEST_F(commandiDom_fixture2, viber_send_fail)
 {
     auto mockTools = std::make_shared<iDomToolsMock>();
     EXPECT_CALL(*mockTools.get(), sendViberMsgBool(testing::_, testing::_, testing::_, testing::_, testing::_))
-        .WillOnce(testing::Return(STATE::ERROR));
+        .WillOnce(testing::Return(STATE::SEND_NOK));
 
     thread_context ctx2;
     CONFIG_JSON cfg2;
