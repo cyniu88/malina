@@ -53,6 +53,12 @@ TEST_F(commandiDom_fixture2, power230V_OFF)
 
 TEST_F(commandiDom_fixture2, power230V_OUTDOOR)
 {
+    // turnOnOff230vOutdoor() odpytuje m_lightingBulbMap.at(99) – używamy mock zamiast
+    // prawdziwego iDomTOOLS żeby uniknąć map::at na pustej mapie
+    auto mockTools = std::make_shared<iDomToolsMock>();
+    EXPECT_CALL(*mockTools.get(), turnOnOff230vOutdoor());
+    test_context.main_iDomTools = mockTools;
+
     test_v = {"iDom", "230V", "OUTDOOR"};
     auto ret = test_command_iDom->execute(test_v, &test_context);
     EXPECT_STREQ(ret.c_str(), "change outdoor");
@@ -256,12 +262,14 @@ TEST_F(commandiDom_fixture2, doorbell_no_satel)
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
-// health check
+// health check – "health" + "check" → healthCheck(), NIE showAlarm()
 // ──────────────────────────────────────────────────────────────────────────────
 TEST_F(commandiDom_fixture2, health_check)
 {
-    EXPECT_CALL(*testBuderusMock.get(), getInsideTemp()).Times(testing::AnyNumber());
-    EXPECT_CALL(*testBuderusMock.get(), getOutdoorTemp()).Times(testing::AnyNumber());
+    // używamy mocka żeby uniknąć zależności od prawdziwego iDomTOOLS
+    auto mockTools = std::make_shared<iDomToolsMock>();
+    EXPECT_CALL(*mockTools.get(), healthCheck());
+    test_context.main_iDomTools = mockTools;
 
     test_v = {"iDom", "health", "check"};
     auto ret = test_command_iDom->execute(test_v, &test_context);
