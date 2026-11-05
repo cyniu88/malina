@@ -30,7 +30,8 @@ TEST(rs232_split_logic, split_empty_string_gives_one_empty_token)
 {
     auto data = useful_F::split("", ':');
     // split pustego stringa – zależy od implementacji; nie powinien rzucić
-    EXPECT_NO_THROW(data.at(0));
+    ASSERT_FALSE(data.empty());
+    EXPECT_NO_THROW([[maybe_unused]] auto v = data.at(0));
 }
 
 TEST(rs232_split_logic, split_known_command_no_colon_single_token)

@@ -5,6 +5,7 @@
 #include "../../../iDomTools/mock/iDomToolsMock.h"
 #include "../../../433MHz/RFLink/rflinkhandler.h"
 #include "../../../buderus/mock/buderus_mock.h"
+#include "../../../functions/functions.h"
 #include "test_data.h"
 
 class command_program_fixture2 : public testing::Test
