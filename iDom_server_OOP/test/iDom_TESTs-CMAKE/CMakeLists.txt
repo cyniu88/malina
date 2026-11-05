@@ -107,8 +107,10 @@ set(LIBS_SRC
     "../../src/HTTP/http.cpp"
     "../../src/dbClient/db-client.cpp"
     "../../src/dbClient/db-client-factory.cpp"
-    "../../src/dbClient/test/bt.cpp" 
+    "../../src/dbClient/test/bt.cpp"
+    "../../src/dbClient/test/db_client_BT2.cpp"
     "../../src/recuperator/recuperator.cpp"
+    "../../src/recuperator/test/recuperator_BT.cpp"
     "../../src/CRON/cron.cpp"
     "../../src/CRON/BT/bt.cpp"
      )
