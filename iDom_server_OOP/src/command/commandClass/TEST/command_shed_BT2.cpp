@@ -90,20 +90,22 @@ TEST_F(command_shed_fixture2, put_then_show_contains_temperature)
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
-// put – dane trafiają do wektorów shedFloor, shedTemp itp.
+// put – dane trafiają do STATISTIC (shedFloor, shedTemp itp.)
+// Weryfikujemy przez average() że wartości z JSON zostały zapisane
 // ──────────────────────────────────────────────────────────────────────────────
-TEST_F(command_shed_fixture2, put_fills_vectors)
+TEST_F(command_shed_fixture2, put_fills_statistic_objects)
 {
     EXPECT_CALL(*main_iDomTools.get(), isItDay()).WillOnce(testing::Return(true));
 
     test_v = {"shed", "put", valid_json};
     test_command_shed->execute(test_v, &test_context);
 
-    EXPECT_FALSE(test_context.lusina.shedFloor.empty());
-    EXPECT_FALSE(test_context.lusina.shedTemp.empty());
-    EXPECT_FALSE(test_context.lusina.shedHum.empty());
-    EXPECT_FALSE(test_context.lusina.shedPres.empty());
-    EXPECT_FALSE(test_context.lusina.acdc.empty());
+    // JSON zawiera: podłoga=21.0, temperatura=22.5, wilgotność=55.0, ciśnienie=1001.0, acdc=3.9
+    EXPECT_NEAR(test_context.lusina.shedFloor.average(), 21.0f, 0.1f);
+    EXPECT_NEAR(test_context.lusina.shedTemp.average(),  22.5f, 0.1f);
+    EXPECT_NEAR(test_context.lusina.shedHum.average(),   55.0f, 0.1f);
+    EXPECT_NEAR(test_context.lusina.shedPres.average(), 1001.0f, 0.1f);
+    EXPECT_NEAR(test_context.lusina.acdc.average(),       3.9f, 0.1f);
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
