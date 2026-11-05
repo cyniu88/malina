@@ -280,9 +280,13 @@ HttpStatus::Code dbClient::upload_universal(const std::unordered_map<std::string
             }
         }
 
-        auto code = client.write(outer_pair.first, tags, fields);
-        if (code2 == 204)
-            code2 = code;
+        if (!fields.empty())
+        {
+            auto code = client.write(outer_pair.first, tags, fields);
+            if (code2 == 204)
+                code2 = code;
+        }
+        fields.clear();
     }
 
     return HttpStatus::Code(code2);

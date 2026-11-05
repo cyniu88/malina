@@ -136,6 +136,7 @@ TEST_F(db_client_fixture2, upload_universal_all_types)
 
 // ──────────────────────────────────────────────────────────────────────────────
 // upload_universal – nullopt (gałąź "No value")
+// po naprawieniu bugu (guard !fields.empty()) nie crashuje
 // ──────────────────────────────────────────────────────────────────────────────
 TEST_F(db_client_fixture2, upload_universal_nullopt)
 {
