@@ -147,3 +147,90 @@ TEST_F(cron_Class_fixture, run_one_yaml)
     setCommonExpectations(1, {"iDom mqtt cyniu/test test"});
     test_q2->run();
 }
+
+TEST_F(cron_Class_fixture, runCommandCron_unlock_state)
+{
+    // pokrycie gałęzi UNLOCK w runCommandCron()
+    test_context.idom_all_state.houseState = STATE::UNLOCK;
+    Clock::setTime_forBT_usage(12, 12);
+    useful_F::go_while = true;
+    EXPECT_CALL(*main_iDomTools.get(), runCommandFromJson(::testing::_))
+        .Times(1)
+        .WillRepeatedly([](const std::vector<std::string> &v)
+                        {
+                            for (const auto &cmd : v)
+                                std::cout << "Executed command: " << cmd << std::endl; });
+    test_q->runCommandCron("30min");
+}
+
+TEST_F(cron_Class_fixture, runCommandCron_unknown_time_key)
+{
+    // czas którego nie ma w yamlu – nie powinien nic wołać
+    Clock::setTime_forBT_usage(12, 12);
+    useful_F::go_while = true;
+    // brak EXPECT_CALL – runCommandFromJson NIE powinien zostać wywołany
+    test_q->runCommandCron("never");
+}
+
+TEST_F(cron_Class_fixture, run_triggers_sunrise)
+{
+    // run() o godzinie wschodu – pokrywa runOnSunrise() i runEveryone_1min()
+    Clock::setTime_forBT_usage(6, 30);
+    useful_F::go_while = true;
+
+    EXPECT_CALL(*main_iDomTools.get(), getSunriseClock())
+        .Times(1)
+        .WillOnce([]() { return Clock(6, 30); });
+    EXPECT_CALL(*main_iDomTools.get(), getSunsetClock())
+        .Times(1)
+        .WillOnce([]() { return Clock(18, 30); });
+    EXPECT_CALL(*main_iDomTools.get(), runOnSunrise()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), checkAlarm()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), updateTemperatureStats()).Times(1);
+    EXPECT_CALL(*buderusMock.get(), circlePompToRun()).Times(1);
+    // minuta 30 → też odpala 5min, 15min, 30min
+    EXPECT_CALL(*main_iDomTools.get(), healthCheck()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), send_data_to_influxdb()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), uploadRamCpuUsage()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), uploadRecuperatorData()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), send_data_to_thingSpeak()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), runCommandFromJson(::testing::_)).Times(::testing::AnyNumber());
+
+    test_q->run();
+}
+
+TEST_F(cron_Class_fixture, run_triggers_sunset)
+{
+    // run() o godzinie zachodu – pokrywa runOnSunset() i runEveryone_1min()
+    Clock::setTime_forBT_usage(18, 30);
+    useful_F::go_while = true;
+
+    EXPECT_CALL(*main_iDomTools.get(), getSunsetClock())
+        .Times(1)
+        .WillOnce([]() { return Clock(18, 30); });
+    EXPECT_CALL(*main_iDomTools.get(), getSunriseClock())
+        .Times(1)
+        .WillOnce([]() { return Clock(6, 30); });
+    EXPECT_CALL(*main_iDomTools.get(), runOnSunset()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), checkAlarm()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), updateTemperatureStats()).Times(1);
+    EXPECT_CALL(*buderusMock.get(), circlePompToRun()).Times(1);
+    // minuta 30 → też odpala 5min, 15min, 30min
+    EXPECT_CALL(*main_iDomTools.get(), healthCheck()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), send_data_to_influxdb()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), uploadRamCpuUsage()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), uploadRecuperatorData()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), send_data_to_thingSpeak()).Times(1);
+    EXPECT_CALL(*main_iDomTools.get(), runCommandFromJson(::testing::_)).Times(::testing::AnyNumber());
+
+    test_q->run();
+}
+
+TEST_F(cron_Class_fixture, run_at_top_of_hour_covers_1h)
+{
+    // minuta 0 → odpala 1min + 5min + 15min + 30min + 1h
+    Clock::setTime_forBT_usage(8, 0);
+    useful_F::go_while = true;
+    setCommonExpectations(5);
+    test_q->run();
+}

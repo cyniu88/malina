@@ -33,6 +33,7 @@ set(LIBS_SRC
     "../../libs/event_counters/test/event_BT.cpp"
     "../../libs/sunrise-sunset/sunriseset.cpp"
     "../../libs/emoji/emoji.cpp"
+    "../../libs/emoji/test/emoji_BT.cpp"
     "../../libs/generator/generator.cpp"
     "../../libs/generator/TEST/generator_BT.cpp"
     "../../libs/alarm/alarm.cpp"

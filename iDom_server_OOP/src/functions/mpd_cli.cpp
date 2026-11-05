@@ -261,9 +261,9 @@ void main_mpd_cli(thread_context *context, const std::string &threadName)
             log_file_mutex.mutex_lock();
             log_file_cout << ERROR << "nie udalo sie polaczyc z MPD " << std::endl;
             log_file_mutex.mutex_unlock();
-            system("service mpd stop");
+            (void)system("service mpd stop");
             sleep(1);
-            system("service mpd start");
+            (void)system("service mpd start");
             log_file_mutex.mutex_lock();
             log_file_cout << INFO << "restart MPD " << std::endl;
             log_file_cout << INFO << "nawiazuje nowe polaczenie z MPD " << std::endl;
@@ -326,7 +326,7 @@ void main_mpd_cli(thread_context *context, const std::string &threadName)
                         mpd_player_play_id(obj, context->ptr_MPD_info->currentSongID);
                         break;
                     default:
-                        printf("buffer: %c\n", buffer_tmp);
+                        printf("buffer: %d\n", static_cast<int>(buffer_tmp));
                     }
                 }
                 if (!mpd_check_connected(obj))
@@ -336,7 +336,7 @@ void main_mpd_cli(thread_context *context, const std::string &threadName)
                     log_file_cout << INFO << "restart MPD" << std::endl;
                     log_file_mutex.mutex_unlock();
                     std::this_thread::sleep_for(1s);
-                    system("service mpd restart");
+                    (void)system("service mpd restart");
                     mpd_connect(obj);
                 }
 
