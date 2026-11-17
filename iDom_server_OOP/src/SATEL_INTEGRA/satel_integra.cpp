@@ -128,7 +128,13 @@ bool SATEL_INTEGRA::isAlarmArmed()
 
     if (m_message[2] not_eq INTEGRA_ENUM::ARMED_PARTITIONS)
     {
-        std::cout << "zła odpowiedź servera " << (int)m_message[2] << std::endl;
+        std::cout << "zła odpowiedź servera" << std::endl;
+        for (int i = 0; i < io; ++i)
+        {
+            std::cout << "m_message[" << i << "] = 0x" << std::hex
+                      << static_cast<unsigned int>(static_cast<unsigned char>(m_message[i]))
+                      << std::dec << std::endl;
+        }
         return false;
     }
     switch (m_message[3])
